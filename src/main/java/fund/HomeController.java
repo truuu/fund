@@ -23,9 +23,9 @@ public class HomeController {
         return "code/code";
     }
     
-    @RequestMapping(value="/agreement/agreement.do", method=RequestMethod.GET)
+    @RequestMapping(value="/user/agreement.do", method=RequestMethod.GET)
     public String agreement(Model model) {
-        return "agreement/agreement";
+        return "user/agreement";
     }
     
     @RequestMapping(value="/certificate/donation_cer.do", method=RequestMethod.GET)
