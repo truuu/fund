@@ -23,7 +23,7 @@
 						<form method="POST" action="login_processing.do">
 							<div class="row">
 								<div class="col-lg-6 col-lg-offset-4">
-									<img src="/pro1/res/images/skhu_logo.png" style="width: 200px;" />
+									<img src="/fund/res/images/skhu_logo.png" style="width: 200px;" />
 								</div>
 							</div>
 
