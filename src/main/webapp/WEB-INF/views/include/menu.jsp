@@ -15,7 +15,7 @@
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="/fund">후원회</a>
+	      <a class="navbar-brand" href="/fund_sys">후원회</a>
 	    </div>
 
 	    <!-- Collect the nav links, forms, and other content for toggling -->
