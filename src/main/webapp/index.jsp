@@ -10,6 +10,7 @@
 <p> temp commit </p>
 <p> temp commit 두번째</p>
 <p> temp commit 세번째</p>
+cms test 
 
 
 </body>
