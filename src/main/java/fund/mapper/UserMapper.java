@@ -1,5 +1,12 @@
 package fund.mapper;
 
-public interface  UserMapper {
-	void delete();
-}
+
+import fund.dto.User; 		
+import java.util.List;		
+ 		
+ public interface UserMapper {		
+     User selectById(int id);		
+     User selectByLoginId(String loginId);		
+ 		
+ }
+
