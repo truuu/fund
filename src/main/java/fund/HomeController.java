@@ -1,4 +1,4 @@
-package fund;
+/*package fund;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,14 +18,16 @@ public class HomeController {
         return "home/login";
     }
     
+    
     @RequestMapping(value="/code/code.do", method=RequestMethod.GET)
     public String code(Model model) {
         return "code/code";
     }
     
-    @RequestMapping(value="/agreement/agreement.do", method=RequestMethod.GET)
+
+    @RequestMapping(value="/user/commitment.do", method=RequestMethod.GET)  
     public String agreement(Model model) {
-        return "agreement/agreement";
+        return "user/commitment";
     }
     
     @RequestMapping(value="/certificate/donation_cer.do", method=RequestMethod.GET)
@@ -59,4 +61,4 @@ public class HomeController {
     }
    
 }
-
+*/
