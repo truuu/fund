@@ -1,11 +1,13 @@
 package fund.dto;
 
+import java.util.Date;
+
 public class FileAttachment {
 	int ID;
 	int sponsorID;
 	String fileName;
 	int filesize;
-	String createDate;
+	Date createDate;
 	byte[] data;
 	
 	public int getID() {
@@ -32,10 +34,10 @@ public class FileAttachment {
 	public void setFilesize(int filesize) {
 		this.filesize = filesize;
 	}
-	public String getCreateDate() {
+	public Date getCreateDate() {
 		return createDate;
 	}
-	public void setCreateDate(String createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 	public byte[] getData() {

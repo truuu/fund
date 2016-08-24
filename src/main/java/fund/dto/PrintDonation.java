@@ -1,9 +1,11 @@
 package fund.dto;
 
+import java.util.Date;
+
 public class PrintDonation {
 	int ID;
 	int userID;
-	String createDate;
+	Date createDate;
 	String sponsorName;
 	int amount;
 	
@@ -19,10 +21,10 @@ public class PrintDonation {
 	public void setUserID(int userID) {
 		this.userID = userID;
 	}
-	public String getCreateDate() {
+	public Date getCreateDate() {
 		return createDate;
 	}
-	public void setCreateDate(String createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 	public String getSponsorName() {

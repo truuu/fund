@@ -1,11 +1,13 @@
 package fund.dto;
 
+import java.util.Date;
+
 public class Payment {
 	int ID;
 	int sponsorID;
 	int commitmentID;
 	int amount;
-	String paymentDate;
+	Date paymentDate;
 	String stc;
 	int receiptID;
 	int donationPurposeID;
@@ -35,10 +37,10 @@ public class Payment {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public String getPaymentDate() {
+	public Date getPaymentDate() {
 		return paymentDate;
 	}
-	public void setPaymentDate(String paymentDate) {
+	public void setPaymentDate(Date paymentDate) {
 		this.paymentDate = paymentDate;
 	}
 	public String getStc() {
