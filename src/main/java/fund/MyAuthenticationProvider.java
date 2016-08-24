@@ -33,7 +33,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         if (user.getPasswd().equals(passwd) == false) return null;
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_전체"));
+        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_�쟾泥�"));
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserType()));
         return new MyAuthenticaion(loginId, passwd, grantedAuthorities, user);
     }
