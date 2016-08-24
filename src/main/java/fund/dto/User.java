@@ -1,6 +1,6 @@
 package fund.dto;
 
-public class user {
+public class User {
 	int id;
 	String loginName;
 	String password;

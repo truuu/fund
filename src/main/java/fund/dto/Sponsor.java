@@ -2,7 +2,7 @@ package fund.dto;
 
 import java.util.Date;
 
-public class sponsor {
+public class Sponsor {
 	int id;
 	String sponsorNo;
 	String name;

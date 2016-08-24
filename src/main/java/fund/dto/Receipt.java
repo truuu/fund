@@ -2,7 +2,7 @@ package fund.dto;
 
 import java.util.Date;
 
-public class receipt {
+public class Receipt {
 	int id;
 	int sponsorID;
 	Date createDate;

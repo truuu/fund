@@ -2,7 +2,7 @@ package fund.dto;
 
 import java.util.Date;
 
-public class printScholarship {
+public class PrintScholarship {
 	int id;
 	int userID;
 	Date createDate;
