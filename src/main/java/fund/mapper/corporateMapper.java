@@ -1,5 +1,5 @@
 package fund.mapper;
 
-public class corporateMapper {
+public interface corporateMapper {
 
 }

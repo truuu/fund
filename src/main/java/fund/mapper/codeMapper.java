@@ -1,5 +1,5 @@
 package fund.mapper;
 
-public class codeMapper {
+public interface codeMapper {
 
 }
