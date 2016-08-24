@@ -1,5 +1,5 @@
 package fund.mapper;
 
-public interface EB21_commitmentDetailMapper {
+public interface EB21_CommitmentDetailMapper {
 
 }

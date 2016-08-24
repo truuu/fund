@@ -1,8 +1,10 @@
-/*package fund;
+package fund;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
+import fund.dto.*;
+import fund.mapper.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -34,7 +36,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_전체"));
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserType()));
+        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.isAdmin()));
         return new MyAuthenticaion(loginId, passwd, grantedAuthorities, user);
     }
 
@@ -62,4 +64,3 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         }
     }
 }
-*/

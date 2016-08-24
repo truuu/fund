@@ -1,5 +1,5 @@
 package fund.mapper;
 
-public interface commitmentDetailMapper {
+public interface CommitmentDetailMapper {
 
 }
