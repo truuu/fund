@@ -57,9 +57,9 @@
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">금융연동<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
 		    
-		    <li><a href="${R}finance/cms/cms.do">CMS</a></li>
-		    <li><a href="#">자동이체</a></li>
-		    <li><a href="#">급여공제</a></li>
+		    <li><a href="${R}finance/cms.do">CMS</a></li>
+		    <li><a href="${R}finance/automation.do">자동이체</a></li>
+		    <li><a href="${R}finance/salary.do">급여공제</a></li>
 		  </ul>
 		</li>
 		<li class="dropdown">
