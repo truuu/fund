@@ -1,4 +1,4 @@
-/*package fund;
+package fund;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -14,6 +14,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.SystemPropertyUtils;
 
+import fund.dto.User;
+import fund.mapper.UserMapper;
+
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
 
@@ -28,14 +31,16 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     }
 
     public Authentication authenticate(String loginId, String passwd) throws AuthenticationException {
-        User user = userMapper.selectByLoginId(loginId);
+       /* User user = userMapper.selectByLoginId(loginId);
         if (user == null) return null;
         if (user.getPasswd().equals(passwd) == false) return null;
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_전체"));
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserType()));
-        return new MyAuthenticaion(loginId, passwd, grantedAuthorities, user);
+        return new MyAuthenticaion(loginId, passwd, grantedAuthorities, user);*/
+    	return null;
+        
     }
 
     @Override
@@ -62,4 +67,3 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         }
     }
 }
-*/

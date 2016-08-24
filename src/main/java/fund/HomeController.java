@@ -1,4 +1,4 @@
-/*package fund;
+package fund;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +10,7 @@ public class HomeController {
 
     @RequestMapping("/home/index.do")
     public String index(Model model) {
+    	System.out.println("123");
         return "home/index";
     }
 
@@ -61,4 +62,4 @@ public class HomeController {
     }
    
 }
-*/
+
