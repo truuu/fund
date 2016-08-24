@@ -1,5 +1,8 @@
 package fund.controller;
 
-public class CommitmentController {
+import org.springframework.stereotype.Controller;
 
+@Controller
+public class CommitmentController {
+	
 }
