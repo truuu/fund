@@ -1,5 +1,5 @@
 package fund.controller;
 
-public class PrintDonationController {
+public class PrintCertificateController {
 
 }
