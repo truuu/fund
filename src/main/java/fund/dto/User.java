@@ -7,6 +7,14 @@ public class User {
 	String name;
 	String email;
 	boolean admin;
+	String passwd;
+	
+	public String getPasswd() {
+		return passwd;
+	}
+	public void setPasswd(String passwd) {
+		this.passwd = passwd;
+	}
 	public int getId() {
 		return id;
 	}
