@@ -7,7 +7,8 @@ $(function() {
         $("input[name=pg]").val($(this).attr("data-page"));
         $("form").submit();
     });
-
+ 
+    
     $("[data-auto-submit=true]").change(function() {
         $(this).parents("form").submit();
     });
