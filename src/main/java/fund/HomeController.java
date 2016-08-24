@@ -18,14 +18,16 @@ public class HomeController {
         return "home/login";
     }
     
+    /*内靛包府*/
     @RequestMapping(value="/code/code.do", method=RequestMethod.GET)
     public String code(Model model) {
         return "code/code";
     }
     
-    @RequestMapping(value="/user/agreement.do", method=RequestMethod.GET)
+    /*距沥包府*/
+    @RequestMapping(value="/user/commitment.do", method=RequestMethod.GET)  
     public String agreement(Model model) {
-        return "user/agreement";
+        return "user/commitment";
     }
     
     @RequestMapping(value="/certificate/donation_cer.do", method=RequestMethod.GET)
