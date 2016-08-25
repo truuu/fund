@@ -3,6 +3,8 @@ package fund;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
+import fund.dto.*;
+import fund.mapper.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -13,6 +15,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.SystemPropertyUtils;
+
+import fund.dto.User;
+import fund.mapper.UserMapper;
 
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
@@ -28,13 +33,13 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     }
 
     public Authentication authenticate(String loginId, String passwd) throws AuthenticationException {
-        User user = userMapper.selectByLoginId(loginId);
+       User user = userMapper.selectByLoginId(loginId);
         if (user == null) return null;
         if (user.getPasswd().equals(passwd) == false) return null;
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_전체"));
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserType()));
+        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.isAdmin()));
         return new MyAuthenticaion(loginId, passwd, grantedAuthorities, user);
     }
 

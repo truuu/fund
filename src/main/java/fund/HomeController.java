@@ -18,14 +18,16 @@ public class HomeController {
         return "home/login";
     }
     
+    
     @RequestMapping(value="/code/code.do", method=RequestMethod.GET)
     public String code(Model model) {
         return "code/code";
     }
     
-    @RequestMapping(value="/user/agreement.do", method=RequestMethod.GET)
+
+    @RequestMapping(value="/user/commitment.do", method=RequestMethod.GET)  
     public String agreement(Model model) {
-        return "user/agreement";
+        return "user/commitment";
     }
     
     @RequestMapping(value="/certificate/donation_cer.do", method=RequestMethod.GET)
