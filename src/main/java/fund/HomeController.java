@@ -19,17 +19,6 @@ public class HomeController {
     }
     
     
-    @RequestMapping(value="/code/code.do", method=RequestMethod.GET)
-    public String code(Model model) {
-        return "code/code";
-    }
-    
-
-    @RequestMapping(value="/user/commitment.do", method=RequestMethod.GET)  
-    public String agreement(Model model) {
-        return "user/commitment";
-    }
-    
     @RequestMapping(value="/certificate/donation_cer.do", method=RequestMethod.GET)
     public String donation_cer(Model model) {
         return "certificate/donation_cer";
