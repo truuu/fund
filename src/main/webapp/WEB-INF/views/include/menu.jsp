@@ -23,6 +23,17 @@
 	      <ul class="nav navbar-nav">
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">코드관리<span class="caret"></span></a>
+		  <ul class="dropdown-menu" role="menu">
+		    <li><a href="/fund_sys/code/corporateList.do">기관</a></li>
+		    <li><a href="/fund_sys/code/codeList.do?codeGroup=기관종류">기관종류</a></li>
+		    <li><a href="/fund_sys/code/donationPurposeList.do">기부목적</a></li>
+		    <li><a href="/fund_sys/code/codeList.do?codeGroup=후원인구분1">후원인구분1</a></li>
+		    <li><a href="/fund_sys/code/codeList.do?codeGroup=후원인구분2">후원인구분2</a></li>
+		    <li><a href="/fund_sys/code/codeList.do?codeGroup=정기 납입방법">정기 납입방법</a></li>
+		    <li><a href="/fund_sys/code/codeList.do?codeGroup=비정기 납입방법">비정기 납입방법</a></li>
+		    <li><a href="/fund_sys/code/codeList.do?codeGroup=은행">은행</a></li>
+		    <li><a href="/fund_sys/code/codeList.do?codeGroup=소속교회">소속교회</a></li>
+		  </ul>	
 		</li>
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">후원인관리<span class="caret"></span></a>

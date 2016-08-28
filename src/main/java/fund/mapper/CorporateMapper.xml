@@ -4,8 +4,43 @@
 
 <mapper namespace="fund.mapper.CorporateMapper">
 
+   	<select id="selectById" resultType="fund.dto.Corporate"> 
+		SELECT  *
+		FROM  [Corporate]
+		WHERE id = #{id}
+	</select>
+	
+	<select id="selectPage" resultType="fund.dto.Corporate">
+		<![CDATA[
+		SELECT *
+		FROM(
+		SELECT *,ROW_NUMBER() OVER (ORDER BY ID) 행번호
+		FROM [Corporate]	) subquery
+		WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              행번호 <= #{currentPage} * #{pageSize}
+        ORDER BY 행번호
+        ]]>
+	</select>
+	
+	 <select id="selectCount" resultType="int">
+        SELECT COUNT(*)
+        FROM [Corporate]
+    </select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT [Corporate]
+               (name, corporateNo, representative, address)
+        VALUES (#{name},#{corporateNo},#{representative},#{address})
+	</insert>
+	
+	<update id="update">
+        UPDATE [Corporate]
+        SET name = #{name}, corporateNo = #{corporateNo}, representative = #{representative}, address = #{address}
+        WHERE id = #{id}
+    </update>
+	
     <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
+        DELETE FROM [Corporate] WHERE id = #{id}
     </delete>
-
+	
 </mapper>

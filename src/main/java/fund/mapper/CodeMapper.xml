@@ -4,8 +4,45 @@
 
 <mapper namespace="fund.mapper.CodeMapper">
 
+	<select id="selectById" resultType="fund.dto.Code"> 
+		SELECT  *
+		FROM  [Code]
+		WHERE id = #{id}
+	</select>
+	
+	<select id="selectByCodeGroup"  parameterType="hashmap" resultType="fund.dto.Code"> 
+		<![CDATA[
+		SELECT  *
+		FROM  ( SELECT *, ROW_NUMBER() OVER (ORDER BY ID) 행번호
+              FROM [Code] 
+              WHERE codeGroup = #{codeGroup}
+            ) subquery
+        WHERE 행번호 > (#{pagination.currentPage} - 1) * #{pagination.pageSize} AND
+              행번호 <= #{pagination.currentPage} * #{pagination.pageSize}
+        ORDER BY 행번호	
+		]]>
+	</select>
+	
+	<select id="selectCount" parameterType="hashmap" resultType="int">
+        SELECT COUNT(*)
+        FROM [Code]
+        WHERE codeGroup = #{codeGroup}
+    </select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT [Code]
+               (codeGroup, codeName, etc1, etc2, etc3)
+        VALUES (#{codeGroup},#{codeName},#{etc1},#{etc2},#{etc3})
+	</insert>
+	
+	<update id="update">
+        UPDATE [Code]
+        SET codeGroup = #{codeGroup}, codeName = #{codeName}, etc1 = #{etc1}, etc2 = #{etc2}, etc3 = #{etc3}
+        WHERE id = #{id}
+    </update>
+	
     <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
+        DELETE FROM [Code] WHERE id = #{id}
     </delete>
 
 </mapper>
