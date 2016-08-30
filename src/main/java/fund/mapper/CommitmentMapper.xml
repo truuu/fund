@@ -4,8 +4,30 @@
 
 <mapper namespace="fund.mapper.CommitmentMapper">
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
-
+   <select id="selectBySponsorID" resultType="fund.dto.Commitment">
+   	SELECT c1.*,c2.codeName,d.name
+   	FROM Commitment c1 left join Sponsor s on c1.sponsorID=s.ID 
+   	          left join Code c2 on c1.paymentMethodID=c2.ID LEFT JOIN DonationPurpose d on c1.donationPurposeID=d.ID
+   	WHERE s.ID=#{id}
+   </select>
+   
+ 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT Commitment
+               (sponsorID, [commitmentNo], donationPurposeID, paymentMethodID, commitmentDate, startDate, endDate, etc)
+        VALUES (#{sponsorID},
+                IsNULL((SELECT MAX([commitmentNo]) FROM Commitment WHERE sponsorID = #{sponsorID}), 0) + 1,
+                #{donationPurposeID}, #{paymentMethodID}, #{commitmentDate}, #{startDate}, #{endDate}, #{etc})
+    </insert>
+    
+    <update id="update">
+        UPDATE Commitment
+        SET 	
+        		startDate = #{startDate}, 
+        		endDate = #{endDate}, 
+        		etc=#{etc}
+        WHERE ID = #{ID}
+    </update>
+    
+    
+  	
 </mapper>

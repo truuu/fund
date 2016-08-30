@@ -3,9 +3,31 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.CommitmentDetailMapper">
-
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
+    
+   <select id="selectByCommitmentID" resultType="fund.dto.CommitmentDetail">
+   	SELECT c2.*
+   	FROM Commitment c1 left join CommitmentDetail c2 on c1.ID=c2.commitmentID 
+   	WHERE c1.ID=#{id}
+   </select>
+   
+   <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT CommitmentDetail
+               (commitmentID, amountPerMonth, paymentDay, startDate, bankID, accountNo, accountHolder, etc)
+        VALUES (#{commitmentID}, #{amountPerMonth}, #{paymentDay}, getDate(), #{bankID}, #{accountNo}, #{accountHolder}, #{etc})
+    </insert>
+ 
+    
+    <update id="update">
+        UPDATE CommitmentDetail
+        SET amountPerMonth = #{amountPerMonth}, 
+        	  paymentDay = #{paymentDay},
+        	  startDate = #{startDate},
+              bankID = #{bankID},
+              accountNo = #{accountNo}, 
+              accountHolder = #{accountHolder}, 
+              etc = #{etc}
+        WHERE ID = #{ID}
+    </update>
+   
 
 </mapper>

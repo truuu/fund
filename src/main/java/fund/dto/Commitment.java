@@ -12,6 +12,8 @@ public class Commitment{
 	Date startDate;
 	Date endDate;
 	String etc;
+	String name;//donationPurpose name
+	String codeName; // paymentMethodID
 	
 	public int getID() {
 		return ID;
@@ -66,6 +68,18 @@ public class Commitment{
 	}
 	public void setEtc(String etc) {
 		this.etc = etc;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCodeName() {
+		return codeName;
+	}
+	public void setCodeName(String codeName) {
+		this.codeName = codeName;
 	}
 	
 	
