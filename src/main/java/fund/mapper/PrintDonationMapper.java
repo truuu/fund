@@ -7,5 +7,6 @@ import fund.dto.PrintDonation;
 public interface PrintDonationMapper {
 	PrintDonation selectById(int ID);
     List<PrintDonation> selectPage(Pagination pagination);
+    void insert(PrintDonation printDonation);
     void delete(int ID);
 }

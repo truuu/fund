@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import fund.dto.Pagination;
 import fund.mapper.PrintDonationMapper;
@@ -25,5 +26,15 @@ public class PrintCertificateController {
     public String scholarshipList(Model model, Pagination pagination) {
         model.addAttribute("list", printScholarshipMapper.selectPage(pagination));
         return "certificate/printScholarship_list";
+    }
+	
+	@RequestMapping(value="/certificate/printScholarship.do", method=RequestMethod.GET)
+    public String printScholarship(Model model) {
+        return "certificate/printScholarship";
+    }
+	
+	@RequestMapping(value="/certificate/printDonation.do", method=RequestMethod.GET)
+    public String printDonation(Model model) {
+        return "certificate/printDonation";
     }
 }

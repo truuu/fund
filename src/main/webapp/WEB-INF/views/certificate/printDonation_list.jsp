@@ -5,7 +5,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<style>
+a#donationBtn { float:right; }
+</style>
 <body>
 	<h3>기부증서 발급대장</h3>
 
@@ -18,8 +20,8 @@
 			<option value="3">약정액</option>
 		</select> <input type="text" id="search_a" name="search_a">
 		<button type="submit" class="btn btn-small">검색</button>
+		<a href="printDonation.do" id="donationBtn" class="button button-reversed">발급하기</a>
 	</div>
-
 	<div class="table-responsive">
 		<table class="table table-bordered">
 			<thead>

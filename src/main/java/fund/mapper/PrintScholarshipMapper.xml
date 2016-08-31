@@ -24,7 +24,13 @@
         ORDER BY 행번호
         ]]>
     </select>
-
+    
+ 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT [PrintScholarship]
+               (userID,createDate,studentNo,studentName,department)
+        VALUES (#{userID},getDate(),#{studentNo},#{studentName},#{department})
+    </insert>
+    
     <delete id="delete">
         DELETE FROM [PrintScholarship] WHERE ID = #{ID}
     </delete>

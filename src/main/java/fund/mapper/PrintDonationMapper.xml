@@ -30,7 +30,11 @@
         ]]>
     </select>
 	
-	
+	 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT [PrintDonation]
+               (userID,createDate,sponsorName,amount)
+        VALUES (#{userID},getDate(),#{sponsorName},#{amount})
+    </insert>
     
     <delete id="delete">
         DELETE FROM [PrintDonation] WHERE ID = #{ID}
