@@ -1,5 +1,11 @@
 package fund.mapper;
 
-public interface PrintDonationMapper {
+import java.util.List;
+import fund.dto.Pagination;
+import fund.dto.PrintDonation;
 
+public interface PrintDonationMapper {
+	PrintDonation selectById(int ID);
+    List<PrintDonation> selectPage(Pagination pagination);
+    void delete(int ID);
 }

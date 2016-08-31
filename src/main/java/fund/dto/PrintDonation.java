@@ -8,6 +8,7 @@ public class PrintDonation {
 	Date createDate;
 	String sponsorName;
 	int amount;
+	String name; // user name
 	
 	public int getID() {
 		return ID;
@@ -39,5 +40,11 @@ public class PrintDonation {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 }

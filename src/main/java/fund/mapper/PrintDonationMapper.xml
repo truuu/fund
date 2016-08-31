@@ -4,8 +4,36 @@
 
 <mapper namespace="fund.mapper.PrintDonationMapper">
 
+	<select id="selectById" resultType="fund.dto.PrintDonation">
+        SELECT p.*, u.name
+        FROM PrintDonation p LEFT JOIN [User] u ON p.userID = u.ID
+        WHERE p.ID = #{ID}
+    </select>
+
+    <select id="selectPage" resultType="fund.dto.PrintDonation">
+        <![CDATA[
+        SELECT *
+        FROM
+            (SELECT p.ID, p.createDate, p.sponsorName, p.amount, u.name,
+                     ROW_NUMBER() OVER (ORDER BY p.ID DESC) 행번호
+              FROM [PrintDonation] p LEFT JOIN [User] u ON p.userID = u.ID
+              WHERE(
+                 (#{srchType} = 0) OR
+                  (#{srchType} = 1 AND CHARINDEX(#{srchText}, sponsorName) = 1) OR
+                  (#{srchType} IN (2,3) AND CHARINDEX(#{srchText}, createDate) > 0) OR
+                  (#{srchType} = 3 AND CHARINDEX(#{srchText}, amount) > 0)
+              )  
+            ) subquery
+        WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              행번호 <= #{currentPage} * #{pageSize}
+        ORDER BY 행번호
+        ]]>
+    </select>
+	
+	
+    
     <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
+        DELETE FROM [PrintDonation] WHERE ID = #{ID}
     </delete>
 
 </mapper>

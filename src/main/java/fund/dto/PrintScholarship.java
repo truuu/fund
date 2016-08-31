@@ -3,17 +3,19 @@ package fund.dto;
 import java.util.Date;
 
 public class PrintScholarship {
-	int id;
+	int ID;
 	int userID;
 	Date createDate;
 	String studentNo;
 	String studentName;
 	String department;
-	public int getId() {
-		return id;
+	String name; // user name
+	
+	public int getID() {
+		return ID;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setID(int iD) {
+		ID = iD;
 	}
 	public int getUserID() {
 		return userID;
@@ -44,6 +46,12 @@ public class PrintScholarship {
 	}
 	public void setDepartment(String department) {
 		this.department = department;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 
