@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+eb13/14 결과 조회 
 </body>
 </html>
