@@ -2,6 +2,34 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
+<script>
+function search(){
+	alert('start')
+	var startDate,endDate;
+	
+	startDate=$('.startDate').val();
+	endDate=$('.endDate').val();
+	
+	alert(startDate)
+	alert(endDate)
+	
+	
+	$.ajax({
+		url:"http://localhost:8080/fund_sys/user/postSearch.do",
+		type:"GET",
+		data:{startDate:startDate,endDate:endDate},
+		success : function(data) {
+		alert('success')
+		}
+		
+		
+	});
+
+	
+}
+
+
+</script>
 
 <div id="wrapper">
 
@@ -20,8 +48,8 @@
 			<!-- /.row -->
 
 			<div>
-				<label> 신청기간 </label> <input type="date"> ~ <input type="date">
-				 <button  class="btn btn-primary">검색</button>
+				<label> 신청기간 </label> <input type="date" class="startDate"> ~ <input type="date" class="endDate">
+				 <button  class="btn btn-primary" onclick="search()">검색</button>
 			</div>
 
 			<div id="column-right">

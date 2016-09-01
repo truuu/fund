@@ -1,23 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>		
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"		
-             "http://mybatis.org/dtd/mybatis-3-mapper.dtd">		
-		
-<mapper namespace="fund.mapper.UserMapper">		
-		
-    <select id="selectById" resultType="fund.dto.User">		
-        SELECT * FROM [User] WHERE id = #{id}		
-    </select>		
-		
-    <select id="selectByLoginId" resultType="fund.dto.User">		
-        SELECT * FROM [User] WHERE loginId = #{loginId}		
-    </select>		
-		
-    <select id="selectAll" resultType="fund.dto.User">		
-        SELECT u.*, d.departmentName		
-        FROM [User] u LEFT JOIN department d ON u.departmentId = d.id		
-    </select>		
-		
-    		
-		
+             "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fund.mapper.UserMapper">
+
+	<select id="selectById" resultType="fund.dto.User">
+		SELECT * FROM [User] WHERE id
+		= #{id}
+	</select>
+
+	<select id="selectByLoginId" resultType="fund.dto.User">
+		SELECT * FROM [User]
+		WHERE loginId = #{loginId}
+	</select>
+
+	<select id="selectAll" resultType="fund.dto.User">
+		SELECT u.*, d.departmentName
+		FROM [User] u LEFT JOIN department d ON u.departmentId = d.id
+	</select>
+
+	<select id="ceateNumber" resultType="Integer">
+		select TOP(1)ID from sponsor
+		order by ID DESC;
+	</select>
+
+	<select id="selectAuto" resultType="fund.dto.Code">
+		SELECT
+		codeName
+		FROM Code
+		WHERE
+		codeGroup='소속교회' and codeName LIKE '%'+#{input}+'%'
+	</select>
+
+
+	<!-- 회원관리 -->
+	<select id="sponsorManage" resultType="fund.dto.User">
+		select sponsorNo,name,
+		(select codeName from code where code.ID=sponsor.sponsorType1ID ),
+		(select codeName from code where code.ID=sponsor.sponsorType2ID ),
+		(select codeName from code where code.ID=sponsor.churchID ),
+		signUpDate,mobilePhone,email
+		from sponsor;
+	</select>
+
+	<!-- DM발송 -->
+	<select id="postManage" resultType="fund.dto.User">
+		select sponsor.ID,name,(select codeName from code where
+		code.ID=sponsor.sponsorType2ID),
+		(select codeName from code where code.ID=sponsor.churchID),
+		homeAddress,officeAddress
+		from sponsor join payment on sponsor.ID=payment.sponsorID
+		where payment.paymentDate between #{startDate} and #{endDate};
+	</select>
+
+
+
 </mapper>		
 

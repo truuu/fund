@@ -18,6 +18,7 @@
         http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
     <context:component-scan base-package="fund" />
+     <mvc:annotation-driven />
     <sec:global-method-security secured-annotations="enabled" />
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">

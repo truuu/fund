@@ -33,7 +33,8 @@
 						<option value="10">교인</option>
 						<option value="11">독지가</option>
 						<option value="12">교회</option>
-						<option value="13">기타</option>
+						<option value="13">기업가</option>
+						<option value="14">기타</option>
 						
 					</select> <input type="search" id="search_a" name="search_a">
 					<button type="submit" class="btn btn-small">검색</button>
