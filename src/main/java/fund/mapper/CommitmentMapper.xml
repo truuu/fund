@@ -4,8 +4,14 @@
 
 <mapper namespace="fund.mapper.CommitmentMapper">
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
+	<select id="selectCommitmentBySponsorNo" resultType="fund.dto.Commitment">
+	    select c.ID,s.ID,c.commitmentNo as 약정번호,s.name as 후원인이름,code.codeName as 납부방법
+		from commitment c
+		JOIN sponsor s
+		ON c.sponsorID=s.ID
+		JOIN code
+		ON c.paymentMethodID=code.ID
+		where s.sponsorNo='2016-0001'
+	</select>
 
 </mapper>

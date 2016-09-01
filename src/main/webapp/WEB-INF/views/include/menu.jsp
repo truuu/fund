@@ -3,8 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="wrapper">
-
-
 	<nav class="navbar navbar-default" role="navigation">
 	  <div class="container-fluid">
 	    <!-- Brand and toggle get grouped for better mobile display -->
@@ -39,12 +37,12 @@
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">금융연동<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
-		    <li><a href="#">EB13생성</a></li>
-		    <li><a href="#">EB14등록</a></li>
-		    <li><a href="#">EB21생성</a></li>
-		    <li><a href="#">EB22등록</a></li>
-		    <li><a href="#">자동이체 결과등록</a></li>
-		    <li><a href="#">급여공제 결과등록</a></li>
+		    <li><a href="/fund_sys/finance/eb13.do">EB13생성</a></li>
+		    <li><a href="/fund_sys/finance/eb14.do">EB14등록</a></li>
+		    <li><a href="/fund_sys/finance/eb21.do">EB21생성</a></li>
+		    <li><a href="/fund_sys/finance/eb22.do">EB22등록</a></li>
+		    <li><a href="/fund_sys/finance/automation.do">자동이체 결과등록</a></li>
+		    <li><a href="/fund_sys/finance/salary.do">급여공제 결과등록</a></li>
 		    <li><a href="#">EB13/14 결과조회</a></li>
 		    <li><a href="#">EB21/22 결과조회</a></li>
 		  </ul>

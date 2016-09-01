@@ -4,8 +4,21 @@
 
 <mapper namespace="fund.mapper.EB13Mapper">
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
+    <insert id="createEB13file" useGeneratedKeys="true" keyProperty="id">
+	    insert into EB13_commitmentDetail
+		values ((select MAX(ID) from EB13),
+		(select cd.ID from 
+		commitmentDetail cd
+		INNER JOIN code
+		ON cd.bankID=code.ID
+		LEFT JOIN commitment c
+		ON cd.commitmentID=c.ID
+		LEFT JOIN sponsor s
+		ON c.sponsorID=s.ID
+		where cd.ID
+		not in (select commitmentDetailID from EB13_commitmentDetail)
+		)
+		,'신규')     
+    </insert>
 
 </mapper>
