@@ -36,14 +36,14 @@ public class CodeController {
 	        return "code/create";
 	    }
 	    
-	    /*
+	    
 	    @RequestMapping(value="/code/create.do", method=RequestMethod.POST)
 	    public String create(Model model,Code code,@RequestParam("codeGroup") String codeGroup) {
 	        codeMapper.insert(code);
 	        String c=codeGroup;
 	        System.out.println("출력:"+c); //// redirect 더 알아보기 검색해서
 	        return "redirect:/code/codeList.do?codeGroup="+c+"";
-	    }*/
+	    }
 
 
 }
