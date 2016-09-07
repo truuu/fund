@@ -63,10 +63,10 @@
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">증서관리<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
-		    <li><a href="#">영수증발급대장</a></li>
-		    <li><a href="#">영수증일괄생성</a></li>
-		    <li><a href="#">영수증개별생성</a></li>
-		    <li><a href="#">국세청보고자료</a></li>
+		    <li><a href="/fund_sys/certificate/receiptList.do">영수증발급대장</a></li>
+		    <li><a href="/fund_sys/certificate/receiptByDur.do">영수증일괄생성</a></li>
+		    <li><a href="/fund_sys/certificate/receiptByName.do">영수증개별생성</a></li>
+		    <li><a href="/fund_sys/certificate/taxData.do">국세청보고자료</a></li>
 		     <li class="divider"></li>
 		    <li><a href="#">장학증서 발급대장</a></li>
 		    <li><a href="#">기부증서 발급대장</a></li>

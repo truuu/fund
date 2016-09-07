@@ -13,6 +13,30 @@ public class Payment {
 	int donationPurposeID;
 	int paymentMethodID;
 	
+	String sponsorNo;
+	String name; //후원인명
+	
+	String no;//영수증번호 
+	
+	public String getNo() {
+		return no;
+	}
+	public void setNo(String no) {
+		this.no = no;
+	}
+	public String getSponsorNo() {
+		return sponsorNo;
+	}
+	public void setSponsorNo(String sponsorNo) {
+		this.sponsorNo = sponsorNo;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public int getID() {
 		return ID;
 	}

@@ -4,8 +4,56 @@
 
 <mapper namespace="fund.mapper.ReceiptMapper">
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
+	<select id="selectById" resultType="fund.dto.Receipt">
+		SELECT *
+		FROM [Receipt]
+		WHERE id=#{id}
+	</select>
+	
+	<select id="selectReceiptList" resultType="fund.dto.Receipt">
+		SELECT receipt.no,sponsor.name,sponsor.juminNo,sponsor.mobilePhone
+		FROM [Receipt] JOIN [Sponsor] ON receipt.sponsorID=sponsor.id 
+					JOIN [Payment] ON receipt.id=payment.receiptID 
+	</select>
+	
+	<select id="selectPage" resultType="fund.dto.Receipt">
+		<![CDATA[
+			SELECT *
+			FROM
+				( SELECT r.id, r.[no], s.name, s.juminNo, s.mobilePhone, r.createDate,
+								ROW_NUMBER() OVER (ORDER BY r.id) 행번호, sum(p.amount) 'amount'
+				   FROM [Receipt] r LEFT JOIN [Sponsor] s ON r.sponsorID = s.id
+				   			LEFT JOIN [Payment] p ON r.id=p.receiptID
+				   GROUP BY r.id,r.[no],s.name,s.juminNo, s.mobilePhone, r.createDate
+				) subquery
+			WHERE 행번호 >(#{currentPage} -1) * #{pageSize} AND
+						행번호 <= #{currentPage} * #{pageSize}
+			ORDER BY 행번호
+		]]>
+	</select>
+	
+	<select id="selectCount" resultType="int">
+		SELECT COUNT(*)
+		FROM [Receipt] r LEFT JOIN [Sponsor] s ON r.sponsorID = s.id
+					LEFT JOIN [Payment] p ON r.id=p.receiptID
+	</select>
+    
+    <insert id="insertByDur" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO [Receipt](sponsorID,createDate,[no])
+    	VALUES( #{sponsorID},#{createDate},IsNULL((SELECT MAX([no]) FROM [Receipt],0)+1)
+    </insert>
+    
+    <insert id="insertByName" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO [Receipt]
+    	VALUES()
+    </insert>
+    
+    <delete id="deleteByNo">
+    	DELETE FROM [Receipt] WHERE [no]=#{no}
+    </delete>
+    
+    <delete id="deleteById">
+    	DELETE FROM [Receipt] WHERE id=#{id}
     </delete>
 
 </mapper>

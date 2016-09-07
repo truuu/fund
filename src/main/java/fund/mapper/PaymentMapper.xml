@@ -3,9 +3,42 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.PaymentMapper">
+	
+	<select id="selectDistinctSponsorID" resultType="Integer">
+		SELECT DISTINCT sponsorID
+		FROM [Payment] p JOIN [donationPurpose] d ON p.donationPurposeID = d.ID
+		WHERE p.paymentDate BETWEEN #{startDate} AND #{endDate}
+			AND d.corporateID = #{corporateID}
+			AND p.receiptID IS NULL
+	</select>
+	
+    <select id="selectReceiptByName" resultType="fund.dto.Payment">
+		SELECT p.*,s.sponsorNo, s.name, r.[no] 'no'
+		FROM [Payment] p LEFT JOIN [Sponsor] s ON p.sponsorID = s.id 
+					LEFT JOIN [Receipt] r ON p.receiptID = r.id
+		WHERE p.paymentDate BETWEEN #{startDate} AND #{endDate}
+					AND p.sponsorID IN ( SELECT id FROM [sponsor] WHERE name=#{name} )
+					AND p.donationPurposeID IN ( SELECT id FROM [donationPurpose] WHERE corporateID = #{corporateID} )
+	</select> 
+
+	<update id="issueReceiptByDur">
+		UPDATE [Payment]
+		SET receiptID = SCOPE_IDENTITY()
+		FROM [Payment] p JOIN [donationPurpose] d ON p.donationPurposeID = d.ID
+		WHERE p.paymentDate BETWEEN #{startDate} AND #{endDate}
+			AND d.corporateID = #{corporateID}
+			AND p.receiptID IS NULL
+			AND p.sponsorID = #{sponsorID}
+	</update>
+	
+	<update id="deleteReceiptByReceiptID">
+		UPDATE [Payment]
+		SET receiptID = NULL
+		WHERE receiptID=#{id}
+	</update>
 
     <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
+        DELETE FROM [Payment] WHERE id = #{id}
     </delete>
 
 </mapper>
