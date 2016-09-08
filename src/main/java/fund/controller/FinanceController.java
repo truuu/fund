@@ -12,10 +12,6 @@ public class FinanceController {
 		return "finance/automation";
 	}
 
-	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.GET)
-	public String eb13(Model model) {
-		return "finance/eb13";
-	}
 	
 	@RequestMapping(value="/finance/eb14.do", method=RequestMethod.GET)
 	public String eb14(Model model) {

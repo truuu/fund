@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
+	<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div id="wrapper">
 	<div id="page-wrapper">
@@ -15,7 +17,7 @@
 				</div>
 			</div>
 			<!-- /.row -->
-
+			<form:form method="post" modelAttribute="eb13List">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4>EB13 금융등록</h4>
@@ -26,8 +28,8 @@
 						</div>
 						<div class="col-lg-3">
 							<div id="column-right">
-								<a href="#" class="button button-reversed">목록 조회</a> <a href="#"
-									class="button button-reversed">EB13 생성</a>
+								<button class="right" type="submit" name="cmd" value="selectEB13">목록 조회</button>
+								<a href="#" class="button button-reversed">EB13 생성</a>
 							</div>
 						</div>
 					</div>
@@ -59,6 +61,7 @@
 					</div>
 				</div>
 			</div>
+			</form:form>
 		</div>
 		<!-- /.panel -->
 	</div>

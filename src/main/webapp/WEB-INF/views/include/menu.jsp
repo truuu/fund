@@ -43,8 +43,8 @@
 		    <li><a href="/fund_sys/finance/eb22.do">EB22등록</a></li>
 		    <li><a href="/fund_sys/finance/automation.do">자동이체 결과등록</a></li>
 		    <li><a href="/fund_sys/finance/salary.do">급여공제 결과등록</a></li>
-		    <li><a href="#">EB13/14 결과조회</a></li>
-		    <li><a href="#">EB21/22 결과조회</a></li>
+		    <li><a href="/fund_sys/finance/resultEB1314.do">EB13/14 결과조회</a></li>
+		    <li><a href="/fund_sys/finance/resultEB2122.do">EB21/22 결과조회</a></li>
 		  </ul>
 		</li>
 		<li class="dropdown">
@@ -53,7 +53,6 @@
 		    
 
 		    <li><a href="#">납입 내역 보기</a></li>
-		    <li><a href="#">비정기 납입 등록</a></li>
 		     <li class="divider"></li>
 		       <li><a href="#">납입관련 각종통계</a></li>
 		    <li><a href="#">미납 내역(추후)</a></li>
