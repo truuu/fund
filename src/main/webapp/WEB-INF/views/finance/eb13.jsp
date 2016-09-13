@@ -29,7 +29,7 @@
 						<div class="col-lg-3">
 							<div id="column-right">
 								<button class="right" type="submit" name="cmd" value="selectEB13">목록 조회</button>
-								<a href="#" class="button button-reversed">EB13 생성</a>
+								<button class="right" type="submit" name="cmd" value="createEB13file">EB13 생성</button>
 							</div>
 						</div>
 					</div>
@@ -37,6 +37,7 @@
 				<!-- /.panel-heading -->
 				<div class="panel-body">
 					<div class="table-responsive">
+					<c:forEach var="eb13List" items="${eb13List}">
 						<table class="table table-bordered" id="table_s">
 							<thead>
 								<tr>
@@ -49,15 +50,15 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>20160001</td>
-									<td>김하나</td>
-									<td>830203</td>
-									<td>신한은행</td>
-									<td>102-142-33019</td>
+									<td>${eb13List.sponsorNo}</td>
+									<td>${eb13List.accountHolder}</td>
+									<td>${eb13List.juminNo}</td>
+									<td>${eb13List.codeName}</td>
+									<td>${eb13List.accountNo}</td>
 								</tr>
 							</tbody>
 						</table>
-
+					</c:forEach>
 					</div>
 				</div>
 			</div>
