@@ -3,11 +3,14 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.CorporateMapper">
-
-   	<select id="selectById" resultType="fund.dto.Corporate"> 
+	<select id="selectCorporate" resultType="fund.dto.Corporate">
+		SELECT *
+		FROM [Corporate]
+	</select>
+   	<select id="selectByID" resultType="fund.dto.Corporate"> 
 		SELECT  *
 		FROM  [Corporate]
-		WHERE id = #{id}
+		WHERE ID = #{ID}
 	</select>
 	
 	<select id="selectPage" resultType="fund.dto.Corporate">
@@ -36,11 +39,11 @@
 	<update id="update">
         UPDATE [Corporate]
         SET name = #{name}, corporateNo = #{corporateNo}, representative = #{representative}, address = #{address}
-        WHERE id = #{id}
+        WHERE ID = #{ID}
     </update>
 	
     <delete id="delete">
-        DELETE FROM [Corporate] WHERE id = #{id}
+        DELETE FROM [Corporate] WHERE ID = #{ID}
     </delete>
 	
 </mapper>

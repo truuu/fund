@@ -8,7 +8,7 @@ public class Payment {
 	int commitmentID;
 	int amount;
 	Date paymentDate;
-	String stc;
+	String etc;
 	int receiptID;
 	int donationPurposeID;
 	int paymentMethodID;
@@ -43,11 +43,11 @@ public class Payment {
 	public void setPaymentDate(Date paymentDate) {
 		this.paymentDate = paymentDate;
 	}
-	public String getStc() {
-		return stc;
+	public String getEtc() {
+		return etc;
 	}
-	public void setStc(String stc) {
-		this.stc = stc;
+	public void setEtc(String etc) {
+		this.etc = etc;
 	}
 	public int getReceiptID() {
 		return receiptID;

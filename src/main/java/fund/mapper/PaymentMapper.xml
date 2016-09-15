@@ -4,8 +4,57 @@
 
 <mapper namespace="fund.mapper.PaymentMapper">
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
+<select id="selectByPayment" resultType="fund.dto.Payment">
+<![CDATA[
+        SELECT s.sponsorNo,s.name,c1.codeName, p.paymentDate,p.etc,c.name, ISNULL(p.commitmentID,0)
+        FROM [Payment] p LEFT JOIN [Sponsor] s ON p.sponsorID = s.ID
+        			LEFT JOIN [DonationPurpose] d ON p.donationPurposeID = d.ID
+        			LEFT JOIN [Corporate] c ON d.corporateID = c.ID 
+        			LEFT JOIN [Code] c1 ON c1.ID=s.sponsorType2ID
+        			LEFT JOIN [Code] c2 ON c2.ID=s.churchID
 
+        WHERE s.sponsorType2ID=#{sponsorType2ID}
+                   AND p.paymentDate >= #{date1} AND p.paymentDate < #{date2} 
+                   AND s.churchID=#{churchID} AND p.donationPurposeID=#{donationPurposeID}
+                   AND s.sponsorNo=#{sponsorNo} AND c.ID=#{corporateID}
+                   
+ ]]>                   
+    </select>
+
+
+<select id="selectByPaymentAll" resultType="fund.dto.Payment">
+<![CDATA[
+  	select s.name,s.sponsorNo,c.codeName, count(*),SUM(amount), ISNULL(p.commitmentID,0)
+	from payment p left join sponsor s
+	on p.sponsorID=s.ID left join code c on c.ID=s.churchID
+ 	group by s.name,s.sponsorNo,c.codeName,p.commitmentID
+ 	
+     WHERE p.commitmentID=#{commitmentID} AND s.sponsorType2ID=#{sponsorType2ID}
+                   AND p.paymentDate >= #{date1} AND p.paymentDate < #{date2} 
+                   AND s.churchID=#{churchID} AND p.donationPurposeID=#{donationPurposeID}
+                   AND s.sponsorNo=#{sponsorNo} AND c.ID=#{corporateID}
+                   
+ ]]>                   
+    </select>
+
+	<select id="selectBySponsorType2" resultType="fund.dto.Payment">
+	select distinct c.codeName '후원인구분',count(DISTINCT sponsorID) '기부후원인수',
+	COUNT(*) '출연수',sum(p.amount) '납입액'
+	from payment p join sponsor s
+	on p.sponsorID=s.id join code c on s.sponsorType2ID=c.id
+	where c.codeGroup='후원인구분2'
+	group by c.codeName
+	with cube
+	ORDER BY sum(p.amount) DESC
+	</select>
+	
+	<select id="selectByDonationPurpose" resultType="fund.dto.Payment">
+	select distinct d.name '기부목적',count(DISTINCT sponsorID) '기부후원인수', COUNT(*) '납입수',sum(p.amount) '납입액'
+	from payment p join donationPurpose d
+	on p.donationPurposeID=d.id
+	group by d.name
+	with cube
+	ORDER BY sum(p.amount) DESC
+	</select>
+	
 </mapper>

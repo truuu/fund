@@ -4,17 +4,23 @@
 
 <mapper namespace="fund.mapper.DonationPurposeMapper">
 
-	<select id="selectById" resultType="fund.dto.DonationPurpose">
+	<select id="selectDonationPurpose" resultType="fund.dto.DonationPurpose">
+		select d.*,c1.codeName,c2.name "corporateName"
+		from [DonationPurpose] d left join [Code] c1 on d.organizationID=c1.ID
+			 left join [Corporate] c2 on d.corporateID=c2.ID
+	</select>
+
+	<select id="selectByID" resultType="fund.dto.DonationPurpose">
 		SELECT *
 		FROM [DonationPurpose]
-		WHERE id = #{id}
+		WHERE ID = #{ID}
 	</select>
 
 	<select id="selectPage" resultType="fund.dto.DonationPurpose">
 		<![CDATA[
 		SELECT *
 		FROM
-				(SELECT d.*, c1.codeName, ROW_NUMBER() OVER (ORDER BY d.ID) 행번호
+				(SELECT d.*, c2.name "corporateName", c1.codeName, ROW_NUMBER() OVER (ORDER BY d.ID) 행번호
 				FROM [DonationPurpose] d LEFT JOIN [Code] c1 ON d.organizationID=c1.ID	
 				  LEFT JOIN [Corporate] c2 ON d.corporateID=c2.ID 
 				  ) subquery
@@ -39,11 +45,11 @@
 		UPDATE [DonationPurpose]
 		SET corporateID = #{corporateID}, organizationID = #{organizationID},
 		name = #{name}, gubun = #{gubun}
-		WHERE id = #{id}
+		WHERE ID = #{ID}
 	</update>
 
 	<delete id="delete">
-		DELETE FROM [DonationPurpose] WHERE id = #{id}
+		DELETE FROM [DonationPurpose] WHERE ID = #{ID}
 	</delete>
 
 </mapper>

@@ -2,23 +2,30 @@ package fund.dto;
 
 public class Code {
 		int ID;
-		String codeGroup;
+		int codeGroupID;
 		String codeName;
 		String etc1;
 		String etc2;
 		String etc3;
+		String name; // codeGroup의 name
 		
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
 		public int getID() {
 			return ID;
 		}
 		public void setID(int iD) {
 			ID = iD;
 		}
-		public String getCodeGroup() {
-			return codeGroup;
+		public int getCodeGroupID() {
+			return codeGroupID;
 		}
-		public void setCodeGroup(String codeGroup) {
-			this.codeGroup = codeGroup;
+		public void setCodeGroupID(int codeGroupID) {
+			this.codeGroupID = codeGroupID;
 		}
 		public String getCodeName() {
 			return codeName;
