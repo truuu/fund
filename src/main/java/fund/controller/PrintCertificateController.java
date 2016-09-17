@@ -18,12 +18,14 @@ public class PrintCertificateController {
 	
 	@RequestMapping("/certificate/printDonation_list.do")
     public String donationList(Model model, Pagination pagination) {
+		pagination.setRecordCount(printDonationMapper.selectCount(pagination));
         model.addAttribute("list", printDonationMapper.selectPage(pagination));
         return "certificate/printDonation_list";
     }
 	
 	@RequestMapping("/certificate/printScholarship_list.do")
     public String scholarshipList(Model model, Pagination pagination) {
+		pagination.setRecordCount(printScholarshipMapper.selectCount(pagination));
         model.addAttribute("list", printScholarshipMapper.selectPage(pagination));
         return "certificate/printScholarship_list";
     }
