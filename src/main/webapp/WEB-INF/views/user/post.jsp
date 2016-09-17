@@ -2,32 +2,65 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
 <script>
+
+var startDate,endDate,check; 
+
 function search(){
-	alert('start')
-	var startDate,endDate;
+	
 	
 	startDate=$('.startDate').val();
 	endDate=$('.endDate').val();
+
 	
-	alert(startDate)
-	alert(endDate)
+	location.href="http://localhost:8080/fund_sys/user/postSearch.do?startDate="+startDate+"&endDate="+endDate;
 	
-	
+	/*
 	$.ajax({
 		url:"http://localhost:8080/fund_sys/user/postSearch.do",
 		type:"GET",
-		data:{startDate:startDate,endDate:endDate},
-		success : function(data) {
-		alert('success')
-		}
+		data:{startDate:startDate,endDate:endDate}
+	});
+*/
+	
+}
+$(function(){
+	$('#postExcel').click(function(){
+		alert('click')
+		alert(startDate)
+		alert(endDate)
+		
+		startDate=$('#startDate').val();
+		endDate=$('#endDate').val();
+		check='t';
+		alert(startDate)
+		alert(endDate)
+		
+
+
+		
+		location.href="http://localhost:8080/fund_sys/user/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
 		
 		
 	});
+	$('#search').click(function(){
+		startDate=$('#startDate').val();
+		endDate=$('#endDate').val();
+		check='f';
+		alert(startDate)
+		alert(endDate)
+		
 
+
+		
+		location.href="http://localhost:8080/fund_sys/user/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
 	
-}
-
+		
+	});
+});
 
 </script>
 
@@ -48,12 +81,12 @@ function search(){
 			<!-- /.row -->
 
 			<div>
-				<label> 신청기간 </label> <input type="date" class="startDate"> ~ <input type="date" class="endDate">
-				 <button  class="btn btn-primary" onclick="search()">검색</button>
+				<label> 신청기간 </label> <input type="date" id="startDate"> ~ <input type="date" id="endDate">
+				 <button  class="btn btn-primary" id="search">검색</button>
 			</div>
 
 			<div id="column-right">
-				<a href="#" class="button button-reversed">엑셀 다운</a>
+				<a id="postExcel" class="button button-reversed">엑셀 다운</a>
 			</div>
 
 			<div class="row">
@@ -73,6 +106,18 @@ function search(){
 								</tr>
 							</thead>
 							<tbody>
+							
+							
+			<c:forEach var="post" items="${postList}">
+			<tr>
+			<td>${post.id}</td>
+			<td>${post.name}</td>
+			<td>${post.sponsorType2}</td>
+			<td>${post.church}</td>
+			<td>${post.postCode}</td>
+			<td>${post.address}</td>
+			</tr>
+			</c:forEach>
 
 
 

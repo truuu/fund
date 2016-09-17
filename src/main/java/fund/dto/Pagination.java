@@ -11,6 +11,28 @@ public class Pagination {
     String srchText = "";
     int recordCount;
     int boardId;
+    
+    String type;
+    String codeName;
+    
+ 
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getCodeName() {
+		return codeName;
+	}
+
+	public void setCodeName(String codeName) {
+		this.codeName = codeName;
+	}
+
 
     public int getCurrentPage() {
         return currentPage;

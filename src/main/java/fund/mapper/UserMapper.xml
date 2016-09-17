@@ -31,24 +31,97 @@
 		WHERE
 		codeGroup='소속교회' and codeName LIKE '%'+#{input}+'%'
 	</select>
+	<!-- text로 받은 교회의 id값 리턴 -->
+	<select id="selectChurchCode" resultType="int">
+		SELECT
+		ID
+		FROM Code
+		WHERE codeName=#{church}
+	</select>
+	
+	<insert id="sponsorInsert" useGeneratedKeys="true" keyProperty="id">
+        insert into sponsor(sponsorNo,name,juminNo,sponsorType1ID,sponsorType2ID,churchID,
+        signUpDate,mobilePhone,recommender,recommenderRelation,mailReceiving,mailTo,homeAddress,
+        homePhone,email,company,department,position,officePhone,officeAddress,etc)
+     values(#{sponsorNo},#{name},#{juminNo},#{sponsorType1ID},#{sponsorType2ID},#{churchID},
+        #{signUpDate},#{mobilePhone},#{recommender},#{recommenderRelation},#{mailReceiving},#{mailTo},#{homeAddress},
+        #{homePhone},#{email},#{company},#{department},#{position},#{officePhone},#{officeAddress},#{etc})
+    </insert>
+	
 
 
 	<!-- 회원관리 -->
-	<select id="sponsorManage" resultType="fund.dto.User">
+	<select id="sponsorManage" resultType="fund.dto.Sponsor">
 		select sponsorNo,name,
-		(select codeName from code where code.ID=sponsor.sponsorType1ID ),
-		(select codeName from code where code.ID=sponsor.sponsorType2ID ),
-		(select codeName from code where code.ID=sponsor.churchID ),
+		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
+		(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
+		(select codeName from code where code.ID=sponsor.churchID )AS church,
 		signUpDate,mobilePhone,email
-		from sponsor;
+		from sponsor order by sponsorNo DESC;
+	</select>
+	
+	<!-- 회원검색 -->
+	<select id="sponsorSearch" resultType="fund.dto.Sponsor">
+<![CDATA[
+        SELECT *
+        FROM
+            ( select sponsorNo,name,
+		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
+		(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
+		(select codeName from code where code.ID=sponsor.churchID )AS church,
+		signUpDate,mobilePhone,email, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
+		from sponsor
+		 where sponsorType2ID=(select ID from code where codeName=#{codeName})
+            ) subquery
+        WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              행번호 <= #{currentPage} * #{pageSize}
+        ORDER BY 행번호
+        ]]>
+	</select>
+	
+	<select id="selectPage" resultType="fund.dto.Sponsor">
+        <![CDATA[
+        SELECT *
+        FROM
+            ( SELECT sponsorNo,name,
+		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
+		(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
+		(select codeName from code where code.ID=sponsor.churchID )AS church,
+		signUpDate,mobilePhone,email, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
+             from sponsor
+            ) subquery
+        WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              행번호 <= #{currentPage} * #{pageSize}
+        ORDER BY 행번호
+        ]]>
+    </select>
+	
+	<select id="searchCount" resultType="int">
+        SELECT COUNT(*)
+        FROM sponsor where sponsorType2ID=(select ID from code where codeName=#{codeName})
+    </select>
+	
+	
+	<select id="selectCount" resultType="int">
+        SELECT COUNT(*)
+        FROM sponsor
+    </select>
+	
+	
+	
+	
+	<!-- 후원자관리 조건 구별 -->
+	<select id="sponsorTypeCheck" resultType="String">
+		select distinct(codeGroup)
+		from code where codeName=#{codeName};
 	</select>
 
 	<!-- DM발송 -->
-	<select id="postManage" resultType="fund.dto.User">
+	<select id="postManage" resultType="fund.dto.Sponsor">
 		select sponsor.ID,name,(select codeName from code where
-		code.ID=sponsor.sponsorType2ID),
-		(select codeName from code where code.ID=sponsor.churchID),
-		homeAddress,officeAddress
+		code.ID=sponsor.sponsorType2ID) AS sponsorType2,
+		(select codeName from code where code.ID=sponsor.churchID) AS church,
+		homeAddress,officeAddress,mailTo
 		from sponsor join payment on sponsor.ID=payment.sponsorID
 		where payment.paymentDate between #{startDate} and #{endDate};
 	</select>

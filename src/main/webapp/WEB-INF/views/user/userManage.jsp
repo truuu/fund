@@ -5,14 +5,26 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script>
+function sponorSearch(){
+	var codeName=$("#search option:selected").text();
+	alert(codeName)
+	
+	location.href="http://localhost:8080/fund_sys/sponsor/search.do?codeName="+codeName;
+	
+	
+}
 
 
+
+</script>
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
-			<h1 class="page-header">회원관리</h1>
+			<h1 class="page-header">회원관리9</h1>
 			<div id="column-right">
-				<a href="#" class="button button-reversed">신규</a> <a href="#"
+				<a href="sponsor.do" class="button button-reversed">신규</a> <a href="#"
 					class="button">엑셀</a>
 			</div>
 
@@ -37,9 +49,12 @@
 						<option value="14">기타</option>
 						
 					</select> <input type="search" id="search_a" name="search_a">
-					<button type="submit" class="btn btn-small">검색</button>
+					<button type="submit" class="btn btn-small" onclick="sponorSearch()">검색</button>
 				</div>
 			</div>
+
+<form method="get">
+    <input type="hidden" name="pg" value="1" />
 
 
 			<table class="table table-bordered table-hover">
@@ -57,36 +72,30 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr onclick="location.href('user/user.do')">
-						<td>201605-0001</td>
-						<td>김하나</td>
-						<td>개인</td>
-						<td>직원</td>
-						<td>OO교회</td>
-						<td>2016.05.02</td>
-						<td>010-8855-6986</td>
-						<td>whdms@naver.com</td>
-						
-					</tr>
-					
+			<c:forEach var="sponsor" items="${list}">
+			<tr>
+			<td>${sponsor.sponsorNo}</td>
+			<td>${sponsor.name}</td>
+			<td>${sponsor.sponsorType1}</td>
+			<td>${sponsor.sponsorType2}</td>
+			<td>${sponsor.church}</td>
+			<td>${sponsor.signUpDate}</td>
+			<td>${sponsor.mobilePhone}</td>
+			<td>${sponsor.email}</td>
+			</tr>
+			</c:forEach>
 				</tbody>
 			</table>
 
+           <div class="pagination pagination-small pagination-centered">
+        <ul>
+            <c:forEach var="page" items="${ pagination.pageList }">
+                <li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
+            </c:forEach>
+        </ul>
+    </div>
+</form>
 
-			<!-- Pagination -->
-			<div class="row text-center">
-				<div class="col-lg-12">
-					<ul class="pagination">
-						<li><a href="#">&laquo;</a></li>
-						<li class="active"><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#">&raquo;</a></li>
-					</ul>
-				</div>
-			</div>
 
 
 		</div>

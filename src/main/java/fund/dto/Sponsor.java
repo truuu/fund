@@ -4,27 +4,69 @@ import java.util.Date;
 
 public class Sponsor {
 	int id;
-	String sponsorNo;
-	String name;
-	String juminNo;
-	int sponsorType1ID;
-	int sponsorType2ID;
-	int churchID;
-	Date signUpDate;
-	String mobilePhone;
-	String recommender;
-	String recommenderRelation;
-	boolean mailReceiving;
+	String sponsorNo; //
+	String name; //
+	String juminNo; //
+	int sponsorType1ID; //
+	int sponsorType2ID; //
+	int churchID; //
+    String signUpDate; //  Date -> String date시 에러남 400 파라미터타입문제 질문해야함
+	String mobilePhone; //
+	String recommender; //
+	String recommenderRelation; //
+	boolean mailReceiving; //
 	int mailTo;
 	String homeAddress;
-	String homePhone;
-	String email;
-	String company;
-	String department;
-	String position;
+	String homePhone; //
+	String email; //
+	String company; //
+	String department; //
+	String position; //
 	String officePhone;
 	String officeAddress;
-	String etc;
+	String etc; //
+	
+	
+	String address;
+	String postCode;
+	String sponsorType1;
+	String sponsorType2;
+	String church;
+	
+	
+	
+	
+	public String getSponsorType1() {
+		return sponsorType1;
+	}
+	public void setSponsorType1(String sponsorType1) {
+		this.sponsorType1 = sponsorType1;
+	}
+	public String getSponsorType2() {
+		return sponsorType2;
+	}
+	public void setSponsorType2(String sponsorType2) {
+		this.sponsorType2 = sponsorType2;
+	}
+	public String getChurch() {
+		return church;
+	}
+	public void setChurch(String church) {
+		this.church = church;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getPostCode() {
+		return postCode;
+	}
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
+	}
+	//DM발송때 address postCode
 	public int getId() {
 		return id;
 	}
@@ -67,10 +109,10 @@ public class Sponsor {
 	public void setChurchID(int churchID) {
 		this.churchID = churchID;
 	}
-	public Date getSignUpDate() {
+	public String getSignUpDate() {
 		return signUpDate;
 	}
-	public void setSignUpDate(Date signUpDate) {
+	public void setSignUpDate(String signUpDate) {
 		this.signUpDate = signUpDate;
 	}
 	public String getMobilePhone() {
