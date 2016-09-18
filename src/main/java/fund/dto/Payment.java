@@ -7,12 +7,20 @@ public class Payment {
 	int sponsorID;
 	int commitmentID;
 	int amount;
-	String paymentDate;
+	String paymentDateString;
 	String etc;
 	int receiptID;
 	int donationPurposeID;
 	int paymentMethodID;
-
+	
+	String commitmentNo;
+	String paymentMethod;
+	Date paymentDate;
+	String accountNo;
+	String bankName;
+	String accountHolder;
+	String corporate;
+	String donationPurpose;
 	
 	public int getID() {
 		return ID;
@@ -38,11 +46,11 @@ public class Payment {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public String getPaymentDate() {
-		return paymentDate;
+	public String getPaymentDateString() {
+		return paymentDateString;
 	}
-	public void setPaymentDate(String paymentDate) {
-		this.paymentDate = paymentDate;
+	public void setPaymentDateString(String paymentDateString) {
+		this.paymentDateString = paymentDateString;
 	}
 	public String getEtc() {
 		return etc;
@@ -67,6 +75,55 @@ public class Payment {
 	}
 	public void setPaymentMethodID(int paymentMethodID) {
 		this.paymentMethodID = paymentMethodID;
+	}
+	
+	public String getCommitmentNo() {
+		return commitmentNo;
+	}
+	public void setCommitmentNo(String commitmentNo) {
+		this.commitmentNo = commitmentNo;
+	}
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	public Date getPaymentDate() {
+		return paymentDate;
+	}
+	public void setPaymentDate(Date paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+	public String getAccountNo() {
+		return accountNo;
+	}
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+	public String getBankName() {
+		return bankName;
+	}
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+	public String getAccountHolder() {
+		return accountHolder;
+	}
+	public void setAccountHolder(String accountHolder) {
+		this.accountHolder = accountHolder;
+	}
+	public String getCorporate() {
+		return corporate;
+	}
+	public void setCorporate(String corporate) {
+		this.corporate = corporate;
+	}
+	public String getDonationPurpose() {
+		return donationPurpose;
+	}
+	public void setDonationPurpose(String donationPurpose) {
+		this.donationPurpose = donationPurpose;
 	}
 	
 }

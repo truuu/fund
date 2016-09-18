@@ -13,43 +13,35 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">
-						납입 목록 <small>- 정기</small>
+						납입 목록 <small>- 비정기</small>
 					</h1>
 				</div>
 			</div>
 			<!-- /.row -->
-			<form:form method="post" modelAttribute="paymentList">
+			<form:form method="post" modelAttribute="paymentList2">
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="table-responsive">
 							<table class="table table-bordered" id="table_s">
 								<thead>
 									<tr>
-										<th>약정번호</th>
 										<th>납입방법</th>
 										<th>납입금액</th>
 										<th>납입일</th>
-										<th>계좌번호</th>
-										<th>은행</th>
-										<th>예금주</th>
 										<th>기부기관</th>
 										<th>기부목적</th>
 										<th>비고</th>
 									</tr>
 								</thead>
-								<c:forEach var="paymentList" items="${paymentList}">
+								<c:forEach var="paymentList2" items="${paymentList2}">
 									<tbody>
 										<tr>
-											<td>${paymentList.commitmentNo}</td>
-											<td>${paymentList.paymentMethod}</td>
-											<td>${paymentList.amount}</td>
-											<td><fmt:formatDate value="${paymentList.paymentDate}" pattern="yyyy-MM-dd"/></td>
-											<td>${paymentList.accountNo}</td>
-											<td>${paymentList.bankName}</td>
-											<td>${paymentList.accountHolder}</td>
-											<td>${paymentList.corporate}</td>
-											<td>${paymentList.donationPurpose}</td>
-											<td>${paymentList.etc}</td>
+											<td>${paymentList2.paymentMethod}</td>
+											<td>${paymentList2.amount}</td>
+											<td><fmt:formatDate value="${paymentList2.paymentDate}" pattern="yyyy-MM-dd"/></td>
+											<td>${paymentList2.corporate}</td>
+											<td>${paymentList2.donationPurpose}</td>
+											<td>${paymentList2.etc}</td>
 										</tr>
 									</tbody>
 								</c:forEach>

@@ -28,6 +28,8 @@
 		   
 		    <li><a href="#">후원인목록</a></li>
 		  	<li><a href="/fund_sys/sponsor/insertIrrgularPayment.do">비정기 납입등록</a>
+		  	<li><a href="/fund_sys/sponsor/paymentList.do">정기납입목록</a>
+		  	<li><a href="/fund_sys/sponsor/paymentList2.do">비정기납입목록</a>
 		    <li><a href="#">후원인등록</a></li>
 		  
 		    <li><a href="#">DM주소록 생성</a></li>

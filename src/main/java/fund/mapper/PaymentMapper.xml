@@ -41,34 +41,34 @@
 	
 	<insert id="insertIrregularPayment" useGeneratedKeys="true" keyProperty="id">
 		insert into payment(sponsorID,amount,paymentDate,donationPurposeID,paymentMethodID,etc)
-		values(#{sponsorID},#{amount},CONVERT(DATETIME,#{paymentDate}),#{donationPurposeID},#{paymentMethodID},#{etc})
+		values(#{sponsorID},#{amount},CONVERT(DATETIME,#{paymentDateString}),#{donationPurposeID},#{paymentMethodID},#{etc})
 	</insert>
 	
 	<select id="selectPaymentRegular" resultType="fund.dto.Payment">
-		select c.commitmentNo as 약정번호,
-		(select code.codeName from code where code.ID=p.paymentMethodID) as 납입방법,
-		p.amount as 납입금액,p.paymentDate as 납입일,cd.accountNo as 계좌번호,
-		(select code.codeName from code where code.ID=cd.bankID) as 은행,
-		cd.accountHolder as 예금주,co.name as 기부기관,dp.name as 기부목적,p.etc as 비고
+		select c.commitmentNo,
+		(select code.codeName from code where code.ID=c.paymentMethodID) as paymentMethod,
+		p.amount,p.paymentDate,cd.accountNo,
+		(select code.codeName from code where code.ID=cd.bankID) as bankName,
+		cd.accountHolder,co.name as corporate,dp.name as donationPurpose,p.etc
 		from payment p
 		JOIN commitment c
 		ON p.commitmentID=c.ID
 		JOIN commitmentDetail cd
 		ON cd.commitmentID=c.ID
-		LEFT JOIN code ON code.codeGroup='정기납입방법' AND code.ID=p.paymentMethodID 
+		LEFT JOIN code ON code.codeGroupID=3 AND code.ID=p.paymentMethodID 
 		JOIN donationPurpose dp ON c.donationPurposeID=dp.ID
 		JOIN corporate co ON dp.corporateID=co.ID
-		where p.sponsorID=1	
+		where p.sponsorID=#{sponsorID}
 	</select>
 	
 	<select id="selectPaymentIrregular" resultType="fund.dto.Payment">
-		select code.codeName as 납입방법,p.amount as 납입금액,p.paymentDate as 납입일,co.name as 기부기관,
-		dp.name as 기부목적,p.etc as 비고
+		select code.codeName as paymentMethod,p.amount,p.paymentDate,co.name as corporate,
+		dp.name as donationPurpose,p.etc
 		from payment p
-		JOIN code ON code.codeGroup='비정기납입방법' AND code.ID=p.paymentMethodID
+		JOIN code ON code.codeGroupID=4 AND code.ID=p.paymentMethodID
 		JOIN donationPurpose dp ON p.donationPurposeID=dp.ID
 		JOIN corporate co ON dp.corporateID=co.ID
-		where p.sponsorID=1
+		where p.sponsorID=#{sponsorID}
 	</select>
 	
 	<update id="updatePayment">

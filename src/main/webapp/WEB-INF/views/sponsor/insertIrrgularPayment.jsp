@@ -26,10 +26,10 @@
 				</div>
 				<div class="form-group">
 
-					<label for="paymentDate" class="col-lg-2 control-label">납입일</label>
+					<label for="paymentDateString" class="col-lg-2 control-label">납입일</label>
 					<div class="col-lg-10">
-						<input type="text" class="form-control" id="paymentDate"
-							name="paymentDate" placeholder="날짜" />
+						<input type="text" class="form-control" id="paymentDateString"
+							name="paymentDateString" placeholder="날짜" />
 					</div>
 				</div>
 				<div class="form-group">
