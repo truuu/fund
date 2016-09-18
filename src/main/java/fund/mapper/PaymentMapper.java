@@ -1,5 +1,7 @@
 package fund.mapper;
 
-public interface PaymentMapper {
+import fund.dto.Payment;
 
+public interface PaymentMapper {
+	void insertIrregularPayment(Payment payment);
 }

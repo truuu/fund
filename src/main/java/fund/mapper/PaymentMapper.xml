@@ -40,8 +40,8 @@
 	</insert>
 	
 	<insert id="insertIrregularPayment" useGeneratedKeys="true" keyProperty="id">
-		insert into payment(sponsorID,amount,paymentDate,donationPurposeID,paymentMethodID)
-		values(1,900000,'2016-08-27',1,13)
+		insert into payment(sponsorID,amount,paymentDate,donationPurposeID,paymentMethodID,etc)
+		values(#{sponsorID},#{amount},CONVERT(DATETIME,#{paymentDate}),#{donationPurposeID},#{paymentMethodID},#{etc})
 	</insert>
 	
 	<select id="selectPaymentRegular" resultType="fund.dto.Payment">

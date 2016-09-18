@@ -27,7 +27,7 @@
 		  <ul class="dropdown-menu" role="menu">
 		   
 		    <li><a href="#">후원인목록</a></li>
-		  
+		  	<li><a href="/fund_sys/sponsor/insertIrrgularPayment.do">비정기 납입등록</a>
 		    <li><a href="#">후원인등록</a></li>
 		  
 		    <li><a href="#">DM주소록 생성</a></li>
