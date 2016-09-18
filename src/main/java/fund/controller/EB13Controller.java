@@ -1,6 +1,8 @@
 package fund.controller;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -23,13 +25,12 @@ import fund.dto.EB13;
 import fund.dto.EB13_CommitmentDetail;
 import fund.mapper.EB13Mapper;
 import fund.mapper.EB13_CommitmentDetailMapper;
-import fund.service.WriteEB13TOTextFile;
+
 
 @Controller
 public class EB13Controller {
 	@Autowired EB13Mapper eb13Mapper;
 	@Autowired EB13_CommitmentDetailMapper eb13_commitmentDetailMapper;
-	@Autowired WriteEB13TOTextFile writeEB13TOTextFile;
 	
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.GET)
 	public String eb13(Model model) {
@@ -39,27 +40,27 @@ public class EB13Controller {
 	public String selectEB13(Model model){
 		List<EB13_CommitmentDetail> eb13List = eb13_commitmentDetailMapper.selectEB13();
 		model.addAttribute("eb13List", eb13List);
-		
 		return "finance/eb13";
 	}
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=createEB13file")
-	public String selectEB13(@RequestParam("commitmentDetailID") int commitmentDetailID,Model model){
+	public String selectEB13(@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model){
 		eb13Mapper.createEB13file();
-		eb13Mapper.createEB13list(commitmentDetailID);
+		for(int i=0 ; i<commitmentDetailID.length; ++i){
+			eb13Mapper.createEB13list(commitmentDetailID[i]);
+		}
 		//텍스트파일로 selectEB13에서 보여줬던 목록 만들어 내보내기.(파일 다운로드) 
 		
 		return "finance/eb13";
 	}
 	
-	@RequestMapping("/finance/download.pd")
-	public void download(HttpServletResponse response) throws Exception { 
-		eb13Mapper.createEB13file();
-		List<EB13_CommitmentDetail> eb13List = eb13_commitmentDetailMapper.selectEB13();
-		WriteEB13TOTextFile.writeEB13("EB13"+GETDATE(),eb13List);
-		
+	@RequestMapping(value="/finance/download.do", method=RequestMethod.GET)
+	public void download() throws IOException { 
+			List<EB13_CommitmentDetail> eb13List=eb13_commitmentDetailMapper.selectEB13();
+	        EB13CreateFile.eb13CreateFile("EB13"+GETDATE_MMDD()+".txt", eb13List);
+	        System.out.println(eb13List.size());
 	}//eb13파일 다운로드
 	
-	private String GETDATE() {
+	private String GETDATE_MMDD() {
 		Calendar calendar = new GregorianCalendar(Locale.KOREA);
 		
 		String year = String.valueOf(calendar.get(Calendar.YEAR));
@@ -67,5 +68,16 @@ public class EB13Controller {
 		String date = String.valueOf(calendar.get(Calendar.DATE));
 		
 		return year+""+month+""+date;
+	}
+	
+	@RequestMapping(value="/finance/eb14.do", method=RequestMethod.GET)
+	public String eb14(Model model) {
+		return "finance/eb14";
+	}
+	@RequestMapping(value="/finance/resultEB1314.do", method=RequestMethod.GET)
+	public String resultEB1314(Model model) {
+		List<EB13_CommitmentDetail> eb1314result = eb13_commitmentDetailMapper.selectEB1314();
+		model.addAttribute("eb1314List", eb1314result);
+		return "finance/resultEB1314";
 	}
 }

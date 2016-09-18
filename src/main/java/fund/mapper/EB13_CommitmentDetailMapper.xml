@@ -5,16 +5,16 @@
 <mapper namespace="fund.mapper.EB13_CommitmentDetailMapper">
 
     <select id="selectEB13" resultType="fund.dto.EB13_CommitmentDetail">
-	    select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin ,codeName,cd.accountNo,cd.ID
-		from commitmentDetail cd
-		INNER JOIN code
+	    select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin ,codeName,cd.accountNo,cd.ID commitmentDetailID
+		from [commitmentDetail] cd
+		INNER JOIN [code]
 		ON cd.bankID=code.ID
-		LEFT JOIN commitment c
+		LEFT JOIN [commitment] c
 		ON cd.commitmentID=c.ID
-		LEFT JOIN sponsor s
+		LEFT JOIN [sponsor] s
 		ON c.sponsorID=s.ID
 		where cd.ID
-		not in (select commitmentDetailID from EB13_commitmentDetail);    
+		not in (select commitmentDetailID from [EB13_commitmentDetail])
     </select>
 
 	<select id="selectEB14" resultType="fund.dto.EB13_CommitmentDetail">
@@ -22,7 +22,7 @@
 		where EB13ID
 		in (select ID
 		from EB13 
-		where EB13.createDate='2016-08-25')
+		where EB13.createDate=#{createDate})
 	</select>
 	
 	<update id="updateEB14error">
@@ -36,7 +36,7 @@
 		ON cd.commitmentID=c.ID
 		JOIN sponsor s
 		ON c.sponsorID=s.ID
-		where s.sponsorNo='2016-0001')
+		where s.sponsorNo=#{sponsorNo})
 	</update>
 	
 	<update id="updateEB14success">
@@ -50,16 +50,16 @@
 		ON cd.commitmentID=c.ID
 		JOIN sponsor s
 		ON c.sponsorID=s.ID
-		where s.sponsorNo='2016-0001')
+		where s.sponsorNo=#{sponsorNo})
 		AND
 		EB13ID IN
 		(select e.ID
 		from EB13 e
-		where e.createDate='2016-08-25')
+		where e.createDate=#{createDate})
 	</update>
 	
 	<select id="selectEB1314" resultType="fund.dto.EB13_CommitmentDetail">
-		select e.createDate,s.sponsorNo,s.name,c.commitmentNo,eb.state,d.name
+		select e.createDate,s.sponsorNo,s.name,c.commitmentNo,eb.state,d.name donationPurpose
 		from EB13_commitmentDetail eb JOIN commitmentDetail cd
 		ON EB.commitmentDetailID=CD.ID
 		JOIN EB13 e
@@ -72,6 +72,10 @@
 		ON c.sponsorID=s.ID
 		JOIN donationPurpose d
 		ON c.donationPurposeID=d.ID
+	</select>
+	
+	<select id="test" resultType="fund.dto.EB13_CommitmentDetail">
+		select * from EB13_commitmentDetail
 	</select>
 	
 </mapper>

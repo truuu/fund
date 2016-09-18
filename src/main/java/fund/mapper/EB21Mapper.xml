@@ -5,6 +5,10 @@
 <mapper namespace="fund.mapper.EB21Mapper">
 
 	<insert id="createEB21file" useGeneratedKeys="true" keyProperty="id">
+		insert into EB21 values(GETDATE(),#{paymentDay})
+	</insert>
+	
+	<insert id="createEB21List" useGeneratedKeys="true" keyProperty="id">
 		insert into EB21_commitmentDetail
 		values ((select MAX(ID) from EB21),
 		(select cd.ID from 

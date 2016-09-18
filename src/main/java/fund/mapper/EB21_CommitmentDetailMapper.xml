@@ -4,20 +4,19 @@
 
 <mapper namespace="fund.mapper.EB21_CommitmentDetailMapper">
 
-	<select id="selectEB21" resultType="fund.dto.EB21">
-    	select s.sponsorNo as 후원인번호,cd.accountHolder as 예금주,LEFT(s.juminNo,6) as 생년월일,code.codeName as 은행,
-		cd.accountNo as 계좌번호,cd.amountPerMonth as 납입액
-		from commitmentDetail cd
-		LEFT JOIN EB13_commitmentDetail eb
+	<select id="selectEB21" resultType="fund.dto.EB21_commitmentDetail">
+    	select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin,code.codeName,cd.accountNo,cd.amountPerMonth
+		from [commitmentDetail] cd
+		LEFT JOIN [EB13_commitmentDetail] eb
 		ON eb.state='성공' AND cd.ID=eb.commitmentDetailID
-		LEFT JOIN commitment c
+		LEFT JOIN [commitment] c
 		ON cd.commitmentID=c.ID
 		AND (c.endDate is null OR c.endDate>GETDATE())
-		JOIN sponsor s
+		JOIN [sponsor] s
 		ON c.sponsorID=s.ID
-		JOIN code
+		JOIN [code]
 		ON cd.bankID=code.ID
-		WHERE cd.paymentDay=25
+		WHERE cd.paymentDay=#{pDay}
 	</select>
 	
 	<select id="selectEB22" resultType="fund.dto.EB21">
@@ -25,7 +24,7 @@
 		where EB21ID
 		in (select ID
 		from EB21 
-		where EB21.paymentDate='2016-09-25')			
+		where EB21.paymentDate=#{paymentDay})			
 	</select>
 	
 	<update id="updateEB21error">
@@ -41,7 +40,7 @@
 		ON c.sponsorID=s.ID
 		JOIN EB21 e
 		ON e.paymentDate='2016-09-25'
-		where s.sponsorNo='2016-0002')
+		where s.sponsorNo=#{sponsorNo})
 	</update>
 	
 	<update id="updateEB21success">
@@ -56,7 +55,7 @@
 		ON cd.commitmentID=c.ID
 		JOIN sponsor s
 		ON c.sponsorID=s.ID
-		where s.sponsorNo='2016-0002')
+		where s.sponsorNo=#{sponsorNo})
 		AND
 		EB21ID IN
 		(select e.ID
@@ -65,7 +64,7 @@
 	</update>
 	
 	<select id="selectEB2122" resultType="fund.dto.EB21_commitmentDetail">
-		select e.createDate,s.sponsorNo,s.name,c.commitmentNo,eb.state,d.name
+		select e.createDate,s.sponsorNo,s.name,c.commitmentNo,eb.state,d.name donationPurpose
 		from EB21_commitmentDetail eb JOIN commitmentDetail cd
 		ON eb.commitmentDetailID=cd.ID
 		JOIN EB21 e

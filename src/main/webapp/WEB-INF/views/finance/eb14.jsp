@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
-
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
@@ -15,20 +16,19 @@
 				</div>
 			</div>
 			<!-- /.row -->
-
+			<form:form method="post" modelAttribute="eb13List">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4>EB14 금융등록</h4>
 
 					<div class="row">
 						<div class="col-lg-9">
-							<label> 구분 : 에러 </label>
-							<label> 파일명 : 연 파일명 출력해주기 </label>
+							<label> 구분 : 에러 </label> <label> 파일명 : 연 파일명 출력해주기 </label>
 						</div>
 						<div class="col-lg-3">
 							<div id="column-right">
-								<a href="#" class="button button-reversed">EB14 조회</a> <a href="#"
-									class="button button-reversed">EB14 적용</a>
+								<button class="right" type="submit" name="cmd" value="selectEB14"> EB14 조회 </button>
+								<button class="right" type="submit" name="cmd" value="updateEB14"> EB14 적용 </button>
 							</div>
 						</div>
 					</div>
@@ -45,19 +45,22 @@
 									<th>계좌번호</th>
 								</tr>
 							</thead>
+							<c:forEach var="eb14List" items="${eb14List}">
 							<tbody>
 								<tr>
-									<td>20160001</td>
-									<td>830203</td>
-									<td>신한은행</td>
-									<td>102-142-33019</td>
+									<td>${eb14List.sponsorNo }</td>
+									<td>${eb14List.jumin }</td>
+									<td>${eb14List.codeName }</td>
+									<td>${eb14List.accountNo }</td>
 								</tr>
 							</tbody>
+							</c:forEach>
 						</table>
 
 					</div>
 				</div>
 			</div>
+			</form:form>
 		</div>
 		<!-- /.panel -->
 	</div>

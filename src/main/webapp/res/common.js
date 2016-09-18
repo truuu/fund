@@ -12,4 +12,8 @@ $(function() {
     $("[data-auto-submit=true]").change(function() {
         $(this).parents("form").submit();
     });
+    
+    $("#sponsorNo").change(function(){
+		$("#commitmentSearch").submit();
+	});
 });

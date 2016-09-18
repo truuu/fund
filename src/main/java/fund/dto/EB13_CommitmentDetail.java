@@ -1,5 +1,7 @@
 package fund.dto;
 
+import java.util.Date;
+
 public class EB13_CommitmentDetail {
 	int ID;
 	int EB13ID;
@@ -10,7 +12,12 @@ public class EB13_CommitmentDetail {
 	String accountHolder;
 	String codeName;
 	String accountNo;
-	String juminNo;
+	String jumin;
+	
+	String createDate;
+	String commitmentNo;
+	String donationPurpose;
+	String name;
 	
 	public int getID() {
 		return ID;
@@ -60,11 +67,35 @@ public class EB13_CommitmentDetail {
 	public void setAccountNo(String accountNo) {
 		this.accountNo = accountNo;
 	}
-	public String getJuminNo() {
-		return juminNo;
+	public String getJumin() {
+		return jumin;
 	}
-	public void setJuminNo(String juminNo) {
-		this.juminNo = juminNo;
+	public void setJumin(String jumin) {
+		this.jumin = jumin;
+	}
+	public String getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+	public String getCommitmentNo() {
+		return commitmentNo;
+	}
+	public void setCommitmentNo(String commitmentNo) {
+		this.commitmentNo = commitmentNo;
+	}
+	public String getDonationPurpose() {
+		return donationPurpose;
+	}
+	public void setDonationPurpose(String donationPurpose) {
+		this.donationPurpose = donationPurpose;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

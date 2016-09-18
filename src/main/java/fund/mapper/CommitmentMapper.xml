@@ -5,13 +5,15 @@
 <mapper namespace="fund.mapper.CommitmentMapper">
 
 	<select id="selectCommitmentBySponsorNo" resultType="fund.dto.Commitment">
-	    select c.ID,s.ID,c.commitmentNo as 약정번호,s.name as 후원인이름,code.codeName as 납부방법
-		from commitment c
-		JOIN sponsor s
-		ON c.sponsorID=s.ID
-		JOIN code
+	    SELECT c.commitmentNo,code.codeName,d.name donationPurposeName
+	    FROM [commitment] c
+		JOIN [code] 
 		ON c.paymentMethodID=code.ID
-		where s.sponsorNo='2016-0001'
+		JOIN [donationPurpose] d
+		ON c.donationPurposeID=d.ID
+		where sponsorID IN
+		(select ID from [sponsor] where sponsorNo=#{sponsorNo})
+
 	</select>
 
 </mapper>
