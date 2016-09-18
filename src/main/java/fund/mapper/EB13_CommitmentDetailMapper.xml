@@ -5,7 +5,7 @@
 <mapper namespace="fund.mapper.EB13_CommitmentDetailMapper">
 
     <select id="selectEB13" resultType="fund.dto.EB13_CommitmentDetail">
-	    select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin ,codeName,cd.accountNo,cd.ID commitmentDetailID
+	    select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin ,codeName,cd.accountNo,cd.ID commitmentDetailID,code.etc1
 		from [commitmentDetail] cd
 		INNER JOIN [code]
 		ON cd.bankID=code.ID
@@ -15,6 +15,7 @@
 		ON c.sponsorID=s.ID
 		where cd.ID
 		not in (select commitmentDetailID from [EB13_commitmentDetail])
+		AND c.paymentMethodID=10
     </select>
 
 	<select id="selectEB14" resultType="fund.dto.EB13_CommitmentDetail">

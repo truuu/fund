@@ -42,11 +42,13 @@ public class EB13Controller {
 		return "finance/eb13";
 	}
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=createEB13file")
-	public String selectEB13(@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model){
-		eb13Mapper.createEB13file();
+	public String createEB13file(@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws IOException{
+		/**eb13Mapper.createEB13file();
 		for(int i=0 ; i<commitmentDetailID.length; ++i){
 			eb13Mapper.createEB13list(commitmentDetailID[i]);
-		}
+		}**/
+		
+		CreateEB13File.createEB13File();
 		//텍스트파일로 selectEB13에서 보여줬던 목록 만들어 내보내기.(파일 다운로드) 
 		
 		return "finance/eb13";

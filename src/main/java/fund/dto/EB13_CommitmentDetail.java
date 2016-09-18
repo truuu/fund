@@ -18,6 +18,7 @@ public class EB13_CommitmentDetail {
 	String commitmentNo;
 	String donationPurpose;
 	String name;
+	String etc1;
 	
 	public int getID() {
 		return ID;
@@ -97,5 +98,10 @@ public class EB13_CommitmentDetail {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	public String getEtc1() {
+		return etc1;
+	}
+	public void setEtc1(String etc1) {
+		this.etc1 = etc1;
+	}
 }
