@@ -2,7 +2,7 @@ package fund.dto;
 
 public class Code {
 		int ID;
-		String codeGroup;
+		int codeGroupID;
 		String codeName;
 		String etc1;
 		String etc2;
@@ -14,11 +14,11 @@ public class Code {
 		public void setID(int iD) {
 			ID = iD;
 		}
-		public String getCodeGroup() {
-			return codeGroup;
+		public int getCodeGroupID() {
+			return codeGroupID;
 		}
-		public void setCodeGroup(String codeGroup) {
-			this.codeGroup = codeGroup;
+		public void setCodeGroupID(int codeGroupID) {
+			this.codeGroupID = codeGroupID;
 		}
 		public String getCodeName() {
 			return codeName;

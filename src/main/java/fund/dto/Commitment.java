@@ -14,6 +14,7 @@ public class Commitment{
 	String etc;
 	String name;//donationPurpose name
 	String codeName; // paymentMethodID
+	String sponsorNo; 
 	
 	public int getID() {
 		return ID;
@@ -80,6 +81,12 @@ public class Commitment{
 	}
 	public void setCodeName(String codeName) {
 		this.codeName = codeName;
+	}
+	public String getSponsorNo() {
+		return sponsorNo;
+	}
+	public void setSponsorNo(String sponsorNo) {
+		this.sponsorNo = sponsorNo;
 	}
 	
 	

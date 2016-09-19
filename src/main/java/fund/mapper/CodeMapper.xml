@@ -4,8 +4,17 @@
 
 <mapper namespace="fund.mapper.CodeMapper">
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
+	<select id="selectByPaymentMethod" resultType="fund.dto.Code">
+		select c2.*
+		from CodeGroup c1 left join Code c2 on c1.ID=c2.codeGroupID
+		where c1.name=#{name}
+	</select>
+	
+	<select id="selectByBank" resultType="fund.dto.Code">
+		select c2.*
+		from CodeGroup c1 left join Code c2 on c1.ID=c2.codeGroupID
+		where c1.name=#{bank}
+	</select>
+	
 
 </mapper>
