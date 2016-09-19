@@ -13,17 +13,54 @@
 	</select>
 	
     <select id="selectReceiptByName" resultType="fund.dto.Payment">
-		SELECT p.*,s.sponsorNo, s.name, r.[no] 'no'
+		SELECT p.*,s.sponsorNo, s.name, r.[no] 'rctNo'
 		FROM [Payment] p LEFT JOIN [Sponsor] s ON p.sponsorID = s.id 
 					LEFT JOIN [Receipt] r ON p.receiptID = r.id
 		WHERE p.paymentDate BETWEEN #{startDate} AND #{endDate}
-					AND p.sponsorID IN ( SELECT id FROM [sponsor] WHERE name=#{name} )
-					AND p.donationPurposeID IN ( SELECT id FROM [donationPurpose] WHERE corporateID = #{corporateID} )
+					AND p.sponsorID IN ( SELECT id FROM [sponsor] WHERE name=#{srchText} )
+					AND p.donationPurposeID IN ( SELECT id FROM [donationPurpose] WHERE #{corporateID}=0 OR corporateID = #{corporateID} )
 	</select> 
+	
+	<select id="selectByRctID" resultType="fund.dto.Payment">
+		SELECT *
+		FROM [payment]
+		WHERE receiptID=#{rctId}
+	</select>
+	
+	<select id="selectPage" resultType="fund.dto.Payment">
+		<![CDATA[
+			SELECT *
+			FROM
+				( SELECT p.*,s.juminNo,s.name,
+								ROW_NUMBER() OVER (ORDER BY p.id DESC) 행번호
+				   FROM [Payment] p LEFT JOIN [Sponsor] s ON p.sponsorID = s.id
+				   			  LEFT JOIN [donationPurpose] d ON p.donationPurposeID = d.id 
+				   WHERE
+				   		 LEN(juminNo)=13 AND
+				   		 p.receiptID IS NOT NULL AND
+				   		( d.corporateID = #{corporateID} OR #{corporateID}=0 ) AND
+				   		(( #{startDate} IS NULL AND #{endDate} IS NULL) OR (p.paymentDate BETWEEN #{startDate} AND #{endDate}))
+				) subquery
+			WHERE 행번호 >(#{currentPage} -1) * #{pageSize} AND
+						행번호 <= #{currentPage} * #{pageSize}
+			ORDER BY 행번호
+		]]>
+	</select>
+	
+	<select id="selectCount" resultType="int">
+		SELECT COUNT(*)
+		FROM [Payment] p LEFT JOIN [Sponsor] s ON p.sponsorID = s.id
+				LEFT JOIN [donationPurpose] d ON p.donationPurposeID = d.id 
+		WHERE
+				   LEN(juminNo)=13 AND 
+				   p.receiptID IS NOT NULL AND
+				   ( d.corporateID = #{corporateID} OR #{corporateID}=0 ) AND
+				   (( #{startDate} IS NULL AND #{endDate} IS NULL) OR (p.paymentDate BETWEEN #{startDate} AND #{endDate}))
+	</select>
 
 	<update id="issueReceiptByDur">
 		UPDATE [Payment]
-		SET receiptID = SCOPE_IDENTITY()
+		SET receiptID = #{receiptID}
 		FROM [Payment] p JOIN [donationPurpose] d ON p.donationPurposeID = d.ID
 		WHERE p.paymentDate BETWEEN #{startDate} AND #{endDate}
 			AND d.corporateID = #{corporateID}

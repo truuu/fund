@@ -8,16 +8,18 @@
 
 <h1>기부금 영수증 개별발급</h1>
 <hr/>
-<form method="post">
+<form:form method="post" modelAttribute="pagination">
 	<div class="condition">
 			<p>
-				기간 : <input type="date" name="startDate">~<input type="date" name="endDate">&nbsp;&nbsp; 이름 : <input type="text" name="name">
+				기간 : <input type="date" name="startDate" value="${pagination.startDate}" />~<input type="date" name="endDate" value="${pagination.endDate}" />
+				&nbsp;&nbsp; 이름 : <input type="text" name="srchText" value='${pagination.srchText }'/>
 				&nbsp;&nbsp; 기관 : 
 				<select name="corporateID">
+					<option value="0">기관선택</option>
 					<option value="1">학교</option>
 					<option value="2">법인</option>
 				</select>
-				&nbsp;&nbsp;<button type="submit" class="btn btn-small">검색</button>
+				&nbsp;&nbsp;<button type="submit" class="btn btn-small" name="cmd" value="search">검색</button>
 			</p>
 	</div>
 	<div class="select">
@@ -35,13 +37,15 @@
 			    <tbody>
 			        <c:forEach var="payment" items="${ paymentList }">
 			        	<tr>
-			            	<td><c:if test="${ payment.receiptID != 0 }"><a href="delete.do?id=${ payment.receiptID }" class="btn btn-info">삭제</a>&nbsp;&nbsp;${ payment.no }</c:if>
-			            		   <c:if test="${ payment.receiptID == 0 }"><input type="checkbox"></c:if></td>
+			            	<td><c:if test="${ payment.receiptID != 0 }">
+			            			<button type="submit" class="btn btn-info" name="cmd" value="deleteRct">
+			            			<input type="hidden" name="delid" value="${payment.receiptID}"/> 삭제</button>&nbsp;&nbsp;${ payment.rctNo }</c:if>
+			            		   <c:if test="${ payment.receiptID == 0 }"><input type="checkbox" name="pid" value="${ payment.id }"></c:if></td>
 			             	<td>${ payment.sponsorNo }</td>
 			             	<td>${ payment.name }</td>
 			             	<td><c:if test="${ payment.commitmentID != 0}">정기 </c:if>
 			             	 	   <c:if test="${ payment.commitmentID == 0}">비정기</c:if></td>
-			             	<td>${ payment.paymentDate }</td>
+			             	<td class="date">${ payment.paymentDate }</td>
 			             	<td>${ payment.amount }</td>
 			           </tr>
 			        </c:forEach>
@@ -49,7 +53,7 @@
 			</table>		
 	
 	</div>
-</form>
+</form:form>
 <div class="Issue">
-	<p>발급일자 : <input type="date">&nbsp;&nbsp;<a href="issueReceipt2.do" class="btn btn-info">기부금 영수증 발급</a></p>
+	<p>발급일자 : <input type="date" name="createDate">&nbsp;&nbsp;<button type="submit" class="btn btn-small" name="cmd" value="issueRct">기부금 영수증 발급</button></p>
 </div>

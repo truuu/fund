@@ -10,6 +10,15 @@
 		WHERE id=#{id}
 	</select>
 	
+	<select id="selectReceiptView" resultType="fund.dto.Receipt">
+		SELECT top 1 r.*, s.name, s.juminNo, s.homeaddress 'address', c.name 'corName',c.corporateNo, c.address 'corAddress',c.representative
+		FROM [Receipt] r LEFT JOIN [Sponsor] s ON r.sponsorID=s.id 
+					LEFT JOIN [Payment] p ON r.id=p.receiptID
+					LEFT JOIN [donationPurpose] d ON p.donationPurposeID=d.id
+					LEFT JOIN [corporate] c ON d.corporateID = c.id
+		WHERE r.id=#{id}
+	</select>
+	
 	<select id="selectReceiptList" resultType="fund.dto.Receipt">
 		SELECT receipt.no,sponsor.name,sponsor.juminNo,sponsor.mobilePhone
 		FROM [Receipt] JOIN [Sponsor] ON receipt.sponsorID=sponsor.id 
@@ -21,9 +30,13 @@
 			SELECT *
 			FROM
 				( SELECT r.id, r.[no], s.name, s.juminNo, s.mobilePhone, r.createDate,
-								ROW_NUMBER() OVER (ORDER BY r.id) 행번호, sum(p.amount) 'amount'
+								ROW_NUMBER() OVER (ORDER BY r.id DESC) 행번호, sum(p.amount) 'amount'
 				   FROM [Receipt] r LEFT JOIN [Sponsor] s ON r.sponsorID = s.id
 				   			LEFT JOIN [Payment] p ON r.id=p.receiptID
+				   WHERE
+						(#{srchType}=0) OR
+						(#{srchType}=1 AND CHARINDEX(#{srchText}, s.name) =1 )OR
+						(#{srchType}=2 AND r.createDate BETWEEN #{startDate} AND #{endDate})
 				   GROUP BY r.id,r.[no],s.name,s.juminNo, s.mobilePhone, r.createDate
 				) subquery
 			WHERE 행번호 >(#{currentPage} -1) * #{pageSize} AND
@@ -36,11 +49,25 @@
 		SELECT COUNT(*)
 		FROM [Receipt] r LEFT JOIN [Sponsor] s ON r.sponsorID = s.id
 					LEFT JOIN [Payment] p ON r.id=p.receiptID
+		WHERE
+				(#{srchType}=0) OR
+				(#{srchType}=1 AND CHARINDEX(#{srchText}, s.name) =1 )OR
+				(#{srchType}=2  AND r.createDate BETWEEN #{startDate} AND #{endDate})
+	</select>
+	
+	<select id="getRid" resultType="int">
+		SELECT max(id) FROM [Receipt]
+	</select>
+	
+	<select id="getLastNo" resultType="String">
+		SELECT [no]
+		FROM [Receipt]
+		WHERE id=( SELECT max(id) FROM [Receipt] )
 	</select>
     
     <insert id="insertByDur" useGeneratedKeys="true" keyProperty="id">
     	INSERT INTO [Receipt](sponsorID,createDate,[no])
-    	VALUES( #{sponsorID},#{createDate},IsNULL((SELECT MAX([no]) FROM [Receipt],0)+1)
+    	VALUES( #{sponsorID},#{createDate},#{no})
     </insert>
     
     <insert id="insertByName" useGeneratedKeys="true" keyProperty="id">

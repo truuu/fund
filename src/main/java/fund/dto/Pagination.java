@@ -12,8 +12,36 @@ public class Pagination {
     String srchText = "";
     int recordCount;
     int boardId;
+    
+    String startDate ="";
+    String endDate ="";
+    int corporateID;
 
-    public int getCurrentPage() {
+    public int getCorporateID() {
+		return corporateID;
+	}
+
+	public void setCorporateID(int corporateID) {
+		this.corporateID = corporateID;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public int getCurrentPage() {
         return currentPage;
     }
 
@@ -118,10 +146,39 @@ public class Pagination {
         this.boardId = boardId;
     }
     
+    public String getSd() {
+    	return startDate;
+    }
+    
+    public void setSd(String startDate) {
+    	this.startDate=startDate;
+    }
+    
+    public String getEd() {
+    	return endDate;
+    }
+    
+    public void setEd(String endDate) {
+    	this.endDate=endDate;
+    } 
+    
+    public int getCp() {
+    	return corporateID;
+    }
+    
+    public void setCp(int corporateID) {
+    	this.corporateID = corporateID;
+    }
+    
     /* 멤버 변수 값들을 quey string으로 출력하기 위한 메소드 */
     
     public String getQueryString() throws UnsupportedEncodingException {
         String temp = (srchText == null) ? "" : URLEncoder.encode(srchText, "UTF-8");
+        
+        if (boardId ==2)
+        	return String.format("bd=%d&pg=%d&ss=%d&st=%s&sd=%s&ed=%s",boardId,currentPage,srchType,temp,startDate,endDate);
+        if (boardId ==1)
+        	return String.format("bd=%d&pg=%d&sd=%s&ed=%s&cp=%d",boardId,currentPage,startDate,endDate,corporateID);
         if (boardId > 0)
            return String.format("pg=%d&sz=%d&bd=%d&ss=%d&st=%s",currentPage,pageSize,boardId,srchType,temp);
         return String.format("pg=%d&sz=%d&od=%d&ss=%d&st=%s",currentPage,pageSize,order,srchType,temp);

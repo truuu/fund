@@ -25,6 +25,7 @@ public class Sponsor {
 	String officePhone;
 	String officeAddress;
 	String etc;
+	
 	public int getId() {
 		return id;
 	}

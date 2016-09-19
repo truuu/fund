@@ -9,6 +9,9 @@ public interface ReceiptMapper {
 	Receipt selectById(int id);
 	List<Receipt> selectReceiptList();
 	List<Receipt> selectPage(Pagination pagination);
+	Receipt selectReceiptView(int id);
+	int getRid();
+	String getLastNo();
 	int selectCount(Pagination pagination);
 	void insertByDur(Receipt receipt);
 	void insertByName(Receipt receipt);

@@ -3,7 +3,7 @@ package fund.dto;
 import java.util.Date;
 
 public class Payment {
-	int ID;
+	int id;
 	int sponsorID;
 	int commitmentID;
 	int amount;
@@ -15,14 +15,28 @@ public class Payment {
 	
 	String sponsorNo;
 	String name; //후원인명
+	String juminNo;
 	
-	String no;//영수증번호 
-	
-	public String getNo() {
-		return no;
+	public String getJuminNo() {
+		return juminNo;
 	}
-	public void setNo(String no) {
-		this.no = no;
+	public void setJuminNo(String juminNo) {
+		this.juminNo = juminNo;
+	}
+	String rctNo;//영수증번호
+	String corporateID;
+	
+	public String getCorporateID() {
+		return corporateID;
+	}
+	public void setCorporateID(String corporateID) {
+		this.corporateID = corporateID;
+	}
+	public String getRctNo() {
+		return rctNo;
+	}
+	public void setRctNo(String rctNo) {
+		this.rctNo = rctNo;
 	}
 	public String getSponsorNo() {
 		return sponsorNo;
@@ -37,11 +51,11 @@ public class Payment {
 		this.name = name;
 	}
 	
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
-	public void setID(int iD) {
-		ID = iD;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public int getSponsorID() {
 		return sponsorID;
