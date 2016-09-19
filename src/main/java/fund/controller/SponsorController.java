@@ -45,31 +45,48 @@ public class SponsorController {
 	
 	//회원관리 검색기능 
 	@RequestMapping(value="/sponsor/search.do",method=RequestMethod.GET)
-	public String sponsorSearch(@RequestParam("codeName")String codeName,Model model, Pagination pagination)throws Exception{
+	public String sponsorSearch(Model model, Pagination pagination)throws Exception{
 		System.out.println("---------------------------");
 		
+		String codeName=pagination.getCodeName();
 		System.out.println("test "+codeName);
-		
 		System.out.println("---------------------------");
+		List<Sponsor> sponsorList=null;
+		if(codeName.equals("이름")){
+			String nameForSearch=pagination.getNameForSearch();
+			System.out.println("name "+nameForSearch);
+			pagination.setRecordCount(userMapper.nameCount(nameForSearch));
+			sponsorList=userMapper.nameSearch(pagination);
+		}else{
+			
+			String type=userMapper.sponsorTypeCheck(codeName);
+			pagination.setType(type);
+			pagination.setRecordCount(userMapper.searchCount(codeName));
+			sponsorList=userMapper.sponsorSearch(pagination);
+		}
 		
-		String type=userMapper.sponsorTypeCheck(codeName);
 		
-		System.out.println(type);
 		
-		pagination.setCodeName(codeName);
-		pagination.setType(type);
 		
-		pagination.setRecordCount(userMapper.searchCount(codeName));
-		List<Sponsor> sponsorList=userMapper.sponsorSearch(pagination);
+		//String type=userMapper.sponsorTypeCheck(codeName);
+		
+		//System.out.println(type);
+		
+		//pagination.setCodeName(codeName);
+		//pagination.setType(type);
+		
+		//pagination.setRecordCount(userMapper.searchCount(codeName));
+		//List<Sponsor> sponsorList=userMapper.sponsorSearch(pagination);
 		model.addAttribute("list", sponsorList);
 		return "user/userManage";
 	}
 
-
+    //신규
 	@RequestMapping(value="/sponsor/sponsor.do",method=RequestMethod.GET)
-	public String userRegister(Model model)throws Exception{
+	public String userRegister(Model model,Sponsor sponsor)throws Exception{
 		Integer num=userMapper.ceateNumber();
 		String number;
+		
 		
 		if(num==null){
 			System.out.println("11");
@@ -90,11 +107,11 @@ public class SponsorController {
 		}
 		Calendar oCalendar = Calendar.getInstance( );  // 현재 날짜/시간 등의 각종 정보 얻기
 		String sponsorNo=oCalendar.get(Calendar.YEAR)+"-"+number;
-		System.out.println("sponsorNo "+sponsorNo);
+		sponsor.setSponsorNo(sponsorNo);
 	
 		//첨부파일리스트 임시테스트 -> 세션값으로 방식으로 바꾸어야함 
 		model.addAttribute("files", fileAttachmentMapper.selectByArticleId(10));
-		model.addAttribute("sponsorNo",sponsorNo);
+		model.addAttribute("sponsor",sponsor);
 		
 
 		return "user/user";
@@ -103,59 +120,72 @@ public class SponsorController {
 	//회원입력 insert
  	@RequestMapping(value="/sponsor/sponsorInsert.do",method=RequestMethod.POST)
  	public String sponsorRegister(HttpServletRequest request,Sponsor sponsor)throws Exception{
- 		
- 		
- 		System.out.println(sponsor.getSponsorNo());
- 		System.out.println(sponsor.getJuminNo());
- 		System.out.println(sponsor.getName());
- 		System.out.println(sponsor.getHomePhone());
- 		System.out.println(sponsor.getSignUpDate());
- 		System.out.println(sponsor.getMobilePhone());
- 		System.out.println(sponsor.getRecommender());
- 		System.out.println(sponsor.getEmail());
- 		System.out.println(sponsor.getEtc());
- 		System.out.println(sponsor.getChurch());
- 		System.out.println(sponsor.getCompany());
- 		System.out.println(sponsor.getDepartment());
- 		System.out.println(sponsor.getPosition());
- 		System.out.println(sponsor.getOfficePhone());
- 		System.out.println(sponsor.getRecommenderRelation());
- 		System.out.println(sponsor.getMailTo());
- 		System.out.println(sponsor.isMailReceiving());
- 		System.out.println(sponsor.getSponsorType1ID());
- 		System.out.println(sponsor.getSponsorType2ID());
- 		
- 		System.out.println("id > "+userMapper.selectChurchCode(sponsor));
- 		
+ 		 		
  		sponsor.setChurchID(userMapper.selectChurchCode(sponsor));
- 		
- 		
- 		System.out.println();
- 		
+ 
  		String homeRoadAddress = request.getParameter("homeRoadAddress");
  		String homeDetailAddress = request.getParameter("homeDetailAddress");
  		String homePostCode = request.getParameter("homePostCode");
  	
- 		
  		String officeRoadAddress = request.getParameter("officeRoadAddress");
  		String officeDetailAddress = request.getParameter("officeDetailAddress");
  		String officePostCode = request.getParameter("officePostCode");
  		
- 		String homeAddress=homeRoadAddress+" "+homeDetailAddress+"/"+homePostCode;
- 		
- 		String officeAddress=officeRoadAddress+" "+officeDetailAddress+"/"+officePostCode;
- 		System.out.println("집주소");
- 		System.out.println(homeAddress);
- 		
- 		System.out.println("회사 주소");
- 		System.out.println(officeAddress);
- 		
- 		System.out.println(sponsor.toString());
- 		
+ 		String homeAddress=homeRoadAddress+"/"+homeDetailAddress+"/"+homePostCode;
+ 	    String officeAddress=officeRoadAddress+"/"+officeDetailAddress+"/"+officePostCode;
+ 	    
+ 	    
+ 	    sponsor.setHomeAddress(homeAddress);
+ 	    sponsor.setOfficeAddress(officeAddress);
+
  		userMapper.sponsorInsert(sponsor);
  		
  		 return "redirect:/sponsor/user_m.do";
  	}
+ 	
+ 	
+ 	//후원자 정보보기
+ 	@RequestMapping(value="/sponsor/detail.do",method=RequestMethod.GET)
+	public String sponsorDetail(@RequestParam("id")String sponsorNo,Model model)throws Exception{
+        Sponsor sponsor=userMapper.selectBySponsorNo(sponsorNo);
+        String homeAddress=sponsor.getHomeAddress();
+        String officeAddress=sponsor.getOfficeAddress();
+        
+        String[] home=homeAddress.split("\\*");
+        String[] office=officeAddress.split("\\*");
+        
+        System.out.println(home[0]);
+        System.out.println(home[1]);
+        System.out.println(home[2]);
+        
+        System.out.println(office[0]);
+        System.out.println(office[1]);
+        System.out.println(office[2]);
+        
+        sponsor.setHomeRoadAddress(home[0]);
+        sponsor.setHomeDetailAddress(home[1]);
+        sponsor.setHomePostCode(home[2]);
+        
+        sponsor.setOfficeRoadAddress(office[0]);
+        sponsor.setOfficeDetailAddress(office[1]);
+        sponsor.setOfficePostCode(office[2]);
+        
+        
+        model.addAttribute("sponsor", sponsor);
+		return "user/user";
+	}
+ 	
+ 	//후원자 정보 삭제하기
+ 	 	@RequestMapping(value="/sponsor/delete.do",method=RequestMethod.GET)
+ 		public String sponsorDelete(@RequestParam("id")String sponsorNo,Model model)throws Exception{
+ 	 		
+            userMapper.removeSponsor(sponsorNo);
+            return "redirect:/sponsor/user_m.do";
+ 		}
+ 	
+ 	
+ 	
+ 	
 
 	@RequestMapping(value="/user/member_r.do",method=RequestMethod.GET)
 	public String memberRegister(Model model)throws Exception{
@@ -262,6 +292,7 @@ public class SponsorController {
 	                file.setFileName(Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString());
 	                file.setFilesize((int)uploadedFile.getSize());
 	                file.setData(uploadedFile.getBytes());
+	                
 	                fileAttachmentMapper.insert(file);
 	            }
 	        

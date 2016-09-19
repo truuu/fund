@@ -14,8 +14,17 @@ public class Pagination {
     
     String type;
     String codeName;
+    String nameForSearch;
     
  
+
+	public String getNameForSearch() {
+		return nameForSearch;
+	}
+
+	public void setNameForSearch(String nameForSearch) {
+		this.nameForSearch = nameForSearch;
+	}
 
 	public String getType() {
 		return type;

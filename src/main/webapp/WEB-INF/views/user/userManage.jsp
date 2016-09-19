@@ -9,12 +9,29 @@
 <script>
 function sponorSearch(){
 	var codeName=$("#search option:selected").text();
-	alert(codeName)
+	var nameForSearch=$('#nameForSearch').val();
 	
-	location.href="http://localhost:8080/fund_sys/sponsor/search.do?codeName="+codeName;
 	
+
+	if(codeName=='이름'){
+		alert(codeName+' '+nameForSearch)
+	location.href="http://localhost:8080/fund_sys/sponsor/search.do?codeName="+nameForSearch;
+	}else{
+		alert(codeName)
+		location.href="http://localhost:8080/fund_sys/sponsor/search.do?codeName="+codeName;
+		
+	}
 	
 }
+
+$(function() {
+   
+    $("tbody tr").click(function() {
+        location.href = "detail.do?id=" + $(this).attr("data-id");
+    })
+ 
+})
+
 
 
 
@@ -22,7 +39,7 @@ function sponorSearch(){
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
-			<h1 class="page-header">회원관리9</h1>
+			<h1 class="page-header">회원관리12</h1>
 			<div id="column-right">
 				<a href="sponsor.do" class="button button-reversed">신규</a> <a href="#"
 					class="button">엑셀</a>
@@ -48,7 +65,7 @@ function sponorSearch(){
 						<option value="13">기업가</option>
 						<option value="14">기타</option>
 						
-					</select> <input type="search" id="search_a" name="search_a">
+					</select> <input type="text" id="nameForSearch" name="nameForSearch">
 					<button type="submit" class="btn btn-small" onclick="sponorSearch()">검색</button>
 				</div>
 			</div>
@@ -59,7 +76,7 @@ function sponorSearch(){
 
 			<table class="table table-bordered table-hover">
 				<thead>
-					<tr>
+					<tr >
 						<th>후원인번호</th>
 						<th>이름</th>
 						<th>후원인구분1</th>
@@ -73,7 +90,7 @@ function sponorSearch(){
 				</thead>
 				<tbody>
 			<c:forEach var="sponsor" items="${list}">
-			<tr>
+			<tr data-id="${sponsor.sponsorNo}">
 			<td>${sponsor.sponsorNo}</td>
 			<td>${sponsor.name}</td>
 			<td>${sponsor.sponsorType1}</td>

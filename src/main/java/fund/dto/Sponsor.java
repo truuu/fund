@@ -33,9 +33,54 @@ public class Sponsor {
 	String sponsorType2;
 	String church;
 	
+	String homeRoadAddress;
+	String homeDetailAddress;
+	String homePostCode;
+	
+	String officeRoadAddress;
+	String officeDetailAddress;
+	String officePostCode;
 	
 	
 	
+	
+	
+	public String getHomeRoadAddress() {
+		return homeRoadAddress;
+	}
+	public void setHomeRoadAddress(String homeRoadAddress) {
+		this.homeRoadAddress = homeRoadAddress;
+	}
+	public String getHomeDetailAddress() {
+		return homeDetailAddress;
+	}
+	public void setHomeDetailAddress(String homeDetailAddress) {
+		this.homeDetailAddress = homeDetailAddress;
+	}
+	public String getHomePostCode() {
+		return homePostCode;
+	}
+	public void setHomePostCode(String homePostCode) {
+		this.homePostCode = homePostCode;
+	}
+	public String getOfficeRoadAddress() {
+		return officeRoadAddress;
+	}
+	public void setOfficeRoadAddress(String officeRoadAddress) {
+		this.officeRoadAddress = officeRoadAddress;
+	}
+	public String getOfficeDetailAddress() {
+		return officeDetailAddress;
+	}
+	public void setOfficeDetailAddress(String officeDetailAddress) {
+		this.officeDetailAddress = officeDetailAddress;
+	}
+	public String getOfficePostCode() {
+		return officePostCode;
+	}
+	public void setOfficePostCode(String officePostCode) {
+		this.officePostCode = officePostCode;
+	}
 	public String getSponsorType1() {
 		return sponsorType1;
 	}
