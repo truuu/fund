@@ -16,7 +16,7 @@ function search(){
 	endDate=$('.endDate').val();
 
 	
-	location.href="http://localhost:8080/fund_sys/user/postSearch.do?startDate="+startDate+"&endDate="+endDate;
+	location.href="http://localhost:8080/fund_sys/sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate;
 	
 	/*
 	$.ajax({
@@ -42,7 +42,7 @@ $(function(){
 
 
 		
-		location.href="http://localhost:8080/fund_sys/user/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
+		location.href="http://localhost:8080/fund_sys/sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
 		
 		
 	});
@@ -56,7 +56,7 @@ $(function(){
 
 
 		
-		location.href="http://localhost:8080/fund_sys/user/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
+		location.href="http://localhost:8080/fund_sys/sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
 	
 		
 	});
@@ -74,7 +74,7 @@ $(function(){
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">
-						DM 발송용 주소록
+						DM 발송용 주소록2
 					</h1>
 				</div>
 			</div>

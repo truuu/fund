@@ -12,7 +12,7 @@ public class Pagination {
     int recordCount;
     int boardId;
     
-    String type;
+    int type;
     String codeName;
     String nameForSearch;
     
@@ -26,11 +26,11 @@ public class Pagination {
 		this.nameForSearch = nameForSearch;
 	}
 
-	public String getType() {
+	public int getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 

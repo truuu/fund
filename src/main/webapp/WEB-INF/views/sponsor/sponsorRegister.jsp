@@ -20,12 +20,12 @@
 function fileDelete(id){
 	alert('test '+id)
 	$.ajax({
-		url:"http://localhost:8080/fund_sys/user/fileDelete.do",
+		url:"http://localhost:8080/fund_sys/sponsor/fileDelete.do",
 		type:"GET",
 		data :{id:id},
 		success : function(){
 			alert('delete success')
-			location.href="http://localhost:8080/fund_sys/user/user.do";
+			location.href="http://localhost:8080/fund_sys/sponsor/sponsor.do";
 		},
 		error : function(request, status,error) {
 			alert("통신실패")
@@ -42,7 +42,7 @@ function fileDelete(id){
 							//alert(content)
 							if (content.length >= 1) {
 								$.ajax({
-											url : "http://localhost:8080/fund_sys/user/autoList.do?input="+content,
+											url : "http://localhost:8080/fund_sys/sponsor/autoList.do?input="+content,
 											type : "GET",
 											error : function(request, status,error) {
 												alert("통신실패")
@@ -52,6 +52,7 @@ function fileDelete(id){
 												var array = new Array();
 												for (var i = 0; i < data.length; i++) {
 													array[i] = data[i].codeName;
+													
 												}
 												suc(array);
 											}
@@ -86,7 +87,7 @@ function fileDelete(id){
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h4>회원기본정보22</h4>
+		<h4>회원기본정보24</h4>
 
 
 		<div class="row">

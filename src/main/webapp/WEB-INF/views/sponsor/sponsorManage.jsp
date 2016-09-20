@@ -15,7 +15,7 @@ function sponorSearch(){
 
 	if(codeName=='이름'){
 		alert(codeName+' '+nameForSearch)
-	location.href="http://localhost:8080/fund_sys/sponsor/search.do?codeName="+nameForSearch;
+	location.href="http://localhost:8080/fund_sys/sponsor/search.do?codeName="+codeName+"&nameForSearch="+nameForSearch;
 	}else{
 		alert(codeName)
 		location.href="http://localhost:8080/fund_sys/sponsor/search.do?codeName="+codeName;
