@@ -27,8 +27,8 @@
 						</div>
 						<div class="col-lg-3">
 							<div id="column-right">
-								<button class="right" type="submit" name="cmd" value="selectEB14"> EB14 조회 </button>
-								<button class="right" type="submit" name="cmd" value="updateEB14"> EB14 적용 </button>
+								<button class="btn btn-default" type="submit" name="cmd" value="selectEB14"> EB14 조회 </button>
+								<button class="btn btn-default" type="submit" name="cmd" value="updateEB14"> EB14 적용 </button>
 							</div>
 						</div>
 					</div>
@@ -50,7 +50,7 @@
 								<tr>
 									<td>${eb14List.sponsorNo }</td>
 									<td>${eb14List.jumin }</td>
-									<td>${eb14List.codeName }</td>
+									<td>${eb14List.bankCode }</td>
 									<td>${eb14List.accountNo }</td>
 								</tr>
 							</tbody>

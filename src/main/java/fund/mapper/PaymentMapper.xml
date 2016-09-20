@@ -21,9 +21,14 @@
 		values(3,3,80000,'2016-09-25',1,6)
 	</insert>
 	
-	<insert id="insertAutomationPayment" useGeneratedKeys="true" keyProperty="id">
-		insert into payment(sponsorID,commitmentID,amount,paymentDate,paymentMethodID)
-		values(1,4,30000,'2016-08-14',7)
+	<select id="selectByCommitmentNo" resultType="fund.dto.Commitment">
+		select * from [commitment]
+		where commitmentNo = #{commitmentNo}
+	</select>
+	
+	<insert id="insertXferResult" useGeneratedKeys="true" keyProperty="id">
+		insert into payment(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
+		values(#{sponsorID},#{commitmentID},#{amount},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
 	</insert>
 	
 	<select id="selectIDBySponsorNo" resultType="fund.dto.Sponsor">

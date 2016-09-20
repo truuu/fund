@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fund.dto.EB13_CommitmentDetail;
+import fund.dto.EB14;
 import fund.mapper.EB13Mapper;
 import fund.mapper.EB13_CommitmentDetailMapper;
 
@@ -43,36 +44,39 @@ public class EB13Controller {
 	}
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=createEB13file")
 	public String createEB13file(@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws IOException{
-		/**eb13Mapper.createEB13file();
+		List<EB13_CommitmentDetail> eb13List = eb13_commitmentDetailMapper.selectEB13();
+		model.addAttribute("eb13List", eb13List);
+		CreateEB13File.createEB13File(eb13List);
+		
+		eb13Mapper.createEB13file();
 		for(int i=0 ; i<commitmentDetailID.length; ++i){
 			eb13Mapper.createEB13list(commitmentDetailID[i]);
-		}**/
-		
-		CreateEB13File.createEB13File();
-		//텍스트파일로 selectEB13에서 보여줬던 목록 만들어 내보내기.(파일 다운로드) 
+		}
 		
 		return "finance/eb13";
 	}
 	
-	@RequestMapping(value="/finance/download.do", method=RequestMethod.GET)
-	public void download() throws IOException { 
-			List<EB13_CommitmentDetail> eb13List=eb13_commitmentDetailMapper.selectEB13();
-	        EB13CreateFile.eb13CreateFile("EB13"+GETDATE_MMDD()+".txt", eb13List);
-	        System.out.println(eb13List.size());
-	}//eb13파일 다운로드
-	
-	private String GETDATE_MMDD() {
-		Calendar calendar = new GregorianCalendar(Locale.KOREA);
-		
-		String year = String.valueOf(calendar.get(Calendar.YEAR));
-		String month = String.valueOf(calendar.get(Calendar.MONTH));
-		String date = String.valueOf(calendar.get(Calendar.DATE));
-		
-		return year+""+month+""+date;
-	}
-	
 	@RequestMapping(value="/finance/eb14.do", method=RequestMethod.GET)
 	public String eb14(Model model) {
+		return "finance/eb14";
+	}
+	@RequestMapping(value="/finance/eb14.do", method=RequestMethod.POST, params="cmd=selectEB14")
+	public String selectEB14(Model model) {
+		ArrayList<String> eb14file = ReadEB14File.readEB14File();
+		EB14 eb14 = new EB14();
+		for(int i=0;i<eb14file.size();){
+			String getList = eb14file.get(i);
+			String sub = getList.substring(25);
+			String[] eb14Values = sub.split("");
+			eb14.setSponsorNo(eb14Values[i]);
+			eb14.setJumin(eb14Values[i+1]);
+			eb14.setBankCode(eb14Values[i+2]);
+			eb14.setAccountNo(eb14Values[i+3]);
+			i=i+4;
+		}
+		List<EB14> eb14List = (List<EB14>) eb14;
+		model.addAttribute("eb14List",eb14List);
+		
 		return "finance/eb14";
 	}
 	@RequestMapping(value="/finance/resultEB1314.do", method=RequestMethod.GET)

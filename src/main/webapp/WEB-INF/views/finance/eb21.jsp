@@ -22,7 +22,7 @@
 					<div class="panel-heading">
 						<h4>EB21 금융등록</h4>
 						<div class="row">
-							<div class="col-lg-9">
+							<div class="col-lg-7">
 								<label> 구분 : 이체신청</label> 
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								<label> 출금일 선택 : </label>
@@ -30,12 +30,12 @@
 									<option value="20"> 20일 </option>
 									<option value="25"> 25일 </option>
 								</select>
-								<button type="submit" name="cmd" value="selectEB21List"> 조회 </button>
+								<button type="submit" class="btn btn-default" name="cmd" value="selectEB21List"> 조회 </button>
 							</div>
-							<div class="col-lg-3">
+							<div class="col-lg-5">
 								<div id="column-right">
 									<input type="text" id="paymentDate">
-									<button type="submit" name="cmd" value="createEB21file">EB21
+									<button type="submit" class="btn btn-default" name="cmd" value="createEB21file">EB21
 										생성</button>
 								</div>
 							</div>

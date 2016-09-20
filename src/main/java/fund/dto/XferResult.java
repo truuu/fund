@@ -2,7 +2,7 @@ package fund.dto;
 
 import java.util.Date;
 
-public class Automation {
+public class XferResult {
 	String sponsorNo;
 	String accountNo;
 	String sponsorName;
@@ -10,7 +10,7 @@ public class Automation {
 	String paymentDate;
 	String paymentWay;
 	
-	public Automation(String accountNo,String sponsorName, String amount, String paymentDate, String paymentWay) {
+	public XferResult(String accountNo,String sponsorName, String amount, String paymentDate, String paymentWay) {
 		this.accountNo = accountNo;
 		this.sponsorName = sponsorName;
 		this.amount = amount;

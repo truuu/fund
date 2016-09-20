@@ -15,12 +15,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import fund.dto.Automation;
+import fund.dto.XferResult;
 
 public class ReadExcelFileToList {
 
-	public static List<Automation> readExcelData(String fileName) {
-		List<Automation> countriesList = new ArrayList<Automation>();
+	public static List<XferResult> readExcelData(String fileName) {
+		List<XferResult> countriesList = new ArrayList<XferResult>();
 
 		try {
 			//Create the input stream from the xlsx/xls file
@@ -52,7 +52,6 @@ public class ReadExcelFileToList {
 					String amount = "";
 					String paymentDate = "";
 					String paymentWay="";
-
 
 					//Get the row object
 					Row row = rowIterator.next();
@@ -91,20 +90,15 @@ public class ReadExcelFileToList {
 							break;
 						}
 					} //end of cell iterator
-					Automation c = new Automation(accountNo,sponsorName,amount,paymentDate,paymentWay);
+					XferResult c = new XferResult(accountNo,sponsorName,amount,paymentDate,paymentWay);
 					countriesList.add(c);
 				} //end of rows iterator
-
-
 			} //end of sheets for loop
-
 			//close file input stream
 			fis.close();
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return countriesList;
 	}
 

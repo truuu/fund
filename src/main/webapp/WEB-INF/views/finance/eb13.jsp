@@ -28,11 +28,11 @@
 							</div>
 							<div class="col-lg-3">
 								<div id="column-right">
-									<button class="right" type="submit" name="cmd"
+									<button class="btn btn-default" type="submit" name="cmd"
 										value="selectEB13">목록 조회</button>
-									<button class="right" type="submit" name="cmd"
+									<button class="btn btn-default" type="submit" name="cmd"
 										value="createEB13file">EB13 생성</button>
-									<a href="/fund_sys/finance/download.do">다운로드</a>
+									
 								</div>
 							</div>
 						</div>

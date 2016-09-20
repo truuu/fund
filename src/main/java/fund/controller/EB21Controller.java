@@ -2,6 +2,7 @@ package fund.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +34,11 @@ public class EB21Controller {
 		return "finance/eb21";
 	}
 	@RequestMapping(value="/finance/eb21.do", method=RequestMethod.POST, params="cmd=createEB21file")
-	public String createEB21file(@RequestParam("paymentDay") int pDay,@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model){
-		Date paymentDate = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-");
-		eb21Mapper.createEB21file(sdf.format(paymentDate)+pDay);
+	public String createEB21file(@RequestParam("paymentDay") int pDay,@RequestParam("paymentDate") String paymentDate,@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws IOException{
+		List<EB21_commitmentDetail> eb21List = eb21_commitmentDetailMapper.selectEB21(pDay);
+		model.addAttribute("eb21List",eb21List);
+		CreateEB21File.createEB21File(eb21List,paymentDate);
 		
-		eb21Mapper.createEB21List(commitmentDetailID);
 		return "finance/eb21";
 	}
 	

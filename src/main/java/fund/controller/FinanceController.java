@@ -10,53 +10,97 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
-import fund.dto.Automation;
+import fund.dto.XferResult;
 import fund.dto.Salary;
 import fund.dto.Commitment;
 import fund.dto.Files;
+import fund.dto.Payment;
 import fund.mapper.CommitmentMapper;
+import fund.mapper.PaymentMapper;
 
 @Controller
 public class FinanceController {
 	@Autowired CommitmentMapper commitmentMapper;
+	@Autowired PaymentMapper paymentMapper;
 
-	@RequestMapping(value="/finance/automation.do",method=RequestMethod.GET)
-	public String excelRead(Model model) throws Exception{    
-		List<Automation> automationList = ReadExcelFileToList.readExcelData("/Users/parkeunsun/Documents/automation_sample_1.xlsx");
-		model.addAttribute("automationList",automationList);
+	@RequestMapping(value="/finance/uploadXferResult.do",method=RequestMethod.GET)
+	public String uploadXferResult(Model model) throws Exception{    
+		return "finance/uploadXferResult";
+	}
+	@RequestMapping(value="/finance/uploadXferResult.do",method=RequestMethod.POST)
+	public String uploadXferResult(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws Exception{    
+		if (uploadedFile.getSize() > 0 ) {
+			byte[] bytes = uploadedFile.getBytes();
+			//System.out.println(bytes);
+			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
+			File tempFile = new File(fileName);
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
+			stream.write(bytes);
+			stream.close();
 
-		return "finance/automation";
+			List<XferResult> xferResultList = ReadExcelFileToList.readExcelData(fileName);
+			model.addAttribute("xferResultList",xferResultList);
+			session.setAttribute("xferResult", xferResultList);
+			return "finance/saveXferResult";
+		}
+
+		return "finance/uploadXferResult";
 	}
 
-	@RequestMapping(value="/finance/automation.do" ,method = RequestMethod.POST, params="cmd=uploadAutomation")
-	public String uploadAutomation(HttpServletRequest request,@RequestParam("file") MultipartFile uploadedFile,RedirectAttributes redirectAttributes,Model model)throws IOException {
-		Files files = new Files();
-		files.setName(Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString());
-		files.setFileData(uploadedFile);
+	@RequestMapping(value="/finance/saveXferResult.do",method=RequestMethod.GET)
+	public String saveXferResult(Model model) throws Exception{    
 
-		List<Automation> automationList = ReadExcelFileToList.readExcelData(files.getName());
-		model.addAttribute("automationList",automationList);
-		return "finance/automation";
-	}//서브 폴더 파일업로드
-	@RequestMapping(value="/finance/searchCommitment.do", method=RequestMethod.POST)
-	public String searchCommitment(Model model, @RequestParam("sponsorNo") String sponsorNo) {
-		System.out.println("여");
-		model.addAttribute("list", commitmentMapper.selectCommitmentBySponsorNo(sponsorNo));
-		return "finance/commitmentList/ajax";
+		//경로명 설정 파일 (업로드된 파일을 어디에 저장해라) 라는 설정 파일 (저장할 경로명을 바꿀 때 소스코드 수정하면 안되니까 설정파일)
+		return "finance/saveXferResult";
 	}
-	/**
-	@RequestMapping(value="/finance/automation.do", method=RequestMethod.POST, params="cmd=commitmentSearch")
-	public String commitmentSearch(@RequestParam("sponsorNo") String sponsorNo,Model model){
-		List<Commitment> commitmentList = commitmentMapper.selectCommitmentBySponsorNo(sponsorNo);
-		model.addAttribute("commitmentList",commitmentList);
-		return "finance/automation";
-	}**/
+	@RequestMapping(value="/finance/saveXferResult2.do",method=RequestMethod.GET)
+	public String saveXferResult2(Model model) throws Exception{    
+
+		//경로명 설정 파일 (업로드된 파일을 어디에 저장해라) 라는 설정 파일 (저장할 경로명을 바꿀 때 소스코드 수정하면 안되니까 설정파일)
+		return "finance/saveXferResult2";
+	}
+
+	@RequestMapping(value="/finance/uploadXferResult.do" ,method = RequestMethod.POST, params="cmd=saveCommitmentNo")
+	public String saveCommitmentNo( @RequestParam("index") int[] indexes, @RequestParam("commitmentNo") String[] commitmentNos,HttpSession session,Model model) throws IOException, ParseException {
+		List<XferResult> list = (List<XferResult>)session.getAttribute("xferResult");
+	    if (list == null) return "redirect:saveXferResult1.do";
+	    SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    List<Payment> paymentList = new ArrayList<Payment>();
+	    for (int i : indexes) {
+	       XferResult x = list.get(i);
+	       String commitmentNo = commitmentNos[i-1];
+	      
+	       // db에 저장...
+	       Commitment commitment = paymentMapper.selectByCommitmentNo(commitmentNo);
+	       Payment payment = new Payment();
+	       payment.setSponsorID(commitment.getSponsorID());
+	       payment.setCommitmentID(commitment.getID());
+	       payment.setCommitmentNo(commitmentNo);
+	       Date pDate = transFormat.parse(x.getPaymentDate());
+	       payment.setPaymentDate(pDate);
+	       payment.setAmount(Integer.parseInt(x.getAmount()));
+	       payment.setDonationPurposeID(commitment.getDonationPurposeID());
+	       payment.setPaymentMethodID(commitment.getPaymentMethodID());
+	       System.out.println(payment);
+	       paymentMapper.insertXferResult(payment);
+	       paymentList.add(payment);
+	    }
+	    model.addAttribute("paymentList", paymentList);
+	        
+		return "finance/saveXferResult2";
+	}//엑셀 원하는 열,행 가져오는 것만 하면 됨.
 
 	@RequestMapping(value="/finance/salary.do", method=RequestMethod.GET)
 	public String salary(Model model) throws Exception{

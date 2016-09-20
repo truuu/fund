@@ -43,7 +43,7 @@
 		    <li><a href="/fund_sys/finance/eb14.do">EB14등록</a></li>
 		    <li><a href="/fund_sys/finance/eb21.do">EB21생성</a></li>
 		    <li><a href="/fund_sys/finance/eb22.do">EB22등록</a></li>
-		    <li><a href="/fund_sys/finance/automation.do">자동이체 결과등록</a></li>
+		    <li><a href="/fund_sys/finance/uploadXferResult.do">자동이체 결과등록</a></li>
 		    <li><a href="/fund_sys/finance/salary.do">급여공제 결과등록</a></li>
 		    <li><a href="/fund_sys/finance/resultEB1314.do">EB13/14 결과조회</a></li>
 		    <li><a href="/fund_sys/finance/resultEB2122.do">EB21/22 결과조회</a></li>

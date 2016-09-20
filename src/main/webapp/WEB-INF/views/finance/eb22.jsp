@@ -26,8 +26,8 @@
 						</div>
 						<div class="col-lg-3">
 							<div id="column-right">
-								<a href="#" class="button button-reversed">EB22 조회</a> <a href="#"
-									class="button button-reversed">EB22 적용</a>
+								<a href="#" class="btn btn-default">EB22 조회</a>
+								<a href="#" class="btn btn-default">EB22 적용</a>
 							</div>
 						</div>
 					</div>
