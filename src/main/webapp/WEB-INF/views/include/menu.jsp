@@ -91,11 +91,23 @@
 		</li>
 	
 	      </ul>
+	      
+	      <sec:authorize access="authenticated">
+   
+            <ul class="nav navbar-nav navbar-right">
+		         <li><sec:authentication property="user.name" /> 님  <a href="logout.do" style="display: inline-block;">로그아웃</a> </li>
+	         </ul>
+      
+          </sec:authorize>
+
+          <sec:authorize access="not authenticated">
+               <ul class="nav navbar-nav navbar-right">
+		         <li><a href="/">Login</a></li>
+	           </ul>
+         </sec:authorize>
+	      
 	     
-	      <ul class="nav navbar-nav navbar-right">
-		<li><a href="#">Login</a></li>
-		
-	      </ul>
+	    
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
 	</nav>

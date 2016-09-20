@@ -9,14 +9,19 @@
     </select>		
 		
     <select id="selectByLoginId" resultType="fund.dto.User">		
-        SELECT * FROM [User] WHERE loginId = #{loginId}		
+        SELECT * FROM [User] WHERE loginName = #{loginName}		
     </select>		
 		
     <select id="selectAll" resultType="fund.dto.User">		
         SELECT u.*, d.departmentName		
         FROM [User] u LEFT JOIN department d ON u.departmentId = d.id		
-    </select>		
-		
+    </select>	
+    
+    <insert id="userInsert"  useGeneratedKeys="true" keyProperty="id">
+      insert into [User](loginName,password,name,email,admin)
+      values(#{loginName},#{password},#{name},#{email},0)
+    </insert>	
+  
     		
 		
 </mapper>		
