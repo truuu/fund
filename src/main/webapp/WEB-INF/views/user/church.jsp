@@ -2,6 +2,22 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
+<script type="text/javaScript">
+
+$(function() {
+	$('#searchChurch').click(function(){
+		alert(1)
+		var startDate=$( "input[name$='startDate']" ).val();
+		var endDate=$( "input[name$='endDate']" ).val();
+		alert("start "+startDate+" end "+endDate)
+		
+		location.href="churchSearch.do?startDate="+startDate+"&endDate="+endDate;
+	  });
+	});
+
+
+
+</script>
 
 <div id="wrapper">
 
@@ -20,8 +36,8 @@
 			<!-- /.row -->
 
 			<div>
-				<label> 신청기간 </label> <input type="date"> ~ <input type="date">
-				 <button  class="btn btn-primary">검색</button>
+				<label> 신청기간 </label> <input type="date" name="startDate"> ~ <input type="date" name="endDate">
+				 <button id="searchChurch" class="btn btn-primary">검색</button>
 				 <div id="column-right">
 				<a href="#" class="button button-reversed">엑셀 다운</a>
 			     </div>

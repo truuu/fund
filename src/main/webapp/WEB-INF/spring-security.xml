@@ -7,8 +7,7 @@
     http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
     <http auto-config="true">
-       <intercept-url pattern="/user/*" access="ROLE_관리자" />
-        <intercept-url pattern="/sponsor/*" access="ROLE_관리자" />
+      
         <form-login
             login-page="/home/index.do"
             login-processing-url="/home/login_processing.do"

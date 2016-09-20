@@ -17,10 +17,13 @@
         FROM [User] u LEFT JOIN department d ON u.departmentId = d.id		
     </select>	
     
+    
+    
     <insert id="userInsert"  useGeneratedKeys="true" keyProperty="id">
       insert into [User](loginName,password,name,email,admin)
       values(#{loginName},#{password},#{name},#{email},0)
     </insert>	
+   
   
     		
 		

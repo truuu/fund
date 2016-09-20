@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import fund.dto.User;
 import fund.mapper.UserMapper;
@@ -46,13 +47,25 @@ public class UserController {
 	 }
 	 
 	 
-	 // 보류
+	 
 	 @RequestMapping(value="/user/church.do",method=RequestMethod.GET)
 	 public String church(Model model)throws Exception{
 		 
 		return "user/church";
 	 }
 	 
+	 
+	 @RequestMapping(value="/user/churchSearch.do",method=RequestMethod.GET)
+	 public String churchSearch(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Model model)throws Exception{
+		 
+		 
+		 System.out.println("start "+startDate+" end "+endDate);
+		 
+		 
+		 
+		 
+		return "user/church";
+	 }
 	 
 	 
 	 
