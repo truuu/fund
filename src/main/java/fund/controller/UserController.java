@@ -59,7 +59,7 @@ public class UserController {
 	 public String churchSearch(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Model model)throws Exception{
 		 
 		 
-		 System.out.println("start "+startDate+" end "+endDate);
+		 System.out.println("start "+startDate+" endㄴ "+endDate);
 		 
 		 
 		 
