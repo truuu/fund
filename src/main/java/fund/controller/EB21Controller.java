@@ -3,6 +3,7 @@ package fund.controller;
 import java.util.Date;
 import java.util.List;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +30,16 @@ public class EB21Controller {
 	@RequestMapping(value="/finance/eb21.do", method=RequestMethod.POST, params="cmd=selectEB21List")
 	public String selectEB21(@RequestParam("paymentDay") int pDay,Model model){
 		List<EB21_commitmentDetail> eb21List = eb21_commitmentDetailMapper.selectEB21(pDay);
-		System.out.println(eb21List.size());
 		model.addAttribute("eb21List", eb21List);
 		return "finance/eb21";
 	}
 	@RequestMapping(value="/finance/eb21.do", method=RequestMethod.POST, params="cmd=createEB21file")
-	public String createEB21file(@RequestParam("paymentDay") int pDay,@RequestParam("paymentDate") String paymentDate,@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws IOException{
+	public String createEB21file(@RequestParam("paymentDay") int pDay,@RequestParam("paymentDate") String paymentDate_old,@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws IOException, ParseException{
+		System.out.println(paymentDate_old);
 		List<EB21_commitmentDetail> eb21List = eb21_commitmentDetailMapper.selectEB21(pDay);
 		model.addAttribute("eb21List",eb21List);
-		CreateEB21File.createEB21File(eb21List,paymentDate);
+		
+		CreateEB21File.createEB21File(eb21List,paymentDate_old);
 		
 		return "finance/eb21";
 	}

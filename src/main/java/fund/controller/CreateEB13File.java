@@ -12,10 +12,15 @@ import fund.dto.EB13_CommitmentDetail;
 public class CreateEB13File {
 	public static void createEB13File(List<EB13_CommitmentDetail> eb13List) throws IOException{
 		Date today = new Date();
+		System.out.println(today);
 		SimpleDateFormat yymmdd = new SimpleDateFormat("yyMMdd");
 		SimpleDateFormat mmdd = new SimpleDateFormat("MMdd");
 		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("/Users/parkeunsun/Documents/EB13"+mmdd.format(today)+".txt"));
-		String sponsorNo="";String bankCode="";String accountNo="";String jumin="";
+		String sponsorNo = "";
+		String bankCode = "";
+		String accountNo = "";
+		String jumin = "";
+		int dataCount = 0;
 		
 		String h = "H000000009983010152EB13"+mmdd.format(today)+yymmdd.format(today);
 		String padded = String.format("%-120s",h);
@@ -34,11 +39,11 @@ public class CreateEB13File {
 			String birth = String.format("%-16s",jumin);
 			String space = String.format("%-51s",birth);
 			bufferedWriter.write(r+sponsor+code+account+space);
-			
+			dataCount++;
 		}
 		
 		String t = "T999999999983010152EB13"+mmdd.format(today);
-		String count = "00000001";//원래는 r갯수 세어야함..
+		String count = String.format("%08d",dataCount);
 		String alterclose = "000000000000000000000000";
 		String space2 = String.format("%-77s", alterclose);
 		bufferedWriter.write(t+count+count+space2);

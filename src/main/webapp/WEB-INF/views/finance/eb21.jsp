@@ -34,7 +34,7 @@
 							</div>
 							<div class="col-lg-5">
 								<div id="column-right">
-									<input type="text" id="paymentDate">
+									<input type="date" name="paymentDate"/>
 									<button type="submit" class="btn btn-default" name="cmd" value="createEB21file">EB21
 										생성</button>
 								</div>
@@ -56,6 +56,8 @@
 									</tr>
 								</thead>
 								<c:forEach var="eb21List" items="${eb21List}">
+								<input type="hidden" name="commitmentDetailID" value="${eb21List.commitmentDetailID}">
+								<input type="hidden" name="etc1" value="${eb21List.etc1 }">	
 									<tbody>
 										<tr>
 											<td>${eb21List.sponsorNo }</td>

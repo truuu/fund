@@ -18,6 +18,7 @@ public class EB21_commitmentDetail {
 	String commitmentNo;
 	String donationPurpose;
 	String name;
+	String etc1;
 	
 	public int getPaymentDay() {
 		return paymentDay;
@@ -108,5 +109,11 @@ public class EB21_commitmentDetail {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getEtc1() {
+		return etc1;
+	}
+	public void setEtc1(String etc1) {
+		this.etc1 = etc1;
 	}
 }

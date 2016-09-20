@@ -5,7 +5,7 @@
 <mapper namespace="fund.mapper.EB21_CommitmentDetailMapper">
 
 	<select id="selectEB21" resultType="fund.dto.EB21_commitmentDetail">
-    	select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin,code.codeName,cd.accountNo,cd.amountPerMonth
+    	select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin,code.codeName,cd.accountNo,cd.amountPerMonth,code.etc1
 		from [commitmentDetail] cd
 		LEFT JOIN [EB13_commitmentDetail] eb
 		ON eb.state='성공' AND cd.ID=eb.commitmentDetailID
