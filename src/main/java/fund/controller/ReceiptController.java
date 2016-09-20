@@ -96,7 +96,6 @@ public class ReceiptController {
 		return "certificate/receiptByName";
 	}
 	
-	//영수증 개별 삭제, 검색 조건 가지고있어야하는데.
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params="cmd=deleteRct")
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public String deleteReceipt(Payment payment,Pagination pagination,Model model, HttpServletRequest req, HttpServletResponse res)throws Exception{
@@ -106,7 +105,6 @@ public class ReceiptController {
 		return "redirect:/certificate/receiptByName.do?"+pagination.getQueryString();
 	}
 	
-	//영수증 발행, 동명이인있으면 발급안되야함
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params="cmd=issueRct" )
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public String issueReceiptByName(Model model, HttpServletRequest req,HttpServletResponse res)throws Exception{
