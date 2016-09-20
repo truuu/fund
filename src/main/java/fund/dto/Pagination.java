@@ -174,7 +174,8 @@ public class Pagination {
     
     public String getQueryString() throws UnsupportedEncodingException {
         String temp = (srchText == null) ? "" : URLEncoder.encode(srchText, "UTF-8");
-        
+        if (boardId ==3)
+        	return String.format("bd=%d&st=%s&sd=%s&ed=%s&cp=%d",boardId,temp,startDate,endDate,corporateID);
         if (boardId ==2)
         	return String.format("bd=%d&pg=%d&ss=%d&st=%s&sd=%s&ed=%s",boardId,currentPage,srchType,temp,startDate,endDate);
         if (boardId ==1)

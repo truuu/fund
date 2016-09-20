@@ -85,7 +85,7 @@ public class ReceiptController {
 	}
 	
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.GET)
-	public String receiptByName(Model model)throws Exception {
+	public String receiptByName(Model model,Pagination pagination)throws Exception {
 		return "certificate/receiptByName";
 	}
 	
@@ -103,7 +103,7 @@ public class ReceiptController {
 		int rctId = Integer.parseInt(req.getParameter("delid"));
 		paymentMapper.deleteReceiptByReceiptID(rctId);
 		receiptMapper.deleteById(rctId);
-		return "redirect:/certificate/receiptByName.do";
+		return "redirect:/certificate/receiptByName.do?"+pagination.getQueryString();
 	}
 	
 	//영수증 발행, 동명이인있으면 발급안되야함

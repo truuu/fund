@@ -9,16 +9,17 @@
 <h1>기부금 영수증 개별발급</h1>
 <hr/>
 <form:form method="post" modelAttribute="pagination">
+	<input type="hidden" name="bd" value="3" />
 	<div class="condition">
 			<p>
-				기간 : <input type="date" name="startDate" value="${pagination.startDate}" />~<input type="date" name="endDate" value="${pagination.endDate}" />
-				&nbsp;&nbsp; 이름 : <input type="text" name="srchText" value='${pagination.srchText }'/>
+				기간 : <form:input type="date" path="sd" />~<form:input type="date" path="ed" />
+				&nbsp;&nbsp; 이름 : <form:input type="text" path="st"/>
 				&nbsp;&nbsp; 기관 : 
-				<select name="corporateID">
-					<option value="0">기관선택</option>
-					<option value="1">학교</option>
-					<option value="2">법인</option>
-				</select>
+				<form:select path="cp">
+					<form:option value="0" label="검색조건"/>
+					<form:option value="1" label="학교"/>
+					<form:option value="2" label="법인"/>
+				</form:select>
 				&nbsp;&nbsp;<button type="submit" class="btn btn-small" name="cmd" value="search">검색</button>
 			</p>
 	</div>
