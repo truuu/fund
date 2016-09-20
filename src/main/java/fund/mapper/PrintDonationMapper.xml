@@ -4,6 +4,11 @@
 
 <mapper namespace="fund.mapper.PrintDonationMapper">
 
+	<select id="selectSerialNo" resultType="int">
+	select MAX([ID])+1 
+	from [PrintDonation]
+	</select>
+
 	<select id="selectById" resultType="fund.dto.PrintDonation">
 		SELECT p.*, u.name
 		FROM
@@ -21,7 +26,7 @@
               FROM [PrintDonation] p LEFT JOIN [User] u ON p.userID = u.ID
               WHERE
                 (#{srchType} = 0) OR (#{srchType} = 1 AND CHARINDEX(#{srchText}, sponsorName) = 1) OR
-				(#{srchType} = 2 AND CHARINDEX(#{srchText}, createDate)  > 0) OR 
+				(#{srchType} = 2 AND CHARINDEX(#{srchText}, createDate) > 0) OR 
 				(#{srchType} = 3 AND CHARINDEX(#{srchText}, amount) > 0)
                   
              )subquery

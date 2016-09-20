@@ -13,9 +13,9 @@
               FROM [PrintScholarship] p LEFT JOIN [User] u ON p.userID = u.ID
               WHERE
                  (#{srchType} = 0) OR
-                  (#{srchType} = 1 AND CHARINDEX(#{srchText}, studentName) = 1) OR
-                  (#{srchType} = 2 AND CHARINDEX(#{srchText}, department) > 0) OR
-                  (#{srchType} = 3 AND CHARINDEX(#{srchText}, studentNo) > 0) OR
+                  (#{srchType} = 1 AND CHARINDEX(#{srchText}, studentNo) > 0) OR
+                  (#{srchType} = 2 AND CHARINDEX(#{srchText}, studentName) = 1) OR
+                  (#{srchType} = 3 AND CHARINDEX(#{srchText}, department) > 0) OR
                   (#{srchType} = 4 AND CHARINDEX(#{srchText}, createDate) = 1)
                
             ) subquery

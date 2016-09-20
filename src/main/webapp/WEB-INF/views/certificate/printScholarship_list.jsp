@@ -13,7 +13,7 @@ form.pagination{ width:100%; }
 </style>
 <body>
 
-	<h3>기부증서 발급대장</h3>
+	<h3>장학증서 발급대장</h3>
 	<form:form method="get" modelAttribute="pagination" class="pagination">
 		<input type="hidden" name="pg" value="1" />
 		<form:hidden path="bd" />
@@ -22,14 +22,16 @@ form.pagination{ width:100%; }
 	<div class="form-inline">
 			<form:select path="ss" id="search" class="msize">
 				<form:option value="0" label="검색조건" />
-				<form:option value="1" label="이름" />
-				<form:option value="2" label="발행일" />
-				<form:option value="3" label="약정액" />
+				<form:option value="1" label="학번" />
+				<form:option value="2" label="이름" />
+				<form:option value="3" label="학과" />
+				<form:option value="4" label="발행일" />
+				
 			</form:select>
 			<form:input path="st" />
 			<button type="submit" class="btn btn-small">검색</button>
 		
-		<a href="printDonation.do" id="donationBtn"
+		<a href="printScholarship.do" id="donationBtn"
 				class="button button-reversed">발급하기</a>
 	</div>
 
@@ -38,21 +40,24 @@ form.pagination{ width:100%; }
 			<thead>
 				<tr>
 					<th>일련번호</th>
+					<th>학번</th>
 					<th>이름</th>
-					<th>약정액</th>
+					<th>학과</th>
 					<th>발행일</th>
 					<th>발행인</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="donation" items="${ list }">
+				<c:forEach var="scholarship" items="${ list }">
 					<tr>
-						<td><span>2016-000</span>${ donation.ID }</td>
-						<td>${ donation.sponsorName }</td>
-						<td>${ donation.amount }</td>
+						<td><span>2016-000</span>${ scholarship.ID }</td>
+						<td>${ scholarship.studentNo }</td>
+						<td>${ scholarship.studentName }</td>
+						<td>${ scholarship.department }</td>
 						<td><fmt:formatDate pattern="yyyy-MM-dd"
-								value="${ donation.createDate }" /></td>
-						<td>${ donation.name }</td>
+								value="${ scholarship.createDate }" /></td>
+						<td>${ scholarship.name }</td>
+						
 					</tr>
 				</c:forEach>
 			</tbody>
