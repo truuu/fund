@@ -101,9 +101,8 @@ public class EB21Controller {
 				eb22.setSponsorNo(sponsorNo);
 				StringBuffer sNo = new StringBuffer(sponsorNo);
 				sNo.insert(4,"-");//후원인번호 가운데 "-" 추가
-				//EB22 name = eb21_commitmentDetailMapper.selectSponsorName(sNo.toString());//후원인번호에 맞는 이름 가져오기.
-				//eb22.setName(name.getName());
-				eb22.setName("박은선");
+				EB22 name = eb21_commitmentDetailMapper.selectSponsorName(sNo.toString());//후원인번호에 맞는 이름 가져오기.
+				eb22.setName(name.getName());
 
 				eb22List.add(eb22);
 			}
@@ -114,35 +113,6 @@ public class EB21Controller {
 		}
 		return "finance/uploadEB22";
 	}
-	/**
-	@RequestMapping(value="/finance/eb22.do", method=RequestMethod.POST, params="cmd=selectEB22")
-	public String selectEB22(Model model,HttpSession session) {
-		ArrayList<String> eb22file = ReadEB22File.readEB22File();
-		List<EB22> eb22List = new ArrayList<EB22>();
-		
-		for(String i : eb22file){
-			EB22 eb22 = new EB22();
-			String getList = i;
-			String sub = getList.substring(19);
-			eb22.setBankCode(sub.substring(0, 7));
-			eb22.setAccountNo(sub.substring(7, 23).trim());
-			int amount = Integer.parseInt(sub.substring(23, 36).trim());//돈 앞에 0 제거.
-			eb22.setAmount(amount);
-			eb22.setJumin(sub.substring(36,49).trim());
-			String sponsorNo = sub.substring(72, 91).trim();
-			eb22.setSponsorNo(sponsorNo);
-			StringBuffer sNo = new StringBuffer(sponsorNo);
-			sNo.insert(4,"-");//후원인번호 가운데 "-" 추가
-			EB22 name = eb21_commitmentDetailMapper.selectSponsorName(sNo.toString());//후원인번호에 맞는 이름 가져오기.
-			eb22.setName(name.getName());
-
-			eb22List.add(eb22);
-		}
-		model.addAttribute("eb22List",eb22List);
-		session.setAttribute("eb22ListSession",eb22List);
-		return "finance/eb22";
-	}
-	**/
 	
 	@RequestMapping(value="/finance/uploadEB22.do", method=RequestMethod.POST, params="cmd=updateEB22")
 	public String updateEB22(HttpSession session,Model model) throws ParseException {
