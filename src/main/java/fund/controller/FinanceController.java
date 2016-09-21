@@ -43,7 +43,6 @@ public class FinanceController {
 	public String uploadXferResult(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws Exception{    
 		if (uploadedFile.getSize() > 0 ) {
 			byte[] bytes = uploadedFile.getBytes();
-			//System.out.println(bytes);
 			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
 			File tempFile = new File(fileName);
 			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
@@ -68,7 +67,7 @@ public class FinanceController {
 	@RequestMapping(value="/finance/saveXferResult2.do",method=RequestMethod.GET)
 	public String saveXferResult2(Model model) throws Exception{    
 
-		//경로명 설정 파일 (업로드된 파일을 어디에 저장해라) 라는 설정 파일 (저장할 경로명을 바꿀 때 소스코드 수정하면 안되니까 설정파일)
+		
 		return "finance/saveXferResult2";
 	}
 
@@ -93,7 +92,6 @@ public class FinanceController {
 	       payment.setAmount(Integer.parseInt(x.getAmount()));
 	       payment.setDonationPurposeID(commitment.getDonationPurposeID());
 	       payment.setPaymentMethodID(commitment.getPaymentMethodID());
-	       System.out.println(payment);
 	       paymentMapper.insertXferResult(payment);
 	       paymentList.add(payment);
 	    }

@@ -1,7 +1,14 @@
 package fund.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,15 +19,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import fund.dto.EB14;
 import fund.dto.EB21_commitmentDetail;
+import fund.dto.EB22;
+import fund.dto.XferResult;
 import fund.mapper.EB21Mapper;
 import fund.mapper.EB21_CommitmentDetailMapper;
+import fund.mapper.PaymentMapper;
+import fund.mapper.SponsorMapper;
 
 @Controller
 public class EB21Controller {
 	@Autowired EB21Mapper eb21Mapper;
 	@Autowired EB21_CommitmentDetailMapper eb21_commitmentDetailMapper;
+	@Autowired PaymentMapper paymentMapper;
 	
 	@RequestMapping(value="/finance/eb21.do", method=RequestMethod.GET)
 	public String eb21(Model model) {
@@ -28,18 +43,24 @@ public class EB21Controller {
 	}
 
 	@RequestMapping(value="/finance/eb21.do", method=RequestMethod.POST, params="cmd=selectEB21List")
-	public String selectEB21(@RequestParam("paymentDay") int pDay,Model model){
-		List<EB21_commitmentDetail> eb21List = eb21_commitmentDetailMapper.selectEB21(pDay);
+	public String selectEB21(@RequestParam("paymentDay") int paymentDay,Model model) throws ParseException{
+		List<EB21_commitmentDetail> eb21List = eb21_commitmentDetailMapper.selectEB21(paymentDay);
 		model.addAttribute("eb21List", eb21List);
+		model.addAttribute("paymentDay", paymentDay);
+		
 		return "finance/eb21";
 	}
 	@RequestMapping(value="/finance/eb21.do", method=RequestMethod.POST, params="cmd=createEB21file")
-	public String createEB21file(@RequestParam("paymentDay") int pDay,@RequestParam("paymentDate") String paymentDate_old,@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws IOException, ParseException{
-		System.out.println(paymentDate_old);
-		List<EB21_commitmentDetail> eb21List = eb21_commitmentDetailMapper.selectEB21(pDay);
+	public String createEB21file(@RequestParam("paymentDay") int paymentDay,@RequestParam("paymentDate") String paymentDate_old,@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws IOException, ParseException{
+		List<EB21_commitmentDetail> eb21List = eb21_commitmentDetailMapper.selectEB21(paymentDay);
 		model.addAttribute("eb21List",eb21List);
 		
-		CreateEB21File.createEB21File(eb21List,paymentDate_old);
+		CreateEB21File.createEB21File(eb21List,paymentDate_old);//EB21파일생성.
+		
+		eb21Mapper.createEB21file(paymentDate_old);
+		for(int i=0 ; i<commitmentDetailID.length; ++i){
+			eb21Mapper.createEB21List(commitmentDetailID[i]);
+		}
 		
 		return "finance/eb21";
 	}
@@ -49,6 +70,103 @@ public class EB21Controller {
 		return "finance/eb22";
 	}
 	
+	@RequestMapping(value="/finance/uploadEB22.do", method=RequestMethod.GET)
+	public String uploadEB22(Model model) {
+		return "finance/uploadEB22";
+	}
+	
+	@RequestMapping(value="/finance/uploadEB22.do", method=RequestMethod.POST)
+	public String uploadEB22(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws IOException {
+		if (uploadedFile.getSize() > 0 ) {
+			byte[] bytes = uploadedFile.getBytes();
+			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
+			File tempFile = new File(fileName);
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
+			stream.write(bytes);
+			stream.close();
+			
+			ArrayList<String> eb22file = ReadEB22File.readEB22File(fileName);
+			List<EB22> eb22List = new ArrayList<EB22>();
+			
+			for(String i : eb22file){
+				EB22 eb22 = new EB22();
+				String getList = i;
+				String sub = getList.substring(19);
+				eb22.setBankCode(sub.substring(0, 7));
+				eb22.setAccountNo(sub.substring(7, 23).trim());
+				int amount = Integer.parseInt(sub.substring(23, 36).trim());//돈 앞에 0 제거.
+				eb22.setAmount(amount);
+				eb22.setJumin(sub.substring(36,49).trim());
+				String sponsorNo = sub.substring(72, 91).trim();
+				eb22.setSponsorNo(sponsorNo);
+				StringBuffer sNo = new StringBuffer(sponsorNo);
+				sNo.insert(4,"-");//후원인번호 가운데 "-" 추가
+				//EB22 name = eb21_commitmentDetailMapper.selectSponsorName(sNo.toString());//후원인번호에 맞는 이름 가져오기.
+				//eb22.setName(name.getName());
+				eb22.setName("박은선");
+
+				eb22List.add(eb22);
+			}
+			model.addAttribute("eb22List",eb22List);
+			session.setAttribute("eb22ListSession",eb22List);
+			session.setAttribute("fileName", fileName);
+			return "finance/eb22";
+		}
+		return "finance/uploadEB22";
+	}
+	/**
+	@RequestMapping(value="/finance/eb22.do", method=RequestMethod.POST, params="cmd=selectEB22")
+	public String selectEB22(Model model,HttpSession session) {
+		ArrayList<String> eb22file = ReadEB22File.readEB22File();
+		List<EB22> eb22List = new ArrayList<EB22>();
+		
+		for(String i : eb22file){
+			EB22 eb22 = new EB22();
+			String getList = i;
+			String sub = getList.substring(19);
+			eb22.setBankCode(sub.substring(0, 7));
+			eb22.setAccountNo(sub.substring(7, 23).trim());
+			int amount = Integer.parseInt(sub.substring(23, 36).trim());//돈 앞에 0 제거.
+			eb22.setAmount(amount);
+			eb22.setJumin(sub.substring(36,49).trim());
+			String sponsorNo = sub.substring(72, 91).trim();
+			eb22.setSponsorNo(sponsorNo);
+			StringBuffer sNo = new StringBuffer(sponsorNo);
+			sNo.insert(4,"-");//후원인번호 가운데 "-" 추가
+			EB22 name = eb21_commitmentDetailMapper.selectSponsorName(sNo.toString());//후원인번호에 맞는 이름 가져오기.
+			eb22.setName(name.getName());
+
+			eb22List.add(eb22);
+		}
+		model.addAttribute("eb22List",eb22List);
+		session.setAttribute("eb22ListSession",eb22List);
+		return "finance/eb22";
+	}
+	**/
+	
+	@RequestMapping(value="/finance/uploadEB22.do", method=RequestMethod.POST, params="cmd=updateEB22")
+	public String updateEB22(HttpSession session,Model model) throws ParseException {
+		String fileName = (String) session.getAttribute("fileName");
+		String date = ReadEB22Date.readEB22Date(fileName);
+		System.out.println(fileName);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date paymentDate = format.parse(date);
+		
+		List<EB22> eb22List = (List<EB22>) session.getAttribute("eb22ListSession");
+
+		 for (int i=0; i<eb22List.size();i++) {
+		       EB22 x = eb22List.get(i);
+		       eb21_commitmentDetailMapper.updateEB21error(x.getSponsorNo(),paymentDate);
+		       eb21_commitmentDetailMapper.updateEB21success(x.getSponsorNo(), paymentDate);
+		 }
+		
+		List<EB21_commitmentDetail> successList = paymentMapper.selectEB21success();//'성공'상태의 payment데이터리스트
+		for(EB21_commitmentDetail i : successList){
+			paymentMapper.insertEB21Payment(i);
+		}//payment테이블에 납입 업데이트
+		
+		return "finance/eb22";
+	}
 	@RequestMapping(value="/finance/resultEB2122.do", method=RequestMethod.GET)
 	public String resultEB2122(Model model) {
 		List<EB21_commitmentDetail> eb2122List = eb21_commitmentDetailMapper.selectEB2122();
