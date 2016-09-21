@@ -163,13 +163,22 @@ public class SponsorController {
         System.out.println(office[1]);
         System.out.println(office[2]);
         
-        sponsor.setHomeRoadAddress(home[0]);
-        sponsor.setHomeDetailAddress(home[1]);
-        sponsor.setHomePostCode(home[2]);
+        String homeRoadAddress=home[0];
+        String homeDetailAddress=home[1];
+        String homePostCode=home[2];
         
-        sponsor.setOfficeRoadAddress(office[0]);
-        sponsor.setOfficeDetailAddress(office[1]);
-        sponsor.setOfficePostCode(office[2]);
+        String officeRoadAddress=office[0];
+        String officeDetailAddress=office[1];
+        String officePostCode=office[2];
+        
+        
+        sponsor.setHomeRoadAddress(homeRoadAddress);
+        sponsor.setHomeDetailAddress(homeDetailAddress);
+        sponsor.setHomePostCode(homePostCode);
+        
+        sponsor.setOfficeRoadAddress(officeRoadAddress);
+        sponsor.setOfficeDetailAddress(officeDetailAddress);
+        sponsor.setOfficePostCode(officePostCode);
         
         
         model.addAttribute("sponsor", sponsor);
