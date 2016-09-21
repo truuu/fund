@@ -12,10 +12,10 @@
 	<input type="hidden" name="bd" value="3" />
 	<div class="condition">
 			<p>
-				기간 : <form:input type="date" path="sd" />~<form:input type="date" path="ed" />
+				기간 : <form:input type="date" name="startDate" path="sd" />~<form:input type="date" path="ed" />
 				&nbsp;&nbsp; 이름 : <form:input type="text" path="st"/>
 				&nbsp;&nbsp; 기관 : 
-				<form:select path="cp">
+				<form:select path="cp" name="corporateID">
 					<form:option value="0" label="검색조건"/>
 					<form:option value="1" label="학교"/>
 					<form:option value="2" label="법인"/>
@@ -54,7 +54,9 @@
 			</table>		
 	
 	</div>
-</form:form>
+
 <div class="Issue">
 	<p>발급일자 : <input type="date" name="createDate">&nbsp;&nbsp;<button type="submit" class="btn btn-small" name="cmd" value="issueRct">기부금 영수증 발급</button></p>
+	<c:if test="${not empty error }"><div class="alert alert-error">${error}</div></c:if>
 </div>
+</form:form>

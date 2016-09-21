@@ -6,15 +6,15 @@ import fund.dto.Receipt;
 import fund.dto.Pagination;
 
 public interface ReceiptMapper {
-	Receipt selectById(int id);
+	int selectRctID();
+	Receipt selectById(String id);
 	List<Receipt> selectReceiptList();
 	List<Receipt> selectPage(Pagination pagination);
 	Receipt selectReceiptView(int id);
 	int getRid();
-	String getLastNo();
+	String getLastNo(String year);
 	int selectCount(Pagination pagination);
-	void insertByDur(Receipt receipt);
-	void insertByName(Receipt receipt);
+	void insert(Receipt receipt);
 	void deleteByNo(int no);
 	void deleteById(int id);
 }

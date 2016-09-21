@@ -18,12 +18,15 @@ import fund.mapper.*;
 import fund.dto.Pagination;
 import fund.dto.Payment;
 import fund.dto.Receipt;
+import fund.service.*;
 
 @Controller
 public class ReceiptController {
 	
 	@Autowired ReceiptMapper receiptMapper;
 	@Autowired PaymentMapper paymentMapper;
+	
+	@Autowired ReceiptService receiptService;
 	
 	@RequestMapping(value="/certificate/receiptList.do")
 	public String receiptManage(Model model, Pagination pagination)throws Exception {
@@ -65,7 +68,7 @@ public class ReceiptController {
 			List<Integer> sponsorID = paymentMapper.selectDistinctSponsorID(startdate, enddate, corporateID);
 			for(int i=0;i<sponsorID.size();i++){
 				int rctNoInt;
-				String[] rctNo = receiptMapper.getLastNo().split("-");
+				String[] rctNo = receiptMapper.getLastNo(getY[0]).split("-");
 				if(rctNo == null){
 					rctNoInt = 0;
 				}
@@ -77,7 +80,7 @@ public class ReceiptController {
 				rct.setSponsorID(sponsorID.get(i));
 				rct.setCreateDate(createdate);
 				rct.setNo(newRctNo);
-				receiptMapper.insertByDur(rct);
+				receiptMapper.insert(rct);
 				paymentMapper.issueReceiptByDur(receiptMapper.getRid(),startdate, enddate, corporateID, sponsorID.get(i));
 			}
 		}
@@ -86,12 +89,12 @@ public class ReceiptController {
 	
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.GET)
 	public String receiptByName(Model model,Pagination pagination)throws Exception {
+		model.addAttribute("paymentList",paymentMapper.selectReceiptByName(pagination));
 		return "certificate/receiptByName";
 	}
 	
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params="cmd=search")
 	public String paymentListForReceipt(Model model, Payment payment,Pagination pagination,HttpServletRequest req, HttpServletResponse res)throws Exception{
-		System.out.println(req.getQueryString());
 		model.addAttribute("paymentList",paymentMapper.selectReceiptByName(pagination));
 		return "certificate/receiptByName";
 	}
@@ -108,8 +111,41 @@ public class ReceiptController {
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params="cmd=issueRct" )
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public String issueReceiptByName(Model model, HttpServletRequest req,HttpServletResponse res)throws Exception{
+		System.out.println("액션진입");
+		String[] pID = req.getParameterValues("pid");
+		String startdate = req.getParameter("startDate");
+		String message = receiptService.validateBeforeInsert(pID);
 		
-		String createdate = req.getParameter("createDate");
+		if(message == null){
+			//영수증생성
+			System.out.println("동명이인없음");
+			
+			String[] getY = startdate.split("-");
+			int rctNoInt;
+			String[] rctNo = receiptMapper.getLastNo(getY[0]).split("-");
+			if(rctNo==null){ rctNoInt =0; }
+			else{ rctNoInt = Integer.parseInt(rctNo[1]); }
+
+			String newRctNo = getY[0]+"-"+String.format("%04d", rctNoInt+1);
+
+			Receipt rct = new Receipt();
+			rct.setSponsorID(paymentMapper.selectById(pID[0]));
+			rct.setCreateDate(req.getParameter("createDate"));
+			rct.setNo(newRctNo);
+			receiptMapper.insert(rct);
+			int rctID = receiptMapper.selectRctID();
+			System.out.println("rctID:"+rctID);
+			for(int i=0;i<pID.length;i++){
+				paymentMapper.issueReceiptByName(rctID,pID[i]);
+				System.out.println("paymentID[i]="+pID[i]);
+			}
+			
+		} else{
+			System.out.println("동명이인있음");
+			model.addAttribute("error",message);
+			return "redirect:/certificate/receiptByName.do"+req.getQueryString();
+		}
+		
 		return "redirect:/certificate/receiptList.do";
 	}
 	

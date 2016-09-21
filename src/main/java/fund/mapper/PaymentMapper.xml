@@ -4,6 +4,12 @@
 
 <mapper namespace="fund.mapper.PaymentMapper">
 	
+	<select id="selectById" resultType="int">
+		SELECT sponsorID
+		FROM [Payment]
+		WHERE id=#{id}
+	</select>
+	
 	<select id="selectDistinctSponsorID" resultType="Integer">
 		SELECT DISTINCT sponsorID
 		FROM [Payment] p JOIN [donationPurpose] d ON p.donationPurposeID = d.ID
@@ -66,6 +72,12 @@
 			AND d.corporateID = #{corporateID}
 			AND p.receiptID IS NULL
 			AND p.sponsorID = #{sponsorID}
+	</update>
+	
+	<update id="issueReceiptByName">
+		UPDATE [Payment]
+		SET receiptID = #{receiptID}
+		WHERE id=#{id}
 	</update>
 	
 	<update id="deleteReceiptByReceiptID">
