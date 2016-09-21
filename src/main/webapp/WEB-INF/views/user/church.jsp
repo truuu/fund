@@ -62,6 +62,13 @@ $(function() {
 								</tr>
 							</thead>
 							<tbody>
+		    <c:forEach var="sponsor" items="${ list }">
+                <tr>
+                    <td>${sponsor.church}</td>
+                    <td>${sponsor.sum}</td>
+                   
+                </tr>
+            </c:forEach>
 
 
 

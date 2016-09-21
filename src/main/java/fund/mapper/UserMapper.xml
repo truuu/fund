@@ -17,6 +17,13 @@
         FROM [User] u LEFT JOIN department d ON u.departmentId = d.id		
     </select>	
     
+    <select id="churchSum" resultType="fund.dto.Sponsor">		
+       select (select codeName from code where code.ID=sponsor.churchID) AS church,
+              sum(CAST( amount AS BIGINT )) AS sum
+      from sponsor join payment on  sponsor.ID=payment.sponsorID  where  paymentDate between#{startDate}and#{endDate} group by churchID
+	
+    </select>	
+    
     
     
     <insert id="userInsert"  useGeneratedKeys="true" keyProperty="id">

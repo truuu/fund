@@ -25,6 +25,24 @@ public class Sponsor {
 	String officePhone;
 	String officeAddress;
 	String etc;
+	
+	String church;
+	int sum;
+	
+	
+	public String getChurch() {
+		return church;
+	}
+	public void setChurch(String church) {
+		this.church = church;
+	}
+	public int getSum() {
+		return sum;
+	}
+	public void setSum(int sum) {
+		this.sum = sum;
+	}
+	
 	public int getId() {
 		return id;
 	}

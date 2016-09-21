@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import fund.dto.Sponsor;
 import fund.dto.User;
 import fund.mapper.UserMapper;
 
+import java.util.*;
 @Controller
 public class UserController {
 	@Autowired UserMapper userMapper;
@@ -60,8 +62,9 @@ public class UserController {
 		 
 		 
 		 System.out.println("start "+startDate+" endㄴ "+endDate);
+		 List<Sponsor> list=userMapper.churchSum(startDate, endDate);
 		 
-		 
+		 model.addAttribute("list", list);
 		 
 		 
 		return "user/church";
