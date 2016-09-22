@@ -10,4 +10,5 @@ public interface  PrintScholarshipMapper {
 	void insert(PrintScholarship printScholarship);
 	void delete(int ID);
 	int selectCount(Pagination pagination);
+	String selectSerialNum();
 }

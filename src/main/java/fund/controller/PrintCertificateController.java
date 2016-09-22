@@ -1,12 +1,14 @@
 package fund.controller;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import fund.dto.Pagination;
 import fund.dto.PrintDonationCreate;
@@ -37,6 +39,7 @@ public class PrintCertificateController {
 	
 	@RequestMapping(value="/certificate/printScholarship.do", method=RequestMethod.GET)
     public String printScholarship(Model model) {
+		model.addAttribute("serialNo",printScholarshipMapper.selectSerialNum());
         return "certificate/printScholarship";
     }
 	
@@ -55,13 +58,13 @@ public class PrintCertificateController {
 	
 	@RequestMapping(value="/certificate/printDonation.do", method=RequestMethod.GET)
     public String printDonation(Model model) {
-		int number=printDonationMapper.selectSerialNo();
+		//int number=printDonationMapper.selectSerialNo();
 		//int year1 = Calendar.getInstance().get(Calendar.YEAR); // 현재 년도
-		String serial=Integer.toString(number);
+		//String serial=Integer.toString(number);
 		//String year2=Integer.toString(year1);
 		
-		String serialNo="2016-000"+serial;
-		model.addAttribute("serialNo",serialNo);
+		//String serialNo="2016-000"+serial;
+		model.addAttribute("serialNo",printDonationMapper.selectSerialNum());
         return "certificate/printDonation";
     }
 	
@@ -89,6 +92,27 @@ public class PrintCertificateController {
 	public String scholarshipReportContent(Model model){
 		
 		return "certificate/scholarshipReportContent";
+	}
+	
+	@RequestMapping(value="/certificate/donationDelete.do")
+	public String donationDelete(Model model,@RequestParam(value="checkArray[]") List<Integer> params){
+
+		for(int i=0 ; i<params.size(); i++){
+			System.out.println(params.get(i));
+			printDonationMapper.delete(params.get(i));
+		}
+		
+		return "redirect:/certificate/printDonation_list.do";
+	}
+	
+	@RequestMapping(value="/certificate/scholarshipDelete.do", method=RequestMethod.GET)
+	public String scholarshipDelete(Model model,@RequestParam(value="checkArray[]") List<Integer> params){
+
+		for(int i=0 ; i<params.size(); i++){
+			System.out.println(params.get(i));
+			printScholarshipMapper.delete(params.get(i));
+		}
+		return "redirect:/certificate/printScholarship_list.do";
 	}
 }
 	

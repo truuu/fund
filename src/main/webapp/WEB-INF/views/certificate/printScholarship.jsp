@@ -18,14 +18,14 @@ textarea{
 		<div class="container-fluid">
 			<h1 class="page-header">장학 증서</h1>
 			<div id="column-right">
-			<button type="submit" class="button">미리보기</button> <a href="#"
+			<button type="submit" style="margin-bottom: 5px" class="btn btn-small">미리보기</button> <a href="#"
 					class="button button-reversed">인쇄</a>
 			</div>
 			<table class="table">
 				<tbody>
 					<tr>
 						<td id="table_a">일련번호</td>
-						<td id="table_b"><input type="text" name="serialNo" value="2016-0001"></td>
+						<td id="table_b"><input type="text" name="serialNo" value="${serialNo}"></td>
 						<td id="table_a">학과</td>
 						<td id="table_b"><select name="department">
 								<option selected="selected">선택</option>

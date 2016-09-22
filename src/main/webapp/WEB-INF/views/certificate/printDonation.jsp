@@ -4,13 +4,7 @@
 	prefix="sec"%>
 <script src="/fund/res/js/jquery.js" type="text/javascript"></script>
 <script src="/fund/res/js/jquery.mask.min.js" type="text/javascript"></script>
-<script>
-	$(document).ready(function() {
-		$('.money').mask('000,000,000,000,000,000', {
-			reverse : true
-		});
-	});
-</script>
+
 <style>
 #table_a {
 	vertical-align: middle;
@@ -19,6 +13,7 @@ textarea{
 	width:90%;
 	height:100px;
 }
+
 </style>
 <form method="post">
 <div id="wrapper">
@@ -26,7 +21,8 @@ textarea{
 		<div class="container-fluid">
 			<h1 class="page-header">기부증서</h1>
 			<div id="column-right">
-			<button type="submit" class="button">미리보기</button> <a href="#"
+			<button type="submit" style="margin-bottom: 5px" class="btn btn-small">미리보기</button> 
+			<a style="margin-bottom: 0px" href="#"
 					class="button button-reversed">인쇄</a>
 			</div>
 			<table class="table">
@@ -41,7 +37,7 @@ textarea{
 					</tr>
 					<tr>
 						<td id="table_a">약정액</td>
-						<td id="table_b"><input type="text"  name="amount"></td>
+						<td id="table_b"><input type="text" class="money" name="amount"></td>
 					</tr>
 					<tr>
 						<td id="table_a">내용</td>

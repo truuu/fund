@@ -10,5 +10,5 @@ public interface PrintDonationMapper {
     int selectCount(Pagination pagination);
     void insert(PrintDonation printDonation);
     void delete(int ID);
-    int selectSerialNo();
+    String selectSerialNum();
 }

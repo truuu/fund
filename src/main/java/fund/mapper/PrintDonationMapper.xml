@@ -4,11 +4,6 @@
 
 <mapper namespace="fund.mapper.PrintDonationMapper">
 
-	<select id="selectSerialNo" resultType="int">
-	select MAX([ID])+1 
-	from [PrintDonation]
-	</select>
-
 	<select id="selectById" resultType="fund.dto.PrintDonation">
 		SELECT p.*, u.name
 		FROM
@@ -21,13 +16,13 @@
         <![CDATA[
         SELECT *
         FROM
-            (SELECT p.ID, p.createDate, p.sponsorName, p.amount, u.name,
+            (SELECT p.ID, p.createDate, p.sponsorName, p.amount, u.name, STR(YEAR(GETDATE()),4) + '-' + REPLACE(STR(num,4), ' ', '0') num2,
                      ROW_NUMBER() OVER (ORDER BY p.ID DESC) 행번호
               FROM [PrintDonation] p LEFT JOIN [User] u ON p.userID = u.ID
               WHERE
                 (#{srchType} = 0) OR (#{srchType} = 1 AND CHARINDEX(#{srchText}, sponsorName) = 1) OR
 				(#{srchType} = 2 AND CHARINDEX(#{srchText}, createDate) > 0) OR 
-				(#{srchType} = 3 AND CHARINDEX(#{srchText}, amount) > 0)
+				(#{srchType} = 3 AND #{srchText} = amount)
                   
              )subquery
         WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
@@ -41,19 +36,27 @@
 		FROM
 		[PrintDonation] p LEFT JOIN [User] u ON p.userID = u.ID
 		WHERE
-		(#{srchType} = 0) OR (#{srchType} = 1 AND CHARINDEX(#{srchText}, sponsorName)= 1) OR
-		(#{srchType} = 2 AND CHARINDEX(#{srchText}, createDate) > 0) OR
-		(#{srchType} = 3 AND CHARINDEX(#{srchText}, amount) > 0)
+		(#{srchType} = 0) OR (#{srchType} = 1 AND CHARINDEX(#{srchText},
+		sponsorName)= 1) OR
+		(#{srchType} = 2 AND CHARINDEX(#{srchText},
+		createDate) > 0) OR
+		(#{srchType} = 3 AND CHARINDEX(#{srchText}, amount)
+		> 0)
 
 	</select>
 
+	<select id="selectSerialNum" resultType="String">
+		SELECT STR(YEAR(GETDATE()),4) + '-' + REPLACE(STR(ISNULL(MAX(num),0)+1,4), ' ', '0') 
+		FROM PrintDonation
+	</select>
+	
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT
-		[PrintDonation]
-		(userID,createDate,sponsorName,amount)
-		VALUES
-		(#{userID},getDate(),#{sponsorName},#{amount})
+		printDonation(userID,createDate,sponsorName,amount,num)
+		VALUES(#{userID}, GETDATE(),#{sponsorName},#{amount},ISNULL(MAX(num),0)+1)
 	</insert>
+	
+	
 
 	<delete id="delete">
 		DELETE FROM [PrintDonation] WHERE ID = #{ID}
