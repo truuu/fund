@@ -36,64 +36,78 @@ public class ReadExcelFileToList {
 
 			//Get the number of sheets in the xlsx file
 			int numberOfSheets = workbook.getNumberOfSheets();
-
+			Row row;
+			Cell cell;
 			//loop through each of the sheets
 			for(int i=0; i < numberOfSheets; i++){
 
 				//Get the nth sheet from the workbook
 				Sheet sheet = workbook.getSheetAt(i);
-
-				//every sheet has rows, iterate over them
-				Iterator<Row> rowIterator = sheet.iterator();
-				while (rowIterator.hasNext()) 
-				{
-					String accountNo="";
-					String sponsorName="";
-					String amount = "";
-					String paymentDate = "";
-					String paymentWay="";
-
-					//Get the row object
-					Row row = rowIterator.next();
-					//Every row has columns, get the column iterator and iterate over them
-					Iterator<Cell> cellIterator = row.cellIterator();
-
-					while (cellIterator.hasNext()) 
-					{
-						//Get the Cell object
-						Cell cell = cellIterator.next();
-						//check the cell type and process accordingly
-						switch(cell.getCellType()){
-						case Cell.CELL_TYPE_STRING:
-							if(accountNo.equalsIgnoreCase("")){
-								accountNo = cell.getStringCellValue().trim();
-							}else if(sponsorName.equalsIgnoreCase("")){
-								//4nd column
-								sponsorName = cell.getStringCellValue().trim();
-							}else if(paymentWay.equalsIgnoreCase("")){
-								//4nd column
-								paymentWay = cell.getStringCellValue().trim();
+				System.out.println("rows="+sheet.getPhysicalNumberOfRows()); //getPhysicalNumberOfRows() 가 많이 계산됨
+				System.out.println("rows2="+sheet.getLastRowNum());
+				for(int rowIndex=0; rowIndex < sheet.getPhysicalNumberOfRows() ; rowIndex++ ){
+					//row 0은 헤더정보라서 무시
+					if(rowIndex != 0 && sheet.getRow(rowIndex).getCell(0) != null && !isNullOrEmpty(sheet.getRow(rowIndex).getCell(0).getStringCellValue()) ){
+						//현재 row 반환
+						row = sheet.getRow(rowIndex);
+						if(!"".equals(row.getCell(0)) && !" ".equals(row.getCell(0)) && row.getCell(0)!= null ) {
+							System.out.println(rowIndex+"/"+row.getCell(0));
+							XferResult resultRow = null;
+						
+							String accountNo="";
+							String sponsorName="";
+							String amount = "";
+							String paymentDate = "";
+							String paymentWay="";
+							
+							//row의 첫번째 cell값이 비어있지 않은 경우 만 cell탐색
+								//cell탐색 for문
+								for(int cellIndex=0;cellIndex<row.getPhysicalNumberOfCells();cellIndex++){
+									if(cellIndex==5 || cellIndex==9 || cellIndex==12 || cellIndex==16 || cellIndex==17){
+										cell = row.getCell(cellIndex);
+										if(true){
+											switch(cell.getCellType()){
+											case Cell.CELL_TYPE_STRING:
+												if(accountNo.equalsIgnoreCase("")){
+													accountNo = cell.getStringCellValue().trim();
+												}else if(sponsorName.equalsIgnoreCase("")){
+													//4nd column
+													sponsorName = cell.getStringCellValue().trim();
+												}else if(paymentWay.equalsIgnoreCase("")){
+													//4nd column
+													paymentWay = cell.getStringCellValue().trim();
+												}
+												break;
+											case Cell.CELL_TYPE_NUMERIC:
+												if( DateUtil.isCellDateFormatted(cell)) {
+													Date date = cell.getDateCellValue();
+													paymentDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+												}else{
+													Double money = cell.getNumericCellValue();
+													if(Math.floor(money) == money){
+														amount = money.intValue()+"";
+													}else{
+														amount = money+"";
+													}
+												}
+												break;
+											}
+											resultRow = new XferResult(accountNo,sponsorName,amount,paymentDate,paymentWay);
+											countriesList.add(resultRow);
+											
+										}
+										
+									}//이줄
+								
 							}
-							break;
-						case Cell.CELL_TYPE_NUMERIC:
-							if( DateUtil.isCellDateFormatted(cell)) {
-								Date date = cell.getDateCellValue();
-								paymentDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
-							}else{
-								Double money = cell.getNumericCellValue();
-								if(Math.floor(money) == money){
-									amount = money.intValue()+"";
-								}else{
-									amount = money+"";
-								}
-							}
-							break;
-						}
-					} //end of cell iterator
-					XferResult c = new XferResult(accountNo,sponsorName,amount,paymentDate,paymentWay);
-					countriesList.add(c);
-				} //end of rows iterator
-			} //end of sheets for loop
+							
+						}//if 괄호
+						
+					}
+					
+					
+				}	
+			}
 			//close file input stream
 			fis.close();
 		} catch (IOException e) {
@@ -102,5 +116,9 @@ public class ReadExcelFileToList {
 		return countriesList;
 	}
 
+	static boolean isNullOrEmpty(String s) {
+		if (s == null) return true;
+		return s.trim().isEmpty();
+	}
 
 }

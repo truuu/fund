@@ -44,7 +44,7 @@ public class FinanceController {
 		if (uploadedFile.getSize() > 0 ) {
 			byte[] bytes = uploadedFile.getBytes();
 			//System.out.println(bytes);
-			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
+			String fileName = "/Project/excelReadTest/"+uploadedFile.getOriginalFilename();
 			File tempFile = new File(fileName);
 			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
 			stream.write(bytes);
@@ -62,13 +62,13 @@ public class FinanceController {
 	@RequestMapping(value="/finance/saveXferResult.do",method=RequestMethod.GET)
 	public String saveXferResult(Model model) throws Exception{    
 
-		//°æ·Î¸í ¼³Á¤ ÆÄÀÏ (¾÷·ÎµåµÈ ÆÄÀÏÀ» ¾îµð¿¡ ÀúÀåÇØ¶ó) ¶ó´Â ¼³Á¤ ÆÄÀÏ (ÀúÀåÇÒ °æ·Î¸íÀ» ¹Ù²Ü ¶§ ¼Ò½ºÄÚµå ¼öÁ¤ÇÏ¸é ¾ÈµÇ´Ï±î ¼³Á¤ÆÄÀÏ)
+		//ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½) ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ ï¿½Ò½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ÈµÇ´Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 		return "finance/saveXferResult";
 	}
 	@RequestMapping(value="/finance/saveXferResult2.do",method=RequestMethod.GET)
 	public String saveXferResult2(Model model) throws Exception{    
 
-		//°æ·Î¸í ¼³Á¤ ÆÄÀÏ (¾÷·ÎµåµÈ ÆÄÀÏÀ» ¾îµð¿¡ ÀúÀåÇØ¶ó) ¶ó´Â ¼³Á¤ ÆÄÀÏ (ÀúÀåÇÒ °æ·Î¸íÀ» ¹Ù²Ü ¶§ ¼Ò½ºÄÚµå ¼öÁ¤ÇÏ¸é ¾ÈµÇ´Ï±î ¼³Á¤ÆÄÀÏ)
+		//ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½) ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ ï¿½Ò½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ÈµÇ´Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 		return "finance/saveXferResult2";
 	}
 
@@ -82,7 +82,7 @@ public class FinanceController {
 	       XferResult x = list.get(i);
 	       String commitmentNo = commitmentNos[i-1];
 	      
-	       // db¿¡ ÀúÀå...
+	       // dbï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...
 	       Commitment commitment = paymentMapper.selectByCommitmentNo(commitmentNo);
 	       Payment payment = new Payment();
 	       payment.setSponsorID(commitment.getSponsorID());
@@ -100,7 +100,7 @@ public class FinanceController {
 	    model.addAttribute("paymentList", paymentList);
 	        
 		return "finance/saveXferResult2";
-	}//¿¢¼¿ ¿øÇÏ´Â ¿­,Çà °¡Á®¿À´Â °Í¸¸ ÇÏ¸é µÊ.
+	}//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½,ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Í¸ï¿½ ï¿½Ï¸ï¿½ ï¿½ï¿½.
 
 	@RequestMapping(value="/finance/salary.do", method=RequestMethod.GET)
 	public String salary(Model model) throws Exception{

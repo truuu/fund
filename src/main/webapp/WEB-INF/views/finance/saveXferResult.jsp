@@ -43,8 +43,8 @@
 									</tr>
 								</thead>
 								<c:forEach var="xferResultList" items="${xferResultList}" varStatus="status">
-									<c:if test="${xferResultList.accountNo eq '159-22-01424-5(240-890012-16304)'}">
 										<tbody>
+											<c:if test="${xferResultList.accountNo ne '159-22-01424-5(240-890012-16304)'}">
 											<tr>
 												<td><input type="checkbox" name="index" value="${status.index }"/></td>
 												<td><input type="text" name="commitmentNo"/></td>
@@ -54,8 +54,8 @@
 												<td>${xferResultList.sponsorName}</td>
 												<td>${xferResultList.paymentWay}</td>
 											</tr>
+											</c:if>
 										</tbody>
-									</c:if>
 								</c:forEach>
 							</table>
 						</div>
