@@ -2,11 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javaScript">
 
 $(function() {
 	$('#searchChurch').click(function(){
-		alert(1)
+		
 		var startDate=$( "input[name$='startDate']" ).val();
 		var endDate=$( "input[name$='endDate']" ).val();
 		alert("start "+startDate+" end "+endDate)
@@ -65,13 +66,16 @@ $(function() {
 		    <c:forEach var="sponsor" items="${ list }">
                 <tr>
                     <td>${sponsor.church}</td>
-                    <td>${sponsor.sum}</td>
+                    <td>${sponsor.sum} 원</td>
                    
                 </tr>
             </c:forEach>
 
 
-
+                <tr>
+                 <td> 총합 </td>
+                <td>${total} 원</td>
+                </tr>
 							</tbody>
 						</table>
 

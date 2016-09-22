@@ -60,11 +60,25 @@ public class UserController {
 	 @RequestMapping(value="/user/churchSearch.do",method=RequestMethod.GET)
 	 public String churchSearch(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Model model)throws Exception{
 		 
+		  long total=0;
 		 
-		 System.out.println("start "+startDate+" endㄴ "+endDate);
+		 System.out.println("start "+startDate+" end"+endDate);
 		 List<Sponsor> list=userMapper.churchSum(startDate, endDate);
+		 //System.out.println(list.get(0).getChurch()+" "+list.get(0).getSum());
+		// System.out.println(list.get(1).getChurch()+" "+list.get(1).getSum());
 		 
+		 
+		 for(Sponsor s:list){
+			System.out.println(s.getSum());
+			total=total+s.getSum();
+			
+			 
+		 }
+		 System.out.println(" total "+total);
+		 model.addAttribute("total", total);
 		 model.addAttribute("list", list);
+		 
+		 
 		 
 		 
 		return "user/church";

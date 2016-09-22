@@ -27,7 +27,7 @@ public class Sponsor {
 	String etc;
 	
 	String church;
-	int sum;
+	long sum;
 	
 	
 	public String getChurch() {
@@ -36,10 +36,10 @@ public class Sponsor {
 	public void setChurch(String church) {
 		this.church = church;
 	}
-	public int getSum() {
+	public long getSum() {
 		return sum;
 	}
-	public void setSum(int sum) {
+	public void setSum(long sum) {
 		this.sum = sum;
 	}
 	
