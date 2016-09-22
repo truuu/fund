@@ -2,8 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
-<script src="/fund/res/js/jquery.js" type="text/javascript"></script>
-<script src="/fund/res/js/jquery.mask.min.js" type="text/javascript"></script>
 
 <style>
 #table_a {

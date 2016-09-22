@@ -5,8 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<script src="http://code.jquery.com/jquery-1.5.js"></script>
-<script src="./images/jquery-migrate-1.4.1.min.js"></script>
+
 
 <script>
 	$(function() {
@@ -31,7 +30,7 @@
 
 			// name이 같은 체크박스의 값들을 배열에 담는다.
 			var checkboxValues = [];
-			$("input[name=class[1]]:checked").each(function(i) {
+			$("input[name=class[1]:checked").each(function(i) {
 				
 				checkboxValues.push($(this).val());
 			});
