@@ -46,7 +46,8 @@ public class ReadExcelFileToList {
 				
 				for(int rowIndex=0; rowIndex < sheet.getPhysicalNumberOfRows() ; rowIndex++ ){
 					//row 0은 헤더정보라서 무시
-					if(rowIndex != 0 && sheet.getRow(rowIndex).getCell(0) != null && !isNullOrEmpty(sheet.getRow(rowIndex).getCell(0).getStringCellValue()) && !"159-22-01424-5(240-890012-16304) ".equals(sheet.getRow(rowIndex).getCell(0))  ){
+					System.out.println("1="+sheet.getRow(rowIndex).getCell(5)+"/");
+					if(rowIndex != 0 && sheet.getRow(rowIndex).getCell(0) != null && !isNullOrEmpty(sheet.getRow(rowIndex).getCell(0).getStringCellValue()) && "630-005410-643(240-890022-61104)".equals(sheet.getRow(rowIndex).getCell(5))  ){
 						//현재 row 반환
 						row = sheet.getRow(rowIndex);
 						if(!"".equals(row.getCell(0)) && !" ".equals(row.getCell(0)) && row.getCell(0)!= null ) {
