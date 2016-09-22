@@ -15,7 +15,14 @@ public class Commitment{
 	String name;//donationPurpose name
 	String codeName; // paymentMethodID
 	String sponsorNo; 
+	String state;
 	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	public int getID() {
 		return ID;
 	}

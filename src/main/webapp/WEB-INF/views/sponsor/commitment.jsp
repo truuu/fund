@@ -8,11 +8,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <script src="/fund_sys/res/js/jquery.js" type="text/javascript"></script>
 <script src="/fund_sys/res/js/jquery.mask.min.js" type="text/javascript"></script>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script src="/fund_sys/res/js/angular.js"></script>
-<script src="/fund_sys/res/js/angular.min.js"></script>
-
 <script>
 	function chkfrm1() {
 		document.getElementById("detail").style.display = "inline-block";
@@ -23,7 +18,6 @@
 	}
 
 	
-
 	function save() {
 
 		if (confirm("저장하시겠습니까?") == true) {
@@ -33,12 +27,7 @@
 		}
 	}
 </script>
-<script>
-	var app = angular.module('myApp', []);
-	app.controller('myCtrl', function($scope) {
-		$scope.total = "약정금액";
-	});
-</script>
+
 <style>
 #new, #detail2 {
 	float: right;
@@ -112,13 +101,10 @@ div#scroll {
 							<td>${ commitment.commitmentNo }</td>
 							<td>${ commitment.name }</td>
 							<td>${ commitment.codeName }</td>
-							<td><fmt:formatDate pattern="yyyy-MM-dd"
-									value="${ commitment.commitmentDate }" /></td>
-							<td><fmt:formatDate pattern="yyyy-MM-dd"
-									value="${ commitment.startDate }" /> ~ <fmt:formatDate
-									pattern="yyyy-MM-dd" value="${ commitment.endDate }" /></td>
-							<td><c:if test="${ commitment.endDate >= toDay }">진행</c:if>
-								<c:if test="${ commitment.endDate < toDay}">종료</c:if></td>
+							<td>${ commitment.commitmentDate }</td>
+							<td>
+									${ commitment.startDate } ~ ${ commitment.endDate }</td>
+							<td>${ commitment.state }</td>
 							<td>${ commitment.etc }</td>
 						</tr>
 					</c:forEach>

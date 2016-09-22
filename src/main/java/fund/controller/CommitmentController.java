@@ -35,6 +35,8 @@ public class CommitmentController {
 		String bank="은행";
 		model.addAttribute("bankList",codeMapper.selectByBank(bank));
 		model.addAttribute("sponsorID",90);//SPONSORID 12번 TEST
+		
+		
 		return "sponsor/commitment";
 	}
 
@@ -51,16 +53,28 @@ public class CommitmentController {
 		commitment.setPaymentMethodID(commitmentCreate.getPaymentMethodID());
 		commitment.setEtc(commitmentCreate.getCommitmentEtc());
 		
-		commitmentMapper.insert(commitment);  // 약정 먼저 insert
-		
+		commitment.setCommitmentDate(commitmentCreate.getCommitmentDate());
+		commitment.setStartDate(commitmentCreate.getCommitmentStartDate());
+		commitment.setEndDate(commitmentCreate.getEndDate());
 		System.out.println("1회:"+commitmentCreate.getAmountPerMonth());
 		System.out.println("약정날짜"+commitmentCreate.getCommitmentDate());
 		System.out.println("약정시작일"+commitmentCreate.getCommitmentStartDate());
 		System.out.println("약정종료일"+commitmentCreate.getEndDate());
 		
+		commitmentMapper.insert(commitment);  // 약정 먼저 insert
+		
 		CommitmentDetail commitmentDetail = new CommitmentDetail();  // 약정상세 
 		
+		commitmentDetail.setCommitmentID(commitmentDetailMapper.selectCommitmentID());
+		System.out.println(commitmentDetail.getCommitmentID());
+		commitmentDetail.setAmountPerMonth(commitmentCreate.getAmountPerMonth());
+		commitmentDetail.setBankID(commitmentCreate.getBankID());
+		commitmentDetail.setPaymentDay(commitmentCreate.getPaymentDay());
+		commitmentDetail.setAccountHolder(commitmentCreate.getAccountHolder());
+		commitmentDetail.setAccountNo(commitmentCreate.getAccountNo());
+		commitmentDetail.setStartDate(commitmentCreate.getCommitmentStartDate());
 		
+		commitmentDetailMapper.insert(commitmentDetail);  // 약정 상세 insert
 		
 		model.addAttribute("list", commitmentMapper.selectBySponsorID(90));  // 12번 test 나중에 바꿔야 함.
 		return "sponsor/commitment";

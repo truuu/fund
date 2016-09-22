@@ -3,6 +3,10 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.CommitmentDetailMapper">
+	<select id="selectCommitmentID" resultType="int">
+	select MAX(ID)
+	from Commitment 
+	</select>
     
    <select id="selectByCommitmentID" resultType="fund.dto.CommitmentDetail">
    	SELECT c2.*
@@ -10,10 +14,10 @@
    	WHERE c1.ID=#{id}
    </select>
    
-   <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+   <insert id="insert" useGeneratedKeys="true" keyProperty="ID">
         INSERT CommitmentDetail
                (commitmentID, amountPerMonth, paymentDay, startDate, bankID, accountNo, accountHolder, etc)
-        VALUES (#{commitmentID}, #{amountPerMonth}, #{paymentDay}, getDate(), #{bankID}, #{accountNo}, #{accountHolder}, #{etc})
+        VALUES (#{commitmentID}, #{amountPerMonth}, #{paymentDay}, #{startDate}, #{bankID}, #{accountNo}, #{accountHolder}, #{etc})
     </insert>
  
     

@@ -7,7 +7,7 @@ public class CommitmentDetail {
 	int commitmentID;
 	int amountPerMonth;
 	int paymentDay;
-	Date startDate;
+	String startDate;
 	int bankID;
 	String accountNo;
 	String accountHolder;
@@ -37,10 +37,11 @@ public class CommitmentDetail {
 	public void setPaymentDay(int paymentDay) {
 		this.paymentDay = paymentDay;
 	}
-	public Date getStartDate() {
+	
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 	public int getBankID() {

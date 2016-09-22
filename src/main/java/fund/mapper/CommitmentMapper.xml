@@ -6,7 +6,7 @@
 
 	<select id="selectBySponsorID" resultType="fund.dto.Commitment">
 		SELECT
-		c1.*,c2.codeName,d.name,s.sponsorNo
+		c1.*,c2.codeName,d.name,s.sponsorNo, case when endDate > GETDATE() then '진행' else '종료' end "state"
 		FROM Commitment c1 left join
 		Sponsor s on c1.sponsorID=s.ID
 		left join Code c2 on
@@ -22,6 +22,7 @@
 		WHERE c.sponsorID
 		= #{sponsorID}
 	</select>
+	
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT
 		Commitment
@@ -30,14 +31,13 @@
 		startDate, endDate, etc)
 		VALUES
 		(#{sponsorID},
-		(SELECT s.sponsorNo + '-' +REPLACE(STR(count(*)+1,2), '
-		', '0')
+		(SELECT s.sponsorNo + '-' +REPLACE(STR(count(*)+1,2), ' ', '0')
 		FROM Commitment c join Sponsor s on c.sponsorID=s.ID WHERE
 		c.sponsorID = #{sponsorID}
 		group by s.sponsorNo),
 		#{donationPurposeID},
 		#{paymentMethodID},
-		getDate(), getDate(), getDate(), #{etc})
+		#{commitmentDate},#{startDate},#{endDate}, #{etc})
 	</insert>
 
 	<update id="update">
