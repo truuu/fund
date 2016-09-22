@@ -3,38 +3,41 @@ package fund.dto;
 import java.util.Date;
 
 public class CommitmentCreate {
-	//Date commitmentStartDate;       // 공통
-	//Date commitmentDetailStartDate;
+	String commitmentStartDate;       // 공통
+	String commitmentDetailStartDate;
 	String commitmentEtc;
 	String commitmentDetailEtc;
 	
-	int sponsorID;                 //  commitment에만
+	int sponsorID;                 //  commitment
 	int donationPurposeID;
 	int paymentMethodID;
-	//Date commitmentDate;
-	//Date endDate;
+	String commitmentDate;
+	String endDate;
 	
 	
 	           
-	String amountPerMonth;   //1회납입액 일단 string으로 받아서 컨트롤러에서 다시 int로 변경하기 //  commitmentDetail에만
+	int amountPerMonth;    // commitmentDetail
 	int paymentDay;
 	int bankID;
 	String accountNo;
 	String accountHolder;
 	
-	/*
-	public Date getCommitmentStartDate() {
+	
+	
+	public String getCommitmentStartDate() {
 		return commitmentStartDate;
 	}
-	public void setCommitmentStartDate(Date commitmentStartDate) {
+	public void setCommitmentStartDate(String commitmentStartDate) {
 		this.commitmentStartDate = commitmentStartDate;
 	}
-	public Date getCommitmentDetailStartDate() {
+	
+	
+	public String getCommitmentDetailStartDate() {
 		return commitmentDetailStartDate;
 	}
-	public void setCommitmentDetailStartDate(Date commitmentDetailStartDate) {
+	public void setCommitmentDetailStartDate(String commitmentDetailStartDate) {
 		this.commitmentDetailStartDate = commitmentDetailStartDate;
-	}*/
+	}
 	public String getCommitmentEtc() {
 		return commitmentEtc;
 	}
@@ -66,30 +69,28 @@ public class CommitmentCreate {
 	public void setPaymentMethodID(int paymentMethodID) {
 		this.paymentMethodID = paymentMethodID;
 	}
-	/*
-	public Date getCommitmentDate() {
+	
+
+	public String getCommitmentDate() {
 		return commitmentDate;
 	}
-	public void setCommitmentDate(Date commitmentDate) {
+	public void setCommitmentDate(String commitmentDate) {
 		this.commitmentDate = commitmentDate;
 	}
-	/*
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	*/
-	
 	public int getPaymentDay() {
 		return paymentDay;
 	}
 	
-	public String getAmountPerMonth() {
+	public int getAmountPerMonth() {
 		return amountPerMonth;
 	}
-	public void setAmountPerMonth(String amountPerMonth) {
+	public void setAmountPerMonth(int amountPerMonth) {
 		this.amountPerMonth = amountPerMonth;
 	}
 	public void setPaymentDay(int paymentDay) {

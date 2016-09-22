@@ -8,9 +8,9 @@ public class Commitment{
 	String commitmentNo;
 	int donationPurposeID;
 	int paymentMethodID;
-	Date commitmentDate;
-	Date startDate;
-	Date endDate;
+	String commitmentDate;
+	String startDate;
+	String endDate;
 	String etc;
 	String name;//donationPurpose name
 	String codeName; // paymentMethodID
@@ -46,22 +46,23 @@ public class Commitment{
 	public void setPaymentMethodID(int paymentMethodID) {
 		this.paymentMethodID = paymentMethodID;
 	}
-	public Date getCommitmentDate() {
+
+	public String getCommitmentDate() {
 		return commitmentDate;
 	}
-	public void setCommitmentDate(Date commitmentDate) {
+	public void setCommitmentDate(String commitmentDate) {
 		this.commitmentDate = commitmentDate;
 	}
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	public String getEtc() {

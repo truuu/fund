@@ -13,3 +13,10 @@ $(function() {
         $(this).parents("form").submit();
     });
 });
+$(function() {
+	$("[class=money]").mask("000,000,000,000,000,000");
+
+	$("form").submit(function() {
+		$("[class=money]").unmask();
+	});
+})

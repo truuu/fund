@@ -8,7 +8,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <script src="/fund_sys/res/js/jquery.js" type="text/javascript"></script>
 <script src="/fund_sys/res/js/jquery.mask.min.js" type="text/javascript"></script>
-
 <script
 	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="/fund_sys/res/js/angular.js"></script>
@@ -23,11 +22,7 @@
 		document.getElementById("detail2").style.display = "inline-block";
 	}
 
-	$(document).ready(function() {
-		$('.money').mask('000,000,000,000,000,000', {
-			reverse : true
-		});
-	});
+	
 
 	function save() {
 
@@ -114,7 +109,7 @@ div#scroll {
 				<tbody>
 					<c:forEach var="commitment" items="${ list }">
 						<tr>
-							<td>${ commitment.sponsorNo }<span>-0</span>${ commitment.commitmentNo }</td>
+							<td>${ commitment.commitmentNo }</td>
 							<td>${ commitment.name }</td>
 							<td>${ commitment.codeName }</td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd"
@@ -162,8 +157,7 @@ div#scroll {
 					<tr>
 						<td id="table_a">약정일자</td>
 						<td id="td2">
-							<!--  <input type="date" name="commitmentDate"
-						class="asize">-->
+							  <input type="date" name="commitmentDate">
 						</td>
 					</tr>
 				</tbody>
@@ -181,9 +175,9 @@ div#scroll {
 				</tr>
 				<tr>
 					<td id="table_a">시작일</td>
-					<td><!--  <input type="date" name="commitmentCreateStartDate" class="size">--></td>
+					<td> <input type="date" name="commitmentStartDate"></td>
 					<td id="table_a">종료일</td>
-					<td><!--  <input type="date" name="endDate" class="size">(x개월)--></td>
+					<td>  <input type="date" name="endDate" ></td>
 				</tr>
 				<tr>
 					<td id="table_a">은행명</td>
@@ -212,7 +206,9 @@ div#scroll {
 		</table>
 
 			<hr>
+			<center><!-- div 가운데로 하는 css서식 페이지네이션뷰에서 찾아서 수정 -->
 			<button type="submit" class="btn" name="cmd" value="create">저장</button>
+			</center>
 		</form>
 	</div>
 </div>
