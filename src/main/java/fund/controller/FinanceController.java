@@ -69,11 +69,7 @@ public class FinanceController {
 	@RequestMapping(value="/finance/saveXferResult2.do",method=RequestMethod.GET)
 	public String saveXferResult2(Model model) throws Exception{    
 
-<<<<<<< HEAD
-		//��θ� ���� ���� (���ε�� ������ ��� �����ض�) ��� ���� ���� (������ ��θ��� �ٲ� �� �ҽ��ڵ� �����ϸ� �ȵǴϱ� ��������)
-=======
-		
->>>>>>> branch 'cms' of https://github.com/truuu/fund
+
 		return "finance/saveXferResult2";
 	}
 
