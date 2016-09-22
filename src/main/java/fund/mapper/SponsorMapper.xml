@@ -24,6 +24,34 @@
 		select TOP(1)ID from sponsor
 		order by ID DESC;
 	</select>
+	
+	<!-- 후언자 수정 -->
+	<update id="updateSponsor">
+		UPDATE sponsor SET
+		sponsorNo=#{sponsorNo},
+		name=#{name},
+		juminNo=#{juminNo},
+		sponsorType1ID=#{sponsorType1ID},
+		sponsorType2ID=#{sponsorType2ID},
+		churchID=#{churchID},
+		signUpDate=#{signUpDate},
+		mobilePhone=#{mobilePhone},
+		recommender=#{recommender},
+		recommenderRelation=#{recommenderRelation},
+		mailReceiving=#{mailReceiving},
+		mailTo=#{mailTo},
+		homeAddress=#{homeAddress},
+		homePhone=#{homePhone},
+		email=#{email},
+		company=#{company},
+		department=#{department},
+		position=#{position},
+		officePhone=#{officePhone},
+		officeAddress=#{officeAddress},
+		etc=#{etc}
+		WHERE sponsorNo = #{sponsorNo}
+	</update>
+	
 	<!-- 후원자 삭제 -->
 	<delete id="removeSponsor">
 		DELETE FROM sponsor

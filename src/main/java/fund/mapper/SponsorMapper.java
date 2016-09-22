@@ -29,6 +29,8 @@ public interface SponsorMapper {
      //후원자입력 part
      void sponsorInsert(Sponsor sponsor);
      void removeSponsor(String sponsorNo);
+     void updateSponsor(Sponsor sponsor);
+     
      Sponsor selectBySponsorNo(String sponsorNo);
      List<Sponsor> nameSearch(Pagination pagination);
      List<Sponsor> sponsorSearch(Pagination pagination);

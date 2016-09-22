@@ -76,9 +76,16 @@ function fileDelete(id){
 	}
 	
 	function insert(){
-	alert(3)
+	alert('저장')
 	$('#target').submit();
 	}
+	
+	function update(){
+		alert('update')
+		$('#target').submit();
+     }
+	
+	
 	function deletes(sponsorNo){
 		alert(sponsorNo)
 		 location.href = "delete.do?id="+sponsorNo;
@@ -87,14 +94,21 @@ function fileDelete(id){
 <c:set var="mailReceiving" value="${sponsor.mailReceiving}"  />
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h4>회원기본정보26</h4>
+		<h4>회원기본정보26 / ${sponsor.signUpDate}</h4>
 
 
 		<div class="row">
 			<div class="col-lg-12">
 				<div id="column-right">
-					<a onclick="insert()" class="button button-reversed">저장</a> <a onclick="deletes(${ sponsor.sponsorNo })"
-						class="button">삭제</a>
+					<c:if test="${ sponsor.signUpDate==null}">
+					<a onclick="insert()" class="button button-reversed">저장</a>
+				</c:if>
+				
+				<c:if test="${ sponsor.signUpDate!=null}">
+					<a onclick="update()" class="button button-reversed">수정</a>
+				</c:if>
+
+					<a onclick="deletes(${ sponsor.sponsorNo })" class="button">삭제</a>
 				</div>
 			</div>
 		</div>
@@ -107,6 +121,14 @@ function fileDelete(id){
 			<form id="target" action="sponsorInsert.do"  method="post">
 				<tbody>
 					<tr>
+					<c:if test="${ sponsor.signUpDate==null}">
+					    <input type="hidden" name="sort" value="0">
+					</c:if>
+					
+					<c:if test="${ sponsor.signUpDate!=null}">
+					    <input type="hidden" name="sort" value="1">
+					</c:if>
+					
 						<td id="table_a">후원인번호</td>
 						<td id="table_b"><input type="text" name="sponsorNo" readonly
 							value="${ sponsor.sponsorNo }"></td>

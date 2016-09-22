@@ -27,6 +27,7 @@ function sponorSearch(){
 $(function() {
    
     $("tbody tr").click(function() {
+    	var check=1;
         location.href = "detail.do?id=" + $(this).attr("data-id");
     })
  

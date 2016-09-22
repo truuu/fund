@@ -139,8 +139,18 @@ public class SponsorController {
  	    sponsor.setHomeAddress(homeAddress);
  	    sponsor.setOfficeAddress(officeAddress);
 
+ 	    System.out.println("구분 "+sponsor.getSort());
+ 	    
+ 	    if(sponsor.getSort()==0){
+ 	    	System.out.println("입력");
  		sponsorMapper.sponsorInsert(sponsor);
- 		
+ 	    }
+ 	    if(sponsor.getSort()==1){
+ 	    	System.out.println("수정");
+ 	     sponsorMapper.updateSponsor(sponsor);
+ 	    }
+ 	    
+ 	    
  		 return "redirect:/sponsor/sponsor_m.do";
  	}
  	

@@ -42,9 +42,16 @@ public class Sponsor {
 	String officePostCode;
 	
 	
+	int sort; // 구분용 회원입력 0 - 회원수정 1
 	
 	
 	
+	public int getSort() {
+		return sort;
+	}
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
 	public String getHomeRoadAddress() {
 		return homeRoadAddress;
 	}
