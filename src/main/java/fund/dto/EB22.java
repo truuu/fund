@@ -5,7 +5,7 @@ public class EB22 {
 	String jumin;
 	String bankCode;
 	String accountNo;
-	int amount;
+	int amountPerMonth;
 	String paymentDate;
 	String name;
 	
@@ -39,11 +39,11 @@ public class EB22 {
 	public void setAccountNo(String accountNo) {
 		this.accountNo = accountNo;
 	}
-	public int getAmount() {
-		return amount;
+	public int getAmountPerMonth() {
+		return amountPerMonth;
 	}
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setAmountPerMonth(int amountPerMonth) {
+		this.amountPerMonth = amountPerMonth;
 	}
 	public String getPaymentDate() {
 		return paymentDate;

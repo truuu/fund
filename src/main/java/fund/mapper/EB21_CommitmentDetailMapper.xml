@@ -54,16 +54,9 @@
 	<update id="updateEB21success">
 		update EB21_commitmentDetail 
 		set state='성공'
-		where commitmentDetailID NOT IN
-		(select cd.ID
-		from EB21_commitmentDetail eb
-		JOIN commitmentDetail cd
-		ON eb.commitmentDetailID=cd.ID
-		JOIN commitment c
-		ON cd.commitmentID=c.ID
-		JOIN sponsor s
-		ON c.sponsorID=s.ID
-		where s.sponsorNo=#{sponsorNo})
+		where state NOT IN
+		(select state from EB21_commitmentDetail
+		where state='에러')
 		AND
 		EB21ID IN
 		(select e.ID

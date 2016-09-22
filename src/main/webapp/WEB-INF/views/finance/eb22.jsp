@@ -55,7 +55,7 @@
 											<td>${eb22List.jumin }</td>
 											<td>${eb22List.bankCode }</td>
 											<td>${eb22List.accountNo }</td>
-											<td>${eb22List.amount }</td>
+											<td>${eb22List.amountPerMonth }</td>
 										</tr>
 									</tbody>
 								</c:forEach>

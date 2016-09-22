@@ -1,5 +1,7 @@
 package fund.dto;
 
+import java.util.Date;
+
 public class EB21_commitmentDetail {
 	int ID;
 	int EB21ID;
@@ -20,7 +22,21 @@ public class EB21_commitmentDetail {
 	String donationPurpose;
 	String name;
 	String etc1;
+	Date paymentDate;
+	int sponsorID;
 	
+	public Date getPaymentDate() {
+		return paymentDate;
+	}
+	public void setPaymentDate(Date paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+	public int getSponsorID() {
+		return sponsorID;
+	}
+	public void setSponsorID(int sponsorID) {
+		this.sponsorID = sponsorID;
+	}
 	public int getPaymentDay() {
 		return paymentDay;
 	}

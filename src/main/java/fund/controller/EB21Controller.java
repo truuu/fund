@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import fund.dto.EB14;
 import fund.dto.EB21_commitmentDetail;
 import fund.dto.EB22;
+import fund.dto.Payment;
 import fund.dto.XferResult;
 import fund.mapper.EB21Mapper;
 import fund.mapper.EB21_CommitmentDetailMapper;
@@ -87,7 +88,6 @@ public class EB21Controller {
 			
 			ArrayList<String> eb22file = ReadEB22File.readEB22File(fileName);
 			List<EB22> eb22List = new ArrayList<EB22>();
-			
 			for(String i : eb22file){
 				EB22 eb22 = new EB22();
 				String getList = i;
@@ -95,9 +95,9 @@ public class EB21Controller {
 				eb22.setBankCode(sub.substring(0, 7));
 				eb22.setAccountNo(sub.substring(7, 23).trim());
 				int amount = Integer.parseInt(sub.substring(23, 36).trim());//돈 앞에 0 제거.
-				eb22.setAmount(amount);
+				eb22.setAmountPerMonth(amount);
 				eb22.setJumin(sub.substring(36,49).trim());
-				String sponsorNo = sub.substring(72, 91).trim();
+				String sponsorNo = sub.substring(88, 113).trim();
 				eb22.setSponsorNo(sponsorNo);
 				StringBuffer sNo = new StringBuffer(sponsorNo);
 				sNo.insert(4,"-");//후원인번호 가운데 "-" 추가
@@ -118,7 +118,6 @@ public class EB21Controller {
 	public String updateEB22(HttpSession session,Model model) throws ParseException {
 		String fileName = (String) session.getAttribute("fileName");
 		String date = ReadEB22Date.readEB22Date(fileName);
-		System.out.println(fileName);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date paymentDate = format.parse(date);
 		
@@ -126,15 +125,17 @@ public class EB21Controller {
 
 		 for (int i=0; i<eb22List.size();i++) {
 		       EB22 x = eb22List.get(i);
-		       eb21_commitmentDetailMapper.updateEB21error(x.getSponsorNo(),paymentDate);
-		       eb21_commitmentDetailMapper.updateEB21success(x.getSponsorNo(), paymentDate);
+		       String sponsorNo = x.getSponsorNo();
+		       StringBuffer sNo = new StringBuffer(sponsorNo);
+		       sNo.insert(4,"-");
+		       eb21_commitmentDetailMapper.updateEB21error(sNo.toString(),paymentDate);
+		       eb21_commitmentDetailMapper.updateEB21success(paymentDate);
 		 }
-		
-		List<EB21_commitmentDetail> successList = paymentMapper.selectEB21success();//'성공'상태의 payment데이터리스트
-		for(EB21_commitmentDetail i : successList){
-			paymentMapper.insertEB21Payment(i);
-		}//payment테이블에 납입 업데이트
-		
+	
+		 List<Payment> successList = paymentMapper.selectEB21success();//'성공'상태의 payment데이터리스트
+			for(Payment i : successList){
+				paymentMapper.insertEB21Payment(i);
+			}//payment테이블에 납입 업데이트
 		return "finance/eb22";
 	}
 	@RequestMapping(value="/finance/resultEB2122.do", method=RequestMethod.GET)

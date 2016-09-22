@@ -43,7 +43,7 @@ public class FinanceController {
 	public String uploadXferResult(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws Exception{    
 		if (uploadedFile.getSize() > 0 ) {
 			byte[] bytes = uploadedFile.getBytes();
-			//System.out.println(bytes);
+
 			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
 
 			File tempFile = new File(fileName);
@@ -63,7 +63,6 @@ public class FinanceController {
 	@RequestMapping(value="/finance/saveXferResult.do",method=RequestMethod.GET)
 	public String saveXferResult(Model model) throws Exception{    
 
-		//��θ� ���� ���� (���ε�� ������ ��� �����ض�) ��� ���� ���� (������ ��θ��� �ٲ� �� �ҽ��ڵ� �����ϸ� �ȵǴϱ� ��������)
 		return "finance/saveXferResult";
 	}
 	@RequestMapping(value="/finance/saveXferResult2.do",method=RequestMethod.GET)
@@ -80,10 +79,10 @@ public class FinanceController {
 	    SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 	    List<Payment> paymentList = new ArrayList<Payment>();
 	    for (int i : indexes) {
+	    	System.out.println(i);
 	       XferResult x = list.get(i);
-	       String commitmentNo = commitmentNos[i-1];
+	       String commitmentNo = commitmentNos[i];
 	      
-	       // db�� ����...
 	       Commitment commitment = paymentMapper.selectByCommitmentNo(commitmentNo);
 	       Payment payment = new Payment();
 	       payment.setSponsorID(commitment.getSponsorID());
@@ -100,7 +99,7 @@ public class FinanceController {
 	    model.addAttribute("paymentList", paymentList);
 	        
 		return "finance/saveXferResult2";
-	}//���� ���ϴ� ��,�� �������� �͸� �ϸ� ��.
+	}
 
 	@RequestMapping(value="/finance/salary.do", method=RequestMethod.GET)
 	public String salary(Model model) throws Exception{

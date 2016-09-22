@@ -38,7 +38,6 @@ public class ReadEB22File {
 				content += temp + "\n";
 			}
 
-			System.out.println("================== 파일 내용 출력 ==================");
 			int t = content.indexOf("T");
 			String result = content.substring(150,t);
 			int i=0;
@@ -51,7 +50,7 @@ public class ReadEB22File {
 				list.add(result.substring(r,r+150));
 				i=r+150;
 			}
-
+			
 			return list;
 
 		} catch (FileNotFoundException e) {

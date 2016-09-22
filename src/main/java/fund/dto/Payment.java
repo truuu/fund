@@ -21,7 +21,14 @@ public class Payment {
 	String accountHolder;
 	String corporate;
 	String donationPurpose;
+	int amountPerMonth;
 	
+	public int getAmountPerMonth() {
+		return amountPerMonth;
+	}
+	public void setAmountPerMonth(int amountPerMonth) {
+		this.amountPerMonth = amountPerMonth;
+	}
 	public int getID() {
 		return ID;
 	}

@@ -43,15 +43,13 @@ public class ReadExcelFileToList {
 
 				//Get the nth sheet from the workbook
 				Sheet sheet = workbook.getSheetAt(i);
-				System.out.println("rows="+sheet.getPhysicalNumberOfRows()); //getPhysicalNumberOfRows() 가 많이 계산됨
-				System.out.println("rows2="+sheet.getLastRowNum());
+				
 				for(int rowIndex=0; rowIndex < sheet.getPhysicalNumberOfRows() ; rowIndex++ ){
 					//row 0은 헤더정보라서 무시
-					if(rowIndex != 0 && sheet.getRow(rowIndex).getCell(0) != null && !isNullOrEmpty(sheet.getRow(rowIndex).getCell(0).getStringCellValue()) ){
+					if(rowIndex != 0 && sheet.getRow(rowIndex).getCell(0) != null && !isNullOrEmpty(sheet.getRow(rowIndex).getCell(0).getStringCellValue()) && !"159-22-01424-5(240-890012-16304) ".equals(sheet.getRow(rowIndex).getCell(0))  ){
 						//현재 row 반환
 						row = sheet.getRow(rowIndex);
 						if(!"".equals(row.getCell(0)) && !" ".equals(row.getCell(0)) && row.getCell(0)!= null ) {
-							System.out.println(rowIndex+"/"+row.getCell(0));
 							XferResult resultRow = null;
 						
 							String accountNo="";
@@ -92,21 +90,18 @@ public class ReadExcelFileToList {
 												}
 												break;
 											}
-											resultRow = new XferResult(accountNo,sponsorName,amount,paymentDate,paymentWay);
-											countriesList.add(resultRow);
-											
 										}
-										
-									}//이줄
+									}
+								}
 								
-							}
+								resultRow = new XferResult(accountNo,sponsorName,amount,paymentDate,paymentWay);
+								countriesList.add(resultRow);						
+							}	
+								//이줄	
+						}
 							
 						}//if 괄호
-						
-					}
-					
-					
-				}	
+				
 			}
 			//close file input stream
 			fis.close();
