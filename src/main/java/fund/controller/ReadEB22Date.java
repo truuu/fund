@@ -6,13 +6,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-import fund.dto.EB14;
-
-public class ReadEB14File {
-	public static ArrayList<String> readEB14File(String fileName){
+public class ReadEB22Date {
+	public static String readEB22Date(String fileName){
+		
 		BufferedReader br = null;        
 
 		InputStreamReader isr = null;    
@@ -41,21 +41,16 @@ public class ReadEB14File {
 				content += temp + "\n";
 			}
 
-			System.out.println("================== 파일 내용 출력 ==================");
-			int t = content.indexOf("T");
-			int r_count = 0;
-			String result = content.substring(120,t);
-
-			int i=0;
-			ArrayList<String> list = new ArrayList<String>();
-			while(true){
-				int r = result.indexOf("R",i);
-				if(r<0) break;
-				list.add(result.substring(r,r+120));
-				i=r+96;
-				r_count++;
-			}
-			return list;
+			String eb22Date = content.substring(27,33);
+			
+			SimpleDateFormat format1 = new SimpleDateFormat("yyMMdd");
+			Date result = format1.parse(eb22Date);
+			
+			format1.applyPattern("yyyy-MM-dd");
+			
+			
+			return format1.format(result);
+			
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -84,6 +79,7 @@ public class ReadEB14File {
 			}
 
 		}
+		
 		return null;
 	}
 }

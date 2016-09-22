@@ -4,6 +4,7 @@
 	prefix="sec"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
@@ -16,7 +17,6 @@
 				</div>
 			</div>
 			<!-- /.row -->
-			<form:form method="post" modelAttribute="EB14">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4>EB14 금융등록</h4>
@@ -27,7 +27,10 @@
 						</div>
 						<div class="col-lg-3">
 							<div id="column-right">
-								<button class="btn btn-default" type="submit" name="cmd" value="updateEB14"> EB14 적용 </button>
+								<form id="uploadform" method="post" enctype="multipart/form-data">
+									<input type="file" id="file" name="file"/>
+									<button class="btn btn-default" type="submit">EB14 업로드</button>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -44,22 +47,12 @@
 									<th>계좌번호</th>
 								</tr>
 							</thead>
-							<c:forEach var="eb14Data" items="${eb14List}">
-							<tbody>
-								<tr>
-									<td>${eb14Data.sponsorNo }</td>
-									<td>${eb14Data.jumin }</td>
-									<td>${eb14Data.bankCode }</td>
-									<td>${eb14Data.accountNo }</td>
-								</tr>
-							</tbody>
-							</c:forEach>
+							
 						</table>
 
 					</div>
 				</div>
 			</div>
-			</form:form>
 		</div>
 		<!-- /.panel -->
 	</div>

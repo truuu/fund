@@ -27,9 +27,10 @@
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								<label> 출금일 선택 : </label>
 								<select id="paymentDay" name="paymentDay">
-									<option value="20"> 20일 </option>
-									<option value="25"> 25일 </option>
+									<option value="20" ${ paymentDay == 20 ? "selected" : ""}> 20일 </option>
+									<option value="25" ${ paymentDay == 25 ? "selected" : ""}> 25일 </option>
 								</select>
+								
 								<button type="submit" class="btn btn-default" name="cmd" value="selectEB21List"> 조회 </button>
 							</div>
 							<div class="col-lg-5">

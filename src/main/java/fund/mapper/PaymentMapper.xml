@@ -5,7 +5,7 @@
 <mapper namespace="fund.mapper.PaymentMapper">
 
     <select id="selectEB21success" resultType="fund.dto.EB21_commitmentDetail">
-    	select c.sponsorID,c.ID,e.paymentDate,c.donationPurposeID,c.paymentMethodID
+    	select c.sponsorID,c.ID commitmentID,e.paymentDate,c.donationPurposeID,c.paymentMethodID
 		from EB21_commitmentDetail eb
 		JOIN commitmentDetail cd
 		ON eb.commitmentDetailID=cd.ID
@@ -18,7 +18,7 @@
 	<insert id="insertEB21Payment" useGeneratedKeys="true" keyProperty="id">
 		insert into payment
 		(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
-		values(3,3,80000,'2016-09-25',1,6)
+		values(#{sponsorID},#{commitmentID},#{amount},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
 	</insert>
 	
 	<select id="selectByCommitmentNo" resultType="fund.dto.Commitment">

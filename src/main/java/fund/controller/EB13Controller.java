@@ -2,13 +2,17 @@ package fund.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fund.dto.EB13_CommitmentDetail;
 import fund.dto.EB14;
+import fund.dto.XferResult;
 import fund.mapper.EB13Mapper;
 import fund.mapper.EB13_CommitmentDetailMapper;
 
@@ -60,25 +65,64 @@ public class EB13Controller {
 	public String eb14(Model model) {
 		return "finance/eb14";
 	}
-	@RequestMapping(value="/finance/eb14.do", method=RequestMethod.POST, params="cmd=selectEB14")
-	public String selectEB14(Model model) {
-		ArrayList<String> eb14file = ReadEB14File.readEB14File();
-		EB14 eb14 = new EB14();
-		for(int i=0;i<eb14file.size();){
-			String getList = eb14file.get(i);
-			String sub = getList.substring(25);
-			String[] eb14Values = sub.split("");
-			eb14.setSponsorNo(eb14Values[i]);
-			eb14.setJumin(eb14Values[i+1]);
-			eb14.setBankCode(eb14Values[i+2]);
-			eb14.setAccountNo(eb14Values[i+3]);
-			i=i+4;
+	
+	@RequestMapping(value="/finance/uploadEB14.do", method=RequestMethod.GET)
+	public String uploadEB14(Model model) {
+		return "finance/uploadEB14";
+	}
+	
+	@RequestMapping(value="/finance/uploadEB14.do", method=RequestMethod.POST)
+	public String uploadEB14(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws IOException, ParseException {
+		if (uploadedFile.getSize() > 0 ) {
+			byte[] bytes = uploadedFile.getBytes();
+			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
+			File tempFile = new File(fileName);
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
+			stream.write(bytes);
+			stream.close();
+
+			ArrayList<String> eb14file = ReadEB14File.readEB14File(fileName);
+			List<EB14> eb14List = new ArrayList<EB14>();
+			SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
+			
+			for(String i : eb14file){
+				EB14 eb14 = new EB14();
+				String getList = i;
+				String sub = getList.substring(19);
+				String date = sub.substring(0, 6);
+				
+				eb14.setCreateDate(format.parse(date));
+				eb14.setSponsorNo(sub.substring(7, 26).trim());
+				eb14.setBankCode(sub.substring(27, 33).trim());
+				eb14.setAccountNo(sub.substring(34, 50).trim());
+				eb14.setJumin(sub.substring(50, 67).trim());
+				eb14List.add(eb14);
+
+			}	
+			model.addAttribute("eb14List",eb14List);
+			session.setAttribute("eb14ListSession", eb14List);
+			return "finance/eb14";
 		}
-		List<EB14> eb14List = (List<EB14>) eb14;
-		model.addAttribute("eb14List",eb14List);
+		return "finance/uploadEB14";
+	}
+	
+	@RequestMapping(value="/finance/uploadEB14.do", method=RequestMethod.POST, params="cmd=updateEB14")
+	public String updateEB14(HttpSession session,Model model) {
+		List<EB14> eb14List = (List<EB14>) session.getAttribute("eb14ListSession");
+		
+		for(int i=0; i<eb14List.size(); i++){
+			EB14 x = eb14List.get(i);
+			String sponsorNo = x.getSponsorNo();
+			Date createDate = x.getCreateDate();
+			StringBuffer sNo = new StringBuffer(sponsorNo);
+			sNo.insert(4,"-");
+			eb13_commitmentDetailMapper.updateEB14error(sNo.toString());
+			eb13_commitmentDetailMapper.updateEB14success(createDate);
+		}
 		
 		return "finance/eb14";
 	}
+	
 	@RequestMapping(value="/finance/resultEB1314.do", method=RequestMethod.GET)
 	public String resultEB1314(Model model) {
 		List<EB13_CommitmentDetail> eb1314result = eb13_commitmentDetailMapper.selectEB1314();

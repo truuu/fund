@@ -5,18 +5,26 @@
 <mapper namespace="fund.mapper.EB21_CommitmentDetailMapper">
 
 	<select id="selectEB21" resultType="fund.dto.EB21_commitmentDetail">
-    	select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin,code.codeName,cd.accountNo,cd.amountPerMonth,code.etc1
+    	select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin,code.codeName,cd.accountNo,cd.amountPerMonth,code.etc1,cd.ID commitmentDetailID
 		from [commitmentDetail] cd
-		LEFT JOIN [EB13_commitmentDetail] eb
+		JOIN [EB13_commitmentDetail] eb
 		ON eb.state='성공' AND cd.ID=eb.commitmentDetailID
 		LEFT JOIN [commitment] c
-		ON cd.commitmentID=c.ID
+		ON cd.commitmentID=c.ID AND c.paymentMethodID=10
 		AND (c.endDate is null OR c.endDate>GETDATE())
 		JOIN [sponsor] s
 		ON c.sponsorID=s.ID
 		JOIN [code]
 		ON cd.bankID=code.ID
 		WHERE cd.paymentDay=#{pDay}
+		AND
+		cd.ID
+		NOT IN (select commitmentDetailID from EB21_commitmentDetail)
+	</select>
+	
+	<select id="selectSponsorName" resultType="fund.dto.EB22">
+		select name from [sponsor]
+		where sponsorNo=#{sponsorNo}
 	</select>
 	
 	<select id="selectEB22" resultType="fund.dto.EB21">
@@ -39,7 +47,7 @@
 		JOIN sponsor s
 		ON c.sponsorID=s.ID
 		JOIN EB21 e
-		ON e.paymentDate='2016-09-25'
+		ON e.paymentDate=#{paymentDate}
 		where s.sponsorNo=#{sponsorNo})
 	</update>
 	
@@ -60,7 +68,7 @@
 		EB21ID IN
 		(select e.ID
 		from EB21 e
-		where e.paymentDate='2016-09-25')
+		where e.paymentDate=#{paymentDate})
 	</update>
 	
 	<select id="selectEB2122" resultType="fund.dto.EB21_commitmentDetail">

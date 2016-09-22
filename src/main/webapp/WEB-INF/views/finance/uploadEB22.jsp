@@ -16,7 +16,6 @@
 				</div>
 			</div>
 			<!-- /.row -->
-			<form:form method="post" modelAttribute="EB22">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4>EB22 금융등록</h4>
@@ -27,8 +26,10 @@
 							</div>
 							<div class="col-lg-3">
 								<div id="column-right">
-									<button class="btn btn-default" type="submit" name="cmd"
-										value="updateEB22">EB22 적용</button>
+									<form id="uploadform" method="post" enctype="multipart/form-data">
+									<input type="file" id="file" name="file"/>
+									<button class="btn btn-default" type="submit">EB22 업로드</button>
+								</form>
 								</div>
 							</div>
 						</div>
@@ -47,23 +48,10 @@
 										<th>납입금액</th>
 									</tr>
 								</thead>
-								<c:forEach var="eb22List" items="${eb22List}">
-									<tbody>
-										<tr>
-											<td>${eb22List.sponsorNo }</td>
-											<td>${eb22List.name }</td>
-											<td>${eb22List.jumin }</td>
-											<td>${eb22List.bankCode }</td>
-											<td>${eb22List.accountNo }</td>
-											<td>${eb22List.amount }</td>
-										</tr>
-									</tbody>
-								</c:forEach>
 							</table>
 						</div>
 					</div>
 				</div>
-			</form:form>
 		</div>
 		<!-- /.panel -->
 	</div>

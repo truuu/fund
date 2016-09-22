@@ -1,19 +1,19 @@
 package fund.dto;
 
-import java.util.Date;
-
-public class EB14 {
+public class EB22 {
 	String sponsorNo;
 	String jumin;
 	String bankCode;
 	String accountNo;
-	Date createDate;
+	int amount;
+	String paymentDate;
+	String name;
 	
-	public Date getCreateDate() {
-		return createDate;
+	public String getName() {
+		return name;
 	}
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getSponsorNo() {
 		return sponsorNo;
@@ -38,5 +38,17 @@ public class EB14 {
 	}
 	public void setAccountNo(String accountNo) {
 		this.accountNo = accountNo;
+	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	public String getPaymentDate() {
+		return paymentDate;
+	}
+	public void setPaymentDate(String paymentDate) {
+		this.paymentDate = paymentDate;
 	}
 }

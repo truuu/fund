@@ -42,21 +42,15 @@
 	
 	<update id="updateEB14success">
 		update EB13_commitmentDetail set state='성공'
-		where commitmentDetailID NOT IN
-		(select cd.ID
-		from EB13_commitmentDetail eb
-		JOIN commitmentDetail cd
-		ON eb.commitmentDetailID=cd.ID
-		JOIN commitment c
-		ON cd.commitmentID=c.ID
-		JOIN sponsor s
-		ON c.sponsorID=s.ID
-		where s.sponsorNo=#{sponsorNo})
+		where state NOT IN
+		(select state from EB13_commitmentDetail
+		where state='에러')
 		AND
 		EB13ID IN
 		(select e.ID
 		from EB13 e
 		where e.createDate=#{createDate})
+
 	</update>
 	
 	<select id="selectEB1314" resultType="fund.dto.EB13_CommitmentDetail">

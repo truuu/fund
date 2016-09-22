@@ -7,12 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
-import fund.dto.EB14;
-
-public class ReadEB14File {
-	public static ArrayList<String> readEB14File(String fileName){
+public class ReadEB22File {
+	public static ArrayList<String> readEB22File(String fileName){
 		BufferedReader br = null;        
 
 		InputStreamReader isr = null;    
@@ -31,7 +28,7 @@ public class ReadEB14File {
 			fis = new FileInputStream(file);
 
 			// File Input 스트림 객체를 이용해 Input 스트림 객체를 생서하는데 인코딩을 UTF-8로 지정
-			isr = new InputStreamReader(fis, "UTF-8");
+			isr = new InputStreamReader(fis, "US-ASCII");
 
 			// Input 스트림 객체를 이용하여 버퍼를 생성
 			br = new BufferedReader(isr);
@@ -43,18 +40,18 @@ public class ReadEB14File {
 
 			System.out.println("================== 파일 내용 출력 ==================");
 			int t = content.indexOf("T");
-			int r_count = 0;
-			String result = content.substring(120,t);
-
+			String result = content.substring(150,t);
 			int i=0;
 			ArrayList<String> list = new ArrayList<String>();
+
 			while(true){
 				int r = result.indexOf("R",i);
 				if(r<0) break;
-				list.add(result.substring(r,r+120));
-				i=r+96;
-				r_count++;
+				
+				list.add(result.substring(r,r+150));
+				i=r+150;
 			}
+
 			return list;
 
 		} catch (FileNotFoundException e) {

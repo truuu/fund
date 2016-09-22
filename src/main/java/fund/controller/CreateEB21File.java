@@ -26,7 +26,7 @@ public class CreateEB21File {
 		
 		String h = "H000000009983010152EB21"+mmdd.format(paymentDate)+yymmdd.format(paymentDate);
 		String h2 = "005459315922014245";
-		String padded = String.format("%-112s",h2);
+		String padded = String.format("%-117s",h2);
 		bufferedWriter.write(h+padded);
 		
 		for(EB21_commitmentDetail i : eb21List){

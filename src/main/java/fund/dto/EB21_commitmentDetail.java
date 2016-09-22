@@ -4,6 +4,7 @@ public class EB21_commitmentDetail {
 	int ID;
 	int EB21ID;
 	int commitmentDetailID;
+	int commitmentID;
 	String state;
 	
 	String sponsorNo;
@@ -115,5 +116,11 @@ public class EB21_commitmentDetail {
 	}
 	public void setEtc1(String etc1) {
 		this.etc1 = etc1;
+	}
+	public int getCommitmentID() {
+		return commitmentID;
+	}
+	public void setCommitmentID(int commitmentID) {
+		this.commitmentID = commitmentID;
 	}
 }

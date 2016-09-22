@@ -44,7 +44,8 @@ public class FinanceController {
 		if (uploadedFile.getSize() > 0 ) {
 			byte[] bytes = uploadedFile.getBytes();
 			//System.out.println(bytes);
-			String fileName = "/Project/excelReadTest/"+uploadedFile.getOriginalFilename();
+			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
+
 			File tempFile = new File(fileName);
 			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
 			stream.write(bytes);
@@ -68,7 +69,11 @@ public class FinanceController {
 	@RequestMapping(value="/finance/saveXferResult2.do",method=RequestMethod.GET)
 	public String saveXferResult2(Model model) throws Exception{    
 
+<<<<<<< HEAD
 		//��θ� ���� ���� (���ε�� ������ ��� �����ض�) ��� ���� ���� (������ ��θ��� �ٲ� �� �ҽ��ڵ� �����ϸ� �ȵǴϱ� ��������)
+=======
+		
+>>>>>>> branch 'cms' of https://github.com/truuu/fund
 		return "finance/saveXferResult2";
 	}
 
@@ -93,7 +98,6 @@ public class FinanceController {
 	       payment.setAmount(Integer.parseInt(x.getAmount()));
 	       payment.setDonationPurposeID(commitment.getDonationPurposeID());
 	       payment.setPaymentMethodID(commitment.getPaymentMethodID());
-	       System.out.println(payment);
 	       paymentMapper.insertXferResult(payment);
 	       paymentList.add(payment);
 	    }
