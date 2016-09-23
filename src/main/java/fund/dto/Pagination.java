@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Pagination {
     int currentPage = 1;
-    int pageSize = 15;
+    int pageSize = 10;
     int order;
     int srchType;
     String srchText = "";
@@ -16,7 +16,28 @@ public class Pagination {
     String codeName;
     String nameForSearch;
     
+    String startDate;  
+    String endDate;
+    
+    
+    
  
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 
 	public String getNameForSearch() {
 		return nameForSearch;

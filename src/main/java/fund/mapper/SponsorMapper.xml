@@ -199,16 +199,33 @@
 
 	<!-- DM발송 -->
 	<select id="postManage" resultType="fund.dto.Sponsor">
-		select
+	 <![CDATA[
+		 SELECT *
+        FROM(select
 		sponsor.ID,name,(select codeName from code where
 		code.ID=sponsor.sponsorType2ID) AS sponsorType2,
 		(select codeName from
 		code where code.ID=sponsor.churchID) AS church,
-		homeAddress,officeAddress,mailTo
+		homeAddress,officeAddress,mailTo,ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
 		from sponsor join payment on
 		sponsor.ID=payment.sponsorID
 		where payment.paymentDate between
+		#{startDate} and #{endDate}
+		)subquery
+		 WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              행번호 <= #{currentPage} * #{pageSize}
+        ORDER BY 행번호
+		 ]]>
+	</select>
+	
+	<!-- DM 페이징을 위한 count -->
+	<select id="countForDM" resultType="int">
+	select count(*)
+	from sponsor join payment on
+		sponsor.ID=payment.sponsorID
+		where payment.paymentDate between
 		#{startDate} and #{endDate};
+	
 	</select>
 
 

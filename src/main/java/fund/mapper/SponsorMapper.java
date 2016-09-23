@@ -17,10 +17,13 @@ public interface SponsorMapper {
      List<Code> selectAuto(String input);
      Integer ceateNumber();
      List<Sponsor> sponsorManage();
-     List<Sponsor> postManage(@Param("startDate")String startDate,@Param("endDate")String endDate);
+     List<Sponsor> postManage(Pagination pagination);
      
      int sponsorTypeCheck(String codeName);
     
+     int countForDM(Pagination pagination);
+     
+     
      int selectCount();
      int searchCount(String codeName);
      int nameCount(String nameForSearch);

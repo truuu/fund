@@ -94,7 +94,7 @@ function fileDelete(id){
 <c:set var="mailReceiving" value="${sponsor.mailReceiving}"  />
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h4>회원기본정보26 / ${sponsor.signUpDate}</h4>
+		<h4>회원기본정보</h4>
 
 
 		<div class="row">
@@ -212,7 +212,7 @@ function fileDelete(id){
 
 					</tr>
 					<tr>
-						<td id="table_a">추천인관계  /${sponsor.recommenderRelation}/</td>
+						<td id="table_a">추천인관계  </td>
 						<td><select name="recommenderRelation">
 								<option value="가족" ${sponsor.recommenderRelation=='가족'? "selected" :""}>가족</option>
 								<option value="지인" ${sponsor.recommenderRelation=='지인'? "selected" :""}>지인</option>

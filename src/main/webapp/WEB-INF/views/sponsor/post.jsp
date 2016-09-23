@@ -5,26 +5,21 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <script>
 
 var startDate,endDate,check; 
 
 function search(){
-	
+	alert('asd '+pageNumber)
 	
 	startDate=$('.startDate').val();
 	endDate=$('.endDate').val();
 
 	
-	location.href="http://localhost:8080/fund_sys/sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate;
+	//location.href="http://localhost:8080/fund_sys/sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate;
 	
-	/*
-	$.ajax({
-		url:"http://localhost:8080/fund_sys/user/postSearch.do",
-		type:"GET",
-		data:{startDate:startDate,endDate:endDate}
-	});
-*/
+
 	
 }
 $(function(){
@@ -46,6 +41,7 @@ $(function(){
 		
 		
 	});
+	
 	$('#search').click(function(){
 		startDate=$('#startDate').val();
 		endDate=$('#endDate').val();
@@ -60,6 +56,7 @@ $(function(){
 	
 		
 	});
+	
 });
 
 </script>
@@ -74,14 +71,14 @@ $(function(){
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">
-						DM 발송용 주소록2
+						DM 발송용 주소록
 					</h1>
 				</div>
 			</div>
 			<!-- /.row -->
-
+                   
 			<div>
-				<label> 신청기간 </label> <input type="date" id="startDate"> ~ <input type="date" id="endDate">
+				<label> 신청기간 </label> <input type="date" id="startDate" value="${ pagination.startDate}"> ~ <input type="date" id="endDate" value="${ pagination.endDate}">
 				 <button  class="btn btn-primary" id="search">검색</button>
 			</div>
 
@@ -93,6 +90,12 @@ $(function(){
 				<div class="col-lg-12">
 				<hr>
 					<div class="table-responsive">
+					 <form method="get">
+                      <input type="hidden" name="pg" value="1" />
+                       <input type="hidden" name="startDate" value="${ pagination.startDate}" />
+                        <input type="hidden" name="endDate" value="${ pagination.endDate}" />
+                        <input type="hidden" name="check" value="f" />
+                      
 						<table class="table table-bordered table-hover" id="table_s">
 							<thead>
 								<tr>
@@ -123,6 +126,15 @@ $(function(){
 
 							</tbody>
 						</table>
+						
+						 <div class="pagination pagination-small pagination-centered">
+        <ul>
+            <c:forEach var="page" items="${ pagination.pageList }">
+                <li class='${ page.cssClass }'><a data-page="${ page.number }" >${ page.label }</a></li>
+            </c:forEach>
+        </ul>
+                        </div>
+                         </form>
 
 					</div>
 

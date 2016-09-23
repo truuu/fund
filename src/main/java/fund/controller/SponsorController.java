@@ -248,12 +248,14 @@ public class SponsorController {
 	
 	//기간기준으로 DM발송 리스트 찾기
 	@RequestMapping(value="/sponsor/postSearch.do",method=RequestMethod.GET)
-	public String postByDate(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
-		String startDate = request.getParameter("startDate");
-		String endDate = request.getParameter("endDate");
+	public String postByDate(HttpServletRequest request,HttpServletResponse response,Model model,Pagination  pagination)throws Exception{
+		//String startDate = request.getParameter("startDate");
+	//	String endDate = request.getParameter("endDate");
 		String check = request.getParameter("check");
 		
-		List<Sponsor> postList=sponsorMapper.postManage(startDate, endDate);
+		 pagination.setRecordCount(sponsorMapper.countForDM(pagination));
+		
+		List<Sponsor> postList=sponsorMapper.postManage(pagination);
 		
 		
 		
