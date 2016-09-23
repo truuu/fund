@@ -100,7 +100,56 @@ public class FinanceController {
 
 		return "finance/saveXferResult2";
 	}
+	
+	@RequestMapping(value="/finance/uploadSalaryResult.do",method=RequestMethod.GET)
+	public String uploadSalaryResult(Model model) throws Exception{    
+		return "finance/uploadSalaryResult";
+	}
+	@RequestMapping(value="/finance/uploadSalaryResult.do",method=RequestMethod.POST)
+	public String uploadSalaryResult(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws Exception{    
+		if (uploadedFile.getSize() > 0 ) {
+			byte[] bytes = uploadedFile.getBytes();
+			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
+			File tempFile = new File(fileName);
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
+			stream.write(bytes);
+			stream.close();
 
+			List<Salary> salaryList = ReadExcelSalaryToList.readExcelData(fileName);
+			model.addAttribute("salaryList",salaryList);
+			session.setAttribute("salaryListSession", salaryList);
+			return "finance/salary";
+		}
+		return "finance/uploadSalaryResult";
+	}
+
+	@RequestMapping(value="/finance/uploadSalaryResult.do",method=RequestMethod.POST, params="cmd=salaryToPayment")
+	public String salaryToPayment(HttpSession session,Model model) throws ParseException{
+		List<Salary> list = (List<Salary>)session.getAttribute("salaryListSession");
+		if (list == null) return "redirect:uploadSalaryResult.do";
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		List<Payment> paymentList = new ArrayList<Payment>();
+		for (int i=0; i<list.size(); i++) {
+			System.out.println(i);
+			Salary x = list.get(i);
+			String sponsorNo = x.getSponsorNo();
+			Commitment commitment = paymentMapper.selectIDBySponsorNo(sponsorNo); 
+			
+			Payment payment = new Payment();
+			payment.setSponsorID(commitment.getSponsorID());
+			payment.setCommitmentID(commitment.getID());
+			payment.setCommitmentNo(commitment.getCommitmentNo());
+			Date pDate = transFormat.parse(x.getPaymentDate());
+			payment.setPaymentDate(pDate);
+			payment.setAmount(Integer.parseInt(x.getAmount()));
+			payment.setDonationPurposeID(commitment.getDonationPurposeID());
+			payment.setPaymentMethodID(commitment.getPaymentMethodID());
+			paymentMapper.insertSalaryResult(payment);
+			paymentList.add(payment);
+		}
+		model.addAttribute("paymentList", paymentList);
+		return "finance/salary";
+	}
 	@RequestMapping(value="/finance/salary.do", method=RequestMethod.GET)
 	public String salary(Model model) throws Exception{
 		List<Salary> salaryList = ReadExcelSalaryToList.readExcelData("/Users/parkeunsun/Documents/salary_sample_1.xlsx");

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+             
 <mapper namespace="fund.mapper.PaymentMapper">
 
     <select id="selectEB21success" resultType="fund.dto.Payment">
@@ -31,17 +31,17 @@
 		values(#{sponsorID},#{commitmentID},#{amount},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
 	</insert>
 	
-	<select id="selectIDBySponsorNo" resultType="fund.dto.Sponsor">
-		select s.ID,c.ID
+	<select id="selectIDBySponsorNo" resultType="fund.dto.Commitment">
+		select s.ID sponsorID,c.ID,c.commitmentNo,c.donationPurposeID,c.paymentMethodID
 		from sponsor s
 		JOIN commitment c
 		ON s.ID=c.sponsorID
-		where s.sponsorNo='2016-0001' AND c.paymentMethodID=8 
+		where s.sponsorNo=#{sponsorNo} AND c.paymentMethodID=12
 	</select>
 	
-	<insert id="insertSalaryPayment" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertSalaryResult" useGeneratedKeys="true" keyProperty="id">
 		insert into payment(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
-		values(1,5,30000,'2016-08-20',2,8)
+		values(#{sponsorID},#{commitmentID},#{amount},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
 	</insert>
 	
 	<insert id="insertIrregularPayment" useGeneratedKeys="true" keyProperty="id">

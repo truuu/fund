@@ -22,17 +22,9 @@
 					<div class="panel-heading">
 
 						<div class="row">
-
 							<div id="column-right">
-
-								<form id="uploadform" method="post"
-									enctype="multipart/form-data">
-									<input type="file" id="files" name="files" style="width: 90%;" />
-									<button class="btn btn-default" type="submit">업로드</button>
-								</form>
-
 								<button class="btn btn-default" type="submit" name="cmd"
-									value="automationStart">선택 항목 연동</button>
+									value="salaryToPayment">전체 항목 연동</button>
 							</div>
 
 						</div>
@@ -43,19 +35,16 @@
 							<table class="table table-bordered" id="table_s">
 								<thead>
 									<tr>
-										<th>선택</th>
 										<th>후원인번호</th>
 										<th>후원인명</th>
 										<th>납입금액</th>
 										<th>납입일</th>
-								
 									</tr>
 								</thead>
 								<c:forEach var="salaryList" items="${salaryList}">
 									<c:if test="${salaryList.sponsorNo ne null}">
 										<tbody>
 											<tr>
-												<td>체크</td>
 												<td>${salaryList.sponsorNo }</td>
 												<td>${salaryList.sponsorName}</td>
 												<td>${salaryList.amount}</td>

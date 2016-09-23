@@ -6,6 +6,9 @@ public class Salary {
 	String sponsorName;
 	String amount;
 	String paymentDate;
+	int sponsorID;
+	int commitmentID;
+	String commitmentNo;
 
 	public Salary(String sponsorNo, String sponsorName, String amount, String paymentDate) {
 
@@ -45,4 +48,27 @@ public class Salary {
 	public void setPaymentDate(String paymentDate) {
 		this.paymentDate = paymentDate;
 	}
+	public int getSponsorID() {
+		return sponsorID;
+	}
+
+	public void setSponsorID(int sponsorID) {
+		this.sponsorID = sponsorID;
+	}
+
+	public int getCommitmentID() {
+		return commitmentID;
+	}
+
+	public void setCommitmentID(int commitmentID) {
+		this.commitmentID = commitmentID;
+	}
+	public String getCommitmentNo() {
+		return commitmentNo;
+	}
+
+	public void setCommitmentNo(String commitmentNo) {
+		this.commitmentNo = commitmentNo;
+	}
+
 }

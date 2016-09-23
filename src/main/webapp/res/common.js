@@ -16,6 +16,7 @@ $(function() {
 	$("#sponsorNo").change(function(){
 		$("#commitmentSearch").submit();
 	});
+	
 	$("[class=money]").mask("000,000,000,000,000,000",{reverse: true});
 
 	$("form").submit(function() {
