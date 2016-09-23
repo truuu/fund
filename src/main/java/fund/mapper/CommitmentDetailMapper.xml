@@ -3,6 +3,13 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.CommitmentDetailMapper">
+	<select id="selectByCommitmentID2" resultType="fund.dto.CommitmentDetail">
+	select *
+	from CommitmentDetail
+	where commitmentID = #{commitmentID}
+	
+	</select>
+	
 	<select id="selectCommitmentID" resultType="int">
 	select MAX(ID)
 	from Commitment 

@@ -4,20 +4,15 @@
 	prefix="sec"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<jsp:useBean id="toDay" class="java.util.Date" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<script src="/fund_sys/res/js/jquery.js" type="text/javascript"></script>
-<script src="/fund_sys/res/js/jquery.mask.min.js" type="text/javascript"></script>
-<script>
-	function chkfrm1() {
-		document.getElementById("detail").style.display = "inline-block";
-		document.getElementById("detail2").style.display = "inline-block";
-	}
-	function chkfrm2() {
-		document.getElementById("detail2").style.display = "inline-block";
-	}
 
-	
+<script>
+	$(function() {
+		$("#new").click(function() {
+			$(".commitmentTable").show();
+		});
+	});
+
 	function save() {
 
 		if (confirm("저장하시겠습니까?") == true) {
@@ -29,12 +24,12 @@
 </script>
 
 <style>
-#new, #detail2 {
-	float: right;
+div.commitmentTable {
+	display: none;
 }
 
-table.tb1 {
-	display: none;
+#new, #detail2 {
+	float: right;
 }
 
 .size {
@@ -71,17 +66,43 @@ div#scroll {
 	background-color: #fee;
 	font-weight: bold;
 }
+
+button#detail {
+	margin: 0 auto;
+}
+
+div#table_a, div#td2 {
+	display: inline-block;
+}
+
+div.table-responsive {
+	border: 1px;
+}
+
+div.table {
+	width: 100%;
+}
+
+tr td#table_a {
+	width: 10%;
+	height: 10px;
+	vertical-align: middle;
+}
+{
+vertical-align
+:
+middle;
+}
 </style>
+
 
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3>약정 내역</h3>
 		<div class="input-group1">
-
-			<button type="button" id="new" class="btn btn-small"
-				onclick="chkfrm1()">새로 등록</button>
+			<button type="button" id="new" class="btn btn-small">새로
+				등록</button>
 		</div>
-
 		<div class="table-responsive">
 			<table class="table table-bordered">
 				<thead>
@@ -97,13 +118,12 @@ div#scroll {
 				</thead>
 				<tbody>
 					<c:forEach var="commitment" items="${ list }">
-						<tr>
+						<tr data-url="edit.do?ID=${commitment.ID}">
 							<td>${ commitment.commitmentNo }</td>
 							<td>${ commitment.name }</td>
 							<td>${ commitment.codeName }</td>
 							<td>${ commitment.commitmentDate }</td>
-							<td>
-									${ commitment.startDate } ~ ${ commitment.endDate }</td>
+							<td>${ commitment.startDate }~${ commitment.endDate }</td>
 							<td>${ commitment.state }</td>
 							<td>${ commitment.etc }</td>
 						</tr>
@@ -113,90 +133,95 @@ div#scroll {
 		</div>
 		<form method="post">
 			<input type="hidden" name="sponsorID" value="${sponsorID}" />
-			<table class="tb1" id="detail">
-				<tbody>
+			<div class="commitmentTable">
+				<h3>약정 생성</h3>
+				<table class="table">
+					<tbody>
+						<tr>
+							<td id="table_a">납입방법</td>
+							<td><select name="paymentMethodID">
+									<c:forEach var="paymentMethod" items="${paymentMethodList}">
+										<option value="${paymentMethod.ID}">${paymentMethod.codeName}</option>
+									</c:forEach>
+							</select></td>
+							<td id="table_a">기부목적</td>
+							<td><form:form method="post">
+									<div class="form-inline">
+										<input type="text" name="dname" readonly /> <a
+											href="#searchDialog" class="btn btn-default"
+											data-toggle="modal">검색</a> <input type="hidden"
+											name="donationPurposeID" id="donationPurposeID" />
+									</div>
+								</form:form></td>
+							<td id="table_a">기부기관</td>
+							<td><input type="text" name="corporateName" readonly /></td>
+						</tr>
 
-					<tr>
-						<td id="table_a">납입방법</td>
-						<td id="td2"><select name="paymentMethodID">
-								<c:forEach var="paymentMethod" items="${paymentMethodList}">
-									<option value="${paymentMethod.ID}">${paymentMethod.codeName}</option>
-								</c:forEach>
-						</select></td>
-					</tr>
-					<tr>
-						<td id="table_a">기부목적</td>
-						<td id="td2"><form:form method="post">
-								<div class="form-inline">
-									<input type="text" name="dname" readonly /> <a
-										href="#searchDialog" class="btn btn-default"
-										data-toggle="modal">검색</a> <input type="hidden"
-										name="donationPurposeID" id="donationPurposeID" />
-								</div>
-							</form:form></td>
-					</tr>
-					<tr>
-						<td id="table_a">기부기관</td>
-						<td id="td2"><input type="text" name="corporateName" readonly />
-						</td>
-					</tr>
-					<tr>
-						<td id="table_a">약정일자</td>
-						<td id="td2">
-							  <input type="date" name="commitmentDate">
-						</td>
-					</tr>
-				</tbody>
-			</table>
 
-			<table class="tb1" id="detail2">
-			<tbody>
-				<tr>
-					
-					<td id="table_a">1회납입액</td>
-					<td><input type="text" class="money" name="amountPerMonth" /></td>
-					<td id="table_a">약정금액</td>
-					<td></td>
+						<tr>
+							<td id="table_a">약정일자</td>
+							<td><input type="date" name="commitmentDate"></td>
+							<td id="table_a">시작일</td>
+							<td><input type="date" name="commitmentStartDate"></td>
+							<td id="table_a">종료일</td>
+							<td><input type="date" name="endDate"></td>
+						</tr>
+						<tr>
+							<td id="table_a">비고</td>
+							<td colspan="5"><input size="130" id="etc" type="text"
+								name="commitmentEtc"></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<h3>약정상세 생성</h3>
+				<!--
+			int amountPerMonth;
+		int paymentDay;
+		String startDate; // 수정시 수정날짜가 들어가게!
+		int bankID;
+		String accountNo;
+		String accountHolder;
+		String etc;-->
+				<table class="table">
+					<tbody>
+						<tr>
+							<td id="table_a">1회납입액</td>
+							<td><input type="text" class="money" name="amountPerMonth" />
+							</td>
+							<td id="table_a">결제일</td>
+							<td><select name="paymentDay"><option value="20">20일</option>
+									<option value="25">25일</option></select></td>
+							<td id="table_a">은행명</td>
+							<td><select name="bankID">
+									<c:forEach var="bank" items="${bankList}">
+										<option value="${bank.ID}">${bank.codeName}</option>
+									</c:forEach>
+							</select></td>
+							<td id="table_a">계좌번호</td>
+							<td><input name="accountNo" type="text" /></td>
+						</tr>
+						<tr>
+
+							<td id="table_a">예금주</td>
+							<td><input name="accountHolder" type="text" /></td>
+							<td id="table_a">약정종료</td>
+							<td><button>종료하기</button></td>
+							<td id="table_a">비고</td>
+							<td colspan="3"><input size="50" id="etc" type="text"
+								name="commitmentDetailEtc"></td>
+						</tr>
+
+					</tbody>
+				</table>
+				<center>
+					<button type="submit" class="btn" name="cmd" value="create">저장</button>
+				</center>
 				
-				</tr>
-				<tr>
-					<td id="table_a">시작일</td>
-					<td> <input type="date" name="commitmentStartDate"></td>
-					<td id="table_a">종료일</td>
-					<td>  <input type="date" name="endDate" ></td>
-				</tr>
-				<tr>
-					<td id="table_a">은행명</td>
-					<td><select name="bankID">
-							<c:forEach var="bank" items="${bankList}">
-								<option value="${bank.ID}">${bank.codeName}</option>
-							</c:forEach>
-					</select></td>
-					<td id="table_a">계좌번호</td>
-					<td><input name="accountNo" type="text" /></td>
-				</tr>
-				<tr>
-					<td id="table_a">예금주</td>
-					<td><input name="accountHolder" type="text" /></td>
-					<td id="table_a">결제일</td>
-					<td><select name="paymentDay"><option value="20">20일</option>
-							<option value="25">25일</option></select></td>
-				</tr>
-				<tr>
-					<td id="table_a">약정상태</td>
-					<td><button>종료하기</button></td>
-					<td id="table_a">비고</td>
-					<td><input name="commitmentEtc" type="text" /></td>
-				</tr>
-			</tbody>
-		</table>
-
-			<hr>
-			<center><!-- div 가운데로 하는 css서식 페이지네이션뷰에서 찾아서 수정 -->
-			<button type="submit" class="btn" name="cmd" value="create">저장</button>
-			</center>
-		</form>
+			</div>
+			</form>
 	</div>
+	
 </div>
 
 <!-- modal -->
@@ -254,7 +279,6 @@ div#scroll {
 
 	</div>
 </div>
-
 <script>
 	function selectDonationPurpose() {
 		var selectedTr = $("#searchResult tr.selected");
