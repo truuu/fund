@@ -20,15 +20,14 @@
 				<div class="form-group">
 					<label for="amount" class="col-lg-2 control-label">납입금액</label>
 					<div class="col-lg-10">
-						<input type="text" class="form-control" id="amount" name="amount"
-							placeholder="금액" />
+						<input type="text" class="money" id="amount" name="amount" placeholder="금액" />
 					</div>
 				</div>
 				<div class="form-group">
 
 					<label for="paymentDateString" class="col-lg-2 control-label">납입일</label>
 					<div class="col-lg-10">
-						<input type="text" class="form-control" id="paymentDateString"
+						<input type="date" class="form-control" id="paymentDateString"
 							name="paymentDateString" placeholder="날짜" />
 					</div>
 				</div>

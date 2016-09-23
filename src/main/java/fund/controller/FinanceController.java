@@ -75,29 +75,29 @@ public class FinanceController {
 	@RequestMapping(value="/finance/uploadXferResult.do" ,method = RequestMethod.POST, params="cmd=saveCommitmentNo")
 	public String saveCommitmentNo( @RequestParam("index") int[] indexes, @RequestParam("commitmentNo") String[] commitmentNos,HttpSession session,Model model) throws IOException, ParseException {
 		List<XferResult> list = (List<XferResult>)session.getAttribute("xferResult");
-	    if (list == null) return "redirect:saveXferResult1.do";
-	    SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-	    List<Payment> paymentList = new ArrayList<Payment>();
-	    for (int i : indexes) {
-	    	System.out.println(i);
-	       XferResult x = list.get(i);
-	       String commitmentNo = commitmentNos[i];
-	      
-	       Commitment commitment = paymentMapper.selectByCommitmentNo(commitmentNo);
-	       Payment payment = new Payment();
-	       payment.setSponsorID(commitment.getSponsorID());
-	       payment.setCommitmentID(commitment.getID());
-	       payment.setCommitmentNo(commitmentNo);
-	       Date pDate = transFormat.parse(x.getPaymentDate());
-	       payment.setPaymentDate(pDate);
-	       payment.setAmount(Integer.parseInt(x.getAmount()));
-	       payment.setDonationPurposeID(commitment.getDonationPurposeID());
-	       payment.setPaymentMethodID(commitment.getPaymentMethodID());
-	       paymentMapper.insertXferResult(payment);
-	       paymentList.add(payment);
-	    }
-	    model.addAttribute("paymentList", paymentList);
-	        
+		if (list == null) return "redirect:saveXferResult1.do";
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		List<Payment> paymentList = new ArrayList<Payment>();
+		for (int i : indexes) {
+			System.out.println(i);
+			XferResult x = list.get(i);
+			String commitmentNo = commitmentNos[i];
+
+			Commitment commitment = paymentMapper.selectByCommitmentNo(commitmentNo);
+			Payment payment = new Payment();
+			payment.setSponsorID(commitment.getSponsorID());
+			payment.setCommitmentID(commitment.getID());
+			payment.setCommitmentNo(commitmentNo);
+			Date pDate = transFormat.parse(x.getPaymentDate());
+			payment.setPaymentDate(pDate);
+			payment.setAmount(Integer.parseInt(x.getAmount()));
+			payment.setDonationPurposeID(commitment.getDonationPurposeID());
+			payment.setPaymentMethodID(commitment.getPaymentMethodID());
+			paymentMapper.insertXferResult(payment);
+			paymentList.add(payment);
+		}
+		model.addAttribute("paymentList", paymentList);
+
 		return "finance/saveXferResult2";
 	}
 

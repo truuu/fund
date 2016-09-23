@@ -1,8 +1,10 @@
 package fund.controller;
 
 import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,7 +17,7 @@ public class CreateEB21File {
 		Date paymentDate = new SimpleDateFormat("yyyy-MM-dd").parse(paymentDate_old);
 		SimpleDateFormat yymmdd = new SimpleDateFormat("yyMMdd");
 		SimpleDateFormat mmdd = new SimpleDateFormat("MMdd");
-		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("/Users/parkeunsun/Documents/EB21"+mmdd.format(paymentDate)+".txt"));
+		BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("/Users/parkeunsun/Documents/EB21"+mmdd.format(paymentDate)),"EUC-KR"));
 		String sponsorNo = "";
 		String bankCode = "";
 		String accountNo = "";

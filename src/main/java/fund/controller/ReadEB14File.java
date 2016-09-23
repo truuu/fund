@@ -41,9 +41,7 @@ public class ReadEB14File {
 				content += temp + "\n";
 			}
 
-			System.out.println("================== 파일 내용 출력 ==================");
 			int t = content.indexOf("T");
-			int r_count = 0;
 			String result = content.substring(120,t);
 
 			int i=0;
@@ -53,7 +51,6 @@ public class ReadEB14File {
 				if(r<0) break;
 				list.add(result.substring(r,r+120));
 				i=r+96;
-				r_count++;
 			}
 			return list;
 

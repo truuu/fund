@@ -15,7 +15,7 @@ public class CreateEB13File {
 		System.out.println(today);
 		SimpleDateFormat yymmdd = new SimpleDateFormat("yyMMdd");
 		SimpleDateFormat mmdd = new SimpleDateFormat("MMdd");
-		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("/Users/parkeunsun/Documents/EB13"+mmdd.format(today)+".txt"));
+		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("/Users/parkeunsun/Documents/EB13"+mmdd.format(today)));
 		String sponsorNo = "";
 		String bankCode = "";
 		String accountNo = "";

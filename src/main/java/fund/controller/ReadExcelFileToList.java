@@ -44,10 +44,10 @@ public class ReadExcelFileToList {
 				//Get the nth sheet from the workbook
 				Sheet sheet = workbook.getSheetAt(i);
 				
-				for(int rowIndex=0; rowIndex < sheet.getPhysicalNumberOfRows() ; rowIndex++ ){
+				for(int rowIndex=1; rowIndex < sheet.getPhysicalNumberOfRows() ; rowIndex++ ){
 					//row 0은 헤더정보라서 무시
-					System.out.println("1="+sheet.getRow(rowIndex).getCell(5)+"/");
-					if(rowIndex != 0 && sheet.getRow(rowIndex).getCell(0) != null && !isNullOrEmpty(sheet.getRow(rowIndex).getCell(0).getStringCellValue()) && "630-005410-643(240-890022-61104)".equals(sheet.getRow(rowIndex).getCell(5))  ){
+
+					if(sheet.getRow(rowIndex).getCell(0) != null && !isNullOrEmpty(sheet.getRow(rowIndex).getCell(0).getStringCellValue()) && "630-005410-643(240-890022-61104)".equalsIgnoreCase(sheet.getRow(rowIndex).getCell(5).getStringCellValue()) == true){
 						//현재 row 반환
 						row = sheet.getRow(rowIndex);
 						if(!"".equals(row.getCell(0)) && !" ".equals(row.getCell(0)) && row.getCell(0)!= null ) {
@@ -70,13 +70,15 @@ public class ReadExcelFileToList {
 												if(accountNo.equalsIgnoreCase("")){
 													accountNo = cell.getStringCellValue().trim();
 												}else if(sponsorName.equalsIgnoreCase("")){
-													//4nd column
 													sponsorName = cell.getStringCellValue().trim();
 												}else if(paymentWay.equalsIgnoreCase("")){
-													//4nd column
 													paymentWay = cell.getStringCellValue().trim();
 												}
 												break;
+											case Cell.CELL_TYPE_BLANK:
+												if(sponsorName.equalsIgnoreCase("")){
+													sponsorName="  ";
+												}
 											case Cell.CELL_TYPE_NUMERIC:
 												if( DateUtil.isCellDateFormatted(cell)) {
 													Date date = cell.getDateCellValue();
