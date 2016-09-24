@@ -110,17 +110,15 @@ public class ReceiptController {
 	
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params="cmd=issueRct" )
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public String issueReceiptByName(Model model, HttpServletRequest req,HttpServletResponse res)throws Exception{
-		System.out.println("액션진입");
+	public String issueReceiptByName(Model model,Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws Exception{
 		String[] pID = req.getParameterValues("pid");
-		String startdate = req.getParameter("startDate");
+		String startdate = pagination.getStartDate();
 		String message = receiptService.validateBeforeInsert(pID);
-		
+
 		if(message == null){
 			//영수증생성
-			System.out.println("동명이인없음");
-			
 			String[] getY = startdate.split("-");
+			
 			int rctNoInt;
 			String[] rctNo = receiptMapper.getLastNo(getY[0]).split("-");
 			if(rctNo==null){ rctNoInt =0; }
@@ -134,21 +132,17 @@ public class ReceiptController {
 			rct.setNo(newRctNo);
 			receiptMapper.insert(rct);
 			int rctID = receiptMapper.selectRctID();
-			System.out.println("rctID:"+rctID);
 			for(int i=0;i<pID.length;i++){
 				paymentMapper.issueReceiptByName(rctID,pID[i]);
-				System.out.println("paymentID[i]="+pID[i]);
 			}
 			
 		} else{
-			System.out.println("동명이인있음");
 			model.addAttribute("error",message);
-			return "redirect:/certificate/receiptByName.do"+req.getQueryString();
+			return "redirect:/certificate/receiptByName.do?"+pagination.getQueryString();
 		}
 		
 		return "redirect:/certificate/receiptList.do";
 	}
-	
 	
 	@RequestMapping("/certificate/receiptView.do")
 	public String receiptView(Model model, @RequestParam("id") int id, Pagination pagination)throws Exception{

@@ -5,14 +5,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-
+<script>
+$(function(){
+		$("button[value=deleteRct]").click(function() {
+		alert("선택한 영수증을 삭제하시겠습니까?");
+	});
+});
+</script>
 <h1>기부금 영수증 개별발급</h1>
 <hr/>
-<form:form method="post" modelAttribute="pagination">
+<form:form method="post" modelAttribute="pagination" action="receiptByName.do">
 	<input type="hidden" name="bd" value="3" />
 	<div class="condition">
 			<p>
-				기간 : <form:input type="date" name="startDate" path="sd" />~<form:input type="date" path="ed" />
+				기간 : <form:input type="date" path="sd" name="startDate"/>~<form:input type="date" path="ed" />
 				&nbsp;&nbsp; 이름 : <form:input type="text" path="st"/>
 				&nbsp;&nbsp; 기관 : 
 				<form:select path="cp" name="corporateID">
@@ -47,7 +53,7 @@
 			             	<td><c:if test="${ payment.commitmentID != 0}">정기 </c:if>
 			             	 	   <c:if test="${ payment.commitmentID == 0}">비정기</c:if></td>
 			             	<td class="date">${ payment.paymentDate }</td>
-			             	<td>${ payment.amount }</td>
+			             	<td class="money">${ payment.amount }</td>
 			           </tr>
 			        </c:forEach>
 			    </tbody>
@@ -57,6 +63,6 @@
 
 <div class="Issue">
 	<p>발급일자 : <input type="date" name="createDate">&nbsp;&nbsp;<button type="submit" class="btn btn-small" name="cmd" value="issueRct">기부금 영수증 발급</button></p>
-	<c:if test="${not empty error }"><div class="alert alert-error">${error}</div></c:if>
+	<c:if test="${ error != null }"><div class="alert alert-error">${error}</div></c:if>
 </div>
 </form:form>
