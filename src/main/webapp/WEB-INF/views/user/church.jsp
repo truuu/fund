@@ -71,11 +71,12 @@ $(function() {
                 </tr>
             </c:forEach>
 
-
+           <c:if test="${sponsor.sum!=0}">
                 <tr>
-                 <td> 총합 </td>
-                <td>${total} 원</td>
+                 <td><b>총합</b> </td>
+                <td><b>${total} 원</b></td>
                 </tr>
+            </c:if>
 							</tbody>
 						</table>
 

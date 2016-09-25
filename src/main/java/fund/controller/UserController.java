@@ -52,7 +52,8 @@ public class UserController {
 	 
 	 @RequestMapping(value="/user/church.do",method=RequestMethod.GET)
 	 public String church(Model model)throws Exception{
-		 
+		
+	     
 		return "user/church";
 	 }
 	 
