@@ -44,35 +44,32 @@ public class CommitmentController {
 	@RequestMapping(value="/sponsor/commitment.do", method=RequestMethod.POST, params="cmd=create")
 	public String commitment(Model model,CommitmentCreate commitmentCreate){
 		Commitment commitment = new Commitment();  //약정 
-		System.out.println("1");
+
 		//commitmentMapper.selectCountCommitment(commitmentCreate.getSponsorID());  // 해당 후원자의 약정 갯수 구하기
-		System.out.println("2");
 		commitment.setStartDate(commitmentCreate.getCommitmentStartDate());
-		System.out.println("3");
 		commitment.setSponsorID(commitmentCreate.getSponsorID());
-		System.out.println("4");
 		commitment.setDonationPurposeID(commitmentCreate.getDonationPurposeID());
-		System.out.println("5");
 		commitment.setPaymentMethodID(commitmentCreate.getPaymentMethodID());
-		System.out.println("6");
 		commitment.setEtc(commitmentCreate.getCommitmentEtc());
-		System.out.println("7");
 		//Date date= new Date(); 
 		////date = (Date)commitmentCreate.getCommitmentDate();
 		commitment.setCommitmentDate(commitmentCreate.getCommitmentDate());
-		System.out.println("8");
+
 		commitment.setStartDate(commitmentCreate.getCommitmentStartDate());
-		System.out.println("9");
-		commitment.setEndDate(commitmentCreate.getEndDate());
-		System.out.println("10");
+		System.out.println("종료일"+commitmentCreate.getEndDate());  // 종료일 선택안하면 null되는데 1990-01-01로 들어감
+		
+		if(commitmentCreate.getEndDate()!=null)
+		{
+			commitment.setEndDate(commitmentCreate.getEndDate());
+			System.out.println("1");
+		}
+		
 
 		commitmentMapper.insert(commitment);  // 약정 먼저 insert
-		System.out.println("11");
 
 		CommitmentDetail commitmentDetail = new CommitmentDetail();  // 약정상세 
 
 		commitmentDetail.setCommitmentID(commitmentDetailMapper.selectCommitmentID());
-		System.out.println(commitmentDetail.getCommitmentID());
 		commitmentDetail.setAmountPerMonth(commitmentCreate.getAmountPerMonth());
 		commitmentDetail.setBankID(commitmentCreate.getBankID());
 		commitmentDetail.setPaymentDay(commitmentCreate.getPaymentDay());
@@ -86,16 +83,16 @@ public class CommitmentController {
 		return "redirect:/sponsor/commitment.do";
 	}
 
-	@RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.GET)
+	@RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.GET)  // 약정수정페이지
 	public String edit(Model model, @RequestParam("ID") int ID) {
 		Commitment commitment = commitmentMapper.selectByID(ID); // 해당 약정 내용 가져옴
 		CommitmentDetail commitmentDetail = commitmentDetailMapper.selectByCommitmentID2(ID); // 해당 약정 상세 가져옴
 
 		model.addAttribute("commitment",commitment);
 		model.addAttribute("commitmentDetail",commitmentDetail);
-		
+
 		return "sponsor/commitmentEdit";
-	}// 수정할때 약정이랑 약정상세에서 가져온내용을 약정생성 모델에 다 넣고 submit
+	}
 
 
 

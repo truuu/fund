@@ -83,25 +83,21 @@ div.table {
 	width: 100%;
 }
 
-tr td#table_a {
-	width: 10%;
-	height: 10px;
+div table.table tbody tr td {
 	vertical-align: middle;
 }
-{
-vertical-align
-:
-middle;
+
+.table tbody tr td {
+	vertical-align: middle;
 }
 </style>
 
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3>약정 내역</h3>
+		<h3>약정 내역4</h3>
 		<div class="input-group1">
-			<button type="button" id="new" class="btn btn-small">새로
-				등록</button>
+			<button type="button" id="new" class="btn btn-small">새로 등록</button>
 		</div>
 		<div class="table-responsive">
 			<table class="table table-bordered">
@@ -118,7 +114,7 @@ middle;
 				</thead>
 				<tbody>
 					<c:forEach var="commitment" items="${ list }">
-						<tr data-url="edit.do?ID=${commitment.ID}">
+						<tr data-url="commitmentEdit.do?ID=${commitment.ID}">
 							<td>${ commitment.commitmentNo }</td>
 							<td>${ commitment.name }</td>
 							<td>${ commitment.codeName }</td>
@@ -138,8 +134,9 @@ middle;
 				<table class="table">
 					<tbody>
 						<tr>
-							<td id="table_a">납입방법</td>
-							<td><select name="paymentMethodID">
+							<td style="vertical-align: middle;" id="table_a">납입방법</td>
+							<td style="vertical-align: middle;"><select
+								name="paymentMethodID">
 									<c:forEach var="paymentMethod" items="${paymentMethodList}">
 										<option value="${paymentMethod.ID}">${paymentMethod.codeName}</option>
 									</c:forEach>
@@ -154,7 +151,8 @@ middle;
 									</div>
 								</form:form></td>
 							<td id="table_a">기부기관</td>
-							<td><input type="text" name="corporateName" readonly /></td>
+							<td style="vertical-align: middle;"><input type="text"
+								name="corporateName" readonly /></td>
 						</tr>
 
 
@@ -205,8 +203,8 @@ middle;
 
 							<td id="table_a">예금주</td>
 							<td><input name="accountHolder" type="text" /></td>
-							<td id="table_a">약정종료</td>
-							<td><button>종료하기</button></td>
+							<td id="table_a">약정금액</td>
+							<td></td>
 							<td id="table_a">비고</td>
 							<td colspan="3"><input size="50" id="etc" type="text"
 								name="commitmentDetailEtc"></td>
@@ -217,11 +215,11 @@ middle;
 				<center>
 					<button type="submit" class="btn" name="cmd" value="create">저장</button>
 				</center>
-				
+
 			</div>
-			</form>
+		</form>
 	</div>
-	
+
 </div>
 
 <!-- modal -->

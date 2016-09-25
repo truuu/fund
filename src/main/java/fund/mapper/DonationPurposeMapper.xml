@@ -11,5 +11,19 @@
 		join Code c1 on d.organizationID=c1.ID
 		left join Corporate c2 on d.corporateID=c2.ID
 	</select>
+	
+	<select id="selectDonationPurpose2" resultType="String">
+	select name
+	from donationPurpose 
+	where ID=#{ID}
+	
+	</select>
+	
+	<select id="selectCoporateName" resultType="String">
+	select corporate.name
+	from donationPurpose join corporate 
+	on donationPurpose.corporateID=corporate.ID
+	where donationPurpose.ID=#{ID}
+	</select>
 
 </mapper>

@@ -11,7 +11,7 @@
 
 	<select id="selectBySponsorID" resultType="fund.dto.Commitment">
 		SELECT
-		c1.*,c2.codeName,d.name,s.sponsorNo, case when endDate > GETDATE()
+		c1.*,c2.codeName,d.name,s.sponsorNo, case when endDate = null then '진행' when endDate > GETDATE()
 		then '진행' else '종료' end "state"
 		FROM Commitment c1 left join
 		Sponsor s

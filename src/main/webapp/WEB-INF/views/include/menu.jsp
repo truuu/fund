@@ -56,7 +56,8 @@
 		    <li><a href="#">납입 내역 보기</a></li>
 		    <li><a href="#">비정기 납입 등록</a></li>
 		     <li class="divider"></li>
-		       <li><a href="#">납입관련 각종통계</a></li>
+		       <li><a href="/fund_sys/dataPrint/paymentRecordStats.do">납입 내역 조회</a></li>
+		       <li><a href="/fund_sys/dataPrint/paymentTotalStats.do">납입 총계 조회</a></li>
 		    <li><a href="#">미납 내역(추후)</a></li>
 		  </ul>
 		</li>
@@ -75,7 +76,7 @@
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">자료출력<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
-		    <li><a href="#">기부목적별 납입현황</a></li>
+		    <li><a href="/fund_sys/dataPrint/donationPurposeStats.do">기부목적별 납입현황</a></li>
 		    <li><a href="#">후원인별 납입현황</a></li>
 		    <li><a href="#">소속교회별납입현황</a></li>
 	

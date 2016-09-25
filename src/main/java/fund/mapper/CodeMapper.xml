@@ -16,5 +16,30 @@
 		where c1.name=#{bank}
 	</select>
 	
+	<select id="selectSponsorType2" resultType="fund.dto.Code">
+		select c2.*
+		from CodeGroup c1 left join Code c2 on c1.ID=c2.codeGroupID
+		where c1.name=#{name}
+	</select>
+	
+	<select id="selectAllPaymentMethod" resultType="fund.dto.Code">
+		select c2.*
+		from CodeGroup c1 left join Code c2 on c1.ID=c2.codeGroupID
+		where c1.name=#{name1} or c1.name=#{name2}	
+	</select>
+	
+	<select id="selectChurch" resultType="fund.dto.Code">
+		select c2.*
+		from CodeGroup c1 left join Code c2 on c1.ID=c2.codeGroupID
+		where c1.name=#{name}	
+	
+	</select>
+	
+	<select id="selectCodeName" resultType="String">
+	select codeName
+	from code
+	where ID=#{ID}
+	</select>
+	
 
 </mapper>

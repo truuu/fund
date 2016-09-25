@@ -4,8 +4,69 @@
 
 <mapper namespace="fund.mapper.PaymentMapper">
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
+	<select id="selectComparePaymentDate" resultType="fund.dto.Payment">
+		select (select
+		name from donationPurpose where
+		donationPurpose.ID=payment.donationPurposeID) AS donationPurpose,
+		count(distinct sponsorID) AS count1,
+		count(*) AS count2,
+		sum(CAST(
+		amount AS BIGINT )) AS sum
+		from [donationPurpose] join [payment] on
+		donationPurpose.ID=payment.donationPurposeID
+		where paymentDate between
+		#{startDate} and #{endDate}
+		group by donationPurposeID
+
+	</select>
+
+	<select id="selectPaymentRecord" resultType="fund.dto.Payment">
+
+		select p.paymentDate,p.amount, s.name, s.sponsorNo, d.name
+		"donationPurpose",
+		c1.codeName "sponsorType2",c2.codeName "church",
+		( case when p.commitmentID is not NULL then '정기' else '비정기' end)
+		"gubun",
+		c3.codeName "paymentMethod"
+
+		from Payment p join Sponsor s on p.sponsorID=s.ID join Code c1 on
+		s.sponsorType2ID=c1.ID
+		join DonationPurpose d on d.ID=p.donationPurposeID join Code c2 on
+		s.churchID=c2.ID
+		join Code c3 on p.paymentMethodID=c3.ID
+
+		where paymentDate between #{startDate} and #{endDate}
+		and p.donationPurposeID = #{srchType2}
+		<if test="srchType1!=null and srchType1==1">
+			and p.commitmentID is not null
+		</if>
+		<if test="srchType1!=null and srchType1==2">
+			and p.commitmentID is null
+		</if>
+		<if test="srchType3!=null">and s.churchID = #{srchType3}</if>
+		<if test="srchType4!=null">and p.paymentMethodID = #{srchType4}</if>
+		<if test="srchType5!=null">and s.sponsorType2ID = #{srchType5}</if>
+
+	</select>
+
+	<select id="selectPaymentTotal" resultType="fund.dto.Payment">
+		select distinct s.sponsorNo, COUNT(*) "totalCount", SUM(amount)
+		"totalSum",s.name,
+		c1.codeName "sponsorType2",c2.codeName "church"
+		from Payment p join Sponsor s on p.sponsorID=s.ID join Code c1 on
+		s.sponsorType2ID=c1.ID
+		join DonationPurpose d on d.ID=p.donationPurposeID join Code c2 on
+		s.churchID=c2.ID
+		join Code c3 on p.paymentMethodID=c3.ID
+
+		where paymentDate between #{startDate} and #{endDate}
+		and p.donationPurposeID = #{srchType2}
+		
+		
+		<if test="srchType3!=null">and s.churchID = #{srchType3}</if>
+		<if test="srchType4!=null">and p.paymentMethodID = #{srchType4}</if>
+		<if test="srchType5!=null">and s.sponsorType2ID = #{srchType5}</if>
+		group by s.sponsorNo,s.name,c1.codeName,c2.codeName
+	</select>
 
 </mapper>
