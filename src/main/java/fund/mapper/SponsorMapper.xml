@@ -4,6 +4,7 @@
 
 <mapper namespace="fund.mapper.SponsorMapper">
 
+
 <select id="selectById" resultType="fund.dto.User">
 		SELECT * FROM [User] WHERE id
 		= #{id}
@@ -237,9 +238,6 @@
      #{startDate} and #{endDate} group by sponsorType2ID;
 	
 	</select>
-	
-	
-	
 
 
 </mapper>

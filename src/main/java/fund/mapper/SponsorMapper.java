@@ -11,7 +11,6 @@ import fund.dto.Sponsor;
 import fund.dto.User;
 
 public interface SponsorMapper {
-
 	
 	 User selectById(int id);		
      User selectByLoginId(String loginId);
@@ -43,5 +42,6 @@ public interface SponsorMapper {
      
      //후원인구분2별 출연내역
      List<Sponsor> castBySponsorType2(@Param("startDate")String startDate,@Param("endDate")String endDate);
+
 	
 }

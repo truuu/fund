@@ -4,8 +4,14 @@
 
 <mapper namespace="fund.mapper.EB13Mapper">
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
+	<insert id="createEB13file" useGeneratedKeys="true" keyProperty="id">
+		insert into EB13 values(GETDATE())
+		select MAX(ID) as eb13_max from EB13
+	</insert>
+	
+    <insert id="createEB13list" useGeneratedKeys="true" keyProperty="id">
+	    insert into EB13_commitmentDetail
+		values ((select MAX(ID) from EB13),#{commitmentDeailID},'신규')     
+    </insert>
 
 </mapper>

@@ -1,11 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+             
 <mapper namespace="fund.mapper.PaymentMapper">
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
-
+    <select id="selectEB21success" resultType="fund.dto.Payment">
+    	select c.sponsorID,c.ID commitmentID,e.paymentDate,c.donationPurposeID,c.paymentMethodID,cd.amountPerMonth
+		from EB21_commitmentDetail eb
+		JOIN commitmentDetail cd
+		ON eb.commitmentDetailID=cd.ID
+		JOIN commitment c
+		ON cd.commitmentID=c.ID
+		JOIN EB21 e ON e.ID=eb.EB21ID
+		where eb.state='성공'
+    </select>
+	
+	<insert id="insertEB21Payment" useGeneratedKeys="true" keyProperty="id">
+		insert into payment
+		(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
+		values(#{sponsorID},#{commitmentID},#{amountPerMonth},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
+	</insert>
+	
+	<select id="selectByCommitmentNo" resultType="fund.dto.Commitment">
+		select * from [commitment]
+		where commitmentNo = #{commitmentNo}
+	</select>
+	
+	<insert id="insertXferResult" useGeneratedKeys="true" keyProperty="id">
+		insert into payment(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
+		values(#{sponsorID},#{commitmentID},#{amount},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
+	</insert>
+	
+	<select id="selectIDBySponsorNo" resultType="fund.dto.Commitment">
+		select s.ID sponsorID,c.ID,c.commitmentNo,c.donationPurposeID,c.paymentMethodID
+		from sponsor s
+		JOIN commitment c
+		ON s.ID=c.sponsorID
+		where s.sponsorNo=#{sponsorNo} AND c.paymentMethodID=12
+	</select>
+	
+	<insert id="insertSalaryResult" useGeneratedKeys="true" keyProperty="id">
+		insert into payment(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
+		values(#{sponsorID},#{commitmentID},#{amount},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
+	</insert>
+	
+	<insert id="insertIrregularPayment" useGeneratedKeys="true" keyProperty="id">
+		insert into payment(sponsorID,amount,paymentDate,donationPurposeID,paymentMethodID,etc)
+		values(#{sponsorID},#{amount},CONVERT(DATETIME,#{paymentDateString}),#{donationPurposeID},#{paymentMethodID},#{etc})
+	</insert>
+	
+	<select id="selectPaymentRegular" resultType="fund.dto.Payment">
+		select c.commitmentNo,
+		(select code.codeName from code where code.ID=c.paymentMethodID) as paymentMethod,
+		p.amount,p.paymentDate,cd.accountNo,
+		(select code.codeName from code where code.ID=cd.bankID) as bankName,
+		cd.accountHolder,co.name as corporate,dp.name as donationPurpose,p.etc
+		from payment p
+		JOIN commitment c
+		ON p.commitmentID=c.ID
+		JOIN commitmentDetail cd
+		ON cd.commitmentID=c.ID
+		LEFT JOIN code ON code.codeGroupID=3 AND code.ID=p.paymentMethodID 
+		JOIN donationPurpose dp ON c.donationPurposeID=dp.ID
+		JOIN corporate co ON dp.corporateID=co.ID
+		where p.sponsorID=#{sponsorID}
+	</select>
+	
+	<select id="selectPaymentIrregular" resultType="fund.dto.Payment">
+		select code.codeName as paymentMethod,p.amount,p.paymentDate,co.name as corporate,
+		dp.name as donationPurpose,p.etc
+		from payment p
+		JOIN code ON code.codeGroupID=4 AND code.ID=p.paymentMethodID
+		JOIN donationPurpose dp ON p.donationPurposeID=dp.ID
+		JOIN corporate co ON dp.corporateID=co.ID
+		where p.sponsorID=#{sponsorID}
+	</select>
+	
+	<update id="updatePayment">
+		update payment set 수정할 것 
+		where ID=선택한payment테이블의id
+	</update>
 </mapper>

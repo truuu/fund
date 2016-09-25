@@ -4,8 +4,16 @@
 
 <mapper namespace="fund.mapper.CommitmentMapper">
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
+	<select id="selectCommitmentBySponsorNo" resultType="fund.dto.Commitment">
+	    SELECT c.commitmentNo,code.codeName,d.name donationPurposeName
+	    FROM [commitment] c
+		JOIN [code] 
+		ON c.paymentMethodID=code.ID
+		JOIN [donationPurpose] d
+		ON c.donationPurposeID=d.ID
+		where sponsorID IN
+		(select ID from [sponsor] where sponsorNo=#{sponsorNo})
+
+	</select>
 
 </mapper>

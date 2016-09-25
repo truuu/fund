@@ -126,7 +126,7 @@ $(function(){
 
 							</tbody>
 						</table>
-						
+						<center>
 						 <div class="pagination pagination-small pagination-centered">
         <ul>
             <c:forEach var="page" items="${ pagination.pageList }">
@@ -134,6 +134,7 @@ $(function(){
             </c:forEach>
         </ul>
                         </div>
+                        </center>
                          </form>
 
 					</div>

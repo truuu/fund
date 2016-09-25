@@ -4,8 +4,13 @@
 
 <mapper namespace="fund.mapper.EB21Mapper">
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
+	<insert id="createEB21file" useGeneratedKeys="true" keyProperty="id">
+		insert into EB21 values(GETDATE(),#{paymentDate})
+	</insert>
+	
+	<insert id="createEB21List" useGeneratedKeys="true" keyProperty="id">
+		insert into EB21_commitmentDetail
+		values ((select MAX(ID) from EB21),#{commitmentDetailID},'신청') 
+	</insert>
 
 </mapper>
