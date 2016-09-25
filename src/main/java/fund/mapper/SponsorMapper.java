@@ -3,6 +3,7 @@ package fund.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import fund.dto.Code;
 import fund.dto.Pagination;
@@ -38,5 +39,9 @@ public interface SponsorMapper {
      List<Sponsor> nameSearch(Pagination pagination);
      List<Sponsor> sponsorSearch(Pagination pagination);
      List<Sponsor> selectPage(Pagination pagination);
+     
+     
+     //후원인구분2별 출연내역
+     List<Sponsor> castBySponsorType2(@Param("startDate")String startDate,@Param("endDate")String endDate);
 	
 }

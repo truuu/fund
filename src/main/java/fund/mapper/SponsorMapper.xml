@@ -227,6 +227,19 @@
 		#{startDate} and #{endDate};
 	
 	</select>
+	
+	<select id="castBySponsorType2" resultType="fund.dto.Sponsor">
+	select (select codeName from code where code.ID=sponsor.sponsorType2ID) AS sponsorType2,
+           sum(CAST( amount AS BIGINT )) AS sum,
+           count(distinct sponsorID) AS sponsorCount,
+           count(*) AS castCount
+      from sponsor join payment on  sponsor.ID=payment.sponsorID  where payment.paymentDate between
+     #{startDate} and #{endDate} group by sponsorType2ID;
+	
+	</select>
+	
+	
+	
 
 
 </mapper>

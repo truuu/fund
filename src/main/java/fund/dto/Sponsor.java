@@ -36,16 +36,36 @@ public class Sponsor {
 	String homeRoadAddress;
 	String homeDetailAddress;
 	String homePostCode;
-	
 	String officeRoadAddress;
 	String officeDetailAddress;
 	String officePostCode;
 	
 	
 	int sort; // 구분용 회원입력 0 - 회원수정 1
+	int sponsorCount; // 후원인구분2별 출연내역 회원수
+	int castCount; // 후원인구분2별 출연내역 출연수
+	int sum;//후원인구분2별 출연내역 금액
 	
 	
 	
+	public int getSum() {
+		return sum;
+	}
+	public void setSum(int sum) {
+		this.sum = sum;
+	}
+	public int getSponsorCount() {
+		return sponsorCount;
+	}
+	public void setSponsorCount(int sponsorCount) {
+		this.sponsorCount = sponsorCount;
+	}
+	public int getCastCount() {
+		return castCount;
+	}
+	public void setCastCount(int castCount) {
+		this.castCount = castCount;
+	}
 	public int getSort() {
 		return sort;
 	}

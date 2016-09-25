@@ -362,6 +362,46 @@ public class SponsorController {
 		 
 		 
 	 }
+	 
+	 
+	 
+	 
+	 //- 후원인구분2별 출연내역 -
+	 
+	 @RequestMapping(value="sponsor/cast.do",method=RequestMethod.GET)
+	 public String cast(Model model)throws IOException{
+		 int sum=0;//후원인구분2별 출연내역 금액
+		 model.addAttribute("sum", sum);
+		return "sponsor/castHistory"; 
+	 }
+	 
+	 
+	 @RequestMapping(value="sponsor/castList.do",method=RequestMethod.GET)
+	 public String castList(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Model model)throws IOException{
+		 System.out.println(startDate +" "+endDate);
+		 List<Sponsor> list=sponsorMapper.castBySponsorType2(startDate,endDate);
+		 
+		 
+		    int sponsorCount=0; // 후원인구분2별 출연내역 회원수
+			int castCount=0; // 후원인구분2별 출연내역 출연수
+			int sum=0;//후원인구분2별 출연내역 금액
+		 
+		 for(Sponsor i:list){
+			 sponsorCount=sponsorCount+i.getSponsorCount();
+			 castCount=castCount+i.getCastCount();
+			 sum=sum+i.getSum();
+		 }
+		 
+		 
+		
+		 System.out.println("sponsor"+sponsorCount+"cast"+castCount+"sum"+ sum);
+			model.addAttribute("sponsorCount", sponsorCount);
+			model.addAttribute("castCount",castCount);
+			model.addAttribute("sum", sum);
+			model.addAttribute("list", list);
+		
+		return "sponsor/castHistory"; 
+	 }
 
 
 	
