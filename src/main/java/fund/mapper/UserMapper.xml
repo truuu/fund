@@ -25,6 +25,8 @@
 	
     </select>	
     
+   
+    
     
     
     <insert id="userInsert"  useGeneratedKeys="true" keyProperty="id">

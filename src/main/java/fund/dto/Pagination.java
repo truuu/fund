@@ -5,12 +5,64 @@ import java.util.*;
 
 public class Pagination {
     int currentPage = 1;
-    int pageSize = 15;
+    int pageSize = 10;
     int order;
     int srchType;
     String srchText = "";
     int recordCount;
     int boardId;
+    
+    int type;
+    String codeName;
+    String nameForSearch;
+    
+    String startDate;  
+    String endDate;
+    
+    
+    
+ 
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getNameForSearch() {
+		return nameForSearch;
+	}
+
+	public void setNameForSearch(String nameForSearch) {
+		this.nameForSearch = nameForSearch;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public String getCodeName() {
+		return codeName;
+	}
+
+	public void setCodeName(String codeName) {
+		this.codeName = codeName;
+	}
+
 
     public int getCurrentPage() {
         return currentPage;

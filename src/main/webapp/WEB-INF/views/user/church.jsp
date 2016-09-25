@@ -49,9 +49,14 @@ $(function() {
 			<div class="row">
 				<div class="col-lg-12">
 				<hr>
-				<center><label> 신청기간 </label> <input type="text"> ~ <input type="text"></center>
+				<center><label> 신청기간 </label> <input type="text" value="${ pagination.startDate}"> ~ <input type="text" value="${ pagination.startDate}"></center>
 				<hr>
 					<div class="table-responsive">
+					<form method="get">
+                      <input type="hidden" name="pg" value="1" />
+                       <input type="hidden" name="startDate" value="${ pagination.startDate}" />
+                        <input type="hidden" name="endDate" value="${ pagination.endDate}" />
+                      
 						<table class="table table-bordered table-hover" id="table_s">
 							<thead>
 								<tr>
@@ -79,6 +84,17 @@ $(function() {
             </c:if>
 							</tbody>
 						</table>
+						
+							<center>
+						 <div class="pagination pagination-small pagination-centered">
+        <ul>
+            <c:forEach var="page" items="${ pagination.pageList }">
+                <li class='${ page.cssClass }'><a data-page="${ page.number }" >${ page.label }</a></li>
+            </c:forEach>
+        </ul>
+                        </div>
+                        </center>
+                         </form>
 
 					</div>
 
