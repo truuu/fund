@@ -63,6 +63,17 @@
 				   ( d.corporateID = #{corporateID} OR #{corporateID}=0 ) AND
 				   (( #{startDate} IS NULL AND #{endDate} IS NULL) OR (p.paymentDate BETWEEN #{startDate} AND #{endDate}))
 	</select>
+	
+	<select id="selectTaxData" resultType="fund.dto.Payment">
+		SELECT p.paymentDate,p.amount, s.juminNo,s.name
+		FROM [Payment] p LEFT JOIN [Sponsor] s ON p.sponsorID = s.id
+				LEFT JOIN [donationPurpose] d ON p.donationPurposeID = d.id 
+		WHERE
+				   LEN(juminNo)=13 AND 
+				   p.receiptID IS NOT NULL AND
+				   ( d.corporateID = #{corporateID} OR #{corporateID}=0 ) AND
+				   (( #{startDate} IS NULL AND #{endDate} IS NULL) OR (p.paymentDate BETWEEN #{startDate} AND #{endDate}))
+	</select>
 
 	<update id="issueReceiptByDur">
 		UPDATE [Payment]

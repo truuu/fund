@@ -45,6 +45,11 @@
 			<version>1.2</version>
 		</dependency>
 		<dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>6.1.0</version>
+        </dependency>
+		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-core</artifactId>
 			<version>3.0.5</version>

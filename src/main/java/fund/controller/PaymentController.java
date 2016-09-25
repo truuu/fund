@@ -15,12 +15,7 @@ public class PaymentController {
 	
 	@Autowired PaymentMapper paymentMapper;
 	
-	@RequestMapping("/certificate/taxData.do")
-	public String taxData(Model model,Pagination pagination)throws Exception{
-		pagination.setRecordCount(paymentMapper.selectCount(pagination));
-		model.addAttribute("taxDataList",paymentMapper.selectPage(pagination));
-		return "certificate/taxData";
-	}
+
 	
 
 }

@@ -7,7 +7,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <h1>국세청 보고자료</h1>
 <hr/>
-<form:form method="get" modelAttribute="pagination">
+<form:form modelAttribute="pagination">
 	<input type="hidden" name="pg" value="1"/>
 	<input type="hidden" name="bd" value="1"/>
 	<div class="form-inline">
@@ -29,7 +29,8 @@
 	</div>
 	
 	<div class="pull-right">
-		<button class="btn" type="button">엑셀파일</button>
+
+		<button class="btn" type="submit" name="type" value="xlsx">엑셀파일</button>
 	</div>
 	
 	<div class="taxData_List">	

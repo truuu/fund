@@ -1,5 +1,6 @@
 package fund.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import fund.dto.Pagination;
 import fund.dto.Payment;
 import fund.dto.Receipt;
 import fund.service.*;
+import net.sf.jasperreports.engine.JRException;
 
 @Controller
 public class ReceiptController {
@@ -149,6 +151,21 @@ public class ReceiptController {
 		model.addAttribute("receipt",receiptMapper.selectReceiptView(id));
 		model.addAttribute("paymentList",paymentMapper.selectByRctID(id));
 		return "certificate/receiptView";
+	}
+	
+	@RequestMapping("/certificate/taxData.do")
+	public String taxData(Model model,Pagination pagination)throws Exception{
+		pagination.setRecordCount(paymentMapper.selectCount(pagination));
+		model.addAttribute("taxDataList",paymentMapper.selectPage(pagination));
+		return "certificate/taxData";
+	}
+	
+	
+	@RequestMapping(value="/certificate/taxData.do", method=RequestMethod.POST, params="type=xlsx" )
+	public void taxDataReport(Pagination pagination,@RequestParam("type") String type, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+		List<Payment> list = paymentMapper.selectTaxData(pagination);
+		ReportBuilder reportBuilder = new ReportBuilder("taxData", list, req,res);
+		reportBuilder.build(type);
 	}
 	
 }
