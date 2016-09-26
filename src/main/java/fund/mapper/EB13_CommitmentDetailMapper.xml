@@ -4,20 +4,6 @@
 
 <mapper namespace="fund.mapper.EB13_CommitmentDetailMapper">
 
-    <select id="selectEB13" resultType="fund.dto.EB13_CommitmentDetail">
-	    select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin ,codeName,cd.accountNo,cd.ID commitmentDetailID,code.etc1
-		from [commitmentDetail] cd
-		INNER JOIN [code]
-		ON cd.bankID=code.ID
-		LEFT JOIN [commitment] c
-		ON cd.commitmentID=c.ID
-		LEFT JOIN [sponsor] s
-		ON c.sponsorID=s.ID
-		where cd.ID
-		not in (select commitmentDetailID from [EB13_commitmentDetail])
-		AND c.paymentMethodID=10
-    </select>
-
 	<select id="selectEB14" resultType="fund.dto.EB13_CommitmentDetail">
 		select * from EB13_commitmentDetail
 		where EB13ID
@@ -68,6 +54,11 @@
 		JOIN donationPurpose d
 		ON c.donationPurposeID=d.ID
 	</select>
+	
+	<insert id="createEB13list" useGeneratedKeys="true" keyProperty="id">
+	    insert into EB13_commitmentDetail
+		values ((select MAX(ID) from EB13),#{commitmentDeailID},'신규')     
+    </insert>
 	
 	<select id="test" resultType="fund.dto.EB13_CommitmentDetail">
 		select * from EB13_commitmentDetail

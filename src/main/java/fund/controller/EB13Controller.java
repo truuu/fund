@@ -28,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import fund.dto.EB13_CommitmentDetail;
 import fund.dto.EB14;
 import fund.dto.XferResult;
+import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.EB13Mapper;
 import fund.mapper.EB13_CommitmentDetailMapper;
 
@@ -36,6 +37,7 @@ import fund.mapper.EB13_CommitmentDetailMapper;
 public class EB13Controller {
 	@Autowired EB13Mapper eb13Mapper;
 	@Autowired EB13_CommitmentDetailMapper eb13_commitmentDetailMapper;
+	@Autowired CommitmentDetailMapper commitmentDetailMapper;
 	
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.GET)
 	public String eb13(Model model) {
@@ -43,19 +45,19 @@ public class EB13Controller {
 	}
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=selectEB13")
 	public String selectEB13(Model model){
-		List<EB13_CommitmentDetail> eb13List = eb13_commitmentDetailMapper.selectEB13();
+		List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
 		model.addAttribute("eb13List", eb13List);
 		return "finance/eb13";
 	}
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=createEB13file")
 	public String createEB13file(@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws IOException{
-		List<EB13_CommitmentDetail> eb13List = eb13_commitmentDetailMapper.selectEB13();
+		List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
 		model.addAttribute("eb13List", eb13List);
 		CreateEB13File.createEB13File(eb13List);
 		
 		eb13Mapper.createEB13file();
 		for(int i=0 ; i<commitmentDetailID.length; ++i){
-			eb13Mapper.createEB13list(commitmentDetailID[i]);
+			eb13_commitmentDetailMapper.createEB13list(commitmentDetailID[i]);
 		}
 		
 		return "finance/eb13";

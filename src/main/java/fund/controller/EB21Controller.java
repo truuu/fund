@@ -27,6 +27,7 @@ import fund.dto.EB21_commitmentDetail;
 import fund.dto.EB22;
 import fund.dto.Payment;
 import fund.dto.XferResult;
+import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.EB21Mapper;
 import fund.mapper.EB21_CommitmentDetailMapper;
 import fund.mapper.PaymentMapper;
@@ -37,6 +38,8 @@ public class EB21Controller {
 	@Autowired EB21Mapper eb21Mapper;
 	@Autowired EB21_CommitmentDetailMapper eb21_commitmentDetailMapper;
 	@Autowired PaymentMapper paymentMapper;
+	@Autowired SponsorMapper sponsorMapper;
+	@Autowired CommitmentDetailMapper commitmentDetailMapper;
 	
 	@RequestMapping(value="/finance/eb21.do", method=RequestMethod.GET)
 	public String eb21(Model model) {
@@ -45,7 +48,7 @@ public class EB21Controller {
 
 	@RequestMapping(value="/finance/eb21.do", method=RequestMethod.POST, params="cmd=selectEB21List")
 	public String selectEB21(@RequestParam("paymentDay") int paymentDay,Model model) throws ParseException{
-		List<EB21_commitmentDetail> eb21List = eb21_commitmentDetailMapper.selectEB21(paymentDay);
+		List<EB21_commitmentDetail> eb21List = commitmentDetailMapper.selectEB21(paymentDay);
 		model.addAttribute("eb21List", eb21List);
 		model.addAttribute("paymentDay", paymentDay);
 		
@@ -53,14 +56,14 @@ public class EB21Controller {
 	}
 	@RequestMapping(value="/finance/eb21.do", method=RequestMethod.POST, params="cmd=createEB21file")
 	public String createEB21file(@RequestParam("paymentDay") int paymentDay,@RequestParam("paymentDate") String paymentDate_old,@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws IOException, ParseException{
-		List<EB21_commitmentDetail> eb21List = eb21_commitmentDetailMapper.selectEB21(paymentDay);
+		List<EB21_commitmentDetail> eb21List = commitmentDetailMapper.selectEB21(paymentDay);
 		model.addAttribute("eb21List",eb21List);
 		
 		CreateEB21File.createEB21File(eb21List,paymentDate_old);//EB21파일생성.
 		
 		eb21Mapper.createEB21file(paymentDate_old);
 		for(int i=0 ; i<commitmentDetailID.length; ++i){
-			eb21Mapper.createEB21List(commitmentDetailID[i]);
+			eb21_commitmentDetailMapper.createEB21List(commitmentDetailID[i]);
 		}
 		
 		return "finance/eb21";
@@ -101,7 +104,7 @@ public class EB21Controller {
 				eb22.setSponsorNo(sponsorNo);
 				StringBuffer sNo = new StringBuffer(sponsorNo);
 				sNo.insert(4,"-");//후원인번호 가운데 "-" 추가
-				EB22 name = eb21_commitmentDetailMapper.selectSponsorName(sNo.toString());//후원인번호에 맞는 이름 가져오기.
+				EB22 name = sponsorMapper.selectSponsorName(sNo.toString());//후원인번호에 맞는 이름 가져오기.
 				eb22.setName(name.getName());
 
 				eb22List.add(eb22);
@@ -132,7 +135,7 @@ public class EB21Controller {
 		       eb21_commitmentDetailMapper.updateEB21success(paymentDate);
 		 }
 	
-		 List<Payment> successList = paymentMapper.selectEB21success();//'성공'상태의 payment데이터리스트
+		 List<Payment> successList = eb21_commitmentDetailMapper.selectEB21success();//'성공'상태의 payment데이터리스트
 			for(Payment i : successList){
 				paymentMapper.insertEB21Payment(i);
 			}//payment테이블에 납입 업데이트

@@ -15,5 +15,18 @@
 		(select ID from [sponsor] where sponsorNo=#{sponsorNo})
 
 	</select>
+	
+	<select id="selectByCommitmentNo" resultType="fund.dto.Commitment">
+		select * from [commitment]
+		where commitmentNo = #{commitmentNo}
+	</select>
+	
+	<select id="selectIDBySponsorNo" resultType="fund.dto.Commitment">
+		select s.ID sponsorID,c.ID,c.commitmentNo,c.donationPurposeID,c.paymentMethodID
+		from sponsor s
+		JOIN commitment c
+		ON s.ID=c.sponsorID
+		where s.sponsorNo=#{sponsorNo} AND c.paymentMethodID=12
+	</select>
 
 </mapper>

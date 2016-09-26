@@ -7,5 +7,38 @@
     <delete id="delete">
         DELETE FROM [User] WHERE id = #{id}
     </delete>
+    
+    <select id="selectEB21" resultType="fund.dto.EB21_commitmentDetail">
+    	select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin,code.codeName,cd.accountNo,cd.amountPerMonth,code.etc1,cd.ID commitmentDetailID
+		from [commitmentDetail] cd
+		JOIN [EB13_commitmentDetail] eb
+		ON eb.state='성공' AND cd.ID=eb.commitmentDetailID
+		LEFT JOIN [commitment] c
+		ON cd.commitmentID=c.ID AND c.paymentMethodID=10
+		AND (c.endDate is null OR c.endDate>GETDATE())
+		JOIN [sponsor] s
+		ON c.sponsorID=s.ID
+		JOIN [code]
+		ON cd.bankID=code.ID
+		WHERE cd.paymentDay=#{pDay}
+		AND
+		cd.ID
+		NOT IN (select commitmentDetailID from EB21_commitmentDetail)
+	</select>
+	
+	<select id="selectEB13" resultType="fund.dto.EB13_CommitmentDetail">
+	    select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin ,codeName,cd.accountNo,cd.ID commitmentDetailID,code.etc1
+		from [commitmentDetail] cd
+		INNER JOIN [code]
+		ON cd.bankID=code.ID
+		LEFT JOIN [commitment] c
+		ON cd.commitmentID=c.ID
+		LEFT JOIN [sponsor] s
+		ON c.sponsorID=s.ID
+		where cd.ID
+		not in (select commitmentDetailID from [EB13_commitmentDetail])
+		AND c.paymentMethodID=10
+    </select>
+	
 
 </mapper>
