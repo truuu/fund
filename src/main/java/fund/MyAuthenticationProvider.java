@@ -22,7 +22,7 @@ import fund.mapper.UserMapper;
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired UserMapper userMapper;
+    @Autowired SponsorMapper sponsorMapper;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -33,7 +33,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     }
 
     public Authentication authenticate(String loginId, String passwd) throws AuthenticationException {
-       User user = userMapper.selectByLoginId(loginId);
+       User user = sponsorMapper.selectByLoginId(loginId);
         if (user == null) return null;
         if (user.getPasswd().equals(passwd) == false) return null;
 

@@ -8,7 +8,7 @@ public class Payment {
 	int commitmentID;
 	int amount;
 	Date paymentDate;
-	String stc;
+	String etc;
 	int receiptID;
 	int donationPurposeID;
 	int paymentMethodID;
@@ -16,6 +16,64 @@ public class Payment {
 	String sponsorNo;
 	String name; //후원인명
 	String juminNo;
+	
+	String paymentMethod;
+	String commitmentNo;
+	String accountNo;
+	String bankName;
+	String accountHoler;
+	String corporate;
+	String donationPurpose;
+	int amountPerMonth;
+	
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	public String getCommitmentNo() {
+		return commitmentNo;
+	}
+	public void setCommitmentNo(String commitmentNo) {
+		this.commitmentNo = commitmentNo;
+	}
+	public String getAccountNo() {
+		return accountNo;
+	}
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+	public String getBankName() {
+		return bankName;
+	}
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+	public String getAccountHoler() {
+		return accountHoler;
+	}
+	public void setAccountHoler(String accountHoler) {
+		this.accountHoler = accountHoler;
+	}
+	public String getCorporate() {
+		return corporate;
+	}
+	public void setCorporate(String corporate) {
+		this.corporate = corporate;
+	}
+	public String getDonationPurpose() {
+		return donationPurpose;
+	}
+	public void setDonationPurpose(String donationPurpose) {
+		this.donationPurpose = donationPurpose;
+	}
+	public int getAmountPerMonth() {
+		return amountPerMonth;
+	}
+	public void setAmountPerMonth(int amountPerMonth) {
+		this.amountPerMonth = amountPerMonth;
+	}
 	
 	public String getJuminNo() {
 		return juminNo;
@@ -81,11 +139,11 @@ public class Payment {
 	public void setPaymentDate(Date paymentDate) {
 		this.paymentDate = paymentDate;
 	}
-	public String getStc() {
-		return stc;
+	public String getEtc() {
+		return etc;
 	}
-	public void setStc(String stc) {
-		this.stc = stc;
+	public void setEtc(String etc) {
+		this.etc = etc;
 	}
 	public int getReceiptID() {
 		return receiptID;

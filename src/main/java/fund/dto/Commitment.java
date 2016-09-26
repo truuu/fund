@@ -13,6 +13,9 @@ public class Commitment{
 	Date endDate;
 	String etc;
 	
+	String codeName;
+	String donationPurposeName;
+	
 	public int getID() {
 		return ID;
 	}
@@ -67,6 +70,17 @@ public class Commitment{
 	public void setEtc(String etc) {
 		this.etc = etc;
 	}
-	
+	public String getCodeName() {
+		return codeName;
+	}
+	public void setCodeName(String codeName) {
+		this.codeName = codeName;
+	}
+	public String getDonationPurposeName() {
+		return donationPurposeName;
+	}
+	public void setDonationPurposeName(String donationPurposeName) {
+		this.donationPurposeName = donationPurposeName;
+	}
 	
 }

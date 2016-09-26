@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Pagination {
     int currentPage = 1;
-    int pageSize = 15;
+    int pageSize = 10;
     int order;
     int srchType;
     String srchText = "";
@@ -16,6 +16,34 @@ public class Pagination {
     String startDate ="";
     String endDate ="";
     int corporateID;
+
+    int type;//소속교회, 회원구분 등 codeGroupID
+    String codeName;// 개인, 단체, 교회 등 code 이름
+    String nameForSearch;//후원인관리에서 이름으로 검색때 사용
+
+	public String getNameForSearch() {
+		return nameForSearch;
+	}
+
+	public void setNameForSearch(String nameForSearch) {
+		this.nameForSearch = nameForSearch;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public String getCodeName() {
+		return codeName;
+	}
+
+	public void setCodeName(String codeName) {
+		this.codeName = codeName;
+	}
 
     public int getCorporateID() {
 		return corporateID;

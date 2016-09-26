@@ -21,21 +21,26 @@
         http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
     <context:component-scan base-package="fund" />
-    <sec:global-method-security secured-annotations="enabled" />
+    <mvc:annotation-driven />
+      <sec:global-method-security secured-annotations="enabled" />
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
     
 
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
-    </bean>
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.tiles3.TilesView" />
+	</bean>
 
-    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
-        <property name="definitions">
-            <list>
-                <value>/WEB-INF/views/tiles.xml</value>
-            </list>
-        </property>
-    </bean>
+	<bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/views/tiles.xml</value>
+			</list>
+		</property>
+	</bean>
 
     <bean id="sqlSessionFactory1" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="myDataSource1" />
@@ -46,9 +51,17 @@
         <property name="dataSource" ref="myDataSource1" />
     </bean>
 
-    <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="fund" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory1"/>
-    </bean>
+
+	<bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="fund" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory1" />
+	</bean>
+	
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000" />
+		<property name="maxInMemorySize" value="100000000" />
+	</bean>
+
 
 </beans>
