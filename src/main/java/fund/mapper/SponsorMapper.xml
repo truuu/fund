@@ -5,21 +5,6 @@
 <mapper namespace="fund.mapper.SponsorMapper">
 
 
-<select id="selectById" resultType="fund.dto.User">
-		SELECT * FROM [User] WHERE id
-		= #{id}
-	</select>
-
-	<select id="selectByLoginId" resultType="fund.dto.User">
-		SELECT * FROM [User]
-		WHERE loginId = #{loginId}
-	</select>
-
-	<select id="selectAll" resultType="fund.dto.User">
-		SELECT u.*, d.departmentName
-		FROM [User] u LEFT JOIN department d ON u.departmentId = d.id
-	</select>
-
 
 	<select id="ceateNumber" resultType="Integer">
 		select TOP(1)ID from sponsor
