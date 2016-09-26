@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import fund.dto.Pagination;
 import fund.dto.Sponsor;
 import fund.dto.User;
 import fund.mapper.UserMapper;
@@ -59,12 +60,15 @@ public class UserController {
 	 
 	 
 	 @RequestMapping(value="/user/churchSearch.do",method=RequestMethod.GET)
-	 public String churchSearch(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Model model)throws Exception{
+	 public String churchSearch(Pagination  pagination,Model model)throws Exception{
 		 
 		  long total=0;
-		 
-		 System.out.println("start "+startDate+" end"+endDate);
-		 List<Sponsor> list=userMapper.churchSum(startDate, endDate);
+		  List<Sponsor> list=userMapper.churchSum(pagination);
+		  pagination.setRecordCount(list.size());
+			
+			
+		
+		 list=userMapper.churchSum2(pagination);
 		 //System.out.println(list.get(0).getChurch()+" "+list.get(0).getSum());
 		// System.out.println(list.get(1).getChurch()+" "+list.get(1).getSum());
 		 
