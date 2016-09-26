@@ -95,7 +95,7 @@ div table.table tbody tr td {
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3>약정 내역4</h3>
+		<h3>약정 내역</h3>
 		<div class="input-group1">
 			<button type="button" id="new" class="btn btn-small">새로 등록</button>
 		</div>
@@ -130,7 +130,7 @@ div table.table tbody tr td {
 		<form method="post">
 			<input type="hidden" name="sponsorID" value="${sponsorID}" />
 			<div class="commitmentTable">
-				<h3>약정 생성</h3>
+				
 				<table class="table">
 					<tbody>
 						<tr>
@@ -172,7 +172,7 @@ div table.table tbody tr td {
 					</tbody>
 				</table>
 
-				<h3>약정상세 생성</h3>
+				
 				<!--
 			int amountPerMonth;
 		int paymentDay;
@@ -203,10 +203,9 @@ div table.table tbody tr td {
 
 							<td id="table_a">예금주</td>
 							<td><input name="accountHolder" type="text" /></td>
-							<td id="table_a">약정금액</td>
-							<td></td>
+							
 							<td id="table_a">비고</td>
-							<td colspan="3"><input size="50" id="etc" type="text"
+							<td colspan="5"><input size="90" id="etc" type="text"
 								name="commitmentDetailEtc"></td>
 						</tr>
 

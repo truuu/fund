@@ -6,137 +6,292 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <script>
-$(function() {
-	$("").hide();
-	$("input").attr("readonly", true);
-	$("select").attr("readonly", true);
-});
 
+	$(function() {
+		$(".btn1").hide();
+		$("input").attr("readonly", true);
+		$("select").attr("readonly", true);
 
-$("#editButton").click(function() {
-	$("#btn1").show();   
-	$("input").attr("readonly", false);
-	$("select").attr("readonly", false);
-});
+		$("#editButton").click(function() {
+			$(".btn1").show();
+			$("input").attr("readonly", false);
+			$("select").attr("readonly", false);
+		});
+	});
+	
+	function endCommitment() {
+		if (confirm("약정을 종료하시겠습니까?") == true) {
+			location.href = "/fund_sys/sponsor/endCommitment.do";
+		} else {
+			return;
+		}
+	}
+	
 </script>
+
 <style>
-a#list, button#editButton, button.btn, a#deleteBtn {
+button#btn1 { margin-top: 5px; }
+table#donationTable {
+	width: 100%;
+}
+
+#searchResult {
+	width: 100%;
+}
+
+div#scroll {
+	height: 280px;
+	overflow-y: scroll;
+}
+
+#searchResult tr:hover {
+	background-color: #ffe;
+	cursor: pointer;
+}
+
+#searchResult tr.selected {
+	background-color: #fee;
+	font-weight: bold;
+}
+
+a#list, button#editButton, button.btn, a#deleteBtn, button#btn1 {
 	float: right;
 }
-table tbody tr td{ vertical-align: middle; padding:0px;}
+
+table tbody tr td {
+	vertical-align: middle;
+}
+
+div table.table tbody tr td {
+	vertical-align: middle;
+}
+
+.table tbody tr td {
+	vertical-align: middle;
+}
+
+button#editButton, button#btn1 {
+	background-color: #222;
+	color: #FFFFFF;
+	border-radius: 5px;
+	display: inline-block;
+	font-weight: bold;
+	padding: 5px 21px;
+	font-size: 0.7em;
+	letter-spacing: 0.25px;
+	text-transform: uppercase;
+	margin: 5px 0 5px 0;
+	border: solid #222;
+	font-weight: bold;
+	padding: 5px 21px;
+	font-size: 0.7em;
+	letter-spacing: 0.25px;
+	text-transform: uppercase;
+	margin: 5px 0 5px 0;
+}
 </style>
 
-<button type="button" id="editButton" class="btn btn-small">
-	수정하기</button>
-<a href="commitment.do" id="list" class="btn btn-default"> 약정목록 </a>
-<h3>약정</h3>
-<form:form method="post" modelAttribute="commitment">
-	<input type="hidden" name="sponsorID" value="${sponsorID}" />
-	<div class="commitmentTable">
+<div class="panel panel-default">
+
+	<button type="button" style="margin-left: 3px;" id="editButton"
+		class="button">수정하기</button>
+	<a href="commitment.do" id="list" class="button">약정목록</a>
+	<h3>약정</h3>
+	<form:form method="post" action="commitmentUpdate.do" modelAttribute="commitment">
+
+		<form:input type="hidden" path="ID" />
+
+		<div class="commitmentTable">
+			<table class="table">
+				<tbody>
+					<tr>
+						<td id="table_a">납입방법</td>
+						<td>${ commitment.codeName }</td>
+						<td id="table_a">기부목적</td>
+						<td><div class="form-inline">
+								<input type="text" name="dname" readonly value="${commitment.name}" />
+								<a href="#searchDialog" class="btn btn-default" data-toggle="modal">검색</a> 
+								<input type="hidden" name="donationPurposeID" id="donationPurposeID" />
+							</div>
+						</td>
+						<td id="table_a">기부기관</td>
+						<td style="vertical-align: middle;"><input type="text"
+							name="corporateName" readonly value="${commitment.corporateName}"/></td>
+					</tr>
+					<tr>
+						<td id="table_a">약정일자</td>
+						<td><form:input type="date" path="commitmentDate" /></td>
+						<td id="table_a">시작일</td>
+						<td><form:input type="date" path="startDate" /></td>
+						<td id="table_a">종료일</td>
+						<td><form:input type="date" path="endDate" /></td>
+					</tr>
+					<tr>
+						<td id="table_a">비고</td>
+						<td colspan="3"><form:input path="etc" size="100" /></td>
+						<td id="table_a">약정종료</td>
+						<td><button type="button" id="endCommitment"
+								onclick="endCommitment()">종료하기</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<button type="submit" id="btn1" style="margin-left: 3px;" class="button btn1">저장</button>
+		<a id="deleteBtn" id="btn1" class="button btn1" href="commitmentDetailDelete.do">삭제</a>
+	</form:form>
+	<br>
+	<h3>약정 상세</h3>
+
+<c:forEach var="commitmentDetail" items="${ commitmentDetails }" >
+	<form action="commitmentDetailSave.do" method="post">
+		<input type="hidden" name="ID" value="${ commitmentDetail.ID }" />
+		<input type="hidden" name="commitmentID" value="${ commitmentDetail.commitmentID }" />
 		<table class="table">
 			<tbody>
 				<tr>
-					<td id="table_a">납입방법</td>
-					<td>${ commitment.paymentMethodID }</td>
-					<td id="table_a">기부목적</td>
-					<td><form:form method="post">
-							<div class="form-inline">
-								<input type="text" name="dname" readonly /> <a
-									href="#searchDialog" class="btn btn-default"
-									data-toggle="modal">검색</a> <input type="hidden"
-									name="donationPurposeID" id="donationPurposeID" />
-							</div>
-						</form:form></td>
-					<td id="table_a">기부기관</td>
-					<td style="vertical-align: middle;"><input type="text"
-						name="corporateName" readonly /></td>
+					<td id="table_a">1회납입액</td>
+					<td><input type="text" class="money" name="amountPerMonth" value="${ commitmentDetail.amountPerMonth }" /></td>
+					<td id="table_a">결제일</td>
+					<td><select name="paymentDay"><option value="20">20일</option>
+									<option value="25">25일</option></select></td>
+					<td id="table_a">은행명</td>
+					<td><select name="bankID">
+									<c:forEach var="bank" items="${bankList}">
+										<option value="${bank.ID}">${bank.codeName}</option>
+									</c:forEach>
+						</select></td>
+					<td id="table_a">계좌번호</td>
+					<td><input type="text" name="accountNo" value="${ commitmentDetail.accountNo }" /></td>
 				</tr>
 				<tr>
-					<td id="table_a">약정일자</td>
-					<td><form:input path="commitmentDate" /></td>
+
+					<td id="table_a">예금주</td>
+					<td><input type="text" name="accountHolder" value="${ commitmentDetail.accountHolder }" /></td>
+					<td id="table_a">약정금액</td>
+					<td>${ commitmentDetail.amountPerMonth*month}</td>
 					<td id="table_a">시작일</td>
-					<td><form:input path="startDate" /></td>
-					<td id="table_a">종료일</td>
-					<td><form:input path="endDate" /></td>
+					<td><input type="date" name="startDate" value="${ commitmentDetail.startDate }" ></td>
+					<td id="table_a">비고</td>
+					<td colspan="3"><input type="text" name="etc" value="${ commitmentDetail.etc }" /></td>
+				</tr>
+
+			</tbody>
+		</table>
+		<button type="submit" id="btn1"  style="margin-left: 3px;" class="button btn1">저장</button>
+		<a id="deleteBtn" id="btn1" class="button btn1" href="commitmentDetailDelete.do">삭제</a>
+	</form>
+</c:forEach>
+
+	<br>
+	<h3>신규</h3>
+	<form method="post" action="commitmentDetailSave.do">
+		<input type="hidden" name="commitmentID" value="${commitmentID}" />
+		<table class="table">
+			<tbody>
+				<tr>
+					<td id="table_a">1회납입액</td>
+					<td><input type="text" class="money" name="amountPerMonth" />
+					</td>
+					<td id="table_a">결제일</td>
+					<td><select name="paymentDay"><option value="20">20일</option>
+							<option value="25">25일</option></select></td>
+					<td id="table_a">은행명</td>
+					<td><select name="bankID">
+							<c:forEach var="bank" items="${bankList}">
+								<option value="${bank.ID}">${bank.codeName}</option>
+							</c:forEach>
+					</select></td>
+					<td id="table_a">계좌번호</td>
+					<td><input name="accountNo" type="text" /></td>
 				</tr>
 				<tr>
+					<td id="table_a">예금주</td>
+					<td><input name="accountHolder" type="text" /></td>
+					<td id="table_a">시작일</td>
+					<td><input type="date" name="startDate"></td>
 					<td id="table_a">비고</td>
-					<td colspan="3"><form:input path="endDate" size="100" /></td>
-					<td id="table_a">약정종료</td>
-					<td><button>종료하기</button></td>
+					<td colspan="3"><input size="50" id="etc" type="text"
+						name="etc"></td>
 				</tr>
 			</tbody>
 		</table>
+		<button type="submit" id="btn1"  class="button btn1" >신규
+			저장</button>
+	</form>
+</div>
+
+<!-- modal -->
+<div id="searchDialog" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+				<h3>기부목적 검색</h3>
+			</div>
+			<div class="modal-body">
+				<!-- 
+				<form class="form-inline" method="post" action="#">
+					<span>이름:</span> <input type="text" name="name" />
+					<button type="submit" class="btn btn-default">검색</button>
+				</form>
+			-->
+				<div id="scroll">
+					<div id="searchResult">
+						<table id="donationTable">
+							<thead>
+								<tr>
+									<th>기관</th>
+									<th>기관종류</th>
+									<th>기부목적</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="donationPurpose"
+									items="${ donationPurposeList }">
+									<tr data-id="${ donationPurpose.ID }">
+										<td>${ donationPurpose.corporateName }</td>
+										<td>${ donationPurpose.codeName }</td>
+										<td>${ donationPurpose.name }</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<div class="form-inline">
+					<button style="margin-bottom: 0px; margin-left:3px;" class="btn" data-dismiss="modal">닫기</button>
+					<button style="margin-bottom: 0px" class="btn btn-primary"
+						onclick="selectDonationPurpose()" data-dismiss="modal">선택</button>
+				</div>
+			</div>
+
+		</div>
+
 	</div>
-	<button type="submit" id="btn1" class="btn" name="cmd" value="edit">저장</button>
-</form:form>
-<br>
-<h3>약정 상세#1</h3>
+</div>
 
-<form:form method="post" modelAttribute="commitmentDetail">
-	<table class="table">
-		<tbody>
-			<tr>
-				<td id="table_a">1회납입액</td>
-				<td><form:input path="amountPerMonth" /></td>
-				<td id="table_a">결제일</td>
-				<td><form:select path="paymentDay">
-						<form:option value="20" label="20일" />
-						<form:option value="25" label="25일" />
-					</form:select></td>
-				<td id="table_a">은행명</td>
-				<td><form:input path="bankID" /></td>
-				<td id="table_a">계좌번호</td>
-				<td><form:input path="accountNo" /></td>
-			</tr>
-			<tr>
 
-				<td id="table_a">예금주</td>
-				<td><form:input path="accountHolder" /></td>
-				<td id="table_a">약정금액</td>
-				<td></td>
-				<td id="table_a">비고</td>
-				<td colspan="3"><form:input path="etc" size="50" /></td>
-			</tr>
+<script>
+	function selectDonationPurpose() {
+		var selectedTr = $("#searchResult tr.selected");
+		var donationPurposeID = selectedTr.attr("data-id");
+		var name = selectedTr.find("td:nth-child(3)").text();
+		var corporateName = selectedTr.find("td:nth-child(1)").text();
+		$("input[name=dname]").val(name);
+		$("input[name=corporateName]").val(corporateName);
+		$("input#donationPurposeID").val(donationPurposeID);
+	}
 
-		</tbody>
-	</table>
-	<button type="submit" id="btn1" class="btn" name="cmd" value="edit">저장</button>
-	<a id="deleteBtn"  class="btn btn-default" href="#">삭제</a>
-</form:form>
-<br>
-<h3>신규</h3>
-<form method="post">
-	<table class="table">
-		<tbody>
-			<tr>
-				<td id="table_a">1회납입액</td>
-				<td><input type="text" class="money" name="amountPerMonth" />
-				</td>
-				<td id="table_a">결제일</td>
-				<td><select name="paymentDay"><option value="20">20일</option>
-						<option value="25">25일</option></select></td>
-				<td id="table_a">은행명</td>
-				<td><select name="bankID">
-						<c:forEach var="bank" items="${bankList}">
-							<option value="${bank.ID}">${bank.codeName}</option>
-						</c:forEach>
-				</select></td>
-				<td id="table_a">계좌번호</td>
-				<td><input name="accountNo" type="text" /></td>
-			</tr>
-			<tr>
-
-				<td id="table_a">예금주</td>
-				<td><input name="accountHolder" type="text" /></td>
-				<td id="table_a">약정금액</td>
-				<td></td>
-				<td id="table_a">비고</td>
-				<td colspan="3"><input size="50" id="etc" type="text"
-					name="commitmentDetailEtc"></td>
-			</tr>
-
-		</tbody>
-	</table>
-	<button type="submit" id="btn1" class="btn" name="cmd" value="create">신규 저장</button>
-</form>
+	$(document).ready(function() {
+		$("#searchResult tr").click(function() {
+			$("#searchResult tr").removeClass("selected");
+			$(this).addClass("selected");
+		})
+	});
+</script>

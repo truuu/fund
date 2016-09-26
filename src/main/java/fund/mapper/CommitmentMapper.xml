@@ -4,14 +4,16 @@
 
 <mapper namespace="fund.mapper.CommitmentMapper">
 	<select id="selectByID" resultType="fund.dto.Commitment">
-		select *
-		from Commitment
-		where ID=#{ID}
+		select Commitment.*,Code.codeName, DonationPurpose.name "name", Corporate.name "corporateName"
+		from Commitment join Code on Commitment.paymentMethodID=Code.ID
+		join DonationPurpose on DonationPurpose.ID=Commitment.donationPurposeID
+		join Corporate on Corporate.ID=DonationPurpose.corporateID
+		where Commitment.ID=#{ID}
 	</select>
 
 	<select id="selectBySponsorID" resultType="fund.dto.Commitment">
 		SELECT
-		c1.*,c2.codeName,d.name,s.sponsorNo, case when endDate = null then '진행' when endDate > GETDATE()
+		c1.*,c2.codeName,d.name,s.sponsorNo, case when endDate is null then '진행' when endDate > GETDATE()
 		then '진행' else '종료' end "state"
 		FROM Commitment c1 left join
 		Sponsor s
@@ -50,17 +52,18 @@
 		#{paymentMethodID},
 		#{commitmentDate}, 
 		#{startDate}, 
-		#{endDate},
+		#{endDate,jdbcType=DATE},
 		#{etc})
 	</insert>
 
 	<update id="update">
 		UPDATE Commitment
 		SET
-		startDate = #{startDate},
-		endDate
-		= #{endDate},
-		etc=#{etc}
+		donationPurposeID = #{donationPurposeID},
+		commitmentDate = #{commitmentDate,jdbcType=DATE},
+		startDate = #{startDate,jdbcType=DATE},
+		endDate= #{endDate,jdbcType=DATE},
+		etc= #{etc}
 		WHERE ID = #{ID}
 	</update>
 

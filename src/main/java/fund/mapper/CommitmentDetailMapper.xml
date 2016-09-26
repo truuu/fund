@@ -32,13 +32,18 @@
         UPDATE CommitmentDetail
         SET amountPerMonth = #{amountPerMonth}, 
         	  paymentDay = #{paymentDay},
-        	  startDate = #{startDate},
               bankID = #{bankID},
               accountNo = #{accountNo}, 
               accountHolder = #{accountHolder}, 
+              startDate = #{startDate,jdbcType=DATE},
               etc = #{etc}
         WHERE ID = #{ID}
     </update>
+    
+    <delete id="delete">
+    delete from CommitmentDetail
+    where ID=#{ID}
+    </delete>
    
 
 </mapper>

@@ -16,6 +16,7 @@ public class Commitment{
 	String codeName; // paymentMethodID
 	String sponsorNo; 
 	String state;
+	String corporateName; //corporateName
 	
 	public String getState() {
 		return state;
@@ -66,6 +67,8 @@ public class Commitment{
 	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
+
+
 	public String getEndDate() {
 		return endDate;
 	}
@@ -96,6 +99,15 @@ public class Commitment{
 	public void setSponsorNo(String sponsorNo) {
 		this.sponsorNo = sponsorNo;
 	}
+	public String getCorporateName() {
+		return corporateName;
+	}
+	public void setCorporateName(String corporateName) {
+		this.corporateName = corporateName;
+	}
+	
+	
+	
 	
 	
 }

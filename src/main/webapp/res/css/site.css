@@ -1032,3 +1032,4 @@ input#mailname {
 	float: left;
 }
 
+input[type=date] { line-height: 1em; }
