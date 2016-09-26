@@ -14,8 +14,6 @@ import fund.dto.*;
 public class PaymentController {
 	
 	@Autowired PaymentMapper paymentMapper;
-	
 
-	
 
 }

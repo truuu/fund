@@ -159,8 +159,7 @@ public class ReceiptController {
 		model.addAttribute("taxDataList",paymentMapper.selectPage(pagination));
 		return "certificate/taxData";
 	}
-	
-	
+
 	@RequestMapping(value="/certificate/taxData.do", method=RequestMethod.POST, params="type=xlsx" )
 	public void taxDataReport(Pagination pagination,@RequestParam("type") String type, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
 		List<Payment> list = paymentMapper.selectTaxData(pagination);
