@@ -58,8 +58,6 @@
 		<c:if test="${ pagination.ss != 0 }">
 			<a href="receiptList.do" class="btn btn-small">취소</a>
 		</c:if>
-		<button class="btn" type="button">조회</button>
-		<button class="btn" type="submit" name="type" value="pdf">인쇄</button>
 	</div>
 	
 	<div class="pull-right">

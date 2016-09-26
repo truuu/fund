@@ -151,4 +151,11 @@ public class ReceiptController {
 		return "certificate/receiptView";
 	}
 	
+	@RequestMapping("/certificate/taxData.do")
+	public String taxData(Model model,Pagination pagination)throws Exception{
+		pagination.setRecordCount(paymentMapper.selectCount(pagination));
+		model.addAttribute("taxDataList",paymentMapper.selectPage(pagination));
+		return "certificate/taxData";
+	}
+	
 }
