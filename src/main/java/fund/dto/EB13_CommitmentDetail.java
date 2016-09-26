@@ -20,6 +20,9 @@ public class EB13_CommitmentDetail {
 	String name;
 	String etc1;
 	
+	Date startDate;
+	Date endDate;
+	
 	public int getID() {
 		return ID;
 	}
@@ -103,5 +106,17 @@ public class EB13_CommitmentDetail {
 	}
 	public void setEtc1(String etc1) {
 		this.etc1 = etc1;
+	}
+	public Date getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	public Date getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 }

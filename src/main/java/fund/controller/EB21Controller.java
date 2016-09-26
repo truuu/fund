@@ -147,4 +147,12 @@ public class EB21Controller {
 		model.addAttribute("eb2122List", eb2122List);
 		return "finance/resultEB2122";
 	}
+	
+	@RequestMapping(value="/finance/resultEB2122.do", method=RequestMethod.POST)
+	public String resultEB2122(Model model, EB21_commitmentDetail eb21) {
+		List<EB21_commitmentDetail> eb2122List = eb21_commitmentDetailMapper.selectEB2122();
+		//mapper에 startDate,endDate넣어주고 해당 날짜 안에 있는 eb13리스트만 가져오기(수정해야함 이부분)
+		model.addAttribute("eb2122List", eb2122List);
+		return "finance/resultEB2122";
+	}
 }

@@ -17,42 +17,48 @@
 				</div>
 			</div>
 			<!-- /.row -->
-			<form:form method="post" modelAttribute="eb21List">
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table class="table table-bordered" id="table_s">
-								<thead>
+			<form:form method="post" modelAttribute="EB21_commitmentDetail">
+				<label>EB21 생성일 </label>
+				<input type="date" name="startDate"> ~ <input type="date"
+					name="endDate">
+				&nbsp;&nbsp;&nbsp;
+				<button type="submit" class="button">검색</button>
+				<div class="panel-body">
+					<div class="table-responsive">
+						<table class="table table-bordered" id="table_s">
+							<thead>
+								<tr>
+									<th>EB21생성일</th>
+									<th>후원인번호</th>
+									<th>약정번호</th>
+									<th>이름</th>
+									<th>기부목적</th>
+									<th>상태</th>
+								</tr>
+							</thead>
+							<c:forEach var="eb2122List" items="${eb2122List}">
+								<input type="hidden" name="commitmentDetailID"
+									value="${eb13List.commitmentDetailID}">
+								<tbody>
 									<tr>
-										<th>EB21생성일</th>
-										<th>후원인번호</th>
-										<th>약정번호</th>
-										<th>이름</th>
-										<th>기부목적</th>
-										<th>상태</th>
+										<td>${eb2122List.createDate}</td>
+										<td>${eb2122List.sponsorNo}</td>
+										<td>${eb2122List.commitmentNo}</td>
+										<td>${eb2122List.name}</td>
+										<td>${eb2122List.donationPurpose}</td>
+										<td>${eb2122List.state}</td>
 									</tr>
-								</thead>
-								<c:forEach var="eb2122List" items="${eb2122List}">
-								<input type="hidden" name="commitmentDetailID" value="${eb13List.commitmentDetailID}">
-									<tbody>
-										<tr>
-											<td>${eb2122List.createDate}</td>
-											<td>${eb2122List.sponsorNo}</td>
-											<td>${eb2122List.commitmentNo}</td>
-											<td>${eb2122List.name}</td>
-											<td>${eb2122List.donationPurpose}</td>
-											<td>${eb2122List.state}</td>
-										</tr>
-									</tbody>
-								</c:forEach>
-							</table>
-						</div>
+								</tbody>
+							</c:forEach>
+						</table>
 					</div>
 				</div>
-			</form:form>
 		</div>
-		<!-- /.panel -->
+		</form:form>
 	</div>
-	<!-- /.container-fluid -->
+	<!-- /.panel -->
+</div>
+<!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
 
