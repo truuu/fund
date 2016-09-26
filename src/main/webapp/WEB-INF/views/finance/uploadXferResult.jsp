@@ -12,17 +12,44 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">
-						금융연동 <small>- 자동이체</small>
+						금융연동 <small>- 급여공제</small>
 					</h1>
 				</div>
 			</div>
-			<div align="center">
-				<form id="uploadform" method="post" enctype="multipart/form-data">
-					<input type="file" id="file" name="file"/>
-					<button class="btn btn-default" type="submit">업로드</button>
-				</form>
-
+			<!-- /.row -->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="row">
+						<div id="column-right">
+							<form id="uploadform" method="post" enctype="multipart/form-data">
+								<input type="file" id="file" name="file" />
+								<button class="btn btn-default" type="submit">업로드</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- /.panel-heading -->
+				<div class="panel-body">
+					<div class="table-responsive">
+						<table class="table table-bordered" id="table_s">
+							<thead>
+								<tr>
+									<th>선택</th>
+									<th>약정번호</th>
+									<th>계좌</th>
+									<th>납입일</th>
+									<th>납입금액</th>
+									<th>후원인명(적요1)</th>
+									<th>납부방법</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
+		<!-- /.panel -->
 	</div>
+	<!-- /.container-fluid -->
 </div>
+<!-- /#page-wrapper -->
