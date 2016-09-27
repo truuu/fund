@@ -77,8 +77,8 @@
 		    <li><a href="#">영수증개별생성</a></li>
 		    <li><a href="#">국세청보고자료</a></li>
 		     <li class="divider"></li>
-		    <li><a href="#">장학증서 발급대장</a></li>
-		    <li><a href="#">기부증서 발급대장</a></li>
+		    <li><a href="/fund_sys/certificate/printScholarship_list.do">장학증서 발급대장</a></li>
+		    <li><a href="/fund_sys/certificate/printDonation_list.do">기부증서 발급대장</a></li>
 		  </ul>
 		</li>
 		<li class="dropdown">

@@ -13,10 +13,12 @@ $(function() {
         $(this).parents("form").submit();
     });
 });
-$(function() {
-	$("[class=money]").mask("000,000,000,000,000,000",{reverse: true});
+
+$(function() {                           // 돈 천단위로 , 찍는 mask 
+	$("[class=money]").mask("000,000,000,000,000,000");
 
 	$("form").submit(function() {
 		$("[class=money]").unmask();
 	});
 })
+
