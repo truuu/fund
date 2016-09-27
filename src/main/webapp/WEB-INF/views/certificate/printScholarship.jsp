@@ -10,6 +10,7 @@ textarea{
 	width:90%;
 	height:100px;
 }
+
 </style>
 
 <form method="post">
@@ -18,8 +19,8 @@ textarea{
 		<div class="container-fluid">
 			<h1 class="page-header">장학 증서</h1>
 			<div id="column-right">
-			<button type="submit" style="margin-bottom: 5px" class="btn btn-small">미리보기</button> <a href="#"
-					class="button button-reversed">인쇄</a>
+			<button type="submit" style="margin-bottom: 5px" class="btn btn-default">미리보기</button> <a href="#"
+					style="margin-bottom: 5px" class="btn btn-primary">인쇄</a>
 			</div>
 			<table class="table">
 				<tbody>

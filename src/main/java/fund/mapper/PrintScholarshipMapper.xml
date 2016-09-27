@@ -8,7 +8,7 @@
         <![CDATA[
         SELECT *
         FROM
-            (SELECT p.ID, p.studentName, p.studentNo, p.department, p.createDate, u.name,STR(YEAR(GETDATE()),4) + '-' + REPLACE(STR(num,4), ' ', '0') num2,
+            (SELECT p.ID, p.studentName, p.studentNo, p.department, p.createDate, u.name, STR(YEAR(GETDATE()),4) + '-' + REPLACE(STR(num,4), ' ', '0') num2,
                      ROW_NUMBER() OVER (ORDER BY p.ID DESC) 행번호
               FROM [PrintScholarship] p LEFT JOIN [User] u ON p.userID = u.ID
               WHERE

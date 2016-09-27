@@ -30,9 +30,9 @@ textarea{
 		<div class="container-fluid">
 			<h1 class="page-header">기부증서</h1>
 			<div id="column-right">
-			<button type="submit" style="margin-bottom: 5px" class="btn btn-small">미리보기</button> 
-			<a style="margin-bottom: 0px" href="#"
-					class="button button-reversed">인쇄</a>
+			<button type="submit" style="margin-bottom: 5px" class="btn btn-default">미리보기</button> 
+			<a style="margin-bottom: 5px" href="#"
+					class="btn btn-primary">인쇄</a>
 			</div>
 			<table class="table">
 				<tbody>

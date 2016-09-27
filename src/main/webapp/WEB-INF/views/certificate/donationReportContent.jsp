@@ -7,7 +7,7 @@
 			<td>${ donation.serialNo }</td>
 			<td>${ donation.title }</td>
 			<td>${ donation.sponsorName }</td>
-			<td>${ donation.amount }</td>
+			<td class="money">${ donation.amount }</td>
 			<td>${ donation.content }</td>
 			<td>${ donation.date }</td>
 			<td>${ donation.university }</td>
