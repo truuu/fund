@@ -7,7 +7,9 @@
     <tiles:insertAttribute name="head" />
 </head>
 <body>
+
     <tiles:insertAttribute name="menu" />
+     
     <div class="container">
         <div style="min-height: 700px">
             <tiles:insertAttribute name="content" />

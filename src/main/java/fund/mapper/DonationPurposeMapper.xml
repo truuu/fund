@@ -9,21 +9,72 @@
 		d.*,c1.codeName,c2.name "corporateName"
 		from DonationPurpose d left
 		join Code c1 on d.organizationID=c1.ID
-		left join Corporate c2 on d.corporateID=c2.ID
+		left join Corporate c2 on
+		d.corporateID=c2.ID
 	</select>
-	
+
 	<select id="selectDonationPurpose2" resultType="String">
-	select name
-	from donationPurpose 
-	where ID=#{ID}
-	
+		select name
+		from donationPurpose
+		where ID=#{ID}
+
 	</select>
-	
+
 	<select id="selectCoporateName" resultType="String">
-	select corporate.name
-	from donationPurpose join corporate 
-	on donationPurpose.corporateID=corporate.ID
-	where donationPurpose.ID=#{ID}
+		select d.*,c1.codeName,c2.name "corporateName"
+		from [DonationPurpose] d left
+		join [Code] c1 on d.organizationID=c1.ID
+		left join [Corporate] c2 on d.corporateID=c2.ID
+		where donationPurpose.ID=#{ID}
 	</select>
+
+
+	<select id="selectByID" resultType="fund.dto.DonationPurpose">
+		SELECT *
+		FROM
+		[DonationPurpose]
+		WHERE ID = #{ID}
+	</select>
+
+	<select id="selectPage" resultType="fund.dto.DonationPurpose">
+		<![CDATA[
+		SELECT *
+		FROM
+				(SELECT d.*, c2.name "corporateName", c1.codeName, ROW_NUMBER() OVER (ORDER BY d.ID) 행번호
+				FROM [DonationPurpose] d LEFT JOIN [Code] c1 ON d.organizationID=c1.ID	
+				  LEFT JOIN [Corporate] c2 ON d.corporateID=c2.ID 
+				  ) subquery
+				  WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              	  행번호 <= #{currentPage} * #{pageSize}
+        		  ORDER BY 행번호
+	]]>
+	</select>
+
+	<select id="selectCount" resultType="int">
+		SELECT COUNT(*)
+		FROM [DonationPurpose]
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		[DonationPurpose]
+		(corporateID, organizationID, name, gubun)
+		VALUES
+		(#{corporateID},#{organizationID},#{name},#{gubun})
+	</insert>
+
+	<update id="update">
+		UPDATE [DonationPurpose]
+		SET corporateID =
+		#{corporateID}, organizationID = #{organizationID},
+		name = #{name},
+		gubun = #{gubun}
+		WHERE ID = #{ID}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM [DonationPurpose] WHERE ID = #{ID}
+	</delete>
+	
 
 </mapper>

@@ -23,6 +23,14 @@
 	      <ul class="nav navbar-nav">
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">코드관리<span class="caret"></span></a>
+		  <ul class="dropdown-menu" role="menu">
+		    <li><a href="/fund_sys/code/corporateList.do">기관</a></li>
+		    <li><a href="/fund_sys/code/donationPurposeList.do">기부목적</a></li>
+		   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+			<c:forEach var="codeGroup" items="${ codeGroupList }">
+				<li><a href="/fund_sys/code/codeList.do?CodeGroupID=${codeGroup.ID}">${codeGroup.name}</a></li>
+			</c:forEach>
+		  </ul>	
 		</li>
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">후원인관리<span class="caret"></span></a>

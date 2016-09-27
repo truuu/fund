@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>후원회</title>
@@ -12,3 +12,7 @@
 <link rel="stylesheet"  href="/fund_sys/res/css/check.css" />
 
 <script src="/fund_sys/res/common.js"></script>
+
+
+
+
