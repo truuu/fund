@@ -28,6 +28,7 @@ public class PrintDonationCreate {
 	public void setSponsorName(String sponsorName) {
 		this.sponsorName = sponsorName;
 	}
+	
 	public int getAmount() {
 		return amount;
 	}

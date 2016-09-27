@@ -53,7 +53,8 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT
 		printDonation(userID,createDate,sponsorName,amount,num)
-		VALUES(#{userID}, GETDATE(),#{sponsorName},#{amount},ISNULL(MAX(num),0)+1)
+		VALUES(#{userID}, GETDATE(),#{sponsorName},#{amount},
+		IsNULL((SELECT MAX([num]) FROM PrintDonation), 0) + 1)
 	</insert>
 	
 	

@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fund.dto.Pagination;
+import fund.dto.PrintDonation;
 import fund.dto.PrintDonationCreate;
+import fund.dto.PrintScholarship;
 import fund.dto.PrintScholarshipCreate;
 import fund.mapper.PrintDonationMapper;
 import fund.mapper.PrintScholarshipMapper;
 import fund.service.PrintCertificateService;
+import fund.service.UserService;
 
 @Controller
 public class PrintCertificateController extends BaseController{
@@ -43,18 +46,36 @@ public class PrintCertificateController extends BaseController{
         return "certificate/printScholarship";
     }
 	
-	@RequestMapping(value="/certificate/printScholarship.do", method=RequestMethod.POST)
-    public String printScholarship(Model model,PrintScholarshipCreate printScholarshipCreate) {
+	@RequestMapping(value="/certificate/spreview.do") // 장학증서 미리보기
+    public String printScholarship(Model model,String department,String studentNo, String studentName,String content, String serialNo) {
+		PrintScholarshipCreate printScholarshipCreate = new PrintScholarshipCreate();
+		printScholarshipCreate.setDepartment(department);
+		printScholarshipCreate.setSerialNo(serialNo);
+		printScholarshipCreate.setStudentName(studentName);
+		printScholarshipCreate.setStudentNo(studentNo);
+		printScholarshipCreate.setContent(content);
 		printScholarshipCreate.setDate(PrintCertificateService.printDate());
 		String serialNum="제 "+printScholarshipCreate.getSerialNo()+" 호";
 		printScholarshipCreate.setSerialNo(serialNum);
 		printScholarshipCreate.setTitle("장학증서");
 		printScholarshipCreate.setUniversity("성 공 회 대 학 교  총장 이정구");
 		printScholarshipCreate.setTopCourse("최고경영자과정 총동문회장 이평구");
-		//insert 하기 printScholarshipMapper에!
+		
 		model.addAttribute("scholarship",printScholarshipCreate);
         return "certificate/scholarshipReportContent";
     }
+	
+	@RequestMapping(value="/certificate/scholarshipIssue.do") // 장학증서 발급
+	public String scholarshipPrint(Model model,String department,String studentNo, String studentName){
+		PrintScholarship printScholarship = new PrintScholarship();	
+		printScholarship.setUserID(UserService.getCurrentUser().getId());
+		printScholarship.setDepartment(department);
+		printScholarship.setStudentNo(studentNo);
+		printScholarship.setStudentName(studentName);
+		printScholarshipMapper.insert(printScholarship);
+		return "redirect:/certificate/printScholarship_list.do";
+	}
+	
 	
 	@RequestMapping(value="/certificate/printDonation.do", method=RequestMethod.GET)
     public String printDonation(Model model) {
@@ -68,18 +89,33 @@ public class PrintCertificateController extends BaseController{
         return "certificate/printDonation";
     }
 	
-	@RequestMapping(value="/certificate/printDonation.do", method=RequestMethod.POST)
-    public String printDonation(Model model,PrintDonationCreate printDonationCreate) {
+	@RequestMapping(value="/certificate/dpreview.do")  // 기부증서 미리보기
+    public String printDonation(Model model,int amount, String sponsorName, String serialNo, String content) {
+		PrintDonationCreate printDonationCreate = new PrintDonationCreate();
+		printDonationCreate.setAmount(amount);
+		printDonationCreate.setContent(content);
+		printDonationCreate.setSerialNo(serialNo);
+		printDonationCreate.setSponsorName(sponsorName);
 		printDonationCreate.setDate(PrintCertificateService.printDate());
 		String serialNum="제 "+printDonationCreate.getSerialNo()+" 호";
 		printDonationCreate.setSerialNo(serialNum);
 		printDonationCreate.setTitle("기부증서");
 		printDonationCreate.setUniversity("성공회대학교 총장");
 		printDonationCreate.setPresident("이정구");
-		//미리보기,인쇄 버튼 which? printDonationMapper INSERT 추가하기
 		
 		model.addAttribute("donation",printDonationCreate);
 		return "certificate/donationReportContent";
+	}
+	
+	@RequestMapping(value="/certificate/donationIssue.do") // 기부증서 발급
+	public String donationPrint(Model model,int amount, String sponsorName, String serialNo){
+		PrintDonation printDonation = new PrintDonation();
+		System.out.println(UserService.getCurrentUser().getId());	
+		printDonation.setUserID(UserService.getCurrentUser().getId());
+		printDonation.setAmount(amount);
+		printDonation.setSponsorName(sponsorName);
+		printDonationMapper.insert(printDonation);
+		return "redirect:/certificate/printDonation_list.do";
 	}
 	
 	@RequestMapping(value="/certificate/donationRepoertContent.do")
@@ -114,5 +150,7 @@ public class PrintCertificateController extends BaseController{
 		}
 		return "redirect:/certificate/printScholarship_list.do";
 	}
+	
+	
 }
 	

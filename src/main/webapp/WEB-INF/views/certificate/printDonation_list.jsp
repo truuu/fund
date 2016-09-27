@@ -73,6 +73,9 @@ a#donationBtn, a#deleteBtn {
 form.pagination {
 	width: 100%;
 }
+td{
+	text-align:center;
+}
 </style>
 <body>
 
@@ -116,7 +119,7 @@ form.pagination {
 								value="${ donation.ID }" /></td>
 							<td>${ donation.num2 }</td>
 							<td>${ donation.sponsorName }</td>
-							<td>${ donation.amount }</td>
+							<td class="money">${ donation.amount }</td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd"
 									value="${ donation.createDate }" /></td>
 							<td>${ donation.name }</td>

@@ -45,7 +45,8 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT [PrintScholarship]
 		(userID,createDate,studentNo,studentName,department,num)
-		VALUES (#{userID},GETDATE(),#{studentNo},#{studentName},#{department},ISNULL(MAX(num),0)+1)
+		VALUES (#{userID},GETDATE(),#{studentNo},#{studentName},#{department},
+		IsNULL((SELECT MAX([num]) FROM PrintScholarship), 0) + 1)
 	</insert>
 
 	<delete id="delete">

@@ -2,7 +2,30 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
-<style>
+<script>
+function print(index){
+	
+	department=$('#department').val();
+	studentNo=$('#studentNo').val();
+	studentName=$('#studentName').val();
+	serialNo=$('#serialNo').val();
+	content=$('#content').val();
+	
+	if (index == 2) {
+    	alert("장학증서를 발급하시겠습니까?");
+    	location.href="http://localhost:8080/fund_sys/certificate/scholarshipIssue.do?department="+department+"&studentNo="+studentNo+"&studentName="+studentName;
+      
+    }
+    if (index == 1) {
+    	alert("미리보기1");
+    	location.href="http://localhost:8080/fund_sys/certificate/spreview.do?department="+department+"&studentNo="+studentNo+"&studentName="+studentName+"&serialNo="+serialNo+"&content="+content;
+      
+    }
+				
+	
+}
+</script>
+ <style>
 #table_a {
 	vertical-align: middle;
 }
@@ -13,22 +36,22 @@ textarea{
 
 </style>
 
-<form method="post">
+<form method="post" name="printForm">
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
 			<h1 class="page-header">장학 증서</h1>
 			<div id="column-right">
-			<button type="submit" style="margin-bottom: 5px" class="btn btn-default">미리보기</button> <a href="#"
-					style="margin-bottom: 5px" class="btn btn-primary">인쇄</a>
+			<button type="button" style="margin-bottom: 5px" class="btn btn-default" onclick="print(1)">미리보기</button> 
+			<button type="button"  style="margin-bottom: 5px" class="btn btn-primary"onclick="print(2)">인쇄</button>
 			</div>
 			<table class="table">
 				<tbody>
 					<tr>
 						<td id="table_a">일련번호</td>
-						<td id="table_b"><input type="text" name="serialNo" value="${serialNo}"></td>
+						<td id="table_b"><input type="text" id="serialNo" name="serialNo" value="${serialNo}"></td>
 						<td id="table_a">학과</td>
-						<td id="table_b"><select name="department">
+						<td id="table_b"><select name="department" id="department">
 								<option selected="selected">선택</option>
 								<option value="신학과">신학과</option>
 								<option value="영어학과">영어학과</option>
@@ -47,13 +70,13 @@ textarea{
 					</tr>
 					<tr>
 						<td id="table_a">학번</td>
-						<td id="table_b"><input type="text" name="studentNo"></td>
+						<td id="table_b"><input type="text" name="studentNo" id="studentNo"></td>
 						<td id="table_a">성명</td>
-						<td id="table_b"><input type="text" name="studentName"></td>
+						<td id="table_b"><input type="text" name="studentName" id="studentName"></td>
 					</tr>
 					<tr>
 						<td id="table_a">내용</td>
-						<td colspan="3" id="table_b"><textarea name="content"></textarea></td>
+						<td colspan="3" id="table_b"><textarea id="content" name="content"></textarea></td>
 					</tr>
 				</tbody>
 			</table>

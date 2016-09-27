@@ -64,6 +64,9 @@ a#donationBtn, a#deleteBtn {
 form.pagination {
 	width: 100%;
 }
+td{
+	text-align:center;
+}
 </style>
 <body>
 
