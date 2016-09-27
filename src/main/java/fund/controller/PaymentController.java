@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import fund.BaseController;
 import fund.dto.Payment;
 import fund.dto.PaymentRecordStats;
 import fund.mapper.CodeMapper;
@@ -18,7 +19,7 @@ import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
 
 @Controller
-public class PaymentController {
+public class PaymentController extends BaseController{
 	@Autowired PaymentMapper paymentMapper;
 	@Autowired CodeMapper codeMapper;
 	@Autowired DonationPurposeMapper donationPurposeMapper;

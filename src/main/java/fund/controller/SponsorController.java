@@ -1,5 +1,7 @@
 package fund.controller;
 
-public class SponsorController {
+import fund.BaseController;
+
+public class SponsorController extends BaseController{
 
 }

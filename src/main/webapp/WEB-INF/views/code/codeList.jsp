@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,6 +16,10 @@
         });
     });
 </script>
+<style>
+tr td { text-align: center; }
+tr:hover{ background-color: #ffe; cursor: pointer; }
+</style>
 </head>
 <body>
 <h2 class="page-header">${name}</h2>
@@ -30,7 +35,12 @@
 		<thead>
 			<tr>
 				<th>코드명</th>
-				<th>etc1</th>
+				<th>
+				<c:choose>
+				<c:when test="${name eq '은행'}">은행코드</c:when>
+				<c:otherwise>기타</c:otherwise>
+				</c:choose>
+				</th>
 			</tr>
 		</thead>
 		 <tbody>

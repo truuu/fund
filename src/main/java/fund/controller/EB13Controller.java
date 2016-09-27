@@ -1,5 +1,7 @@
 package fund.controller;
 
-public class EB13Controller {
+import fund.BaseController;
+
+public class EB13Controller extends BaseController{
 
 }

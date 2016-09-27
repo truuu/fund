@@ -5,8 +5,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import fund.BaseController;
+
 @Controller
-public class UserController {
+public class UserController extends BaseController{
 	
 	
 	

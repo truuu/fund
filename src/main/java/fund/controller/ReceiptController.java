@@ -1,5 +1,7 @@
 package fund.controller;
 
-public class ReceiptController {
+import fund.BaseController;
+
+public class ReceiptController extends BaseController{
 
 }

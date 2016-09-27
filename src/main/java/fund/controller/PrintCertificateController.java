@@ -1,5 +1,7 @@
 package fund.controller;
 
-public class PrintCertificateController {
+import fund.BaseController;
+
+public class PrintCertificateController extends BaseController{
 
 }

@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import fund.BaseController;
 import fund.dto.Commitment;
 import fund.dto.CommitmentCreate;
 import fund.dto.CommitmentDetail;
@@ -20,7 +22,7 @@ import fund.mapper.CommitmentMapper;
 import fund.mapper.DonationPurposeMapper;
 
 @Controller
-public class CommitmentController {
+public class CommitmentController extends BaseController{
 
 	@Autowired CommitmentMapper commitmentMapper;
 	@Autowired CommitmentDetailMapper commitmentDetailMapper;
@@ -31,13 +33,13 @@ public class CommitmentController {
 	/*commitment list*/
 	@RequestMapping(value="/sponsor/commitment.do", method=RequestMethod.GET)  
 	public String commitment(Model model) {       // sponsor랑 합치면 @RequestParam추가하기
-		model.addAttribute("list", commitmentMapper.selectBySponsorID(106)); // 12 test
+		model.addAttribute("list", commitmentMapper.selectBySponsorID(15)); // 12 test
 		String name="정기 납입방법";
 		model.addAttribute("paymentMethodList",codeMapper.selectByPaymentMethod(name));
 		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
 		String bank="은행";
 		model.addAttribute("bankList",codeMapper.selectByBank(bank));
-		model.addAttribute("sponsorID",106);//SPONSORID 12번 TEST 학교서버는 90번으로
+		model.addAttribute("sponsorID",15);//SPONSORID 12번 TEST 학교서버는 90번으로
 
 		return "sponsor/commitment";
 	}
@@ -79,7 +81,7 @@ public class CommitmentController {
 
 		commitmentDetailMapper.insert(commitmentDetail);  // 약정 상세 insert
 
-		model.addAttribute("list", commitmentMapper.selectBySponsorID(106));  // 12번 test 나중에 바꿔야 함.
+		model.addAttribute("list", commitmentMapper.selectBySponsorID(15));  // 12번 test 나중에 바꿔야 함.
 		return "redirect:/sponsor/commitment.do";
 	}
 
@@ -100,10 +102,11 @@ public class CommitmentController {
 	    Date endDate = formatter.parse(end);
 	 
 	    long diff = endDate.getTime() - beginDate.getTime();
-	    long diffDays = diff / (24 * 60 * 60 * 1000);
-	    System.out.println(diffDays);
+	    long diffDays = 3;
+	    System.out.println("1111"+ diffDays);
 		model.addAttribute("month",diffDays);
 		model.addAttribute("bankList",codeMapper.selectByBank(bank));
+		//model.addAttribute("b",codeMapper,codeMapper.selectBankName(commitmentDetails.get(1)));
 		return "sponsor/commitmentEdit";
 	}
 

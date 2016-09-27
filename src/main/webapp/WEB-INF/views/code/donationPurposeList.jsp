@@ -15,6 +15,10 @@
         });
     });
 </script>
+<style>
+tr td { text-align: center; }
+tr:hover{ background-color: #ffe; cursor: pointer; }
+</style>
 </head>
 <body>
 <h2 class="page-header">기부목적</h2>
@@ -47,13 +51,6 @@
         </tbody>
 	</table>
 	
-	<div class="pagination pagination-small pagination-centered">
-        <ul>
-            <c:forEach var="page" items="${ pagination.pageList }">
-                <li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
-            </c:forEach>
-        </ul>
-    </div>
 </form>
 	
 </div>
