@@ -29,8 +29,7 @@
 	</div>
 	
 	<div class="pull-right">
-
-		<button class="btn" type="submit" name="type" value="xlsx">엑셀파일</button>
+		<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
 	</div>
 	
 	<div class="taxData_List">	

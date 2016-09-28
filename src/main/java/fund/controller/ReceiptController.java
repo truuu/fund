@@ -160,11 +160,11 @@ public class ReceiptController {
 		return "certificate/taxData";
 	}
 
-	@RequestMapping(value="/certificate/taxData.do", method=RequestMethod.POST, params="type=xlsx" )
-	public void taxDataReport(Pagination pagination,@RequestParam("type") String type, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
-		List<Payment> list = paymentMapper.selectTaxData(pagination);
-		ReportBuilder reportBuilder = new ReportBuilder("taxData", list, req,res);
-		reportBuilder.build(type);
-	}
+	@RequestMapping(value="/certificate/taxData.do", method=RequestMethod.POST, params="cmd=xlsx" )
+	public void taxDataReport(Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+ 		List<Payment> list = paymentMapper.selectTaxData(pagination);
+ 		ReportBuilder reportBuilder = new ReportBuilder("taxData",list,"taxData.xlsx",req,res);
+		reportBuilder.build("xlsx");
+ 	}
 	
 }

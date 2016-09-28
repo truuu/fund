@@ -24,7 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import fund.dto.*;
 import fund.mapper.*;
+import fund.service.ReportBuilder;
 import fund.service.UserService;
+import net.sf.jasperreports.engine.JRException;
 
 
 @Controller
@@ -35,9 +37,9 @@ public class SponsorController {
     //회원관리 기본페이지
 	@RequestMapping(value="/sponsor/sponsor_m.do",method=RequestMethod.GET)
 	public String userManage(Model model, Pagination pagination)throws Exception{
-		
-		 pagination.setRecordCount(sponsorMapper.selectCount());
-	        model.addAttribute("list", sponsorMapper.selectPage(pagination));
+		System.out.println("sponsor_m.do 액션메소드");
+		pagination.setRecordCount(sponsorMapper.selectCount());
+	    model.addAttribute("list", sponsorMapper.selectPage(pagination));
 		return "sponsor/sponsorManage";
 	}
 	
@@ -402,12 +404,22 @@ public class SponsorController {
 		
 		return "sponsor/castHistory"; 
 	 }
-
-
+	 
+	 
+	 @RequestMapping(value="/sponsor/postSearch.do", method=RequestMethod.POST, params="cmd=xlsx" )
+	 public void excelDMReport(Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+		System.out.println("엑셀파일 생성 sendDM");
+		List<Sponsor> list = sponsorMapper.excelDM(pagination);
+		ReportBuilder reportBuilder = new ReportBuilder("sendDM", list, "sendDM.xlsx",req,res);
+		reportBuilder.build("xlsx");
+	 }
 	
-	
-
-
+	 @RequestMapping(value="/sponsor/sponsorManage.do", method=RequestMethod.POST, params="cmd=xlsx" )
+	 public void sponsorList(Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+		 List<Sponsor> list = sponsorMapper.sponsorListExcel(pagination);
+		ReportBuilder reportBuilder = new ReportBuilder("sponsorList", list, "sponsorList.xlsx",req,res);
+		reportBuilder.build("xlsx");
+	 }
 
 
 

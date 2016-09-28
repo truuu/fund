@@ -37,12 +37,15 @@ public class ReportBuilder {
     HttpServletResponse response;
     JasperReport report;
     
-    public ReportBuilder(String reportFileName, Collection<?> collection, 
+    String fileName="report";
+    
+    public ReportBuilder(String reportFileName, Collection<?> collection, String name, 
             HttpServletRequest request, HttpServletResponse response) throws JRException {
         this.reportFileName = reportFileName;
         this.dataSource = new JRBeanCollectionDataSource(collection);
         this.request = request;
-        this.response = response;        
+        this.response = response;
+        this.fileName=name;
         if (reportFolderPath == null)
             reportFolderPath = request.getSession().getServletContext().getRealPath("/WEB-INF/report");
         String reportFilePath = reportFolderPath + "/" + reportFileName + ".jasper";
@@ -59,6 +62,7 @@ public class ReportBuilder {
     
     public void buildHtmlReport() throws JRException, IOException {
         response.setCharacterEncoding("UTF-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
         Map<String,Object> params = new HashMap<String,Object>();
         params.put(JRParameter.IS_IGNORE_PAGINATION, true);
         JasperPrint jasperPrint = JasperFillManager.fillReport(report, params, dataSource);
@@ -76,7 +80,8 @@ public class ReportBuilder {
     }
     
     public void buildXlsxReport() throws IOException, JRException {
-        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");        
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
         Map<String,Object> params = new HashMap<String,Object>();
         params.put(JRParameter.IS_IGNORE_PAGINATION, true);        
         JasperPrint jasperPrint = JasperFillManager.fillReport(report, params, dataSource);
@@ -102,6 +107,7 @@ public class ReportBuilder {
         bytes = JasperRunManager.runReportToPdf(report, null, dataSource);
         response.setContentType("application/pdf");        
         response.setContentLength(bytes.length);
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
         ServletOutputStream ouputStream = response.getOutputStream();
         ouputStream.write(bytes, 0, bytes.length);
         ouputStream.flush();

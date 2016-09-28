@@ -18,6 +18,8 @@ public interface SponsorMapper {
      Integer ceateNumber();
      List<Sponsor> sponsorManage();
      List<Sponsor> postManage(Pagination pagination);
+     List<Sponsor> excelDM(Pagination pagination);
+     
      
      int sponsorTypeCheck(String codeName);
     
@@ -38,7 +40,7 @@ public interface SponsorMapper {
      List<Sponsor> nameSearch(Pagination pagination);
      List<Sponsor> sponsorSearch(Pagination pagination);
      List<Sponsor> selectPage(Pagination pagination);
-     
+     List<Sponsor> sponsorListExcel(Pagination pagination);
      
      //후원인구분2별 출연내역
      List<Sponsor> castBySponsorType2(@Param("startDate")String startDate,@Param("endDate")String endDate);

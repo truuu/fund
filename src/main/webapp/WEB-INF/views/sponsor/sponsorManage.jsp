@@ -40,10 +40,10 @@ $(function() {
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
-			<h1 class="page-header">회원관리12</h1>
+			<h1 class="page-header">회원관리</h1>
 			<div id="column-right">
-				<a href="sponsor.do" class="button button-reversed">신규</a> <a href="#"
-					class="button">엑셀</a>
+				<a href="sponsor.do" class="button button-reversed">신규</a> 
+				<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
 			</div>
 
 			<div id="search">

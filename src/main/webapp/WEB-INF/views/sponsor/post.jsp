@@ -37,7 +37,7 @@ $(function(){
 
 
 		
-		location.href="http://localhost:8080/fund_sys/sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
+		location.href="../sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
 		
 		
 	});
@@ -52,7 +52,7 @@ $(function(){
 
 
 		
-		location.href="http://localhost:8080/fund_sys/sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
+		location.href="../sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
 	
 		
 	});
@@ -83,7 +83,7 @@ $(function(){
 			</div>
 
 			<div id="column-right">
-				<a id="postExcel" class="button button-reversed">엑셀 다운</a>
+				<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
 			</div>
 
 			<div class="row">
@@ -113,7 +113,7 @@ $(function(){
 							
 			<c:forEach var="post" items="${postList}">
 			<tr>
-			<td>${post.id}</td>
+			<td>${post.sponsorNo}</td>
 			<td>${post.name}</td>
 			<td>${post.sponsorType2}</td>
 			<td>${post.church}</td>
@@ -128,11 +128,11 @@ $(function(){
 						</table>
 						<center>
 						 <div class="pagination pagination-small pagination-centered">
-        <ul>
-            <c:forEach var="page" items="${ pagination.pageList }">
-                <li class='${ page.cssClass }'><a data-page="${ page.number }" >${ page.label }</a></li>
-            </c:forEach>
-        </ul>
+				        	<ul>
+				            	<c:forEach var="page" items="${ pagination.pageList }">
+				                	<li class='${ page.cssClass }'><a data-page="${ page.number }" >${ page.label }</a></li>
+				            	</c:forEach>
+				        	</ul>
                         </div>
                         </center>
                          </form>
