@@ -104,6 +104,7 @@ button {
 										<option value="1">정기</option>
 										<option value="2">비정기</option>
 								</select></td>
+								
 
 								<td><label>소속교회</label></td>
 								<td><select name="srchType3" class="select_s">
@@ -144,6 +145,10 @@ button {
 										</c:forEach>
 								</select></td>
 
+							</tr>
+							<tr>
+							<td><label>후원인이름</label></td>
+								<td colspan="4"><input type="text" name="sponsorName" /></td>
 							</tr>
 
 
@@ -197,8 +202,8 @@ button {
 										<tr>
 											<td id="table_a"><label>납입방법</label></td>
 											<td id="table_b">${paymentMethod}</td>
-											<td id="table_a"></td>
-											<td id="table_b"></td>
+											<td id="table_a"><label>후원인이름</label></td>
+											<td id="table_b">${sponsorName}</td>
 										</tr>
 
 									</table>

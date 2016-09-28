@@ -17,7 +17,14 @@ public class Commitment{
 	String sponsorNo; 
 	String state;
 	String corporateName; //corporateName
+	int month;
 	
+	public int getMonth() {
+		return month;
+	}
+	public void setMonth(int month) {
+		this.month = month;
+	}
 	public String getState() {
 		return state;
 	}

@@ -9,27 +9,48 @@
 
 	$(function() {
 		$(".btn1").hide();
+		$("select").attr("readonly", true);  // 적용안됨
 		$("input").attr("readonly", true);
-		$("select").attr("readonly", true);
+		
 
 		$("#editButton").click(function() {
 			$(".btn1").show();
-			$("input").attr("readonly", false);
 			$("select").attr("readonly", false);
+			$("input").attr("readonly", false);
+			
 		});
 	});
-	
-	function endCommitment() {
-		if (confirm("약정을 종료하시겠습니까?") == true) {
-			location.href = "/fund_sys/sponsor/endCommitment.do";
-		} else {
-			return;
-		}
+</script>
+
+<script>
+function deleteCommitmentDetail(commitmentDetailID) {
+	if (confirm("약정 상세를 삭제하시겠습니까?") == true) {
+		commitmentID=$("#cmmID").val();
+		location.href="http://localhost:8080/fund_sys/sponsor/commitmentDetailDelete.do?commitmentDetailID="+commitmentDetailID+"&commitmentID="+commitmentID;
+
 	}
-	
+};
+
+function deleteCommitment(commitmentID) {
+	if (confirm("약정을 삭제하시겠습니까?") == true) {
+		
+		location.href="http://localhost:8080/fund_sys/sponsor/commitmentDelete.do?commitmentID="+commitmentID;
+
+	}
+};
+
+function end() {
+	ID=$("#cid").val();
+	if (confirm("약정을 종료하시겠습니까?") == true) {
+		location.href = "/fund_sys/sponsor/commitmentEnd.do?ID="+ID;
+	} 
+};
+
+
 </script>
 
 <style>
+.table{ margin-bottom:3px; }
 button#btn1 { margin-top: 5px; }
 table#donationTable {
 	width: 100%;
@@ -54,7 +75,7 @@ div#scroll {
 	font-weight: bold;
 }
 
-a#list, button#editButton, button.btn, a#deleteBtn, button#btn1 {
+a#list, button#editButton, button.btn, a#btn1, button#btn1 {
 	float: right;
 }
 
@@ -97,9 +118,9 @@ button#editButton, button#btn1 {
 		class="button">수정하기</button>
 	<a href="commitment.do" id="list" class="button">약정목록</a>
 	<h3>약정</h3>
-	<form:form method="post" action="commitmentUpdate.do" modelAttribute="commitment">
+	<form method="post" action="commitmentUpdate.do">
 
-		<form:input type="hidden" path="ID" />
+		<input type="hidden" name="ID" id="cid" value="${commitment.ID}" />
 
 		<div class="commitmentTable">
 			<table class="table">
@@ -109,55 +130,55 @@ button#editButton, button#btn1 {
 						<td>${ commitment.codeName }</td>
 						<td id="table_a">기부목적</td>
 						<td><div class="form-inline">
-								<input type="text" name="dname" readonly value="${commitment.name}" />
+							 <input type="text" name="dname" readonly value="${commitment.name}" />
 								<a href="#searchDialog" class="btn btn-default" data-toggle="modal">검색</a> 
-								<input type="hidden" name="donationPurposeID" id="donationPurposeID" />
+								<input type="hidden" name="donationPurposeID" id="donationPurposeID" value="${commitment.donationPurposeID }" />
 							</div>
 						</td>
 						<td id="table_a">기부기관</td>
 						<td style="vertical-align: middle;"><input type="text"
-							name="corporateName" readonly value="${commitment.corporateName}"/></td>
+							name="corporateName2" readonly value="${commitment.corporateName}"/></td>
 					</tr>
+					
 					<tr>
 						<td id="table_a">약정일자</td>
-						<td><form:input type="date" path="commitmentDate" /></td>
+						<td><input type="date" name="commitmentDate" value="${commitment.commitmentDate}" /></td>
 						<td id="table_a">시작일</td>
-						<td><form:input type="date" path="startDate" /></td>
+						<td><input type="date" name="startDate" value="${commitment.startDate}" /></td>
 						<td id="table_a">종료일</td>
-						<td><form:input type="date" path="endDate" /></td>
+						<td><input type="date" name="endDate" value="${commitment.endDate}" /></td>
 					</tr>
 					<tr>
 						<td id="table_a">비고</td>
-						<td colspan="3"><form:input path="etc" size="100" /></td>
+						<td colspan="3"><input name="etc" size="100" value="${commitment.etc }" /></td>
 						<td id="table_a">약정종료</td>
-						<td><button type="button" id="endCommitment"
-								onclick="endCommitment()">종료하기</button></td>
+						<td><button type="button" id="endCommitment" onclick="end()">종료하기</button></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		<button type="submit" id="btn1" style="margin-left: 3px;" class="button btn1">저장</button>
-		<a id="deleteBtn" id="btn1" class="button btn1" href="commitmentDetailDelete.do">삭제</a>
-	</form:form>
+		<a id="btn1" class="button btn1" onClick="deleteCommitment(${commitment.ID})">삭제</a>
+	</form>
 	<br>
 	<h3>약정 상세</h3>
 
 <c:forEach var="commitmentDetail" items="${ commitmentDetails }" >
 	<form action="commitmentDetailSave.do" method="post">
 		<input type="hidden" name="ID" value="${ commitmentDetail.ID }" />
-		<input type="hidden" name="commitmentID" value="${ commitmentDetail.commitmentID }" />
+		<input type="hidden" id="cmmID" name="commitmentID" value="${ commitmentDetail.commitmentID }" />
 		<table class="table">
 			<tbody>
 				<tr>
 					<td id="table_a">1회납입액</td>
 					<td><input type="text" class="money" name="amountPerMonth" value="${ commitmentDetail.amountPerMonth }" /></td>
 					<td id="table_a">결제일</td>
-					<td><select name="paymentDay"><option value="20">20일</option>
-									<option value="25">25일</option></select></td>
+					<td><select name="paymentDay"><option value="20" ${commitmentDetail.paymentDay == 20 ? "selected" : "" }>20일</option>
+									<option value="25" ${commitmentDetail.paymentDay == 20 ? "selected" : "" }>25일</option></select></td>
 					<td id="table_a">은행명</td>
 					<td><select name="bankID">
 									<c:forEach var="bank" items="${bankList}">
-										<option value="${bank.ID}">${bank.codeName}</option>
+										<option value="${bank.ID}" ${commitmentDetail.bankID==bank.ID ? "selected" : "" }>${bank.codeName}</option>
 									</c:forEach>
 						</select></td>
 					<td id="table_a">계좌번호</td>
@@ -168,7 +189,7 @@ button#editButton, button#btn1 {
 					<td id="table_a">예금주</td>
 					<td><input type="text" name="accountHolder" value="${ commitmentDetail.accountHolder }" /></td>
 					<td id="table_a">약정금액</td>
-					<td>${ commitmentDetail.amountPerMonth*month}</td>
+					<td class="money">${commitment.month*commitmentDetail.amountPerMonth}</td>
 					<td id="table_a">시작일</td>
 					<td><input type="date" name="startDate" value="${ commitmentDetail.startDate }" ></td>
 					<td id="table_a">비고</td>
@@ -178,7 +199,7 @@ button#editButton, button#btn1 {
 			</tbody>
 		</table>
 		<button type="submit" id="btn1"  style="margin-left: 3px;" class="button btn1">저장</button>
-		<a id="deleteBtn" id="btn1" class="button btn1" href="commitmentDetailDelete.do">삭제</a>
+		<a id="btn1" class="button btn1 cmdBtn" onClick="deleteCommitmentDetail(${commitmentDetail.ID })">삭제</a>
 	</form>
 </c:forEach>
 
@@ -284,7 +305,7 @@ button#editButton, button#btn1 {
 		var name = selectedTr.find("td:nth-child(3)").text();
 		var corporateName = selectedTr.find("td:nth-child(1)").text();
 		$("input[name=dname]").val(name);
-		$("input[name=corporateName]").val(corporateName);
+		$("input[name=corporateName2]").val(corporateName2);
 		$("input#donationPurposeID").val(donationPurposeID);
 	}
 

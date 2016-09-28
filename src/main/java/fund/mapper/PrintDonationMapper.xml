@@ -8,8 +8,7 @@
 		SELECT p.*, u.name
 		FROM
 		PrintDonation p LEFT JOIN [User] u ON p.userID = u.ID
-		WHERE p.ID =
-		#{ID}
+		WHERE p.ID = #{ID}
 	</select>
 
 	<select id="selectPage" resultType="fund.dto.PrintDonation">

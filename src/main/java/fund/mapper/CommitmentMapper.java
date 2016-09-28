@@ -9,6 +9,8 @@ public interface CommitmentMapper {
 	List<Commitment> selectBySponsorID(int ID);
 	void insert(Commitment commitment);
 	void update(Commitment commitment);
+	void delete(int ID);
+	void updateEndDate(int ID);
 	int selectCountCommitment(int sponsorID);
 	
 }

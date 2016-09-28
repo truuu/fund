@@ -13,43 +13,27 @@
 			$("tbody input[type=checkbox").trigger("click");
 		});
 	});
-
+	
 	function deleteFunction() {
-		var arrayParam = new Array();
 
 		if (confirm("삭제하시겠습니까?") == true) {
 
-			// name이 같은 체크박스의 값들을 배열에 담는다.
-			var checkboxValues = [];
-			$("input[name=class[1]:checked").each(function(i) {
+			//var checkboxValues = [];
+			var checkboxValues = new Array();
+			
+			$('input:checkbox[name="class[1]"]:checked').each(function() {
 
 				checkboxValues.push($(this).val());
 			});
+			
+			location.href = "http://localhost:8080/fund_sys/certificate/scholarshipDelete.do?checkboxValues[]="+ checkboxValues;
 
-			// 사용자 ID(문자열)와 체크박스 값들(배열)을 name/value 형태로 담는다.
-			var allData = {
-				"checkArray" : checkboxValues
-			};
-
-			$.ajax({
-				url : "scholarshipDelete.do",
-				type : 'GET',
-				data : allData,
-				success : function(data) {
-
-					window.opener.location.reload();
-					self.close();
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
-
-				}
-			});
 
 		} else {
 			return;
 		}
 	}
+	
 </script>
 <style>
 a.deleteBtn {
@@ -108,7 +92,7 @@ td{
 					<c:forEach var="scholarship" items="${ list }">
 						<tr>
 							<td class="input_check"><input type="checkbox"
-								name="class[1]" class='input_ch' id='input_check1'
+								name="class[1]" class="input_ch" id="input_check1"
 								value="${ scholarship.ID }" /></td>
 							<td>${ scholarship.num2 }</td>
 							<td>${ scholarship.studentNo }</td>

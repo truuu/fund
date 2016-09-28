@@ -4,7 +4,7 @@
 
 <mapper namespace="fund.mapper.CommitmentMapper">
 	<select id="selectByID" resultType="fund.dto.Commitment">
-		select Commitment.*,Code.codeName, DonationPurpose.name "name", Corporate.name "corporateName"
+		select Commitment.*,Code.codeName, DonationPurpose.name "name", Corporate.name "corporateName", datediff(MM,startDate,endDate) "month"
 		from Commitment join Code on Commitment.paymentMethodID=Code.ID
 		join DonationPurpose on DonationPurpose.ID=Commitment.donationPurposeID
 		join Corporate on Corporate.ID=DonationPurpose.corporateID
@@ -66,6 +66,17 @@
 		etc= #{etc}
 		WHERE ID = #{ID}
 	</update>
+	
+	<update id="updateEndDate">
+		update Commitment
+		set endDate = getDate()
+		where ID=#{ID}
+	</update>
+	
+	<delete id="delete">
+	delete from Commitment
+	where ID=#{ID}
+	</delete>
 
 
 

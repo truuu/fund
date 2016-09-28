@@ -2,7 +2,10 @@ package fund.dto;
 
 import java.util.Date;
 
+
+
 public class CommitmentCreate {
+	
 	String commitmentStartDate;       // 공통
 	String commitmentDetailStartDate;
 	String commitmentEtc;
@@ -11,11 +14,10 @@ public class CommitmentCreate {
 	int sponsorID;                 //  commitment
 	int donationPurposeID;
 	int paymentMethodID;
+	
 	String commitmentDate;
 	String endDate;
-	
-	
-	           
+	        
 	int amountPerMonth;    // commitmentDetail
 	int paymentDay;
 	int bankID;

@@ -130,24 +130,27 @@ public class PrintCertificateController extends BaseController{
 		return "certificate/scholarshipReportContent";
 	}
 	
-	@RequestMapping(value="/certificate/donationDelete.do")
-	public String donationDelete(Model model,@RequestParam(value="checkArray[]") List<Integer> params){
+	@RequestMapping(value="/certificate/donationDelete.do")   // 기부증서 삭제
+	public String donationDelete(Model model,@RequestParam(value="checkboxValues[]") List<Integer> checkboxValues){
 
-		for(int i=0 ; i<params.size(); i++){
-			System.out.println(params.get(i));
-			printDonationMapper.delete(params.get(i));
+		for(int i=0 ; i<checkboxValues.size(); i++){            // 하나씩 돌면서 삭제
+			System.out.println(checkboxValues.get(i));
+			printDonationMapper.delete(checkboxValues.get(i));
 		}
 		
 		return "redirect:/certificate/printDonation_list.do";
 	}
 	
-	@RequestMapping(value="/certificate/scholarshipDelete.do", method=RequestMethod.GET)
-	public String scholarshipDelete(Model model,@RequestParam(value="checkArray[]") List<Integer> params){
-
-		for(int i=0 ; i<params.size(); i++){
-			System.out.println(params.get(i));
-			printScholarshipMapper.delete(params.get(i));
+	
+	@RequestMapping(value="/certificate/scholarshipDelete.do", method=RequestMethod.GET) // 장학증서 삭제
+	public String scholarshipDelete(Model model, @RequestParam(value="checkboxValues[]") List<Integer> checkboxValues){  // 삭제할 목록의 id를 배열로 받아서
+		System.out.println("zzzz");// 한개는 되는데 2개이상 400
+		
+		for(int i=0 ; i<checkboxValues.size(); i++){            // 하나씩 돌면서 삭제
+			System.out.println(checkboxValues.get(i));
+			printScholarshipMapper.delete(checkboxValues.get(i));
 		}
+		
 		return "redirect:/certificate/printScholarship_list.do";
 	}
 	

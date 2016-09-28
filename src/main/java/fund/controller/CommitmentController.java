@@ -5,9 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,20 +35,21 @@ public class CommitmentController extends BaseController{
 	/*commitment list*/
 	@RequestMapping(value="/sponsor/commitment.do", method=RequestMethod.GET)  
 	public String commitment(Model model) {       // sponsor랑 합치면 @RequestParam추가하기
-		model.addAttribute("list", commitmentMapper.selectBySponsorID(15)); // 12 test
+		model.addAttribute("list", commitmentMapper.selectBySponsorID(12)); // 12 test
 		String name="정기 납입방법";
 		model.addAttribute("paymentMethodList",codeMapper.selectByPaymentMethod(name));
 		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
 		String bank="은행";
 		model.addAttribute("bankList",codeMapper.selectByBank(bank));
-		model.addAttribute("sponsorID",15);//SPONSORID 12번 TEST 학교서버는 90번으로
+		model.addAttribute("sponsorID",12);//SPONSORID 12번 TEST 학교서버는 90번으로
 
 		return "sponsor/commitment";
 	}
 
 	/*commitment insert*/
 	@RequestMapping(value="/sponsor/commitment.do", method=RequestMethod.POST, params="cmd=create")
-	public String commitment(Model model,CommitmentCreate commitmentCreate) throws ParseException{
+	public String commitment(Model model, CommitmentCreate commitmentCreate) throws ParseException{
+	
 		Commitment commitment = new Commitment();  //약정 
 
 		//commitmentMapper.selectCountCommitment(commitmentCreate.getSponsorID());  // 해당 후원자의 약정 갯수 구하기
@@ -81,7 +84,7 @@ public class CommitmentController extends BaseController{
 
 		commitmentDetailMapper.insert(commitmentDetail);  // 약정 상세 insert
 
-		model.addAttribute("list", commitmentMapper.selectBySponsorID(15));  // 12번 test 나중에 바꿔야 함.
+		model.addAttribute("list", commitmentMapper.selectBySponsorID(12));  // 12번 test 나중에 바꿔야 함.
 		return "redirect:/sponsor/commitment.do";
 	}
 
@@ -95,16 +98,7 @@ public class CommitmentController extends BaseController{
 		model.addAttribute("commitmentID",commitment.getID());  // 새 약정상세 추가 위해
 		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
 		String bank="은행";
-		String begin = commitment.getEndDate();
-		String end = commitment.getStartDate();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-	    Date beginDate = formatter.parse(begin);
-	    Date endDate = formatter.parse(end);
-	 
-	    long diff = endDate.getTime() - beginDate.getTime();
-	    long diffDays = 3;
-	    System.out.println("1111"+ diffDays);
-		model.addAttribute("month",diffDays);
+	
 		model.addAttribute("bankList",codeMapper.selectByBank(bank));
 		//model.addAttribute("b",codeMapper,codeMapper.selectBankName(commitmentDetails.get(1)));
 		return "sponsor/commitmentEdit";
@@ -112,6 +106,7 @@ public class CommitmentController extends BaseController{
 
 	@RequestMapping(value="/sponsor/commitmentUpdate.do", method=RequestMethod.POST)  // 약정수정
 	public String commitmentEdit(Model model, Commitment commitment) {
+		
 		if(commitment.getEndDate()==null || commitment.getEndDate()=="" ){
 			commitment.setEndDate(null);
 		}
@@ -120,6 +115,7 @@ public class CommitmentController extends BaseController{
 		return "redirect:/sponsor/commitmentEdit.do?ID="+commitment.getID(); 
 
 	}
+	
 	
 	@RequestMapping(value="/sponsor/commitmentDetailSave.do", method=RequestMethod.POST)  // 약정상세수정
 	public String commitmentDetailEdit(Model model, CommitmentDetail commitmentDetail) {
@@ -131,14 +127,28 @@ public class CommitmentController extends BaseController{
 		return "redirect:/sponsor/commitmentEdit.do?ID="+commitmentDetail.getCommitmentID(); 
 	}
 
-	@RequestMapping(value="/sponsor/commitmentDetailDelete.do", method=RequestMethod.POST)
-		public String commitmentDetailEdit(Model model, @RequestParam int ID, @RequestParam int commitmentID) {
-			commitmentDetailMapper.delete(ID);
+	@RequestMapping(value="/sponsor/commitmentDetailDelete.do") // 약정 상세 삭제
+		public String commitmentDetailDelete(Model model, int commitmentDetailID, int commitmentID) {
+			commitmentDetailMapper.delete(commitmentDetailID);
 		
 		return "redirect:/sponsor/commitmentEdit.do?ID="+commitmentID; 
 	}
 	
-
+	@RequestMapping(value="/sponsor/commitmentDelete.do") // 약정 삭제
+	public String commitmentDelete(Model model, int commitmentID) {
+		commitmentMapper.delete(commitmentID);
+	
+	return "redirect:/sponsor/commitment.do";  // 약정목록갈때 sponsorID 받아서 리다이렉트 수정 
+	}
+	
+	@RequestMapping(value="/sponsor/commitmentEnd.do") // 약정 종료
+	public String commitmentEnd(Model model, int ID) {
+		commitmentMapper.updateEndDate(ID);
+	
+	return "redirect:/sponsor/commitment.do";  // 약정목록갈때 sponsorID 받아서 리다이렉트 수정
 	
 
+	}
+	
+	
 }

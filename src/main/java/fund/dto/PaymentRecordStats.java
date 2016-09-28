@@ -8,7 +8,14 @@ public class PaymentRecordStats {
 	Integer srchType3; // 소속교회
 	Integer srchType4; // 납입방법
 	Integer srchType5; // 후원인구분2
+	String sponsorName;// 후원인 이름
 	
+	public String getSponsorName() {
+		return sponsorName;
+	}
+	public void setSponsorName(String sponsorName) {
+		this.sponsorName = sponsorName;
+	}
 	public String getStartDate() {
 		return startDate;
 	}

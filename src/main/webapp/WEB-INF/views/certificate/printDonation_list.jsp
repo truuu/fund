@@ -8,57 +8,31 @@
 
 
 <script>
-	$(function() {
-		//전체선택 체크박스 클릭
-		$("#allCheck").click(function() {
-			//만약 전체 선택 체크박스가 체크된상태일경우
-			if ($("#allCheck").prop("checked")) {
-				//해당화면에 전체 checkbox들을 체크해준다
-				$("input[type=checkbox]").prop("checked", true);
-				// 전체선택 체크박스가 해제된 경우
-			} else {
-				//해당화면에 모든 checkbox들의 체크를해제시킨다.
-				$("input[type=checkbox]").prop("checked", false);
-			}
-		})
-	})
+$(function() {
+	$("thead input[type=checkbox]").click(function() {
+		$("tbody input[type=checkbox").trigger("click");
+	});
+});
 
-	function deleteFunction() {
-		var arrayParam = new Array();
+function deleteFunction() {
 
-		if (confirm("삭제하시겠습니까?") == true) {
+	if (confirm("삭제하시겠습니까?") == true) {
 
-			// name이 같은 체크박스의 값들을 배열에 담는다.
-			var checkboxValues = [];
-			$("input[name=class[1]:checked").each(function(i) {
-				
-				checkboxValues.push($(this).val());
-			});
+		//var checkboxValues = [];
+		var checkboxValues = new Array();
+		
+		$('input:checkbox[name="class[1]"]:checked').each(function() {
 
-			// 사용자 ID(문자열)와 체크박스 값들(배열)을 name/value 형태로 담는다.
-			var allData = {
-				"checkArray" : checkboxValues
-			};
+			checkboxValues.push($(this).val());
+		});
+		
+		location.href = "http://localhost:8080/fund_sys/certificate/donationDelete.do?checkboxValues[]="+ checkboxValues;
 
-			$.ajax({
-				url : "donationDelete.do",
-				type : 'GET',
-				data : allData,
-				success : function(data) {
-					
-					window.opener.location.reload();
-					self.close();
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
 
-				}
-			});
-
-		} else {
-			return;
-		}
+	} else {
+		return;
 	}
+}
 </script>
 <style>
 a.deleteBtn {

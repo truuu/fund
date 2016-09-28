@@ -93,6 +93,9 @@ button {
 	text-transform: uppercase;
 	margin: 5px 0 5px 0;
 }
+
+
+
 </style>
 <form method="post">
 	<div id="wrapper">
@@ -110,20 +113,18 @@ button {
 				<!-- /.row -->
 
 				<div class="row">
-					<div id="column-right">
+						<div id="column-right">
 						<button type="submit" class="button">검색</button>
 
 					</div>
 					<div class="col-lg-12">
+				
 						<table>
 							<tr>
+								<td><label>납입일</label></td>
+								<td><input type="date" name="startDate">~<input
+									type="date" name="endDate"></td>
 
-								<td><label>정기/비정기</label></td>
-								<td><select name="srchType1" class="select_s">
-										<option value="">선택</option>
-										<option value="1">정기</option>
-										<option value="2">비정기</option>
-								</select></td>
 
 								<td><label>소속교회</label></td>
 								<td><select name="srchType3" class="select_s">
@@ -152,9 +153,8 @@ button {
 								</select></td>
 							</tr>
 							<tr>
-								<td><label>납입일</label></td>
-								<td><input type="date" name="startDate">~<input
-									type="date" name="endDate"></td>
+								<td><label>후원인이름</label></td>
+								<td><input type="text" name="sponsorName" /></td>
 
 								<td><label>후원인구분</label></td>
 								<td><select name="srchType5" class="select_s">
@@ -193,10 +193,10 @@ button {
 								<div class="col-lg-12">
 									<table class="report_table">
 										<tr>
-											<td id="table_a"><label>정기/비정기</label></td>
-											<td id="table_b">${gubun}</td>
 											<td id="table_a"><label>납입일</label></td>
 											<td id="table_b">${startDate}~${endDate}</td>
+											<td id="table_a"><label>후원인이름</label></td>
+											<td id="table_b">${sponsorName}</td>
 
 										</tr>
 										<tr>

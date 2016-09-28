@@ -172,15 +172,6 @@ div table.table tbody tr td {
 					</tbody>
 				</table>
 
-				
-				<!--
-			int amountPerMonth;
-		int paymentDay;
-		String startDate; // 수정시 수정날짜가 들어가게!
-		int bankID;
-		String accountNo;
-		String accountHolder;
-		String etc;-->
 				<table class="table">
 					<tbody>
 						<tr>
@@ -214,7 +205,7 @@ div table.table tbody tr td {
 				<center>
 					<button type="submit" class="btn" name="cmd" value="create">저장</button>
 				</center>
-
+	
 			</div>
 		</form>
 	</div>

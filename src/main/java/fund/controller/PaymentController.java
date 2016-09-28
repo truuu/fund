@@ -17,12 +17,14 @@ import fund.dto.PaymentRecordStats;
 import fund.mapper.CodeMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
+import fund.mapper.SponsorMapper;
 
 @Controller
 public class PaymentController extends BaseController{
 	@Autowired PaymentMapper paymentMapper;
 	@Autowired CodeMapper codeMapper;
 	@Autowired DonationPurposeMapper donationPurposeMapper;
+	@Autowired SponsorMapper sponsorMapper;
 	
 	@RequestMapping(value="/dataPrint/donationPurposeStats.do", method=RequestMethod.GET)  
 	public String donationPurposeStats(Model model) {     
@@ -98,6 +100,8 @@ public class PaymentController extends BaseController{
 			model.addAttribute("paymentMethod",codeMapper.selectCodeName(paymentRecordStats.getSrchType4()));
 		if(paymentRecordStats.getSrchType5()!=null)
 			model.addAttribute("sponsorType",codeMapper.selectCodeName(paymentRecordStats.getSrchType5()));
+		if(paymentRecordStats.getSponsorName()!=null)
+			model.addAttribute("sponsorName",paymentRecordStats.getSponsorName());
 		
 		Date date = new Date();
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -136,12 +140,7 @@ public class PaymentController extends BaseController{
 		
 		model.addAttribute("startDate",paymentRecordStats.getStartDate());
 		model.addAttribute("endDate",paymentRecordStats.getEndDate());
-		if(paymentRecordStats.getSrchType1()!=null){
-			if(paymentRecordStats.getSrchType1()==1)
-				model.addAttribute("gubun","정기");
-			else
-				model.addAttribute("gubun","비정기");
-		}
+		
 		if(paymentRecordStats.getSrchType2()!=null){
 			model.addAttribute("donationPurpose",donationPurposeMapper.selectDonationPurpose2(paymentRecordStats.getSrchType2()));
 			model.addAttribute("corporateName",donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2()));
@@ -152,6 +151,9 @@ public class PaymentController extends BaseController{
 			model.addAttribute("paymentMethod",codeMapper.selectCodeName(paymentRecordStats.getSrchType4()));
 		if(paymentRecordStats.getSrchType5()!=null)
 			model.addAttribute("sponsorType",codeMapper.selectCodeName(paymentRecordStats.getSrchType5()));
+	
+		if(paymentRecordStats.getSponsorName()!=null)
+			model.addAttribute("sponsorName",paymentRecordStats.getSponsorName());
 		
 		Date date = new Date();
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
