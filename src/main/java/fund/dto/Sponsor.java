@@ -44,9 +44,8 @@ public class Sponsor {
 	int sort; // 구분용 회원입력 0 - 회원수정 1
 	int sponsorCount; // 후원인구분2별 출연내역 회원수
 	int castCount; // 후원인구분2별 출연내역 출연수
+	//long sum;//후원인구분2별 출연내역 금액
 	int sum;//후원인구분2별 출연내역 금액
-	
-	
 	
 	public int getSum() {
 		return sum;
@@ -139,6 +138,7 @@ public class Sponsor {
 		this.postCode = postCode;
 	}
 	//DM발송때 address postCode
+
 	public int getId() {
 		return id;
 	}
@@ -271,7 +271,5 @@ public class Sponsor {
 	public void setEtc(String etc) {
 		this.etc = etc;
 	}
-	
-	
 
 }

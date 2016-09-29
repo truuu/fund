@@ -5,7 +5,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
-<link href="http://maxcdn.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <script>
 
 var startDate,endDate,check; 
@@ -111,39 +110,35 @@ $(function(){
 							<tbody>
 							
 							
-			<c:forEach var="post" items="${postList}">
-			<tr>
-			<td>${post.sponsorNo}</td>
-			<td>${post.name}</td>
-			<td>${post.sponsorType2}</td>
-			<td>${post.church}</td>
-			<td>${post.postCode}</td>
-			<td>${post.address}</td>
-			</tr>
-			</c:forEach>
-
-
-
+								<c:forEach var="post" items="${postList}">
+								<tr>
+								<td>${post.sponsorNo}</td>
+								<td>${post.name}</td>
+								<td>${post.sponsorType2}</td>
+								<td>${post.church}</td>
+								<td>${post.postCode}</td>
+								<td>${post.address}</td>
+								</tr>
+								</c:forEach>
+					
 							</tbody>
 						</table>
-						<center>
-						 <div class="pagination pagination-small pagination-centered">
-				        	<ul>
-				            	<c:forEach var="page" items="${ pagination.pageList }">
-				                	<li class='${ page.cssClass }'><a data-page="${ page.number }" >${ page.label }</a></li>
-				            	</c:forEach>
-				        	</ul>
-                        </div>
-                        </center>
-                         </form>
+						<div align="center">
+							    <div class="pagination">
+									<ul class="pagination pagination-sm">
+										<c:forEach var="page" items="${pagination.pageList }">
+											<li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
+										</c:forEach>
+									</ul>
+								</div>
+						</div>
+           </form>
 
-					</div>
+		</div>
 
-				</div>
+	</div>
 
-			</div>
-
-
+</div>
 
 
 		</div>

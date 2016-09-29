@@ -3,9 +3,81 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.CommitmentMapper">
+	<select id="selectByID" resultType="fund.dto.Commitment">
+		select Commitment.*,Code.codeName, DonationPurpose.name "name", Corporate.name "corporateName", datediff(MM,startDate,endDate) "month"
+		from Commitment join Code on Commitment.paymentMethodID=Code.ID
+		join DonationPurpose on DonationPurpose.ID=Commitment.donationPurposeID
+		join Corporate on Corporate.ID=DonationPurpose.corporateID
+		where Commitment.ID=#{ID}
+	</select>
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
+	<select id="selectBySponsorID" resultType="fund.dto.Commitment">
+		SELECT
+		c1.*,c2.codeName,d.name,s.sponsorNo, case when endDate is null then '진행' when endDate > GETDATE()
+		then '진행' else '종료' end "state"
+		FROM Commitment c1 left join
+		Sponsor s
+		on c1.sponsorID=s.ID
+		left join Code c2 on
+		c1.paymentMethodID=c2.ID LEFT
+		JOIN DonationPurpose d
+		on
+		c1.donationPurposeID=d.ID
+		WHERE s.ID=#{id}
+	</select>
+
+	<select id="selectCountCommitment" resultType="int">
+		SELECT count(*)
+		FROM Commitment c join Sponsor s on c.sponsorID=s.ID
+		WHERE c.sponsorID
+		= #{sponsorID}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		DECLARE @num INT, @commitmentNo VARCHAR(50), @sponsorNo VARCHAR(50)
+
+		SET @num = (SELECT ISNULL(COUNT(*),0)+1  FROM commitment WHERE sponsorID = #{sponsorID})
+		SET @sponsorNo = (SELECT TOP 1 sponsorNo FROM sponsor WHERE ID = #{sponsorID})
+		SET @commitmentNo = @sponsorNo + '-' + REPLACE(STR(@num,2),' ','0')
+	
+		INSERT
+		Commitment
+		(sponsorID, [commitmentNo], donationPurposeID,
+		paymentMethodID, commitmentDate,
+		startDate, endDate, etc)
+		VALUES
+		(#{sponsorID},
+		@commitmentNo,
+		#{donationPurposeID},
+		#{paymentMethodID},
+		#{commitmentDate}, 
+		#{startDate}, 
+		#{endDate,jdbcType=DATE},
+		#{etc})
+	</insert>
+
+	<update id="update">
+		UPDATE Commitment
+		SET
+		donationPurposeID = #{donationPurposeID},
+		commitmentDate = #{commitmentDate,jdbcType=DATE},
+		startDate = #{startDate,jdbcType=DATE},
+		endDate= #{endDate,jdbcType=DATE},
+		etc= #{etc}
+		WHERE ID = #{ID}
+	</update>
+	
+	<update id="updateEndDate">
+		update Commitment
+		set endDate = getDate()
+		where ID=#{ID}
+	</update>
+	
+	<delete id="delete">
+	delete from Commitment
+	where ID=#{ID}
+	</delete>
+
+
 
 </mapper>

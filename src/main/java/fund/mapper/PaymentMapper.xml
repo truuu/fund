@@ -101,6 +101,141 @@
         DELETE FROM [Payment] WHERE id = #{id}
     </delete>
 
+	<select id="selectComparePaymentDate" resultType="fund.dto.Payment">
+		select (select
+		name from donationPurpose where
+		donationPurpose.ID=payment.donationPurposeID) AS donationPurpose,
+		count(distinct sponsorID) AS count1,
+		count(*) AS count2,
+		sum(CAST(
+		amount AS BIGINT )) AS sum
+		from [donationPurpose] join [payment] on
+		donationPurpose.ID=payment.donationPurposeID
+		where paymentDate between
+		#{startDate} and #{endDate}
+		group by donationPurposeID
+
+	</select>
+
+	<select id="selectPaymentRecord" resultType="fund.dto.Payment">
+
+		select p.paymentDate,p.amount, s.name, s.sponsorNo, d.name
+		"donationPurpose",
+		c1.codeName "sponsorType2",c2.codeName "church",
+		(
+		case when p.commitmentID is not NULL then '정기' else '비정기' end)
+		"gubun",
+		c3.codeName "paymentMethod"
+
+		from Payment p join Sponsor s on
+		p.sponsorID=s.ID join Code c1 on
+		s.sponsorType2ID=c1.ID
+		join
+		DonationPurpose d on d.ID=p.donationPurposeID join Code c2 on
+		s.churchID=c2.ID
+		join Code c3 on p.paymentMethodID=c3.ID
+
+		where
+		paymentDate between #{startDate} and #{endDate}
+		<if test="srchType2!=null">and p.donationPurposeID = #{srchType2}</if>
+		<if test="srchType1!=null and srchType1==1">
+			and p.commitmentID is not null
+		</if>
+		<if test="srchType1!=null and srchType1==2">
+			and p.commitmentID is null
+		</if>
+		
+		<if test="srchType3!=null">and s.churchID = #{srchType3}</if>
+		<if test="srchType4!=null">and p.paymentMethodID = #{srchType4}</if>
+		<if test="srchType5!=null">and s.sponsorType2ID = #{srchType5}</if>
+		<if test="sponsorName!=null">and s.name = #{sponsorName}</if>
+	</select>
+
+	<select id="selectPaymentTotal" resultType="fund.dto.Payment">
+		select distinct s.sponsorNo, COUNT(*) "totalCount", SUM(amount)
+		"totalSum",s.name,
+		c1.codeName "sponsorType2",c2.codeName "church"
+		from
+		Payment p join Sponsor s on p.sponsorID=s.ID join Code c1 on
+		s.sponsorType2ID=c1.ID
+		join DonationPurpose d on
+		d.ID=p.donationPurposeID join Code c2 on
+		s.churchID=c2.ID
+		join Code c3
+		on p.paymentMethodID=c3.ID
+
+		where paymentDate between #{startDate} and #{endDate}
+		<if test="srchType2!=null">and p.donationPurposeID = #{srchType2}</if>
+		<if test="srchType3!=null">and s.churchID = #{srchType3}</if>
+		<if test="srchType4!=null">and p.paymentMethodID = #{srchType4}</if>
+		<if test="srchType5!=null">and s.sponsorType2ID = #{srchType5}</if>
+		<if test="sponsorName!=null">and s.name = #{sponsorName}</if>
+		
+		group by s.sponsorNo,s.name,c1.codeName,c2.codeName
+	</select>
+
+	<select id="selectByPayment" resultType="fund.dto.Payment">
+<![CDATA[
+        SELECT s.sponsorNo,s.name,c1.codeName, p.paymentDate,p.etc,c.name, ISNULL(p.commitmentID,0)
+        FROM [Payment] p LEFT JOIN [Sponsor] s ON p.sponsorID = s.ID
+        			LEFT JOIN [DonationPurpose] d ON p.donationPurposeID = d.ID
+        			LEFT JOIN [Corporate] c ON d.corporateID = c.ID 
+        			LEFT JOIN [Code] c1 ON c1.ID=s.sponsorType2ID
+        			LEFT JOIN [Code] c2 ON c2.ID=s.churchID
+
+        WHERE s.sponsorType2ID=#{sponsorType2ID}
+                   AND p.paymentDate >= #{date1} AND p.paymentDate < #{date2} 
+                   AND s.churchID=#{churchID} AND p.donationPurposeID=#{donationPurposeID}
+                   AND s.sponsorNo=#{sponsorNo} AND c.ID=#{corporateID}
+                   
+ ]]>
+	</select>
+
+
+	<select id="selectByPaymentAll" resultType="fund.dto.Payment">
+<![CDATA[
+  	select s.name,s.sponsorNo,c.codeName, count(*),SUM(amount), ISNULL(p.commitmentID,0)
+	from payment p left join sponsor s
+	on p.sponsorID=s.ID left join code c on c.ID=s.churchID
+ 	group by s.name,s.sponsorNo,c.codeName,p.commitmentID
+ 	
+     WHERE p.commitmentID=#{commitmentID} AND s.sponsorType2ID=#{sponsorType2ID}
+                   AND p.paymentDate >= #{date1} AND p.paymentDate < #{date2} 
+                   AND s.churchID=#{churchID} AND p.donationPurposeID=#{donationPurposeID}
+                   AND s.sponsorNo=#{sponsorNo} AND c.ID=#{corporateID}
+                   
+ ]]>
+	</select>
+
+	<select id="selectBySponsorType2" resultType="fund.dto.Payment">
+		select distinct
+		c.codeName '후원인구분',count(DISTINCT sponsorID) '기부후원인수',
+		COUNT(*)
+		'출연수',sum(p.amount) '납입액'
+		from payment p join sponsor s
+		on
+		p.sponsorID=s.id join code c on s.sponsorType2ID=c.id
+		where
+		c.codeGroup='후원인구분2'
+		group by c.codeName
+		with cube
+		ORDER BY sum(p.amount)
+		DESC
+	</select>
+
+	<select id="selectByDonationPurpose" resultType="fund.dto.Payment">
+		select distinct
+		d.name '기부목적',count(DISTINCT sponsorID) '기부후원인수', COUNT(*)
+		'납입수',sum(p.amount) '납입액'
+		from payment p join donationPurpose d
+		on
+		p.donationPurposeID=d.id
+		group by d.name
+		with cube
+		ORDER BY sum(p.amount)
+		DESC
+	</select>
+
     <select id="selectEB21success" resultType="fund.dto.Payment">
     	select c.sponsorID,c.ID commitmentID,e.paymentDate,c.donationPurposeID,c.paymentMethodID,cd.amountPerMonth
 		from EB21_commitmentDetail eb

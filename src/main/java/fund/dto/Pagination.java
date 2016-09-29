@@ -16,7 +16,7 @@ public class Pagination {
     String startDate ="";
     String endDate ="";
     int corporateID;
-
+   
     int type;//소속교회, 회원구분 등 codeGroupID
     String codeName;// 개인, 단체, 교회 등 code 이름
     String nameForSearch;//후원인관리에서 이름으로 검색때 사용

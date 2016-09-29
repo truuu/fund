@@ -9,6 +9,8 @@ import fund.dto.Pagination;
 import fund.dto.Commitment;
 import fund.dto.EB21_commitmentDetail;
 import fund.dto.Salary;
+import fund.dto.PaymentRecordStats;
+
 
 public interface PaymentMapper {
 	
@@ -34,4 +36,7 @@ public interface PaymentMapper {
 	Commitment selectIDBySponsorNo(String sponsorNo);
 	void insertSalaryResult(Payment payment);
 
+	List<Payment> selectComparePaymentDate(@Param("startDate") String startDate,@Param("endDate") String endDate);
+	List<Payment> selectPaymentRecord(PaymentRecordStats paymentRecordStats);
+	List<Payment> selectPaymentTotal(PaymentRecordStats paymentRecordStats);
 }

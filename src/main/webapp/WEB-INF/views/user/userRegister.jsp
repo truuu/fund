@@ -23,13 +23,13 @@
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 					<div class="issue">
-						<form method="POST" action="#">
+						<form method="POST" action="userInsert.do">
 							
 							<div class="input">
-								 <input type="text" class="box" name="loginId" placeholder="아이디" />
+								 <input type="text" class="box" name="loginName" placeholder="아이디" />
 							</div>
 							<div class="input">
-								 <input type="password" class="box" name="passwd" placeholder="비밀번호" />
+								 <input type="password" class="box" name="password" placeholder="비밀번호" />
 						    </div>
 							<div class="input">
 								 <input type="text" class="box" name="name" placeholder="이름" />

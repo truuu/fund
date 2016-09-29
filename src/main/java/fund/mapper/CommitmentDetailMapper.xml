@@ -3,9 +3,47 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.CommitmentDetailMapper">
-
+	<select id="selectByCommitmentID2" resultType="fund.dto.CommitmentDetail">
+	select *
+	from CommitmentDetail
+	where commitmentID = #{commitmentID}
+	
+	</select>
+	
+	<select id="selectCommitmentID" resultType="int">
+	select MAX(ID)
+	from Commitment 
+	</select>
+    
+   <select id="selectByCommitmentID" resultType="fund.dto.CommitmentDetail">
+   	SELECT c2.*
+   	FROM Commitment c1 left join CommitmentDetail c2 on c1.ID=c2.commitmentID 
+   	WHERE c1.ID=#{id}
+   </select>
+   
+   <insert id="insert" useGeneratedKeys="true" keyProperty="ID">
+        INSERT CommitmentDetail
+               (commitmentID, amountPerMonth, paymentDay, startDate, bankID, accountNo, accountHolder, etc)
+        VALUES (#{commitmentID}, #{amountPerMonth}, #{paymentDay}, #{startDate}, #{bankID}, #{accountNo}, #{accountHolder}, #{etc})
+    </insert>
+ 
+    
+    <update id="update">
+        UPDATE CommitmentDetail
+        SET amountPerMonth = #{amountPerMonth}, 
+        	  paymentDay = #{paymentDay},
+              bankID = #{bankID},
+              accountNo = #{accountNo}, 
+              accountHolder = #{accountHolder}, 
+              startDate = #{startDate,jdbcType=DATE},
+              etc = #{etc}
+        WHERE ID = #{ID}
+    </update>
+    
     <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
+    delete from CommitmentDetail
+    where ID=#{ID}
     </delete>
+   
 
 </mapper>

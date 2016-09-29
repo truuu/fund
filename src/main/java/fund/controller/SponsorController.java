@@ -8,7 +8,6 @@ import java.io.BufferedOutputStream;
 import java.net.URLEncoder;
 
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -406,7 +405,7 @@ public class SponsorController {
 	 }
 	 
 	 
-	 @RequestMapping(value="/sponsor/postSearch.do", method=RequestMethod.POST, params="cmd=xlsx" )
+	 @RequestMapping(value="/sponsor/post.do", method=RequestMethod.POST, params="cmd=xlsx" )
 	 public void excelDMReport(Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
 		System.out.println("엑셀파일 생성 sendDM");
 		List<Sponsor> list = sponsorMapper.excelDM(pagination);
@@ -414,9 +413,10 @@ public class SponsorController {
 		reportBuilder.build("xlsx");
 	 }
 	
-	 @RequestMapping(value="/sponsor/sponsorManage.do", method=RequestMethod.POST, params="cmd=xlsx" )
+	 @RequestMapping(value="/sponsor/sponsor_m.do.do", method=RequestMethod.POST, params="cmd=xlsx" )
 	 public void sponsorList(Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
-		 List<Sponsor> list = sponsorMapper.sponsorListExcel(pagination);
+		System.out.println("액션메소드를 찾아서");
+		List<Sponsor> list = sponsorMapper.sponsorListExcel(pagination);
 		ReportBuilder reportBuilder = new ReportBuilder("sponsorList", list, "sponsorList.xlsx",req,res);
 		reportBuilder.build("xlsx");
 	 }

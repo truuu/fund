@@ -20,7 +20,7 @@
 			<div class="row">
 				<div class="col-lg-6 col-lg-offset-1">
 					<div class="login">
-						<form method="POST" action="login_processing.do">
+						<form method="POST" action="home/login_processing.do">
 							<div class="row">
 								<div class="col-lg-6 col-lg-offset-4">
 									<img src="/fund_sys/res/images/skhu_logo.png" style="width: 200px;" />
@@ -28,8 +28,8 @@
 							</div>
 
 							<fieldset>
-								<input type="text" class="form-control" name="loginId" placeholder="아이디" /> <input
-									type="password" class="form-control" name="passwd" placeholder="비밀번호" />
+								<input type="text" class="form-control" name="loginName" placeholder="아이디" /> <input
+									type="password" class="form-control" name="password" placeholder="비밀번호" />
 								<button type="submit" class="btn btn-primary">로그인</button>
 							</fieldset>
 

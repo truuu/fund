@@ -5,7 +5,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<link href="http://maxcdn.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <script>
 function sponorSearch(){
 	var codeName=$("#search option:selected").text();
@@ -104,15 +103,15 @@ $(function() {
 			</c:forEach>
 				</tbody>
 			</table>
-<center>
-           <div class="pagination pagination-small pagination-centered">
-        <ul>
-            <c:forEach var="page" items="${ pagination.pageList }">
-                <li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
-            </c:forEach>
-        </ul>
-    </div>
-</center>
+			<div align="center">
+			    <div class="pagination">
+					<ul class="pagination pagination-sm">
+						<c:forEach var="page" items="${pagination.pageList }">
+							<li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
+						</c:forEach>
+					</ul>
+				</div>
+			</div>
 </form>
 
 
