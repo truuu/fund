@@ -35,13 +35,13 @@ public class CommitmentController extends BaseController{
 	/*commitment list*/
 	@RequestMapping(value="/sponsor/commitment.do", method=RequestMethod.GET)  
 	public String commitment(Model model) {       // sponsor랑 합치면 @RequestParam추가하기
-		model.addAttribute("list", commitmentMapper.selectBySponsorID(12)); // 12 test
+		model.addAttribute("list", commitmentMapper.selectBySponsorID(115)); // 12 test
 		String name="정기 납입방법";
 		model.addAttribute("paymentMethodList",codeMapper.selectByPaymentMethod(name));
 		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
 		String bank="은행";
 		model.addAttribute("bankList",codeMapper.selectByBank(bank));
-		model.addAttribute("sponsorID",12);//SPONSORID 12번 TEST 학교서버는 90번으로
+		model.addAttribute("sponsorID",115);//SPONSORID 12번 TEST 학교서버는 90번으로
 
 		return "sponsor/commitment";
 	}
@@ -55,6 +55,7 @@ public class CommitmentController extends BaseController{
 		//commitmentMapper.selectCountCommitment(commitmentCreate.getSponsorID());  // 해당 후원자의 약정 갯수 구하기
 		commitment.setStartDate(commitmentCreate.getCommitmentStartDate());
 		commitment.setSponsorID(commitmentCreate.getSponsorID());
+		System.out.println("후원자id"+commitmentCreate.getSponsorID());
 		commitment.setDonationPurposeID(commitmentCreate.getDonationPurposeID());
 		commitment.setPaymentMethodID(commitmentCreate.getPaymentMethodID());
 		commitment.setEtc(commitmentCreate.getCommitmentEtc());
@@ -84,7 +85,7 @@ public class CommitmentController extends BaseController{
 
 		commitmentDetailMapper.insert(commitmentDetail);  // 약정 상세 insert
 
-		model.addAttribute("list", commitmentMapper.selectBySponsorID(12));  // 12번 test 나중에 바꿔야 함.
+		model.addAttribute("list", commitmentMapper.selectBySponsorID(115));  // 12번 test 나중에 바꿔야 함.
 		return "redirect:/sponsor/commitment.do";
 	}
 

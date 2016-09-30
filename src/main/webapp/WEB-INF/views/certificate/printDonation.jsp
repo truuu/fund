@@ -20,7 +20,6 @@
 
 		}
 		if (index == 1) {
-			alert("미리보기2");
 			location.href = "http://localhost:8080/fund_sys/certificate/dpreview.do?amount="
 					+ amount
 					+ "&sponsorName="

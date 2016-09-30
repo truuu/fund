@@ -7,5 +7,11 @@
     <delete id="delete">
         DELETE FROM [User] WHERE id = #{id}
     </delete>
+    
+    <select id="selectBySponsorName4" resultType="String">
+    	select name
+    	from sponsor
+    	where name=#{name}
+    </select>
 
 </mapper>

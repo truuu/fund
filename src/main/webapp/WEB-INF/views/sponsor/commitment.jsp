@@ -95,7 +95,7 @@ div table.table tbody tr td {
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3>약정 내역</h3>
+		<h3>약정 내역1</h3>
 		<div class="input-group1">
 			<button type="button" id="new" class="btn btn-small">새로 등록</button>
 		</div>

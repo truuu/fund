@@ -111,6 +111,7 @@ public class PrintCertificateController extends BaseController{
 	public String donationPrint(Model model,int amount, String sponsorName, String serialNo){
 		PrintDonation printDonation = new PrintDonation();
 		System.out.println(UserService.getCurrentUser().getId());	
+		
 		printDonation.setUserID(UserService.getCurrentUser().getId());
 		printDonation.setAmount(amount);
 		printDonation.setSponsorName(sponsorName);
@@ -143,8 +144,7 @@ public class PrintCertificateController extends BaseController{
 	
 	
 	@RequestMapping(value="/certificate/scholarshipDelete.do", method=RequestMethod.GET) // 장학증서 삭제
-	public String scholarshipDelete(Model model, @RequestParam(value="checkboxValues[]") List<Integer> checkboxValues){  // 삭제할 목록의 id를 배열로 받아서
-		System.out.println("zzzz");// 한개는 되는데 2개이상 400
+	public String scholarshipDelete(Model model, @RequestParam(value="checkboxValues") List<Integer> checkboxValues){  // 삭제할 목록의 id를 배열로 받아서
 		
 		for(int i=0 ; i<checkboxValues.size(); i++){            // 하나씩 돌면서 삭제
 			System.out.println(checkboxValues.get(i));
