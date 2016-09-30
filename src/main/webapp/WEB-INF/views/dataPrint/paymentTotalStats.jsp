@@ -107,7 +107,7 @@ button {
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h3>납입 총계 조회</h3>
+						<h3>납입 총계 조회4</h3>
 					</div>
 				</div>
 				<!-- /.row -->
@@ -121,20 +121,40 @@ button {
 				
 						<table>
 							<tr>
-								<td><label>납입일</label></td>
-								<td><input type="date" name="startDate">~<input
-									type="date" name="endDate"></td>
+							
+								<td><label>정기/비정기</label></td>
+								<td><select name="srchType1" class="select_s">
+										<option value="0">선택</option>
+										<option value="1">정기</option>
+										<option value="2">비정기</option>
+								</select></td>
+								
+								
 
 
 								<td><label>소속교회</label></td>
 								<td><select name="srchType3" class="select_s">
-										<option value="">선택</option>
+										<option value="0">선택</option>
 										<c:forEach var="church" items="${churchList}">
 											<option value="${church.ID}">${church.codeName}</option>
 										</c:forEach>
 								</select></td>
 							<tr>
-								<td><label>기부목적</label></td>
+							<td><label>납입일</label></td>
+								<td><input type="date" name="startDate">~<input
+									type="date" name="endDate"></td>
+									
+
+								<td><label>납입방법</label></td>
+								<td><select name="srchType4" class="select_s">
+										<option value="0">선택</option>
+										<c:forEach var="paymentMethod" items="${paymentMethodList}">
+											<option value="${paymentMethod.ID}">${paymentMethod.codeName}</option>
+										</c:forEach>
+								</select></td>
+							</tr>
+							<tr>
+							<td><label>기부목적</label></td>
 								<td><form:form method="post">
 										<div class="form-inline">
 											<input type="text" name="dname" readonly /> <a
@@ -143,27 +163,20 @@ button {
 												name="srchType2" id="donationPurposeID" />
 										</div>
 									</form:form></td>
-
-								<td><label>납입방법</label></td>
-								<td><select name="srchType4" class="select_s">
-										<option value="">선택</option>
-										<c:forEach var="paymentMethod" items="${paymentMethodList}">
-											<option value="${paymentMethod.ID}">${paymentMethod.codeName}</option>
-										</c:forEach>
-								</select></td>
-							</tr>
-							<tr>
-								<td><label>후원인이름</label></td>
-								<td><input type="text" name="sponsorName" /></td>
+								
 
 								<td><label>후원인구분</label></td>
 								<td><select name="srchType5" class="select_s">
-										<option value="">선택</option>
+										<option value="0">선택</option>
 										<c:forEach var="sponsorType" items="${sponsorType2List}">
 											<option value="${sponsorType.ID}">${sponsorType.codeName}</option>
 										</c:forEach>
 								</select></td>
 
+							</tr>
+							<tr>
+							<td><label>후원인이름</label></td>
+								<td colspan="4"><input type="text" name="sponsorName" /></td>
 							</tr>
 
 
@@ -193,11 +206,10 @@ button {
 								<div class="col-lg-12">
 									<table class="report_table">
 										<tr>
+											<td id="table_a"><label>정기/비정기</label></td>
+											<td id="table_b">${gubun}</td>
 											<td id="table_a"><label>납입일</label></td>
 											<td id="table_b">${startDate}~${endDate}</td>
-											<td id="table_a"><label>후원인이름</label></td>
-											<td id="table_b">${sponsorName}</td>
-
 										</tr>
 										<tr>
 											<td id="table_a"><label>기부목적</label></td>
@@ -217,8 +229,8 @@ button {
 										<tr>
 											<td id="table_a"><label>납입방법</label></td>
 											<td id="table_b">${paymentMethod}</td>
-											<td id="table_a"></td>
-											<td id="table_b"></td>
+											<td id="table_a"><label>후원인이름</label></td>
+											<td id="table_b">${sponsorName}</td>
 										</tr>
 
 									</table>
@@ -246,7 +258,7 @@ button {
 												<td>${ payment.sponsorType2 }</td>
 												<td>${ payment.church }</td>
 												<td>${ payment.totalCount }</td>
-												<td>${ payment.totalSum }</td>
+												<td class="money">${ payment.totalSum }</td>
 												<td>${ payment.etc }</td>
 											</tr>
 										</c:forEach>
@@ -258,7 +270,7 @@ button {
 							</div>
 							<p>계:${count}</p>
 							<p>총 납입건수:${total2}</p>
-							<p>총 납입액:${total}</p>
+							<span>총 납입액:</span><span class="money">${total}</span>
 
 
 
