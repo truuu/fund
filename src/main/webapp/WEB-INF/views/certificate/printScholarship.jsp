@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
+<style>
+iframe { width: 800px; border: 1px solid #ddd; height: 900px; }
+</style>
 <script>
 function print(index){
 	
@@ -13,17 +16,18 @@ function print(index){
 	
 	if (index == 2) {
     	alert("장학증서를 발급하시겠습니까?");
-    	location.href="http://localhost:8080/fund_sys/certificate/scholarshipIssue.do?department="+department+"&studentNo="+studentNo+"&studentName="+studentName;
+    	location.href="../certificate/scholarshipIssue.do?department="+department+"&studentNo="+studentNo+"&studentName="+studentName;
       
     }
     if (index == 1) {
     	alert("미리보기1");
-    	location.href="http://localhost:8080/fund_sys/certificate/spreview.do?department="+department+"&studentNo="+studentNo+"&studentName="+studentName+"&serialNo="+serialNo+"&content="+content;
+    	location.href="../certificate/spreview.do?department="+department+"&studentNo="+studentNo+"&studentName="+studentName+"&serialNo="+serialNo+"&content="+content;
       
     }
 				
 	
 }
+
 </script>
  <style>
 #table_a {
@@ -36,13 +40,13 @@ textarea{
 
 </style>
 
-<form method="post" name="printForm">
+<form name="printForm" action="/fund_sys/report/printScholarship.do">
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
 			<h1 class="page-header">장학 증서</h1>
 			<div id="column-right">
-			<button type="button" style="margin-bottom: 5px" class="btn btn-default" onclick="print(1)">미리보기</button> 
+			<button type="button" style="margin-bottom: 5px" class="btn btn-default" onclick="print(1)">장학증서발급</button> 
 			<button type="button"  style="margin-bottom: 5px" class="btn btn-primary"onclick="print(2)">인쇄</button>
 			</div>
 			<table class="table">
@@ -81,18 +85,7 @@ textarea{
 				</tbody>
 			</table>
 
-			<div class="panel show">
-				<div class="panel-heading">
-					<h4>미리 보기</h4>
-				</div>
-				<div class="panel-body">
-					<div class="show-body"></div>
-
-
-				</div>
-				<!-- /.panel-body -->
-			</div>
-			<!-- /.panel -->
+	
 
 		</div>
 	</div>

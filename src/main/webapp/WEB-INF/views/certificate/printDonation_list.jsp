@@ -26,7 +26,7 @@ function deleteFunction() {
 			checkboxValues.push($(this).val());
 		});
 		
-		location.href = "http://localhost:8080/fund_sys/certificate/donationDelete.do?checkboxValues[]="+ checkboxValues;
+		location.href = "../certificate/donationDelete.do?checkboxValues[]="+ checkboxValues;
 
 
 	} else {

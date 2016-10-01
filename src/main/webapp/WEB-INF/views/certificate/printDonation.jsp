@@ -4,36 +4,36 @@
 	prefix="sec"%>
 <head>
 <script>
-	function print(index) {
-		$("[class=money]").unmask();
-		amount = $('#amount').val();
-		sponsorName = $('#sponsorName').val();
-		serialNo = $('#serialNo').val();
-		content = $('#content').val();
+function print(index) {
+	$("[class=money]").unmask();
+	amount = $('#amount').val();
+	sponsorName = $('#sponsorName').val();
+	serialNo = $('#serialNo').val();
+	content = $('#content').val();
 
-		if (index == 2) {
-			
-			alert(amount);
-			location.href = "http://localhost:8080/fund_sys/certificate/donationIssue.do?amount="+ amount + "&sponsorName="+ sponsorName
-				+ "&serialNo="+ serialNo;
-			
-
-		}
-		if (index == 1) {
-			alert("미리보기2");
-			location.href = "http://localhost:8080/fund_sys/certificate/dpreview.do?amount="
-					+ amount
-					+ "&sponsorName="
-					+ sponsorName
-					+ "&serialNo="
-					+ serialNo
-					+ "&content="
-					+ content;
-					
-
-		}
+	if (index == 2) {
+		
+		alert(amount);
+		location.href = "../certificate/donationIssue.do?amount="+ amount + "&sponsorName="+ sponsorName
+			+ "&serialNo="+ serialNo;
+		
 
 	}
+	if (index == 1) {
+		alert("미리보기2");
+		location.href = "../certificate/dpreview.do?amount="
+				+ amount
+				+ "&sponsorName="
+				+ sponsorName
+				+ "&serialNo="
+				+ serialNo
+				+ "&content="
+				+ content;
+				
+
+	}
+
+}
 </script>
 <style>
 #table_a {
@@ -47,15 +47,15 @@ textarea {
 </style>
 
 </head>
-<body
-<form method="post">
+<body>
+<form action="/fund_sys/report/printDonation.do">
 	<div id="wrapper">
 		<div id="page-wrapper">
 			<div class="container-fluid">
 				<h1 class="page-header">기부증서</h1>
 				<div id="column-right">
 					<button type="button" style="margin-bottom: 5px"
-						class="btn btn-default" onclick="print(1)">미리보기</button>
+						class="btn btn-default" onclick="print(1)">영수증발급</button>
 					<button type="button" style="margin-bottom: 5px"
 						class="btn btn-primary" onclick="print(2)">인쇄</button>
 				</div>
@@ -82,21 +82,8 @@ textarea {
 
 					</tbody>
 				</table>
-				<div class="panel show">
-					<div class="panel-heading">
-						<h4>미리 보기</h4>
-					</div>
-					<div class="panel-body">
-						<div class="show-body"></div>
-
-
-					</div>
-					<!-- /.panel-body -->
-				</div>
-				<!-- /.panel -->
-
 			</div>
 		</div>
 	</div>
 </form>
-></body>
+</body>

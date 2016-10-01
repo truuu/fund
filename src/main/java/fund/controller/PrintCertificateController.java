@@ -1,7 +1,15 @@
 package fund.controller;
 
 import fund.BaseController;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.jfree.ui.about.SystemPropertiesTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +25,9 @@ import fund.dto.PrintScholarshipCreate;
 import fund.mapper.PrintDonationMapper;
 import fund.mapper.PrintScholarshipMapper;
 import fund.service.PrintCertificateService;
+import fund.service.ReportBuilder;
 import fund.service.UserService;
+import net.sf.jasperreports.engine.JRException;
 
 @Controller
 public class PrintCertificateController extends BaseController{
@@ -47,8 +57,8 @@ public class PrintCertificateController extends BaseController{
         return "certificate/printScholarship";
     }
 	
-	@RequestMapping(value="/certificate/spreview.do") // 장학증서 미리보기
-    public String printScholarship(Model model,String department,String studentNo, String studentName,String content, String serialNo) {
+	@RequestMapping(value="/certificate/spreview.do") // 장학증서 미리보기 >> 장학증서 파일 다운
+    public void printScholarship(Model model,String department,String studentNo, String studentName,String content, String serialNo,HttpServletRequest req, HttpServletResponse res)throws JRException,IOException {
 		PrintScholarshipCreate printScholarshipCreate = new PrintScholarshipCreate();
 		printScholarshipCreate.setDepartment(department);
 		printScholarshipCreate.setSerialNo(serialNo);
@@ -63,8 +73,15 @@ public class PrintCertificateController extends BaseController{
 		printScholarshipCreate.setTopCourse("최고경영자과정 총동문회장 이평구");
 		
 		model.addAttribute("scholarship",printScholarshipCreate);
-        return "certificate/scholarshipReportContent";
+		
+		List<PrintScholarshipCreate> list = new ArrayList<PrintScholarshipCreate>();
+		list.add(printScholarshipCreate);
+		ReportBuilder reportBuilder = new ReportBuilder("printScholarship",list,"printScholarship.pdf", req, res);
+		reportBuilder.build("pdf");
+		
+        //return "certificate/scholarshipReportContent";
     }
+    
 	
 	@RequestMapping(value="/certificate/scholarshipIssue.do") // 장학증서 발급
 	public String scholarshipPrint(Model model,String department,String studentNo, String studentName){
@@ -76,8 +93,7 @@ public class PrintCertificateController extends BaseController{
 		printScholarshipMapper.insert(printScholarship);
 		return "redirect:/certificate/printScholarship_list.do";
 	}
-	
-	
+		
 	@RequestMapping(value="/certificate/printDonation.do", method=RequestMethod.GET)
     public String printDonation(Model model) {
 		//int number=printDonationMapper.selectSerialNo();
@@ -90,8 +106,9 @@ public class PrintCertificateController extends BaseController{
         return "certificate/printDonation";
     }
 	
-	@RequestMapping(value="/certificate/dpreview.do")  // 기부증서 미리보기
-    public String printDonation(Model model,int amount, String sponsorName, String serialNo, String content) {
+	
+	@RequestMapping(value="/certificate/dpreview.do")  // 기부증서 미리보기 >> 기부증서 파일 다운
+    public void printDonation(Model model,int amount, String sponsorName, String serialNo, String content,HttpServletRequest req, HttpServletResponse res)throws JRException,IOException{
 		PrintDonationCreate printDonationCreate = new PrintDonationCreate();
 		printDonationCreate.setAmount(amount);
 		printDonationCreate.setContent(content);
@@ -105,7 +122,12 @@ public class PrintCertificateController extends BaseController{
 		printDonationCreate.setPresident("이정구");
 		
 		model.addAttribute("donation",printDonationCreate);
-		return "certificate/donationReportContent";
+		
+		List<PrintDonationCreate> list = new ArrayList<PrintDonationCreate>();
+		list.add(printDonationCreate);
+		ReportBuilder reportBuilder = new ReportBuilder("printDonation",list,"printDonation.pdf", req, res);
+		reportBuilder.build("pdf");
+		//return "certificate/donationReportContent";
 	}
 	
 	@RequestMapping(value="/certificate/donationIssue.do") // 기부증서 발급
@@ -154,6 +176,9 @@ public class PrintCertificateController extends BaseController{
 		
 		return "redirect:/certificate/printScholarship_list.do";
 	}
+	
+
+	
 	
 	
 }

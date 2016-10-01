@@ -74,27 +74,24 @@ $(function(){
 					</h1>
 				</div>
 			</div>
-			<!-- /.row -->
-                   
+			<!-- /.row --> 
 			<div>
 				<label> 신청기간 </label> <input type="date" id="startDate" value="${ pagination.startDate}"> ~ <input type="date" id="endDate" value="${ pagination.endDate}">
 				 <button  class="btn btn-primary" id="search">검색</button>
 			</div>
-
-			<div id="column-right">
-				<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
-			</div>
-
+			
 			<div class="row">
 				<div class="col-lg-12">
 				<hr>
 					<div class="table-responsive">
-					 <form method="get">
+					<form>
                       <input type="hidden" name="pg" value="1" />
                        <input type="hidden" name="startDate" value="${ pagination.startDate}" />
                         <input type="hidden" name="endDate" value="${ pagination.endDate}" />
                         <input type="hidden" name="check" value="f" />
-                      
+                      <div id="column-right">
+							<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
+					</div>
 						<table class="table table-bordered table-hover" id="table_s">
 							<thead>
 								<tr>
@@ -132,7 +129,7 @@ $(function(){
 									</ul>
 								</div>
 						</div>
-           </form>
+				</form>
 
 		</div>
 

@@ -83,9 +83,9 @@
 		        <c:forEach var="receipt" items="${ receiptList }">
 		        	<tr>
 		            	<td><input type="checkbox" name="rid" value="${ receipt.id  }"></td>
-		             	<td class="view" data-url="receiptView.do?id=${receipt.id}&${pagination.queryString}">${ receipt.no }</td>
-		             	<td class="view" data-url="receiptView.do?id=${receipt.id}&${pagination.queryString}">${ receipt.name }</td>
-		             	<td class="view" data-url="receiptView.do?id=${receipt.id}&${pagination.queryString}">${ receipt.juminNo }</td>
+		             	<td class="view" data-url="../report/receipt.do?id=${receipt.id}">${ receipt.no }</td>
+		             	<td class="view" data-url="../report/receipt.do?id=${receipt.id}&${pagination.queryString}">${ receipt.name }</td>
+		             	<td class="view" data-url="../report/receipt.do?id=${receipt.id}&${pagination.queryString}">${ receipt.juminNo }</td>
 		             	<td class="view" data-url="receiptView.do?id=${receipt.id}&${pagination.queryString}">${ receipt.mobilePhone }</td>
 		             	<td class="view" data-url="receiptView.do?id=${receipt.id}&${pagination.queryString}"><p class="money">${ receipt.amount }</p></td>
 		             	<td class="view" data-url="receiptView.do?id=${receipt.id}&${pagination.queryString}">${ receipt.createDate }</td>

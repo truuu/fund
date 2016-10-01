@@ -248,7 +248,7 @@ public class SponsorController {
 	
 	
 	//기간기준으로 DM발송 리스트 찾기
-	@RequestMapping(value="/sponsor/postSearch.do",method=RequestMethod.GET)
+	@RequestMapping(value="/sponsor/postSearch.do")
 	public String postByDate(HttpServletRequest request,HttpServletResponse response,Model model,Pagination  pagination)throws Exception{
 		//String startDate = request.getParameter("startDate");
 	//	String endDate = request.getParameter("endDate");
@@ -404,18 +404,23 @@ public class SponsorController {
 		return "sponsor/castHistory"; 
 	 }
 	 
+	 @RequestMapping(value="sponsor/chartByspt.do" )
+		public void taxDataReport(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+	 		List<Sponsor> list = sponsorMapper.castBySponsorType2(startDate,endDate);
+	 		ReportBuilder reportBuilder = new ReportBuilder("chartBySponsorType",list,"chartBySponsorType.pdf",req,res);
+			reportBuilder.build("pdf");
+	 	}
 	 
-	 @RequestMapping(value="/sponsor/post.do", method=RequestMethod.POST, params="cmd=xlsx" )
+	 //DM발송 엑셀
+	 @RequestMapping(value="/sponsor/postSearch.do",params="cmd=xlsx" )
 	 public void excelDMReport(Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
-		System.out.println("엑셀파일 생성 sendDM");
 		List<Sponsor> list = sponsorMapper.excelDM(pagination);
 		ReportBuilder reportBuilder = new ReportBuilder("sendDM", list, "sendDM.xlsx",req,res);
 		reportBuilder.build("xlsx");
 	 }
-	
-	 @RequestMapping(value="/sponsor/sponsor_m.do.do", method=RequestMethod.POST, params="cmd=xlsx" )
+	//후원인목록
+	 @RequestMapping(value="/sponsor/sponsor_m.do", params="cmd=xlsx" )
 	 public void sponsorList(Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
-		System.out.println("액션메소드를 찾아서");
 		List<Sponsor> list = sponsorMapper.sponsorListExcel(pagination);
 		ReportBuilder reportBuilder = new ReportBuilder("sponsorList", list, "sponsorList.xlsx",req,res);
 		reportBuilder.build("xlsx");

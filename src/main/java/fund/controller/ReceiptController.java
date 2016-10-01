@@ -1,6 +1,7 @@
 package fund.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,11 +70,10 @@ public class ReceiptController {
 			List<Integer> sponsorID = paymentMapper.selectDistinctSponsorID(startdate, enddate, corporateID);
 			for(int i=0;i<sponsorID.size();i++){
 				int rctNoInt;
-				String[] rctNo = receiptMapper.getLastNo(getY[0]).split("-");
-				if(rctNo == null){
-					rctNoInt = 0;
-				}
+				if(receiptMapper.getLastNo(getY[0])==null)
+					rctNoInt=0;
 				else{
+					String[] rctNo = receiptMapper.getLastNo(getY[0]).split("-");
 					rctNoInt = Integer.parseInt(rctNo[1]);
 				}
 				String newRctNo = getY[0]+"-"+String.format("%04d", rctNoInt+1);
@@ -150,6 +150,18 @@ public class ReceiptController {
 		model.addAttribute("receipt",receiptMapper.selectReceiptView(id));
 		model.addAttribute("paymentList",paymentMapper.selectByRctID(id));
 		return "certificate/receiptView";
+	}
+	
+	@RequestMapping("/report/receipt.do")
+	public void receipt(@RequestParam("id") int id, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+
+		List<Object> list = new ArrayList<Object>();
+		list.add(receiptMapper.selectReceiptView(id));
+		System.out.println("1");
+		list.add(paymentMapper.selectByRctID(id));
+		System.out.println("2");
+		ReportBuilder reportBuilder = new ReportBuilder("receipt",list,"receipt.pdf",req,res);
+		reportBuilder.build("pdf");
 	}
 	
 	@RequestMapping("/certificate/taxData.do")

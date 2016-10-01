@@ -3,7 +3,6 @@
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
@@ -26,7 +25,7 @@
 				checkboxValues.push($(this).val());
 			});
 			
-			location.href = "http://localhost:8080/fund_sys/certificate/scholarshipDelete.do?checkboxValues[]="+ checkboxValues;
+			location.href = "../certificate/scholarshipDelete.do?checkboxValues[]="+ checkboxValues;
 
 
 		} else {

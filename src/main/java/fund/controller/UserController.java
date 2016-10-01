@@ -9,11 +9,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import fund.BaseController;
 
 import fund.dto.Pagination;
+import fund.dto.Payment;
 import fund.dto.Sponsor;
 import fund.dto.User;
 import fund.mapper.UserMapper;
+import fund.service.ReportBuilder;
+import net.sf.jasperreports.engine.JRException;
 
+import java.io.IOException;
 import java.util.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class UserController extends BaseController{
 
@@ -57,14 +64,13 @@ public class UserController extends BaseController{
 	 @RequestMapping(value="/user/church.do",method=RequestMethod.GET)
 	 public String church(Model model)throws Exception{
 		
-	     
 		return "user/church";
 	 }
 	 
 	 
 	 @RequestMapping(value="/user/churchSearch.do",method=RequestMethod.GET)
 	 public String churchSearch(Pagination  pagination,Model model)throws Exception{
-		 
+		 System.out.println("액션메소드");
 		  long total=0;
 		  List<Sponsor> list=userMapper.churchSum(pagination);
 		  pagination.setRecordCount(list.size());
@@ -92,5 +98,13 @@ public class UserController extends BaseController{
 		return "user/church";
 	 }
 	 
+	 @RequestMapping(value="/user/churchSearch.do",method=RequestMethod.POST, params="cmd=xlsx")
+	  public void taxDataReport(Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+		 	List<Sponsor> list=userMapper.churchSum(pagination);
+		 	pagination.setRecordCount(list.size());
+		 	list=userMapper.churchSum2(pagination);
+	 		ReportBuilder reportBuilder = new ReportBuilder("ByChurch",list,"church.xlsx",req,res);
+			reportBuilder.build("xlsx");
+	 	} 
 	 	 
 }

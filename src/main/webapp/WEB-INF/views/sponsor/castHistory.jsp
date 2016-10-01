@@ -24,7 +24,7 @@ $(function(){
 
 
 		
-		location.href="http://localhost:8080/fund_sys/sponsor/castList.do?startDate="+startDate+"&endDate="+endDate;
+		location.href="/fund_sys/sponsor/castList.do?startDate="+startDate+"&endDate="+endDate;
 	
 		
 	});
@@ -47,11 +47,11 @@ $(function(){
 					</h1>
 				</div>
 			</div>
-			<!-- /.row -->
-                   
+			<!-- /.row -->     
 			<div>
 				<label> 신청기간 </label> <input type="date" id="startDate" value="${ pagination.startDate}"> ~ <input type="date" id="endDate" value="${ pagination.endDate}">
 				 <button  class="btn btn-primary" id="search">검색</button>
+				 <a href="sponsor/chartByspt.do" class="btn" >보고서</button>
 			</div>
 
 		
@@ -108,8 +108,8 @@ $(function(){
 
 
 
-
 		</div>
+
 		<!-- /.container-fluid -->
 	</div>
 	<!-- /#page-wrapper -->
