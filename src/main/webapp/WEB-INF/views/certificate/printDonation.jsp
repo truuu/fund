@@ -48,7 +48,7 @@ textarea {
 
 </head>
 <body>
-<form action="/fund_sys/report/printDonation.do">
+<form method="post">
 	<div id="wrapper">
 		<div id="page-wrapper">
 			<div class="container-fluid">

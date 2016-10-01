@@ -40,7 +40,7 @@ textarea{
 
 </style>
 
-<form name="printForm" action="/fund_sys/report/printScholarship.do">
+<form>
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
