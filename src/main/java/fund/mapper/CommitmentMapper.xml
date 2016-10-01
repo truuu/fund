@@ -23,7 +23,7 @@
 		JOIN DonationPurpose d
 		on
 		c1.donationPurposeID=d.ID
-		WHERE s.ID=#{id}
+		WHERE s.ID = #{ID}
 	</select>
 
 	<select id="selectCountCommitment" resultType="int">

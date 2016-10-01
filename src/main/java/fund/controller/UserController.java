@@ -92,8 +92,5 @@ public class UserController extends BaseController{
 		return "user/church";
 	 }
 	 
-	 
-	 
-	 
-
+	 	 
 }

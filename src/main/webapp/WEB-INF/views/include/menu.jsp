@@ -3,8 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="wrapper">
-
-
 	<nav class="navbar navbar-default" role="navigation">
 	  <div class="container-fluid">
 	    <!-- Brand and toggle get grouped for better mobile display -->
@@ -36,46 +34,49 @@
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">후원인관리<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
 		   
-		    <li><a href="#">후원인목록</a></li>
+		    <li><a href="/fund_sys/sponsor/sponsor_m.do">후원인목록</a></li>
+		  	<li><a href="/fund_sys/sponsor/insertIrrgularPayment.do">비정기 납입등록</a>
+		  	<li><a href="/fund_sys/sponsor/paymentList.do">정기납입목록</a>
+		  	<li><a href="/fund_sys/sponsor/paymentList2.do">비정기납입목록</a>
+		    <li><a href="/fund_sys/sponsor/sponsor.do">후원인등록</a></li>
 		  
-		    <li><a href="#">후원인등록</a></li>
-		  
-		    <li><a href="#">DM주소록 생성</a></li>
+		    <li><a href="/fund_sys/sponsor/post.do">DM주소록 생성</a></li>
 		  </ul>
 		</li>
 		
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">금융연동<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
-		    <li><a href="#">EB13생성</a></li>
-		    <li><a href="#">EB14등록</a></li>
-		    <li><a href="#">EB21생성</a></li>
-		    <li><a href="#">EB22등록</a></li>
-		    <li><a href="#">자동이체 결과등록</a></li>
-		    <li><a href="#">급여공제 결과등록</a></li>
-		    <li><a href="#">EB13/14 결과조회</a></li>
-		    <li><a href="#">EB21/22 결과조회</a></li>
+		    <li><a href="/fund_sys/finance/eb13.do">EB13생성</a></li>
+		    <li><a href="/fund_sys/finance/uploadEB14.do">EB14등록</a></li>
+		    <li><a href="/fund_sys/finance/eb21.do">EB21생성</a></li>
+		    <li><a href="/fund_sys/finance/uploadEB22.do">EB22등록</a></li>
+		    <li><a href="/fund_sys/finance/uploadXferResult.do">자동이체 결과등록</a></li>
+		    <li><a href="/fund_sys/finance/uploadSalaryResult.do">급여공제 결과등록</a></li>
+		    <li><a href="/fund_sys/finance/resultEB1314.do">EB13/14 결과조회</a></li>
+		    <li><a href="/fund_sys/finance/resultEB2122.do">EB21/22 결과조회</a></li>
 		  </ul>
 		</li>
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">납입관리<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
 		    
+
 		    <li><a href="#">납입 내역 보기</a></li>
-		    <li><a href="#">비정기 납입 등록</a></li>
 		     <li class="divider"></li>
 		       <li><a href="/fund_sys/dataPrint/paymentRecordStats.do">납입 내역 조회</a></li>
 		       <li><a href="/fund_sys/dataPrint/paymentTotalStats.do">납입 총계 조회</a></li>
 		    <li><a href="#">미납 내역(추후)</a></li>
+
 		  </ul>
 		</li>
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">증서관리<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
-		    <li><a href="#">영수증발급대장</a></li>
-		    <li><a href="#">영수증일괄생성</a></li>
-		    <li><a href="#">영수증개별생성</a></li>
-		    <li><a href="#">국세청보고자료</a></li>
+		    <li><a href="/fund_sys/certificate/receiptList.do">영수증발급대장</a></li>
+		    <li><a href="/fund_sys/certificate/receiptByDur.do">영수증일괄생성</a></li>
+		    <li><a href="/fund_sys/certificate/receiptByName.do">영수증개별생성</a></li>
+		    <li><a href="/fund_sys/certificate/taxData.do">국세청보고자료</a></li>
 		     <li class="divider"></li>
 		    <li><a href="/fund_sys/certificate/printScholarship_list.do">장학증서 발급대장</a></li>
 		    <li><a href="/fund_sys/certificate/printDonation_list.do">기부증서 발급대장</a></li>

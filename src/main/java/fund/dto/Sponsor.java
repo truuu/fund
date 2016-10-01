@@ -44,7 +44,101 @@ public class Sponsor {
 	int sort; // 구분용 회원입력 0 - 회원수정 1
 	int sponsorCount; // 후원인구분2별 출연내역 회원수
 	int castCount; // 후원인구분2별 출연내역 출연수
-	long sum;//후원인구분2별 출연내역 금액
+	//long sum;//후원인구분2별 출연내역 금액
+	int sum;//후원인구분2별 출연내역 금액
+	
+	public int getSum() {
+		return sum;
+	}
+	public void setSum(int sum) {
+		this.sum = sum;
+	}
+	public int getSponsorCount() {
+		return sponsorCount;
+	}
+	public void setSponsorCount(int sponsorCount) {
+		this.sponsorCount = sponsorCount;
+	}
+	public int getCastCount() {
+		return castCount;
+	}
+	public void setCastCount(int castCount) {
+		this.castCount = castCount;
+	}
+	public int getSort() {
+		return sort;
+	}
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
+	public String getHomeRoadAddress() {
+		return homeRoadAddress;
+	}
+	public void setHomeRoadAddress(String homeRoadAddress) {
+		this.homeRoadAddress = homeRoadAddress;
+	}
+	public String getHomeDetailAddress() {
+		return homeDetailAddress;
+	}
+	public void setHomeDetailAddress(String homeDetailAddress) {
+		this.homeDetailAddress = homeDetailAddress;
+	}
+	public String getHomePostCode() {
+		return homePostCode;
+	}
+	public void setHomePostCode(String homePostCode) {
+		this.homePostCode = homePostCode;
+	}
+	public String getOfficeRoadAddress() {
+		return officeRoadAddress;
+	}
+	public void setOfficeRoadAddress(String officeRoadAddress) {
+		this.officeRoadAddress = officeRoadAddress;
+	}
+	public String getOfficeDetailAddress() {
+		return officeDetailAddress;
+	}
+	public void setOfficeDetailAddress(String officeDetailAddress) {
+		this.officeDetailAddress = officeDetailAddress;
+	}
+	public String getOfficePostCode() {
+		return officePostCode;
+	}
+	public void setOfficePostCode(String officePostCode) {
+		this.officePostCode = officePostCode;
+	}
+	public String getSponsorType1() {
+		return sponsorType1;
+	}
+	public void setSponsorType1(String sponsorType1) {
+		this.sponsorType1 = sponsorType1;
+	}
+	public String getSponsorType2() {
+		return sponsorType2;
+	}
+	public void setSponsorType2(String sponsorType2) {
+		this.sponsorType2 = sponsorType2;
+	}
+	public String getChurch() {
+		return church;
+	}
+	public void setChurch(String church) {
+		this.church = church;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getPostCode() {
+		return postCode;
+	}
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
+	}
+	//DM발송때 address postCode
+
 	public int getId() {
 		return id;
 	}
@@ -177,97 +271,5 @@ public class Sponsor {
 	public void setEtc(String etc) {
 		this.etc = etc;
 	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getPostCode() {
-		return postCode;
-	}
-	public void setPostCode(String postCode) {
-		this.postCode = postCode;
-	}
-	public String getSponsorType1() {
-		return sponsorType1;
-	}
-	public void setSponsorType1(String sponsorType1) {
-		this.sponsorType1 = sponsorType1;
-	}
-	public String getSponsorType2() {
-		return sponsorType2;
-	}
-	public void setSponsorType2(String sponsorType2) {
-		this.sponsorType2 = sponsorType2;
-	}
-	public String getChurch() {
-		return church;
-	}
-	public void setChurch(String church) {
-		this.church = church;
-	}
-	public String getHomeRoadAddress() {
-		return homeRoadAddress;
-	}
-	public void setHomeRoadAddress(String homeRoadAddress) {
-		this.homeRoadAddress = homeRoadAddress;
-	}
-	public String getHomeDetailAddress() {
-		return homeDetailAddress;
-	}
-	public void setHomeDetailAddress(String homeDetailAddress) {
-		this.homeDetailAddress = homeDetailAddress;
-	}
-	public String getHomePostCode() {
-		return homePostCode;
-	}
-	public void setHomePostCode(String homePostCode) {
-		this.homePostCode = homePostCode;
-	}
-	public String getOfficeRoadAddress() {
-		return officeRoadAddress;
-	}
-	public void setOfficeRoadAddress(String officeRoadAddress) {
-		this.officeRoadAddress = officeRoadAddress;
-	}
-	public String getOfficeDetailAddress() {
-		return officeDetailAddress;
-	}
-	public void setOfficeDetailAddress(String officeDetailAddress) {
-		this.officeDetailAddress = officeDetailAddress;
-	}
-	public String getOfficePostCode() {
-		return officePostCode;
-	}
-	public void setOfficePostCode(String officePostCode) {
-		this.officePostCode = officePostCode;
-	}
-	public int getSort() {
-		return sort;
-	}
-	public void setSort(int sort) {
-		this.sort = sort;
-	}
-	public int getSponsorCount() {
-		return sponsorCount;
-	}
-	public void setSponsorCount(int sponsorCount) {
-		this.sponsorCount = sponsorCount;
-	}
-	public int getCastCount() {
-		return castCount;
-	}
-	public void setCastCount(int castCount) {
-		this.castCount = castCount;
-	}
-	public long getSum() {
-		return sum;
-	}
-	public void setSum(long sum) {
-		this.sum = sum;
-	}
-	
-	
 
 }

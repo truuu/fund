@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="fund" version="3.1">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="fund_sys" version="3.1">
   <display-name>fund_sys</display-name>
   <servlet>
     <servlet-name>dispatcher</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  	<multipart-config>
+            <max-file-size>20000000</max-file-size>
+    </multipart-config>        
   </servlet>
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
@@ -38,7 +41,7 @@
     <filter-name>springSecurityFilterChain</filter-name>
     <filter-class>
             org.springframework.web.filter.DelegatingFilterProxy
-        </filter-class>
+    </filter-class>
   </filter>
   <filter-mapping>
     <filter-name>springSecurityFilterChain</filter-name>

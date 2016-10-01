@@ -22,8 +22,9 @@ import fund.mapper.UserMapper;
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
 
+    @Autowired SponsorMapper sponsorMapper;
     @Autowired UserMapper userMapper;
-
+    
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String loginName = authentication.getName();
@@ -31,6 +32,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         System.out.println("ID "+loginName+"  password "+password);
         return authenticate(loginName, password);
     }
+
 
     public Authentication authenticate(String loginName, String password) throws AuthenticationException {
        User user = userMapper.selectByLoginId(loginName);

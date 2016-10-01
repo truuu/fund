@@ -1,6 +1,7 @@
 package fund.dto;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 
 public class Pagination {
@@ -12,32 +13,13 @@ public class Pagination {
     int recordCount;
     int boardId;
     
-    int type;
-    String codeName;
-    String nameForSearch;
-    
-    String startDate;  
-    String endDate;
-    
-    
-    
- 
-
-	public String getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
-
-	public String getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
+    String startDate ="";
+    String endDate ="";
+    int corporateID;
+   
+    int type;//소속교회, 회원구분 등 codeGroupID
+    String codeName;// 개인, 단체, 교회 등 code 이름
+    String nameForSearch;//후원인관리에서 이름으로 검색때 사용
 
 	public String getNameForSearch() {
 		return nameForSearch;
@@ -63,8 +45,31 @@ public class Pagination {
 		this.codeName = codeName;
 	}
 
+    public int getCorporateID() {
+		return corporateID;
+	}
 
-    public int getCurrentPage() {
+	public void setCorporateID(int corporateID) {
+		this.corporateID = corporateID;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public int getCurrentPage() {
         return currentPage;
     }
 
@@ -169,15 +174,45 @@ public class Pagination {
         this.boardId = boardId;
     }
     
+    public String getSd() {
+    	return startDate;
+    }
+    
+    public void setSd(String startDate) {
+    	this.startDate=startDate;
+    }
+    
+    public String getEd() {
+    	return endDate;
+    }
+    
+    public void setEd(String endDate) {
+    	this.endDate=endDate;
+    } 
+    
+    public int getCp() {
+    	return corporateID;
+    }
+    
+    public void setCp(int corporateID) {
+    	this.corporateID = corporateID;
+    }
+    
     /* 멤버 변수 값들을 quey string으로 출력하기 위한 메소드 */
-    /*
+    
     public String getQueryString() throws UnsupportedEncodingException {
         String temp = (srchText == null) ? "" : URLEncoder.encode(srchText, "UTF-8");
+        if (boardId ==3)
+        	return String.format("bd=%d&st=%s&sd=%s&ed=%s&cp=%d",boardId,temp,startDate,endDate,corporateID);
+        if (boardId ==2)
+        	return String.format("bd=%d&pg=%d&ss=%d&st=%s&sd=%s&ed=%s",boardId,currentPage,srchType,temp,startDate,endDate);
+        if (boardId ==1)
+        	return String.format("bd=%d&pg=%d&sd=%s&ed=%s&cp=%d",boardId,currentPage,startDate,endDate,corporateID);
         if (boardId > 0)
            return String.format("pg=%d&sz=%d&bd=%d&ss=%d&st=%s",currentPage,pageSize,boardId,srchType,temp);
         return String.format("pg=%d&sz=%d&od=%d&ss=%d&st=%s",currentPage,pageSize,order,srchType,temp);
     }
-	*/
+	
     /* 화면 하단에 페이지 번호 링크들을 출력하기 위한 메소드와 클래스 */
     public List<Page> getPageList() {
         ArrayList<Page> list = new ArrayList<Page>();

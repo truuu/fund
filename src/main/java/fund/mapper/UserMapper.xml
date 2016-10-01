@@ -7,7 +7,7 @@
     <select id="selectById" resultType="fund.dto.User">		
         SELECT * FROM [User] WHERE id = #{id}		
     </select>		
-		
+    		
     <select id="selectByLoginId" resultType="fund.dto.User">		
         SELECT * FROM [User] WHERE loginName = #{loginName}		
     </select>		
@@ -53,8 +53,6 @@
       values(#{loginName},#{password},#{name},#{email},0)
     </insert>	
     
-  
-    		
-		
+ 		
 </mapper>		
 

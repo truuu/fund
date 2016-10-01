@@ -6,8 +6,6 @@ import fund.dto.Pagination;
 import fund.dto.Sponsor;
 import java.util.List;
 
-	
- 		
  public interface UserMapper {		
      User selectById(int id);		
      User selectByLoginId(String loginName);	

@@ -4,14 +4,245 @@
 
 <mapper namespace="fund.mapper.SponsorMapper">
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
-    
-    <select id="selectBySponsorName4" resultType="String">
-    	select name
-    	from sponsor
-    	where name=#{name}
-    </select>
+
+	<select id="ceateNumber" resultType="Integer">
+		select TOP(1)ID from sponsor
+		order by ID DESC;
+	</select>
+	
+	<!-- 후언자 수정 -->
+	<update id="updateSponsor">
+		UPDATE sponsor SET
+		sponsorNo=#{sponsorNo},
+		name=#{name},
+		juminNo=#{juminNo},
+		sponsorType1ID=#{sponsorType1ID},
+		sponsorType2ID=#{sponsorType2ID},
+		churchID=#{churchID},
+		signUpDate=#{signUpDate},
+		mobilePhone=#{mobilePhone},
+		recommender=#{recommender},
+		recommenderRelation=#{recommenderRelation},
+		mailReceiving=#{mailReceiving},
+		mailTo=#{mailTo},
+		homeAddress=#{homeAddress},
+		homePhone=#{homePhone},
+		email=#{email},
+		company=#{company},
+		department=#{department},
+		position=#{position},
+		officePhone=#{officePhone},
+		officeAddress=#{officeAddress},
+		etc=#{etc}
+		WHERE sponsorNo = #{sponsorNo}
+	</update>
+	
+	<!-- 후원자 삭제 -->
+	<delete id="removeSponsor">
+		DELETE FROM sponsor
+		WHERE sponsorNo = #{sponsorNo}
+	</delete>
+	
+	<!-- 후원자 상세페이지 -->
+	<select id="selectBySponsorNo" resultType="fund.dto.Sponsor">
+		select id,sponsorNo,name,juminNo,sponsorType1ID,sponsorType2ID,signUpDate,mobilePhone,recommender,recommenderRelation,mailReceiving,mailTo,homeAddress,homePhone,email,company,department,position,officePhone,officeAddress,etc,
+       (select codeName from code where code.ID=sponsor.churchID )AS church
+        from sponsor where sponsorNo=#{sponsorNo};
+	</select>
+	
+
+
+	<select id="selectAuto" resultType="fund.dto.Code">
+		SELECT
+		codeName
+		FROM Code
+		WHERE
+		codeGroupID=5 and codeName LIKE '%'+#{input}+'%'
+	</select>
+	<!-- text로 받은 교회의 id값 리턴 -->
+	<select id="selectChurchCode" resultType="int">
+		SELECT
+		ID
+		FROM Code
+		WHERE
+		codeName=#{church}
+	</select>
+
+	<insert id="sponsorInsert" useGeneratedKeys="true" keyProperty="id">
+		insert into
+		sponsor(sponsorNo,name,juminNo,sponsorType1ID,sponsorType2ID,churchID,
+		signUpDate,mobilePhone,recommender,recommenderRelation,mailReceiving,mailTo,homeAddress,
+		homePhone,email,company,department,position,officePhone,officeAddress,etc)
+		values(#{sponsorNo},#{name},#{juminNo},#{sponsorType1ID},#{sponsorType2ID},#{churchID},
+		#{signUpDate},#{mobilePhone},#{recommender},#{recommenderRelation},#{mailReceiving},#{mailTo},#{homeAddress},
+		#{homePhone},#{email},#{company},#{department},#{position},#{officePhone},#{officeAddress},#{etc})
+	</insert>
+
+
+
+	<!-- 회원관리 -->
+	<select id="sponsorManage" resultType="fund.dto.Sponsor">
+		select sponsorNo,name,
+		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS
+		sponsorType1,
+		(select codeName from code where
+		code.ID=sponsor.sponsorType2ID )AS sponsorType2,
+		(select codeName from
+		code where code.ID=sponsor.churchID )AS church,
+		signUpDate,mobilePhone,email
+		from sponsor order by sponsorNo DESC;
+	</select>
+
+	<!-- 회원검색 후원인구분 1,2로 -->
+	<select id="sponsorSearch" resultType="fund.dto.Sponsor">
+
+        SELECT *
+        FROM
+            ( select sponsorNo,name,
+		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
+		(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
+		(select codeName from code where code.ID=sponsor.churchID )AS church,
+		signUpDate,mobilePhone,email, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
+		from sponsor
+		<if test="type==1">
+		 where sponsorType1ID=ALL(select ID from code where codeName=#{codeName})
+            ) subquery
+        </if>
+        <if test="type==2">
+		 where sponsorType2ID=ALL(select ID from code where codeName=#{codeName})
+            ) subquery
+        </if>
+      <![CDATA[
+        WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              행번호 <= #{currentPage} * #{pageSize}
+        ORDER BY 행번호
+        ]]>
+	</select>
+	
+	<!-- 회원검색 이름으로 -->
+	<select id="nameSearch" resultType="fund.dto.Sponsor">
+ <![CDATA[
+        select sponsorNo,name,
+		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS
+		sponsorType1,
+		(select codeName from code where
+		code.ID=sponsor.sponsorType2ID )AS sponsorType2,
+		(select codeName from
+		code where code.ID=sponsor.churchID )AS church,
+		signUpDate,mobilePhone,email
+		from sponsor WHERE name=#{nameForSearch} order by sponsorNo DESC;
+        ]]>
+	</select>
+
+	<select id="selectPage" resultType="fund.dto.Sponsor">
+        <![CDATA[
+        SELECT *
+        FROM
+            ( SELECT sponsorNo,name,
+		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
+		(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
+		(select codeName from code where code.ID=sponsor.churchID )AS church,
+		signUpDate,mobilePhone,email, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
+             from sponsor
+            ) subquery
+        WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              행번호 <= #{currentPage} * #{pageSize}
+        ORDER BY 행번호
+        ]]>
+	</select>
+	
+	<!-- 회원관리 이름으로 가져오기 위한 count -->
+	<select id="nameCount" resultType="int">
+		SELECT COUNT(*)
+		FROM sponsor
+		where name=#{nameForSearch}
+	</select>
+	
+	<!-- 후원인목록 엑셀파일 -->
+	<select id="sponsorListExcel" resultType="fund.dto.Sponsor">
+		SELECT sponsorNo,name,
+			(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
+			(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
+			(select codeName from code where code.ID=sponsor.churchID )AS church,
+			signUpDate,mobilePhone,email
+	    FROM sponsor
+	</select>
+
+<!-- 후원자 구분1,2를 위한 count -->
+	<select id="searchCount" resultType="int">
+		SELECT COUNT(*)
+		FROM sponsor
+		where sponsorType2ID=(select ID from code where
+		codeName=#{codeName})
+	</select>
+
+
+	<select id="selectCount" resultType="int">
+		SELECT COUNT(*)
+		FROM sponsor
+	</select>
+
+
+
+
+	<!-- 후원자관리 조건 구별 -->
+	<select id="sponsorTypeCheck" resultType="int">
+		select
+		distinct(codeGroupID)
+		from code where codeName=#{codeName};
+	</select>
+
+	<!-- DM발송 -->
+	<select id="postManage" resultType="fund.dto.Sponsor">
+	 <![CDATA[
+		 SELECT *
+        FROM(select
+		sponsor.sponsorNo,name,(select codeName from code where
+		code.ID=sponsor.sponsorType2ID) AS sponsorType2,
+		(select codeName from
+		code where code.ID=sponsor.churchID) AS church,
+		homeAddress,officeAddress,mailTo,ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
+		from sponsor join payment on
+		sponsor.ID=payment.sponsorID
+		where payment.paymentDate between
+		#{startDate} and #{endDate}
+		)subquery
+		 WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              행번호 <= #{currentPage} * #{pageSize}
+        ORDER BY 행번호
+		 ]]>
+	</select>
+	
+	<!-- DM 페이징을 위한 count -->
+	<select id="countForDM" resultType="int">
+	select count(*)
+	from sponsor join payment on
+		sponsor.ID=payment.sponsorID
+		where payment.paymentDate between
+		#{startDate} and #{endDate};
+	
+	</select>
+	
+	<!-- DM 엑셀 -->
+	<select id="excelDM" resultType="fund.dto.Sponsor">
+		SELECT
+			sponsor.sponsorNo,name,(SELECT codeName FROM code WHERE
+			code.ID=sponsor.sponsorType2ID) AS sponsorType2,
+			(SELECT codeName FROM code WHERE code.ID=sponsor.churchID) AS church,
+			homeAddress,officeAddress,mailTo
+		FROM sponsor join payment ON sponsor.ID=payment.sponsorID
+		WHERE payment.paymentDate BETWEEN #{startDate} AND #{endDate}
+	</select>
+	
+	<select id="castBySponsorType2" resultType="fund.dto.Sponsor">
+	select (select codeName from code where code.ID=sponsor.sponsorType2ID) AS sponsorType2,
+           sum(CAST( amount AS BIGINT )) AS sum,
+           count(distinct sponsorID) AS sponsorCount,
+           count(*) AS castCount
+      from sponsor join payment on  sponsor.ID=payment.sponsorID  where payment.paymentDate between
+     #{startDate} and #{endDate} group by sponsorType2ID;
+	
+	</select>
+
 
 </mapper>

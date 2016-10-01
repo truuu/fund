@@ -32,21 +32,21 @@ public class CommitmentController extends BaseController{
 	@Autowired DonationPurposeMapper donationPurposeMapper;
 
 
-	/*commitment list*/
+	/*약정목록*/
 	@RequestMapping(value="/sponsor/commitment.do", method=RequestMethod.GET)  
-	public String commitment(Model model) {       // sponsor랑 합치면 @RequestParam추가하기
-		model.addAttribute("list", commitmentMapper.selectBySponsorID(115)); // 12 test
+	public String commitment(Model model,@RequestParam("id")int id) {    
+		model.addAttribute("list", commitmentMapper.selectBySponsorID(id)); 
 		String name="정기 납입방법";
 		model.addAttribute("paymentMethodList",codeMapper.selectByPaymentMethod(name));
 		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
 		String bank="은행";
 		model.addAttribute("bankList",codeMapper.selectByBank(bank));
-		model.addAttribute("sponsorID",115);//SPONSORID 12번 TEST 학교서버는 90번으로
+		model.addAttribute("sponsorID",id);
 
 		return "sponsor/commitment";
 	}
 
-	/*commitment insert*/
+	/*약정 생성*/
 	@RequestMapping(value="/sponsor/commitment.do", method=RequestMethod.POST, params="cmd=create")
 	public String commitment(Model model, CommitmentCreate commitmentCreate) throws ParseException{
 	
@@ -72,6 +72,7 @@ public class CommitmentController extends BaseController{
 		}
 
 		commitmentMapper.insert(commitment);  // 약정 먼저 insert
+		System.out.println("약정 후");
 
 		CommitmentDetail commitmentDetail = new CommitmentDetail();  // 약정상세 
 
@@ -85,8 +86,8 @@ public class CommitmentController extends BaseController{
 
 		commitmentDetailMapper.insert(commitmentDetail);  // 약정 상세 insert
 
-		model.addAttribute("list", commitmentMapper.selectBySponsorID(115));  // 12번 test 나중에 바꿔야 함.
-		return "redirect:/sponsor/commitment.do";
+		//model.addAttribute("list", commitmentMapper.selectBySponsorID());  // 수정!!
+		return "redirect:/sponsor/commitment.do?id="+commitmentCreate.getSponsorID();
 	}
 
 	@RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.GET)  // 약정수정페이지
@@ -143,10 +144,10 @@ public class CommitmentController extends BaseController{
 	}
 	
 	@RequestMapping(value="/sponsor/commitmentEnd.do") // 약정 종료
-	public String commitmentEnd(Model model, int ID) {
+	public String commitmentEnd(Model model, int ID, int sponsorID) {
 		commitmentMapper.updateEndDate(ID);
 	
-	return "redirect:/sponsor/commitment.do";  // 약정목록갈때 sponsorID 받아서 리다이렉트 수정
+	return "redirect:/sponsor/commitment.do?id="+sponsorID;  
 	
 
 	}

@@ -25,6 +25,7 @@ public class PrintCertificateController extends BaseController{
 	
 	@Autowired PrintDonationMapper printDonationMapper;
 	@Autowired PrintScholarshipMapper printScholarshipMapper;
+	@Autowired UserService userService;
 	
 	@RequestMapping("/certificate/printDonation_list.do")
     public String donationList(Model model, Pagination pagination) {

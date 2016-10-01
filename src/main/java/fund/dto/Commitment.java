@@ -19,6 +19,9 @@ public class Commitment{
 	String corporateName; //corporateName
 	int month;
 	
+	String donationPurposeName;
+	
+	
 	public int getMonth() {
 		return month;
 	}
@@ -31,6 +34,7 @@ public class Commitment{
 	public void setState(String state) {
 		this.state = state;
 	}
+	
 	public int getID() {
 		return ID;
 	}
@@ -88,6 +92,13 @@ public class Commitment{
 	public void setEtc(String etc) {
 		this.etc = etc;
 	}
+	public String getDonationPurposeName() {
+		return donationPurposeName;
+	}
+	public void setDonationPurposeName(String donationPurposeName) {
+		this.donationPurposeName = donationPurposeName;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -113,8 +124,6 @@ public class Commitment{
 		this.corporateName = corporateName;
 	}
 	
-	
-	
-	
+
 	
 }

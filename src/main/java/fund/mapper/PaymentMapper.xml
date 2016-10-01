@@ -1,8 +1,105 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+             
 <mapper namespace="fund.mapper.PaymentMapper">
+	
+	<select id="selectById" resultType="int">
+		SELECT sponsorID
+		FROM [Payment]
+		WHERE id=#{id}
+	</select>
+	
+	<select id="selectDistinctSponsorID" resultType="Integer">
+		SELECT DISTINCT sponsorID
+		FROM [Payment] p JOIN [donationPurpose] d ON p.donationPurposeID = d.ID
+		WHERE p.paymentDate BETWEEN #{startDate} AND #{endDate}
+			AND d.corporateID = #{corporateID}
+			AND p.receiptID IS NULL
+	</select>
+	
+    <select id="selectReceiptByName" resultType="fund.dto.Payment">
+		SELECT p.*,s.sponsorNo, s.name, r.[no] 'rctNo'
+		FROM [Payment] p LEFT JOIN [Sponsor] s ON p.sponsorID = s.id 
+					LEFT JOIN [Receipt] r ON p.receiptID = r.id
+		WHERE p.paymentDate BETWEEN #{startDate} AND #{endDate}
+					AND p.sponsorID IN ( SELECT id FROM [sponsor] WHERE name=#{srchText} )
+					AND p.donationPurposeID IN ( SELECT id FROM [donationPurpose] WHERE #{corporateID}=0 OR corporateID = #{corporateID} )
+	</select> 
+	
+	<select id="selectByRctID" resultType="fund.dto.Payment">
+		SELECT *
+		FROM [payment]
+		WHERE receiptID=#{rctId}
+	</select>
+	
+	<select id="selectPage" resultType="fund.dto.Payment">
+		<![CDATA[
+			SELECT *
+			FROM
+				( SELECT p.*,s.juminNo,s.name,
+								ROW_NUMBER() OVER (ORDER BY p.id DESC) 행번호
+				   FROM [Payment] p LEFT JOIN [Sponsor] s ON p.sponsorID = s.id
+				   			  LEFT JOIN [donationPurpose] d ON p.donationPurposeID = d.id 
+				   WHERE
+				   		 LEN(juminNo)=13 AND
+				   		 p.receiptID IS NOT NULL AND
+				   		( d.corporateID = #{corporateID} OR #{corporateID}=0 ) AND
+				   		(( #{startDate} IS NULL AND #{endDate} IS NULL) OR (p.paymentDate BETWEEN #{startDate} AND #{endDate}))
+				) subquery
+			WHERE 행번호 >(#{currentPage} -1) * #{pageSize} AND
+						행번호 <= #{currentPage} * #{pageSize}
+			ORDER BY 행번호
+		]]>
+	</select>
+	
+	<select id="selectCount" resultType="int">
+		SELECT COUNT(*)
+		FROM [Payment] p LEFT JOIN [Sponsor] s ON p.sponsorID = s.id
+				LEFT JOIN [donationPurpose] d ON p.donationPurposeID = d.id 
+		WHERE
+				   LEN(juminNo)=13 AND 
+				   p.receiptID IS NOT NULL AND
+				   ( d.corporateID = #{corporateID} OR #{corporateID}=0 ) AND
+				   (( #{startDate} IS NULL AND #{endDate} IS NULL) OR (p.paymentDate BETWEEN #{startDate} AND #{endDate}))
+	</select>
+	
+	<select id="selectTaxData" resultType="fund.dto.Payment">
+		SELECT p.paymentDate,p.amount, s.juminNo,s.name
+		FROM [Payment] p LEFT JOIN [Sponsor] s ON p.sponsorID = s.id
+				LEFT JOIN [donationPurpose] d ON p.donationPurposeID = d.id 
+		WHERE
+				   LEN(juminNo)=13 AND 
+				   p.receiptID IS NOT NULL AND
+				   ( d.corporateID = #{corporateID} OR #{corporateID}=0 ) AND
+				   (( #{startDate} IS NULL AND #{endDate} IS NULL) OR (p.paymentDate BETWEEN #{startDate} AND #{endDate}))
+	</select>
+
+	<update id="issueReceiptByDur">
+		UPDATE [Payment]
+		SET receiptID = #{receiptID}
+		FROM [Payment] p JOIN [donationPurpose] d ON p.donationPurposeID = d.ID
+		WHERE p.paymentDate BETWEEN #{startDate} AND #{endDate}
+			AND d.corporateID = #{corporateID}
+			AND p.receiptID IS NULL
+			AND p.sponsorID = #{sponsorID}
+	</update>
+	
+	<update id="issueReceiptByName">
+		UPDATE [Payment]
+		SET receiptID = #{receiptID}
+		WHERE id=#{id}
+	</update>
+	
+	<update id="deleteReceiptByReceiptID">
+		UPDATE [Payment]
+		SET receiptID = NULL
+		WHERE receiptID=#{id}
+	</update>
+
+    <delete id="delete">
+        DELETE FROM [Payment] WHERE id = #{id}
+    </delete>
 
 	<select id="selectComparePaymentDate" resultType="fund.dto.Payment">
 		select (select
@@ -153,5 +250,82 @@
 		ORDER BY sum(p.amount)
 		DESC
 	</select>
+
+    <select id="selectEB21success" resultType="fund.dto.Payment">
+    	select c.sponsorID,c.ID commitmentID,e.paymentDate,c.donationPurposeID,c.paymentMethodID,cd.amountPerMonth
+		from EB21_commitmentDetail eb
+		JOIN commitmentDetail cd
+		ON eb.commitmentDetailID=cd.ID
+		JOIN commitment c
+		ON cd.commitmentID=c.ID
+		JOIN EB21 e ON e.ID=eb.EB21ID
+		where eb.state='성공'
+    </select>
+	
+	<insert id="insertEB21Payment" useGeneratedKeys="true" keyProperty="id">
+		insert into payment
+		(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
+		values(#{sponsorID},#{commitmentID},#{amountPerMonth},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
+	</insert>
+	
+	<select id="selectByCommitmentNo" resultType="fund.dto.Commitment">
+		select * from [commitment]
+		where commitmentNo = #{commitmentNo}
+	</select>
+	
+	<insert id="insertXferResult" useGeneratedKeys="true" keyProperty="id">
+		insert into payment(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
+		values(#{sponsorID},#{commitmentID},#{amount},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
+	</insert>
+	
+	<select id="selectIDBySponsorNo" resultType="fund.dto.Commitment">
+		select s.ID sponsorID,c.ID,c.commitmentNo,c.donationPurposeID,c.paymentMethodID
+		from sponsor s
+		JOIN commitment c
+		ON s.ID=c.sponsorID
+		where s.sponsorNo=#{sponsorNo} AND c.paymentMethodID=12
+	</select>
+	
+	<insert id="insertSalaryResult" useGeneratedKeys="true" keyProperty="id">
+		insert into payment(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
+		values(#{sponsorID},#{commitmentID},#{amount},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
+	</insert>
+	
+	<insert id="insertIrregularPayment" useGeneratedKeys="true" keyProperty="id">
+		insert into payment(sponsorID,amount,paymentDate,donationPurposeID,paymentMethodID,etc)
+		values(#{sponsorID},#{amount},CONVERT(DATETIME,#{paymentDateString}),#{donationPurposeID},#{paymentMethodID},#{etc})
+	</insert>
+	
+	<select id="selectPaymentRegular" resultType="fund.dto.Payment">
+		select c.commitmentNo,
+		(select code.codeName from code where code.ID=c.paymentMethodID) as paymentMethod,
+		p.amount,p.paymentDate,cd.accountNo,
+		(select code.codeName from code where code.ID=cd.bankID) as bankName,
+		cd.accountHolder,co.name as corporate,dp.name as donationPurpose,p.etc
+		from payment p
+		JOIN commitment c
+		ON p.commitmentID=c.ID
+		JOIN commitmentDetail cd
+		ON cd.commitmentID=c.ID
+		LEFT JOIN code ON code.codeGroupID=3 AND code.ID=p.paymentMethodID 
+		JOIN donationPurpose dp ON c.donationPurposeID=dp.ID
+		JOIN corporate co ON dp.corporateID=co.ID
+		where p.sponsorID=#{sponsorID}
+	</select>
+	
+	<select id="selectPaymentIrregular" resultType="fund.dto.Payment">
+		select code.codeName as paymentMethod,p.amount,p.paymentDate,co.name as corporate,
+		dp.name as donationPurpose,p.etc
+		from payment p
+		JOIN code ON code.codeGroupID=4 AND code.ID=p.paymentMethodID
+		JOIN donationPurpose dp ON p.donationPurposeID=dp.ID
+		JOIN corporate co ON dp.corporateID=co.ID
+		where p.sponsorID=#{sponsorID}
+	</select>
+	
+	<update id="updatePayment">
+		update payment set 수정할 것 
+		where ID=선택한payment테이블의id
+	</update>
 
 </mapper>
