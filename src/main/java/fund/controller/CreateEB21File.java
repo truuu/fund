@@ -46,7 +46,7 @@ public class CreateEB21File {
 			String amount = String.format("%013d",amountPerMonth);
 			String birth = String.format("%-13s",jumin);
 			String space = String.format("%-18s",birth);
-			String donationPurpose = "¼º°øÈ¸´ë¹ßÀü±â±İ  ";
+			String donationPurpose = "Â¼ÂºÂ°Ã¸ÃˆÂ¸Â´Ã«Â¹ÃŸÃ€Ã¼Â±Ã¢Â±Ã  ";
 			String space2 = String.format("%-34s","1");
 			bufferedWriter.write(r+code+account+amount+space+donationPurpose+sponsor+space2);
 

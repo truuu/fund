@@ -7,10 +7,10 @@ import fund.dto.EB13_CommitmentDetail;
 import fund.dto.EB14;
 
 public interface EB13_CommitmentDetailMapper {
-	List<EB13_CommitmentDetail> selectEB14(String createDate);//eb14ÆÄÀÏÀÇ ¸ñ·Ï°ú ºñ±³ÇÏ±â À§ÇÑ eb13¸ñ·Ï
-	void updateEB14error(String sponsorNo);//»óÅÂ¸¦ ¿¡·¯·Î º¯°æ 
-	void updateEB14success(Date createDate);//»óÅÂ¸¦ ¼º°øÀ¸·Î º¯°æ
-	List<EB13_CommitmentDetail> selectEB1314();//eb13,14ÀÇ °á°ú Á¶È¸
+	List<EB13_CommitmentDetail> selectEB14(String createDate);//eb14ï¿½ï¿½ï¿½ì‡±ï¿½ï¿½ ï§â‘¸ï¿½æ€¨ï¿½ é®ï¿½æ´ï¿½ï¿½ï¿½æ¹²ï¿½ ï¿½ï¿½ï¿½ï¿½ eb13ï§â‘¸ï¿½
+	void updateEB14error(String sponsorNo);//ï¿½ï¿½ï¿½ï¿½ç‘œï¿½ ï¿½ï¿½ï¿½Ñ‰ï¿½ è¹‚ï¿½å¯ƒï¿½ 
+	void updateEB14success(Date createDate);//ï¿½ï¿½ï¿½ï¿½ç‘œï¿½ ï¿½ê¹ƒë‚¬ï¿½ì‡°ï¿½ è¹‚ï¿½å¯ƒï¿½
+	List<EB13_CommitmentDetail> selectEB1314();//eb13,14ï¿½ï¿½ å¯ƒê³Œë‚µ è­°ê³ ï¿½ï¿½
 	List<EB13_CommitmentDetail> test();
-	void createEB13list(int commitmentDetailID);//eb13¸®½ºÆ®»ı¼º 
+	void createEB13list(int commitmentDetailID);//eb13ë¦¬ìŠ¤íŠ¸ìƒì„± 
 }

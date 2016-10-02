@@ -1,17 +1,17 @@
 package fund.dto;
 
 public class Corporate {
-	int ID;
+	int id;
 	String name;
 	String corporateNo;
 	String representative;
 	String address;
 	
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
-	public void setID(int iD) {
-		ID = iD;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;

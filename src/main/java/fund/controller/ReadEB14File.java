@@ -27,16 +27,16 @@ public class ReadEB14File {
 
 		try {
 
-			// ÆÄÀÏÀ» ÀĞ¾îµé¿© File Input ½ºÆ®¸² °´Ã¼ »ı¼º
+			// íŒŒì¼ì„ ì½ì–´ë“¤ì—¬ File Input ìŠ¤íŠ¸ë¦¼ ê°ì²´ ìƒì„±
 			fis = new FileInputStream(file);
 
-			// File Input ½ºÆ®¸² °´Ã¼¸¦ ÀÌ¿ëÇØ Input ½ºÆ®¸² °´Ã¼¸¦ »ı¼­ÇÏ´Âµ¥ ÀÎÄÚµùÀ» UTF-8·Î ÁöÁ¤
+			// File Input ìŠ¤íŠ¸ë¦¼ ê°ì²´ë¥¼ ì´ìš©í•´ Input ìŠ¤íŠ¸ë¦¼ ê°ì²´ë¥¼ ìƒì„œí•˜ëŠ”ë° ì¸ì½”ë”©ì„ UTF-8ë¡œ ì§€ì •
 			isr = new InputStreamReader(fis, "UTF-8");
 
-			// Input ½ºÆ®¸² °´Ã¼¸¦ ÀÌ¿ëÇÏ¿© ¹öÆÛ¸¦ »ı¼º
+			// Input ìŠ¤íŠ¸ë¦¼ ê°ì²´ë¥¼ ì´ìš©í•˜ì—¬ ë²„í¼ë¥¼ ìƒì„±
 			br = new BufferedReader(isr);
 
-			// ¹öÆÛ¸¦ ÇÑÁÙÇÑÁÙ ÀĞ¾îµé¿© ³»¿ë ÃßÃâ
+			// ë²„í¼ë¥¼ í•œì¤„í•œì¤„ ì½ì–´ë“¤ì—¬ ë‚´ìš© ì¶”ì¶œ
 			while( (temp = br.readLine()) != null) {
 				content += temp + "\n";
 			}

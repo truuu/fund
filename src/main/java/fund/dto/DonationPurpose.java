@@ -6,6 +6,21 @@ public class DonationPurpose {
 	int organizationID;
 	String name;
 	String gubun;
+	String codeName;
+	String corporateName;
+	
+	public String getCodeName() {
+		return codeName;
+	}
+	public void setCodeName(String codeName) {
+		this.codeName = codeName;
+	}
+	public String getCorporateName() {
+		return corporateName;
+	}
+	public void setCorporateName(String corporateName) {
+		this.corporateName = corporateName;
+	}
 	public int getID() {
 		return ID;
 	}

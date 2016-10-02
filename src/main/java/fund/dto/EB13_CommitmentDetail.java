@@ -107,6 +107,7 @@ public class EB13_CommitmentDetail {
 	public void setEtc1(String etc1) {
 		this.etc1 = etc1;
 	}
+
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -120,3 +121,4 @@ public class EB13_CommitmentDetail {
 		this.endDate = endDate;
 	}
 }
+

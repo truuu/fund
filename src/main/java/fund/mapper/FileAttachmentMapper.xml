@@ -4,8 +4,29 @@
 
 <mapper namespace="fund.mapper.FileAttachmentMapper">
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
+  
+    <select id="selectByArticleId" resultType="fund.dto.FileAttachment">
+        SELECT *
+        FROM   fileAttachment
+        WHERE  sponsorID = #{sponsorID}
+    </select>
+    
+    <select id="selectById" resultType="fund.dto.FileAttachment">
+        SELECT *
+        FROM   fileAttachment
+        WHERE  ID = #{ID}
+    </select>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO fileAttachment(ID,sponsorID,fileName,fileSize,createDate,data)
+        VALUES (1,#{sponsorID}, #{fileName}, #{filesize},GETDATE(), #{data})
+    </insert>
+
+    <delete id="deleteById">
+        DELETE fileAttachment WHERE id = #{id}
     </delete>
+
+    
 
 </mapper>

@@ -22,25 +22,27 @@ import fund.mapper.UserMapper;
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
 
+    @Autowired SponsorMapper sponsorMapper;
     @Autowired UserMapper userMapper;
-
+    
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String loginId = authentication.getName();
-        String passwd = authentication.getCredentials().toString();
-        System.out.println("ID "+loginId+"  password "+passwd);
-        return authenticate(loginId, passwd);
+        String loginName = authentication.getName();
+        String password = authentication.getCredentials().toString();
+        System.out.println("ID "+loginName+"  password "+password);
+        return authenticate(loginName, password);
     }
 
-    public Authentication authenticate(String loginId, String passwd) throws AuthenticationException {
-       User user = userMapper.selectByLoginId(loginId);
+
+    public Authentication authenticate(String loginName, String password) throws AuthenticationException {
+       User user = userMapper.selectByLoginId(loginName);
         if (user == null) return null;
-        if (user.getPasswd().equals(passwd) == false) return null;
+        if (user.getPassword().equals(password) == false) return null;
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_전체"));
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.isAdmin()));
-        return new MyAuthenticaion(loginId, passwd, grantedAuthorities, user);
+        return new MyAuthenticaion(loginName, password, grantedAuthorities, user);
     }
 
     @Override
@@ -53,8 +55,8 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         private static final long serialVersionUID = 1L;
         User user;
 
-        public MyAuthenticaion (String loginId, String passwd, List<GrantedAuthority> grantedAuthorities, User user) {
-            super(loginId, passwd, grantedAuthorities);
+        public MyAuthenticaion (String loginName, String password, List<GrantedAuthority> grantedAuthorities, User user) {
+            super(loginName, password, grantedAuthorities);
             this.user = user;
         }
 

@@ -132,7 +132,7 @@ public class EB13Controller {
 		model.addAttribute("eb1314List", eb1314result);
 		return "finance/resultEB1314";
 	}
-	
+
 	@RequestMapping(value="/finance/resultEB1314.do", method=RequestMethod.POST)
 	public String resultEB1314(Model model,EB13_CommitmentDetail eb13) {
 		List<EB13_CommitmentDetail> eb1314result = eb13_commitmentDetailMapper.selectEB1314();

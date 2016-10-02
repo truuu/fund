@@ -21,18 +21,26 @@
 	      <ul class="nav navbar-nav">
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">코드관리<span class="caret"></span></a>
+		  <ul class="dropdown-menu" role="menu">
+		    <li><a href="/fund_sys/code/corporateList.do">기관</a></li>
+		    <li><a href="/fund_sys/code/donationPurposeList.do">기부목적</a></li>
+		   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+			<c:forEach var="codeGroup" items="${ codeGroupList }">
+				<li><a href="/fund_sys/code/codeList.do?CodeGroupID=${codeGroup.ID}">${codeGroup.name}</a></li>
+			</c:forEach>
+		  </ul>	
 		</li>
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">후원인관리<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
 		   
-		    <li><a href="#">후원인목록</a></li>
+		    <li><a href="/fund_sys/sponsor/sponsor_m.do">후원인목록</a></li>
 		  	<li><a href="/fund_sys/sponsor/insertIrrgularPayment.do">비정기 납입등록</a>
 		  	<li><a href="/fund_sys/sponsor/paymentList.do">정기납입목록</a>
 		  	<li><a href="/fund_sys/sponsor/paymentList2.do">비정기납입목록</a>
-		    <li><a href="#">후원인등록</a></li>
+		    <li><a href="/fund_sys/sponsor/sponsor.do">후원인등록</a></li>
 		  
-		    <li><a href="#">DM주소록 생성</a></li>
+		    <li><a href="/fund_sys/sponsor/post.do">DM주소록 생성</a></li>
 		  </ul>
 		</li>
 		
@@ -56,7 +64,8 @@
 
 		    <li><a href="#">납입 내역 보기</a></li>
 		     <li class="divider"></li>
-		       <li><a href="#">납입관련 각종통계</a></li>
+		       <li><a href="/fund_sys/dataPrint/paymentRecordStats.do">납입 내역 조회</a></li>
+		       <li><a href="/fund_sys/dataPrint/paymentTotalStats.do">납입 총계 조회</a></li>
 		    <li><a href="#">미납 내역(추후)</a></li>
 
 		  </ul>
@@ -64,19 +73,19 @@
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">증서관리<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
-		    <li><a href="#">영수증발급대장</a></li>
-		    <li><a href="#">영수증일괄생성</a></li>
-		    <li><a href="#">영수증개별생성</a></li>
-		    <li><a href="#">국세청보고자료</a></li>
+		    <li><a href="/fund_sys/certificate/receiptList.do">영수증발급대장</a></li>
+		    <li><a href="/fund_sys/certificate/receiptByDur.do">영수증일괄생성</a></li>
+		    <li><a href="/fund_sys/certificate/receiptByName.do">영수증개별생성</a></li>
+		    <li><a href="/fund_sys/certificate/taxData.do">국세청보고자료</a></li>
 		     <li class="divider"></li>
-		    <li><a href="#">장학증서 발급대장</a></li>
-		    <li><a href="#">기부증서 발급대장</a></li>
+		    <li><a href="/fund_sys/certificate/printScholarship_list.do">장학증서 발급대장</a></li>
+		    <li><a href="/fund_sys/certificate/printDonation_list.do">기부증서 발급대장</a></li>
 		  </ul>
 		</li>
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">자료출력<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
-		    <li><a href="#">기부목적별 납입현황</a></li>
+		    <li><a href="/fund_sys/dataPrint/donationPurposeStats.do">기부목적별 납입현황</a></li>
 		    <li><a href="#">후원인별 납입현황</a></li>
 		    <li><a href="#">소속교회별납입현황</a></li>
 	
@@ -92,11 +101,23 @@
 		</li>
 	
 	      </ul>
+	      
+	      <sec:authorize access="authenticated">
+   
+            <ul class="nav navbar-nav navbar-right">
+		         <li><sec:authentication property="user.name" /> 님  <a href="logout.do" style="display: inline-block;">로그아웃</a> </li>
+	         </ul>
+      
+          </sec:authorize>
+
+          <sec:authorize access="not authenticated">
+               <ul class="nav navbar-nav navbar-right">
+		         <li><a href="/">Login</a></li>
+	           </ul>
+         </sec:authorize>
+	      
 	     
-	      <ul class="nav navbar-nav navbar-right">
-		<li><a href="#">Login</a></li>
-		
-	      </ul>
+	    
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
 	</nav>

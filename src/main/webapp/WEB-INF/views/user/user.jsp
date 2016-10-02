@@ -20,7 +20,7 @@
 					<!-- Tab panes -->
 					<div class="tab-content">
 						<div class="tab-pane fade in active" id="user">
-							<%@ include file="/WEB-INF/views/user/userRegister.jsp"%>
+							<%@ include file="/WEB-INF/views/sponsor/sponsorRegister.jsp"%>
 						</div>
 						<div class="tab-pane fade" id="contract">
 							

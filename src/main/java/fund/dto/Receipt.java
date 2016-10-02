@@ -5,8 +5,74 @@ import java.util.Date;
 public class Receipt {
 	int id;
 	int sponsorID;
-	Date createDate;
-	int no;
+	String createDate;
+	String no;
+	
+	String name;
+	int amount;//기부금 영수증당 합계금액
+	String juminNo;
+	String mobilePhone;
+	
+	String address;
+	String corName;
+	String corporateNo;
+	String corAddress;
+	String representative;
+	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getCorName() {
+		return corName;
+	}
+	public void setCorName(String corName) {
+		this.corName = corName;
+	}
+	public String getCorporateNo() {
+		return corporateNo;
+	}
+	public void setCorporateNo(String corporateNo) {
+		this.corporateNo = corporateNo;
+	}
+	public String getCorAddress() {
+		return corAddress;
+	}
+	public void setCorAddress(String corAddress) {
+		this.corAddress = corAddress;
+	}
+	public String getRepresentative() {
+		return representative;
+	}
+	public void setRepresentative(String representative) {
+		this.representative = representative;
+	}
+	public String getJuminNo() {
+		return juminNo;
+	}
+	public void setJuminNo(String juminNo) {
+		this.juminNo = juminNo;
+	}
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public int getId() {
 		return id;
 	}
@@ -19,16 +85,16 @@ public class Receipt {
 	public void setSponsorID(int sponsorID) {
 		this.sponsorID = sponsorID;
 	}
-	public Date getCreateDate() {
+	public String getCreateDate() {
 		return createDate;
 	}
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
-	public int getNo() {
+	public String getNo() {
 		return no;
 	}
-	public void setNo(int no) {
+	public void setNo(String no) {
 		this.no = no;
 	}
 

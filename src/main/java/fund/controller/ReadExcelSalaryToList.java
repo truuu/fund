@@ -42,10 +42,10 @@ public class ReadExcelSalaryToList {
 				Sheet sheet = workbook.getSheetAt(i);
 				//every sheet has rows, iterate over them
 				for(int rowIndex=1; rowIndex < sheet.getPhysicalNumberOfRows() ; rowIndex++ ){
-					//row 0Àº Çì´õÁ¤º¸¶ó¼­ ¹«½Ã
+					//row 0ì€ í—¤ë”ì •ë³´ë¼ì„œ ë¬´ì‹œ
 					//System.out.println(sheet.getRow(rowIndex).getCell(0).getStringCellValue());
 					if(sheet.getRow(rowIndex).getCell(0) != null && !isNullOrEmpty(sheet.getRow(rowIndex).getCell(1).getStringCellValue()) ){
-						//ÇöÀç row ¹ÝÈ¯
+						//í˜„ìž¬ row ë°˜í™˜
 						row = sheet.getRow(rowIndex);
 						if(!"".equals(row.getCell(0)) && !" ".equals(row.getCell(0)) && row.getCell(0)!= null ) {
 							Salary resultRow = null;

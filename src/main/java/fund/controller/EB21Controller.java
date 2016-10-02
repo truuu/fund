@@ -59,7 +59,7 @@ public class EB21Controller {
 		List<EB21_commitmentDetail> eb21List = commitmentDetailMapper.selectEB21(paymentDay);
 		model.addAttribute("eb21List",eb21List);
 		
-		CreateEB21File.createEB21File(eb21List,paymentDate_old);//EB21ÆÄÀÏ»ı¼º.
+		CreateEB21File.createEB21File(eb21List,paymentDate_old);//EB21íŒŒì¼ìƒì„±.
 		
 		eb21Mapper.createEB21file(paymentDate_old);
 		for(int i=0 ; i<commitmentDetailID.length; ++i){
@@ -97,14 +97,14 @@ public class EB21Controller {
 				String sub = getList.substring(19);
 				eb22.setBankCode(sub.substring(0, 7));
 				eb22.setAccountNo(sub.substring(7, 23).trim());
-				int amount = Integer.parseInt(sub.substring(23, 36).trim());//µ· ¾Õ¿¡ 0 Á¦°Å.
+				int amount = Integer.parseInt(sub.substring(23, 36).trim());//ëˆ ì•ì— 0 ì œê±°.
 				eb22.setAmountPerMonth(amount);
 				eb22.setJumin(sub.substring(36,49).trim());
 				String sponsorNo = sub.substring(88, 113).trim();
 				eb22.setSponsorNo(sponsorNo);
 				StringBuffer sNo = new StringBuffer(sponsorNo);
-				sNo.insert(4,"-");//ÈÄ¿øÀÎ¹øÈ£ °¡¿îµ¥ "-" Ãß°¡
-				EB22 name = sponsorMapper.selectSponsorName(sNo.toString());//ÈÄ¿øÀÎ¹øÈ£¿¡ ¸Â´Â ÀÌ¸§ °¡Á®¿À±â.
+				sNo.insert(4,"-");//í›„ì›ì¸ë²ˆí˜¸ ê°€ìš´ë° "-" ì¶”ê°€
+				EB22 name = sponsorMapper.selectSponsorName(sNo.toString());//í›„ì›ì¸ë²ˆí˜¸ì— ë§ëŠ” ì´ë¦„ ê°€ì ¸ì˜¤ê¸°.
 				eb22.setName(name.getName());
 
 				eb22List.add(eb22);
@@ -135,10 +135,11 @@ public class EB21Controller {
 		       eb21_commitmentDetailMapper.updateEB21success(paymentDate);
 		 }
 	
-		 List<Payment> successList = eb21_commitmentDetailMapper.selectEB21success();//'¼º°ø'»óÅÂÀÇ paymentµ¥ÀÌÅÍ¸®½ºÆ®
+
+		 List<Payment> successList = eb21_commitmentDetailMapper.selectEB21success();//'ì„±ê³µ'ìƒíƒœì˜ paymentë°ì´í„°ë¦¬ìŠ¤íŠ¸
 			for(Payment i : successList){
 				paymentMapper.insertEB21Payment(i);
-			}//paymentÅ×ÀÌºí¿¡ ³³ÀÔ ¾÷µ¥ÀÌÆ®
+			}//paymentí…Œì´ë¸”ì— ë‚©ì… ì—…ë°ì´íŠ¸
 		return "finance/eb22";
 	}
 	@RequestMapping(value="/finance/resultEB2122.do", method=RequestMethod.GET)
@@ -151,8 +152,9 @@ public class EB21Controller {
 	@RequestMapping(value="/finance/resultEB2122.do", method=RequestMethod.POST)
 	public String resultEB2122(Model model, EB21_commitmentDetail eb21) {
 		List<EB21_commitmentDetail> eb2122List = eb21_commitmentDetailMapper.selectEB2122();
-		//mapper¿¡ startDate,endDate³Ö¾îÁÖ°í ÇØ´ç ³¯Â¥ ¾È¿¡ ÀÖ´Â eb13¸®½ºÆ®¸¸ °¡Á®¿À±â(¼öÁ¤ÇØ¾ßÇÔ ÀÌºÎºĞ)
+		//mapperì— startDate,endDateë„£ì–´ì£¼ê³  í•´ë‹¹ ë‚ ì§œ ì•ˆì— ìˆëŠ” eb13ë¦¬ìŠ¤íŠ¸ë§Œ ê°€ì ¸ì˜¤ê¸°(ìˆ˜ì •í•´ì•¼í•¨ ì´ë¶€ë¶„)
 		model.addAttribute("eb2122List", eb2122List);
 		return "finance/resultEB2122";
 	}
 }
+

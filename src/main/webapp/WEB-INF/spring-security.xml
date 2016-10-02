@@ -9,15 +9,15 @@
     <http auto-config="true">
       
         <form-login
-            login-page="/home/login.do"
+            login-page="/home/index.do"
             login-processing-url="/home/login_processing.do"
-            authentication-failure-url="/home/login.do?error"
-            default-target-url="/home/index.do"
-            username-parameter="loginId"
-            password-parameter="passwd" />
+            authentication-failure-url="/home/index.do"
+            default-target-url="/home/index.do" 
+            username-parameter="loginName"
+            password-parameter="password" />
         <logout
             logout-url="/home/logout.do"
-            logout-success-url="/home/login.do"
+            logout-success-url="/"
             invalidate-session="true" />
     </http>
 
