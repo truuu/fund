@@ -7,9 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import fund.BaseController;
 import fund.dto.EB13_CommitmentDetail;
 
-public class CreateEB13File {
+public class CreateEB13File extends BaseController{
 	public static void createEB13File(List<EB13_CommitmentDetail> eb13List) throws IOException{
 		Date today = new Date();
 		SimpleDateFormat yymmdd = new SimpleDateFormat("yyMMdd");

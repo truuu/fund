@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import fund.BaseController;
 import fund.dto.EB14;
 import fund.dto.EB21_commitmentDetail;
 import fund.dto.EB22;
@@ -34,7 +35,7 @@ import fund.mapper.PaymentMapper;
 import fund.mapper.SponsorMapper;
 
 @Controller
-public class EB21Controller {
+public class EB21Controller extends BaseController{
 	@Autowired EB21Mapper eb21Mapper;
 	@Autowired EB21_CommitmentDetailMapper eb21_commitmentDetailMapper;
 	@Autowired PaymentMapper paymentMapper;

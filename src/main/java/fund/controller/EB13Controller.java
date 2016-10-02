@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import fund.BaseController;
 import fund.dto.EB13;
 import fund.dto.EB13_CommitmentDetail;
 import fund.dto.EB14;
@@ -35,7 +36,7 @@ import fund.mapper.EB13_CommitmentDetailMapper;
 
 
 @Controller
-public class EB13Controller {
+public class EB13Controller extends BaseController{
 	@Autowired EB13Mapper eb13Mapper;
 	@Autowired EB13_CommitmentDetailMapper eb13_commitmentDetailMapper;
 	@Autowired CommitmentDetailMapper commitmentDetailMapper;

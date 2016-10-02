@@ -26,8 +26,7 @@
 				checkboxValues.push($(this).val());
 				
 			});
-			alert(checkboxValues[0]);
-			alert(checkboxValues[1]);
+			
 			location.href = "http://localhost:8080/fund_sys/certificate/scholarshipDelete.do?checkboxValues="+ checkboxValues;
 
 

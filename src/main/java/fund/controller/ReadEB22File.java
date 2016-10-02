@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class ReadEB22File {
+import fund.BaseController;
+
+public class ReadEB22File extends BaseController{
 	public static ArrayList<String> readEB22File(String fileName){
 		BufferedReader br = null;        
 

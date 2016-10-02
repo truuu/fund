@@ -252,5 +252,10 @@
 	
 	</select>
 
-
+	<select id="selectBySponsorNo2" resultType="String">
+	select sponsorNo
+	from Sponsor
+	where id=#{id}
+	
+	</select>
 </mapper>

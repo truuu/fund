@@ -22,6 +22,7 @@ import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.DonationPurposeMapper;
+import fund.mapper.SponsorMapper;
 
 @Controller
 public class CommitmentController extends BaseController{
@@ -30,7 +31,7 @@ public class CommitmentController extends BaseController{
 	@Autowired CommitmentDetailMapper commitmentDetailMapper;
 	@Autowired CodeMapper codeMapper;
 	@Autowired DonationPurposeMapper donationPurposeMapper;
-
+	@Autowired SponsorMapper sponsorMapper;
 
 	/*약정목록*/
 	@RequestMapping(value="/sponsor/commitment.do", method=RequestMethod.GET)  
@@ -42,6 +43,7 @@ public class CommitmentController extends BaseController{
 		String bank="은행";
 		model.addAttribute("bankList",codeMapper.selectByBank(bank));
 		model.addAttribute("sponsorID",id);
+		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
 
 		return "sponsor/commitment";
 	}

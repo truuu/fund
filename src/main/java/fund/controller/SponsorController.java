@@ -2,8 +2,11 @@ package fund.controller;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.io.BufferedOutputStream;
 import java.net.URLEncoder;
 
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import fund.BaseController;
 import fund.dto.*;
 import fund.mapper.*;
 import fund.service.ReportBuilder;
@@ -29,10 +33,11 @@ import net.sf.jasperreports.engine.JRException;
 
 
 @Controller
-public class SponsorController {
+public class SponsorController extends BaseController{
 	@Autowired SponsorMapper sponsorMapper;
 	@Autowired FileAttachmentMapper fileAttachmentMapper;
 	@Autowired PaymentMapper paymentMapper;
+	@Autowired DonationPurposeMapper donationPurposeMapper;
 
 
     //회원관리 기본페이지
@@ -196,14 +201,53 @@ public class SponsorController {
         model.addAttribute("sponsor", sponsor);
         int sponsorID=sponsor.getId();
         System.out.println("sponsorID>> "+sponsorID);
-        List<Payment> paymentList = paymentMapper.selectPaymentRegular(sponsorID);
-		model.addAttribute("paymentList", paymentList);
-		List<Payment> paymentList2 = paymentMapper.selectPaymentIrregular(sponsorID);
-		model.addAttribute("paymentList2", paymentList2);
-    
-        
+       
+		
         
 		return "sponsor/sponsor";
+	}
+ 	
+ 	@RequestMapping(value="/sponsor/paymentList.do",method=RequestMethod.GET)  // 정기 납입관리
+ 	public String paymentList(@RequestParam("id") int id, Model model){
+ 		List<Payment> paymentList = paymentMapper.selectPaymentRegular(id);
+		model.addAttribute("paymentList", paymentList);
+		model.addAttribute("sponsorID",id);
+		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
+ 		return "sponsor/paymentList";
+ 	}
+ 	
+ 	@RequestMapping(value="/sponsor/paymentList2.do", method=RequestMethod.GET)  // 비정기 납입관리
+	public String paymentList2(Model model, @RequestParam("id") int id){
+		List<Payment> paymentList2 = paymentMapper.selectPaymentIrregular(id);
+		model.addAttribute("paymentList2", paymentList2);
+		model.addAttribute("sponsorID",id);
+		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
+		return "sponsor/paymentList2";
+	}
+ 	
+ 	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.GET)  // 비정기 납입등록
+	public String insertIrrgularPayment1(Model model,@RequestParam("id") int id) {
+ 		model.addAttribute("sponsorID",id);
+		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
+		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
+ 		
+		return "sponsor/insertIrrgularPayment";
+	}
+
+	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.POST)
+	public String insertIrrgularPayment2(IregularPayment iregularPayment,Model model) throws Exception {
+		Payment payment = new Payment();
+		payment.setSponsorID(iregularPayment.getSponsorID());
+		payment.setAmount(iregularPayment.getAmount());
+		Date date = (new SimpleDateFormat("yyyy-MM-dd")).parse(iregularPayment.getPaymentDate());
+		payment.setPaymentDate(date);
+		payment.setPaymentMethodID(iregularPayment.getPaymentMethodID());
+		payment.setDonationPurposeID(iregularPayment.getDonationPurposeID());
+		payment.setEtc(iregularPayment.getEtc());
+		
+		paymentMapper.insertIrregularPayment(payment);
+		
+		return "redirect:/sponsor/paymentList2.do?id="+iregularPayment.getSponsorID();
 	}
  	
  	//후원자 정보 삭제하기

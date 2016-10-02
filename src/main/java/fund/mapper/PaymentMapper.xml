@@ -270,7 +270,7 @@
 	
 	<insert id="insertXferResult" useGeneratedKeys="true" keyProperty="id">
 		insert into payment(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
-		values(#{sponsorID},#{commitmentID},#{amount},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
+		values(#{sponsorID},#{commitmentID},#{amount},CONVERT(DATE,#{paymentDateString}),#{donationPurposeID},#{paymentMethodID})
 	</insert>
 	
 	<insert id="insertSalaryResult" useGeneratedKeys="true" keyProperty="id">
@@ -280,7 +280,7 @@
 	
 	<insert id="insertIrregularPayment" useGeneratedKeys="true" keyProperty="id">
 		insert into payment(sponsorID,amount,paymentDate,donationPurposeID,paymentMethodID,etc)
-		values(#{sponsorID},#{amount},CONVERT(DATETIME,#{paymentDateString}),#{donationPurposeID},#{paymentMethodID},#{etc})
+		values(#{sponsorID},#{amount},#{paymentDate},#{donationPurposeID},#{paymentMethodID},#{etc})
 	</insert>
 	
 	<select id="selectPaymentRegular" resultType="fund.dto.Payment">
@@ -304,7 +304,7 @@
 		select code.codeName as paymentMethod,p.amount,p.paymentDate,co.name as corporate,
 		dp.name as donationPurpose,p.etc
 		from payment p
-		JOIN code ON code.codeGroupID=4 AND code.ID=p.paymentMethodID
+		JOIN code ON code.ID=p.paymentMethodID
 		JOIN donationPurpose dp ON p.donationPurposeID=dp.ID
 		JOIN corporate co ON dp.corporateID=co.ID
 		where p.sponsorID=#{sponsorID}

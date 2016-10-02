@@ -184,29 +184,5 @@ public class PaymentController extends BaseController{
 		return "dataPrint/paymentTotalStats";
 	}
 	
-	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.GET)
-	public String insertIrrgularPayment1(Model model) {
-		return "sponsor/insertIrrgularPayment";
-	}
-
-	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.POST)
-	public String insertIrrgularPayment2(Payment payment,Model model) {
-		paymentMapper.insertIrregularPayment(payment);
-		return "redirect:/sponsor/sponsor_m.do";
-	}
-	
-	@RequestMapping(value="/sponsor/paymentList.do", method=RequestMethod.GET)
-	public String paymentList(Model model,@RequestParam("id") int id){
-		List<Payment> paymentList = paymentMapper.selectPaymentRegular(id);
-		model.addAttribute("paymentList", paymentList);
-		return "sponsor/sponsor";
-	}
-	
-	@RequestMapping(value="/sponsor/paymentList2.do", method=RequestMethod.GET)
-	public String paymentList2(Model model,@RequestParam("id") int id){
-		List<Payment> paymentList2 = paymentMapper.selectPaymentIrregular(id);
-		model.addAttribute("paymentList2", paymentList2);
-		return "sponsor/sponsor";
-	}
 
 }

@@ -44,6 +44,8 @@ public interface SponsorMapper {
 
 	//�썑�썝�씤援щ텇2蹂� 異쒖뿰�궡�뿭
 	List<Sponsor> castBySponsorType2(@Param("startDate")String startDate,@Param("endDate")String endDate);
+	
+	String selectBySponsorNo2(int id);
 
 
 }

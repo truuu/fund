@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 
 import fund.dto.XferResult;
 import fund.dto.Salary;
+import fund.BaseController;
 import fund.dto.Commitment;
 import fund.dto.Files;
 import fund.dto.Payment;
@@ -31,7 +32,7 @@ import fund.mapper.CommitmentMapper;
 import fund.mapper.PaymentMapper;
 
 @Controller
-public class FinanceController {
+public class FinanceController extends BaseController{
 	@Autowired CommitmentMapper commitmentMapper;
 	@Autowired PaymentMapper paymentMapper;
 

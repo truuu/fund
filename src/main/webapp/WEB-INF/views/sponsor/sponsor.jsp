@@ -6,6 +6,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
+
 <input type="hidden" value="${sponsor.sponsorNo}" />
 <input type="hidden" value="${sponsor.id}" />
 <div id="wrapper">
@@ -17,9 +18,9 @@
 					<ul class="nav nav-tabs">
 						<li class="active"><a href="#user" data-toggle="tab">회원관리</a></li>
 						<li><a href="/fund_sys/sponsor/commitment.do?id=${sponsor.id}">약정관리</a></li>
-						<li><a href="#regular" data-toggle="tab">정기납입관리</a></li>
-						<li><a href="#unregular" data-toggle="tab">비정기납입관리</a></li>
-						<li><a href="#enroll" data-toggle="tab">비정기납입등록</a></li>
+						<li><a href="/fund_sys/sponsor/paymentList.do?id=${sponsor.id}" >정기납입관리</a></li>
+						<li><a href="/fund_sys/sponsor/paymentList2.do?id=${sponsor.id}">비정기납입관리</a></li>
+						<li><a href="/fund_sys/sponsor/insertIrrgularPayment.do?id=${sponsor.id}" >비정기납입등록</a></li>
 					</ul>
 
 					<!-- Tab panes -->
@@ -46,3 +47,6 @@
 
 </div>
 </div>
+							
+										
+									
