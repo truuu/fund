@@ -11,7 +11,7 @@ $(function() {
 		var startDate=$( "input[name$='startDate']" ).val();
 		var endDate=$( "input[name$='endDate']" ).val();
 		alert("start "+startDate+" end "+endDate)
-		
+		//location.href="churchSearch.do";
 		location.href="churchSearch.do?startDate="+startDate+"&endDate="+endDate;
 	  });
 	});

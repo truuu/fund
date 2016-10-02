@@ -39,7 +39,17 @@ public class Payment {
 	String rctNo;//영수증번호
 	String corporateID;
 	
+	String accountHolder;//예금주...
 	
+	
+	
+	
+	public String getAccountHolder() {
+		return accountHolder;
+	}
+	public void setAccountHolder(String accountHolder) {
+		this.accountHolder = accountHolder;
+	}
 	public String getPaymentMethod() {
 		return paymentMethod;
 	}
