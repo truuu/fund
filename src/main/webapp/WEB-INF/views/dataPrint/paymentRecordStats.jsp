@@ -84,7 +84,7 @@ button {
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h3>납입 내역 조회</h3>
+						<h3>납입 내역 조회3</h3>
 					</div>
 				</div>
 				<!-- /.row -->
@@ -100,7 +100,7 @@ button {
 
 								<td><label>정기/비정기</label></td>
 								<td><select name="srchType1" class="select_s">
-										<option value="">선택</option>
+										<option value="0">선택</option>
 										<option value="1">정기</option>
 										<option value="2">비정기</option>
 								</select></td>
@@ -108,7 +108,7 @@ button {
 
 								<td><label>소속교회</label></td>
 								<td><select name="srchType3" class="select_s">
-										<option value="">선택</option>
+										<option value="0">선택</option>
 										<c:forEach var="church" items="${churchList}">
 											<option value="${church.ID}">${church.codeName}</option>
 										</c:forEach>
@@ -126,7 +126,7 @@ button {
 
 								<td><label>납입방법</label></td>
 								<td><select name="srchType4" class="select_s">
-										<option value="">선택</option>
+										<option value="0">선택</option>
 										<c:forEach var="paymentMethod" items="${paymentMethodList}">
 											<option value="${paymentMethod.ID}">${paymentMethod.codeName}</option>
 										</c:forEach>
@@ -139,7 +139,7 @@ button {
 
 								<td><label>후원인구분</label></td>
 								<td><select name="srchType5" class="select_s">
-										<option value="">선택</option>
+										<option value="0">선택</option>
 										<c:forEach var="sponsorType" items="${sponsorType2List}">
 											<option value="${sponsorType.ID}">${sponsorType.codeName}</option>
 										</c:forEach>
@@ -246,7 +246,7 @@ button {
 								</table>
 
 							</div>
-							<span>계:${count}</span><span>총 납입액:${total}</span>
+							<span>계:${count}</span><span>총 납입액:</span><span class="money">${total}</span>
 
 
 

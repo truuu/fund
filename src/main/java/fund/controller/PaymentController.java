@@ -102,7 +102,7 @@ public class PaymentController extends BaseController{
 
 	@RequestMapping(value="/dataPrint/paymentRecordStats.do", method=RequestMethod.POST) //납입 내역 조회
 	public String paymentRecordStats(Model model, PaymentRecordStats paymentRecordStats) {
-		System.out.println("구분"+paymentRecordStats.getSrchType1());
+		
 		model.addAttribute("startDate",paymentRecordStats.getStartDate());
 		model.addAttribute("endDate",paymentRecordStats.getEndDate());
 		if(paymentRecordStats.getSrchType1()!=null){
@@ -130,6 +130,7 @@ public class PaymentController extends BaseController{
 		model.addAttribute("time",date2);
 		
 		List<Payment> list = paymentMapper.selectPaymentRecord(paymentRecordStats);
+		System.out.println("길이"+list.size());
 		int total=0;
 		int count=0;
 		for(int i=0 ; i<list.size() ; i++){
@@ -158,10 +159,17 @@ public class PaymentController extends BaseController{
 	
 	@RequestMapping(value="/dataPrint/paymentTotalStats.do", method=RequestMethod.POST) 
 	public String paymentTotalStats(Model model,PaymentRecordStats paymentRecordStats) { 
-		
+		System.out.println("기부목적번호"+paymentRecordStats.getSrchType2());
+		System.out.println("후원인번호"+paymentRecordStats.getSrchType5());
+		System.out.println("후원인이름"+paymentRecordStats.getSponsorName());
 		model.addAttribute("startDate",paymentRecordStats.getStartDate());
 		model.addAttribute("endDate",paymentRecordStats.getEndDate());
-		
+		if(paymentRecordStats.getSrchType1()!=0){
+			if(paymentRecordStats.getSrchType1()==1)
+				model.addAttribute("gubun","정기");
+			else
+				model.addAttribute("gubun","비정기");
+		}
 		if(paymentRecordStats.getSrchType2()!=null){
 			model.addAttribute("donationPurpose",donationPurposeMapper.selectDonationPurpose2(paymentRecordStats.getSrchType2()));
 			model.addAttribute("corporateName",donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2()));
@@ -210,7 +218,7 @@ public class PaymentController extends BaseController{
 	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.POST)
 	public String insertIrrgularPayment2(Payment payment,Model model) {
 		paymentMapper.insertIrregularPayment(payment);
-		return "sponsor/insertIrrgularPayment";
+		return "sponsor/sponsor";
 	}
 	
 	@RequestMapping(value="/sponsor/paymentList.do", method=RequestMethod.GET)
@@ -218,7 +226,7 @@ public class PaymentController extends BaseController{
 		int sponsorID=109;
 		List<Payment> paymentList = paymentMapper.selectPaymentRegular(sponsorID);
 		model.addAttribute("paymentList", paymentList);
-		return "sponsor/paymentList";
+		return "sponsor/sponsor";
 	}
 	
 	@RequestMapping(value="/sponsor/paymentList2.do", method=RequestMethod.GET)
@@ -226,7 +234,7 @@ public class PaymentController extends BaseController{
 		int sponsorID=109;
 		List<Payment> paymentList2 = paymentMapper.selectPaymentIrregular(sponsorID);
 		model.addAttribute("paymentList2", paymentList2);
-		return "sponsor/paymentList2";
+		return "sponsor/sponsor";
 	}
 
 }

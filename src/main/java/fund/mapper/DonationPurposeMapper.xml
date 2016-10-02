@@ -5,8 +5,7 @@
 <mapper namespace="fund.mapper.DonationPurposeMapper">
 
 	<select id="selectDonationPurpose" resultType="fund.dto.DonationPurpose">
-		select
-		d.*,c1.codeName,c2.name "corporateName"
+		select d.*,c1.codeName,c2.name "corporateName"
 		from DonationPurpose d left
 		join Code c1 on d.organizationID=c1.ID
 		left join Corporate c2 on
@@ -25,6 +24,7 @@
       from [DonationPurpose] d join [Corporate] c2 on d.corporateID = c2.ID
       where d.ID=#{ID}
    </select>
+
 
 
 	<select id="selectByID" resultType="fund.dto.DonationPurpose">

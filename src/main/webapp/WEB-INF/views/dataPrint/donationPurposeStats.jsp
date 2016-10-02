@@ -36,7 +36,7 @@
 				<tr>
 					<td>${totalSponsor}</td>
 					<td>${totalDonationPurpose}</td>
-					<td>${totalSum}</td>
+					<td class="money">${totalSum}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -57,7 +57,7 @@
 						<td>${payment.donationPurpose}</td>
 						<td>${payment.count1}
 						<td>${payment.count2}
-						<td>${payment.sum}
+						<td class="money">${payment.sum}
 						<td>${payment.percent}%</td>
 					</tr>
 			</c:forEach>

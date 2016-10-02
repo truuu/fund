@@ -31,7 +31,7 @@ public interface SponsorMapper {
      int nameCount(String nameForSearch);
      
      int selectChurchCode(Sponsor sponsor);
-     //후원자입력 part
+     //�썑�썝�옄�엯�젰 part
      void sponsorInsert(Sponsor sponsor);
      void removeSponsor(String sponsorNo);
      void updateSponsor(Sponsor sponsor);
@@ -42,7 +42,7 @@ public interface SponsorMapper {
      List<Sponsor> selectPage(Pagination pagination);
      List<Sponsor> sponsorListExcel(Pagination pagination);
      
-     //후원인구분2별 출연내역
+     //�썑�썝�씤援щ텇2蹂� 異쒖뿰�궡�뿭
      List<Sponsor> castBySponsorType2(@Param("startDate")String startDate,@Param("endDate")String endDate);
 
 	

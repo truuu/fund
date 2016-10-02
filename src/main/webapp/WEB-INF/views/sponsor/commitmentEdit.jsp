@@ -41,8 +41,9 @@ function deleteCommitment(commitmentID) {
 
 function end() {
 	ID=$("#cid").val();
+	sponsorID=${commitment.sponsorID};
 	if (confirm("약정을 종료하시겠습니까?") == true) {
-		location.href = "/fund_sys/sponsor/commitmentEnd.do?ID="+ID;
+		location.href = "/fund_sys/sponsor/commitmentEnd.do?ID="+ID+"&sponsorID="+sponsorID;
 	} 
 };
 
@@ -116,7 +117,7 @@ button#editButton, button#btn1 {
 
 	<button type="button" style="margin-left: 3px;" id="editButton"
 		class="button">수정하기</button>
-	<a href="commitment.do" id="list" class="button">약정목록</a>
+	<a href="commitment.do?id=${commitment.sponsorID}" id="list" class="button">약정목록</a>
 	<h3>약정</h3>
 	<form method="post" action="commitmentUpdate.do">
 

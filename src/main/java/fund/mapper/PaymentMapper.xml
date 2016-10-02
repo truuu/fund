@@ -118,37 +118,40 @@
 	</select>
 
 	<select id="selectPaymentRecord" resultType="fund.dto.Payment">
-
+		
+		
 		select p.paymentDate,p.amount, s.name, s.sponsorNo, d.name
 		"donationPurpose",
 		c1.codeName "sponsorType2",c2.codeName "church",
-		(
-		case when p.commitmentID is not NULL then '정기' else '비정기' end)
-		"gubun",
+		(case when p.commitmentID is not NULL then '정기' else '비정기' end) "gubun",
 		c3.codeName "paymentMethod"
 
 		from Payment p join Sponsor s on
 		p.sponsorID=s.ID join Code c1 on
-		s.sponsorType2ID=c1.ID
-		join
+		s.sponsorType2ID=c1.ID join
 		DonationPurpose d on d.ID=p.donationPurposeID join Code c2 on
 		s.churchID=c2.ID
 		join Code c3 on p.paymentMethodID=c3.ID
 
 		where
 		paymentDate between #{startDate} and #{endDate}
-		<if test="srchType2!=null">and p.donationPurposeID = #{srchType2}</if>
-		<if test="srchType1!=null and srchType1==1">
+		<if test="srchType2 != null">and p.donationPurposeID = #{srchType2}</if>
+		
+		<if test="srchType1 != 0 and srchType1 == 1">
 			and p.commitmentID is not null
 		</if>
-		<if test="srchType1!=null and srchType1==2">
+		<if test="srchType1 != 0 and srchType1 == 2">
 			and p.commitmentID is null
 		</if>
 		
-		<if test="srchType3!=null">and s.churchID = #{srchType3}</if>
-		<if test="srchType4!=null">and p.paymentMethodID = #{srchType4}</if>
-		<if test="srchType5!=null">and s.sponsorType2ID = #{srchType5}</if>
-		<if test="sponsorName!=null">and s.name = #{sponsorName}</if>
+		<if test="srchType3 != 0">and s.churchID = #{srchType3}</if>
+		
+		<if test="srchType4 != 0">and p.paymentMethodID = #{srchType4}</if>
+		
+		<if test="srchType5 != 0">and s.sponsorType2ID = #{srchType5}</if>
+		
+		<if test="sponsorName != null">and s.name = #{sponsorName}</if>
+		
 	</select>
 
 	<select id="selectPaymentTotal" resultType="fund.dto.Payment">
@@ -164,14 +167,26 @@
 		join Code c3
 		on p.paymentMethodID=c3.ID
 
-		where paymentDate between #{startDate} and #{endDate}
-		<if test="srchType2!=null">and p.donationPurposeID = #{srchType2}</if>
-		<if test="srchType3!=null">and s.churchID = #{srchType3}</if>
-		<if test="srchType4!=null">and p.paymentMethodID = #{srchType4}</if>
-		<if test="srchType5!=null">and s.sponsorType2ID = #{srchType5}</if>
-		<if test="sponsorName!=null">and s.name = #{sponsorName}</if>
+		WHERE paymentDate between #{startDate} and #{endDate}
+		<if test="srchType1!=0 and srchType1==1">
+			and p.commitmentID is not null
+		</if>
+		<if test="srchType1!=0 and srchType1==2">
+			and p.commitmentID is null
+		</if>
 		
-		group by s.sponsorNo,s.name,c1.codeName,c2.codeName
+		<if test="srchType2 != null">and p.donationPurposeID = #{srchType2}</if>
+		
+		<if test="srchType3 != 0">and s.churchID = #{srchType3}</if>
+		
+		<if test="srchType4 != 0">and p.paymentMethodID = #{srchType4}</if>
+		
+		<if test="srchType5 != 0">and s.sponsorType2ID = #{srchType5}</if>
+		
+		<if test="sponsorName != null">and s.name = #{sponsorName}</if>
+	
+		group by s.sponsorNo, s.name, c1.codeName, c2.codeName
+		
 	</select>
 
 	<select id="selectByPayment" resultType="fund.dto.Payment">

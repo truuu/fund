@@ -112,7 +112,7 @@
 
           <sec:authorize access="not authenticated">
                <ul class="nav navbar-nav navbar-right">
-		         <li><a href="/">Login</a></li>
+		         
 	           </ul>
          </sec:authorize>
 	      

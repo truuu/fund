@@ -7,15 +7,13 @@
 <script type="text/javaScript">
 
 $(function() {
-   $('#searchChurch').click(function(){
-      
-      var startDate=$( "input[name$='startDate']" ).val();
-      var endDate=$( "input[name$='endDate']" ).val();
-      
-      
-      location.href="churchSearch.do?startDate="+startDate+"&endDate="+endDate;
-     });
-   });
+	$('#searchChurch').click(function(){
+		
+		var startDate=$( "input[name$='startDate']" ).val();
+		var endDate=$( "input[name$='endDate']" ).val();
+		location.href="churchSearch.do?startDate="+startDate+"&endDate="+endDate;
+	  });
+	});
 
 
 

@@ -16,7 +16,7 @@
 			</div>
 			<!-- /.row -->
 			<form method="post" class="form-horizontal">
-				<input type="hidden" name="sponsorID" value="109" />
+				<input type="hidden" name="sponsorID" value="${sponsor.id}" />
 				<div class="form-group">
 					<label for="amount" class="col-lg-2 control-label">납입금액</label>
 					<div class="col-lg-10">

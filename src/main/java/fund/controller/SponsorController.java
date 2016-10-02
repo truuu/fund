@@ -32,6 +32,8 @@ import net.sf.jasperreports.engine.JRException;
 public class SponsorController {
 	@Autowired SponsorMapper sponsorMapper;
 	@Autowired FileAttachmentMapper fileAttachmentMapper;
+	@Autowired PaymentMapper paymentMapper;
+
 
     //회원관리 기본페이지
 	@RequestMapping(value="/sponsor/sponsor_m.do",method=RequestMethod.GET)
@@ -165,14 +167,14 @@ public class SponsorController {
         
         String[] home=homeAddress.split("\\*");
         String[] office=officeAddress.split("\\*");
-        
+        /*
         System.out.println(home[0]);
         System.out.println(home[1]);
         System.out.println(home[2]);
         
         System.out.println(office[0]);
         System.out.println(office[1]);
-        System.out.println(office[2]);
+        System.out.println(office[2]);*/
         
         String homeRoadAddress=home[0];
         String homeDetailAddress=home[1];
@@ -193,6 +195,15 @@ public class SponsorController {
         
         
         model.addAttribute("sponsor", sponsor);
+        int sponsorID=sponsor.getId();
+        System.out.println("sponsorID>> "+sponsorID);
+        List<Payment> paymentList = paymentMapper.selectPaymentRegular(sponsorID);
+		model.addAttribute("paymentList", paymentList);
+		List<Payment> paymentList2 = paymentMapper.selectPaymentIrregular(sponsorID);
+		model.addAttribute("paymentList2", paymentList2);
+    
+        
+        
 		return "sponsor/sponsor";
 	}
  	
@@ -221,19 +232,7 @@ public class SponsorController {
 	}
 
 
-	@RequestMapping(value="/user/temp_p.do",method=RequestMethod.GET)
-	public String tempPassword(Model model)throws Exception{
-
-		return "user/tempPassword";
-	}
-
-
-	// 보류
-	@RequestMapping(value="/user/church.do",method=RequestMethod.GET)
-	public String church(Model model)throws Exception{
-
-		return "user/church";
-	}
+	
 
 	//소속교호찾기 자동완성
 	@RequestMapping(value="/sponsor/autoList.do", produces="application/json;charset=UTF-8", method=RequestMethod.GET)
@@ -433,6 +432,8 @@ public class SponsorController {
 		ReportBuilder reportBuilder = new ReportBuilder("sponsorList", list, "sponsorList.xlsx",req,res);
 		reportBuilder.build("xlsx");
 	 }
+	 
+	
 
 
 

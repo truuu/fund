@@ -5,7 +5,6 @@
 <mapper namespace="fund.mapper.SponsorMapper">
 
 
-
 	<select id="ceateNumber" resultType="Integer">
 		select TOP(1)ID from sponsor
 		order by ID DESC;
@@ -46,7 +45,7 @@
 	
 	<!-- 후원자 상세페이지 -->
 	<select id="selectBySponsorNo" resultType="fund.dto.Sponsor">
-		select sponsorNo,name,juminNo,sponsorType1ID,sponsorType2ID,signUpDate,mobilePhone,recommender,recommenderRelation,mailReceiving,mailTo,homeAddress,homePhone,email,company,department,position,officePhone,officeAddress,etc,
+		select id,sponsorNo,name,juminNo,sponsorType1ID,sponsorType2ID,signUpDate,mobilePhone,recommender,recommenderRelation,mailReceiving,mailTo,homeAddress,homePhone,email,company,department,position,officePhone,officeAddress,etc,
        (select codeName from code where code.ID=sponsor.churchID )AS church
         from sponsor where sponsorNo=#{sponsorNo};
 	</select>

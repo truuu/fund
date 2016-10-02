@@ -10,12 +10,7 @@ public class PaymentRecordStats {
 	Integer srchType5; // 후원인구분2
 	String sponsorName;// 후원인 이름
 	
-	public String getSponsorName() {
-		return sponsorName;
-	}
-	public void setSponsorName(String sponsorName) {
-		this.sponsorName = sponsorName;
-	}
+	
 	public String getStartDate() {
 		return startDate;
 	}
@@ -57,6 +52,12 @@ public class PaymentRecordStats {
 	}
 	public void setSrchType5(Integer srchType5) {
 		this.srchType5 = srchType5;
+	}
+	public String getSponsorName() {
+		return sponsorName;
+	}
+	public void setSponsorName(String sponsorName) {
+		this.sponsorName = sponsorName;
 	}
 	
 	

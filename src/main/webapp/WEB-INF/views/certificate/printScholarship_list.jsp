@@ -23,9 +23,16 @@
 			$('input:checkbox[name="class[1]"]:checked').each(function() {
 
 				checkboxValues.push($(this).val());
+				
 			});
+<<<<<<< HEAD
 			
 			location.href = "../certificate/scholarshipDelete.do?checkboxValues[]="+ checkboxValues;
+=======
+			alert(checkboxValues[0]);
+			alert(checkboxValues[1]);
+			location.href = "http://localhost:8080/fund_sys/certificate/scholarshipDelete.do?checkboxValues="+ checkboxValues;
+>>>>>>> branch 'user' of https://github.com/truuu/fund
 
 
 		} else {

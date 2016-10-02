@@ -22,6 +22,8 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+@Controller
 public class UserController extends BaseController{
 
 	@Autowired UserMapper userMapper;
@@ -60,6 +62,8 @@ public class UserController extends BaseController{
 	 }
 	 
 	 
+
+	 
 	 
 	 @RequestMapping(value="/user/church.do",method=RequestMethod.GET)
 	 public String church(Model model)throws Exception{
@@ -67,10 +71,11 @@ public class UserController extends BaseController{
 		return "user/church";
 	 }
 	 
+	
 	 
 	 @RequestMapping(value="/user/churchSearch.do",method=RequestMethod.GET)
 	 public String churchSearch(Pagination  pagination,Model model)throws Exception{
-		 System.out.println("액션메소드");
+
 		  long total=0;
 		  List<Sponsor> list=userMapper.churchSum(pagination);
 		  pagination.setRecordCount(list.size());
