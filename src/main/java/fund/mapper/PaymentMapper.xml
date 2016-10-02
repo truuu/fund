@@ -3,7 +3,7 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
              
 <mapper namespace="fund.mapper.PaymentMapper">
-	
+
 	<select id="selectById" resultType="int">
 		SELECT sponsorID
 		FROM [Payment]
@@ -268,23 +268,10 @@
 		values(#{sponsorID},#{commitmentID},#{amountPerMonth},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
 	</insert>
 	
-	<select id="selectByCommitmentNo" resultType="fund.dto.Commitment">
-		select * from [commitment]
-		where commitmentNo = #{commitmentNo}
-	</select>
-	
 	<insert id="insertXferResult" useGeneratedKeys="true" keyProperty="id">
 		insert into payment(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
 		values(#{sponsorID},#{commitmentID},#{amount},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
 	</insert>
-	
-	<select id="selectIDBySponsorNo" resultType="fund.dto.Commitment">
-		select s.ID sponsorID,c.ID,c.commitmentNo,c.donationPurposeID,c.paymentMethodID
-		from sponsor s
-		JOIN commitment c
-		ON s.ID=c.sponsorID
-		where s.sponsorNo=#{sponsorNo} AND c.paymentMethodID=12
-	</select>
 	
 	<insert id="insertSalaryResult" useGeneratedKeys="true" keyProperty="id">
 		insert into payment(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)

@@ -3,29 +3,17 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.EB21_CommitmentDetailMapper">
-
-	<select id="selectEB21" resultType="fund.dto.EB21_commitmentDetail">
-    	select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin,code.codeName,cd.accountNo,cd.amountPerMonth,code.etc1,cd.ID commitmentDetailID
-		from [commitmentDetail] cd
-		JOIN [EB13_commitmentDetail] eb
-		ON eb.state='성공' AND cd.ID=eb.commitmentDetailID
-		LEFT JOIN [commitment] c
-		ON cd.commitmentID=c.ID AND c.paymentMethodID=10
-		AND (c.endDate is null OR c.endDate>GETDATE())
-		JOIN [sponsor] s
-		ON c.sponsorID=s.ID
-		JOIN [code]
-		ON cd.bankID=code.ID
-		WHERE cd.paymentDay=#{pDay}
-		AND
-		cd.ID
-		NOT IN (select commitmentDetailID from EB21_commitmentDetail)
-	</select>
 	
-	<select id="selectSponsorName" resultType="fund.dto.EB22">
-		select name from [sponsor]
-		where sponsorNo=#{sponsorNo}
-	</select>
+	<select id="selectEB21success" resultType="fund.dto.Payment">
+    	select c.sponsorID,c.ID commitmentID,e.paymentDate,c.donationPurposeID,c.paymentMethodID,cd.amountPerMonth
+		from EB21_commitmentDetail eb
+		JOIN commitmentDetail cd
+		ON eb.commitmentDetailID=cd.ID
+		JOIN commitment c
+		ON cd.commitmentID=c.ID
+		JOIN EB21 e ON e.ID=eb.EB21ID
+		where eb.state='성공'
+    </select>
 	
 	<select id="selectEB22" resultType="fund.dto.EB21">
 		select * from EB21_commitmentDetail
@@ -65,19 +53,26 @@
 	</update>
 	
 	<select id="selectEB2122" resultType="fund.dto.EB21_commitmentDetail">
-		select e.createDate,s.sponsorNo,s.name,c.commitmentNo,eb.state,d.name donationPurpose
-		from EB21_commitmentDetail eb JOIN commitmentDetail cd
-		ON eb.commitmentDetailID=cd.ID
-		JOIN EB21 e
-		ON eb.EB21ID=e.ID
-		INNER JOIN code
-		ON cd.bankID=code.ID
-		LEFT JOIN commitment c
-		ON cd.commitmentID=c.ID
-		LEFT JOIN sponsor s
-		ON c.sponsorID=s.ID
-		JOIN donationPurpose d
-		ON c.donationPurposeID=d.ID
-	
+		<![CDATA[ 
+			select e.createDate,s.sponsorNo,s.name,c.commitmentNo,eb.state,d.name donationPurpose
+			from EB21_commitmentDetail eb JOIN commitmentDetail cd
+			ON eb.commitmentDetailID=cd.ID
+			JOIN EB21 e
+			ON eb.EB21ID=e.ID
+			INNER JOIN code
+			ON cd.bankID=code.ID
+			LEFT JOIN commitment c
+			ON cd.commitmentID=c.ID
+			LEFT JOIN sponsor s
+			ON c.sponsorID=s.ID
+			JOIN donationPurpose d
+			ON c.donationPurposeID=d.ID
+			WHERE e.paymentDate >= #{startDate} AND e.createDate <= #{endDate}
+		]]> 
 	</select>
+	
+	<insert id="createEB21List" useGeneratedKeys="true" keyProperty="id">
+		insert into EB21_commitmentDetail
+		values ((select MAX(ID) from EB21),#{commitmentDetailID},'신청') 
+	</insert>
 </mapper>

@@ -83,7 +83,7 @@ public class FinanceController {
 			XferResult x = list.get(i);
 			String commitmentNo = commitmentNos[i];
 
-			Commitment commitment = paymentMapper.selectByCommitmentNo(commitmentNo);
+			Commitment commitment = commitmentMapper.selectByCommitmentNo(commitmentNo);
 			Payment payment = new Payment();
 			payment.setSponsorID(commitment.getSponsorID());
 			payment.setCommitmentID(commitment.getID());
@@ -133,7 +133,7 @@ public class FinanceController {
 			System.out.println(i);
 			Salary x = list.get(i);
 			String sponsorNo = x.getSponsorNo();
-			Commitment commitment = paymentMapper.selectIDBySponsorNo(sponsorNo); 
+			Commitment commitment = commitmentMapper.selectIDBySponsorNo(sponsorNo); 
 			
 			Payment payment = new Payment();
 			payment.setSponsorID(commitment.getSponsorID());

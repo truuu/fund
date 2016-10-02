@@ -17,43 +17,45 @@
 				</div>
 			</div>
 			<!-- /.row -->
-			<form:form method="post" modelAttribute="eb13List">
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table class="table table-bordered" id="table_s">
-								<thead>
+			<form method="post">
+				<label>EB13 생성일 </label>
+				<input type="date" name="startDate"> ~ <input type="date" name="endDate">
+				&nbsp;&nbsp;&nbsp;
+				<button type="submit" class="button">검색</button>
+
+				<div class="panel-body">
+					<div class="table-responsive">
+						<table class="table table-bordered" id="table_s">
+							<thead>
+								<tr>
+									<th>EB13생성일</th>
+									<th>후원인번호</th>
+									<th>약정번호</th>
+									<th>이름</th>
+									<th>기부목적</th>
+									<th>상태</th>
+								</tr>
+							</thead>
+							<c:forEach var="eb1314List" items="${eb1314List}">
+								<input type="hidden" name="commitmentDetailID"
+									value="${eb13List.commitmentDetailID}">
+								<tbody>
 									<tr>
-										<th>EB13생성일</th>
-										<th>후원인번호</th>
-										<th>약정번호</th>
-										<th>이름</th>
-										<th>기부목적</th>
-										<th>상태</th>
+										<td>${eb1314List.createDate}</td>
+										<td>${eb1314List.sponsorNo}</td>
+										<td>${eb1314List.commitmentNo}</td>
+										<td>${eb1314List.name}</td>
+										<td>${eb1314List.donationPurpose}</td>
+										<td>${eb1314List.state}</td>
 									</tr>
-								</thead>
-								<c:forEach var="eb1314List" items="${eb1314List}">
-								<input type="hidden" name="commitmentDetailID" value="${eb13List.commitmentDetailID}">
-									<tbody>
-										<tr>
-											<td>${eb1314List.createDate}</td>
-											<td>${eb1314List.sponsorNo}</td>
-											<td>${eb1314List.commitmentNo}</td>
-											<td>${eb1314List.name}</td>
-											<td>${eb1314List.donationPurpose}</td>
-											<td>${eb1314List.state}</td>
-										</tr>
-									</tbody>
-								</c:forEach>
-							</table>
-						</div>
+								</tbody>
+							</c:forEach>
+						</table>
 					</div>
 				</div>
-			</form:form>
+			</form>
 		</div>
 		<!-- /.panel -->
 	</div>
 	<!-- /.container-fluid -->
-</div>
-<!-- /#page-wrapper -->
-
 </div>

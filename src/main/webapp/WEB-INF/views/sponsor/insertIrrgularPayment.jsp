@@ -15,12 +15,13 @@
 				</div>
 			</div>
 			<!-- /.row -->
-			<form method="post" class="form-horizontal">
+			<form method="post" action="insertIrrgularPayment.do" class="form-horizontal">
 				<input type="hidden" name="sponsorID" value="${sponsor.id}" />
 				<div class="form-group">
 					<label for="amount" class="col-lg-2 control-label">납입금액</label>
 					<div class="col-lg-10">
-						<input type="text" class="money" id="amount" name="amount" placeholder="금액" />
+						<input type="text" class="money" id="amount" name="amount"
+							placeholder="금액" />
 					</div>
 				</div>
 				<div class="form-group">
@@ -46,7 +47,7 @@
 							<option value="15">부동산</option>
 							<option value="16">신용카드</option>
 						</select>
-						
+
 					</div>
 				</div>
 				<div class="form-group">
@@ -63,7 +64,7 @@
 						value="저장" />
 				</div>
 			</form>
-			
+
 		</div>
 
 	</div>

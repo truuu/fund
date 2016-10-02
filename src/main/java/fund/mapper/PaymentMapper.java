@@ -13,7 +13,7 @@ import fund.dto.PaymentRecordStats;
 
 
 public interface PaymentMapper {
-	
+
 	int selectById(String pid);
 	List<Integer> selectDistinctSponsorID(@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("corporateID") int corporateID);
 	List<Payment> selectReceiptByName(Pagination pagination);
@@ -26,14 +26,11 @@ public interface PaymentMapper {
 	void deleteReceiptByReceiptID(int id);
 	void delete(int id);
 
-	List<Payment> selectEB21success();
 	void insertEB21Payment(Payment payment);
 	void insertIrregularPayment(Payment payment);
 	List<Payment> selectPaymentRegular(int sponsorID);
 	List<Payment> selectPaymentIrregular(int sponsorID);
-	Commitment selectByCommitmentNo(String commitmentNo);
 	void insertXferResult(Payment payment);
-	Commitment selectIDBySponsorNo(String sponsorNo);
 	void insertSalaryResult(Payment payment);
 
 	List<Payment> selectComparePaymentDate(@Param("startDate") String startDate,@Param("endDate") String endDate);

@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import fund.dto.EB13;
 import fund.dto.EB13_CommitmentDetail;
 import fund.dto.EB14;
 import fund.dto.XferResult;
+import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.EB13Mapper;
 import fund.mapper.EB13_CommitmentDetailMapper;
 
@@ -36,6 +38,7 @@ import fund.mapper.EB13_CommitmentDetailMapper;
 public class EB13Controller {
 	@Autowired EB13Mapper eb13Mapper;
 	@Autowired EB13_CommitmentDetailMapper eb13_commitmentDetailMapper;
+	@Autowired CommitmentDetailMapper commitmentDetailMapper;
 	
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.GET)
 	public String eb13(Model model) {
@@ -43,19 +46,19 @@ public class EB13Controller {
 	}
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=selectEB13")
 	public String selectEB13(Model model){
-		List<EB13_CommitmentDetail> eb13List = eb13_commitmentDetailMapper.selectEB13();
+		List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
 		model.addAttribute("eb13List", eb13List);
 		return "finance/eb13";
 	}
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=createEB13file")
 	public String createEB13file(@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws IOException{
-		List<EB13_CommitmentDetail> eb13List = eb13_commitmentDetailMapper.selectEB13();
+		List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
 		model.addAttribute("eb13List", eb13List);
 		CreateEB13File.createEB13File(eb13List);
 		
 		eb13Mapper.createEB13file();
 		for(int i=0 ; i<commitmentDetailID.length; ++i){
-			eb13Mapper.createEB13list(commitmentDetailID[i]);
+			eb13_commitmentDetailMapper.createEB13list(commitmentDetailID[i]);
 		}
 		
 		return "finance/eb13";
@@ -101,31 +104,43 @@ public class EB13Controller {
 			}	
 			model.addAttribute("eb14List",eb14List);
 			session.setAttribute("eb14ListSession", eb14List);
+			session.setAttribute("fileNameSession", fileName);
 			return "finance/eb14";
 		}
 		return "finance/uploadEB14";
 	}
 	
 	@RequestMapping(value="/finance/uploadEB14.do", method=RequestMethod.POST, params="cmd=updateEB14")
-	public String updateEB14(HttpSession session,Model model) {
+	public String updateEB14(HttpSession session,Model model) throws ParseException {
 		List<EB14> eb14List = (List<EB14>) session.getAttribute("eb14ListSession");
-		
-		for(int i=0; i<eb14List.size(); i++){
-			EB14 x = eb14List.get(i);
-			String sponsorNo = x.getSponsorNo();
-			Date createDate = x.getCreateDate();
-			StringBuffer sNo = new StringBuffer(sponsorNo);
-			sNo.insert(4,"-");
-			eb13_commitmentDetailMapper.updateEB14error(sNo.toString());
+		if(eb14List.isEmpty()){
+			String fileName = (String) session.getAttribute("fileNameSession");
+			String date = ReadEB14Date.readEB14Date(fileName);
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date createDate = format.parse(date);
 			eb13_commitmentDetailMapper.updateEB14success(createDate);
+		}else{
+			for(int i=0; i<eb14List.size(); i++){
+				EB14 x = eb14List.get(i);
+				String sponsorNo = x.getSponsorNo();
+				Date createDate = x.getCreateDate();
+				StringBuffer sNo = new StringBuffer(sponsorNo);
+				sNo.insert(4,"-");
+				eb13_commitmentDetailMapper.updateEB14error(sNo.toString());
+				eb13_commitmentDetailMapper.updateEB14success(createDate);
+			}
 		}
-		
 		return "finance/eb14";
 	}
 	
 	@RequestMapping(value="/finance/resultEB1314.do", method=RequestMethod.GET)
 	public String resultEB1314(Model model) {
-		List<EB13_CommitmentDetail> eb1314result = eb13_commitmentDetailMapper.selectEB1314();
+		return "finance/resultEB1314";
+	}
+	
+	@RequestMapping(value="/finance/resultEB1314.do", method=RequestMethod.POST)
+	public String resultEB1314(Model model,@RequestParam String startDate,@RequestParam String endDate) {
+		List<EB13_CommitmentDetail> eb1314result = eb13_commitmentDetailMapper.selectEB1314(startDate, endDate);
 		model.addAttribute("eb1314List", eb1314result);
 		return "finance/resultEB1314";
 	}

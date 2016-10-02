@@ -38,7 +38,6 @@ public class SponsorController {
     //회원관리 기본페이지
 	@RequestMapping(value="/sponsor/sponsor_m.do",method=RequestMethod.GET)
 	public String userManage(Model model, Pagination pagination)throws Exception{
-		System.out.println("sponsor_m.do 액션메소드");
 		pagination.setRecordCount(sponsorMapper.selectCount());
 	    model.addAttribute("list", sponsorMapper.selectPage(pagination));
 		return "sponsor/sponsorManage";

@@ -12,10 +12,9 @@ import fund.dto.EB13_CommitmentDetail;
 public class CreateEB13File {
 	public static void createEB13File(List<EB13_CommitmentDetail> eb13List) throws IOException{
 		Date today = new Date();
-		System.out.println(today);
 		SimpleDateFormat yymmdd = new SimpleDateFormat("yyMMdd");
 		SimpleDateFormat mmdd = new SimpleDateFormat("MMdd");
-		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("C:/ebFile/EB13"+mmdd.format(today)));
+		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("/Users/parkeunsun/Documents/EB13"+mmdd.format(today)));
 		String sponsorNo = "";
 		String bankCode = "";
 		String accountNo = "";

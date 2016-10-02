@@ -4,7 +4,15 @@
 
 <mapper namespace="fund.mapper.SponsorMapper">
 
-
+    <delete id="delete">
+        DELETE FROM [User] WHERE id = #{id}
+    </delete>
+    
+    <select id="selectSponsorName" resultType="fund.dto.EB22">
+		select name from [sponsor]
+		where sponsorNo=#{sponsorNo}
+	</select>
+	
 	<select id="ceateNumber" resultType="Integer">
 		select TOP(1)ID from sponsor
 		order by ID DESC;
