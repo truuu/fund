@@ -61,6 +61,9 @@
 		AND
 		cd.ID
 		NOT IN (select commitmentDetailID from EB21_commitmentDetail)
+		AND cd.ID IN 
+		(SELECT MAX(ID) FROM commitmentDetail 
+		GROUP BY commitmentID)
 	</select>
 	
 	<select id="selectEB13" resultType="fund.dto.EB13_CommitmentDetail">
@@ -75,6 +78,9 @@
 		where cd.ID
 		not in (select commitmentDetailID from [EB13_commitmentDetail])
 		AND c.paymentMethodID=10
+		AND cd.ID IN 
+		(SELECT MAX(ID) FROM commitmentDetail 
+		GROUP BY commitmentID)
     </select>
 	
 </mapper>

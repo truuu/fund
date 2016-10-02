@@ -104,25 +104,32 @@ public class EB13Controller {
 			}	
 			model.addAttribute("eb14List",eb14List);
 			session.setAttribute("eb14ListSession", eb14List);
+			session.setAttribute("fileNameSession", fileName);
 			return "finance/eb14";
 		}
 		return "finance/uploadEB14";
 	}
 	
 	@RequestMapping(value="/finance/uploadEB14.do", method=RequestMethod.POST, params="cmd=updateEB14")
-	public String updateEB14(HttpSession session,Model model) {
+	public String updateEB14(HttpSession session,Model model) throws ParseException {
 		List<EB14> eb14List = (List<EB14>) session.getAttribute("eb14ListSession");
-		
-		for(int i=0; i<eb14List.size(); i++){
-			EB14 x = eb14List.get(i);
-			String sponsorNo = x.getSponsorNo();
-			Date createDate = x.getCreateDate();
-			StringBuffer sNo = new StringBuffer(sponsorNo);
-			sNo.insert(4,"-");
-			eb13_commitmentDetailMapper.updateEB14error(sNo.toString());
+		if(eb14List.isEmpty()){
+			String fileName = (String) session.getAttribute("fileNameSession");
+			String date = ReadEB14Date.readEB14Date(fileName);
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date createDate = format.parse(date);
 			eb13_commitmentDetailMapper.updateEB14success(createDate);
+		}else{
+			for(int i=0; i<eb14List.size(); i++){
+				EB14 x = eb14List.get(i);
+				String sponsorNo = x.getSponsorNo();
+				Date createDate = x.getCreateDate();
+				StringBuffer sNo = new StringBuffer(sponsorNo);
+				sNo.insert(4,"-");
+				eb13_commitmentDetailMapper.updateEB14error(sNo.toString());
+				eb13_commitmentDetailMapper.updateEB14success(createDate);
+			}
 		}
-		
 		return "finance/eb14";
 	}
 	
