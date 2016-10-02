@@ -17,13 +17,12 @@
 				</div>
 			</div>
 			<!-- /.row -->
-			<form:form method="post" modelAttribute="EB13_CommitmentDetail">
+			<form method="post">
 				<label>EB13 생성일 </label>
-				<input type="date" name="startDate"> ~ <input type="date"
-					name="endDate">
+				<input type="date" name="startDate"> ~ <input type="date" name="endDate">
 				&nbsp;&nbsp;&nbsp;
 				<button type="submit" class="button">검색</button>
-				
+
 				<div class="panel-body">
 					<div class="table-responsive">
 						<table class="table table-bordered" id="table_s">
@@ -54,13 +53,9 @@
 						</table>
 					</div>
 				</div>
+			</form>
 		</div>
-		</form:form>
+		<!-- /.panel -->
 	</div>
-	<!-- /.panel -->
-</div>
-<!-- /.container-fluid -->
-</div>
-<!-- /#page-wrapper -->
-
+	<!-- /.container-fluid -->
 </div>

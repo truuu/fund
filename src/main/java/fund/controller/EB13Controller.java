@@ -128,15 +128,12 @@ public class EB13Controller {
 	
 	@RequestMapping(value="/finance/resultEB1314.do", method=RequestMethod.GET)
 	public String resultEB1314(Model model) {
-		List<EB13_CommitmentDetail> eb1314result = eb13_commitmentDetailMapper.selectEB1314();
-		model.addAttribute("eb1314List", eb1314result);
 		return "finance/resultEB1314";
 	}
-
+	
 	@RequestMapping(value="/finance/resultEB1314.do", method=RequestMethod.POST)
-	public String resultEB1314(Model model,EB13_CommitmentDetail eb13) {
-		List<EB13_CommitmentDetail> eb1314result = eb13_commitmentDetailMapper.selectEB1314();
-		//mapper에 startDate,endDate넣어주고 해당 날짜 안에 있는 eb13리스트만 가져오기(수정해야함 이부분)
+	public String resultEB1314(Model model,@RequestParam String startDate,@RequestParam String endDate) {
+		List<EB13_CommitmentDetail> eb1314result = eb13_commitmentDetailMapper.selectEB1314(startDate, endDate);
 		model.addAttribute("eb1314List", eb1314result);
 		return "finance/resultEB1314";
 	}

@@ -17,11 +17,9 @@
 				</div>
 			</div>
 			<!-- /.row -->
-			<form:form method="post" modelAttribute="EB21_commitmentDetail">
-				<label>EB21 생성일 </label>
-				<input type="date" name="startDate"> ~ <input type="date"
-					name="endDate">
-				&nbsp;&nbsp;&nbsp;
+			<form method="post">
+				<label>EB21 납입일 </label> <input type="date" name="startDate">
+				~ <input type="date" name="endDate"> &nbsp;&nbsp;&nbsp;
 				<button type="submit" class="button">검색</button>
 				<div class="panel-body">
 					<div class="table-responsive">
@@ -53,13 +51,9 @@
 						</table>
 					</div>
 				</div>
+			</form>
 		</div>
-		</form:form>
+		<!-- /.panel -->
 	</div>
-	<!-- /.panel -->
-</div>
-<!-- /.container-fluid -->
-</div>
-<!-- /#page-wrapper -->
-
+	<!-- /.container-fluid -->
 </div>
