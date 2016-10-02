@@ -29,10 +29,22 @@ $(function(){
 		
 	});
 	
+	$('#pdf').click(function(){
+		startDate=$('#startDate').val();
+		endDate=$('#endDate').val();
+		
+		location.href="/fund_sys/sponsor/castList.do?cmd=pdf&startDate="+startDate+"&endDate="+endDate;
+	})
+	
+	$('#xlsx').click(function(){
+		startDate=$('#startDate').val();
+		endDate=$('#endDate').val();
+		
+		location.href="/fund_sys/sponsor/castList.do?cmd=xlsx&startDate="+startDate+"&endDate="+endDate;
+	})
 });
 
 </script>
-
 <div id="wrapper">
 
 	<div id="page-wrapper">
@@ -51,7 +63,8 @@ $(function(){
 			<div>
 				<label> 신청기간 </label> <input type="date" id="startDate" value="${ pagination.startDate}"> ~ <input type="date" id="endDate" value="${ pagination.endDate}">
 				 <button  class="btn btn-primary" id="search">검색</button>
-				 <a href="sponsor/chartByspt.do" class="btn" >보고서</button>
+				 <button id="pdf"  class="btn" type="submit" name="cmd" value="pdf">보고서</button>
+				 <button id="xlsx"  class="btn" type="submit" name="cmd" value="xlsx">엑셀</button>
 			</div>
 
 		

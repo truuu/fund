@@ -80,6 +80,14 @@ public class PaymentController extends BaseController{
 		ReportBuilder reportBuilder = new ReportBuilder("chartBydonationPurpose",list,"chartBydonationPurpose.pdf",req,res);
 		reportBuilder.build("pdf");
 	}
+	
+	//기부목적별 엑셀
+	@RequestMapping(value="/dataPrint/donationPurposeStats.do", method=RequestMethod.POST, params="cmd=xlsx")
+	public void donationPurposeStatsXlsx(Model model,@RequestParam String startDate,@RequestParam String endDate,HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+		List<Payment> list = paymentMapper.selectComparePaymentDate(startDate, endDate);
+		ReportBuilder reportBuilder = new ReportBuilder("chartBydonationPurpose",list,"chartBydonationPurpose.xlsx",req,res);
+		reportBuilder.build("xlsx");
+	}
 
 	@RequestMapping(value="/dataPrint/paymentRecordStats.do", method=RequestMethod.GET) 
 	public String paymentRecordStats(Model model) {     

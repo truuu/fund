@@ -175,20 +175,18 @@
 	</select>
 
 	<select id="selectByPayment" resultType="fund.dto.Payment">
-<![CDATA[
+	<![CDATA[
         SELECT s.sponsorNo,s.name,c1.codeName, p.paymentDate,p.etc,c.name, ISNULL(p.commitmentID,0)
         FROM [Payment] p LEFT JOIN [Sponsor] s ON p.sponsorID = s.ID
         			LEFT JOIN [DonationPurpose] d ON p.donationPurposeID = d.ID
         			LEFT JOIN [Corporate] c ON d.corporateID = c.ID 
         			LEFT JOIN [Code] c1 ON c1.ID=s.sponsorType2ID
         			LEFT JOIN [Code] c2 ON c2.ID=s.churchID
-
         WHERE s.sponsorType2ID=#{sponsorType2ID}
                    AND p.paymentDate >= #{date1} AND p.paymentDate < #{date2} 
                    AND s.churchID=#{churchID} AND p.donationPurposeID=#{donationPurposeID}
-                   AND s.sponsorNo=#{sponsorNo} AND c.ID=#{corporateID}
-                   
- ]]>
+                   AND s.sponsorNo=#{sponsorNo} AND c.ID=#{corporateID}                  
+	 ]]>
 	</select>
 
 

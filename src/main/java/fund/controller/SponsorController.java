@@ -403,13 +403,21 @@ public class SponsorController {
 		
 		return "sponsor/castHistory"; 
 	 }
-	 
-	 @RequestMapping(value="sponsor/chartByspt.do" )
-		public void taxDataReport(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+	 //회원구분	별 보고서
+	 @RequestMapping(value="/sponsor/castList.do", params="cmd=pdf" )
+	public void sponsorTypeReport(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+ 		List<Sponsor> list = sponsorMapper.castBySponsorType2(startDate,endDate);
+ 		ReportBuilder reportBuilder = new ReportBuilder("chartBySponsorType",list,"chartBySponsorType.pdf",req,res);
+		reportBuilder.build("pdf");
+ 	}
+	//회원구분	별 엑셀
+		 @RequestMapping(value="/sponsor/castList.do", params="cmd=xlsx" )
+		public void sponsorTypeXlsx(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
 	 		List<Sponsor> list = sponsorMapper.castBySponsorType2(startDate,endDate);
-	 		ReportBuilder reportBuilder = new ReportBuilder("chartBySponsorType",list,"chartBySponsorType.pdf",req,res);
-			reportBuilder.build("pdf");
+	 		ReportBuilder reportBuilder = new ReportBuilder("chartBySponsorType",list,"chartBySponsorType.xlsx",req,res);
+			reportBuilder.build("xlsx");
 	 	}
+	 
 	 
 	 //DM발송 엑셀
 	 @RequestMapping(value="/sponsor/postSearch.do",params="cmd=xlsx" )
