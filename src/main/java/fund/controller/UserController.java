@@ -103,8 +103,11 @@ public class UserController extends BaseController{
 		return "user/church";
 	 }
 	 
-	 @RequestMapping(value="/user/churchSearch.do",method=RequestMethod.POST, params="cmd=xlsx")
-	  public void taxDataReport(Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+	 @RequestMapping(value="/user/churchSearch.do", params="cmd=xlsx")
+	  public void churchXlsx(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+		 	Pagination pagination = new Pagination();
+		 	pagination.setStartDate(startDate);
+		 	pagination.setEndDate(endDate);
 		 	List<Sponsor> list=userMapper.churchSum(pagination);
 		 	pagination.setRecordCount(list.size());
 		 	list=userMapper.churchSum2(pagination);

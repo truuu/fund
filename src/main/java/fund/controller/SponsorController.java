@@ -376,7 +376,7 @@ public class SponsorController {
 	 }
 	 
 	 
-	 @RequestMapping(value="sponsor/castList.do",method=RequestMethod.GET)
+	 @RequestMapping(value="sponsor/castList.do")
 	 public String castList(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Model model)throws IOException{
 		 System.out.println(startDate +" "+endDate);
 		 List<Sponsor> list=sponsorMapper.castBySponsorType2(startDate,endDate);
@@ -403,7 +403,7 @@ public class SponsorController {
 		return "sponsor/castHistory"; 
 	 }
 	 //회원구분	별 보고서
-	 @RequestMapping(value="/sponsor/castList.do", params="cmd=pdf" )
+	 @RequestMapping(value="/sponsor/castList.do",method=RequestMethod.POST, params="cmd=pdf" )
 	public void sponsorTypeReport(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
  		List<Sponsor> list = sponsorMapper.castBySponsorType2(startDate,endDate);
  		ReportBuilder reportBuilder = new ReportBuilder("chartBySponsorType",list,"chartBySponsorType.pdf",req,res);

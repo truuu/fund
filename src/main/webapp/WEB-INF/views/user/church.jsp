@@ -13,7 +13,14 @@ $(function() {
 		var endDate=$( "input[name$='endDate']" ).val();
 		location.href="churchSearch.do?startDate="+startDate+"&endDate="+endDate;
 	  });
-	});
+	$('#xlsx').click(function(){
+		startDate=$('#startDate').val();
+		endDate=$('#endDate').val();
+		
+		location.href="churchSearch.do?cmd=xlsx&startDate="+startDate+"&endDate="+endDate;
+	})
+	
+});
 
 
 
@@ -38,9 +45,6 @@ $(function() {
          <div>
             <label> 신청기간 </label> <input type="date" name="startDate"> ~ <input type="date" name="endDate">
              <button id="searchChurch" class="btn btn-primary">검색</button>
-             <div id="column-right">
-            <a href="#" class="button button-reversed">엑셀 다운</a>
-              </div>
          </div>
 
          
@@ -51,11 +55,13 @@ $(function() {
             <center><label> 신청기간 </label> <input type="text" value="${ pagination.startDate}"> ~ <input type="text" value="${ pagination.startDate}"></center>
             <hr>
                <div class="table-responsive">
-               <form method="get">
+               <form>
                       <input type="hidden" name="pg" value="1" />
                        <input type="hidden" name="startDate" value="${ pagination.startDate}" />
                         <input type="hidden" name="endDate" value="${ pagination.endDate}" />
-                      
+						<div id="column-right">
+            					<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
+           				</div>                      
                   <table class="table table-bordered table-hover" id="table_s">
                      <thead>
                         <tr>
@@ -84,15 +90,7 @@ $(function() {
                      </tbody>
                   </table>
                   
-                     <center>
-                   <div class="pagination pagination-small pagination-centered">
-        <ul>
-            <c:forEach var="page" items="${ pagination.pageList }">
-                <li class='${ page.cssClass }'><a data-page="${ page.number }" >${ page.label }</a></li>
-            </c:forEach>
-        </ul>
-                        </div>
-                        </center>
+                  
                          </form>
 
                </div>
