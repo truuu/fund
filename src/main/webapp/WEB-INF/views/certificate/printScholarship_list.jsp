@@ -109,16 +109,15 @@ td{
 			</table>
 		</div>
 
-		<div class="row text-center">
-			<div class="pagination pagination-small pagination-centered">
-				<ul>
-					<c:forEach var="page" items="${ pagination.pageList }">
-						<li class='${ page.cssClass }'><a
-							data-page="${ page.number }">${ page.label }</a></li>
-					</c:forEach>
-				</ul>
+		<div align="center">
+			    <div class="pagination">
+					<ul class="pagination pagination-sm">
+						<c:forEach var="page" items="${pagination.pageList }">
+							<li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
+						</c:forEach>
+					</ul>
+				</div>
 			</div>
-		</div>
 	</form:form>
 
 </body>

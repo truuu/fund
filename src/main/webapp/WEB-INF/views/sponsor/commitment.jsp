@@ -90,6 +90,9 @@ div table.table tbody tr td {
 .table tbody tr td {
 	vertical-align: middle;
 }
+tr#topTable td{
+	text-align:center;
+}
 </style>
 <ul class="nav nav-tabs">
 						<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorNo}">회원관리</a></li>
@@ -126,7 +129,7 @@ div table.table tbody tr td {
 				</thead>
 				<tbody>
 					<c:forEach var="commitment" items="${ list }">
-						<tr data-url="commitmentEdit.do?ID=${commitment.ID}">
+						<tr data-url="commitmentEdit.do?ID=${commitment.ID}" id="topTable">
 							<td>${ commitment.commitmentNo }</td>
 							<td>${ commitment.name }</td>
 							<td>${ commitment.codeName }</td>

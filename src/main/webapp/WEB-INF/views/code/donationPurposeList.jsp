@@ -50,7 +50,15 @@ tr:hover{ background-color: #ffe; cursor: pointer; }
             </c:forEach>
         </tbody>
 	</table>
-	
+	<div align="center">
+			    <div class="pagination">
+					<ul class="pagination pagination-sm">
+						<c:forEach var="page" items="${pagination.pageList }">
+							<li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
+						</c:forEach>
+					</ul>
+				</div>
+			</div>
 </form>
 	
 </div>

@@ -12,7 +12,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">
-						금융연동 <small>- 급여공제</small>
+						금융연동 <small>- 자동이체</small>
 					</h1>
 				</div>
 			</div>

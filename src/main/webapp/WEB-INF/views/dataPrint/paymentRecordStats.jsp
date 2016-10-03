@@ -73,6 +73,9 @@ button {
 	text-transform: uppercase;
 	margin: 5px 0 5px 0;
 }
+tr#topTable td{ text-align:center; }
+#outPut1{ margin-left:20%; }
+#outPut2{ margin-left:40%; }
 </style>
 <form method="post">
 	<div id="wrapper">
@@ -84,7 +87,9 @@ button {
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h3>납입 내역 조회3</h3>
+						<h1 class="page-header">
+						납입관리 <small>- 납입내역조회</small>
+					</h1>
 					</div>
 				</div>
 				<!-- /.row -->
@@ -114,15 +119,11 @@ button {
 										</c:forEach>
 								</select></td>
 							<tr>
-								<td><label>기부목적</label></td>
-								<td><form:form method="post">
-										<div class="form-inline">
-											<input type="text" name="dname" readonly /> <a
-												href="#searchDialog" class="btn btn-default"
-												data-toggle="modal">검색</a> <input type="hidden"
-												name="srchType2" id="donationPurposeID" />
-										</div>
-									</form:form></td>
+							
+							
+								<td><label>납입일</label></td>
+								<td><input type="date" name="startDate">~<input
+									type="date" name="endDate"></td>
 
 								<td><label>납입방법</label></td>
 								<td><select name="srchType4" class="select_s">
@@ -133,9 +134,15 @@ button {
 								</select></td>
 							</tr>
 							<tr>
-								<td><label>납입일</label></td>
-								<td><input type="date" name="startDate">~<input
-									type="date" name="endDate"></td>
+								<td><label>기부목적</label></td>
+								<td><form:form method="post">
+										<div class="form-inline">
+											<input type="text" name="dname" readonly /> <a
+												href="#searchDialog" class="btn btn-default"
+												data-toggle="modal">검색</a> <input type="hidden"
+												name="srchType2" id="donationPurposeID" />
+										</div>
+									</form:form></td>
 
 								<td><label>후원인구분</label></td>
 								<td><select name="srchType5" class="select_s">
@@ -161,18 +168,10 @@ button {
 				<div class="row">
 					<div class="col-lg-12">
 						<hr>
-						<div id="column-right">
-							<a href="#" class="button">출력</a> <a href="#" class="button">엑셀다운</a>
-						</div>
+						
 
 						<div class="reporting">
 
-							<div class="row">
-								<h3>납입 내역 조회</h3>
-								<h5>
-									${time}
-								</h5>
-							</div>
 
 							<div class="row">
 								<div class="col-lg-12">
@@ -221,13 +220,14 @@ button {
 											<th>정기/비정기</th>
 											<th>기부목적</th>
 											<th>납입일</th>
+											<th>납입액</th>
 											<th>납입방법</th>
 											<th>비고</th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach var="payment" items="${ list }">
-											<tr>
+											<tr id="topTable">
 												<td>${ payment.sponsorNo }</td>
 												<td>${ payment.name }</td>
 												<td>${ payment.sponsorType2 }</td>
@@ -236,6 +236,7 @@ button {
 												<td>${ payment.donationPurpose }</td>
 												<td><fmt:formatDate pattern="yyyy-MM-dd"
 														value="${ payment.paymentDate }" /></td>
+												<td class="money">${ payment.amount }</td>
 												<td>${payment.paymentMethod }</td>
 												<td>${ payment.etc }</td>
 											</tr>
@@ -246,7 +247,9 @@ button {
 								</table>
 
 							</div>
-							<span>계:${count}</span><span>총 납입액:</span><span class="money">${total}</span>
+							<span id="outPut1" style="font-weight: bold">계:${count}</span>
+							<span id="outPut2" style="font-weight: bold">총 납입액:</span>
+							<span style="font-weight: bold" class="money">${total}</span>
 
 
 

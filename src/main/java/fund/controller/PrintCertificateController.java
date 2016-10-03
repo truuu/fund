@@ -69,7 +69,7 @@ public class PrintCertificateController extends BaseController{
 	@RequestMapping(value="/certificate/scholarshipIssue.do") // 장학증서 발급
 	public String scholarshipPrint(Model model,String department,String studentNo, String studentName){
 		PrintScholarship printScholarship = new PrintScholarship();	
-		printScholarship.setUserID(UserService.getCurrentUser().getId());
+		printScholarship.setUserID(1);  // 1번 admin으로 고정
 		printScholarship.setDepartment(department);
 		printScholarship.setStudentNo(studentNo);
 		printScholarship.setStudentName(studentName);
@@ -111,9 +111,8 @@ public class PrintCertificateController extends BaseController{
 	@RequestMapping(value="/certificate/donationIssue.do") // 기부증서 발급
 	public String donationPrint(Model model,int amount, String sponsorName, String serialNo){
 		PrintDonation printDonation = new PrintDonation();
-		System.out.println(UserService.getCurrentUser().getId());	
 		
-		printDonation.setUserID(UserService.getCurrentUser().getId());
+		printDonation.setUserID(1); // 1번 admin으로 고정
 		printDonation.setAmount(amount);
 		printDonation.setSponsorName(sponsorName);
 		printDonationMapper.insert(printDonation);

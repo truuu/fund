@@ -5,6 +5,11 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<style>
+tr#topTable td{
+	text-align:center;
+}
+</style>
 <ul class="nav nav-tabs">
 						<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorNo}">회원관리</a></li>
 						<li><a href="/fund_sys/sponsor/commitment.do?id=${sponsorID}">약정관리</a></li>
@@ -47,10 +52,10 @@
 								</thead>
 								<c:forEach var="paymentList" items="${paymentList}">
 									<tbody>
-										<tr>
+										<tr id="topTable">
 											<td>${paymentList.commitmentNo}</td>
 											<td>${paymentList.paymentMethod}</td>
-											<td>${paymentList.amount}</td>
+											<td class="money">${paymentList.amount}</td>
 											<td><fmt:formatDate value="${paymentList.paymentDate}" pattern="yyyy-MM-dd"/></td>
 											<td>${paymentList.accountNo}</td>
 											<td>${paymentList.bankName}</td>

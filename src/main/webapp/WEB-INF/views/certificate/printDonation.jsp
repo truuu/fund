@@ -13,7 +13,7 @@
 
 		if (index == 2) {
 			
-			alert(amount);
+			
 			location.href = "http://localhost:8080/fund_sys/certificate/donationIssue.do?amount="+ amount + "&sponsorName="+ sponsorName
 				+ "&serialNo="+ serialNo;
 			
