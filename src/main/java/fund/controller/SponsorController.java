@@ -262,7 +262,6 @@ public class SponsorController extends BaseController{
  	
  	
  	
-
 	@RequestMapping(value="/user/member_r.do",method=RequestMethod.GET)
 	public String memberRegister(Model model)throws Exception{
 
