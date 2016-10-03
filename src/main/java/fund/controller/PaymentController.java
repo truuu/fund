@@ -73,6 +73,7 @@ public class PaymentController extends BaseController{
 
 		return "dataPrint/donationPurposeStats";
 	}
+	
 	//기부목적별 보고서
 	@RequestMapping(value="/dataPrint/donationPurposeStats.do", method=RequestMethod.POST, params="cmd=pdf")
 	public void donationPurposeStatsReport(Model model,@RequestParam String startDate,@RequestParam String endDate,HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{

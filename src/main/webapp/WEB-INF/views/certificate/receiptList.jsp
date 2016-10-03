@@ -36,6 +36,16 @@
 		$(function(){
 			$('.money').mask('000,000,000,000,000,000',{reverse:true});
 		});
+		
+		$("#check_all").click(function() {
+			if($(this).is(':checked')){
+				$("input[name=rid]").attr("checked","checked");
+			}else {
+				$("input[name=rid]").prop("checked",false);
+			}
+		});
+		
+		
 	});
 </script>
 
@@ -62,6 +72,7 @@
 	
 	<div class="pull-right">
 		<button type="submit" class="btn btn-info" name="cmd" value="deleteRct">선택삭제</button>
+		<button type="submit" class="btn btn-info" name="cmd" value="rct">선택영수증</button>
 		<a href="receiptByDur.do" class="btn btn-info">기부금영수증 일괄발급</a>
 		<a href="receiptByName.do" class="btn btn-info">기부금영수증 개별발급</a>
 	</div>
@@ -70,7 +81,7 @@
 		<table class="table table-bordered">
 		    <thead>
 		        <tr>
-		            <th><input type="checkbox"></th>
+		            <th><input type="checkbox" id="check_all"></th>
 		            <th>영수증번호</th>
 		            <th>후원인 이름</th>
 		            <th>주민번호 / 사업자번호</th>
@@ -82,24 +93,25 @@
 		    <tbody>
 		        <c:forEach var="receipt" items="${ receiptList }">
 		        	<tr>
-		            	<td><input type="checkbox" name="rid" value="${ receipt.id  }"></td>
-		             	<td class="view" data-url="../report/receipt.do?id=${receipt.id}">${ receipt.no }</td>
-		             	<td class="view" data-url="../report/receipt.do?id=${receipt.id}&${pagination.queryString}">${ receipt.name }</td>
-		             	<td class="view" data-url="../report/receipt.do?id=${receipt.id}&${pagination.queryString}">${ receipt.juminNo }</td>
-		             	<td class="view" data-url="receiptView.do?id=${receipt.id}&${pagination.queryString}">${ receipt.mobilePhone }</td>
-		             	<td class="view" data-url="receiptView.do?id=${receipt.id}&${pagination.queryString}"><p class="money">${ receipt.amount }</p></td>
-		             	<td class="view" data-url="receiptView.do?id=${receipt.id}&${pagination.queryString}">${ receipt.createDate }</td>
+		            	<td><input type="checkbox" name="rid" value="${ receipt.ID  }"></td>
+		             	<td class="view" data-url="../report/receiptView.do?id=${receipt.ID}">${ receipt.no }</td>
+		             	<td class="view" data-url="../report/receiptView.do?id=${receipt.ID}">${ receipt.name }</td>
+		             	<td class="view" data-url="../report/receiptView.do?id=${receipt.ID}">${ receipt.juminNo }</td>
+		             	<td class="view" data-url="../report/receiptView.do?id=${receipt.ID}">${ receipt.mobilePhone }</td>
+		             	<td class="view" data-url="../report/receiptView.do?id=${receipt.ID}"><p class="money">${ receipt.amount }</p></td>
+		             	<td class="view" data-url="../report/receiptView.do?id=${receipt.ID}">${ receipt.createDate }</td>
 		           </tr>
 		        </c:forEach>
 		    </tbody>
 		</table>
 	</div>
-	
-	<div class="pagination">
-		<ul class="pagination pagination-sm">
-			<c:forEach var="page" items="${pagination.pageList }">
-				<li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
-			</c:forEach>
-		</ul>
+	<div align="center">
+		<div class="pagination">
+			<ul class="pagination pagination-sm">
+				<c:forEach var="page" items="${pagination.pageList }">
+					<li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
+				</c:forEach>
+			</ul>
+		</div>
 	</div>
 </form:form>

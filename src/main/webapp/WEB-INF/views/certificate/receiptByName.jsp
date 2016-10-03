@@ -22,9 +22,7 @@ $(function(){
 				&nbsp;&nbsp; 이름 : <form:input type="text" path="st"/>
 				&nbsp;&nbsp; 기관 : 
 				<form:select path="cp" name="corporateID">
-					<form:option value="0" label="검색조건"/>
-					<form:option value="1" label="학교"/>
-					<form:option value="2" label="법인"/>
+					<form:options itemValue="ID" itemLabel="name" items="${ corporates }"/>
 				</form:select>
 				&nbsp;&nbsp;<button type="submit" class="btn btn-small" name="cmd" value="search">검색</button>
 			</p>
