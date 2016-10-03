@@ -114,6 +114,8 @@ public class SponsorController extends BaseController{
 		Calendar oCalendar = Calendar.getInstance( );  // 현재 날짜/시간 등의 각종 정보 얻기
 		String sponsorNo=oCalendar.get(Calendar.YEAR)+"-"+number;
 		sponsor.setSponsorNo(sponsorNo);
+		
+	
 	
 		//첨부파일리스트 임시테스트 -> 세션값으로 방식으로 바꾸어야함 
 		List<FileAttachment> list=fileAttachmentMapper.selectByArticleId(100);
@@ -169,33 +171,32 @@ public class SponsorController extends BaseController{
         String homeAddress=sponsor.getHomeAddress();
         String officeAddress=sponsor.getOfficeAddress();
         
-        String[] home=homeAddress.split("\\*");
-        String[] office=officeAddress.split("\\*");
-        /*
-        System.out.println(home[0]);
-        System.out.println(home[1]);
-        System.out.println(home[2]);
         
-        System.out.println(office[0]);
-        System.out.println(office[1]);
-        System.out.println(office[2]);*/
-        
-        String homeRoadAddress=home[0];
-        String homeDetailAddress=home[1];
-        String homePostCode=home[2];
-        
-        String officeRoadAddress=office[0];
-        String officeDetailAddress=office[1];
-        String officePostCode=office[2];
+        System.out.println("test1 "+homeAddress);
+        System.out.println("test2 "+officeAddress);
         
         
-        sponsor.setHomeRoadAddress(homeRoadAddress);
-        sponsor.setHomeDetailAddress(homeDetailAddress);
-        sponsor.setHomePostCode(homePostCode);
-        
-        sponsor.setOfficeRoadAddress(officeRoadAddress);
-        sponsor.setOfficeDetailAddress(officeDetailAddress);
-        sponsor.setOfficePostCode(officePostCode);
+        if(!homeAddress.equals("")){
+        	System.out.println("A");
+        	 String[] home=homeAddress.split("\\*");
+        	 String homeRoadAddress=home[0];
+             String homeDetailAddress=home[1];
+             String homePostCode=home[2];
+             sponsor.setHomeRoadAddress(homeRoadAddress);
+             sponsor.setHomeDetailAddress(homeDetailAddress);
+             sponsor.setHomePostCode(homePostCode);
+             
+        }
+        if(!officeAddress.equals("")){
+        	System.out.println("A");
+        	   String[] office=officeAddress.split("\\*");
+        	   String officeRoadAddress=office[0];
+               String officeDetailAddress=office[1];
+               String officePostCode=office[2];
+               sponsor.setOfficeRoadAddress(officeRoadAddress);
+               sponsor.setOfficeDetailAddress(officeDetailAddress);
+               sponsor.setOfficePostCode(officePostCode);
+        }
         
         
         model.addAttribute("sponsor", sponsor);

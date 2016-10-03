@@ -133,15 +133,45 @@ function fileDelete(id){
 						<td id="table_b"><input type="text" name="sponsorNo" readonly
 							value="${ sponsor.sponsorNo }"></td>
 						<td id="table_a">우편물 발송여부</td>
-						<td id="table_b"><input type="radio" value="true" name="mailReceiving" ${sponsor.mailReceiving==true? "checked" :""} >
-							발송동의 <input type="radio" value="false" name="mailReceiving" ${sponsor.mailReceiving==false? "checked" :""}> 발송미동의</td>
+						<td id="table_b">
+				
+						<c:if test="${sponsor.signUpDate==null}">
+						<input type="radio" value="true" name="mailReceiving">
+						발송동의
+						<input type="radio" value="false" name="mailReceiving">
+						 발송미동의
+						</td>
+						</c:if>
+						<c:if test="${sponsor.signUpDate!=null}">
+						<input type="radio" value="true" name="mailReceiving" ${sponsor.mailReceiving==true? "checked" :""} >
+						발송동의
+						<input type="radio" value="false" name="mailReceiving" ${sponsor.mailReceiving==false? "checked" :""}>
+						 발송미동의
+						</td>
+						</c:if>
+						
 					</tr>
 					<tr>
 						<td id="table_a">이름</td>
 						<td id="table_b"><input type="text" name="name" value="${ sponsor.name }"></td>
 						<td id="table_a">우편물 발송지</td>
-						<td id="table_b"><input type="radio" value="0" name="mailTo" ${sponsor.mailTo==0? "checked" :""}>
-							자택 <input type="radio" value="1" name="mailTo" ${sponsor.mailTo==1? "checked" :""}> 직장</td>
+						<td id="table_b">
+						
+						<c:if test="${sponsor.signUpDate==null}">
+						<input type="radio" value="0" name="mailTo">
+						자택
+					     <input type="radio" value="1" name="mailTo">
+					         직장</td>
+					    </c:if>
+					    
+					    <c:if test="${sponsor.signUpDate!=null}">
+						<input type="radio" value="0" name="mailTo" ${sponsor.mailTo==0? "checked" :""}>
+						자택
+					     <input type="radio" value="1" name="mailTo" ${sponsor.mailTo==1? "checked" :""}>
+					         직장
+					    </c:if>
+					    
+					    </td> 
 					</tr>
 					<tr>
 						<td id="table_a">주민번호</td>

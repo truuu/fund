@@ -49,7 +49,7 @@ $(function() {
 			<div class="row">
 				<div class="col-lg-12">
 				<hr>
-				<center><label> 신청기간 </label> <input type="text" value="${ pagination.startDate}"> ~ <input type="text" value="${ pagination.startDate}"></center>
+				<center><label> 신청기간 </label> <input type="text" value="${ pagination.startDate}"> ~ <input type="text" value="${ pagination.endDate}"></center>
 				<hr>
 					<div class="table-responsive">
 					<form method="get">
