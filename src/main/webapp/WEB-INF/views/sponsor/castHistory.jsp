@@ -61,7 +61,7 @@ $(function(){
 			</div>
 			<!-- /.row -->     
 			<div>
-				<label> 신청기간 </label> <input type="date" id="startDate" value="${ pagination.startDate}"> ~ <input type="date" id="endDate" value="${ pagination.endDate}">
+				<label> 신청기간 </label> <input type="date" id="startDate" value="${startDate}"> ~ <input type="date" id="endDate" value="${endDate}">
 				 <button  class="btn btn-primary" id="search">검색</button>
 				 <button id="pdf"  class="btn" type="submit" name="cmd" value="pdf">보고서</button>
 				 <button id="xlsx"  class="btn" type="submit" name="cmd" value="xlsx">엑셀</button>
