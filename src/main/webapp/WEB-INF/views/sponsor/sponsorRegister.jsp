@@ -196,28 +196,20 @@ function fileDelete(id){
 					<tr>
 						<td id="table_a">후원인구분1</td>
 					    <td id="table_b"><select name="sponsorType1ID">
-								<option value="18" ${sponsor.sponsorType1ID==18? "selected" :""}>개인</option>
-								<option value="19" ${sponsor.sponsorType1ID==19? "selected" :""}>가족</option>
-								<option value="20" ${sponsor.sponsorType1ID==20? "selected" :""}>단체</option>
-								<option value="21" ${sponsor.sponsorType1ID==21? "selected" :""}>법인</option>
-
-						</select></td>
+									<c:forEach var="s1" items="${sponsorType1List}">
+										<option value="${s1.ID}" ${sponsor.sponsorType1ID==s1.ID ? "selected" : "" }>${s1.codeName}</option>
+									</c:forEach>
+							</select></td>
 
 					</tr>
 					<tr>
 						<td id="table_a">후원인구분2</td>
 						<td id="table_b">
-						    <input type="radio" value="22" name="sponsorType2ID" ${sponsor.sponsorType2ID==22? "checked" :""}>직원
-							<input type="radio" value="23" name="sponsorType2ID" ${sponsor.sponsorType2ID==23? "checked" :""}>교수 
-							<input type="radio" value="24" name="sponsorType2ID" ${sponsor.sponsorType2ID==24? "checked" :""}>동문 
-							<input type="radio" value="25" name="sponsorType2ID" ${sponsor.sponsorType2ID==25? "checked" :""}>학부모
-							<input type="radio" value="26" name="sponsorType2ID" ${sponsor.sponsorType2ID==26? "checked" :""}>성직자
-							<input type="radio" value="27" name="sponsorType2ID" ${sponsor.sponsorType2ID==27? "checked" :""}>교인
-							<input type="radio" value="29" name="sponsorType2ID" ${sponsor.sponsorType2ID==28? "checked" :""}>독지가 
-							<input type="radio" value="30" name="sponsorType2ID" ${sponsor.sponsorType2ID==29? "checked" :""}>교회
-							<input type="radio" value="" name="sponsorType2ID" ${sponsor.sponsorType2ID==1? "checked" :""}>단체
-							<input type="radio" value="31" name="sponsorType2ID" ${sponsor.sponsorType2ID==31? "checked" :""}>기업가
-							<input type="radio" value="32" name="sponsorType2ID" ${sponsor.sponsorType2ID==32? "checked" :""}>기타
+						    <select name="sponsorType2ID">
+									<c:forEach var="s2" items="${sponsorType2List}">
+										<option value="${s2.ID}" ${sponsor.sponsorType2ID==s2.ID ? "selected" : "" }>${s2.codeName}</option>
+									</c:forEach>
+							</select>
 						</td>
 						<td id="table_a">자택 전화번호</td>
 						<td id="table_b"><input type="text" name="homePhone" placeholder="02-0000-0000" value="${ sponsor.homePhone}"></td>
