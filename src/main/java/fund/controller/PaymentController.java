@@ -89,7 +89,7 @@ public class PaymentController extends BaseController{
 		if(paymentRecordStats.getSrchType1()!=null){
 			if(paymentRecordStats.getSrchType1()==1)
 				model.addAttribute("gubun","정기");
-			else
+			else if(paymentRecordStats.getSrchType1()==2)
 				model.addAttribute("gubun","비정기");
 		}
 		if(paymentRecordStats.getSrchType2()!=null){
@@ -146,7 +146,8 @@ public class PaymentController extends BaseController{
 		if(paymentRecordStats.getSrchType1()!=0){
 			if(paymentRecordStats.getSrchType1()==1)
 				model.addAttribute("gubun","정기");
-			else
+			
+			else if(paymentRecordStats.getSrchType1()==2)
 				model.addAttribute("gubun","비정기");
 		}
 		if(paymentRecordStats.getSrchType2()!=null){
