@@ -46,11 +46,7 @@ $(function(){
 		  <ul class="dropdown-menu" role="menu">
 		   
 		    <li><a href="/fund_sys/sponsor/sponsor_m.do">후원인목록</a></li>
-		  	<li><a href="/fund_sys/sponsor/insertIrrgularPayment.do">비정기 납입등록</a>
-		  	<li><a href="/fund_sys/sponsor/paymentList.do">정기납입목록</a>
-		  	<li><a href="/fund_sys/sponsor/paymentList2.do">비정기납입목록</a>
-		    <li><a href="/fund_sys/sponsor/sponsor.do">후원인등록</a></li>
-		  
+		    <li><a href="/fund_sys/sponsor/sponsor.do">후원인등록</a></li>	  
 		    <li><a href="/fund_sys/sponsor/post.do">DM주소록 생성</a></li>
 		  </ul>
 		</li>
@@ -71,14 +67,8 @@ $(function(){
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">납입관리<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
-		    
-
-		    <li><a href="#">납입 내역 보기</a></li>
-		     <li class="divider"></li>
 		       <li><a href="/fund_sys/dataPrint/paymentRecordStats.do">납입 내역 조회</a></li>
 		       <li><a href="/fund_sys/dataPrint/paymentTotalStats.do">납입 총계 조회</a></li>
-		    <li><a href="#">미납 내역(추후)</a></li>
-
 		  </ul>
 		</li>
 		<li class="dropdown">
@@ -97,8 +87,8 @@ $(function(){
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">자료출력<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
 		    <li><a href="/fund_sys/dataPrint/donationPurposeStats.do">기부목적별 납입현황</a></li>
-		    <li><a href="#">후원인별 납입현황</a></li>
-		    <li><a href="#">소속교회별납입현황</a></li>
+		    <li><a href="/fund_sys/sponsor/cast.do">후원인별 납입현황</a></li>
+		    <li><a href="/fund_sys/user/church.do">소속교회별납입현황</a></li>
 	
 		  </ul>
 		</li>
@@ -127,9 +117,7 @@ $(function(){
 		         
 	           </ul>
          </sec:authorize>
-	      
-	     
-	    
+  
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
 	</nav>

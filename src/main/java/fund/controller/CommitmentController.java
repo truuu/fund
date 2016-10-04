@@ -22,6 +22,7 @@ import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.DonationPurposeMapper;
+import fund.mapper.SponsorMapper;
 
 @Controller
 public class CommitmentController extends BaseController{
@@ -30,7 +31,7 @@ public class CommitmentController extends BaseController{
 	@Autowired CommitmentDetailMapper commitmentDetailMapper;
 	@Autowired CodeMapper codeMapper;
 	@Autowired DonationPurposeMapper donationPurposeMapper;
-
+	@Autowired SponsorMapper sponsorMapper;
 
 	/*약정목록*/
 	@RequestMapping(value="/sponsor/commitment.do", method=RequestMethod.GET)  
@@ -42,6 +43,7 @@ public class CommitmentController extends BaseController{
 		String bank="은행";
 		model.addAttribute("bankList",codeMapper.selectByBank(bank));
 		model.addAttribute("sponsorID",id);
+		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
 
 		return "sponsor/commitment";
 	}
@@ -55,7 +57,6 @@ public class CommitmentController extends BaseController{
 		//commitmentMapper.selectCountCommitment(commitmentCreate.getSponsorID());  // 해당 후원자의 약정 갯수 구하기
 		commitment.setStartDate(commitmentCreate.getCommitmentStartDate());
 		commitment.setSponsorID(commitmentCreate.getSponsorID());
-		System.out.println("후원자id"+commitmentCreate.getSponsorID());
 		commitment.setDonationPurposeID(commitmentCreate.getDonationPurposeID());
 		commitment.setPaymentMethodID(commitmentCreate.getPaymentMethodID());
 		commitment.setEtc(commitmentCreate.getCommitmentEtc());
@@ -85,8 +86,6 @@ public class CommitmentController extends BaseController{
 		commitmentDetail.setStartDate(commitmentCreate.getCommitmentStartDate());
 
 		commitmentDetailMapper.insert(commitmentDetail);  // 약정 상세 insert
-
-		//model.addAttribute("list", commitmentMapper.selectBySponsorID());  // 수정!!
 		return "redirect:/sponsor/commitment.do?id="+commitmentCreate.getSponsorID();
 	}
 
@@ -102,7 +101,6 @@ public class CommitmentController extends BaseController{
 		String bank="은행";
 	
 		model.addAttribute("bankList",codeMapper.selectByBank(bank));
-		//model.addAttribute("b",codeMapper,codeMapper.selectBankName(commitmentDetails.get(1)));
 		return "sponsor/commitmentEdit";
 	}
 

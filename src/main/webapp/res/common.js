@@ -14,11 +14,10 @@ $(function() {
     });
 });
 
-$(function() {                           // 돈 천단위로 , 찍는 mask 
+$(function() {                          
 	$("[class=money]").mask("000,000,000,000,000,000",{reverse: true});
 
 	$("form").submit(function() {
 		$("[class=money]").unmask();
 	});
 })
-

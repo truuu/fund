@@ -5,6 +5,18 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<style>
+tr#topTable td{
+	text-align:center;
+}
+</style>
+<ul class="nav nav-tabs">
+						<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorNo}">회원관리</a></li>
+						<li><a href="/fund_sys/sponsor/commitment.do?id=${sponsorID}">약정관리</a></li>
+						<li><a href="/fund_sys/sponsor/paymentList.do?id=${sponsorID}" >정기납입관리</a></li>
+						<li class="active"><a href="/fund_sys/sponsor/paymentList2.do?id=${sponsorID}">비정기납입관리</a></li>
+						<li><a href="/fund_sys/sponsor/insertIrrgularPayment.do?id=${sponsorID}" >비정기납입등록</a></li>
+					</ul>
 
 <div id="wrapper">
 	<div id="page-wrapper">
@@ -16,6 +28,8 @@
 						납입 목록 <small>- 비정기</small>
 					</h1>
 				</div>
+				<input type="hidden" value="${sponsor.sponsorNo}" />
+				<input type="hidden" value="${sponsorID}" />
 			</div>
 			<!-- /.row -->
 			<form:form method="post" modelAttribute="paymentList2">
@@ -35,9 +49,9 @@
 								</thead>
 								<c:forEach var="paymentList2" items="${paymentList2}">
 									<tbody>
-										<tr>
+										<tr id="topTable">
 											<td>${paymentList2.paymentMethod}</td>
-											<td>${paymentList2.amount}</td>
+											<td class="money">${paymentList2.amount}</td>
 											<td><fmt:formatDate value="${paymentList2.paymentDate}" pattern="yyyy-MM-dd"/></td>
 											<td>${paymentList2.corporate}</td>
 											<td>${paymentList2.donationPurpose}</td>

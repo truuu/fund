@@ -15,10 +15,9 @@
 		기간:
 		<form:input type="date" path="sd"/>~
 		<form:input type="date" path="ed" />
-		기관종류<form:select path="cp">
-			<form:option value="0" label="검색조건" />
-			<form:option value="1" label="학교" />
-			<form:option value="2" label="법인"/>
+		기관종류: 
+		<form:select path="cp" name="corporateID">
+			<form:options itemValue="ID" itemLabel="name" items="${ corporates }"/>
 		</form:select>
 
 		<button type="submit" class="btn btn-small">검색</button>

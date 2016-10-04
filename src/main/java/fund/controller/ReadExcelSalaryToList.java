@@ -14,9 +14,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import fund.BaseController;
 import fund.dto.Salary;
 
-public class ReadExcelSalaryToList {
+public class ReadExcelSalaryToList extends BaseController{
 	public static List<Salary> readExcelData(String fileName) {
 		List<Salary> countriesList = new ArrayList<Salary>();
 
@@ -49,7 +50,6 @@ public class ReadExcelSalaryToList {
 						row = sheet.getRow(rowIndex);
 						if(!"".equals(row.getCell(0)) && !" ".equals(row.getCell(0)) && row.getCell(0)!= null ) {
 							Salary resultRow = null;
-							System.out.println("5");
 							String sponsorNo = "";
 							String sponsorName = "";
 							String amount = "";

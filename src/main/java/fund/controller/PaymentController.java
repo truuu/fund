@@ -1,8 +1,12 @@
 package fund.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +23,8 @@ import fund.mapper.CodeMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.SponsorMapper;
+import fund.service.ReportBuilder;
+import net.sf.jasperreports.engine.JRException;
 import fund.dto.EB13_CommitmentDetail;
 
 @Controller
@@ -44,8 +50,6 @@ public class PaymentController extends BaseController{
 			totalSponsor+=list.get(i).getCount1();
 			totalDonationPurpose+=list.get(i).getCount2();
 			totalSum+=list.get(i).getSum();
-
-
 		}
 		double totalPercent = 0.0;
 
@@ -68,6 +72,22 @@ public class PaymentController extends BaseController{
 		model.addAttribute("endDate",endDate);
 
 		return "dataPrint/donationPurposeStats";
+	}
+	
+	//기부목적별 보고서
+	@RequestMapping(value="/dataPrint/donationPurposeStats.do", method=RequestMethod.POST, params="cmd=pdf")
+	public void donationPurposeStatsReport(Model model,@RequestParam String startDate,@RequestParam String endDate,HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+		List<Payment> list = paymentMapper.selectComparePaymentDate(startDate, endDate);
+		ReportBuilder reportBuilder = new ReportBuilder("chartBydonationPurpose",list,"chartBydonationPurpose.pdf",req,res);
+		reportBuilder.build("pdf");
+	}
+	
+	//기부목적별 엑셀
+	@RequestMapping(value="/dataPrint/donationPurposeStats.do", method=RequestMethod.POST, params="cmd=xlsx")
+	public void donationPurposeStatsXlsx(Model model,@RequestParam String startDate,@RequestParam String endDate,HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+		List<Payment> list = paymentMapper.selectComparePaymentDate(startDate, endDate);
+		ReportBuilder reportBuilder = new ReportBuilder("chartBydonationPurpose",list,"chartBydonationPurpose.xlsx",req,res);
+		reportBuilder.build("xlsx");
 	}
 
 	@RequestMapping(value="/dataPrint/paymentRecordStats.do", method=RequestMethod.GET) 
@@ -111,12 +131,10 @@ public class PaymentController extends BaseController{
 		model.addAttribute("time",date2);
 		
 		List<Payment> list = paymentMapper.selectPaymentRecord(paymentRecordStats);
-		System.out.println("길이"+list.size());
 		int total=0;
 		int count=0;
 		for(int i=0 ; i<list.size() ; i++){
 			total+=list.get(i).getAmount();
-			System.out.println(list.get(i).getAmount());
 			count++;
 		}
 		model.addAttribute("total",total);
@@ -140,9 +158,6 @@ public class PaymentController extends BaseController{
 	
 	@RequestMapping(value="/dataPrint/paymentTotalStats.do", method=RequestMethod.POST) 
 	public String paymentTotalStats(Model model,PaymentRecordStats paymentRecordStats) { 
-		System.out.println("기부목적번호"+paymentRecordStats.getSrchType2());
-		System.out.println("후원인번호"+paymentRecordStats.getSrchType5());
-		System.out.println("후원인이름"+paymentRecordStats.getSponsorName());
 		model.addAttribute("startDate",paymentRecordStats.getStartDate());
 		model.addAttribute("endDate",paymentRecordStats.getEndDate());
 		if(paymentRecordStats.getSrchType1()!=0){
@@ -185,37 +200,6 @@ public class PaymentController extends BaseController{
 		
 		return "dataPrint/paymentTotalStats";
 	}
-
 	
-	
-	
-	
-	
-	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.GET)
-	public String insertIrrgularPayment1(Payment payment,Model model) {	
-		return "sponsor/insertIrrgularPayment";
-	}
-
-	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.POST)
-	public String insertIrrgularPayment2(Payment payment,Model model) {
-		paymentMapper.insertIrregularPayment(payment);
-		return "sponsor/sponsor";
-	}
-	
-	@RequestMapping(value="/sponsor/paymentList.do", method=RequestMethod.GET)
-	public String paymentList(Model model){
-		int sponsorID=109;
-		List<Payment> paymentList = paymentMapper.selectPaymentRegular(sponsorID);
-		model.addAttribute("paymentList", paymentList);
-		return "sponsor/sponsor";
-	}
-	
-	@RequestMapping(value="/sponsor/paymentList2.do", method=RequestMethod.GET)
-	public String paymentList2(Model model){
-		int sponsorID=109;
-		List<Payment> paymentList2 = paymentMapper.selectPaymentIrregular(sponsorID);
-		model.addAttribute("paymentList2", paymentList2);
-		return "sponsor/sponsor";
-	}
 
 }

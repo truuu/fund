@@ -36,13 +36,18 @@ $(function() {
 
 
 </script>
+<style>
+tr#topTable td{
+	text-align:center;
+}
+</style>
+
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
 			<h1 class="page-header">회원관리</h1>
 			<div id="column-right">
 				<a href="sponsor.do" class="button button-reversed">신규</a> 
-				<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
 			</div>
 
 			<div id="search">
@@ -70,7 +75,10 @@ $(function() {
 				</div>
 			</div>
 
-<form method="get">
+<form>
+			<div id="column-right">
+				<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
+			</div>
     <input type="hidden" name="pg" value="1" />
 
 
@@ -90,7 +98,7 @@ $(function() {
 				</thead>
 				<tbody>
 			<c:forEach var="sponsor" items="${list}">
-			<tr data-id="${sponsor.sponsorNo}">
+			<tr data-id="${sponsor.sponsorNo}" id="topTable">
 			<td>${sponsor.sponsorNo}</td>
 			<td>${sponsor.name}</td>
 			<td>${sponsor.sponsorType1}</td>

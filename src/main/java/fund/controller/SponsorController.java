@@ -2,8 +2,11 @@ package fund.controller;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.io.BufferedOutputStream;
 import java.net.URLEncoder;
 
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import fund.BaseController;
 import fund.dto.*;
 import fund.mapper.*;
 import fund.service.ReportBuilder;
@@ -29,17 +33,18 @@ import net.sf.jasperreports.engine.JRException;
 
 
 @Controller
-public class SponsorController {
+public class SponsorController extends BaseController{
 	@Autowired SponsorMapper sponsorMapper;
 	@Autowired FileAttachmentMapper fileAttachmentMapper;
 	@Autowired PaymentMapper paymentMapper;
 	@Autowired CodeMapper codeMapper;
+	@Autowired DonationPurposeMapper donationPurposeMapper;
+
 
 
     //회원관리 기본페이지
 	@RequestMapping(value="/sponsor/sponsor_m.do",method=RequestMethod.GET)
 	public String userManage(Model model, Pagination pagination)throws Exception{
-		System.out.println("sponsor_m.do 액션메소드");
 		pagination.setRecordCount(sponsorMapper.selectCount());
 	    model.addAttribute("list", sponsorMapper.selectPage(pagination));
 		return "sponsor/sponsorManage";
@@ -50,15 +55,10 @@ public class SponsorController {
 	//회원관리 검색기능 
 	@RequestMapping(value="/sponsor/search.do",method=RequestMethod.GET)
 	public String sponsorSearch(Model model, Pagination pagination)throws Exception{
-		System.out.println("---------------------------");
-		
 		String codeName=pagination.getCodeName();
-		System.out.println("test "+codeName);
-		System.out.println("---------------------------");
 		List<Sponsor> sponsorList=null;
 		if(codeName.equals("이름")){
 			String nameForSearch=pagination.getNameForSearch();
-			System.out.println("name1 "+nameForSearch);
 			sponsorList=sponsorMapper.nameSearch(pagination);
 		}else{
 			
@@ -67,19 +67,6 @@ public class SponsorController {
 			pagination.setRecordCount(sponsorMapper.searchCount(codeName));
 			sponsorList=sponsorMapper.sponsorSearch(pagination);
 		}
-		
-		
-		
-		
-		//String type=userMapper.sponsorTypeCheck(codeName);
-		
-		//System.out.println(type);
-		
-		//pagination.setCodeName(codeName);
-		//pagination.setType(type);
-		
-		//pagination.setRecordCount(userMapper.searchCount(codeName));
-		//List<Sponsor> sponsorList=userMapper.sponsorSearch(pagination);
 		model.addAttribute("list", sponsorList);
 		return "sponsor/sponsorManage";
 	}
@@ -92,10 +79,8 @@ public class SponsorController {
 		
 		
 		if(num==null){
-			System.out.println("11");
 			number="0001";
 		}else{
-			System.out.println("22");
 			number=String.valueOf((int)num+1);
 			if(number.length()==1){
 				number="000"+number;
@@ -116,7 +101,6 @@ public class SponsorController {
 	
 		//첨부파일리스트 임시테스트 -> 세션값으로 방식으로 바꾸어야함 
 		List<FileAttachment> list=fileAttachmentMapper.selectByArticleId(100);
-		System.out.println(list);
 		model.addAttribute("files", fileAttachmentMapper.selectByArticleId(100));
 		model.addAttribute("sponsor",sponsor);
 		
@@ -144,15 +128,11 @@ public class SponsorController {
  	    
  	    sponsor.setHomeAddress(homeAddress);
  	    sponsor.setOfficeAddress(officeAddress);
-
- 	    System.out.println("구분 "+sponsor.getSort());
  	    
  	    if(sponsor.getSort()==0){
- 	    	System.out.println("입력");
  		sponsorMapper.sponsorInsert(sponsor);
  	    }
  	    if(sponsor.getSort()==1){
- 	    	System.out.println("수정");
  	     sponsorMapper.updateSponsor(sponsor);
  	    }
  	    
@@ -168,13 +148,7 @@ public class SponsorController {
         String homeAddress=sponsor.getHomeAddress();
         String officeAddress=sponsor.getOfficeAddress();
         
-        
-        System.out.println("test1 "+homeAddress);
-        System.out.println("test2 "+officeAddress);
-        
-        
         if(!homeAddress.equals("")){
-        	System.out.println("A");
         	 String[] home=homeAddress.split("\\*");
         	 String homeRoadAddress=home[0];
              String homeDetailAddress=home[1];
@@ -185,7 +159,6 @@ public class SponsorController {
              
         }
         if(!officeAddress.equals("")){
-        	System.out.println("A");
         	   String[] office=officeAddress.split("\\*");
         	   String officeRoadAddress=office[0];
                String officeDetailAddress=office[1];
@@ -198,15 +171,52 @@ public class SponsorController {
         
         model.addAttribute("sponsor", sponsor);
         int sponsorID=sponsor.getId();
-        System.out.println("sponsorID>> "+sponsorID);
-        List<Payment> paymentList = paymentMapper.selectPaymentRegular(sponsorID);
-		model.addAttribute("paymentList", paymentList);
-		List<Payment> paymentList2 = paymentMapper.selectPaymentIrregular(sponsorID);
-		model.addAttribute("paymentList2", paymentList2);
-    
-        
-        
+       
+	        
 		return "sponsor/sponsor";
+	}
+ 	
+ 	@RequestMapping(value="/sponsor/paymentList.do",method=RequestMethod.GET)  // 정기 납입관리
+ 	public String paymentList(@RequestParam("id") int id, Model model){
+ 		List<Payment> paymentList = paymentMapper.selectPaymentRegular(id);
+		model.addAttribute("paymentList", paymentList);
+		model.addAttribute("sponsorID",id);
+		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
+ 		return "sponsor/paymentList";
+ 	}
+ 	
+ 	@RequestMapping(value="/sponsor/paymentList2.do", method=RequestMethod.GET)  // 비정기 납입관리
+	public String paymentList2(Model model, @RequestParam("id") int id){
+		List<Payment> paymentList2 = paymentMapper.selectPaymentIrregular(id);
+		model.addAttribute("paymentList2", paymentList2);
+		model.addAttribute("sponsorID",id);
+		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
+		return "sponsor/paymentList2";
+	}
+ 	
+ 	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.GET)  // 비정기 납입등록
+	public String insertIrrgularPayment1(Model model,@RequestParam("id") int id) {
+ 		model.addAttribute("sponsorID",id);
+		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
+		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
+ 		
+		return "sponsor/insertIrrgularPayment";
+	}
+
+	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.POST)
+	public String insertIrrgularPayment2(IregularPayment iregularPayment,Model model) throws Exception {
+		Payment payment = new Payment();
+		payment.setSponsorID(iregularPayment.getSponsorID());
+		payment.setAmount(iregularPayment.getAmount());
+		Date date = (new SimpleDateFormat("yyyy-MM-dd")).parse(iregularPayment.getPaymentDate());
+		payment.setPaymentDate(date);
+		payment.setPaymentMethodID(iregularPayment.getPaymentMethodID());
+		payment.setDonationPurposeID(iregularPayment.getDonationPurposeID());
+		payment.setEtc(iregularPayment.getEtc());
+		
+		paymentMapper.insertIrregularPayment(payment);
+		
+		return "redirect:/sponsor/paymentList2.do?id="+iregularPayment.getSponsorID();
 	}
  	
  	//후원자 정보 삭제하기
@@ -220,7 +230,6 @@ public class SponsorController {
  	
  	
  	
-
 	@RequestMapping(value="/user/member_r.do",method=RequestMethod.GET)
 	public String memberRegister(Model model)throws Exception{
 
@@ -239,7 +248,6 @@ public class SponsorController {
 	//소속교호찾기 자동완성
 	@RequestMapping(value="/sponsor/autoList.do", produces="application/json;charset=UTF-8", method=RequestMethod.GET)
 	public @ResponseBody List<Code> autoList(HttpServletRequest request,HttpServletResponse response) {
-		System.out.println("---------------acbbsds---------------");
 		response.addHeader("Access-Control-Allow-Origin", "*");
 		String input = request.getParameter("input");
 		List<Code> resultList=sponsorMapper.selectAuto(input);
@@ -249,75 +257,41 @@ public class SponsorController {
 	
 	
 	//기간기준으로 DM발송 리스트 찾기
-	@RequestMapping(value="/sponsor/postSearch.do",method=RequestMethod.GET)
+	@RequestMapping(value="/sponsor/postSearch.do")
 	public String postByDate(HttpServletRequest request,HttpServletResponse response,Model model,Pagination  pagination)throws Exception{
-		//String startDate = request.getParameter("startDate");
-	//	String endDate = request.getParameter("endDate");
-		String check = request.getParameter("check");
-		
-		 pagination.setRecordCount(sponsorMapper.countForDM(pagination));
-		
+		String check = request.getParameter("check");	
+		pagination.setRecordCount(sponsorMapper.countForDM(pagination));
 		List<Sponsor> postList=sponsorMapper.postManage(pagination);
 		
-		
-		
-		System.out.println(postList);
 		String temp,address,postCode;
 		int middle;
 		 for (Sponsor i : postList) {
 	            if(i.getMailTo()==0){
 	            temp=i.getHomeAddress();
-	            System.out.println(temp);
 	            String[] home=temp.split("\\*");
-	            System.out.println(home[0]);
-	            System.out.println(home[1]);
-	            System.out.println(home[2]);
-	            
 	            address=home[0]+home[1];
 	    		postCode=home[2];
-	    		System.out.println(address);
-	    		System.out.println(postCode);
-	            
-	    		//middle=temp.indexOf("/");
-	    		//address=temp.substring(0,middle-1);
-	    		//postCode=temp.substring(middle+1,temp.length());
 	    		i.setAddress(address);
 	    		i.setPostCode(postCode);
 	            }
 	            if(i.getMailTo()==1){
 	                temp=i.getOfficeAddress();
-	                System.out.println("1 "+temp);
 	                String[] office=temp.split("\\*");
-		            System.out.println(office[0]);
-		            System.out.println(office[1]);
-		            System.out.println(office[2]);
-		            
 		            address=office[0]+office[1];
 		    		postCode=office[2];
 		    		
-		    		System.out.println(address);
-		    		System.out.println(postCode);
-		            
-	                
-	                
-		    		//middle=temp.indexOf("/");
-		    		//address=temp.substring(0,middle-1);
-		    		//postCode=temp.substring(middle+1,temp.length());
 		    		i.setAddress(address);
 		    		i.setPostCode(postCode);
 	            }
 	        }
 		 
 		 if(check.equals("f")){
-			 System.out.println("false");
-	     model.addAttribute("postList", postList);
+			 model.addAttribute("postList", postList);
 		 }
 		 if(check.equals("t")){
-			 System.out.println("true");
 			 UserService.writeNoticeListToFile("post.xls", postList);
 			 model.addAttribute("postList", postList);
 		 }
-		 
 		 	
 		return "sponsor/post";
 	}
@@ -343,22 +317,20 @@ public class SponsorController {
 	 
 	 //파일 다운로드
 	 @RequestMapping("/sponsor/download.do")
-	    public void download(@RequestParam("id") int id, HttpServletResponse response) throws IOException {
-		 FileAttachment file= fileAttachmentMapper.selectById(id);
-	       if (file == null) return;
-	        String fileName = URLEncoder.encode(file.getFileName(),"UTF-8");
-	        response.setContentType("application/octet-stream");
-	        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
-	        try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
-	            output.write(file.getData());
-	        }
-	    }
-	 
+    public void download(@RequestParam("id") int id, HttpServletResponse response) throws IOException {
+	 FileAttachment file= fileAttachmentMapper.selectById(id);
+       if (file == null) return;
+        String fileName = URLEncoder.encode(file.getFileName(),"UTF-8");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
+        try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+            output.write(file.getData());
+        }
+    }
+ 
 	 //파일삭제
 	 @RequestMapping(value="sponsor/fileDelete.do",method=RequestMethod.GET)
 	 public String fileDelete(@RequestParam("id") int id)throws IOException{
-		 System.out.println("id test sss >> "+id);
-		 System.out.println();
 		 fileAttachmentMapper.deleteById(id);
 		 return "redirect:/sponsor/sponsor.do";
 		 
@@ -378,9 +350,8 @@ public class SponsorController {
 	 }
 	 
 	 
-	 @RequestMapping(value="sponsor/castList.do",method=RequestMethod.GET)
+	 @RequestMapping(value="sponsor/castList.do")
 	 public String castList(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Model model)throws IOException{
-		 System.out.println(startDate +" "+endDate);
 		 List<Sponsor> list=sponsorMapper.castBySponsorType2(startDate,endDate);
 		 
 		 
@@ -396,7 +367,6 @@ public class SponsorController {
 		 
 		 
 		
-		 System.out.println("sponsor"+sponsorCount+"cast"+castCount+"sum"+ sum);
 			model.addAttribute("sponsorCount", sponsorCount);
 			model.addAttribute("castCount",castCount);
 			model.addAttribute("sum", sum);
@@ -407,26 +377,35 @@ public class SponsorController {
 		
 		return "sponsor/castHistory"; 
 	 }
+	 //회원구분	별 보고서
+	 @RequestMapping(value="/sponsor/castList.do",params="cmd=pdf" )
+	public void sponsorTypeReport(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+ 		List<Sponsor> list = sponsorMapper.castBySponsorType2(startDate,endDate);
+ 		ReportBuilder reportBuilder = new ReportBuilder("chartBySponsorType",list,"chartBySponsorType.pdf",req,res);
+		reportBuilder.build("pdf");
+ 	}
+	//회원구분	별 엑셀
+		 @RequestMapping(value="/sponsor/castList.do", params="cmd=xlsx" )
+		public void sponsorTypeXlsx(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
+	 		List<Sponsor> list = sponsorMapper.castBySponsorType2(startDate,endDate);
+	 		ReportBuilder reportBuilder = new ReportBuilder("chartBySponsorType",list,"chartBySponsorType.xlsx",req,res);
+			reportBuilder.build("xlsx");
+	 	}
 	 
 	 
-	 @RequestMapping(value="/sponsor/post.do", method=RequestMethod.POST, params="cmd=xlsx" )
+	 //DM발송 엑셀
+	 @RequestMapping(value="/sponsor/postSearch.do",params="cmd=xlsx" )
 	 public void excelDMReport(Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
-		System.out.println("엑셀파일 생성 sendDM");
 		List<Sponsor> list = sponsorMapper.excelDM(pagination);
 		ReportBuilder reportBuilder = new ReportBuilder("sendDM", list, "sendDM.xlsx",req,res);
 		reportBuilder.build("xlsx");
 	 }
-	
-	 @RequestMapping(value="/sponsor/sponsor_m.do.do", method=RequestMethod.POST, params="cmd=xlsx" )
+	//후원인목록
+	 @RequestMapping(value="/sponsor/sponsor_m.do", params="cmd=xlsx" )
 	 public void sponsorList(Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
-		System.out.println("액션메소드를 찾아서");
 		List<Sponsor> list = sponsorMapper.sponsorListExcel(pagination);
 		ReportBuilder reportBuilder = new ReportBuilder("sponsorList", list, "sponsorList.xlsx",req,res);
 		reportBuilder.build("xlsx");
 	 }
-	 
-	
-
-
-
 }
+	

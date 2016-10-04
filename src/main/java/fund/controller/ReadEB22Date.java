@@ -10,7 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ReadEB22Date {
+import fund.BaseController;
+
+public class ReadEB22Date extends BaseController{
 	public static String readEB22Date(String fileName){
 		
 		BufferedReader br = null;        
@@ -27,16 +29,12 @@ public class ReadEB22Date {
 
 		try {
 
-			// 파일을 읽어들여 File Input 스트림 객체 생성
 			fis = new FileInputStream(file);
 
-			// File Input 스트림 객체를 이용해 Input 스트림 객체를 생서하는데 인코딩을 UTF-8로 지정
 			isr = new InputStreamReader(fis, "UTF-8");
 
-			// Input 스트림 객체를 이용하여 버퍼를 생성
 			br = new BufferedReader(isr);
 
-			// 버퍼를 한줄한줄 읽어들여 내용 추출
 			while( (temp = br.readLine()) != null) {
 				content += temp + "\n";
 			}
@@ -47,8 +45,7 @@ public class ReadEB22Date {
 			Date result = format1.parse(eb22Date);
 			
 			format1.applyPattern("yyyy-MM-dd");
-			
-			
+
 			return format1.format(result);
 			
 

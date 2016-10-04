@@ -93,7 +93,10 @@ button {
 	text-transform: uppercase;
 	margin: 5px 0 5px 0;
 }
-
+tr#topTable td{ text-align:center; }
+#outPut1{ margin-left:10%; }
+#outPut2{ margin-left:26%; }
+#outPut3{ margin-left:28%; }
 
 
 </style>
@@ -107,7 +110,9 @@ button {
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h3>납입 총계 조회4</h3>
+						<h1 class="page-header">
+						납입관리 <small>- 납입총계조회</small>
+					</h1>
 					</div>
 				</div>
 				<!-- /.row -->
@@ -189,18 +194,10 @@ button {
 				<div class="row">
 					<div class="col-lg-12">
 						<hr>
-						<div id="column-right">
-							<a href="#" class="button">출력</a> <a href="#" class="button">엑셀다운</a>
-						</div>
+						
 
 						<div class="reporting">
 
-							<div class="row">
-								<h3>납입 총계 조회</h3>
-								<h5>
-									${time}
-								</h5>
-							</div>
 
 							<div class="row">
 								<div class="col-lg-12">
@@ -252,7 +249,7 @@ button {
 									</thead>
 									<tbody>
 										<c:forEach var="payment" items="${ list }">
-											<tr>
+											<tr id="topTable">
 												<td>${ payment.sponsorNo }</td>
 												<td>${ payment.name }</td>
 												<td>${ payment.sponsorType2 }</td>
@@ -268,9 +265,10 @@ button {
 								</table>
 
 							</div>
-							<p>계:${count}</p>
-							<p>총 납입건수:${total2}</p>
-							<span>총 납입액:</span><span class="money">${total}</span>
+							<span id="outPut1" style="font-weight: bold">계:${count}</span>
+							<span id="outPut2" style="font-weight: bold">총 납입건수:${total2}</span>
+							<span id="outPut3" style="font-weight: bold">총 납입액:</span>
+							<span  class="money" style="font-weight: bold">${total}</span>
 
 
 

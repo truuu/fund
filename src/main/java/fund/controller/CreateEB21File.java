@@ -10,9 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import fund.BaseController;
 import fund.dto.EB21_commitmentDetail;
 
-public class CreateEB21File {
+public class CreateEB21File extends BaseController{
 	public static void createEB21File(List<EB21_commitmentDetail> eb21List,String paymentDate_old) throws IOException, ParseException{
 		Date paymentDate = new SimpleDateFormat("yyyy-MM-dd").parse(paymentDate_old);
 		SimpleDateFormat yymmdd = new SimpleDateFormat("yyMMdd");

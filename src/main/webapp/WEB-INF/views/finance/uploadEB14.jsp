@@ -23,7 +23,7 @@
 
 					<div class="row">
 						<div class="col-lg-9">
-							<label> 구분 : 에러 </label> <label> 파일명 : 연 파일명 출력해주기 </label>
+							<label> 구분 : 에러 </label>
 						</div>
 						<div class="col-lg-3">
 							<div id="column-right">
