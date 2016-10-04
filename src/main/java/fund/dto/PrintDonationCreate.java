@@ -4,7 +4,7 @@ public class PrintDonationCreate {
 	String serialNo;
 	String title;
 	String sponsorName;
-	int amount;
+	String amount;
 	String content;
 	String date;
 	String university;
@@ -29,11 +29,11 @@ public class PrintDonationCreate {
 		this.sponsorName = sponsorName;
 	}
 	
-	public int getAmount() {
+	public String getAmount() {
 		return amount;
 	}
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setAmount(String string) {
+		this.amount = string;
 	}
 	public String getContent() {
 		return content;

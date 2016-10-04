@@ -57,14 +57,18 @@ public class PrintCertificateController extends BaseController{
         return "certificate/printScholarship";
     }
 	
-	@RequestMapping(value="/certificate/spreview.do") // 장학증서 미리보기 >> 장학증서 파일 다운
-    public void printScholarship(Model model,String department,String studentNo, String studentName,String content, String serialNo,HttpServletRequest req, HttpServletResponse res)throws JRException,IOException {
+    
+	//장학증서 보고서 미리보기
+	@RequestMapping("/report/printScholarship.do")
+    public void printScholarshipReport(Model model,  @RequestParam("type") String type, 
+            HttpServletRequest request, HttpServletResponse response) throws JRException, IOException {
+		System.out.println(request.getParameter("department"));
 		PrintScholarshipCreate printScholarshipCreate = new PrintScholarshipCreate();
-		printScholarshipCreate.setDepartment(department);
-		printScholarshipCreate.setSerialNo(serialNo);
-		printScholarshipCreate.setStudentName(studentName);
-		printScholarshipCreate.setStudentNo(studentNo);
-		printScholarshipCreate.setContent(content);
+		printScholarshipCreate.setDepartment(request.getParameter("department"));
+		printScholarshipCreate.setSerialNo(request.getParameter("serialNo"));
+		printScholarshipCreate.setStudentName(request.getParameter("studentName"));
+		printScholarshipCreate.setStudentNo(request.getParameter("studentNo"));
+		printScholarshipCreate.setContent(request.getParameter("content"));
 		printScholarshipCreate.setDate(PrintCertificateService.printDate());
 		String serialNum="제 "+printScholarshipCreate.getSerialNo()+" 호";
 		printScholarshipCreate.setSerialNo(serialNum);
@@ -76,12 +80,9 @@ public class PrintCertificateController extends BaseController{
 		
 		List<PrintScholarshipCreate> list = new ArrayList<PrintScholarshipCreate>();
 		list.add(printScholarshipCreate);
-		ReportBuilder reportBuilder = new ReportBuilder("printScholarship",list,"printScholarship.pdf", req, res);
-		reportBuilder.build("pdf");
-		
-        //return "certificate/scholarshipReportContent";
+		ReportBuilder reportBuilder = new ReportBuilder("printScholarship",list,"printScholarship."+type, request, response);
+		reportBuilder.build(type);
     }
-    
 	
 	@RequestMapping(value="/certificate/scholarshipIssue.do") // 장학증서 발급
 	public String scholarshipPrint(Model model,String department,String studentNo, String studentName){
@@ -96,24 +97,21 @@ public class PrintCertificateController extends BaseController{
 		
 	@RequestMapping(value="/certificate/printDonation.do", method=RequestMethod.GET)
     public String printDonation(Model model) {
-		//int number=printDonationMapper.selectSerialNo();
-		//int year1 = Calendar.getInstance().get(Calendar.YEAR); // 현재 년도
-		//String serial=Integer.toString(number);
-		//String year2=Integer.toString(year1);
-		
-		//String serialNo="2016-000"+serial;
 		model.addAttribute("serialNo",printDonationMapper.selectSerialNum());
         return "certificate/printDonation";
     }
 	
+
 	
-	@RequestMapping(value="/certificate/dpreview.do")  // 기부증서 미리보기 >> 기부증서 파일 다운
-    public void printDonation(Model model,int amount, String sponsorName, String serialNo, String content,HttpServletRequest req, HttpServletResponse res)throws JRException,IOException{
+	//기부증서보고서 미리보기
+	@RequestMapping("report/printDonation.do")
+	 public void  printDonationReport(Model model,  @RequestParam("type") String type,HttpServletRequest request, HttpServletResponse response) throws JRException, IOException {
+		System.out.println(request.getParameter("amount"));
 		PrintDonationCreate printDonationCreate = new PrintDonationCreate();
-		printDonationCreate.setAmount(amount);
-		printDonationCreate.setContent(content);
-		printDonationCreate.setSerialNo(serialNo);
-		printDonationCreate.setSponsorName(sponsorName);
+		printDonationCreate.setAmount(request.getParameter("amount"));
+		printDonationCreate.setContent(request.getParameter("content"));
+		printDonationCreate.setSerialNo(request.getParameter("serialNo"));
+		printDonationCreate.setSponsorName(request.getParameter("sponsorName"));
 		printDonationCreate.setDate(PrintCertificateService.printDate());
 		String serialNum="제 "+printDonationCreate.getSerialNo()+" 호";
 		printDonationCreate.setSerialNo(serialNum);
@@ -125,11 +123,11 @@ public class PrintCertificateController extends BaseController{
 		
 		List<PrintDonationCreate> list = new ArrayList<PrintDonationCreate>();
 		list.add(printDonationCreate);
-		ReportBuilder reportBuilder = new ReportBuilder("printDonation",list,"printDonation.pdf", req, res);
-		reportBuilder.build("pdf");
-		//return "certificate/donationReportContent";
-	}
+		ReportBuilder reportBuilder = new ReportBuilder("printDonation",list,"printDonation."+type, request, response);
+		reportBuilder.build(type);
 	
+	   }
+
 	@RequestMapping(value="/certificate/donationIssue.do") // 기부증서 발급
 	public String donationPrint(Model model,int amount, String sponsorName, String serialNo){
 		PrintDonation printDonation = new PrintDonation();
