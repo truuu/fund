@@ -36,7 +36,7 @@
 											<tr>
 												<td>${paymentList.commitmentNo }</td>
 												<td>${paymentList.paymentDate}</td>
-												<td>${paymentList.amount}</td>
+												<td class="money">${paymentList.amount}</td>
 						
 											</tr>
 										</tbody>

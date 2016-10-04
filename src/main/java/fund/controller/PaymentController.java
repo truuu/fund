@@ -131,12 +131,10 @@ public class PaymentController extends BaseController{
 		model.addAttribute("time",date2);
 		
 		List<Payment> list = paymentMapper.selectPaymentRecord(paymentRecordStats);
-		System.out.println("길이"+list.size());
 		int total=0;
 		int count=0;
 		for(int i=0 ; i<list.size() ; i++){
 			total+=list.get(i).getAmount();
-			System.out.println(list.get(i).getAmount());
 			count++;
 		}
 		model.addAttribute("total",total);
@@ -205,37 +203,6 @@ public class PaymentController extends BaseController{
 		
 		return "dataPrint/paymentTotalStats";
 	}
-
 	
-	
-	
-	
-	
-	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.GET)
-	public String insertIrrgularPayment1(Payment payment,Model model) {	
-		return "sponsor/insertIrrgularPayment";
-	}
-
-	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.POST)
-	public String insertIrrgularPayment2(Payment payment,Model model) {
-		paymentMapper.insertIrregularPayment(payment);
-		return "sponsor/sponsor";
-	}
-	
-	@RequestMapping(value="/sponsor/paymentList.do", method=RequestMethod.GET)
-	public String paymentList(Model model){
-		int sponsorID=109;
-		List<Payment> paymentList = paymentMapper.selectPaymentRegular(sponsorID);
-		model.addAttribute("paymentList", paymentList);
-		return "sponsor/sponsor";
-	}
-	
-	@RequestMapping(value="/sponsor/paymentList2.do", method=RequestMethod.GET)
-	public String paymentList2(Model model){
-		int sponsorID=109;
-		List<Payment> paymentList2 = paymentMapper.selectPaymentIrregular(sponsorID);
-		model.addAttribute("paymentList2", paymentList2);
-		return "sponsor/sponsor";
-	}
 
 }

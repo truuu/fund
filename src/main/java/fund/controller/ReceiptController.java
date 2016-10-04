@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
-
+import fund.BaseController;
 import fund.mapper.*;
 import fund.dto.Corporate;
 import fund.dto.Pagination;
@@ -26,7 +26,7 @@ import fund.service.*;
 import net.sf.jasperreports.engine.JRException;
 
 @Controller
-public class ReceiptController {
+public class ReceiptController extends BaseController{
 	
 	@Autowired ReceiptMapper receiptMapper;
 	@Autowired PaymentMapper paymentMapper;

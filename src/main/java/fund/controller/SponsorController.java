@@ -2,8 +2,11 @@ package fund.controller;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.io.BufferedOutputStream;
 import java.net.URLEncoder;
 
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import fund.BaseController;
 import fund.dto.*;
 import fund.mapper.*;
 import fund.service.ReportBuilder;
@@ -29,16 +33,16 @@ import net.sf.jasperreports.engine.JRException;
 
 
 @Controller
-public class SponsorController {
+public class SponsorController extends BaseController{
 	@Autowired SponsorMapper sponsorMapper;
 	@Autowired FileAttachmentMapper fileAttachmentMapper;
 	@Autowired PaymentMapper paymentMapper;
+	@Autowired DonationPurposeMapper donationPurposeMapper;
 
 
     //회원관리 기본페이지
 	@RequestMapping(value="/sponsor/sponsor_m.do",method=RequestMethod.GET)
 	public String userManage(Model model, Pagination pagination)throws Exception{
-		System.out.println("sponsor_m.do 액션메소드");
 		pagination.setRecordCount(sponsorMapper.selectCount());
 	    model.addAttribute("list", sponsorMapper.selectPage(pagination));
 		return "sponsor/sponsorManage";
@@ -110,6 +114,8 @@ public class SponsorController {
 		Calendar oCalendar = Calendar.getInstance( );  // 현재 날짜/시간 등의 각종 정보 얻기
 		String sponsorNo=oCalendar.get(Calendar.YEAR)+"-"+number;
 		sponsor.setSponsorNo(sponsorNo);
+		
+	
 	
 		//첨부파일리스트 임시테스트 -> 세션값으로 방식으로 바꾸어야함 
 		List<FileAttachment> list=fileAttachmentMapper.selectByArticleId(100);
@@ -165,46 +171,84 @@ public class SponsorController {
         String homeAddress=sponsor.getHomeAddress();
         String officeAddress=sponsor.getOfficeAddress();
         
-        String[] home=homeAddress.split("\\*");
-        String[] office=officeAddress.split("\\*");
-        /*
-        System.out.println(home[0]);
-        System.out.println(home[1]);
-        System.out.println(home[2]);
         
-        System.out.println(office[0]);
-        System.out.println(office[1]);
-        System.out.println(office[2]);*/
-        
-        String homeRoadAddress=home[0];
-        String homeDetailAddress=home[1];
-        String homePostCode=home[2];
-        
-        String officeRoadAddress=office[0];
-        String officeDetailAddress=office[1];
-        String officePostCode=office[2];
+        System.out.println("test1 "+homeAddress);
+        System.out.println("test2 "+officeAddress);
         
         
-        sponsor.setHomeRoadAddress(homeRoadAddress);
-        sponsor.setHomeDetailAddress(homeDetailAddress);
-        sponsor.setHomePostCode(homePostCode);
-        
-        sponsor.setOfficeRoadAddress(officeRoadAddress);
-        sponsor.setOfficeDetailAddress(officeDetailAddress);
-        sponsor.setOfficePostCode(officePostCode);
+        if(!homeAddress.equals("")){
+        	System.out.println("A");
+        	 String[] home=homeAddress.split("\\*");
+        	 String homeRoadAddress=home[0];
+             String homeDetailAddress=home[1];
+             String homePostCode=home[2];
+             sponsor.setHomeRoadAddress(homeRoadAddress);
+             sponsor.setHomeDetailAddress(homeDetailAddress);
+             sponsor.setHomePostCode(homePostCode);
+             
+        }
+        if(!officeAddress.equals("")){
+        	System.out.println("A");
+        	   String[] office=officeAddress.split("\\*");
+        	   String officeRoadAddress=office[0];
+               String officeDetailAddress=office[1];
+               String officePostCode=office[2];
+               sponsor.setOfficeRoadAddress(officeRoadAddress);
+               sponsor.setOfficeDetailAddress(officeDetailAddress);
+               sponsor.setOfficePostCode(officePostCode);
+        }
         
         
         model.addAttribute("sponsor", sponsor);
         int sponsorID=sponsor.getId();
         System.out.println("sponsorID>> "+sponsorID);
-        List<Payment> paymentList = paymentMapper.selectPaymentRegular(sponsorID);
-		model.addAttribute("paymentList", paymentList);
-		List<Payment> paymentList2 = paymentMapper.selectPaymentIrregular(sponsorID);
-		model.addAttribute("paymentList2", paymentList2);
-    
-        
+       
+		
         
 		return "sponsor/sponsor";
+	}
+ 	
+ 	@RequestMapping(value="/sponsor/paymentList.do",method=RequestMethod.GET)  // 정기 납입관리
+ 	public String paymentList(@RequestParam("id") int id, Model model){
+ 		List<Payment> paymentList = paymentMapper.selectPaymentRegular(id);
+		model.addAttribute("paymentList", paymentList);
+		model.addAttribute("sponsorID",id);
+		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
+ 		return "sponsor/paymentList";
+ 	}
+ 	
+ 	@RequestMapping(value="/sponsor/paymentList2.do", method=RequestMethod.GET)  // 비정기 납입관리
+	public String paymentList2(Model model, @RequestParam("id") int id){
+		List<Payment> paymentList2 = paymentMapper.selectPaymentIrregular(id);
+		model.addAttribute("paymentList2", paymentList2);
+		model.addAttribute("sponsorID",id);
+		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
+		return "sponsor/paymentList2";
+	}
+ 	
+ 	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.GET)  // 비정기 납입등록
+	public String insertIrrgularPayment1(Model model,@RequestParam("id") int id) {
+ 		model.addAttribute("sponsorID",id);
+		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
+		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
+ 		
+		return "sponsor/insertIrrgularPayment";
+	}
+
+	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.POST)
+	public String insertIrrgularPayment2(IregularPayment iregularPayment,Model model) throws Exception {
+		Payment payment = new Payment();
+		payment.setSponsorID(iregularPayment.getSponsorID());
+		payment.setAmount(iregularPayment.getAmount());
+		Date date = (new SimpleDateFormat("yyyy-MM-dd")).parse(iregularPayment.getPaymentDate());
+		payment.setPaymentDate(date);
+		payment.setPaymentMethodID(iregularPayment.getPaymentMethodID());
+		payment.setDonationPurposeID(iregularPayment.getDonationPurposeID());
+		payment.setEtc(iregularPayment.getEtc());
+		
+		paymentMapper.insertIrregularPayment(payment);
+		
+		return "redirect:/sponsor/paymentList2.do?id="+iregularPayment.getSponsorID();
 	}
  	
  	//후원자 정보 삭제하기
@@ -218,7 +262,6 @@ public class SponsorController {
  	
  	
  	
-
 	@RequestMapping(value="/user/member_r.do",method=RequestMethod.GET)
 	public String memberRegister(Model model)throws Exception{
 

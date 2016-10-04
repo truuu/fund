@@ -36,6 +36,12 @@ $(function() {
 
 
 </script>
+<style>
+tr#topTable td{
+	text-align:center;
+}
+</style>
+
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
@@ -92,7 +98,7 @@ $(function() {
 				</thead>
 				<tbody>
 			<c:forEach var="sponsor" items="${list}">
-			<tr data-id="${sponsor.sponsorNo}">
+			<tr data-id="${sponsor.sponsorNo}" id="topTable">
 			<td>${sponsor.sponsorNo}</td>
 			<td>${sponsor.name}</td>
 			<td>${sponsor.sponsorType1}</td>

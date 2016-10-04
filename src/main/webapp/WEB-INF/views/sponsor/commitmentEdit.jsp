@@ -175,7 +175,7 @@ button#editButton, button#btn1 {
 					<td><input type="text" class="money" name="amountPerMonth" value="${ commitmentDetail.amountPerMonth }" /></td>
 					<td id="table_a">결제일</td>
 					<td><select name="paymentDay"><option value="20" ${commitmentDetail.paymentDay == 20 ? "selected" : "" }>20일</option>
-									<option value="25" ${commitmentDetail.paymentDay == 20 ? "selected" : "" }>25일</option></select></td>
+									<option value="25" ${commitmentDetail.paymentDay == 25 ? "selected" : "" }>25일</option></select></td>
 					<td id="table_a">은행명</td>
 					<td><select name="bankID">
 									<c:forEach var="bank" items="${bankList}">

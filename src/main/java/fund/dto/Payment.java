@@ -40,10 +40,17 @@ public class Payment {
 	String corporateID;
 	
 	String accountHolder;//예금주...
+	String paymentDateString;
 	
 	
 	
 	
+	public String getPaymentDateString() {
+		return paymentDateString;
+	}
+	public void setPaymentDateString(String paymentDateString) {
+		this.paymentDateString = paymentDateString;
+	}
 	public String getAccountHolder() {
 		return accountHolder;
 	}

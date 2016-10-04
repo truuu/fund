@@ -65,7 +65,7 @@
 				<td>소계</td>
 				<td>${totalSponsor}</td>
 				<td>${totalDonationPurpose}</td>
-				<td>${totalSum}</td>
+				<td class="money">${totalSum}</td>
 				<td>${totalPercent}%</td>
 			</tr>
 			</tbody>

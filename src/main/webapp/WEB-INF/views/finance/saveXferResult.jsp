@@ -49,7 +49,7 @@
 												<td><input type="text" name="commitmentNo"/></td>
 												<td>${xferResultList.accountNo }</td>
 												<td>${xferResultList.paymentDate}</td>
-												<td>${xferResultList.amount}</td>
+												<td class="money">${xferResultList.amount}</td>
 												<td>${xferResultList.sponsorName}</td>
 												<td>${xferResultList.paymentWay}</td>
 											</tr>

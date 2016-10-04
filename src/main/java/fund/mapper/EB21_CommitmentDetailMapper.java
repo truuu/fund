@@ -6,13 +6,13 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import fund.dto.EB21_commitmentDetail;
-import fund.dto.EB22;
+import fund.dto.Payment;
 
 public interface EB21_CommitmentDetailMapper {
-	List<EB21_commitmentDetail> selectEB21(int pDay);//eb21íŒŒì¼ë¡œ ë§Œë“¤ ëª©ë¡ ì¶œë ¥
-	List<EB21_commitmentDetail> selectEB22(int paymentDay);//eb22íŒŒì¼ì˜ ëª©ë¡ê³¼ ë¹„êµí•˜ê¸° ìœ„í•œ eb13ëª©ë¡
-	void updateEB21error(@Param("sponsorNo") String sponsorNo, @Param("paymentDate") Date paymentDate);//ìƒíƒœë¥¼ ì—ëŸ¬ë¡œ ë³€ê²½ 
-	void updateEB21success(@Param("paymentDate") Date paymentDate);//ìƒíƒœë¥¼ ì„±ê³µìœ¼ë¡œ ë³€ê²½
-	List<EB21_commitmentDetail> selectEB2122();//eb21,22ì˜ ê²°ê³¼ ì¡°íšŒ
-	EB22 selectSponsorName(String sponsorNo);
+	List<EB21_commitmentDetail> selectEB22(int paymentDay);//eb22ÆÄÀÏÀÇ ¸ñ·Ï°ú ºñ±³ÇÏ±â À§ÇÑ eb13¸ñ·Ï
+	void updateEB21error(@Param("sponsorNo") String sponsorNo, @Param("paymentDate") Date paymentDate);//»óÅÂ¸¦ ¿¡·¯·Î º¯°æ 
+	void updateEB21success(@Param("paymentDate") Date paymentDate);//»óÅÂ¸¦ ¼º°øÀ¸·Î º¯°æ
+	List<EB21_commitmentDetail> selectEB2122(@Param("startDate") String startDate,@Param("endDate") String endDate);//eb21,22ÀÇ °á°ú Á¶È¸
+	List<Payment> selectEB21success();
+	void createEB21List(int commitmentDetailID);//eb21ÆÄÀÏ»ı¼º
 }

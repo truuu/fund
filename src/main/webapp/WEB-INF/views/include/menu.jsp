@@ -1,7 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<script type="text/javascript">
 
+$(function(){
+	$("#logout").click(function(){
+		
+		location.href="../home/logout.do";
+		
+	});
+	
+});
+
+</script>
 <div class="wrapper">
 	<nav class="navbar navbar-default" role="navigation">
 	  <div class="container-fluid">
@@ -35,11 +46,7 @@
 		  <ul class="dropdown-menu" role="menu">
 		   
 		    <li><a href="/fund_sys/sponsor/sponsor_m.do">후원인목록</a></li>
-		  	<li><a href="/fund_sys/sponsor/insertIrrgularPayment.do">비정기 납입등록</a>
-		  	<li><a href="/fund_sys/sponsor/paymentList.do">정기납입목록</a>
-		  	<li><a href="/fund_sys/sponsor/paymentList2.do">비정기납입목록</a>
-		    <li><a href="/fund_sys/sponsor/sponsor.do">후원인등록</a></li>
-		  
+		    <li><a href="/fund_sys/sponsor/sponsor.do">후원인등록</a></li>	  
 		    <li><a href="/fund_sys/sponsor/post.do">DM주소록 생성</a></li>
 		  </ul>
 		</li>
@@ -60,14 +67,8 @@
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">납입관리<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
-		    
-
-		    <li><a href="#">납입 내역 보기</a></li>
-		     <li class="divider"></li>
 		       <li><a href="/fund_sys/dataPrint/paymentRecordStats.do">납입 내역 조회</a></li>
 		       <li><a href="/fund_sys/dataPrint/paymentTotalStats.do">납입 총계 조회</a></li>
-		    <li><a href="#">미납 내역(추후)</a></li>
-
 		  </ul>
 		</li>
 		<li class="dropdown">
@@ -105,7 +106,8 @@
 	      <sec:authorize access="authenticated">
    
             <ul class="nav navbar-nav navbar-right">
-		         <li><sec:authentication property="user.name" /> 님  <a href="logout.do" style="display: inline-block;">로그아웃</a> </li>
+		         <li><sec:authentication property="user.name" /> 님 
+		         <a id="logout" style="display: inline-block;">로그아웃</a> </li>
 	         </ul>
       
           </sec:authorize>
@@ -115,9 +117,7 @@
 		         
 	           </ul>
          </sec:authorize>
-	      
-	     
-	    
+  
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
 	</nav>

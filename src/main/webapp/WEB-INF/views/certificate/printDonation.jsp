@@ -11,39 +11,13 @@ function print(index) {
 	serialNo = $('#serialNo').val();
 	content = $('#content').val();
 
-<<<<<<< HEAD
 	if (index == 2) {
-		
-		alert(amount);
 		location.href = "../certificate/donationIssue.do?amount="+ amount + "&sponsorName="+ sponsorName
 			+ "&serialNo="+ serialNo;
-		
-=======
-		if (index == 2) {
-			
-			alert(amount);
-			location.href = "http://localhost:8080/fund_sys/certificate/donationIssue.do?amount="+ amount + "&sponsorName="+ sponsorName
-				+ "&serialNo="+ serialNo;
-			
-
-		}
-		if (index == 1) {
-			location.href = "http://localhost:8080/fund_sys/certificate/dpreview.do?amount="
-					+ amount
-					+ "&sponsorName="
-					+ sponsorName
-					+ "&serialNo="
-					+ serialNo
-					+ "&content="
-					+ content;
-					
-
-		}
->>>>>>> branch 'user' of https://github.com/truuu/fund
 
 	}
 	if (index == 1) {
-		alert("미리보기2");
+
 		location.href = "../certificate/dpreview.do?amount="
 				+ amount
 				+ "&sponsorName="

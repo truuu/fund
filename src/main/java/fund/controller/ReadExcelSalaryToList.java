@@ -14,9 +14,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import fund.BaseController;
 import fund.dto.Salary;
 
-public class ReadExcelSalaryToList {
+public class ReadExcelSalaryToList extends BaseController{
 	public static List<Salary> readExcelData(String fileName) {
 		List<Salary> countriesList = new ArrayList<Salary>();
 

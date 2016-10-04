@@ -90,21 +90,27 @@ div table.table tbody tr td {
 .table tbody tr td {
 	vertical-align: middle;
 }
+tr#topTable td{
+	text-align:center;
+}
 </style>
-	<ul class="nav nav-tabs">
-						<li><a href="#user" data-toggle="tab">회원관리</a></li>
+<ul class="nav nav-tabs">
+						<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorNo}">회원관리</a></li>
 						<li class="active"><a href="/fund_sys/sponsor/commitment.do?id=${sponsorID}">약정관리</a></li>
-						<li><a href="#regular" data-toggle="tab">정기납입관리</a></li>
-						<li><a href="#unregular" data-toggle="tab">비정기납입관리</a></li>
-						<li><a href="#enroll" data-toggle="tab">비정기납입등록</a></li>
+						<li><a href="/fund_sys/sponsor/paymentList.do?id=${sponsorID}" >정기납입관리</a></li>
+						<li><a href="/fund_sys/sponsor/paymentList2.do?id=${sponsorID}">비정기납입관리</a></li>
+						<li><a href="/fund_sys/sponsor/insertIrrgularPayment.do?id=${sponsorID}" >비정기납입등록</a></li>
 					</ul>
 
+				
+				
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h1 class="page-header">
 		약정 내역 
 		</h1>
 		<input type="hidden" name="sponsorID" value="${sponsorID}" />
+		<input type="hidden" name="sponsorNo" value="${sponsorNo}" />
 		<div class="input-group1">
 			<button type="button" id="new" class="btn btn-small">새로 등록</button>
 		</div>
@@ -123,7 +129,7 @@ div table.table tbody tr td {
 				</thead>
 				<tbody>
 					<c:forEach var="commitment" items="${ list }">
-						<tr data-url="commitmentEdit.do?ID=${commitment.ID}">
+						<tr data-url="commitmentEdit.do?ID=${commitment.ID}" id="topTable">
 							<td>${ commitment.commitmentNo }</td>
 							<td>${ commitment.name }</td>
 							<td>${ commitment.codeName }</td>

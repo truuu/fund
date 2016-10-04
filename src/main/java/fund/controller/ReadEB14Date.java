@@ -1,17 +1,16 @@
 package fund.controller;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import fund.BaseController;
-
-public class ReadEB22File extends BaseController{
-	public static ArrayList<String> readEB22File(String fileName){
+public class ReadEB14Date extends BaseController{
+	public static String readEB14Date(String fileName){
 		BufferedReader br = null;        
 
 		InputStreamReader isr = null;    
@@ -26,34 +25,24 @@ public class ReadEB22File extends BaseController{
 
 		try {
 
-			// 파일을 읽어들여 File Input 스트림 객체 생성
 			fis = new FileInputStream(file);
 
-			// File Input 스트림 객체를 이용해 Input 스트림 객체를 생서하는데 인코딩을 UTF-8로 지정
-			isr = new InputStreamReader(fis, "US-ASCII");
+			isr = new InputStreamReader(fis, "UTF-8");
 
-			// Input 스트림 객체를 이용하여 버퍼를 생성
 			br = new BufferedReader(isr);
 
-			// 버퍼를 한줄한줄 읽어들여 내용 추출
 			while( (temp = br.readLine()) != null) {
 				content += temp + "\n";
 			}
 
-			int t = content.indexOf("T");
-			String result = content.substring(150,t);
-			int i=0;
-			ArrayList<String> list = new ArrayList<String>();
-
-			while(true){
-				int r = result.indexOf("R",i);
-				if(r<0) break;
-				
-				list.add(result.substring(r,r+150));
-				i=r+150;
-			}
+			String eb14Date = content.substring(27,33);
 			
-			return list;
+			SimpleDateFormat format1 = new SimpleDateFormat("yyMMdd");
+			Date result = format1.parse(eb14Date);
+			
+			format1.applyPattern("yyyy-MM-dd");
+
+			return format1.format(result);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
