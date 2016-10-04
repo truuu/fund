@@ -271,7 +271,7 @@
 	
 	<insert id="insertXferResult" useGeneratedKeys="true" keyProperty="id">
 		insert into payment(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
-		values(#{sponsorID},#{commitmentID},#{amount},CONVERT(DATE,#{paymentDateString}),#{donationPurposeID},#{paymentMethodID})
+		values(#{sponsorID},#{commitmentID},#{amount},CONVERT(DATE,#{paymentDate}),#{donationPurposeID},#{paymentMethodID})
 	</insert>
 	
 	<insert id="insertSalaryResult" useGeneratedKeys="true" keyProperty="id">

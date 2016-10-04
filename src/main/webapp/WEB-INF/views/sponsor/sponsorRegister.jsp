@@ -91,7 +91,7 @@ function fileDelete(id){
 		 location.href = "delete.do?id="+sponsorNo;
 	}
 </script>
-<c:set var="mailReceiving" value="${sponsor.mailReceiving}"  />
+<c:set var="mailReceiving" value="${sponsor.mailReceiving}" />
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h4>회원기본정보</h4>
@@ -101,12 +101,12 @@ function fileDelete(id){
 			<div class="col-lg-12">
 				<div id="column-right">
 					<c:if test="${ sponsor.signUpDate==null}">
-					<a onclick="insert()" class="button button-reversed">저장</a>
-				</c:if>
-				
-				<c:if test="${ sponsor.signUpDate!=null}">
-					<a onclick="update()" class="button button-reversed">수정</a>
-				</c:if>
+						<a onclick="insert()" class="button button-reversed">저장</a>
+					</c:if>
+
+					<c:if test="${ sponsor.signUpDate!=null}">
+						<a onclick="update()" class="button button-reversed">수정</a>
+					</c:if>
 
 					<a onclick="deletes(${ sponsor.sponsorNo })" class="button">삭제</a>
 				</div>
@@ -117,151 +117,151 @@ function fileDelete(id){
 
 	<div class="panel-body">
 		<div class="table-responsive">
-	<table>
-			<form id="target" action="sponsorInsert.do"  method="post">
-				<tbody>
-					<tr>
-					<c:if test="${ sponsor.signUpDate==null}">
-					    <input type="hidden" name="sort" value="0">
-					</c:if>
-					
-					<c:if test="${ sponsor.signUpDate!=null}">
-					    <input type="hidden" name="sort" value="1">
-					</c:if>
-					
-						<td id="table_a">후원인번호</td>
-						<td id="table_b"><input type="text" name="sponsorNo" readonly
-							value="${ sponsor.sponsorNo }"></td>
-						<td id="table_a">우편물 발송여부</td>
-						<td id="table_b">
-				
-						<c:if test="${sponsor.signUpDate==null}">
-						<input type="radio" value="true" name="mailReceiving">
+			<table>
+				<form id="target" action="sponsorInsert.do" method="post">
+					<tbody>
+						<tr>
+							<c:if test="${ sponsor.signUpDate==null}">
+								<input type="hidden" name="sort" value="0">
+							</c:if>
+
+							<c:if test="${ sponsor.signUpDate!=null}">
+								<input type="hidden" name="sort" value="1">
+							</c:if>
+
+							<td id="table_a">후원인번호</td>
+							<td id="table_b"><input type="text" name="sponsorNo"
+								readonly value="${ sponsor.sponsorNo }"></td>
+							<td id="table_a">우편물 발송여부</td>
+							<td id="table_b"><c:if test="${sponsor.signUpDate==null}">
+									<input type="radio" value="true" name="mailReceiving">
 						발송동의
 						<input type="radio" value="false" name="mailReceiving">
 						 발송미동의
 						</td>
-						</c:if>
-						<c:if test="${sponsor.signUpDate!=null}">
-						<input type="radio" value="true" name="mailReceiving" ${sponsor.mailReceiving==true? "checked" :""} >
+							</c:if>
+							<c:if test="${sponsor.signUpDate!=null}">
+								<input type="radio" value="true" name="mailReceiving"
+									${sponsor.mailReceiving==true? "checked" :""}>
 						발송동의
-						<input type="radio" value="false" name="mailReceiving" ${sponsor.mailReceiving==false? "checked" :""}>
+						<input type="radio" value="false" name="mailReceiving"
+									${sponsor.mailReceiving==false? "checked" :""}>
 						 발송미동의
 						</td>
-						</c:if>
-						
-					</tr>
-					<tr>
-						<td id="table_a">이름</td>
-						<td id="table_b"><input type="text" name="name" value="${ sponsor.name }"></td>
-						<td id="table_a">우편물 발송지</td>
-						<td id="table_b">
-						
-						<c:if test="${sponsor.signUpDate==null}">
-						<input type="radio" value="0" name="mailTo">
+							</c:if>
+
+						</tr>
+						<tr>
+							<td id="table_a">이름</td>
+							<td id="table_b"><input type="text" name="name"
+								value="${ sponsor.name }"></td>
+							<td id="table_a">우편물 발송지</td>
+							<td id="table_b"><c:if test="${sponsor.signUpDate==null}">
+									<input type="radio" value="0" name="mailTo">
 						자택
 					     <input type="radio" value="1" name="mailTo">
 					         직장</td>
-					    </c:if>
-					    
-					    <c:if test="${sponsor.signUpDate!=null}">
-						<input type="radio" value="0" name="mailTo" ${sponsor.mailTo==0? "checked" :""}>
+							</c:if>
+
+							<c:if test="${sponsor.signUpDate!=null}">
+								<input type="radio" value="0" name="mailTo"
+									${sponsor.mailTo==0? "checked" :""}>
 						자택
-					     <input type="radio" value="1" name="mailTo" ${sponsor.mailTo==1? "checked" :""}>
+					     <input type="radio" value="1" name="mailTo"
+									${sponsor.mailTo==1? "checked" :""}>
 					         직장
 					    </c:if>
-					    
-					    </td> 
-					</tr>
-					<tr>
-						<td id="table_a">주민번호</td>
-						<td id="table_b"><input type="text" name="juminNo" 
-							placeholder="-를 제외하고 입력해주세요." value="${ sponsor.juminNo }"></td>
-						<td id="table_a" rowspan="2">자택주소</td>
-						<td id="table_b" rowspan="2"><input type="text" name="homePostCode" id="homePostCode"
-									placeholder="우편번호" value="${ sponsor.homePostCode}" > <input type="button"
-									onclick="homeSearch()" value="우편번호 찾기"
-									style="display: inline-block;">
-									<div>
-										<input type="text" name="homeRoadAddress" id="homeRoadAddress"
-											placeholder="도로명주소--------------" value="${sponsor.homeRoadAddress }" >
-									</div>
-									<div>
-										<input type="text" name="homeDetailAddress" id="homeDetailAddress"
-											placeholder="상세주소" value="${ sponsor.homeDetailAddress }">
-									</div>
-									</td>
-						
-					</tr>
-					<tr>
-						<td id="table_a">후원인구분1</td>
-					    <td id="table_b"><select name="sponsorType1ID">
-								<option value="18" ${sponsor.sponsorType1ID==18? "selected" :""}>개인</option>
-								<option value="19" ${sponsor.sponsorType1ID==19? "selected" :""}>가족</option>
-								<option value="20" ${sponsor.sponsorType1ID==20? "selected" :""}>단체</option>
-								<option value="21" ${sponsor.sponsorType1ID==21? "selected" :""}>법인</option>
 
-						</select></td>
+							</td>
+						</tr>
+						<tr>
+							<td id="table_a">주민번호</td>
+							<td id="table_b"><input type="text" name="juminNo"
+								placeholder="-를 제외하고 입력해주세요." value="${ sponsor.juminNo }"></td>
+							<td id="table_a" rowspan="2">자택주소</td>
+							<td id="table_b" rowspan="2"><input type="text"
+								name="homePostCode" id="homePostCode" placeholder="우편번호"
+								value="${ sponsor.homePostCode}"> <input type="button"
+								onclick="homeSearch()" value="우편번호 찾기"
+								style="display: inline-block;">
+								<div>
+									<input type="text" name="homeRoadAddress" id="homeRoadAddress"
+										placeholder="도로명주소--------------"
+										value="${sponsor.homeRoadAddress }">
+								</div>
+								<div>
+									<input type="text" name="homeDetailAddress"
+										id="homeDetailAddress" placeholder="상세주소"
+										value="${ sponsor.homeDetailAddress }">
+								</div></td>
 
-					</tr>
-					<tr>
-						<td id="table_a">후원인구분2</td>
-						<td id="table_b">
-						    <input type="radio" value="22" name="sponsorType2ID" ${sponsor.sponsorType2ID==22? "checked" :""}>직원
-							<input type="radio" value="23" name="sponsorType2ID" ${sponsor.sponsorType2ID==23? "checked" :""}>교수 
-							<input type="radio" value="24" name="sponsorType2ID" ${sponsor.sponsorType2ID==24? "checked" :""}>동문 
-							<input type="radio" value="25" name="sponsorType2ID" ${sponsor.sponsorType2ID==25? "checked" :""}>학부모
-							<input type="radio" value="26" name="sponsorType2ID" ${sponsor.sponsorType2ID==26? "checked" :""}>성직자
-							<input type="radio" value="27" name="sponsorType2ID" ${sponsor.sponsorType2ID==27? "checked" :""}>교인
-							<input type="radio" value="29" name="sponsorType2ID" ${sponsor.sponsorType2ID==28? "checked" :""}>독지가 
-							<input type="radio" value="30" name="sponsorType2ID" ${sponsor.sponsorType2ID==29? "checked" :""}>교회
-							<input type="radio" value="" name="sponsorType2ID" ${sponsor.sponsorType2ID==1? "checked" :""}>단체
-							<input type="radio" value="31" name="sponsorType2ID" ${sponsor.sponsorType2ID==31? "checked" :""}>기업가
-							<input type="radio" value="32" name="sponsorType2ID" ${sponsor.sponsorType2ID==32? "checked" :""}>기타
-						</td>
-						<td id="table_a">자택 전화번호</td>
-						<td id="table_b"><input type="text" name="homePhone" placeholder="02-0000-0000" value="${ sponsor.homePhone}"></td>
+						</tr>
+						<tr>
+							<td id="table_a">후원인구분1</td>
+							<td id="table_b"><select name="sponsorType1ID">
+									<c:forEach var="s1" items="${sponsorType1List}">
+										<option value="${s1.ID}"
+											${sponsor.sponsorType1ID==s1.ID ? "selected" : "" }>${s1.codeName}</option>
+									</c:forEach>
+							</select></td>
 
-					</tr>
-					<tr>
+						</tr>
+						<tr>
+							<td id="table_a">후원인구분2</td>
+							<td id="table_b"><select name="sponsorType2ID">
+									<c:forEach var="s2" items="${sponsorType2List}">
+										<option value="${s2.ID}"
+											${sponsor.sponsorType2ID==s2.ID ? "selected" : "" }>${s2.codeName}</option>
+									</c:forEach>
+							</select></td>
+							<td id="table_a">자택 전화번호</td>
+							<td id="table_b"><input type="text" name="homePhone"
+								placeholder="02-0000-0000" value="${ sponsor.homePhone}"></td>
 
-						<td id="table_a">가입일</td>
-						<td id="table_b"><input type="date" name="signUpDate" value="${ sponsor.signUpDate}"></td>
-						<td id="table_a">핸드폰 번호</td>
-						<td id="table_b"><input type="text" name="mobilePhone"
-							placeholder="010-0000-0000" value="${ sponsor.mobilePhone}" ></td>
+						</tr>
+						<tr>
 
-					</tr>
-					<tr>
-						<td id="table_a">추천인</td>
-						<td id="table_b"><input type="text" name="recommender"
-							placeholder="추천인 이름을 적어주세요." value="${ sponsor.recommender}"></td>
-						<td id="table_a">이메일</td>
-						<td id="table_b"><input type="email" name="email"
-							placeholder="abcd@skhu.kr" value="${ sponsor.email}"></td>
+							<td id="table_a">가입일</td>
+							<td id="table_b"><input type="date" name="signUpDate"
+								value="${ sponsor.signUpDate}"></td>
+							<td id="table_a">핸드폰 번호</td>
+							<td id="table_b"><input type="text" name="mobilePhone"
+								placeholder="010-0000-0000" value="${ sponsor.mobilePhone}"></td>
 
-					</tr>
-					<tr>
-						<td id="table_a">추천인관계  </td>
-						<td><select name="recommenderRelation">
-								<option value="가족" ${sponsor.recommenderRelation=='가족'? "selected" :""}>가족</option>
-								<option value="지인" ${sponsor.recommenderRelation=='지인'? "selected" :""}>지인</option>
-						</select></td>
-						<td rowspan="2" id="table_a">비고</td>
-						<td rowspan="2" id="table_b"><textarea name="etc" cols="30" rows="3">${ sponsor.etc}</textarea></td>
-						
+						</tr>
+						<tr>
+							<td id="table_a">추천인</td>
+							<td id="table_b"><input type="text" name="recommender"
+								placeholder="추천인 이름을 적어주세요." value="${ sponsor.recommender}"></td>
+							<td id="table_a">이메일</td>
+							<td id="table_b"><input type="email" name="email"
+								placeholder="abcd@skhu.kr" value="${ sponsor.email}"></td>
+
+						</tr>
+						<tr>
+							<td id="table_a">추천인관계</td>
+							<td><select name="recommenderRelation">
+									<option value="가족"
+										${sponsor.recommenderRelation=='가족'? "selected" :""}>가족</option>
+									<option value="지인"
+										${sponsor.recommenderRelation=='지인'? "selected" :""}>지인</option>
+							</select></td>
+							<td rowspan="2" id="table_a">비고</td>
+							<td rowspan="2" id="table_b"><textarea name="etc" cols="30"
+									rows="3">${ sponsor.etc}</textarea></td>
 
 
-					</tr>
 
-					<tr>
-						<td id="table_a">소속교회</td>
-						<td id="table_b"><input type="text" id="autoChurch" name="church" value="${ sponsor.church}">
-						</td>
-						
+						</tr>
 
-					</tr>
-				</tbody>
+						<tr>
+							<td id="table_a">소속교회</td>
+							<td id="table_b"><input type="text" id="autoChurch"
+								name="church" value="${ sponsor.church}"></td>
+
+
+						</tr>
+					</tbody>
 			</table>
 		</div>
 		<!-- /.table-responsive -->
@@ -287,44 +287,52 @@ function fileDelete(id){
 						<tbody>
 							<tr>
 								<td id="table_a">직장</td>
-								<td id="table_b"><input type="text" name="company" value="${ sponsor.company}"></td>
+								<td id="table_b"><input type="text" name="company"
+									value="${ sponsor.company}"></td>
 
 							</tr>
 							<tr>
 								<td id="table_a">부서</td>
-								<td id="table_b"><input type="text" name="department" value="${ sponsor.department}"></td>
+								<td id="table_b"><input type="text" name="department"
+									value="${ sponsor.department}"></td>
 
 							</tr>
 							<tr>
 								<td id="table_a">직위</td>
-								<td id="table_b"><input type="text" name="position" value="${ sponsor.position}"></td>
+								<td id="table_b"><input type="text" name="position"
+									value="${ sponsor.position}"></td>
 							</tr>
 
 							<tr>
 								<td id="table_a">직장전화번호</td>
-								<td id="table_b"><input type="text" name="officePhone" value="${ sponsor.officePhone}"></td>
+								<td id="table_b"><input type="text" name="officePhone"
+									value="${ sponsor.officePhone}"></td>
 							</tr>
 
 							<tr>
 								<td id="table_a">직장주소</td>
-								<td id="table_b">
-								<input type="text" name="officePostCode" id="officePostCode" placeholder="우편번호" value="${ sponsor.officePostCode}"> 
-								<input type="button" onclick="officeSearch()" value="우편번호 찾기"
+								<td id="table_b"><input type="text" name="officePostCode"
+									id="officePostCode" placeholder="우편번호"
+									value="${ sponsor.officePostCode}"> <input
+									type="button" onclick="officeSearch()" value="우편번호 찾기"
 									style="display: inline-block;">
 									<div>
-										<input type="text" name="officeRoadAddress" id="officeRoadAddress"  placeholder="도로명주소" value="${ sponsor.officeRoadAddress}">
+										<input type="text" name="officeRoadAddress"
+											id="officeRoadAddress" placeholder="도로명주소"
+											value="${ sponsor.officeRoadAddress}">
 									</div>
-									<div >
-										<input type="text" name="officeDetailAddress" id="officeDetailAddress" placeholder="상세주소" value="${ sponsor.officeDetailAddress}">
-									</div>
-									</td>
-								
+									<div>
+										<input type="text" name="officeDetailAddress"
+											id="officeDetailAddress" placeholder="상세주소"
+											value="${ sponsor.officeDetailAddress}">
+									</div></td>
+
 							</tr>
 
 						</tbody>
 						</form>
 					</table>
-				
+
 				</div>
 				<!-- /.table-responsive -->
 			</div>
@@ -334,7 +342,7 @@ function fileDelete(id){
 
 	</div>
 	<!-- 근무지정보 -->
-	
+
 
 	<div class="col-lg-6">
 
@@ -351,7 +359,7 @@ function fileDelete(id){
 						<button type="submit" class="btn btn-primary">
 							<i class="icon-ok icon-white"></i> 저장하기
 						</button>
-						
+
 					</div>
 				</form>
 
@@ -367,12 +375,11 @@ function fileDelete(id){
 							<span class="lbl">첨부파일1:</span>
 							<c:forEach var="file" items="${ files }">
 								<tr>
-									<td><a class="btn btn-small" href="download.do?id=${file.ID}"><i
-											class="icon icon-file"></i> ${ file.fileName } / ${file.ID} </a>
-										
-						<span  class="glyphicon glyphicon-remove fileDelete" aria-hidden="true"
-						onclick="fileDelete(${file.ID})"></span>
-									</td>
+									<td><a class="btn btn-small"
+										href="download.do?id=${file.ID}"><i class="icon icon-file"></i>
+											${ file.fileName } / ${file.ID} </a> <span
+										class="glyphicon glyphicon-remove fileDelete"
+										aria-hidden="true" onclick="fileDelete(${file.ID})"></span></td>
 								</tr>
 							</c:forEach>
 

@@ -19,7 +19,7 @@ public class CodeController extends BaseController{
 	@Autowired CodeMapper codeMapper;
 	
 
-	/*기초정보관리 LIST*/
+	/*기초정보관리 LIST
 	@RequestMapping("/code/codeList.do")
 	public String codeList(Model model,@RequestParam("CodeGroupID") int CodeGroupID, Pagination pagination) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -31,7 +31,7 @@ public class CodeController extends BaseController{
 		model.addAttribute("CodeGroupID",CodeGroupID);
 
 		return "code/codeList";
-	}
+	}*/
 
 	/*기초정보관리추가*/
 	@RequestMapping(value="/code/create.do", method=RequestMethod.GET)
