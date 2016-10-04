@@ -50,7 +50,7 @@ $(function(){
 			<!-- /.row -->
                    
 			<div>
-				<label> 신청기간 </label> <input type="date" id="startDate" value="${ pagination.startDate}"> ~ <input type="date" id="endDate" value="${ pagination.endDate}">
+				<label> 신청기간 </label> <input type="date" id="startDate" value="${startDate}"> ~ <input type="date" id="endDate" value="${endDate}">
 				 <button  class="btn btn-primary" id="search">검색</button>
 			</div>
 
