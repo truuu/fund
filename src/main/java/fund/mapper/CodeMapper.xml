@@ -73,11 +73,11 @@
 		WHERE ID = #{CodeGroupID}
 	</select>
 
-	<select id="selectByCodeGroupID" resultType="fund.dto.Code">
-		SELECT *
-		FROM [Code]
-		where codeGroupID = #{codeGroupID}
-
+	<select id="selectByCodeGroupID"  resultType="fund.dto.Code"> 
+	SELECT *
+    FROM [Code] 
+    where codeGroupID = #{codeGroupID}
+            
 	</select>
 
 	<select id="selectCount" parameterType="hashmap" resultType="int">

@@ -20,8 +20,9 @@ function print(index){
       
     }
     if (index == 1) {
-    	alert("미리보기1");
+
     	location.href="../certificate/spreview.do?department="+department+"&studentNo="+studentNo+"&studentName="+studentName+"&serialNo="+serialNo+"&content="+content;
+
       
     }
 				

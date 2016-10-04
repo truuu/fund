@@ -40,7 +40,6 @@ public class SponsorController extends BaseController{
 	@Autowired DonationPurposeMapper donationPurposeMapper;
 	@Autowired CodeMapper codeMapper;
 
-
     //회원관리 기본페이지
 	@RequestMapping(value="/sponsor/sponsor_m.do",method=RequestMethod.GET)
 	public String userManage(Model model, Pagination pagination)throws Exception{
@@ -95,6 +94,10 @@ public class SponsorController extends BaseController{
 		Calendar oCalendar = Calendar.getInstance( );  // 현재 날짜/시간 등의 각종 정보 얻기
 		String sponsorNo=oCalendar.get(Calendar.YEAR)+"-"+number;
 		sponsor.setSponsorNo(sponsorNo);
+		
+		model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1));  // 후원인구분1 목록
+		model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));  // 후원인구분1 목록
+		
 		
 	
 	
@@ -173,7 +176,7 @@ public class SponsorController extends BaseController{
         model.addAttribute("sponsor", sponsor);
         int sponsorID=sponsor.getId();
         model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1));  // 후원인구분1 목록
-        model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));  // 후원인구분1 목록
+		model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));  // 후원인구분1 목록
 	        
 		return "sponsor/sponsor";
 	}

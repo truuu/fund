@@ -90,7 +90,7 @@ div table.table tbody tr td {
 .table tbody tr td {
 	vertical-align: middle;
 }
-tr#topTable td{
+tr#topTable td, tr#topTable th{
 	text-align:center;
 }
 </style>
@@ -236,7 +236,7 @@ tr#topTable td{
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">×</button>
-				<h3>기부목적 검색</h3>
+				<h3>기부목적 선택</h3>
 			</div>
 			<div class="modal-body">
 				<!-- 
@@ -249,7 +249,7 @@ tr#topTable td{
 					<div id="searchResult">
 						<table id="donationTable">
 							<thead>
-								<tr>
+								<tr id="topTable">
 									<th>기관</th>
 									<th>기관종류</th>
 									<th>기부목적</th>
@@ -258,7 +258,7 @@ tr#topTable td{
 							<tbody>
 								<c:forEach var="donationPurpose"
 									items="${ donationPurposeList }">
-									<tr data-id="${ donationPurpose.ID }">
+									<tr data-id="${ donationPurpose.ID }" id="topTable">
 										<td>${ donationPurpose.corporateName }</td>
 										<td>${ donationPurpose.codeName }</td>
 										<td>${ donationPurpose.name }</td>
