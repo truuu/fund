@@ -446,7 +446,7 @@ public class SponsorController extends BaseController{
 		return "sponsor/castHistory"; 
 	 }
 	 //회원구분	별 보고서
-	 @RequestMapping(value="/sponsor/castList.do",method=RequestMethod.POST, params="cmd=pdf" )
+	 @RequestMapping(value="/sponsor/castList.do",params="cmd=pdf" )
 	public void sponsorTypeReport(@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
  		List<Sponsor> list = sponsorMapper.castBySponsorType2(startDate,endDate);
  		ReportBuilder reportBuilder = new ReportBuilder("chartBySponsorType",list,"chartBySponsorType.pdf",req,res);
