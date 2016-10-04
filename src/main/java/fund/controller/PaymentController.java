@@ -158,9 +158,6 @@ public class PaymentController extends BaseController{
 	
 	@RequestMapping(value="/dataPrint/paymentTotalStats.do", method=RequestMethod.POST) 
 	public String paymentTotalStats(Model model,PaymentRecordStats paymentRecordStats) { 
-		System.out.println("기부목적번호"+paymentRecordStats.getSrchType2());
-		System.out.println("후원인번호"+paymentRecordStats.getSrchType5());
-		System.out.println("후원인이름"+paymentRecordStats.getSponsorName());
 		model.addAttribute("startDate",paymentRecordStats.getStartDate());
 		model.addAttribute("endDate",paymentRecordStats.getEndDate());
 		if(paymentRecordStats.getSrchType1()!=0){

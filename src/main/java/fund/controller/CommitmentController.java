@@ -57,7 +57,6 @@ public class CommitmentController extends BaseController{
 		//commitmentMapper.selectCountCommitment(commitmentCreate.getSponsorID());  // 해당 후원자의 약정 갯수 구하기
 		commitment.setStartDate(commitmentCreate.getCommitmentStartDate());
 		commitment.setSponsorID(commitmentCreate.getSponsorID());
-		System.out.println("후원자id"+commitmentCreate.getSponsorID());
 		commitment.setDonationPurposeID(commitmentCreate.getDonationPurposeID());
 		commitment.setPaymentMethodID(commitmentCreate.getPaymentMethodID());
 		commitment.setEtc(commitmentCreate.getCommitmentEtc());
@@ -87,8 +86,6 @@ public class CommitmentController extends BaseController{
 		commitmentDetail.setStartDate(commitmentCreate.getCommitmentStartDate());
 
 		commitmentDetailMapper.insert(commitmentDetail);  // 약정 상세 insert
-
-		//model.addAttribute("list", commitmentMapper.selectBySponsorID());  // 수정!!
 		return "redirect:/sponsor/commitment.do?id="+commitmentCreate.getSponsorID();
 	}
 
@@ -104,7 +101,6 @@ public class CommitmentController extends BaseController{
 		String bank="은행";
 	
 		model.addAttribute("bankList",codeMapper.selectByBank(bank));
-		//model.addAttribute("b",codeMapper,codeMapper.selectBankName(commitmentDetails.get(1)));
 		return "sponsor/commitmentEdit";
 	}
 

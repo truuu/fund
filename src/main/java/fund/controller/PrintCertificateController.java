@@ -157,7 +157,6 @@ public class PrintCertificateController extends BaseController{
 	public String donationDelete(Model model,@RequestParam(value="checkboxValues[]") List<Integer> checkboxValues){
 
 		for(int i=0 ; i<checkboxValues.size(); i++){            // 하나씩 돌면서 삭제
-			System.out.println(checkboxValues.get(i));
 			printDonationMapper.delete(checkboxValues.get(i));
 		}
 		
@@ -169,7 +168,6 @@ public class PrintCertificateController extends BaseController{
 	public String scholarshipDelete(Model model, @RequestParam(value="checkboxValues") List<Integer> checkboxValues){  // 삭제할 목록의 id를 배열로 받아서
 		
 		for(int i=0 ; i<checkboxValues.size(); i++){            // 하나씩 돌면서 삭제
-			System.out.println(checkboxValues.get(i));
 			printScholarshipMapper.delete(checkboxValues.get(i));
 		}
 		

@@ -50,7 +50,6 @@ public class ReadExcelSalaryToList extends BaseController{
 						row = sheet.getRow(rowIndex);
 						if(!"".equals(row.getCell(0)) && !" ".equals(row.getCell(0)) && row.getCell(0)!= null ) {
 							Salary resultRow = null;
-							System.out.println("5");
 							String sponsorNo = "";
 							String sponsorName = "";
 							String amount = "";
