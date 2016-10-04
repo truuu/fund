@@ -63,17 +63,11 @@
 		WHERE ID = #{CodeGroupID}
 	</select>
 	
-	<select id="selectByCodeGroupID"  parameterType="hashmap" resultType="fund.dto.Code"> 
-		<![CDATA[
-		SELECT  *
-		FROM  ( SELECT *, ROW_NUMBER() OVER (ORDER BY ID) 행번호
-              FROM [Code] 
-              WHERE codeGroupID = #{CodeGroupID}
-            ) subquery
-        WHERE 행번호 > (#{pagination.currentPage} - 1) * #{pagination.pageSize} AND
-              행번호 <= #{pagination.currentPage} * #{pagination.pageSize}
-        ORDER BY 행번호	
-		]]>
+	<select id="selectByCodeGroupID"  resultType="fund.dto.Code"> 
+	SELECT *
+    FROM [Code] 
+    where codeGroupID = #{codeGroupID}
+            
 	</select>
 	
 	<select id="selectCount" parameterType="hashmap" resultType="int">

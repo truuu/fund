@@ -21,12 +21,12 @@ public class CodeController extends BaseController{
 
 	/*기초정보관리 LIST*/
 	@RequestMapping("/code/codeList.do")
-	public String codeList(Model model,@RequestParam("CodeGroupID") int CodeGroupID, Pagination pagination) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("CodeGroupID", CodeGroupID);
-		map.put("pagination",pagination);
-		pagination.setRecordCount(codeMapper.selectCount(map));
-		model.addAttribute("list", codeMapper.selectByCodeGroupID(map));
+	public String codeList(Model model,@RequestParam("CodeGroupID") int CodeGroupID) {
+		//HashMap<String, Object> map = new HashMap<String, Object>();
+		//map.put("CodeGroupID", CodeGroupID);
+		//map.put("pagination",pagination);
+		//pagination.setRecordCount(codeMapper.selectCount(map));
+		model.addAttribute("list", codeMapper.selectByCodeGroupID(CodeGroupID));
 		model.addAttribute("name",codeMapper.selectByName(CodeGroupID));
 		model.addAttribute("CodeGroupID",CodeGroupID);
 

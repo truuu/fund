@@ -10,6 +10,7 @@
 		join Code c1 on d.organizationID=c1.ID
 		left join Corporate c2 on
 		d.corporateID=c2.ID
+		order by c2.ID, c1.ID, d.ID
 	</select>
 
 	<select id="selectDonationPurpose2" resultType="String">
@@ -34,17 +35,10 @@
 	</select>
 
 	<select id="selectPage" resultType="fund.dto.DonationPurpose">
-		<![CDATA[
-		SELECT *
-		FROM
-				(SELECT d.*, c2.name "corporateName", c1.codeName, ROW_NUMBER() OVER (ORDER BY d.ID) 행번호
+		SELECT d.*, c2.name "corporateName", c1.codeName
 				FROM [DonationPurpose] d LEFT JOIN [Code] c1 ON d.organizationID=c1.ID	
 				  LEFT JOIN [Corporate] c2 ON d.corporateID=c2.ID 
-				  ) subquery
-				  WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
-              	  행번호 <= #{currentPage} * #{pageSize}
-        		  ORDER BY 행번호
-	]]>
+				 
 	</select>
 
 	<select id="selectCount" resultType="int">

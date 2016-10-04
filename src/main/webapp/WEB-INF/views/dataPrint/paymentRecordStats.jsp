@@ -73,9 +73,11 @@ button {
 	text-transform: uppercase;
 	margin: 5px 0 5px 0;
 }
-tr#topTable td{ text-align:center; }
+tr#topTable td,tr#topTable th{ text-align:center; }
 #outPut1{ margin-left:20%; }
 #outPut2{ margin-left:40%; }
+
+
 </style>
 <form method="post">
 	<div id="wrapper">
@@ -275,7 +277,7 @@ tr#topTable td{ text-align:center; }
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">×</button>
-				<h3>기부목적 검색</h3>
+				<h3>기부목적 선택</h3>
 			</div>
 			<div class="modal-body">
 				<!-- 
@@ -288,7 +290,7 @@ tr#topTable td{ text-align:center; }
 					<div id="searchResult">
 						<table id="donationTable">
 							<thead>
-								<tr>
+								<tr id="topTable">
 									<th>기관</th>
 									<th>기관종류</th>
 									<th>기부목적</th>
@@ -297,7 +299,7 @@ tr#topTable td{ text-align:center; }
 							<tbody>
 								<c:forEach var="donationPurpose"
 									items="${ donationPurposeList }">
-									<tr data-id="${ donationPurpose.ID }">
+									<tr data-id="${ donationPurpose.ID }" id="topTable">
 										<td>${ donationPurpose.corporateName }</td>
 										<td>${ donationPurpose.codeName }</td>
 										<td>${ donationPurpose.name }</td>
@@ -311,8 +313,8 @@ tr#topTable td{ text-align:center; }
 
 			<div class="modal-footer">
 				<div class="form-inline">
-					<button style="margin-bottom: 0px" class="btn" data-dismiss="modal">닫기</button>
-					<button style="margin-bottom: 0px" class="btn btn-default"
+					<button style="margin-bottom: 0px" class="btn btn-default" data-dismiss="modal">닫기</button>
+					<button style="margin-bottom: 0px" class="btn btn-primary"
 						onclick="selectDonationPurpose()" data-dismiss="modal">선택</button>
 				</div>
 			</div>
