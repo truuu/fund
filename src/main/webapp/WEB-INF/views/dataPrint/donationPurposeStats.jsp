@@ -11,8 +11,8 @@
 	<form method="post">
 		<div class="row">
 			<div class="col-lg-9">
-				<label> 기간(시작-끝) </label> <input type="date" name="startDate">
-				~ <input type="date" name="endDate">
+				<label> 기간(시작-끝) </label> <input type="date" name="startDate" value="${startDate}">
+				~ <input type="date" name="endDate" value="${endDate}">
 			</div>
 			<div class="col-lg-3">
 				<div id="column-right">
