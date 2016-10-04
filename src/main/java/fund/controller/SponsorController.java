@@ -33,6 +33,7 @@ public class SponsorController {
 	@Autowired SponsorMapper sponsorMapper;
 	@Autowired FileAttachmentMapper fileAttachmentMapper;
 	@Autowired PaymentMapper paymentMapper;
+	@Autowired CodeMapper codeMapper;
 
 
     //회원관리 기본페이지
@@ -111,7 +112,7 @@ public class SponsorController {
 		String sponsorNo=oCalendar.get(Calendar.YEAR)+"-"+number;
 		sponsor.setSponsorNo(sponsorNo);
 		
-	
+
 	
 		//첨부파일리스트 임시테스트 -> 세션값으로 방식으로 바꾸어야함 
 		List<FileAttachment> list=fileAttachmentMapper.selectByArticleId(100);
