@@ -48,6 +48,9 @@
 		
 	});
 </script>
+<style>
+table { text-align: center; }
+</style>
 
 <h1>기부금 영수증 발급대장</h1>
 <hr/>
@@ -78,7 +81,7 @@
 	</div>
 	
 	<div class="receipt_List">	
-		<table class="table table-bordered">
+		<table class="table table-bordered" >
 		    <thead>
 		        <tr>
 		            <th><input type="checkbox" id="check_all"></th>

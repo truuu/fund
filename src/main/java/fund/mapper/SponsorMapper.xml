@@ -172,8 +172,7 @@
 			(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
 			(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
 			(select codeName from code where code.ID=sponsor.churchID )AS church,
-			SUBSTRING(homeAddress,-5,5) AS postCode,
-			homeAddress
+			SUBSTRING(homeAddress,len(homeAddress)-4,5) AS postCode,
 			signUpDate,mobilePhone,email
 	    FROM sponsor
 	</select>
@@ -239,6 +238,7 @@
 			sponsor.sponsorNo,name,(SELECT codeName FROM code WHERE
 			code.ID=sponsor.sponsorType2ID) AS sponsorType2,
 			(SELECT codeName FROM code WHERE code.ID=sponsor.churchID) AS church,
+			SUBSTRING(homeAddress,len(homeAddress)-4,5) AS postCode,
 			homeAddress,officeAddress,mailTo
 		FROM sponsor join payment ON sponsor.ID=payment.sponsorID
 		WHERE payment.paymentDate BETWEEN #{startDate} AND #{endDate}

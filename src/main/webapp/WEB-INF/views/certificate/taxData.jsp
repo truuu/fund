@@ -57,7 +57,7 @@
 		    </tbody>
 		</table>
 	</div>
-	
+<div align="center">
 	<div class="pagination">
 		<ul class="pagination pagination-sm">
 			<c:forEach var="page" items="${pagination.pageList }">
@@ -65,4 +65,5 @@
 			</c:forEach>
 		</ul>
 	</div>
+</div>
 </form:form>

@@ -376,6 +376,9 @@ public class SponsorController extends BaseController{
 			model.addAttribute("castCount",castCount);
 			model.addAttribute("sum", sum);
 			model.addAttribute("list", list);
+			model.addAttribute("startDate",startDate);
+			model.addAttribute("endDate",endDate);
+			
 		
 		return "sponsor/castHistory"; 
 	 }
