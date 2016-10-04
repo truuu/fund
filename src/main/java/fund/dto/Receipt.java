@@ -1,9 +1,10 @@
 package fund.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class Receipt {
-	int id;
+	int ID;
 	int sponsorID;
 	String createDate;
 	String no;
@@ -19,6 +20,14 @@ public class Receipt {
 	String corAddress;
 	String representative;
 	
+	List<Payment> paymentList;
+	
+	public List<Payment> getPaymentList() {
+		return paymentList;
+	}
+	public void setPaymentList(List<Payment> paymentList) {
+		this.paymentList = paymentList;
+	}
 	public String getAddress() {
 		return address;
 	}
@@ -73,11 +82,11 @@ public class Receipt {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getId() {
-		return id;
+	public int getID() {
+		return ID;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setID(int ID) {
+		this.ID = ID;
 	}
 	public int getSponsorID() {
 		return sponsorID;

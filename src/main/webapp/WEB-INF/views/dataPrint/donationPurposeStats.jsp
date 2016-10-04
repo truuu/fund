@@ -17,6 +17,8 @@
 			<div class="col-lg-3">
 				<div id="column-right">
 					<button type="submit" class="btn btn-reversed">검색</button>
+					<button class="btn" type="submit" name="cmd" value="pdf">보고서</button>
+					<button class="btn" type="submit" name="cmd" value="xlsx">엑셀</button>
 				</div>
 
 			</div>

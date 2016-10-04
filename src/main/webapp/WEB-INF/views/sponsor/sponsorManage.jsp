@@ -48,7 +48,6 @@ tr#topTable td{
 			<h1 class="page-header">회원관리</h1>
 			<div id="column-right">
 				<a href="sponsor.do" class="button button-reversed">신규</a> 
-				<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
 			</div>
 
 			<div id="search">
@@ -76,7 +75,10 @@ tr#topTable td{
 				</div>
 			</div>
 
-<form method="get">
+<form>
+			<div id="column-right">
+				<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
+			</div>
     <input type="hidden" name="pg" value="1" />
 
 

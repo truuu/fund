@@ -21,10 +21,11 @@
 	</select>
 
 	<select id="selectCoporateName" resultType="String">
-		select c2.name 
-		from [DonationPurpose] d join [Corporate] c2 on d.corporateID = c2.ID
-		where d.ID=#{ID}
-	</select>
+      select c2.name 
+      from [DonationPurpose] d join [Corporate] c2 on d.corporateID = c2.ID
+      where d.ID=#{ID}
+   </select>
+
 
 
 	<select id="selectByID" resultType="fund.dto.DonationPurpose">

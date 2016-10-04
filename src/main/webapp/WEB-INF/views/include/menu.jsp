@@ -87,8 +87,8 @@ $(function(){
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">자료출력<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
 		    <li><a href="/fund_sys/dataPrint/donationPurposeStats.do">기부목적별 납입현황</a></li>
-		    <li><a href="#">후원인별 납입현황</a></li>
-		    <li><a href="#">소속교회별납입현황</a></li>
+		    <li><a href="/fund_sys/sponsor/cast.do">후원인별 납입현황</a></li>
+		    <li><a href="/fund_sys/user/church.do">소속교회별납입현황</a></li>
 	
 		  </ul>
 		</li>

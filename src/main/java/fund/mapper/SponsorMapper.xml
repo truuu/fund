@@ -172,6 +172,8 @@
 			(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
 			(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
 			(select codeName from code where code.ID=sponsor.churchID )AS church,
+			SUBSTRING(homeAddress,-5,5) AS postCode,
+			homeAddress
 			signUpDate,mobilePhone,email
 	    FROM sponsor
 	</select>

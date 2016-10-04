@@ -3,10 +3,25 @@
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<style>
+a.deleteBtn {
+	margin-left: 10px;
+}
 
+a#donationBtn, a#deleteBtn {
+	float: right;
+	margin-left: 4px;
+}
+
+form.pagination {
+	width: 100%;
+}
+td{
+	text-align:center;
+}
+</style>
 <script>
 	$(function() {
 		$("thead input[type=checkbox]").click(function() {
@@ -26,8 +41,8 @@
 				checkboxValues.push($(this).val());
 				
 			});
-			
 			location.href = "http://localhost:8080/fund_sys/certificate/scholarshipDelete.do?checkboxValues="+ checkboxValues;
+
 
 
 		} else {
@@ -36,24 +51,6 @@
 	}
 	
 </script>
-<style>
-a.deleteBtn {
-	margin-left: 10px;
-}
-
-a#donationBtn, a#deleteBtn {
-	float: right;
-	margin-left: 4px;
-}
-
-form.pagination {
-	width: 100%;
-}
-td{
-	text-align:center;
-}
-</style>
-<body>
 
 	<h3>장학증서 발급대장</h3>
 	<form:form method="get" modelAttribute="pagination" class="pagination">
@@ -120,4 +117,3 @@ td{
 			</div>
 	</form:form>
 
-</body>

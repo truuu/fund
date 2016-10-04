@@ -7,10 +7,10 @@ import fund.dto.Pagination;
 
 public interface ReceiptMapper {
 	int selectRctID();
-	Receipt selectById(String id);
+	Receipt selectById(int id);
 	List<Receipt> selectReceiptList();
 	List<Receipt> selectPage(Pagination pagination);
-	Receipt selectReceiptView(int id);
+	List<Receipt> selectReceiptView(int id);
 	int getRid();
 	String getLastNo(String year);
 	int selectCount(Pagination pagination);

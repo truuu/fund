@@ -67,7 +67,7 @@
 			ON c.sponsorID=s.ID
 			JOIN donationPurpose d
 			ON c.donationPurposeID=d.ID
-			WHERE e.paymentDate >= #{startDate} AND e.createDate <= #{endDate}
+			WHERE e.paymentDate >= #{startDate} AND e.paymentDate <= #{endDate}
 		]]> 
 	</select>
 	
