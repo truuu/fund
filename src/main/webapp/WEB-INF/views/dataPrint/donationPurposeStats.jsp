@@ -44,7 +44,7 @@
 		</table>
 
 
-		<table>
+		<table class="table table-bordered">
 			<thead>
 				<th>기부목적</th>
 				<th>기부후원인수</th>

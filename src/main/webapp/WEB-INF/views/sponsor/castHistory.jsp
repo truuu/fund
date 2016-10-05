@@ -3,8 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
-<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+
 
 <script>
 
@@ -62,7 +61,7 @@ $(function(){
 			<!-- /.row -->     
 			<div>
 				<label> 신청기간 </label> <input type="date" id="startDate" value="${startDate}"> ~ <input type="date" id="endDate" value="${endDate}">
-				 <button  class="btn btn-primary" id="search">검색</button>
+				 <button  class="btn" type="submit" id="search">검색</button>
 				 <button id="pdf"  class="btn" type="submit" name="cmd" value="pdf">보고서</button>
 				 <button id="xlsx"  class="btn" type="submit" name="cmd" value="xlsx">엑셀</button>
 			</div>

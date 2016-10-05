@@ -10,7 +10,7 @@ public interface ReceiptMapper {
 	Receipt selectById(int id);
 	List<Receipt> selectReceiptList();
 	List<Receipt> selectPage(Pagination pagination);
-	List<Receipt> selectReceiptView(int id);
+	List<Receipt> selectReceiptView(int rid);
 	int getRid();
 	String getLastNo(String year);
 	int selectCount(Pagination pagination);
