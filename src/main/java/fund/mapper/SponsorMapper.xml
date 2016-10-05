@@ -204,13 +204,13 @@
 	<!-- DM발송 -->
 	<select id="postManage" resultType="fund.dto.Sponsor">
 	 <![CDATA[
-		 SELECT *
+		 SELECT *,ROW_NUMBER() OVER (ORDER BY sponsor.sponsorNo DESC) AS '행번호'
         FROM(select
-		sponsor.sponsorNo,name,(select codeName from code where
+		 DISTINCT sponsor.sponsorNo,name,(select codeName from code where
 		code.ID=sponsor.sponsorType2ID) AS sponsorType2,
 		(select codeName from
 		code where code.ID=sponsor.churchID) AS church,
-		homeAddress,officeAddress,mailTo,ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
+		homeAddress,officeAddress,mailTo
 		from sponsor join payment on
 		sponsor.ID=payment.sponsorID
 		where payment.paymentDate between

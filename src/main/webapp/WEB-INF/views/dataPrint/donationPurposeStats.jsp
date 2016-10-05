@@ -45,15 +45,14 @@ a2{ float:right; }
          </tbody>
       </table>
 
-
-      <table class="table table-bordered table-hover">
-         <thead>
-            <th>기부목적</th>
-            <th>기부후원인수</th>
-            <th>납입수</th>
-            <th>금액</th>
-            <th>비율</th>
-         </thead>
+		<table class="table table-bordered">
+			<thead>
+				<th>기부목적</th>
+				<th>기부후원인수</th>
+				<th>납입수</th>
+				<th>금액</th>
+				<th>비율</th>
+			</thead>
 
          <c:forEach var="payment" items="${ list }">
             <tbody>

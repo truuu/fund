@@ -2,8 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <script>
 
@@ -53,6 +53,7 @@ $(function(){
 					<h1 class="page-header">회원구분별 출연 내역</h1>
 				</div>
 			</div>
+			
 			<div class="row">
 				<div class="col-lg-9">
 					<label> 기간(시작-끝) </label> <input type="date" name="startDate" id="startDate"
@@ -65,7 +66,6 @@ $(function(){
 						<button id="pdf"  class="btn" type="submit" name="cmd" value="pdf">보고서</button>
 						<button id="xlsx"  class="btn" type="submit" name="cmd" value="xlsx">엑셀</button>
 					</div>
-
 				</div>
 			</div>
 

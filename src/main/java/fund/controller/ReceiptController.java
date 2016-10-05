@@ -58,14 +58,17 @@ public class ReceiptController extends BaseController{
 	}
 	
 	@RequestMapping(value="/certificate/receiptList.do", method=RequestMethod.POST, params="cmd=rct")
-    public void receiptListReport(@RequestParam("rid") int rid,  
+    public void receiptListReport(@RequestParam("rid") int[] rid,  
             HttpServletRequest request, HttpServletResponse response) throws JRException, IOException, SQLException {
         StringBuilder stringBuilder = new StringBuilder();
-        List<Receipt> list = receiptMapper.selectReceiptView(rid);
-        if (list.size() > 0) {
-            stringBuilder.append("WHERE r.id IN (");
+        List<Receipt> list = new ArrayList<Receipt>();
+        for(int i=0;i<rid.length;i++){
+        	list.add(receiptMapper.selectById(rid[i]));
+        }
+        if (list.size() > 0) { // 영수증목록이 1개 이상인 경우
+            stringBuilder.append("WHERE r.id IN ("); // payment
             for (Receipt r : list) {
-                r.setPaymentList(paymentMapper.selectByRctID(rid));
+                r.setPaymentList(paymentMapper.selectByRctID(r.getID()));
                 stringBuilder.append(r.getID()).append(',');
             }
             stringBuilder.deleteCharAt(stringBuilder.length()-1);
