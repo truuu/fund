@@ -134,6 +134,7 @@ public class FinanceController extends BaseController{
 			Salary x = list.get(i);
 			String sponsorNo = x.getSponsorNo();
 			Commitment commitment = commitmentMapper.selectIDBySponsorNo(sponsorNo); 
+			
 			Payment payment = new Payment();
 			payment.setSponsorID(commitment.getSponsorID());
 			payment.setCommitmentID(commitment.getID());
