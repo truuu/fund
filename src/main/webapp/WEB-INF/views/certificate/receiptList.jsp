@@ -37,16 +37,14 @@
 			$('.money').mask('000,000,000,000,000,000',{reverse:true});
 		});
 		
-		$("#check_all").click(function() {
-			if($(this).is(':checked')){
-				$("input[name=rid]").attr("checked","checked");
-			}else {
-				$("input[name=rid]").prop("checked",false);
-			}
-		});
-		
-		
 	});
+	
+	$(function() {
+	    $("thead input[type=checkbox]").click(function() {
+	        $("tbody input[type=checkbox").trigger("click");
+	    });
+	});
+
 </script>
 <style>
 table { text-align: center; }
@@ -76,8 +74,6 @@ table { text-align: center; }
 	<div class="pull-right">
 		<button type="submit" class="btn btn-info" name="cmd" value="deleteRct">선택삭제</button>
 		<button type="submit" class="btn btn-info" name="cmd" value="rct">선택영수증</button>
-		<a href="receiptByDur.do" class="btn btn-info">기부금영수증 일괄발급</a>
-		<a href="receiptByName.do" class="btn btn-info">기부금영수증 개별발급</a>
 	</div>
 	
 	<div class="receipt_List">	
