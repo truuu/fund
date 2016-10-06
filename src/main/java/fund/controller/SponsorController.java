@@ -103,6 +103,7 @@ public class SponsorController extends BaseController{
 		List<FileAttachment> list=fileAttachmentMapper.selectByArticleId(100);
 		model.addAttribute("files", fileAttachmentMapper.selectByArticleId(100));
 		model.addAttribute("sponsor",sponsor);
+	   
 		
 
 		return "sponsor/sponsor";
