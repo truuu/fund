@@ -26,9 +26,8 @@ public class DonationPurposeController extends BaseController{
 	
 	/*donationPurpose List*/
 	@RequestMapping("/code/donationPurposeList.do")
-	public String codeList(Model model,Pagination pagination) {
-		pagination.setRecordCount(donationPurposeMapper.selectCount());
-		model.addAttribute("list",donationPurposeMapper.selectPage(pagination));
+	public String codeList(Model model) {
+		model.addAttribute("list",donationPurposeMapper.selectPage());
 		return "code/donationPurposeList";
 	}
 	

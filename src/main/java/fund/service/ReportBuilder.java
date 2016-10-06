@@ -62,7 +62,6 @@ public class ReportBuilder {
     
     public void buildHtmlReport() throws JRException, IOException {
         response.setCharacterEncoding("UTF-8");
-        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
         Map<String,Object> params = new HashMap<String,Object>();
         params.put(JRParameter.IS_IGNORE_PAGINATION, true);
         JasperPrint jasperPrint = JasperFillManager.fillReport(report, params, dataSource);

@@ -172,8 +172,7 @@
 			(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
 			(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
 			(select codeName from code where code.ID=sponsor.churchID )AS church,
-			SUBSTRING(homeAddress,-5,5) AS postCode,
-			homeAddress
+			SUBSTRING(homeAddress,len(homeAddress)-4,5) AS postCode,
 			signUpDate,mobilePhone,email
 	    FROM sponsor
 	</select>
@@ -205,13 +204,13 @@
 	<!-- DM발송 -->
 	<select id="postManage" resultType="fund.dto.Sponsor">
 	 <![CDATA[
-		 SELECT *
+		 SELECT *,ROW_NUMBER() OVER (ORDER BY sponsor.sponsorNo DESC) AS '행번호'
         FROM(select
-		sponsor.sponsorNo,name,(select codeName from code where
+		 DISTINCT sponsor.sponsorNo,name,(select codeName from code where
 		code.ID=sponsor.sponsorType2ID) AS sponsorType2,
 		(select codeName from
 		code where code.ID=sponsor.churchID) AS church,
-		homeAddress,officeAddress,mailTo,ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
+		homeAddress,officeAddress,mailTo
 		from sponsor join payment on
 		sponsor.ID=payment.sponsorID
 		where payment.paymentDate between
@@ -239,6 +238,7 @@
 			sponsor.sponsorNo,name,(SELECT codeName FROM code WHERE
 			code.ID=sponsor.sponsorType2ID) AS sponsorType2,
 			(SELECT codeName FROM code WHERE code.ID=sponsor.churchID) AS church,
+			SUBSTRING(homeAddress,len(homeAddress)-4,5) AS postCode,
 			homeAddress,officeAddress,mailTo
 		FROM sponsor join payment ON sponsor.ID=payment.sponsorID
 		WHERE payment.paymentDate BETWEEN #{startDate} AND #{endDate}

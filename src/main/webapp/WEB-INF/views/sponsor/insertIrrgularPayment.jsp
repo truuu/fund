@@ -74,6 +74,9 @@ div table.table tbody tr td {
 }
 
 label{ text-align:right; }
+tr#topTable td, tr#topTable th{
+	text-align:center;
+}
 </style>
 <ul class="nav nav-tabs">
 						<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorNo}">회원관리</a></li>
@@ -178,7 +181,7 @@ label{ text-align:right; }
 					<div id="searchResult">
 						<table id="donationTable">
 							<thead>
-								<tr>
+								<tr id="topTable">
 									<th>기관</th>
 									<th>기관종류</th>
 									<th>기부목적</th>
@@ -187,7 +190,7 @@ label{ text-align:right; }
 							<tbody>
 								<c:forEach var="donationPurpose"
 									items="${ donationPurposeList }">
-									<tr data-id="${ donationPurpose.ID }">
+									<tr data-id="${ donationPurpose.ID }" id="topTable">
 										<td>${ donationPurpose.corporateName }</td>
 										<td>${ donationPurpose.codeName }</td>
 										<td>${ donationPurpose.name }</td>

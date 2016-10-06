@@ -19,7 +19,7 @@ public interface CodeMapper {
 	Code selectByID(int ID);
 	List<CodeGroup> selectCodeGroup();
 	String selectByName(int CodeGroupID);
-	List<Code> selectByCodeGroupID(HashMap<String, Object> map);
+	List<Code> selectByCodeGroupID(int codeGroupID);
 	int selectCount(HashMap<String, Object> map);
 	void insert(Code code);
 	void update(Code code);

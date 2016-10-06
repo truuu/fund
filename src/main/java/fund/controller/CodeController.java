@@ -20,18 +20,18 @@ public class CodeController extends BaseController{
 	
 
 	/*기초정보관리 LIST*/
-	@RequestMapping("/code/codeList.do")
-	public String codeList(Model model,@RequestParam("CodeGroupID") int CodeGroupID, Pagination pagination) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("CodeGroupID", CodeGroupID);
-		map.put("pagination",pagination);
-		pagination.setRecordCount(codeMapper.selectCount(map));
-		model.addAttribute("list", codeMapper.selectByCodeGroupID(map));
-		model.addAttribute("name",codeMapper.selectByName(CodeGroupID));
-		model.addAttribute("CodeGroupID",CodeGroupID);
+	   @RequestMapping("/code/codeList.do")
+	   public String codeList(Model model,@RequestParam("CodeGroupID") int CodeGroupID) {
+	      //HashMap<String, Object> map = new HashMap<String, Object>();
+	      //map.put("CodeGroupID", CodeGroupID);
+	      //map.put("pagination",pagination);
+	      //pagination.setRecordCount(codeMapper.selectCount(map));
+	      model.addAttribute("list", codeMapper.selectByCodeGroupID(CodeGroupID));
+	      model.addAttribute("name",codeMapper.selectByName(CodeGroupID));
+	      model.addAttribute("CodeGroupID",CodeGroupID);
 
-		return "code/codeList";
-	}
+	      return "code/codeList";
+	   }
 
 	/*기초정보관리추가*/
 	@RequestMapping(value="/code/create.do", method=RequestMethod.GET)

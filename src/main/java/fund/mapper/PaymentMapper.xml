@@ -133,17 +133,16 @@
 		s.churchID=c2.ID
 		join Code c3 on p.paymentMethodID=c3.ID
 
-		where
+		<where>
 		paymentDate between #{startDate} and #{endDate}
 		
-		<if test="srchType2 != null">and p.donationPurposeID = #{srchType2}</if>
-		
-		<if test="srchType1 != 0 and srchType1 == 1">
+		<if test="srchType1 == 1">
 			and p.commitmentID is not null
 		</if>
-		<if test="srchType1 != 0 and srchType1 == 2">
+		<if test="srchType1 == 2">
 			and p.commitmentID is null
 		</if>
+		<if test="srchType2 != null">and p.donationPurposeID = #{srchType2}</if>
 		
 		<if test="srchType3 != 0">and s.churchID = #{srchType3}</if>
 		
@@ -151,8 +150,8 @@
 		
 		<if test="srchType5 != 0">and s.sponsorType2ID = #{srchType5}</if>
 		
-		<if test="sponsorName != null">and s.name = #{sponsorName}</if>
-		
+		<if test="sponsorName != null and sponsorName !=''">and s.name = #{sponsorName}</if>
+		</where>
 		
 	</select>
 
@@ -186,7 +185,7 @@
 		
 		<if test="srchType5 != 0">and s.sponsorType2ID = #{srchType5}</if>
 		
-		<if test="sponsorName != null">and s.name = #{sponsorName}</if>
+		<if test="sponsorName != null and sponsorName !=''">and s.name = #{sponsorName}</if>
 		
 		group by s.sponsorNo, s.name, c1.codeName, c2.codeName
 		
@@ -271,7 +270,7 @@
 	
 	<insert id="insertXferResult" useGeneratedKeys="true" keyProperty="id">
 		insert into payment(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
-		values(#{sponsorID},#{commitmentID},#{amount},CONVERT(DATE,#{paymentDateString}),#{donationPurposeID},#{paymentMethodID})
+		values(#{sponsorID},#{commitmentID},#{amount},CONVERT(DATE,#{paymentDate}),#{donationPurposeID},#{paymentMethodID})
 	</insert>
 	
 	<insert id="insertSalaryResult" useGeneratedKeys="true" keyProperty="id">

@@ -20,14 +20,22 @@ function print(index){
       
     }
     if (index == 1) {
-    	alert("미리보기1");
-    	location.href="../certificate/spreview.do?department="+department+"&studentNo="+studentNo+"&studentName="+studentName+"&serialNo="+serialNo+"&content="+content;
+
+    	location.href="../report/printScholarship.do?type=pdf&department="+department+"&studentNo="+studentNo+"&studentName="+studentName+"&serialNo="+serialNo+"&content="+content;
       
     }
-				
 	
 }
-
+function htmlReport() {
+	department=$('#department').val();
+	studentNo=$('#studentNo').val();
+	studentName=$('#studentName').val();
+	serialNo=$('#serialNo').val();
+	content=$('#content').val();
+	
+	var url = "/fund_sys/report/printScholarship.do?type=html&department="+department+"&studentNo="+studentNo+"&studentName="+studentName+"&serialNo="+serialNo+"&content="+content;
+	$("iframe").attr("src", url);
+}
 </script>
  <style>
 #table_a {
@@ -37,17 +45,18 @@ textarea{
 	width:90%;
 	height:100px;
 }
-
+iframe { width: 800px; border: 1px solid #ddd; height: 900px; }
 </style>
 
-<form>
+<form method="post"  action="/fund_sys/report/printScholarship.do">
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
 			<h1 class="page-header">장학 증서</h1>
 			<div id="column-right">
-			<button type="button" style="margin-bottom: 5px" class="btn btn-default" onclick="print(1)">장학증서발급</button> 
-			<button type="button"  style="margin-bottom: 5px" class="btn btn-primary"onclick="print(2)">인쇄</button>
+			<button class="btn" type="button" onclick="htmlReport()">조회</button>
+			<button type="button" style="margin-bottom: 5px" class="btn btn-default" onclick="print(1)">파일생성</button> 
+			<button type="button"  style="margin-bottom: 5px" class="btn btn-primary"onclick="print(2)">장학증서발급</button>
 			</div>
 			<table class="table">
 				<tbody>
@@ -91,5 +100,8 @@ textarea{
 	</div>
 </div>
 </form>
+<div align="center">
+	<iframe></iframe>
+</div>
 
 

@@ -131,7 +131,6 @@ public class FinanceController extends BaseController{
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		List<Payment> paymentList = new ArrayList<Payment>();
 		for (int i=0; i<list.size(); i++) {
-			System.out.println(i);
 			Salary x = list.get(i);
 			String sponsorNo = x.getSponsorNo();
 			Commitment commitment = commitmentMapper.selectIDBySponsorNo(sponsorNo); 
