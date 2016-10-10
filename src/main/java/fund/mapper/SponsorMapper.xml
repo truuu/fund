@@ -204,7 +204,28 @@
 	<!-- DM발송 -->
 	<select id="postManage" resultType="fund.dto.Sponsor">
 	 <![CDATA[
-		 SELECT *,ROW_NUMBER() OVER (ORDER BY sponsor.sponsorNo DESC) AS '행번호'
+		  SELECT *
+        FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
+        FROM(SELECT DISTINCT sponsor.sponsorNo,name,(SELECT codeName from code where
+      code.ID=sponsor.sponsorType2ID) AS sponsorType2,
+      (select codeName from
+      code where code.ID=sponsor.churchID) AS church,
+      homeAddress,officeAddress,mailTo
+      from sponsor join payment on
+      sponsor.ID=payment.sponsorID
+	 where payment.paymentDate between
+		#{startDate} and #{endDate}
+      )subquery
+	  )subquery
+	    WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              행번호 <= #{currentPage} * #{pageSize}
+        ORDER BY 행번호;
+		 ]]>
+	</select>
+	<!-- postManage 이전에 해야하는 line 수  -->
+	<select id="postManagePro" resultType="int">
+	 <![CDATA[
+		 SELECT ROW_NUMBER() OVER (ORDER BY sponsor.sponsorNo DESC) AS line
         FROM(select
 		 DISTINCT sponsor.sponsorNo,name,(select codeName from code where
 		code.ID=sponsor.sponsorType2ID) AS sponsorType2,
@@ -216,15 +237,12 @@
 		where payment.paymentDate between
 		#{startDate} and #{endDate}
 		)subquery
-		 WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
-              행번호 <= #{currentPage} * #{pageSize}
-        ORDER BY 행번호
 		 ]]>
 	</select>
 	
 	<!-- DM 페이징을 위한 count -->
 	<select id="countForDM" resultType="int">
-	select count(*)
+	select count(DISTINCT(sponsor.ID))
 	from sponsor join payment on
 		sponsor.ID=payment.sponsorID
 		where payment.paymentDate between

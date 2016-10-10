@@ -45,9 +45,7 @@ $(function(){
 		startDate=$('#startDate').val();
 		endDate=$('#endDate').val();
 		check='f';
-		alert(startDate)
-		alert(endDate)
-		
+
 
 
 		
@@ -92,6 +90,7 @@ $(function(){
                       <div id="column-right">
 							<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
 					</div>
+					  <input type="hidden" name="pg" value="1" />
 						<table class="table table-bordered table-hover" id="table_s">
 							<thead>
 								<tr>
@@ -120,15 +119,15 @@ $(function(){
 					
 							</tbody>
 						</table>
-						<div align="center">
-							    <div class="pagination">
-									<ul class="pagination pagination-sm">
-										<c:forEach var="page" items="${pagination.pageList }">
-											<li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
-										</c:forEach>
-									</ul>
-								</div>
-						</div>
+			<div align="center">
+			    <div class="pagination">
+					<ul class="pagination pagination-sm">
+						<c:forEach var="page" items="${pagination.pageList }">
+							<li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
+						</c:forEach>
+					</ul>
+				</div>
+			</div>
 				</form>
 
 		</div>
