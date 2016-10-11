@@ -97,6 +97,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 #outPut1{ margin-left:10%; }
 #outPut2{ margin-left:26%; }
 #outPut3{ margin-left:28%; }
+#time{ float:right; }
 
 
 </style>
@@ -129,9 +130,9 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 							
 								<td><label>정기/비정기</label></td>
 								<td><select name="srchType1" class="select_s">
-										<option value="0">선택</option>
-										<option value="1">정기</option>
-										<option value="2">비정기</option>
+										<option value="0" ${gu1 == 0 ? "selected" : "" }>선택</option>
+										<option value="1" ${gu1 == 1 ? "selected" : "" }>정기</option>
+										<option value="2" ${gu1 == 2 ? "selected" : "" }>비정기</option>
 								</select></td>
 								
 								
@@ -139,22 +140,22 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 
 								<td><label>소속교회</label></td>
 								<td><select name="srchType3" class="select_s">
-										<option value="0">선택</option>
+										<option value="0" ${ churchID == 0 ? "selected" : "" }>선택</option>
 										<c:forEach var="church" items="${churchList}">
-											<option value="${church.ID}">${church.codeName}</option>
+											<option value="${church.ID}" ${ churchID == church.ID ? "selected" : "" }>${church.codeName}</option>
 										</c:forEach>
 								</select></td>
 							<tr>
 							<td><label>납입일</label></td>
-								<td><input type="date" name="startDate">~<input
-									type="date" name="endDate"></td>
+								<td><input type="date" name="startDate" value="${startDate}" >~<input
+									type="date" name="endDate" value="${endDate}" ></td>
 									
 
 								<td><label>납입방법</label></td>
 								<td><select name="srchType4" class="select_s">
 										<option value="0">선택</option>
 										<c:forEach var="paymentMethod" items="${paymentMethodList}">
-											<option value="${paymentMethod.ID}">${paymentMethod.codeName}</option>
+											<option value="${paymentMethod.ID}" ${ paymentMethodID==paymentMethod.ID ? "selected" : "" }>${paymentMethod.codeName}</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -162,7 +163,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 							<td><label>기부목적</label></td>
 								<td><form:form method="post">
 										<div class="form-inline">
-											<input type="text" name="dname" readonly /> <a
+											<input type="text" name="dname" readonly value="${ donationPurpose }" /> <a
 												href="#searchDialog" class="btn btn-default"
 												data-toggle="modal">검색</a> <input type="hidden"
 												name="srchType2" id="donationPurposeID" />
@@ -174,14 +175,14 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 								<td><select name="srchType5" class="select_s">
 										<option value="0">선택</option>
 										<c:forEach var="sponsorType" items="${sponsorType2List}">
-											<option value="${sponsorType.ID}">${sponsorType.codeName}</option>
+											<option value="${sponsorType.ID}" ${ sponsorTypeID==sponsorType.ID ? "selected" : "" }>${sponsorType.codeName}</option>
 										</c:forEach>
 								</select></td>
 
 							</tr>
 							<tr>
 							<td><label>후원인이름</label></td>
-								<td colspan="4"><input type="text" name="sponsorName" /></td>
+								<td colspan="4"><input type="text" name="sponsorName" value="${sponsorName}" /></td>
 							</tr>
 
 
@@ -194,6 +195,9 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 				<div class="row">
 					<div class="col-lg-12">
 						<hr>
+						<div id="column-right">
+							<a href="#" class="button">출력</a> <a href="#" class="button">엑셀다운</a>
+						</div>
 						
 
 						<div class="reporting">
@@ -233,7 +237,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 									</table>
 								</div>
 							</div>
-
+						<div id="time">${time}</div>
 							<div class="table-responsive">
 								<table class="table table-bordered">
 									<thead>

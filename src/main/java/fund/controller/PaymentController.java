@@ -103,9 +103,16 @@ public class PaymentController extends BaseController{
 
 	@RequestMapping(value="/dataPrint/paymentRecordStats.do", method=RequestMethod.POST) //납입 내역 조회
 	public String paymentRecordStats(Model model, PaymentRecordStats paymentRecordStats) {
+		model.addAttribute("sponsorType2List",codeMapper.selectSponsorType2("후원인구분2"));
+		model.addAttribute("churchList",codeMapper.selectChurch("소속교회"));
+		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
+		String name1="정기 납입방법";
+		String name2="비정기 납입방법";
+		model.addAttribute("paymentMethodList",codeMapper.selectAllPaymentMethod(name1,name2));
 		
 		model.addAttribute("startDate",paymentRecordStats.getStartDate());
 		model.addAttribute("endDate",paymentRecordStats.getEndDate());
+		model.addAttribute("gu1",paymentRecordStats.getSrchType1());
 		if(paymentRecordStats.getSrchType1()!=null){
 			if(paymentRecordStats.getSrchType1()==1)
 				model.addAttribute("gubun","정기");
@@ -116,14 +123,22 @@ public class PaymentController extends BaseController{
 			model.addAttribute("donationPurpose",donationPurposeMapper.selectDonationPurpose2(paymentRecordStats.getSrchType2()));
 			model.addAttribute("corporateName",donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2()));
 		}
-		if(paymentRecordStats.getSrchType3()!=null)	
+		if(paymentRecordStats.getSrchType3()!=null)	{
 			model.addAttribute("church",codeMapper.selectCodeName(paymentRecordStats.getSrchType3()));
-		if(paymentRecordStats.getSrchType4()!=null)
+			model.addAttribute("churchID",paymentRecordStats.getSrchType3());
+		}
+		if(paymentRecordStats.getSrchType4()!=null){
 			model.addAttribute("paymentMethod",codeMapper.selectCodeName(paymentRecordStats.getSrchType4()));
-		if(paymentRecordStats.getSrchType5()!=null)
+			model.addAttribute("paymentMethodID",paymentRecordStats.getSrchType4());
+		}
+		if(paymentRecordStats.getSrchType5()!=null){
 			model.addAttribute("sponsorType",codeMapper.selectCodeName(paymentRecordStats.getSrchType5()));
-		if(paymentRecordStats.getSponsorName()!=null)
+			model.addAttribute("sponsorTypeID",paymentRecordStats.getSrchType5());
+		}
+		if(paymentRecordStats.getSponsorName()!=null){
 			model.addAttribute("sponsorName",paymentRecordStats.getSponsorName());
+			
+		}
 		
 		Date date = new Date();
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -158,8 +173,17 @@ public class PaymentController extends BaseController{
 	
 	@RequestMapping(value="/dataPrint/paymentTotalStats.do", method=RequestMethod.POST) 
 	public String paymentTotalStats(Model model,PaymentRecordStats paymentRecordStats) { 
+		model.addAttribute("sponsorType2List",codeMapper.selectSponsorType2("후원인구분2"));
+		model.addAttribute("churchList",codeMapper.selectChurch("소속교회"));
+		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
+		String name1="정기 납입방법";
+		String name2="비정기 납입방법";
+		model.addAttribute("paymentMethodList",codeMapper.selectAllPaymentMethod(name1,name2));
+		
 		model.addAttribute("startDate",paymentRecordStats.getStartDate());
 		model.addAttribute("endDate",paymentRecordStats.getEndDate());
+		model.addAttribute("gu1",paymentRecordStats.getSrchType1());
+		
 		if(paymentRecordStats.getSrchType1()!=0){
 			if(paymentRecordStats.getSrchType1()==1)
 				model.addAttribute("gubun","정기");
@@ -171,12 +195,18 @@ public class PaymentController extends BaseController{
 			model.addAttribute("donationPurpose",donationPurposeMapper.selectDonationPurpose2(paymentRecordStats.getSrchType2()));
 			model.addAttribute("corporateName",donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2()));
 		}
-		if(paymentRecordStats.getSrchType3()!=null)	
+		if(paymentRecordStats.getSrchType3()!=null)	{
 			model.addAttribute("church",codeMapper.selectCodeName(paymentRecordStats.getSrchType3()));
-		if(paymentRecordStats.getSrchType4()!=null)
+			model.addAttribute("churchID",paymentRecordStats.getSrchType3());
+		}
+		if(paymentRecordStats.getSrchType4()!=null){
 			model.addAttribute("paymentMethod",codeMapper.selectCodeName(paymentRecordStats.getSrchType4()));
-		if(paymentRecordStats.getSrchType5()!=null)
+			model.addAttribute("paymentMethodID",paymentRecordStats.getSrchType4());
+		}
+		if(paymentRecordStats.getSrchType5()!=null){
 			model.addAttribute("sponsorType",codeMapper.selectCodeName(paymentRecordStats.getSrchType5()));
+			model.addAttribute("sponsorTypeID",paymentRecordStats.getSrchType5());
+		}
 	
 		if(paymentRecordStats.getSponsorName()!=null)
 			model.addAttribute("sponsorName",paymentRecordStats.getSponsorName());
