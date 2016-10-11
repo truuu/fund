@@ -5,7 +5,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<style>
+tr#topTable td,h4{
+	text-align:center; }
+a2{ float:right; }
+</style>
 <body>
 	<h3>기부목적별 납입현황</h3>
 	<form method="post">
@@ -24,16 +28,16 @@
 			</div>
 		</div>
 		<h4>기부목적별 납입보고서</h4>
-		<span>납입기간:</span>${startDate}~${endDate}
+		
 
-		<table>
+		<table class="table table-bordered table-hover">
 			<thead>
 				<th>총 후원인수</th>
 				<th>총 납입수</th>
 				<th>총 납입액</th>
 			</thead>
 			<tbody>
-				<tr>
+				<tr id="topTable">
 					<td>${totalSponsor}</td>
 					<td>${totalDonationPurpose}</td>
 					<td class="money">${totalSum}</td>
@@ -42,7 +46,7 @@
 		</table>
 
 
-		<table>
+		<table class="table table-bordered table-hover">
 			<thead>
 				<th>기부목적</th>
 				<th>기부후원인수</th>
