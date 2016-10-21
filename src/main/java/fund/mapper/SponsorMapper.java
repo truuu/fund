@@ -36,7 +36,7 @@ public interface SponsorMapper {
 	void removeSponsor(String sponsorNo);
 	void updateSponsor(Sponsor sponsor);
 
-	Sponsor selectBySponsorNo(String sponsorNo);
+	Sponsor selectBySponsorNo(int id);
 	List<Sponsor> nameSearch(Pagination pagination);
 	List<Sponsor> sponsorSearch(Pagination pagination);
 	List<Sponsor> selectPage(Pagination pagination);

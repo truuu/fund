@@ -98,7 +98,7 @@ tr#topTable td{
 				</thead>
 				<tbody>
 			<c:forEach var="sponsor" items="${list}">
-			<tr data-id="${sponsor.sponsorNo}" id="topTable">
+			<tr data-id="${sponsor.id}" id="topTable">
 			<td>${sponsor.sponsorNo}</td>
 			<td>${sponsor.name}</td>
 			<td>${sponsor.sponsorType1}</td>

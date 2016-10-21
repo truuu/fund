@@ -54,8 +54,9 @@
 	<!-- 후원자 상세페이지 -->
 	<select id="selectBySponsorNo" resultType="fund.dto.Sponsor">
 		select id,sponsorNo,name,juminNo,sponsorType1ID,sponsorType2ID,signUpDate,mobilePhone,recommender,recommenderRelation,mailReceiving,mailTo,homeAddress,homePhone,email,company,department,position,officePhone,officeAddress,etc,
-       (select codeName from code where code.ID=sponsor.churchID )AS church
-        from sponsor where sponsorNo=#{sponsorNo};
+         (select codeName from code where code.ID=sponsor.churchID )AS church,
+	   (select codeName from code where code.ID=sponsor.sponsorType1ID) AS sponsorType1
+        from sponsor where id=#{id};
 	</select>
 	
 
@@ -146,7 +147,7 @@
         <![CDATA[
         SELECT *
         FROM
-            ( SELECT sponsorNo,name,
+            ( SELECT sponsorNo,name,id,
 		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
 		(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
 		(select codeName from code where code.ID=sponsor.churchID )AS church,

@@ -79,12 +79,13 @@ tr#topTable td, tr#topTable th{
 }
 </style>
 <ul class="nav nav-tabs">
-						<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorNo}">회원관리</a></li>
+						<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorID}">회원관리</a></li>
 						<li><a href="/fund_sys/sponsor/commitment.do?id=${sponsorID}">약정관리</a></li>
 						<li><a href="/fund_sys/sponsor/paymentList.do?id=${sponsorID}" >정기납입관리</a></li>
 						<li><a href="/fund_sys/sponsor/paymentList2.do?id=${sponsorID}">비정기납입관리</a></li>
 						<li class="active"><a href="/fund_sys/sponsor/insertIrrgularPayment.do?id=${sponsorID}" >비정기납입등록</a></li>
 					</ul>
+				<p>${sponsor.sponsorNo}&nbsp;  ${sponsor.name}&nbsp;  ${sponsor.sponsorType1}&nbsp;</p>
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">

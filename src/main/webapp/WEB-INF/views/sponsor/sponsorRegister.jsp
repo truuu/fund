@@ -92,6 +92,10 @@ function fileDelete(id){
    }
 </script>
 <c:set var="mailReceiving" value="${sponsor.mailReceiving}"  />
+
+
+
+
 <div class="panel panel-default">
    <div class="panel-heading">
       <h4>회원기본정보</h4>
