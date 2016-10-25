@@ -85,17 +85,21 @@ public class FinanceController extends BaseController{
 			String commitmentNo = commitmentNos[i];
 
 			Commitment commitment = commitmentMapper.selectByCommitmentNo(commitmentNo);
-			Payment payment = new Payment();
-			payment.setSponsorID(commitment.getSponsorID());
-			payment.setCommitmentID(commitment.getID());
-			payment.setCommitmentNo(commitmentNo);
-			Date pDate = transFormat.parse(x.getPaymentDate());
-			payment.setPaymentDate(pDate);
-			payment.setAmount(Integer.parseInt(x.getAmount()));
-			payment.setDonationPurposeID(commitment.getDonationPurposeID());
-			payment.setPaymentMethodID(commitment.getPaymentMethodID());
-			paymentMapper.insertXferResult(payment);
-			paymentList.add(payment);
+			if(commitment == null){
+				model.addAttribute("errorMsg", "파일에 약정 등록이 되지 않은 후원인이 존재합니다. 확인 후 다시 시도해주세요.");
+			}else{
+				Payment payment = new Payment();
+				payment.setSponsorID(commitment.getSponsorID());
+				payment.setCommitmentID(commitment.getID());
+				payment.setCommitmentNo(commitmentNo);
+				Date pDate = transFormat.parse(x.getPaymentDate());
+				payment.setPaymentDate(pDate);
+				payment.setAmount(Integer.parseInt(x.getAmount()));
+				payment.setDonationPurposeID(commitment.getDonationPurposeID());
+				payment.setPaymentMethodID(commitment.getPaymentMethodID());
+				paymentMapper.insertXferResult(payment);
+				paymentList.add(payment);
+			}
 		}
 		model.addAttribute("paymentList", paymentList);
 
@@ -135,17 +139,21 @@ public class FinanceController extends BaseController{
 			String sponsorNo = x.getSponsorNo();
 			Commitment commitment = commitmentMapper.selectIDBySponsorNo(sponsorNo); 
 			
-			Payment payment = new Payment();
-			payment.setSponsorID(commitment.getSponsorID());
-			payment.setCommitmentID(commitment.getID());
-			payment.setCommitmentNo(commitment.getCommitmentNo());
-			Date pDate = transFormat.parse(x.getPaymentDate());
-			payment.setPaymentDate(pDate);
-			payment.setAmount(Integer.parseInt(x.getAmount()));
-			payment.setDonationPurposeID(commitment.getDonationPurposeID());
-			payment.setPaymentMethodID(commitment.getPaymentMethodID());
-			paymentMapper.insertSalaryResult(payment);
-			paymentList.add(payment);
+			if(commitment == null){
+				model.addAttribute("errorMsg", "파일에 약정 등록이 되지 않은 후원인이 존재합니다. 확인 후 다시 시도해주세요.");
+			}else{
+				Payment payment = new Payment();
+				payment.setSponsorID(commitment.getSponsorID());
+				payment.setCommitmentID(commitment.getID());
+				payment.setCommitmentNo(commitment.getCommitmentNo());
+				Date pDate = transFormat.parse(x.getPaymentDate());
+				payment.setPaymentDate(pDate);
+				payment.setAmount(Integer.parseInt(x.getAmount()));
+				payment.setDonationPurposeID(commitment.getDonationPurposeID());
+				payment.setPaymentMethodID(commitment.getPaymentMethodID());
+				paymentMapper.insertSalaryResult(payment);
+				paymentList.add(payment);
+			}
 		}
 		model.addAttribute("paymentList", paymentList);
 		return "finance/salary";
