@@ -138,10 +138,10 @@ public class CommitmentController extends BaseController{
 	}
 	
 	@RequestMapping(value="/sponsor/commitmentDelete.do") // 약정 삭제
-	public String commitmentDelete(Model model, int commitmentID) {
+	public String commitmentDelete(Model model, int commitmentID, int sponsorID) {
 		commitmentMapper.delete(commitmentID);
 	
-	return "redirect:/sponsor/commitment.do";  // 약정목록갈때 sponsorID 받아서 리다이렉트 수정 
+	return "redirect:/sponsor/commitment.do?id="+sponsorID;   
 	}
 	
 	@RequestMapping(value="/sponsor/commitmentEnd.do") // 약정 종료

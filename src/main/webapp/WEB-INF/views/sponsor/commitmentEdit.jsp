@@ -9,7 +9,7 @@
 
 	$(function() {
 		$(".btn1").hide();
-		$("select").attr("readonly", true);  // 적용안됨
+		$("select").attr("readonly", true);  // 적용안됨 질문
 		$("input").attr("readonly", true);
 		
 
@@ -32,9 +32,10 @@ function deleteCommitmentDetail(commitmentDetailID) {
 };
 
 function deleteCommitment(commitmentID) {
+	sponsorID=${commitment.sponsorID};
 	if (confirm("약정을 삭제하시겠습니까?") == true) {
 		
-		location.href="http://localhost:8080/fund_sys/sponsor/commitmentDelete.do?commitmentID="+commitmentID;
+		location.href="http://localhost:8080/fund_sys/sponsor/commitmentDelete.do?commitmentID="+commitmentID+"&sponsorID="+sponsorID;
 
 	}
 };
