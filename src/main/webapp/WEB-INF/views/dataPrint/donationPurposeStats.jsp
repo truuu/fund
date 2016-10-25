@@ -1,34 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
+   prefix="sec"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <style>
 tr#topTable td,h4{
-	text-align:center; }
+
+   text-align:center; }
+
 a2{ float:right; }
 </style>
 <body>
-	<h3>기부목적별 납입현황</h3>
-	<form method="post">
-		<div class="row">
-			<div class="col-lg-9">
-				<label> 기간(시작-끝) </label> <input type="date" name="startDate" value="${startDate}">
-				~ <input type="date" name="endDate" value="${endDate}">
-			</div>
-			<div class="col-lg-3">
-				<div id="column-right">
-					<button type="submit" class="btn btn-reversed">검색</button>
-					<button class="btn" type="submit" name="cmd" value="pdf">보고서</button>
-					<button class="btn" type="submit" name="cmd" value="xlsx">엑셀</button>
-				</div>
+   <h3>기부목적별 납입현황</h3>
+   <form method="post">
+      <div class="row">
+         <div class="col-lg-9">
+            <label> 기간(시작-끝) </label> <input type="date" name="startDate" value="${startDate}">
+            ~ <input type="date" name="endDate" value="${endDate}">
+         </div>
+         <div class="col-lg-3">
+            <div id="column-right">
+               <button type="submit" class="btn btn-reversed">검색</button>
+               <button class="btn" type="submit" name="cmd" value="pdf">보고서</button>
+               <button class="btn" type="submit" name="cmd" value="xlsx">엑셀</button>
+            </div>
 
-			</div>
-		</div>
-		<h4>기부목적별 납입보고서</h4>
-		
+
+         </div>
+      </div>
+      <h4>기부목적별 납입보고서</h4>
+
+
 
 		<table class="table table-bordered table-hover">
 			<thead>
@@ -47,6 +51,9 @@ a2{ float:right; }
 
 
 		<table class="table table-bordered table-hover">
+
+		<table class="table table-bordered">
+
 			<thead>
 				<th>기부목적</th>
 				<th>기부후원인수</th>
@@ -55,25 +62,25 @@ a2{ float:right; }
 				<th>비율</th>
 			</thead>
 
-			<c:forEach var="payment" items="${ list }">
-				<tbody>
-					<tr>
-						<td>${payment.donationPurpose}</td>
-						<td>${payment.count1}
-						<td>${payment.count2}
-						<td class="money">${payment.sum}
-						<td>${payment.percent}%</td>
-					</tr>
-			</c:forEach>
-			<tr>
-				<td>소계</td>
-				<td>${totalSponsor}</td>
-				<td>${totalDonationPurpose}</td>
-				<td class="money">${totalSum}</td>
-				<td>${totalPercent}%</td>
-			</tr>
-			</tbody>
-		</table>
+         <c:forEach var="payment" items="${ list }">
+            <tbody>
+               <tr>
+                  <td>${payment.donationPurpose}</td>
+                  <td>${payment.count1}
+                  <td>${payment.count2}
+                  <td class="money">${payment.sum}
+                  <td>${payment.percent}%</td>
+               </tr>
+         </c:forEach>
+         <tr>
+            <td>소계</td>
+            <td>${totalSponsor}</td>
+            <td>${totalDonationPurpose}</td>
+            <td class="money">${totalSum}</td>
+            <td>${totalPercent}%</td>
+         </tr>
+         </tbody>
+      </table>
 
-	</form>
+   </form>
 </body>

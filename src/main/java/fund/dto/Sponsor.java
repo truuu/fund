@@ -47,6 +47,7 @@ public class Sponsor {
 	//long sum;//후원인구분2별 출연내역 금액
 	int sum;//후원인구분2별 출연내역 금액
 	
+	
 	public int getSum() {
 		return sum;
 	}

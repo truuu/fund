@@ -20,6 +20,8 @@ public class Pagination {
     int type;//소속교회, 회원구분 등 codeGroupID
     String codeName;// 개인, 단체, 교회 등 code 이름
     String nameForSearch;//후원인관리에서 이름으로 검색때 사용
+   
+	
 
 	public String getNameForSearch() {
 		return nameForSearch;
@@ -224,6 +226,7 @@ public class Pagination {
             list.add(new Page(basePage + i, currentPage == basePage + i));
         if (basePage + 11 <= pageCount)
             list.add(new Page("Next", basePage + 11));
+
         return list;
     }
 

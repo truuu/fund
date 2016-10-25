@@ -17,7 +17,7 @@ public interface PaymentMapper {
 	int selectById(String pid);
 	List<Integer> selectDistinctSponsorID(@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("corporateID") int corporateID);
 	List<Payment> selectReceiptByName(Pagination pagination);
-	List<Payment> selectByRctID(int rctId);
+	List<Payment> selectByRctID(int rid);
 	List<Payment> selectPage(Pagination pagination);
 	int selectCount(Pagination pagination);
 	List<Payment> selectTaxData(Pagination pagination);
