@@ -37,7 +37,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(String loginName, String password) throws AuthenticationException {
        User user = userMapper.selectByLoginId(loginName);
         if (user == null) return null;
-        if (user.getPassword().equals(password) == false) return null;
+        if (user.getPassword().equals(encryptPasswd(password)) == false) return null;
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_전체"));
@@ -49,6 +49,23 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
+    
+    public static String encryptPasswd(String passwd) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] passBytes = passwd.getBytes();
+            md.reset();
+            byte[] digested = md.digest(passBytes);
+            StringBuffer sb = new StringBuffer();
+            for(int i=0;i<digested.length;i++)
+                sb.append(Integer.toHexString(0xff & digested[i]));
+            return sb.toString();
+        }
+        catch (Exception e) {
+            return passwd;
+        }
+    }
+
 
 
     public class MyAuthenticaion extends UsernamePasswordAuthenticationToken {

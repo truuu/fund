@@ -4,6 +4,24 @@
 		
 <mapper namespace="fund.mapper.UserMapper">		
 		
+	<select id="userSelectCount" resultType="int">
+		SELECT COUNT(*)
+		FROM [User]
+	</select>	
+	
+	<select id="userSelectPage" resultType="fund.dto.User">
+        <![CDATA[
+        SELECT *
+        FROM
+            ( SELECT loginName,name,email, ROW_NUMBER() OVER (ORDER BY id) 행번호
+             from [User]
+            ) subquery
+        WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              행번호 <= #{currentPage} * #{pageSize}
+        ORDER BY 행번호
+        ]]>
+	</select>
+		
     <select id="selectById" resultType="fund.dto.User">		
         SELECT * FROM [User] WHERE id = #{id}		
     </select>		
@@ -18,10 +36,10 @@
     </select>	
     
     <select id="churchSum" resultType="fund.dto.Sponsor">		
-       select (select codeName from code where code.ID=sponsor.churchID) AS church,
+  select (select codeName from code where code.ID=sponsor.churchID) AS church,
               sum(CAST( amount AS BIGINT )) AS sum
-      from sponsor join payment on  sponsor.ID=payment.sponsorID  where payment.paymentDate between
-		#{startDate} and #{endDate} group by churchID
+      from sponsor join payment on  sponsor.ID=payment.sponsorID  where sponsor.churchID is not null  and payment.paymentDate between
+		#{startDate} and #{endDate} group by churchID;
 	
     </select>	
     

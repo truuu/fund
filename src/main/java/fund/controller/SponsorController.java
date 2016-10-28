@@ -41,7 +41,7 @@ public class SponsorController extends BaseController{
 	@Autowired DonationPurposeMapper donationPurposeMapper;
 
 
-	//회원관리 기본페이지
+	//후원자관리 기본페이지
 	@RequestMapping(value="/sponsor/sponsor_m.do",method=RequestMethod.GET)
 	public String userManage(Model model, Pagination pagination)throws Exception{
 		pagination.setRecordCount(sponsorMapper.selectCount());
