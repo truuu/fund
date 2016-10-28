@@ -18,7 +18,6 @@ tr#topTable td{
 						<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorID}">회원관리</a></li>
 						</c:if>
 						<c:if test="${sponsorID!=0}">
-						${sponsorID}
 						<li><a href="/fund_sys/sponsor/commitment.do?id=${sponsorID}">약정관리</a></li>
 						<li><a href="/fund_sys/sponsor/paymentList.do?id=${sponsorID}" >정기납입관리</a></li>
 						<li class="active"><a href="/fund_sys/sponsor/paymentList2.do?id=${sponsorID}">비정기납입관리</a></li>
