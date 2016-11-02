@@ -84,7 +84,7 @@ public class EB21Controller extends BaseController{
 
 	@RequestMapping(value="/finance/uploadEB22.do", method=RequestMethod.POST)
 	public String uploadEB22(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws IOException {
-		if(fileExtFilter.badFileExtIsReturnBoolean(uploadedFile) == false){ // 파일 확장자 필터링.
+		if(fileExtFilter.badFileExtIsReturnBoolean(uploadedFile) == true){ // 파일 확장자 필터링.
 			if (uploadedFile.getSize() > 0 ) {
 				byte[] bytes = uploadedFile.getBytes();
 				String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
