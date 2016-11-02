@@ -112,7 +112,7 @@ public class EB13Controller extends BaseController{
 				return "finance/eb14";
 			}
 		}else{
-			return "finance/eb14";
+			return "finance/uploadEB14";
 		}
 		return "finance/uploadEB14";
 	}
