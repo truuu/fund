@@ -2,6 +2,8 @@ package fund.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,8 +74,9 @@ public class FinanceController extends BaseController{
 
 		return "finance/saveXferResult2";
 	}
-
+	@SuppressWarnings("null")
 	@RequestMapping(value="/finance/uploadXferResult.do" ,method = RequestMethod.POST, params="cmd=saveCommitmentNo")
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public String saveCommitmentNo( @RequestParam("index") int[] indexes, @RequestParam("commitmentNo") String[] commitmentNos,HttpSession session,Model model) throws IOException, ParseException {
 		List<XferResult> list = (List<XferResult>)session.getAttribute("xferResult");
 		if (list == null) return "redirect:saveXferResult1.do";
@@ -85,27 +88,25 @@ public class FinanceController extends BaseController{
 			String commitmentNo = commitmentNos[i];
 
 			Commitment commitment = commitmentMapper.selectByCommitmentNo(commitmentNo);
-			if(commitment == null){
-				model.addAttribute("errorMsg", "파일에 약정 등록이 되지 않은 후원인이 존재합니다. 확인 후 다시 시도해주세요.");
-			}else{
-				Payment payment = new Payment();
-				payment.setSponsorID(commitment.getSponsorID());
-				payment.setCommitmentID(commitment.getID());
-				payment.setCommitmentNo(commitmentNo);
-				Date pDate = transFormat.parse(x.getPaymentDate());
-				payment.setPaymentDate(pDate);
-				payment.setAmount(Integer.parseInt(x.getAmount()));
-				payment.setDonationPurposeID(commitment.getDonationPurposeID());
-				payment.setPaymentMethodID(commitment.getPaymentMethodID());
-				paymentMapper.insertXferResult(payment);
-				paymentList.add(payment);
-			}
+
+			Payment payment = new Payment();
+			payment.setSponsorID(commitment.getSponsorID());
+			payment.setCommitmentID(commitment.getID());
+			payment.setCommitmentNo(commitmentNo);
+			Date pDate = transFormat.parse(x.getPaymentDate());
+			payment.setPaymentDate(pDate);
+			payment.setAmount(Integer.parseInt(x.getAmount()));
+			payment.setDonationPurposeID(commitment.getDonationPurposeID());
+			payment.setPaymentMethodID(commitment.getPaymentMethodID());
+			paymentMapper.insertXferResult(payment);
+			paymentList.add(payment);
+
 		}
 		model.addAttribute("paymentList", paymentList);
 
 		return "finance/saveXferResult2";
 	}
-	
+
 	@RequestMapping(value="/finance/uploadSalaryResult.do",method=RequestMethod.GET)
 	public String uploadSalaryResult(Model model) throws Exception{    
 		return "finance/uploadSalaryResult";
@@ -127,8 +128,10 @@ public class FinanceController extends BaseController{
 		}
 		return "finance/uploadSalaryResult";
 	}
-
+	
+	@SuppressWarnings("null")
 	@RequestMapping(value="/finance/uploadSalaryResult.do",method=RequestMethod.POST, params="cmd=salaryToPayment")
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public String salaryToPayment(HttpSession session,Model model) throws ParseException{
 		List<Salary> list = (List<Salary>)session.getAttribute("salaryListSession");
 		if (list == null) return "redirect:uploadSalaryResult.do";
@@ -138,24 +141,19 @@ public class FinanceController extends BaseController{
 			Salary x = list.get(i);
 			String sponsorNo = x.getSponsorNo();
 			Commitment commitment = commitmentMapper.selectIDBySponsorNo(sponsorNo); 
-			int count = 0;
 			
-			if(commitment == null){
-				model.addAttribute("errorMsg", "파일에 약정 등록이 되지 않은 후원인이 존재합니다. 확인 후 다시 시도해주세요.");
-				++count;
-			}else{
-				Payment payment = new Payment();
-				payment.setSponsorID(commitment.getSponsorID());
-				payment.setCommitmentID(commitment.getID());
-				payment.setCommitmentNo(commitment.getCommitmentNo());
-				Date pDate = transFormat.parse(x.getPaymentDate());
-				payment.setPaymentDate(pDate);
-				payment.setAmount(Integer.parseInt(x.getAmount()));
-				payment.setDonationPurposeID(commitment.getDonationPurposeID());
-				payment.setPaymentMethodID(commitment.getPaymentMethodID());
-				paymentMapper.insertSalaryResult(payment);
-				paymentList.add(payment);
-			}
+			Payment payment = new Payment();
+			payment.setSponsorID(commitment.getSponsorID());
+			payment.setCommitmentID(commitment.getID());
+			payment.setCommitmentNo(commitment.getCommitmentNo());
+			Date pDate = transFormat.parse(x.getPaymentDate());
+			payment.setPaymentDate(pDate);
+			payment.setAmount(Integer.parseInt(x.getAmount()));
+			payment.setDonationPurposeID(commitment.getDonationPurposeID());
+			payment.setPaymentMethodID(commitment.getPaymentMethodID());
+			paymentMapper.insertSalaryResult(payment);
+			paymentList.add(payment);
+
 		}
 		model.addAttribute("paymentList", paymentList);
 		return "finance/salary";
