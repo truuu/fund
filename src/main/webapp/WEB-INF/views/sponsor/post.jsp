@@ -45,11 +45,14 @@ $(function(){
 		startDate=$('#startDate').val();
 		endDate=$('#endDate').val();
 		check='f';
-
-
-
+		if(startDate==''||endDate==''){
+			alert('날짜를 모두 입력해주세요')
+		}
+		if(startDate!=''&&endDate!=''){
+			location.href="../sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
+		}
 		
-		location.href="../sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
+		//location.href="../sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
 	
 		
 	});
@@ -68,7 +71,7 @@ $(function(){
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">
-						DM 발송용 주소록
+						DM 발송용 주소록3
 					</h1>
 				</div>
 			</div>
@@ -88,7 +91,9 @@ $(function(){
                         <input type="hidden" name="endDate" value="${ pagination.endDate}" />
                         <input type="hidden" name="check" value="f" />
                       <div id="column-right">
+                      <c:if test="${postList!=null}">
 							<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
+					  </c:if>
 					</div>
 					  <input type="hidden" name="pg" value="1" />
 						<table class="table table-bordered table-hover" id="table_s">

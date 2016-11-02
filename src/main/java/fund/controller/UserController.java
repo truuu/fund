@@ -6,10 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import fund.BaseController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import fund.BaseController;
 import fund.dto.Pagination;
-import fund.dto.Payment;
 import fund.dto.Sponsor;
 import fund.dto.User;
 import fund.mapper.UserMapper;
@@ -29,7 +29,20 @@ public class UserController extends BaseController{
 
 	@Autowired UserMapper userMapper;
 	@Autowired UserService userService;
+	
 
+    //사용자 중복 확인
+	@RequestMapping(value="/user/repeatCheck.do",method=RequestMethod.GET)
+	public @ResponseBody User repeatCheck(HttpServletRequest request,HttpServletResponse response)throws Exception{
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		String loginName = request.getParameter("loginName");
+		User user=userMapper.repeatCheck(loginName);
+		if(user==null){
+			user=new User();
+		}
+	
+		return user;
+	}
 
 	//사용자 생성 페이지
 	@RequestMapping(value="/user/user_r.do",method=RequestMethod.GET)
@@ -43,7 +56,7 @@ public class UserController extends BaseController{
 		System.out.println(user.getPassword());
 		user.setPassword(userService.encryptPasswd(user.getPassword())); //단방향 암호화
 		userMapper.userInsert(user);
-		
+
 		return "redirect:/user/user_m.do";
 	}
 

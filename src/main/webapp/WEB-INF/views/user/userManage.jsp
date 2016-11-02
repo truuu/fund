@@ -39,30 +39,7 @@ tr#topTable td{
 				<a href="sponsor.do" class="button button-reversed">신규</a> 
 			</div>
 
-			<div id="search">
-				<div class="column-right">
-					<select name="search" id="search" class="msize">
-						<option selected="selected" value="검색조건">검색조건</option>
-						<option value="0">이름</option>
-						<option value="1">개인</option>
-						<option value="2">가족</option>
-						<option value="3">단체</option>
-						<option value="4">법인</option>
-						<option value="5">직원</option>
-						<option value="6">교수</option>
-						<option value="7">동문</option>
-						<option value="8">학부모</option>
-						<option value="9">성직자</option>
-						<option value="10">교인</option>
-						<option value="11">독지가</option>
-						<option value="12">교회</option>
-						<option value="13">기업가</option>
-						<option value="14">기타</option>
-						
-					</select> <input type="text" id="nameForSearch" name="nameForSearch">
-					<button type="submit" class="btn btn-small" onclick="sponorSearch()">검색</button>
-				</div>
-			</div>
+			
 
 <form>
 			<div id="column-right">

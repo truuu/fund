@@ -17,6 +17,8 @@ import java.util.List;
      //사용자관리
      int userSelectCount();
      List<User> userSelectPage(Pagination pagination);
+     //아이디 중복확인
+     User repeatCheck(String loginName);
      
      
  		

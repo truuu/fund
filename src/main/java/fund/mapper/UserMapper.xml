@@ -3,6 +3,10 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">		
 		
 <mapper namespace="fund.mapper.UserMapper">		
+
+    <select id="repeatCheck" resultType="fund.dto.User">		
+        SELECT * FROM [User] WHERE loginName = #{loginName}		
+    </select>
 		
 	<select id="userSelectCount" resultType="int">
 		SELECT COUNT(*)
@@ -50,7 +54,7 @@
        from(select (select codeName from code where code.ID=sponsor.churchID) AS church,
               sum(CAST( amount AS BIGINT )) AS sum,
               ROW_NUMBER() OVER (ORDER BY churchID DESC) 행번호
-      from sponsor join payment on  sponsor.ID=payment.sponsorID  where payment.paymentDate between
+      from sponsor join payment on  sponsor.ID=payment.sponsorID  where sponsor.churchID is not null  and payment.paymentDate between
 		#{startDate} and #{endDate} group by churchID
 		)subquery
 		 WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND

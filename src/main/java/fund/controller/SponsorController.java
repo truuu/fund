@@ -29,6 +29,7 @@ import fund.dto.*;
 import fund.mapper.*;
 import fund.service.ReportBuilder;
 import fund.service.UserService;
+import fund.service.AES128UtilService;
 import net.sf.jasperreports.engine.JRException;
 
 
@@ -39,6 +40,7 @@ public class SponsorController extends BaseController{
 	@Autowired PaymentMapper paymentMapper;
 	@Autowired CodeMapper codeMapper;
 	@Autowired DonationPurposeMapper donationPurposeMapper;
+	@Autowired AES128UtilService cipherService; //양방향 암호화 서비스
 
 
 	//후원자관리 기본페이지
@@ -133,10 +135,14 @@ public class SponsorController extends BaseController{
 
 		String homeAddress=homeRoadAddress+"*"+homeDetailAddress+"*"+homePostCode;
 		String officeAddress=officeRoadAddress+"*"+officeDetailAddress+"*"+officePostCode;
+		
+		String encryption=cipherService.encAES(sponsor.getJuminNo());//jumin encryption
+		sponsor.setJuminNo(encryption); // 암호화 후 저장
 
 
 		sponsor.setHomeAddress(homeAddress);
 		sponsor.setOfficeAddress(officeAddress);
+		
 
 		if(sponsor.getSort()==0){
 			sponsorMapper.sponsorInsert(sponsor);
@@ -176,6 +182,10 @@ public class SponsorController extends BaseController{
 			sponsor.setOfficeDetailAddress(officeDetailAddress);
 			sponsor.setOfficePostCode(officePostCode);
 		}
+		
+		String decoding=cipherService.decAES(sponsor.getJuminNo());//jumin decoding
+		sponsor.setJuminNo(decoding);// 복호화 후 저장
+		
 
 
 		model.addAttribute("sponsor", sponsor);
