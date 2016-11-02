@@ -138,9 +138,11 @@ public class FinanceController extends BaseController{
 			Salary x = list.get(i);
 			String sponsorNo = x.getSponsorNo();
 			Commitment commitment = commitmentMapper.selectIDBySponsorNo(sponsorNo); 
+			int count = 0;
 			
 			if(commitment == null){
 				model.addAttribute("errorMsg", "파일에 약정 등록이 되지 않은 후원인이 존재합니다. 확인 후 다시 시도해주세요.");
+				++count;
 			}else{
 				Payment payment = new Payment();
 				payment.setSponsorID(commitment.getSponsorID());

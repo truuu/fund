@@ -33,6 +33,7 @@ import fund.dto.XferResult;
 import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.EB13Mapper;
 import fund.mapper.EB13_CommitmentDetailMapper;
+import fund.service.FileExtFilter;
 
 
 @Controller
@@ -40,6 +41,7 @@ public class EB13Controller extends BaseController{
 	@Autowired EB13Mapper eb13Mapper;
 	@Autowired EB13_CommitmentDetailMapper eb13_commitmentDetailMapper;
 	@Autowired CommitmentDetailMapper commitmentDetailMapper;
+	@Autowired FileExtFilter fileExtFilter;
 	
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.GET)
 	public String eb13(Model model) {
@@ -77,35 +79,39 @@ public class EB13Controller extends BaseController{
 	
 	@RequestMapping(value="/finance/uploadEB14.do", method=RequestMethod.POST)
 	public String uploadEB14(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws IOException, ParseException {
-		if (uploadedFile.getSize() > 0 ) {
-			byte[] bytes = uploadedFile.getBytes();
-			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
-			File tempFile = new File(fileName);
-			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
-			stream.write(bytes);
-			stream.close();
-
-			ArrayList<String> eb14file = ReadEB14File.readEB14File(fileName);
-			List<EB14> eb14List = new ArrayList<EB14>();
-			SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
-			
-			for(String i : eb14file){
-				EB14 eb14 = new EB14();
-				String getList = i;
-				String sub = getList.substring(19);
-				String date = sub.substring(0, 6);
+		if(fileExtFilter.badFileExtIsReturnBoolean(uploadedFile) == false){
+			if (uploadedFile.getSize() > 0 ) {
+				byte[] bytes = uploadedFile.getBytes();
+				String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
+				File tempFile = new File(fileName);
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
+				stream.write(bytes);
+				stream.close();
+	
+				ArrayList<String> eb14file = ReadEB14File.readEB14File(fileName);
+				List<EB14> eb14List = new ArrayList<EB14>();
+				SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
 				
-				eb14.setCreateDate(format.parse(date));
-				eb14.setSponsorNo(sub.substring(7, 26).trim());
-				eb14.setBankCode(sub.substring(27, 33).trim());
-				eb14.setAccountNo(sub.substring(34, 50).trim());
-				eb14.setJumin(sub.substring(50, 67).trim());
-				eb14List.add(eb14);
-
-			}	
-			model.addAttribute("eb14List",eb14List);
-			session.setAttribute("eb14ListSession", eb14List);
-			session.setAttribute("fileNameSession", fileName);
+				for(String i : eb14file){
+					EB14 eb14 = new EB14();
+					String getList = i;
+					String sub = getList.substring(19);
+					String date = sub.substring(0, 6);
+					
+					eb14.setCreateDate(format.parse(date));
+					eb14.setSponsorNo(sub.substring(7, 26).trim());
+					eb14.setBankCode(sub.substring(27, 33).trim());
+					eb14.setAccountNo(sub.substring(34, 50).trim());
+					eb14.setJumin(sub.substring(50, 67).trim());
+					eb14List.add(eb14);
+	
+				}	
+				model.addAttribute("eb14List",eb14List);
+				session.setAttribute("eb14ListSession", eb14List);
+				session.setAttribute("fileNameSession", fileName);
+				return "finance/eb14";
+			}
+		}else{
 			return "finance/eb14";
 		}
 		return "finance/uploadEB14";

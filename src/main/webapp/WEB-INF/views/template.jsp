@@ -15,7 +15,7 @@
             <tiles:insertAttribute name="content" />
 
             <c:if test="${ not empty errorMsg }">
-                <div class="alert alert-error">${ errorMsg }</div>
+                <div class="alert alert-danger">${ errorMsg }</div>
             </c:if>
             <c:if test="${ not empty successMsg }">
                 <div class="alert alert-success">${ successMsg }</div>
