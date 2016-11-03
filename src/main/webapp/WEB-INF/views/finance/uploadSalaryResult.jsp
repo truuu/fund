@@ -34,12 +34,10 @@
 						<table class="table table-bordered" id="table_s">
 							<thead>
 								<tr>
-									<th>선택</th>
 									<th>후원인번호</th>
 									<th>후원인명</th>
 									<th>납입금액</th>
 									<th>납입일</th>
-
 								</tr>
 							</thead>
 						</table>

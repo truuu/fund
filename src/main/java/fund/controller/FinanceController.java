@@ -32,11 +32,13 @@ import fund.dto.Files;
 import fund.dto.Payment;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.PaymentMapper;
+import fund.service.FileExtFilter;
 
 @Controller
 public class FinanceController extends BaseController{
 	@Autowired CommitmentMapper commitmentMapper;
 	@Autowired PaymentMapper paymentMapper;
+	@Autowired FileExtFilter fileExtFilter;
 
 	@RequestMapping(value="/finance/uploadXferResult.do",method=RequestMethod.GET)
 	public String uploadXferResult(Model model) throws Exception{    
@@ -44,20 +46,24 @@ public class FinanceController extends BaseController{
 	}
 	@RequestMapping(value="/finance/uploadXferResult.do",method=RequestMethod.POST)
 	public String uploadXferResult(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws Exception{    
-		if (uploadedFile.getSize() > 0 ) {
-			byte[] bytes = uploadedFile.getBytes();
-
-			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
-
-			File tempFile = new File(fileName);
-			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
-			stream.write(bytes);
-			stream.close();
-
-			List<XferResult> xferResultList = ReadExcelFileToList.readExcelData(fileName);
-			model.addAttribute("xferResultList",xferResultList);
-			session.setAttribute("xferResult", xferResultList);
-			return "finance/saveXferResult";
+		if(fileExtFilter.correctFileExtIsReturnBoolean(uploadedFile) == true){ // 파일 확장자 필터링.
+			if (uploadedFile.getSize() > 0 ) {
+				byte[] bytes = uploadedFile.getBytes();
+	
+				String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
+	
+				File tempFile = new File(fileName);
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
+				stream.write(bytes);
+				stream.close();
+	
+				List<XferResult> xferResultList = ReadExcelFileToList.readExcelData(fileName);
+				model.addAttribute("xferResultList",xferResultList);
+				session.setAttribute("xferResult", xferResultList);
+				return "finance/saveXferResult";
+			}
+		}else{
+			 return "redirect:uploadXferResult.do";
 		}
 
 		return "finance/uploadXferResult";
@@ -113,18 +119,22 @@ public class FinanceController extends BaseController{
 	}
 	@RequestMapping(value="/finance/uploadSalaryResult.do",method=RequestMethod.POST)
 	public String uploadSalaryResult(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws Exception{    
-		if (uploadedFile.getSize() > 0 ) {
-			byte[] bytes = uploadedFile.getBytes();
-			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
-			File tempFile = new File(fileName);
-			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
-			stream.write(bytes);
-			stream.close();
-
-			List<Salary> salaryList = ReadExcelSalaryToList.readExcelData(fileName);
-			model.addAttribute("salaryList",salaryList);
-			session.setAttribute("salaryListSession", salaryList);
-			return "finance/salary";
+		if(fileExtFilter.correctFileExtIsReturnBoolean(uploadedFile) == true){
+			if (uploadedFile.getSize() > 0 ) {
+				byte[] bytes = uploadedFile.getBytes();
+				String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
+				File tempFile = new File(fileName);
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
+				stream.write(bytes);
+				stream.close();
+	
+				List<Salary> salaryList = ReadExcelSalaryToList.readExcelData(fileName);
+				model.addAttribute("salaryList",salaryList);
+				session.setAttribute("salaryListSession", salaryList);
+				return "finance/salary";
+			}
+		}else{
+			 return "redirect:uploadSalaryResult.do";
 		}
 		return "finance/uploadSalaryResult";
 	}

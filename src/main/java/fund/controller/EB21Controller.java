@@ -68,7 +68,7 @@ public class EB21Controller extends BaseController{
 		for(int i=0 ; i<commitmentDetailID.length; ++i){
 			eb21_commitmentDetailMapper.createEB21List(commitmentDetailID[i]);
 		}
-
+		model.addAttribute("successMsg", "EB21 파일 생성을 완료했습니다."); 
 		return "finance/eb21";
 	}
 
@@ -150,6 +150,7 @@ public class EB21Controller extends BaseController{
 		for(Payment i : successList){
 			paymentMapper.insertEB21Payment(i);
 		}//payment테이블에 납입 업데이트
+		model.addAttribute("successMsg", "EB22 파일 적용을 완료했습니다."); 
 		return "finance/eb22";
 	}
 	@RequestMapping(value="/finance/resultEB2122.do", method=RequestMethod.GET)
