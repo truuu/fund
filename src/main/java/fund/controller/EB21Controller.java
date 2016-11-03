@@ -33,6 +33,7 @@ import fund.mapper.EB21Mapper;
 import fund.mapper.EB21_CommitmentDetailMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.SponsorMapper;
+import fund.service.FileExtFilter;
 
 @Controller
 public class EB21Controller extends BaseController{
@@ -41,6 +42,7 @@ public class EB21Controller extends BaseController{
 	@Autowired PaymentMapper paymentMapper;
 	@Autowired SponsorMapper sponsorMapper;
 	@Autowired CommitmentDetailMapper commitmentDetailMapper;
+	@Autowired FileExtFilter fileExtFilter;
 
 	@RequestMapping(value="/finance/eb21.do", method=RequestMethod.GET)
 	public String eb21(Model model) {
@@ -66,7 +68,7 @@ public class EB21Controller extends BaseController{
 		for(int i=0 ; i<commitmentDetailID.length; ++i){
 			eb21_commitmentDetailMapper.createEB21List(commitmentDetailID[i]);
 		}
-
+		model.addAttribute("successMsg", "EB21 파일 생성을 완료했습니다."); 
 		return "finance/eb21";
 	}
 
@@ -82,38 +84,43 @@ public class EB21Controller extends BaseController{
 
 	@RequestMapping(value="/finance/uploadEB22.do", method=RequestMethod.POST)
 	public String uploadEB22(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws IOException {
-		if (uploadedFile.getSize() > 0 ) {
-			byte[] bytes = uploadedFile.getBytes();
-			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
-			File tempFile = new File(fileName);
-			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
-			stream.write(bytes);
-			stream.close();
+		if(fileExtFilter.badFileExtIsReturnBoolean(uploadedFile) == true){ // 파일 확장자 필터링.
+			if (uploadedFile.getSize() > 0 ) {
+				byte[] bytes = uploadedFile.getBytes();
+				String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
+				File tempFile = new File(fileName);
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
+				stream.write(bytes);
+				stream.close();
 
-			ArrayList<String> eb22file = ReadEB22File.readEB22File(fileName);
-			List<EB22> eb22List = new ArrayList<EB22>();
-			for(String i : eb22file){
-				EB22 eb22 = new EB22();
-				String getList = i;
-				String sub = getList.substring(19);
-				eb22.setBankCode(sub.substring(0, 7));
-				eb22.setAccountNo(sub.substring(7, 23).trim());
-				int amount = Integer.parseInt(sub.substring(23, 36).trim());//돈 앞에 0 제거.
-				eb22.setAmountPerMonth(amount);
-				eb22.setJumin(sub.substring(36,49).trim());
-				String sponsorNo = sub.substring(88, 113).trim();
-				eb22.setSponsorNo(sponsorNo);
-				StringBuffer sNo = new StringBuffer(sponsorNo);
-				sNo.insert(4,"-");//후원인번호 가운데 "-" 추가
-				EB22 name = sponsorMapper.selectSponsorName(sNo.toString());//후원인번호에 맞는 이름 가져오기.
-				eb22.setName(name.getName());
+				ArrayList<String> eb22file = ReadEB22File.readEB22File(fileName);
+				List<EB22> eb22List = new ArrayList<EB22>();
+				for(String i : eb22file){
+					EB22 eb22 = new EB22();
+					String getList = i;
+					String sub = getList.substring(19);
+					eb22.setBankCode(sub.substring(0, 7));
+					eb22.setAccountNo(sub.substring(7, 23).trim());
+					int amount = Integer.parseInt(sub.substring(23, 36).trim());//돈 앞에 0 제거.
+					eb22.setAmountPerMonth(amount);
+					eb22.setJumin(sub.substring(36,49).trim());
+					String sponsorNo = sub.substring(88, 113).trim();
+					eb22.setSponsorNo(sponsorNo);
+					StringBuffer sNo = new StringBuffer(sponsorNo);
+					sNo.insert(4,"-");//후원인번호 가운데 "-" 추가
+					EB22 name = sponsorMapper.selectSponsorName(sNo.toString());//후원인번호에 맞는 이름 가져오기.
+					eb22.setName(name.getName());
 
-				eb22List.add(eb22);
+					eb22List.add(eb22);
+				}
+
+				model.addAttribute("eb22List",eb22List);
+				session.setAttribute("eb22ListSession",eb22List);
+				session.setAttribute("fileName", fileName);
+				return "finance/eb22";
 			}
-			model.addAttribute("eb22List",eb22List);
-			session.setAttribute("eb22ListSession",eb22List);
-			session.setAttribute("fileName", fileName);
-			return "finance/eb22";
+		}else{
+			return "finance/uploadEB22";
 		}
 		return "finance/uploadEB22";
 	}
@@ -143,6 +150,7 @@ public class EB21Controller extends BaseController{
 		for(Payment i : successList){
 			paymentMapper.insertEB21Payment(i);
 		}//payment테이블에 납입 업데이트
+		model.addAttribute("successMsg", "EB22 파일 적용을 완료했습니다."); 
 		return "finance/eb22";
 	}
 	@RequestMapping(value="/finance/resultEB2122.do", method=RequestMethod.GET)

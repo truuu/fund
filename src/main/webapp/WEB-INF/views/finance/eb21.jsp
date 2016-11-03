@@ -4,7 +4,6 @@
 	prefix="sec"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">

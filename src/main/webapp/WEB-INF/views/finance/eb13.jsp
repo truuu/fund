@@ -4,7 +4,6 @@
 	prefix="sec"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
@@ -32,7 +31,6 @@
 										value="selectEB13">목록 조회</button>
 									<button class="btn btn-default" type="submit" name="cmd"
 										value="createEB13file">EB13 생성</button>
-									
 								</div>
 							</div>
 						</div>
@@ -51,8 +49,9 @@
 									</tr>
 								</thead>
 								<c:forEach var="eb13List" items="${eb13List}">
-								<input type="hidden" name="commitmentDetailID" value="${eb13List.commitmentDetailID}">
-								<input type="hidden" name="etc1" value="${eb13List.etc1 }">	
+									<input type="hidden" name="commitmentDetailID"
+										value="${eb13List.commitmentDetailID}">
+									<input type="hidden" name="etc1" value="${eb13List.etc1 }">
 									<tbody>
 										<tr>
 											<td>${eb13List.sponsorNo}</td>
@@ -60,7 +59,7 @@
 											<td>${eb13List.jumin}</td>
 											<td>${eb13List.codeName}</td>
 											<td>${eb13List.accountNo}</td>
-											
+
 										</tr>
 									</tbody>
 								</c:forEach>
@@ -75,5 +74,3 @@
 	<!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
-
-</div>
