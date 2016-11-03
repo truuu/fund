@@ -13,11 +13,13 @@ import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -121,8 +123,16 @@ public class SponsorController extends BaseController{
 
 	//회원입력 insert
 	@RequestMapping(value="/sponsor/sponsorInsert.do",method=RequestMethod.POST)
-	public String sponsorRegister(HttpServletRequest request,Sponsor sponsor)throws Exception{
+	public String sponsorRegister(HttpServletRequest request,Model model,@Valid Sponsor sponsor,BindingResult result)throws Exception{
 
+
+		if (result.hasErrors()) {
+            // 에러 출력
+			model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1));  // 후원인구분1 목록
+			model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));  // 후원인구분2 목록
+			return "sponsor/sponsor";
+           
+        }
 		sponsor.setChurchID(sponsorMapper.selectChurchCode(sponsor));
 
 		String homeRoadAddress = request.getParameter("homeRoadAddress");

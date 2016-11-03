@@ -9,6 +9,7 @@
    }).open();
 </script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <c:url value="/" var="R" />
 <link rel="stylesheet"
    href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css" />
@@ -122,7 +123,7 @@ function fileDelete(id){
    <div class="panel-body">
       <div class="table-responsive">
    <table>
-         <form id="target" action="sponsorInsert.do"  method="post">
+         <form:form method="post" action="sponsorInsert.do" id="target" modelAttribute="sponsor">
             <tbody>
                <tr>
                <c:if test="${ sponsor.signUpDate==null}">
@@ -135,8 +136,9 @@ function fileDelete(id){
                
                   <td id="table_a">후원인번호</td>
                   <td id="table_b"><input type="text" name="sponsorNo" readonly
-                     value="${ sponsor.sponsorNo }"></td>
-                  <td id="table_a">우편물 발송여부</td>
+                     value="${ sponsor.sponsorNo }">
+                     </td>
+                  <td id="table_a">우편물 발송여부  ${sponsor.mailReceiving}</td>
                   <td id="table_b">
             
                   <c:if test="${sponsor.signUpDate==null}">
@@ -157,7 +159,10 @@ function fileDelete(id){
                </tr>
                <tr>
                   <td id="table_a">이름</td>
-                  <td id="table_b"><input type="text" name="name" value="${ sponsor.name }"></td>
+                  <td id="table_b">
+                  <form:input path="name" placeholder="이름을 입력해주세요" />
+                  <form:errors path="name"/>
+                  </td>
                   <td id="table_a">우편물 발송지</td>
                   <td id="table_b">
                   
@@ -180,7 +185,8 @@ function fileDelete(id){
                <tr>
                   <td id="table_a">주민번호</td>
                   <td id="table_b"><input type="text" name="juminNo" 
-                     placeholder="-를 제외하고 입력해주세요." value="${ sponsor.juminNo }"></td>
+                     placeholder="-를 제외하고 입력해주세요." value="${ sponsor.juminNo }">
+                     <form:errors path="juminNo"/></td>
                   <td id="table_a" rowspan="2">자택주소</td>
                   <td id="table_b" rowspan="2"><input type="text" name="homePostCode" id="homePostCode"
                            placeholder="우편번호" value="${ sponsor.homePostCode}" > <input type="button"
@@ -193,6 +199,7 @@ function fileDelete(id){
                            <div>
                               <input type="text" name="homeDetailAddress" id="homeDetailAddress"
                                  placeholder="상세주소" value="${ sponsor.homeDetailAddress }">
+                                 <form:errors path="homeDetailAddress"/>
                            </div>
                            </td>
                   
@@ -231,10 +238,13 @@ function fileDelete(id){
                <tr>
                   <td id="table_a">추천인</td>
                   <td id="table_b"><input type="text" name="recommender"
-                     placeholder="추천인 이름을 적어주세요." value="${ sponsor.recommender}"></td>
+                     placeholder="추천인 이름을 적어주세요." value="${ sponsor.recommender}">
+                     <form:errors path="recommender"/></td>
                   <td id="table_a">이메일</td>
                   <td id="table_b"><input type="email" name="email"
-                     placeholder="abcd@skhu.kr" value="${ sponsor.email}"></td>
+                     placeholder="abcd@skhu.kr" value="${ sponsor.email}">
+                     <form:errors path="email"/>
+                  </td>
 
                </tr>
                <tr>
@@ -283,22 +293,30 @@ function fileDelete(id){
                   <tbody>
                      <tr>
                         <td id="table_a">직장</td>
-                        <td id="table_b"><input type="text" name="company" value="${ sponsor.company}"></td>
+                        <td id="table_b"><input type="text" name="company" value="${ sponsor.company}">
+                         <form:errors path="company"/>
+                        </td>
 
                      </tr>
                      <tr>
                         <td id="table_a">부서</td>
-                        <td id="table_b"><input type="text" name="department" value="${ sponsor.department}"></td>
+                        <td id="table_b"><input type="text" name="department" value="${ sponsor.department}">
+                         <form:errors path="department"/>
+                        </td>
 
                      </tr>
                      <tr>
                         <td id="table_a">직위</td>
-                        <td id="table_b"><input type="text" name="position" value="${ sponsor.position}"></td>
+                        <td id="table_b"><input type="text" name="position" value="${ sponsor.position}">
+                         <form:errors path="position"/>
+                        </td>
                      </tr>
 
                      <tr>
                         <td id="table_a">직장전화번호</td>
-                        <td id="table_b"><input type="text" name="officePhone" value="${ sponsor.officePhone}"></td>
+                        <td id="table_b"><input type="text" name="officePhone" value="${ sponsor.officePhone}">
+                         <form:errors path="officePhone"/>
+                        </td>
                      </tr>
 
                      <tr>
@@ -312,13 +330,14 @@ function fileDelete(id){
                            </div>
                            <div >
                               <input type="text" name="officeDetailAddress" id="officeDetailAddress" placeholder="상세주소" value="${ sponsor.officeDetailAddress}">
+                           <form:errors path="officeDetailAddress"/>
                            </div>
                            </td>
                         
                      </tr>
 
                   </tbody>
-                  </form>
+                  </form:form>
                </table>
             
             </div>
