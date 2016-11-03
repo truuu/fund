@@ -54,7 +54,7 @@ $(function() {
 			<!-- Page Heading -->
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">발급</h1>
+					<h1 class="page-header">발급2</h1>
 				</div>
 			</div>
 			<!-- /.row -->
@@ -62,28 +62,36 @@ $(function() {
 				<div class="col-md-6 col-md-offset-3">
 					<div class="issue">
 						
-							<form method="POST" action="userInsert.do">
+							
+							<form:form method="post" action="userInsert.do" id="target" modelAttribute="user">
 							<div class="input">
 								 <input type="text" class="box" name="loginName" id="loginName" placeholder="아이디" />
-								
+								  
 							</div>
+							<form:errors path="loginName"/>
 							<div id="checkResult">
 							
 							</div>
 							<div class="input">
 								 <input type="password" class="box" name="password" placeholder="비밀번호" />
+								
 						    </div>
+						      <form:errors path="password"/>
 							<div class="input">
 								 <input type="text" class="box" name="name" placeholder="이름" />
+								  
 							</div>
+							<form:errors path="name"/>
 							<div class="input">
 								 <input type="email" class="box" name="email" placeholder="이메일" />
+								  
 						    </div>
+						      <form:errors path="email"/>
 							<div >
 								<center><button type="submit" class="login_btn">발급하기</button></center>
 						    </div>
 
-						</form>
+						</form:form>
 
 					</div>
 				</div>
