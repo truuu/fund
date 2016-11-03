@@ -13,11 +13,13 @@ import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +31,7 @@ import fund.dto.*;
 import fund.mapper.*;
 import fund.service.ReportBuilder;
 import fund.service.UserService;
+import fund.service.AES128UtilService;
 import net.sf.jasperreports.engine.JRException;
 
 
@@ -39,9 +42,10 @@ public class SponsorController extends BaseController{
 	@Autowired PaymentMapper paymentMapper;
 	@Autowired CodeMapper codeMapper;
 	@Autowired DonationPurposeMapper donationPurposeMapper;
+	@Autowired AES128UtilService cipherService; //양방향 암호화 서비스
 
 
-	//회원관리 기본페이지
+	//후원자관리 기본페이지
 	@RequestMapping(value="/sponsor/sponsor_m.do",method=RequestMethod.GET)
 	public String userManage(Model model, Pagination pagination)throws Exception{
 		pagination.setRecordCount(sponsorMapper.selectCount());
@@ -119,8 +123,16 @@ public class SponsorController extends BaseController{
 
 	//회원입력 insert
 	@RequestMapping(value="/sponsor/sponsorInsert.do",method=RequestMethod.POST)
-	public String sponsorRegister(HttpServletRequest request,Sponsor sponsor)throws Exception{
+	public String sponsorRegister(HttpServletRequest request,Model model,@Valid Sponsor sponsor,BindingResult result)throws Exception{
 
+
+		if (result.hasErrors()) {
+            // 에러 출력
+			model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1));  // 후원인구분1 목록
+			model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));  // 후원인구분2 목록
+			return "sponsor/sponsor";
+           
+        }
 		sponsor.setChurchID(sponsorMapper.selectChurchCode(sponsor));
 
 		String homeRoadAddress = request.getParameter("homeRoadAddress");
@@ -133,10 +145,14 @@ public class SponsorController extends BaseController{
 
 		String homeAddress=homeRoadAddress+"*"+homeDetailAddress+"*"+homePostCode;
 		String officeAddress=officeRoadAddress+"*"+officeDetailAddress+"*"+officePostCode;
+		
+		String encryption=cipherService.encAES(sponsor.getJuminNo());//jumin encryption
+		sponsor.setJuminNo(encryption); // 암호화 후 저장
 
 
 		sponsor.setHomeAddress(homeAddress);
 		sponsor.setOfficeAddress(officeAddress);
+		
 
 		if(sponsor.getSort()==0){
 			sponsorMapper.sponsorInsert(sponsor);
@@ -176,6 +192,10 @@ public class SponsorController extends BaseController{
 			sponsor.setOfficeDetailAddress(officeDetailAddress);
 			sponsor.setOfficePostCode(officePostCode);
 		}
+		
+		String decoding=cipherService.decAES(sponsor.getJuminNo());//jumin decoding
+		sponsor.setJuminNo(decoding);// 복호화 후 저장
+		
 
 
 		model.addAttribute("sponsor", sponsor);

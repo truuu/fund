@@ -11,7 +11,12 @@ $(function() {
 		
 		var startDate=$( "input[name$='startDate']" ).val();
 		var endDate=$( "input[name$='endDate']" ).val();
+		if(startDate==''||endDate==''){
+			alert('날짜를 모두 입력해주세요')
+		}
+		if(startDate!=''&&endDate!=''){
 		location.href="churchSearch.do?startDate="+startDate+"&endDate="+endDate;
+		}
 	  });
 	$('#xlsx').click(function(){
 		startDate=$('#startDate').val();
@@ -59,9 +64,13 @@ $(function() {
                       <input type="hidden" name="pg" value="1" />
                        <input type="hidden" name="startDate" value="${ pagination.startDate}" />
                         <input type="hidden" name="endDate" value="${ pagination.endDate}" />
+                       
 						<div id="column-right">
+						 <c:if test="${total!=null }">
             					<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
-           				</div>                      
+            			 </c:if>   
+           				</div>        
+           				           
                   <table class="table table-bordered table-hover" id="table_s">
                      <thead>
                         <tr>
@@ -89,7 +98,7 @@ $(function() {
             </c:if>
                      </tbody>
                   </table>
-                  
+                 
                   
                          </form>
 
