@@ -5,7 +5,7 @@
 <mapper namespace="fund.mapper.FileAttachmentMapper">
 
   
-    <select id="selectByArticleId" resultType="fund.dto.FileAttachment">
+    <select id="selectBySponosrId" resultType="fund.dto.FileAttachment">
         SELECT *
         FROM   fileAttachment
         WHERE  sponsorID = #{sponsorID}
@@ -19,8 +19,8 @@
 
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO fileAttachment(ID,sponsorID,fileName,fileSize,createDate,data)
-        VALUES (1,#{sponsorID}, #{fileName}, #{filesize},GETDATE(), #{data})
+        INSERT INTO fileAttachment(sponsorID,fileName,fileSize,createDate,data)
+        VALUES (#{sponsorID}, #{fileName}, #{filesize},GETDATE(), #{data})
     </insert>
 
     <delete id="deleteById">

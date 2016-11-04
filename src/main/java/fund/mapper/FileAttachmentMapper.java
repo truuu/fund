@@ -5,7 +5,7 @@ import fund.dto.FileAttachment;
 
 public interface FileAttachmentMapper {
 	
-	List<FileAttachment> selectByArticleId(int sponsorID);
+	List<FileAttachment> selectBySponosrId(int sponsorID);
 	FileAttachment selectById(int id);
     void insert(FileAttachment file);
     void deleteById(int id);

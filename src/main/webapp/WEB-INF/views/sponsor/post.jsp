@@ -5,6 +5,11 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+<style>
+
+
+
+</style>
 <script>
 
 var startDate,endDate,check; 
@@ -45,11 +50,14 @@ $(function(){
 		startDate=$('#startDate').val();
 		endDate=$('#endDate').val();
 		check='f';
-
-
-
+		if(startDate==''||endDate==''){
+			alert('날짜를 모두 입력해주세요')
+		}
+		if(startDate!=''&&endDate!=''){
+			location.href="../sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
+		}
 		
-		location.href="../sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
+		//location.href="../sponsor/postSearch.do?startDate="+startDate+"&endDate="+endDate+"&check="+check;
 	
 		
 	});
@@ -73,9 +81,12 @@ $(function(){
 				</div>
 			</div>
 			<!-- /.row --> 
-			<div>
-				<label> 신청기간 </label> <input type="date" id="startDate" value="${ pagination.startDate}"> ~ <input type="date" id="endDate" value="${ pagination.endDate}">
-				 <button  class="btn btn-primary" id="search">검색</button>
+			<div class="form-inline">
+				<label> 신청기간 </label>
+				<div class="form-group">
+				 <input type="date" class="commoninput" id="startDate" value="${ pagination.startDate}"> ~ <input type="date" id="endDate" class="commoninput" value="${ pagination.endDate}">
+				 </div>
+				 <button  class="btn btn-primary" id="search" >검색</button>
 			</div>
 			
 			<div class="row">
@@ -88,7 +99,9 @@ $(function(){
                         <input type="hidden" name="endDate" value="${ pagination.endDate}" />
                         <input type="hidden" name="check" value="f" />
                       <div id="column-right">
+                      <c:if test="${postList!=null}">
 							<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
+					  </c:if>
 					</div>
 					  <input type="hidden" name="pg" value="1" />
 						<table class="table table-bordered table-hover" id="table_s">
