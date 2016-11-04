@@ -5,6 +5,11 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+<style>
+
+
+
+</style>
 <script>
 
 var startDate,endDate,check; 
@@ -71,14 +76,17 @@ $(function(){
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">
-						DM 발송용 주소록3
+						DM 발송용 주소록
 					</h1>
 				</div>
 			</div>
 			<!-- /.row --> 
-			<div>
-				<label> 신청기간 </label> <input type="date" id="startDate" value="${ pagination.startDate}"> ~ <input type="date" id="endDate" value="${ pagination.endDate}">
-				 <button  class="btn btn-primary" id="search">검색</button>
+			<div class="form-inline">
+				<label> 신청기간 </label>
+				<div class="form-group">
+				 <input type="date" class="commoninput" id="startDate" value="${ pagination.startDate}"> ~ <input type="date" id="endDate" class="commoninput" value="${ pagination.endDate}">
+				 </div>
+				 <button  class="btn btn-primary" id="search" >검색</button>
 			</div>
 			
 			<div class="row">

@@ -32,6 +32,7 @@ import fund.mapper.*;
 import fund.service.ReportBuilder;
 import fund.service.UserService;
 import fund.service.AES128UtilService;
+import fund.service.FileExtFilter;
 import net.sf.jasperreports.engine.JRException;
 
 
@@ -43,6 +44,7 @@ public class SponsorController extends BaseController{
 	@Autowired CodeMapper codeMapper;
 	@Autowired DonationPurposeMapper donationPurposeMapper;
 	@Autowired AES128UtilService cipherService; //양방향 암호화 서비스
+	@Autowired FileExtFilter fileExtFilter;
 
 
 	//후원자관리 기본페이지
@@ -108,8 +110,8 @@ public class SponsorController extends BaseController{
 
 
 		//첨부파일리스트 임시테스트 -> 세션값으로 방식으로 바꾸어야함 
-		List<FileAttachment> list=fileAttachmentMapper.selectByArticleId(100);
-		model.addAttribute("files", fileAttachmentMapper.selectByArticleId(100));
+		//List<FileAttachment> list=fileAttachmentMapper.selectByArticleId(100);
+		//model.addAttribute("files", fileAttachmentMapper.selectByArticleId(100));
 		model.addAttribute("sponsor",sponsor);
 
 
@@ -127,12 +129,12 @@ public class SponsorController extends BaseController{
 
 
 		if (result.hasErrors()) {
-            // 에러 출력
+			// 에러 출력
 			model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1));  // 후원인구분1 목록
 			model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));  // 후원인구분2 목록
 			return "sponsor/sponsor";
-           
-        }
+
+		}
 		sponsor.setChurchID(sponsorMapper.selectChurchCode(sponsor));
 
 		String homeRoadAddress = request.getParameter("homeRoadAddress");
@@ -145,14 +147,14 @@ public class SponsorController extends BaseController{
 
 		String homeAddress=homeRoadAddress+"*"+homeDetailAddress+"*"+homePostCode;
 		String officeAddress=officeRoadAddress+"*"+officeDetailAddress+"*"+officePostCode;
-		
+
 		String encryption=cipherService.encAES(sponsor.getJuminNo());//jumin encryption
 		sponsor.setJuminNo(encryption); // 암호화 후 저장
 
 
 		sponsor.setHomeAddress(homeAddress);
 		sponsor.setOfficeAddress(officeAddress);
-		
+
 
 		if(sponsor.getSort()==0){
 			sponsorMapper.sponsorInsert(sponsor);
@@ -170,6 +172,7 @@ public class SponsorController extends BaseController{
 	@RequestMapping(value="/sponsor/detail.do",method=RequestMethod.GET)
 	public String sponsorDetail(@RequestParam("id")int id,Model model)throws Exception{
 		Sponsor sponsor=sponsorMapper.selectBySponsorNo(id);
+		List<FileAttachment> file=fileAttachmentMapper.selectBySponosrId(id);
 		String homeAddress=sponsor.getHomeAddress();
 		String officeAddress=sponsor.getOfficeAddress();
 
@@ -192,16 +195,17 @@ public class SponsorController extends BaseController{
 			sponsor.setOfficeDetailAddress(officeDetailAddress);
 			sponsor.setOfficePostCode(officePostCode);
 		}
-		
+
 		String decoding=cipherService.decAES(sponsor.getJuminNo());//jumin decoding
 		sponsor.setJuminNo(decoding);// 복호화 후 저장
-		
+
 
 
 		model.addAttribute("sponsor", sponsor);
 		int sponsorID=sponsor.getId();
 		model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1));  // 후원인구분1 목록
 		model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));  // 후원인구분1 목록
+		model.addAttribute("files", file);//첨부파일
 
 		return "sponsor/sponsor";
 	}
@@ -335,19 +339,24 @@ public class SponsorController extends BaseController{
 
 	//파일업로드
 	@RequestMapping(value="/sponsor/upload.do", method=RequestMethod.POST)
-	public String fileUpload(Model model,@RequestParam("file") MultipartFile uploadedFile) throws IOException {
+	public String fileUpload(Model model,@RequestParam("id") int id,@RequestParam("file") MultipartFile uploadedFile) throws IOException {
 
-		if (uploadedFile.getSize() > 0 ) {
-			FileAttachment file = new FileAttachment();
-			file.setSponsorID(100); // 나중에 조인해서 변경해야함
-			file.setFileName(Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString());
-			file.setFilesize((int)uploadedFile.getSize());
-			file.setData(uploadedFile.getBytes());
+		System.out.println("파일업로드");
 
-			fileAttachmentMapper.insert(file);
+		if(fileExtFilter.badFileExtIsReturnBoolean(uploadedFile) == true){ // 파일 확장자 필터링.
+			System.out.println("id test >> "+id);
+			if (uploadedFile.getSize() > 0 ) {
+				FileAttachment file = new FileAttachment();
+				file.setSponsorID(id); // 나중에 조인해서 변경해야함
+				file.setFileName(Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString());
+				file.setFilesize((int)uploadedFile.getSize());
+				file.setData(uploadedFile.getBytes());
+
+				fileAttachmentMapper.insert(file);
+			}
 		}
 
-		return "redirect:/sponsor/sponsor.do";
+		return "redirect:/sponsor/detail.do?id="+id;
 	}
 
 
