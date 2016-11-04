@@ -2,6 +2,8 @@ package fund.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,11 +32,13 @@ import fund.dto.Files;
 import fund.dto.Payment;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.PaymentMapper;
+import fund.service.FileExtFilter;
 
 @Controller
 public class FinanceController extends BaseController{
 	@Autowired CommitmentMapper commitmentMapper;
 	@Autowired PaymentMapper paymentMapper;
+	@Autowired FileExtFilter fileExtFilter;
 
 	@RequestMapping(value="/finance/uploadXferResult.do",method=RequestMethod.GET)
 	public String uploadXferResult(Model model) throws Exception{    
@@ -42,20 +46,24 @@ public class FinanceController extends BaseController{
 	}
 	@RequestMapping(value="/finance/uploadXferResult.do",method=RequestMethod.POST)
 	public String uploadXferResult(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws Exception{    
-		if (uploadedFile.getSize() > 0 ) {
-			byte[] bytes = uploadedFile.getBytes();
-
-			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
-
-			File tempFile = new File(fileName);
-			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
-			stream.write(bytes);
-			stream.close();
-
-			List<XferResult> xferResultList = ReadExcelFileToList.readExcelData(fileName);
-			model.addAttribute("xferResultList",xferResultList);
-			session.setAttribute("xferResult", xferResultList);
-			return "finance/saveXferResult";
+		if(fileExtFilter.correctFileExtIsReturnBoolean(uploadedFile) == true){ // 파일 확장자 필터링.
+			if (uploadedFile.getSize() > 0 ) {
+				byte[] bytes = uploadedFile.getBytes();
+	
+				String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
+	
+				File tempFile = new File(fileName);
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
+				stream.write(bytes);
+				stream.close();
+	
+				List<XferResult> xferResultList = ReadExcelFileToList.readExcelData(fileName);
+				model.addAttribute("xferResultList",xferResultList);
+				session.setAttribute("xferResult", xferResultList);
+				return "finance/saveXferResult";
+			}
+		}else{
+			 return "redirect:uploadXferResult.do";
 		}
 
 		return "finance/uploadXferResult";
@@ -72,8 +80,9 @@ public class FinanceController extends BaseController{
 
 		return "finance/saveXferResult2";
 	}
-
+	@SuppressWarnings("null")
 	@RequestMapping(value="/finance/uploadXferResult.do" ,method = RequestMethod.POST, params="cmd=saveCommitmentNo")
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public String saveCommitmentNo( @RequestParam("index") int[] indexes, @RequestParam("commitmentNo") String[] commitmentNos,HttpSession session,Model model) throws IOException, ParseException {
 		List<XferResult> list = (List<XferResult>)session.getAttribute("xferResult");
 		if (list == null) return "redirect:saveXferResult1.do";
@@ -85,6 +94,7 @@ public class FinanceController extends BaseController{
 			String commitmentNo = commitmentNos[i];
 
 			Commitment commitment = commitmentMapper.selectByCommitmentNo(commitmentNo);
+
 			Payment payment = new Payment();
 			payment.setSponsorID(commitment.getSponsorID());
 			payment.setCommitmentID(commitment.getID());
@@ -96,35 +106,42 @@ public class FinanceController extends BaseController{
 			payment.setPaymentMethodID(commitment.getPaymentMethodID());
 			paymentMapper.insertXferResult(payment);
 			paymentList.add(payment);
+
 		}
 		model.addAttribute("paymentList", paymentList);
 
 		return "finance/saveXferResult2";
 	}
-	
+
 	@RequestMapping(value="/finance/uploadSalaryResult.do",method=RequestMethod.GET)
 	public String uploadSalaryResult(Model model) throws Exception{    
 		return "finance/uploadSalaryResult";
 	}
 	@RequestMapping(value="/finance/uploadSalaryResult.do",method=RequestMethod.POST)
 	public String uploadSalaryResult(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws Exception{    
-		if (uploadedFile.getSize() > 0 ) {
-			byte[] bytes = uploadedFile.getBytes();
-			String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
-			File tempFile = new File(fileName);
-			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
-			stream.write(bytes);
-			stream.close();
-
-			List<Salary> salaryList = ReadExcelSalaryToList.readExcelData(fileName);
-			model.addAttribute("salaryList",salaryList);
-			session.setAttribute("salaryListSession", salaryList);
-			return "finance/salary";
+		if(fileExtFilter.correctFileExtIsReturnBoolean(uploadedFile) == true){
+			if (uploadedFile.getSize() > 0 ) {
+				byte[] bytes = uploadedFile.getBytes();
+				String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
+				File tempFile = new File(fileName);
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
+				stream.write(bytes);
+				stream.close();
+	
+				List<Salary> salaryList = ReadExcelSalaryToList.readExcelData(fileName);
+				model.addAttribute("salaryList",salaryList);
+				session.setAttribute("salaryListSession", salaryList);
+				return "finance/salary";
+			}
+		}else{
+			 return "redirect:uploadSalaryResult.do";
 		}
 		return "finance/uploadSalaryResult";
 	}
-
+	
+	@SuppressWarnings("null")
 	@RequestMapping(value="/finance/uploadSalaryResult.do",method=RequestMethod.POST, params="cmd=salaryToPayment")
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public String salaryToPayment(HttpSession session,Model model) throws ParseException{
 		List<Salary> list = (List<Salary>)session.getAttribute("salaryListSession");
 		if (list == null) return "redirect:uploadSalaryResult.do";
@@ -146,6 +163,7 @@ public class FinanceController extends BaseController{
 			payment.setPaymentMethodID(commitment.getPaymentMethodID());
 			paymentMapper.insertSalaryResult(payment);
 			paymentList.add(payment);
+
 		}
 		model.addAttribute("paymentList", paymentList);
 		return "finance/salary";

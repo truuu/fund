@@ -2,29 +2,71 @@ package fund.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+
+
 public class Sponsor {
 	int id;
+
 	String sponsorNo; //
+	
+	@Size(min=1,message="이름을 입력하세요!")
 	String name; //
+	
+	
+	@Size(min = 13, max = 13,message="정확히 입력해주시요!")
 	String juminNo; //
+	
+	
 	int sponsorType1ID; //
+	
+	
 	int sponsorType2ID; //
+	
 	int churchID; //
+	
+	@NotNull(message="날짜를 선택하세요!")
     String signUpDate; //  Date -> String date시 에러남 400 파라미터타입문제 질문해야함
+	
 	String mobilePhone; //
+	
+	@Size(min=1,message="추천인을 입력하세요!")
 	String recommender; //
+	
 	String recommenderRelation; //
+	
+	
 	boolean mailReceiving; //
+	
+	
 	int mailTo;
+	
 	String homeAddress;
 	String homePhone; //
+	
+	
+	@Email(message="형식에 맞게 입력해주세요!")
 	String email; //
+	
+	@Null(message="회사를 입력하세요!")
 	String company; //
+	
+	@Null(message="부서를 입력하세요!")
 	String department; //
+	
+	@Null(message="직위를 입력하세요!")
 	String position; //
+	
+	@Null(message="사무실번호를 입력하세요!")
 	String officePhone;
-	String officeAddress;
+	
 	String etc; //
+	String officeAddress;
+	
 	
 	
 	String address;
@@ -33,11 +75,22 @@ public class Sponsor {
 	String sponsorType2;
 	String church;
 	
+	@Null(message="모두 입력해주세요!")
 	String homeRoadAddress;
+	
+	@Null(message="모두 입력해주세요!")
 	String homeDetailAddress;
+	
+	@Null(message="모두 입력해주세요!")
 	String homePostCode;
+	
+	@Null(message="모두 입력해주세요!")
 	String officeRoadAddress;
+	
+	@Null(message="모두 입력해주세요!")
 	String officeDetailAddress;
+	
+	@Null(message="모두 입력해주세요!")
 	String officePostCode;
 	
 	
@@ -46,6 +99,7 @@ public class Sponsor {
 	int castCount; // 후원인구분2별 출연내역 출연수
 	//long sum;//후원인구분2별 출연내역 금액
 	int sum;//후원인구분2별 출연내역 금액
+	
 	
 	public int getSum() {
 		return sum;

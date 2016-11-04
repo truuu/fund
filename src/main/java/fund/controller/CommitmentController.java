@@ -19,6 +19,7 @@ import fund.BaseController;
 import fund.dto.Commitment;
 import fund.dto.CommitmentCreate;
 import fund.dto.CommitmentDetail;
+import fund.dto.Sponsor;
 import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.CommitmentMapper;
@@ -37,7 +38,9 @@ public class CommitmentController extends BaseController{
 	/*약정목록*/
 	@Secured("ROLE_true")
 	@RequestMapping(value="/sponsor/commitment.do", method=RequestMethod.GET)  
-	public String commitment(Model model,@RequestParam("id")int id) {    
+	public String commitment(Model model,@RequestParam("id")int id) {   
+		Sponsor sponsor=sponsorMapper.selectBySponsorNo(id);
+		 model.addAttribute("sponsor", sponsor);
 		model.addAttribute("list", commitmentMapper.selectBySponsorID(id)); 
 		String name="정기 납입방법";
 		model.addAttribute("paymentMethodList",codeMapper.selectByPaymentMethod(name));

@@ -47,7 +47,7 @@ tr#topTable td{
 		<div class="container-fluid">
 			<h1 class="page-header">회원관리</h1>
 			<div id="column-right">
-				<a href="sponsor.do" class="button button-reversed">신규</a> 
+				<a href="sponsor.do" class="btn btn-info">신규</a> 
 			</div>
 
 			<div id="search">
@@ -71,13 +71,13 @@ tr#topTable td{
 						<option value="14">기타</option>
 						
 					</select> <input type="text" id="nameForSearch" name="nameForSearch">
-					<button type="submit" class="btn btn-small" onclick="sponorSearch()">검색</button>
+					<button type="submit" class="btn btn-primary" onclick="sponorSearch()">검색</button>
 				</div>
 			</div>
 
 <form>
 			<div id="column-right">
-				<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
+				<button class="btn btn-info" type="submit" name="cmd" value="xlsx">엑셀파일</button>
 			</div>
     <input type="hidden" name="pg" value="1" />
 
@@ -98,7 +98,7 @@ tr#topTable td{
 				</thead>
 				<tbody>
 			<c:forEach var="sponsor" items="${list}">
-			<tr data-id="${sponsor.sponsorNo}" id="topTable">
+			<tr data-id="${sponsor.id}" id="topTable">
 			<td>${sponsor.sponsorNo}</td>
 			<td>${sponsor.name}</td>
 			<td>${sponsor.sponsorType1}</td>

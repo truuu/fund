@@ -54,8 +54,9 @@
 	<!-- 후원자 상세페이지 -->
 	<select id="selectBySponsorNo" resultType="fund.dto.Sponsor">
 		select id,sponsorNo,name,juminNo,sponsorType1ID,sponsorType2ID,signUpDate,mobilePhone,recommender,recommenderRelation,mailReceiving,mailTo,homeAddress,homePhone,email,company,department,position,officePhone,officeAddress,etc,
-       (select codeName from code where code.ID=sponsor.churchID )AS church
-        from sponsor where sponsorNo=#{sponsorNo};
+         (select codeName from code where code.ID=sponsor.churchID )AS church,
+	   (select codeName from code where code.ID=sponsor.sponsorType1ID) AS sponsorType1
+        from sponsor where id=#{id};
 	</select>
 	
 
@@ -146,7 +147,7 @@
         <![CDATA[
         SELECT *
         FROM
-            ( SELECT sponsorNo,name,
+            ( SELECT sponsorNo,name,id,
 		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
 		(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
 		(select codeName from code where code.ID=sponsor.churchID )AS church,
@@ -204,7 +205,28 @@
 	<!-- DM발송 -->
 	<select id="postManage" resultType="fund.dto.Sponsor">
 	 <![CDATA[
-		 SELECT *,ROW_NUMBER() OVER (ORDER BY sponsor.sponsorNo DESC) AS '행번호'
+		  SELECT *
+        FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
+        FROM(SELECT DISTINCT sponsor.sponsorNo,name,(SELECT codeName from code where
+      code.ID=sponsor.sponsorType2ID) AS sponsorType2,
+      (select codeName from
+      code where code.ID=sponsor.churchID) AS church,
+      homeAddress,officeAddress,mailTo
+      from sponsor join payment on
+      sponsor.ID=payment.sponsorID
+	 where payment.paymentDate between
+		#{startDate} and #{endDate}
+      )subquery
+	  )subquery
+	    WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              행번호 <= #{currentPage} * #{pageSize}
+        ORDER BY 행번호;
+		 ]]>
+	</select>
+	<!-- postManage 이전에 해야하는 line 수  -->
+	<select id="postManagePro" resultType="int">
+	 <![CDATA[
+		 SELECT ROW_NUMBER() OVER (ORDER BY sponsor.sponsorNo DESC) AS line
         FROM(select
 		 DISTINCT sponsor.sponsorNo,name,(select codeName from code where
 		code.ID=sponsor.sponsorType2ID) AS sponsorType2,
@@ -216,15 +238,12 @@
 		where payment.paymentDate between
 		#{startDate} and #{endDate}
 		)subquery
-		 WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
-              행번호 <= #{currentPage} * #{pageSize}
-        ORDER BY 행번호
 		 ]]>
 	</select>
 	
 	<!-- DM 페이징을 위한 count -->
 	<select id="countForDM" resultType="int">
-	select count(*)
+	select count(DISTINCT(sponsor.ID))
 	from sponsor join payment on
 		sponsor.ID=payment.sponsorID
 		where payment.paymentDate between
@@ -234,14 +253,19 @@
 	
 	<!-- DM 엑셀 -->
 	<select id="excelDM" resultType="fund.dto.Sponsor">
-		SELECT
-			sponsor.sponsorNo,name,(SELECT codeName FROM code WHERE
-			code.ID=sponsor.sponsorType2ID) AS sponsorType2,
-			(SELECT codeName FROM code WHERE code.ID=sponsor.churchID) AS church,
-			SUBSTRING(homeAddress,len(homeAddress)-4,5) AS postCode,
-			homeAddress,officeAddress,mailTo
-		FROM sponsor join payment ON sponsor.ID=payment.sponsorID
-		WHERE payment.paymentDate BETWEEN #{startDate} AND #{endDate}
+  SELECT *
+        FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
+        FROM(SELECT DISTINCT sponsor.sponsorNo,name,(SELECT codeName from code where
+      code.ID=sponsor.sponsorType2ID) AS sponsorType2,
+      (select codeName from
+      code where code.ID=sponsor.churchID) AS church,
+      homeAddress,officeAddress,mailTo
+      from sponsor join payment on
+      sponsor.ID=payment.sponsorID
+	 where payment.paymentDate between
+		#{startDate} and #{endDate}
+      )subquery
+	  )subquery
 	</select>
 	
 	<select id="castBySponsorType2" resultType="fund.dto.Sponsor">

@@ -4,7 +4,6 @@
 	prefix="sec"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
@@ -20,13 +19,13 @@
 			<form:form method="post" modelAttribute="eb21List">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4>EB21 금융등록</h4>
+						<h4>EB21 금융등록2</h4>
 						<div class="row">
 							<div class="col-lg-7">
 								<label> 구분 : 이체신청</label> 
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								<label> 출금일 선택 : </label>
-								<select id="paymentDay" name="paymentDay">
+								<select id="paymentDay" class="commoninput" name="paymentDay">
 									<option value="20" ${ paymentDay == 20 ? "selected" : ""}> 20일 </option>
 									<option value="25" ${ paymentDay == 25 ? "selected" : ""}> 25일 </option>
 								</select>
@@ -35,7 +34,7 @@
 							</div>
 							<div class="col-lg-5">
 								<div id="column-right">
-									<input type="date" name="paymentDate"/>
+									<input type="date" class="commoninput" name="paymentDate"/>
 									<button type="submit" class="btn btn-default" name="cmd" value="createEB21file">EB21
 										생성</button>
 								</div>

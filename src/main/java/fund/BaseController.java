@@ -8,8 +8,7 @@ import fund.mapper.CodeMapper;
 
 @Controller
 public class BaseController {
-	@Autowired
-	CodeMapper codeMapper;
+	@Autowired CodeMapper codeMapper;
 
 	@ModelAttribute
 	public void addCodeGroupList(Model model) {

@@ -10,7 +10,50 @@ public class PaymentRecordStats {
 	Integer srchType5; // 후원인구분2
 	String sponsorName;// 후원인 이름
 	
+	String gubun;//정기 or 비정기
+	String donationPurpose;//기부목적
+	String church; //소속교회
+	String paymentMethod; //납입방법
+	String sponsorType; // 후원인구분2
+	String corporate; //기부기관
 	
+	
+	public String getGubun() {
+		return gubun;
+	}
+	public void setGubun(String gubun) {
+		this.gubun = gubun;
+	}
+	public String getDonationPurpose() {
+		return donationPurpose;
+	}
+	public void setDonationPurpose(String donationPurpose) {
+		this.donationPurpose = donationPurpose;
+	}
+	public String getChurch() {
+		return church;
+	}
+	public void setChurch(String church) {
+		this.church = church;
+	}
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	public String getSponsorType() {
+		return sponsorType;
+	}
+	public void setSponsorType(String sponsorType) {
+		this.sponsorType = sponsorType;
+	}
+	public String getCorporate() {
+		return corporate;
+	}
+	public void setCorporate(String corporate) {
+		this.corporate = corporate;
+	}
 	public String getStartDate() {
 		return startDate;
 	}

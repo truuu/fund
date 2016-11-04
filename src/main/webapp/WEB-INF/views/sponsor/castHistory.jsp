@@ -16,11 +16,15 @@ $(function(){
 	$('#searched').click(function(){
 		startDate=$('#startDate').val();
 		endDate=$('#endDate').val();
-	
-
-
 		
-		location.href="/fund_sys/sponsor/castList.do?startDate="+startDate+"&endDate="+endDate;
+		if(startDate==''||endDate==''){
+			alert('날짜를 모두 입력해주세요')
+		}
+		if(startDate!=''&&endDate!=''){
+			location.href="/fund_sys/sponsor/castList.do?startDate="+startDate+"&endDate="+endDate;
+		}
+
+		//location.href="/fund_sys/sponsor/castList.do?startDate="+startDate+"&endDate="+endDate;
 	
 		
 	});
@@ -56,15 +60,17 @@ $(function(){
 			
 			<div class="row">
 				<div class="col-lg-9">
-					<label> 기간(시작-끝) </label> <input type="date" name="startDate" id="startDate"
-						value="${startDate}"> ~ <input type="date" name="endDate" id="endDate"
+					<label> 기간(시작-끝) </label> <input type="date" class="commoninput" name="startDate" id="startDate"
+						value="${startDate}"> ~ <input type="date" class="commoninput" name="endDate" id="endDate"
 						value="${endDate}">
 				</div>
 				<div class="col-lg-3">
 					<div id="column-right">
-						<button type="submit" class="btn btn-reversed" id="searched">검색</button>
+						<button type="submit" class="btn btn-primary" id="searched">검색</button>
+						 <c:if test="${sum!=0 }">
 						<button id="pdf"  class="btn" type="submit" name="cmd" value="pdf">보고서</button>
 						<button id="xlsx"  class="btn" type="submit" name="cmd" value="xlsx">엑셀</button>
+						</c:if>
 					</div>
 				</div>
 			</div>
