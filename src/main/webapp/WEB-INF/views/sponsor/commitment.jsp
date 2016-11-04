@@ -112,7 +112,7 @@ tr#topTable td, tr#topTable th{
 		<input type="hidden" name="sponsorID" value="${sponsorID}" />
 		<input type="hidden" name="sponsorNo" value="${sponsorNo}" />
 		<div class="input-group1">
-			<button type="button" id="new" class="btn btn-small">새로 등록</button>
+			<button type="button" id="new" class="btn btn-default">새로 등록</button>
 		</div>
 		<div class="table-responsive">
 			<table class="table table-bordered">

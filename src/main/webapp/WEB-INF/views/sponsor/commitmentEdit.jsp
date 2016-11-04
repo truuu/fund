@@ -8,12 +8,12 @@
 <script>
 
 	$(function() {
-		$(".btn1").hide();
+		//$(".btn1").hide();
 		$("select").attr("readonly", true);  // 적용안됨 질문
 		$("input").attr("readonly", true);
 		
 
-		$("#editButton").click(function() {
+		$(".btn btn-primary").click(function() {
 			$(".btn1").show();
 			$("select").attr("readonly", false);
 			$("input").attr("readonly", false);
@@ -93,7 +93,7 @@ div table.table tbody tr td {
 	vertical-align: middle;
 }
 
-button#editButton, button#btn1 {
+button#editButton {
 	background-color: #222;
 	color: #FFFFFF;
 	border-radius: 5px;
@@ -116,9 +116,9 @@ button#editButton, button#btn1 {
 
 <div class="panel panel-default">
 
-	<button type="button" style="margin-left: 3px;" id="editButton"
-		class="button">수정하기</button>
-	<a href="commitment.do?id=${commitment.sponsorID}" id="list" class="button">약정목록</a>
+	<button type="button" style="margin-left: 3px;" 
+		class="btn btn-primary">수정하기</button>
+	<a href="commitment.do?id=${commitment.sponsorID}" id="list" class="btn btn-default">약정목록</a>
 	<h3>약정</h3>
 	<form method="post" action="commitmentUpdate.do">
 
@@ -159,8 +159,8 @@ button#editButton, button#btn1 {
 				</tbody>
 			</table>
 		</div>
-		<button type="submit" id="btn1" style="margin-left: 3px;" class="button btn1">저장</button>
-		<a id="btn1" class="button btn1" onClick="deleteCommitment(${commitment.ID})">삭제</a>
+		<button type="submit" id="btn1" style="margin-left: 3px;" class="btn btn-info">저장</button>
+		<a id="btn1" class="btn btn-default" onClick="deleteCommitment(${commitment.ID})">삭제</a>
 	</form>
 	<br>
 	<h3>약정 상세</h3>
@@ -200,8 +200,8 @@ button#editButton, button#btn1 {
 
 			</tbody>
 		</table>
-		<button type="submit" id="btn1"  style="margin-left: 3px;" class="button btn1">저장</button>
-		<a id="btn1" class="button btn1 cmdBtn" onClick="deleteCommitmentDetail(${commitmentDetail.ID })">삭제</a>
+		<button type="submit" id="btn1"  style="margin-left: 3px;" class="btn btn-info">저장</button>
+		<a id="btn1" class="btn btn-default cmdBtn" onClick="deleteCommitmentDetail(${commitmentDetail.ID })">삭제</a>
 	</form>
 </c:forEach>
 
@@ -238,7 +238,7 @@ button#editButton, button#btn1 {
 				</tr>
 			</tbody>
 		</table>
-		<button type="submit" id="btn1"  class="button btn1" >신규
+		<button type="submit" id="btn1"  class="btn btn-primary" >신규
 			저장</button>
 	</form>
 </div>
