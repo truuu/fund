@@ -7,6 +7,12 @@
 		SELECT *
 		FROM [Corporate]
 	</select>
+	
+	<select id="selectCorporateID" resultType="Integer">
+		SELECT id
+		FROM [Corporate]
+	</select>
+	
    	<select id="selectByID" resultType="fund.dto.Corporate"> 
 		SELECT  *
 		FROM  [Corporate]
@@ -45,5 +51,6 @@
     <delete id="delete">
         DELETE FROM [Corporate] WHERE ID = #{ID}
     </delete>
+    
 	
 </mapper>

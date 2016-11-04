@@ -109,9 +109,10 @@ public class ReceiptController extends BaseController{
 		String enddate = req.getParameter("endDate");
 		String createdate = req.getParameter("createDate");
 		String[] getY = startdate.split("-");
-		
-		for(int corporateID=1;corporateID<3;corporateID++){
-			List<Integer> sponsorID = paymentMapper.selectDistinctSponsorID(startdate, enddate, corporateID);
+
+		List<Integer> corporateID = corporateMapper.selectCorporateID();
+		for(Integer corID : corporateID ){
+			List<Integer> sponsorID = paymentMapper.selectDistinctSponsorID(startdate, enddate, corID);
 			for(int i=0;i<sponsorID.size();i++){
 				int rctNoInt;
 				if(receiptMapper.getLastNo(getY[0])==null)
@@ -126,7 +127,7 @@ public class ReceiptController extends BaseController{
 				rct.setCreateDate(createdate);
 				rct.setNo(newRctNo);
 				receiptMapper.insert(rct);
-				paymentMapper.issueReceiptByDur(receiptMapper.getRid(),startdate, enddate, corporateID, sponsorID.get(i));
+				paymentMapper.issueReceiptByDur(receiptMapper.getRid(),startdate, enddate, corID, sponsorID.get(i));
 			}
 		}
 		return "redirect:/certificate/receiptList.do";
