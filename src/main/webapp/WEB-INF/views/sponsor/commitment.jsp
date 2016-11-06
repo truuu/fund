@@ -180,11 +180,11 @@ tr#topTable td, tr#topTable th{
 
 						<tr>
 							<td id="table_a">약정일자</td>
-							<td><input type="date" name="commitmentDate"></td>
+							<td><input type="date" class="commoninput" name="commitmentDate"></td>
 							<td id="table_a">시작일</td>
-							<td><input type="date" name="commitmentStartDate"></td>
+							<td><input type="date" class="commoninput" name="commitmentStartDate"></td>
 							<td id="table_a">종료일</td>
-							<td><input type="date" name="endDate"></td>
+							<td><input type="date" class="commoninput" name="endDate"></td>
 						</tr>
 						<tr>
 							<td id="table_a">비고</td>

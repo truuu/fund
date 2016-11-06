@@ -5,6 +5,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<script>
+var startDate,endDate;
+
+function searched(){
+	
+	startDate=$('#startDate').val();
+	endDate=$('#endDate').val();
+	
+	if(startDate==''||endDate==''){
+		alert('날짜를 모두 입력해주세요')
+	}
+	else if(startDate!=''&&endDate!=''){
+		alert('ㅋㅋㅋㅋㅋ')
+		location.href="/fund_sys/dataPrint/paymentRecordStats1.do?paymentRecordStats="+ paymentRecordStats;
+	}
+	
+}
+</script>
+
 <style>
 div.commitmentTable {
 	display: none;
@@ -98,7 +117,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 
 				<div class="row">
 					<div id="column-right">
-						<button type="submit" class="button">검색</button>
+						<button type="button" class="button" onclick="searched()">검색</button>
 						<button type="submit" class="button" name="cmd" value="report">보고서</button>
 					</div>
 					<div class="col-lg-12">
@@ -124,8 +143,8 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 							
 							
 								<td><label>납입일</label></td>
-								<td><input type="date" name="startDate" value="${startDate}" >~<input
-									type="date" name="endDate" value="${endDate}" ></td>
+								<td><input type="date" class="commoninput" id="startDate" name="startDate" value="${startDate}" >~<input
+									type="date" class="commoninput" id="endDate" name="endDate" value="${endDate}" ></td>
 
 								<td><label>납입방법</label></td>
 								<td><select name="srchType4" class="select_s">

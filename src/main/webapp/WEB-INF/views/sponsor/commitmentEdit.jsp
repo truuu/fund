@@ -144,11 +144,11 @@ button#editButton {
 					
 					<tr>
 						<td id="table_a">약정일자</td>
-						<td><input type="date" name="commitmentDate" value="${commitment.commitmentDate}" /></td>
+						<td><input type="date" class="commoninput" name="commitmentDate" value="${commitment.commitmentDate}" /></td>
 						<td id="table_a">시작일</td>
-						<td><input type="date" name="startDate" value="${commitment.startDate}" /></td>
+						<td><input type="date" class="commoninput" name="startDate" value="${commitment.startDate}" /></td>
 						<td id="table_a">종료일</td>
-						<td><input type="date" name="endDate" value="${commitment.endDate}" /></td>
+						<td><input type="date" class="commoninput" name="endDate" value="${commitment.endDate}" /></td>
 					</tr>
 					<tr>
 						<td id="table_a">비고</td>
@@ -193,7 +193,7 @@ button#editButton {
 					<td id="table_a">약정금액</td>
 					<td class="money">${commitment.month*commitmentDetail.amountPerMonth}</td>
 					<td id="table_a">시작일</td>
-					<td><input type="date" name="startDate" value="${ commitmentDetail.startDate }" ></td>
+					<td><input type="date" class="commoninput" name="startDate" value="${ commitmentDetail.startDate }" ></td>
 					<td id="table_a">비고</td>
 					<td colspan="3"><input type="text" name="etc" value="${ commitmentDetail.etc }" /></td>
 				</tr>

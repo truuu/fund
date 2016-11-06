@@ -106,7 +106,7 @@ public class PaymentController extends BaseController{
 		return "dataPrint/paymentRecordStats";
 	}
 
-	@RequestMapping(value="/dataPrint/paymentRecordStats.do", method=RequestMethod.POST) //납입 내역 조회
+	@RequestMapping(value="/dataPrint/paymentRecordStats1.do") //납입 내역 조회
 	public String paymentRecordStats(Model model, PaymentRecordStats paymentRecordStats) {
 		model.addAttribute("sponsorType2List",codeMapper.selectSponsorType2("후원인구분2"));
 		model.addAttribute("churchList",codeMapper.selectChurch("소속교회"));

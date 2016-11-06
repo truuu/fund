@@ -121,7 +121,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 				<div class="row">
 						<div id="column-right">
 						<button type="submit" class="button">검색</button>
-						<button type="subtmit" class="button" name="cmd" value="report">보고서</button>
+						<button type="submit" class="button" name="cmd" value="report">보고서</button>
 
 					</div>
 					<div class="col-lg-12">
@@ -148,8 +148,8 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 								</select></td>
 							<tr>
 							<td><label>납입일</label></td>
-								<td><input type="date" name="startDate" value="${startDate}" >~<input
-									type="date" name="endDate" value="${endDate}" ></td>
+								<td><input type="date" class="commoninput" name="startDate" value="${startDate}" >~<input
+									type="date" class="commoninput" name="endDate" value="${endDate}" ></td>
 									
 
 								<td><label>납입방법</label></td>
