@@ -1,11 +1,18 @@
 package fund.dto;
 
+import javax.validation.constraints.Null;
+
 public class DonationPurpose {
 	int ID;
 	int corporateID;
 	int organizationID;
+	
+	@Null(message="기부목적명을 입력하세요!")
 	String name;
+	
+	@Null(message="구분을 입력하세요!")
 	String gubun;
+	
 	String codeName;
 	String corporateName;
 	
