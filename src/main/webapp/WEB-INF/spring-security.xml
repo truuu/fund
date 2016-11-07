@@ -12,7 +12,7 @@
             login-page="/home/index.do"
             login-processing-url="/home/login_processing.do"
             authentication-failure-url="/home/index.do"
-            default-target-url="/home/index.do" 
+            default-target-url="/sponsor/sponsor_m.do" 
             username-parameter="loginName"
             password-parameter="password" />
         <logout

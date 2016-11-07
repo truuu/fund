@@ -24,7 +24,17 @@ $(function(){
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="/fund_sys">후원회</a>
+
+	      <sec:authorize access="isAnonymous()">
+	 <a class="navbar-brand" href="/fund_sys">후원회</a>
+          </sec:authorize>
+          
+          <sec:authorize access="isAuthenticated()">
+	 <a class="navbar-brand" href="../sponsor/sponsor_m.do">후원회 </a>
+          </sec:authorize>
+
+	    
+	      
 	    </div>
 
 	    <!-- Collect the nav links, forms, and other content for toggling -->
