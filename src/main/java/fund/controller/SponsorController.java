@@ -302,7 +302,7 @@ public class SponsorController extends BaseController{
 		String check = request.getParameter("check");	
 		pagination.setRecordCount(sponsorMapper.countForDM(pagination));
 		List<Sponsor> postList=sponsorMapper.postManage(pagination);
-
+		
 		String temp,address,postCode;
 		int middle;
 		for (Sponsor i : postList) {
@@ -442,6 +442,28 @@ public class SponsorController extends BaseController{
 	@RequestMapping(value="/sponsor/postSearch.do",params="cmd=xlsx" )
 	public void excelDMReport(Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws JRException, IOException{
 		List<Sponsor> list = sponsorMapper.excelDM(pagination);
+		String temp,address,postCode;
+		int middle;
+		for (Sponsor i : list) {
+			if(i.getMailTo()==0){
+				temp=i.getHomeAddress();
+				String[] home=temp.split("\\*");
+				address=home[0]+home[1];
+				postCode=home[2];
+				i.setAddress(address);
+				i.setPostCode(postCode);
+			}
+			if(i.getMailTo()==1){
+				temp=i.getOfficeAddress();
+				String[] office=temp.split("\\*");
+				address=office[0]+office[1];
+				postCode=office[2];
+
+				i.setAddress(address);
+				i.setPostCode(postCode);
+			}
+		}
+		
 		ReportBuilder reportBuilder = new ReportBuilder("sendDM", list, "sendDM.xlsx",req,res);
 		reportBuilder.build("xlsx");
 	}

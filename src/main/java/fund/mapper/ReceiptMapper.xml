@@ -16,6 +16,10 @@
 		WHERE id=#{id}
 	</select>
 	
+	<select id="selectByNo" resultType="fund.dto.Receipt">
+		SELECT * FROM [Receipt] WHERE [no]=#{no}
+	</select>
+	
 	<select id="selectReceiptView" resultType="fund.dto.Receipt">
 		SELECT DISTINCT r.*, s.name, s.juminNo, s.homeaddress 'address', c.name 'corName',c.corporateNo, c.address 'corAddress',c.representative
 		FROM [Receipt] r LEFT JOIN [Sponsor] s ON r.sponsorID=s.id 

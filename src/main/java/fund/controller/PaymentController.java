@@ -1,7 +1,9 @@
 package fund.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +27,7 @@ import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.SponsorMapper;
 import fund.service.ReportBuilder;
+import fund.service.ReportBuilder3;
 import net.sf.jasperreports.engine.JRException;
 import fund.dto.EB13_CommitmentDetail;
 
@@ -33,6 +37,7 @@ public class PaymentController extends BaseController{
 	@Autowired CodeMapper codeMapper;
 	@Autowired DonationPurposeMapper donationPurposeMapper;
 	@Autowired SponsorMapper sponsorMapper;
+	@Autowired SimpleDriverDataSource dataSource;
 	
 	@RequestMapping(value="/dataPrint/donationPurposeStats.do", method=RequestMethod.GET)  
 	public String donationPurposeStats(Model model) {     
@@ -144,6 +149,36 @@ public class PaymentController extends BaseController{
 		return "dataPrint/paymentRecordStats";
 	}
 	
+	@RequestMapping(value="/dataPrint/paymentRecordStats.do",method=RequestMethod.POST, params="cmd=report")
+	public void reportPaymentRecordStats(Model model,
+			HttpServletRequest request, HttpServletResponse response, PaymentRecordStats paymentRecordStats) throws JRException, IOException, SQLException {
+		String[] condition = new String[9];
+		if(paymentRecordStats.getSrchType1()!=null){
+			if(paymentRecordStats.getSrchType1()==1)
+				condition[0]="정기";
+			else if(paymentRecordStats.getSrchType1()==2)
+				condition[0]="비정기";
+		}
+		if(paymentRecordStats.getSrchType2()!=null){
+			condition[3]=donationPurposeMapper.selectDonationPurpose2(paymentRecordStats.getSrchType2());
+			condition[5]=donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2());
+		}
+		if(paymentRecordStats.getSrchType3()!=null)
+			condition[4]=codeMapper.selectCodeName(paymentRecordStats.getSrchType3());		
+		if(paymentRecordStats.getSrchType4()!=null)
+			condition[7]=codeMapper.selectCodeName(paymentRecordStats.getSrchType4());
+		if(paymentRecordStats.getSrchType5()!=null)
+			condition[6]=codeMapper.selectCodeName(paymentRecordStats.getSrchType5());
+		
+		condition[1]=paymentRecordStats.getStartDate();
+		condition[2]=paymentRecordStats.getEndDate();
+		condition[8]=paymentRecordStats.getSponsorName();
+		List<Payment> list = paymentMapper.selectPaymentRecord(paymentRecordStats);
+		ReportBuilder3 reportBuilder = new ReportBuilder3("payment1_list",list,"paymentRecord_List.pdf",condition,request,response);
+		reportBuilder.build("pdf");
+		
+	}
+			
 	@RequestMapping(value="/dataPrint/paymentTotalStats.do", method=RequestMethod.GET) // 납입 총계 조회
 	public String paymentTotalStats(Model model) { 
 		model.addAttribute("sponsorType2List",codeMapper.selectSponsorType2("후원인구분2"));
@@ -200,6 +235,35 @@ public class PaymentController extends BaseController{
 		model.addAttribute("list",list);
 		
 		return "dataPrint/paymentTotalStats";
+	}
+	
+	@RequestMapping(value="/dataPrint/paymentTotalStats.do",method=RequestMethod.POST, params="cmd=report")
+	public void reportPaymentTotalStats(Model model,
+			HttpServletRequest request, HttpServletResponse response, PaymentRecordStats paymentRecordStats) throws JRException, IOException, SQLException {
+		String[] condition = new String[9];
+		if(paymentRecordStats.getSrchType1()!=null){
+			if(paymentRecordStats.getSrchType1()==1)
+				condition[0]="정기";
+			else if(paymentRecordStats.getSrchType1()==2)
+				condition[0]="비정기";
+		}
+		if(paymentRecordStats.getSrchType2()!=null){
+			condition[3]=donationPurposeMapper.selectDonationPurpose2(paymentRecordStats.getSrchType2());
+			condition[5]=donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2());
+		}
+		if(paymentRecordStats.getSrchType3()!=null)
+			condition[4]=codeMapper.selectCodeName(paymentRecordStats.getSrchType3());
+		if(paymentRecordStats.getSrchType4()!=null)
+			condition[7]=codeMapper.selectCodeName(paymentRecordStats.getSrchType4());
+		if(paymentRecordStats.getSrchType5()!=null)
+			condition[6]=codeMapper.selectCodeName(paymentRecordStats.getSrchType5());
+		condition[1]=paymentRecordStats.getStartDate();
+		condition[2]=paymentRecordStats.getEndDate();
+		condition[8]=paymentRecordStats.getSponsorName();
+		List<Payment> list = paymentMapper.selectPaymentTotal(paymentRecordStats);
+		ReportBuilder3 reportBuilder = new ReportBuilder3("payment2_list",list,"paymentTotal_List.pdf",condition,request,response);
+		reportBuilder.build("pdf");
+		
 	}
 	
 

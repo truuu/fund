@@ -22,6 +22,18 @@ public class Receipt {
 	
 	List<Payment> paymentList;
 	
+	@Override
+	public boolean equals(Object obj) {
+		if((obj instanceof Receipt)== false) return false;
+		
+		Receipt r = (Receipt)obj;
+		if(this.ID != r.ID) return false;
+		if(this.sponsorID != r.sponsorID) return false;
+		if((this.createDate == null ? r.createDate == null : createDate.equals(r.createDate)) == false ) return false;
+		if((this.no == null ? r.no == null : no.equals(r.no))== false) return false;
+		return true;
+	}
+	
 	public List<Payment> getPaymentList() {
 		return paymentList;
 	}
