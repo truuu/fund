@@ -22,21 +22,29 @@
 						<h4>EB21 금융등록2</h4>
 						<div class="row">
 							<div class="col-lg-7">
+							<div class="form-inline">
 								<label> 구분 : 이체신청</label> 
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								<label> 출금일 선택 : </label>
-								<select id="paymentDay" class="commoninput" name="paymentDay">
+
+								&nbsp;
+								<select id="paymentDay" name="paymentDay" class="commoninput" style="width:70px;">
+
 									<option value="20" ${ paymentDay == 20 ? "selected" : ""}> 20일 </option>
 									<option value="25" ${ paymentDay == 25 ? "selected" : ""}> 25일 </option>
 								</select>
-								
 								<button type="submit" class="btn btn-default" name="cmd" value="selectEB21List"> 조회 </button>
 							</div>
+							</div>
 							<div class="col-lg-5">
+								<div class="form-inline">
 								<div id="column-right">
-									<input type="date" class="commoninput" name="paymentDate"/>
-									<button type="submit" class="btn btn-default" name="cmd" value="createEB21file">EB21
+
+									<input type="date" name="paymentDate" class="commoninput"/>
+									<button type="submit" class="btn btn-info" name="cmd" value="createEB21file">EB21
+
 										생성</button>
+								</div>
 								</div>
 							</div>
 						</div>

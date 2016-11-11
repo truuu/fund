@@ -134,7 +134,7 @@ public class FinanceController extends BaseController{
 				return "finance/salary";
 			}
 		}else{
-			 return "redirect:uploadSalaryResult.do";
+			model.addAttribute("errorMsg", "파일에 포함된 약정을 가진 후원인이 없습니다."); 
 		}
 		return "finance/uploadSalaryResult";
 	}

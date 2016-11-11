@@ -17,10 +17,15 @@
 				</div>
 			</div>
 			<!-- /.row -->
-			<form method="post">
-				<label>EB21 납입일 </label> <input type="date" name="startDate">
-				~ <input type="date" name="endDate"> &nbsp;&nbsp;&nbsp;
-				<button type="submit" class="button">검색</button>
+			<form method="post" class="form-inline">
+				<label>EB21 납입일 </label>
+				&nbsp;&nbsp;&nbsp;
+				<div class="form-group">
+					<input type="date" name="startDate" class="commoninput"> ~
+					<input type="date" name="endDate" class="commoninput">
+				</div>
+				&nbsp;&nbsp;&nbsp;
+				<button type="submit" class="btn btn-primary">검색</button>
 				<div class="panel-body">
 					<div class="table-responsive">
 						<table class="table table-bordered" id="table_s">
