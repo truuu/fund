@@ -36,14 +36,14 @@ tr#topTable td{
 		<div class="container-fluid">
 			<h1 class="page-header">회원관리</h1>
 			<div id="column-right">
-				<a href="sponsor.do" class="button button-reversed">신규</a> 
+				<a href="sponsor.do" class="btn btn-info">신규</a>
 			</div>
 
 			
 
 <form>
 			<div id="column-right">
-				<button class="btn" type="submit" name="cmd" value="xlsx">엑셀파일</button>
+				<button type="submit" class="btn btn-info" name="cmd" value="xlsx">엑셀파일</button>
 			</div>
     <input type="hidden" name="pg" value="1" />
 

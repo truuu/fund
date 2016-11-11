@@ -19,14 +19,16 @@
 <script type="text/javaScript">
 
 function fileDelete(id){
-   alert('test '+id)
+   
+   var sponsorId=$('#fileSponsorId').val();
+   
    $.ajax({
-      url:"http://localhost:8080/fund_sys/sponsor/fileDelete.do",
+      url:"fileDelete.do",
       type:"GET",
       data :{id:id},
       success : function(){
          alert('delete success')
-         location.href="http://localhost:8080/fund_sys/sponsor/sponsor.do";
+         location.href="detail.do?id="+sponsorId;
       },
       error : function(request, status,error) {
          alert("통신실패")
@@ -99,21 +101,21 @@ function fileDelete(id){
 
 <div class="panel panel-default">
    <div class="panel-heading">
-      <h4>회원기본정보</h4>
+      <h4>회원기본정보7</h4>
 
 
       <div class="row">
          <div class="col-lg-12">
             <div id="column-right">
                <c:if test="${ sponsor.signUpDate==null}">
-               <a onclick="insert()" class="button button-reversed">저장</a>
+               <a onclick="insert()" class="btn btn-info">저장</a>
             </c:if>
             
             <c:if test="${ sponsor.signUpDate!=null}">
-               <a onclick="update()" class="button button-reversed">수정</a>
+               <a onclick="update()" class="btn btn-info">수정</a>
             </c:if>
 
-               <a onclick="deletes(${ sponsor.sponsorNo })" class="button">삭제</a>
+               <a onclick="deletes(${ sponsor.sponsorNo })" class="btn btn-danger">삭제</a>
             </div>
          </div>
       </div>
@@ -352,19 +354,20 @@ function fileDelete(id){
    
 
    <div class="col-lg-6">
-
+<c:if test="${sponsor.id!=0}">
       <div class="panel panel-default">
          <div class="panel-heading">
-            <h4>첨부파일목록</h4>
+            <h4>첨부파일목록 ${sponsor.id} </h4>
             <hr />
 
             <form method="post" action="upload.do" enctype="multipart/form-data">
                <div>
                   <span>파일:</span> <input type="file" name="file" />
+                  <input type="hidden" name="id" id="fileSponsorId" value="${sponsor.id}"/>
                </div>
                <div>
-                  <button type="submit" class="btn btn-primary">
-                     <i class="icon-ok icon-white"></i> 저장하기
+                  <button type="submit" class="btn btn-info">
+                     <i class="icon-ok icon-white"></i> 저장
                   </button>
                   
                </div>
@@ -398,6 +401,7 @@ function fileDelete(id){
          </div>
          <!-- /.panel-body -->
       </div>
+   </c:if>
       <!-- /.panel -->
 
    </div>

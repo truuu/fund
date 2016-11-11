@@ -48,7 +48,7 @@ $(function() {
          <!-- /.row -->
 
          <div>
-            <label> 신청기간 </label> <input type="date" name="startDate"> ~ <input type="date" name="endDate">
+            <label> 신청기간 </label> <input type="date" class="commoninput" name="startDate"> ~ <input type="date" class="commoninput" name="endDate">
              <button id="searchChurch" class="btn btn-primary">검색</button>
          </div>
 
@@ -56,13 +56,13 @@ $(function() {
          <div class="row">
             <div class="col-lg-12">
             <hr>
-            <center><label> 신청기간 </label> <input type="text" value="${ pagination.startDate}"> ~ <input type="text" value="${ pagination.startDate}"></center>
+            <center><label> 신청기간 </label> <input type="text" class="commoninput" value="${ pagination.startDate}"> ~ <input type="text" class="commoninput" value="${ pagination.startDate}"></center>
             <hr>
                <div class="table-responsive">
 					<form method="get">
 
                       <input type="hidden" name="pg" value="1" />
-                       <input type="hidden" name="startDate" value="${ pagination.startDate}" />
+                       <input type="hidden"  name="startDate" value="${ pagination.startDate}" />
                         <input type="hidden" name="endDate" value="${ pagination.endDate}" />
                        
 						<div id="column-right">
