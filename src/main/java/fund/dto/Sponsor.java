@@ -7,6 +7,7 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 public class Sponsor {
@@ -29,7 +30,7 @@ public class Sponsor {
 	
 	int churchID; //
 	
-	@NotNull(message="날짜를 선택하세요!")
+	@NotEmpty(message="날짜를 입력해주세요")
     String signUpDate; //  Date -> String date시 에러남 400 파라미터타입문제 질문해야함
 	
 	String mobilePhone; //
@@ -49,19 +50,19 @@ public class Sponsor {
 	String homePhone; //
 	
 	
-	@Email(message="형식에 맞게 입력해주세요!")
+	@NotEmpty(message="이메일를 입력해주세요")
 	String email; //
 	
-	@Null(message="회사를 입력하세요!")
+	@NotEmpty(message="직장를 입력해주세요")
 	String company; //
 	
-	@Null(message="부서를 입력하세요!")
+	@NotEmpty(message="부서를 입력해주세요")
 	String department; //
 	
-	@Null(message="직위를 입력하세요!")
+	@NotEmpty(message="직위를 입력해주세요")
 	String position; //
 	
-	@Null(message="사무실번호를 입력하세요!")
+	@NotEmpty(message="사무실번호를 입력해주세요")
 	String officePhone;
 	
 	String etc; //
@@ -75,22 +76,22 @@ public class Sponsor {
 	String sponsorType2;
 	String church;
 	
-	@Null(message="모두 입력해주세요!")
+	@NotEmpty(message="모두 입력해주세요!")
 	String homeRoadAddress;
 	
-	@Null(message="모두 입력해주세요!")
+	@NotEmpty(message="모두 입력해주세요!")
 	String homeDetailAddress;
 	
-	@Null(message="모두 입력해주세요!")
+	@NotEmpty(message="모두 입력해주세요!")
 	String homePostCode;
 	
-	@Null(message="모두 입력해주세요!")
+	@NotEmpty(message="모두 입력해주세요!")
 	String officeRoadAddress;
 	
-	@Null(message="모두 입력해주세요!")
+	@NotEmpty(message="모두 입력해주세요!")
 	String officeDetailAddress;
 	
-	@Null(message="모두 입력해주세요!")
+	@NotEmpty(message="모두 입력해주세요!")
 	String officePostCode;
 	
 	

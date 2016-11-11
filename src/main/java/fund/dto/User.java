@@ -1,22 +1,25 @@
 package fund.dto;
 
-import javax.validation.constraints.Null;
+
+import javax.validation.constraints.*;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class User {
 	int id;
-	@Null(message="아이디를 입력하세요!")
+	
+	@NotEmpty(message="ID를 입력해주세요")
 	String loginName;
 	
-	@Null(message="비밀번호를 입력하세요!")
+	@NotEmpty(message="비밀번호를 입력해주세요")
 	String password;
 	
-	@Null(message="이름을 입력하세요!")
+	@NotEmpty(message="이름을 입력해주세요")
 	String name;
 	
-	@Null(message="부서를 입력하세요!")
-	@Email(message="형식에 맞게 입력해주세요!")
+	@NotEmpty(message="이메일을 입력해주세요")
+	@Email(message="형식에 맞게 입력해주세요")
 	String email;
 	
 	boolean admin;
