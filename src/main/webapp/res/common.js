@@ -21,3 +21,15 @@ $(function() {
 		$("[class=money]").unmask();
 	});
 })
+
+$(function(){
+	$("#datepicker1").datepicker({
+		format : 'yyyy-mm-dd'		
+	});
+	$("#datepicker2").datepicker({
+		format : 'yyyy-mm-dd'		
+	});
+	$("#datepicker3").datepicker({
+		format : 'yyyy-mm-dd'		
+	});
+})
