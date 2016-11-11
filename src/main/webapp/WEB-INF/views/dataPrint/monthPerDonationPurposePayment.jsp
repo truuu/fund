@@ -7,32 +7,32 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <head>
 <script>
-var startDate,endDate;
+var startDate=$('#startDate').val();
+var endDate=$('#endDate').val();
 
-function searched(){
+if(startDate==''||endDate==''){
+	$(function() {
+		$("form").submit(function() {
+			
+				alert('날짜를 모두 입력해주세요');
+			
+				
+		});
+		return false;
+	});
+	}	
 	
-	startDate=$('#startDate').val();
-	endDate=$('#endDate').val();
-	
-	if(startDate==''||endDate==''){
-		alert('날짜를 모두 입력해주세요');
-	}
-	else{
-		location.href="/fund_sys/dataPrint/donationPurposeStats1.do?startDate="+startDate+"&endDate="+endDate;
-	}
-	
-	
-}
 </script>
 <style>
 tr#topTable td,h4{
    text-align:center; }
 a2{ float:right; }
+
 </style>
 </head>
 <body>
   <div class="col-lg-12">
-					<h1 class="page-header">기부목적별 납입현황</h1>
+					<h1 class="page-header">월별 기부목적별 납입현황</h1>
   </div>
    <form method="post">
       <div class="row">
@@ -42,57 +42,56 @@ a2{ float:right; }
          </div>
          <div class="col-lg-3">
             <div id="column-right">
-               <button type="button" class="btn btn-primary" onclick="searched()" >검색</button>
+               <button type="submit" class="btn btn-primary" >검색</button>
                <button class="btn btn-default" type="submit" name="cmd" value="pdf">보고서</button>
                <button class="btn btn-default" type="submit" name="cmd" value="xlsx">엑셀</button>
             </div>
 
          </div>
       </div>
-      <h4>기부목적별 납입보고서</h4>
-      
-
-      <table class="table table-bordered table-hover">
-         <thead>
-            <th>총 후원인수</th>
-            <th>총 납입수</th>
-            <th>총 납입액</th>
-         </thead>
-         <tbody>
-            <tr id="topTable">
-               <td>${totalSponsor}</td>
-               <td>${totalDonationPurpose}</td>
-               <td class="money">${totalSum}</td>
-            </tr>
-         </tbody>
-      </table>
-
+   
 		<table class="table table-bordered">
 			<thead>
+				<th>기관</th>
+				<th>기관종류</th>
 				<th>기부목적</th>
-				<th>기부후원인수</th>
-				<th>납입수</th>
-				<th>금액</th>
-				<th>비율</th>
+				<th>1월</th>
+				<th>2월</th>
+				<th>3월</th>
+				<th>4월</th>
+				<th>5월</th>
+				<th>6월</th>
+				<th>7월</th>
+				<th>8월</th>
+				<th>9월</th>
+				<th>10월</th>
+				<th>11월</th>
+				<th>12월</th>
 			</thead>
 
          <c:forEach var="payment" items="${ list }">
             <tbody>
                <tr>
+                  <td>${payment.corporate}</td>
+                  <td>${payment.organization}</td>
                   <td>${payment.donationPurpose}</td>
-                  <td>${payment.count1}
-                  <td>${payment.count2}
-                  <td class="money">${payment.sum}
-                  <td>${payment.percent}%</td>
+                  <td class="money">${payment.m1}</td>
+                  <td class="money">${payment.m2}</td>
+                  <td class="money">${payment.m3}</td>
+                  <td class="money">${payment.m4}</td>
+                  <td class="money">${payment.m5}</td>
+                  <td class="money">${payment.m6}</td>
+                  <td class="money">${payment.m7}</td>
+                  <td class="money">${payment.m8}</td>
+                  <td class="money">${payment.m9}</td>
+                  <td class="money">${payment.m10}</td>
+                  <td class="money">${payment.m11}</td>
+                  <td class="money">${payment.m12}</td>
+                  
+                  
                </tr>
          </c:forEach>
-         <tr>
-            <td>소계</td>
-            <td>${totalSponsor}</td>
-            <td>${totalDonationPurpose}</td>
-            <td class="money">${totalSum}</td>
-            <td>${totalPercent}%</td>
-         </tr>
+        
          </tbody>
       </table>
 
