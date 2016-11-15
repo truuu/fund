@@ -107,20 +107,9 @@ public class PaymentController extends BaseController{
 		return "dataPrint/paymentRecordStats";
 	}
 
-	@RequestMapping(value="/dataPrint/paymentRecordStats1.do") //납입 내역 조회
-	public String paymentRecordStats(Model model, String startDate, String endDate,Integer srchType1,
-			Integer srchType2,Integer srchType3,Integer srchType4,Integer srchType5,String sponsorName) {
+	@RequestMapping(value="/dataPrint/paymentRecordStats.do",method=RequestMethod.POST) //납입 내역 조회
+	public String paymentRecordStats(Model model,PaymentRecordStats paymentRecordStats) {
 		
-		PaymentRecordStats paymentRecordStats = new PaymentRecordStats();
-		paymentRecordStats.setStartDate(startDate);
-		paymentRecordStats.setEndDate(endDate);
-		paymentRecordStats.setSrchType1(srchType1);
-		paymentRecordStats.setSrchType2(srchType2);
-		paymentRecordStats.setSrchType3(srchType3);
-		paymentRecordStats.setSrchType4(srchType4);
-		paymentRecordStats.setSrchType5(srchType5);
-		paymentRecordStats.setSponsorName(sponsorName);
-
 		model.addAttribute("sponsorType2List",codeMapper.selectSponsorType2("후원인구분2"));
 		model.addAttribute("churchList",codeMapper.selectChurch("소속교회"));
 		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());

@@ -6,32 +6,22 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<script>
-//var startDate,endDate;
+<script>	
+$(function() {                          
 
-function searched(){
-	
-	var startDate=$('#startDate').val();
-	var endDate=$('#endDate').val();
-	var srchType1=$('#srchType1').val();
-	var srchType2=$('#donationPurposeID').val();
-	var srchType3=$('#srchType3').val();
-	var srchType4=$('#srchType4').val();
-	var srchType5=$('#srchType5').val();
-	var sponsorName=$('#sponsorName').val();
-	
-	if(startDate==''||endDate==''){
-		alert('날짜를 모두 입력해주세요');
+	$("form").submit(function() {
 		
-	}else{
-		location.href="/fund_sys/dataPrint/paymentRecordStats1.do?startDate="+startDate+"&endDate="+endDate
-				+"&srchType1="+srchType1+"&srchType2="+srchType2+"&srchType3="+srchType3
-				+"&srchType4="+srchType4+"&srchType5="+srchType5+"&sponsorName="+sponsorName;
-		
-	}
-	
-	
-}
+		 var startDate=$('#startDate').val();
+		 var endDate=$('#endDate').val();
+	    	
+		if(startDate==''||endDate==''){
+			alert('날짜를 모두 입력해주세요');
+			return false;
+		}
+		else
+			return true;
+	});
+})
 
 
 </script>
@@ -110,7 +100,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 
 				<div class="row">
 					<div id="column-right">
-						<button type="button" class="btn btn-primary" onclick="searched()">검색</button>
+						<button type="submit" class="btn btn-primary" >검색</button>
 						<button type="submit" class="btn btn-default" name="cmd" value="report">보고서</button>
 					</div>
 					<div class="col-lg-12">

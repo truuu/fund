@@ -5,6 +5,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<script>
+$(function() {                          
+
+	$("form").submit(function() {
+		
+		 var startDate=$('#startDate').val();
+		 var endDate=$('#endDate').val();
+	    	
+		if(startDate==''||endDate==''){
+			alert('날짜를 모두 입력해주세요');
+			return false;
+		}
+		else
+			return true;
+	});
+})
+
+</script>
 <style>
 div.commitmentTable {
 	display: none;
@@ -110,8 +128,8 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 								</select></td>
 							<tr>
 							<td><label>납입일</label></td>
-								<td><input type="date" class="commoninput" name="startDate" value="${startDate}" >~<input
-									type="date" class="commoninput" name="endDate" value="${endDate}" ></td>
+								<td><input type="date" id="startDate" class="commoninput" name="startDate" value="${startDate}" >~<input
+									type="date" id="endDate" class="commoninput" name="endDate" value="${endDate}" ></td>
 									
 
 								<td><label>납입방법</label></td>
