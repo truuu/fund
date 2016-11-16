@@ -5,6 +5,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<script>
+$(function() {                          
+
+	$("form").submit(function() {
+		
+		 var startDate=$('#startDate').val();
+		 var endDate=$('#endDate').val();
+	    	
+		if(startDate==''||endDate==''){
+			alert('날짜를 모두 입력해주세요');
+			return false;
+		}
+		else
+			return true;
+	});
+})
+
+</script>
 <style>
 div.commitmentTable {
 	display: none;
@@ -54,45 +72,7 @@ div.table {
 	width: 100%;
 }
 
-button {
-	background-color: #222;
-	color: #FFFFFF;
-	border-radius: 5px;
-	display: inline-block;
-	font-weight: bold;
-	padding: 5px 21px;
-	font-size: 0.7em;
-	letter-spacing: 0.25px;
-	text-transform: uppercase;
-	margin: 5px 0 5px 0;
-	border: solid #222;
-	font-weight: bold;
-	padding: 5px 21px;
-	font-size: 0.7em;
-	letter-spacing: 0.25px;
-	text-transform: uppercase;
-	margin: 5px 0 5px 0;
-}
 
-button {
-	background-color: #222;
-	color: #FFFFFF;
-	border-radius: 5px;
-	display: inline-block;
-	font-weight: bold;
-	padding: 5px 21px;
-	font-size: 0.7em;
-	letter-spacing: 0.25px;
-	text-transform: uppercase;
-	margin: 5px 0 5px 0;
-	border: solid #222;
-	font-weight: bold;
-	padding: 5px 21px;
-	font-size: 0.7em;
-	letter-spacing: 0.25px;
-	text-transform: uppercase;
-	margin: 5px 0 5px 0;
-}
 tr#topTable td,tr#topTable th{ text-align:center; }
 #outPut1{ margin-left:10%; }
 #outPut2{ margin-left:26%; }
@@ -120,8 +100,8 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 
 				<div class="row">
 						<div id="column-right">
-						<button type="submit" class="button">검색</button>
-						<button type="subtmit" class="button" name="cmd" value="report">보고서</button>
+						<button type="submit" class="btn btn-primary">검색</button>
+						<button type="submit" class="btn btn-default" name="cmd" value="report">보고서</button>
 
 					</div>
 					<div class="col-lg-12">
@@ -148,8 +128,8 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 								</select></td>
 							<tr>
 							<td><label>납입일</label></td>
-								<td><input type="date" name="startDate" value="${startDate}" >~<input
-									type="date" name="endDate" value="${endDate}" ></td>
+								<td><input type="date" id="startDate" class="commoninput" name="startDate" value="${startDate}" >~<input
+									type="date" id="endDate" class="commoninput" name="endDate" value="${endDate}" ></td>
 									
 
 								<td><label>납입방법</label></td>
@@ -197,7 +177,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 					<div class="col-lg-12">
 						<hr>
 						<div id="column-right">
-							<a href="#" class="button">출력</a> <a href="#" class="button">엑셀다운</a>
+							<a href="#" class="btn btn-default">출력</a> <a href="#" class="btn btn-default">엑셀다운</a>
 						</div>
 						
 
@@ -249,7 +229,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 											<th>소속교회</th>
 											<th>총납입건수</th>
 											<th>총납입액</th>
-											<th>비고</th>
+											
 										</tr>
 									</thead>
 									<tbody>
@@ -261,7 +241,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 												<td>${ payment.church }</td>
 												<td>${ payment.totalCount }</td>
 												<td class="money">${ payment.totalSum }</td>
-												<td>${ payment.etc }</td>
+												
 											</tr>
 										</c:forEach>
 

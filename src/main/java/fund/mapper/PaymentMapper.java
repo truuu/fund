@@ -10,6 +10,7 @@ import fund.dto.Commitment;
 import fund.dto.EB21_commitmentDetail;
 import fund.dto.Salary;
 import fund.dto.PaymentRecordStats;
+import fund.dto.PaymentSummary1;
 
 
 public interface PaymentMapper {
@@ -36,4 +37,6 @@ public interface PaymentMapper {
 	List<Payment> selectComparePaymentDate(@Param("startDate") String startDate,@Param("endDate") String endDate);
 	List<Payment> selectPaymentRecord(PaymentRecordStats paymentRecordStats);
 	List<Payment> selectPaymentTotal(PaymentRecordStats paymentRecordStats);
+	
+	List<PaymentSummary1> selectMonthDonationPurposePayment(@Param("startDate") String startDate,@Param("endDate") String endDate);
 }

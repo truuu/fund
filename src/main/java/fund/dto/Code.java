@@ -3,7 +3,9 @@ package fund.dto;
 public class Code {
 		int ID;
 		int codeGroupID;
+		
 		String codeName;
+		
 		String etc1;
 		String etc2;
 		String etc3;

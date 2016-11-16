@@ -7,6 +7,7 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -35,6 +36,7 @@ public class CommitmentController extends BaseController{
 	@Autowired SponsorMapper sponsorMapper;
 
 	/*약정목록*/
+	@Secured("ROLE_true")
 	@RequestMapping(value="/sponsor/commitment.do", method=RequestMethod.GET)  
 	public String commitment(Model model,@RequestParam("id")int id) {   
 		Sponsor sponsor=sponsorMapper.selectBySponsorNo(id);
@@ -52,6 +54,7 @@ public class CommitmentController extends BaseController{
 	}
 
 	/*약정 생성*/
+	@Secured("ROLE_true")
 	@RequestMapping(value="/sponsor/commitment.do", method=RequestMethod.POST, params="cmd=create")
 	public String commitment(Model model, CommitmentCreate commitmentCreate) throws ParseException{
 	
@@ -92,6 +95,7 @@ public class CommitmentController extends BaseController{
 		return "redirect:/sponsor/commitment.do?id="+commitmentCreate.getSponsorID();
 	}
 
+	@Secured("ROLE_true")
 	@RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.GET)  // 약정수정페이지
 	public String commitmentEdit(Model model, @RequestParam("ID") int ID) throws ParseException {
 		Commitment commitment = commitmentMapper.selectByID(ID); // 해당 약정 내용 가져옴
@@ -107,6 +111,7 @@ public class CommitmentController extends BaseController{
 		return "sponsor/commitmentEdit";
 	}
 
+	@Secured("ROLE_true")
 	@RequestMapping(value="/sponsor/commitmentUpdate.do", method=RequestMethod.POST)  // 약정수정
 	public String commitmentEdit(Model model, Commitment commitment) {
 		
@@ -119,7 +124,7 @@ public class CommitmentController extends BaseController{
 
 	}
 	
-	
+	@Secured("ROLE_true")
 	@RequestMapping(value="/sponsor/commitmentDetailSave.do", method=RequestMethod.POST)  // 약정상세수정
 	public String commitmentDetailEdit(Model model, CommitmentDetail commitmentDetail) {
 		if (commitmentDetail.getID() == 0)
@@ -130,6 +135,7 @@ public class CommitmentController extends BaseController{
 		return "redirect:/sponsor/commitmentEdit.do?ID="+commitmentDetail.getCommitmentID(); 
 	}
 
+	@Secured("ROLE_true")
 	@RequestMapping(value="/sponsor/commitmentDetailDelete.do") // 약정 상세 삭제
 		public String commitmentDetailDelete(Model model, int commitmentDetailID, int commitmentID) {
 			commitmentDetailMapper.delete(commitmentDetailID);
@@ -137,6 +143,7 @@ public class CommitmentController extends BaseController{
 		return "redirect:/sponsor/commitmentEdit.do?ID="+commitmentID; 
 	}
 	
+	@Secured("ROLE_true")
 	@RequestMapping(value="/sponsor/commitmentDelete.do") // 약정 삭제
 	public String commitmentDelete(Model model, int commitmentID, int sponsorID) {
 		commitmentMapper.delete(commitmentID);
@@ -144,6 +151,7 @@ public class CommitmentController extends BaseController{
 	return "redirect:/sponsor/commitment.do?id="+sponsorID;   
 	}
 	
+	@Secured("ROLE_true")
 	@RequestMapping(value="/sponsor/commitmentEnd.do") // 약정 종료
 	public String commitmentEnd(Model model, int ID, int sponsorID) {
 		commitmentMapper.updateEndDate(ID);

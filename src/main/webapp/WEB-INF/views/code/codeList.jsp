@@ -25,7 +25,7 @@ tr:hover{ background-color: #ffe; cursor: pointer; }
 <h2 class="page-header">${name}</h2>
 <div class="code">
 	<div id="column-right">
-		<a href="/fund_sys/code/create.do?CodeGroupID=${CodeGroupID}" type="button" class="button button-reversed" 
+		<a href="/fund_sys/code/create.do?CodeGroupID=${CodeGroupID}" type="button" class="btn btn-primary" 
 			>추가</a> 
 	</div>
 	<form method="get">

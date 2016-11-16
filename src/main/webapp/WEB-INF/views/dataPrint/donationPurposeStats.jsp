@@ -5,6 +5,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<head>
+<script>
+var startDate,endDate;
+
+function searched(){
+	
+	startDate=$('#startDate').val();
+	endDate=$('#endDate').val();
+	
+	if(startDate==''||endDate==''){
+		alert('날짜를 모두 입력해주세요');
+	}
+	else{
+		location.href="/fund_sys/dataPrint/donationPurposeStats1.do?startDate="+startDate+"&endDate="+endDate;
+	}
+	
+	
+}
+</script>
 <style>
 tr#topTable td,h4{
 
@@ -12,19 +31,22 @@ tr#topTable td,h4{
 
 a2{ float:right; }
 </style>
+</head>
 <body>
-   <h3>기부목적별 납입현황</h3>
+  <div class="col-lg-12">
+					<h1 class="page-header">기부목적별 납입현황</h1>
+  </div>
    <form method="post">
       <div class="row">
          <div class="col-lg-9">
-            <label> 기간(시작-끝) </label> <input type="date" name="startDate" value="${startDate}">
-            ~ <input type="date" name="endDate" value="${endDate}">
+            <label> 기간(시작-끝) </label> <input type="date" id="startDate" class="commoninput" name="startDate" value="${startDate}">
+            ~ <input type="date" id="endDate" class="commoninput" name="endDate" value="${endDate}">
          </div>
          <div class="col-lg-3">
             <div id="column-right">
-               <button type="submit" class="btn btn-reversed">검색</button>
-               <button class="btn" type="submit" name="cmd" value="pdf">보고서</button>
-               <button class="btn" type="submit" name="cmd" value="xlsx">엑셀</button>
+               <button type="button" class="btn btn-primary" onclick="searched()" >검색</button>
+               <button class="btn btn-default" type="submit" name="cmd" value="pdf">보고서</button>
+               <button class="btn btn-default" type="submit" name="cmd" value="xlsx">엑셀</button>
             </div>
 
 

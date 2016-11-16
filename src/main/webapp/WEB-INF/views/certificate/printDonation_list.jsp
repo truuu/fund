@@ -67,10 +67,10 @@ td{
 				<form:option value="3" label="약정액" />
 			</form:select>
 			<form:input path="st" />
-			<button type="submit" class="btn btn-small">검색</button>
-			<a id="deleteBtn" onclick="deleteFunction()" class="button">삭제</a> <a
+			<button type="submit" class="btn btn-primary">검색</button>
+			<a id="deleteBtn" onclick="deleteFunction()" class="btn btn-danger">삭제</a> <a
 				href="printDonation.do" id="donationBtn"
-				class="button button-reversed">발급하기</a>
+				class="btn btn-default">발급하기</a>
 		</div>
 
 		<div class="table-responsive">

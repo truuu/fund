@@ -38,7 +38,8 @@ table.table {
 	<table class="table">
 		<tr>
 			<td id="table_a">코드명</td>
-			<td><form:input path="codeName" /></td>
+			<td><form:input path="codeName" /><br>${error}
+			</td>
 		</tr>
 		<tr>
 			<td id="table_a">기타</td>
