@@ -99,7 +99,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 				<div class="row">
 					<div id="column-right">
 						<button type="submit" class="button">검색</button>
-
+						<button type="submit" class="button" name="cmd" value="report">보고서</button>
 					</div>
 					<div class="col-lg-12">
 						<table>

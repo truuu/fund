@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import fund.MyAuthenticationProvider;
+import java.security.MessageDigest;
 import fund.dto.User;
 import fund.mapper.UserMapper;
 
@@ -27,6 +28,23 @@ import fund.dto.Sponsor;
 public class UserService {
 	
 	@Autowired UserMapper userMapper;
+	
+	public static String encryptPasswd(String passwd) { // 단방향암호화
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] passBytes = passwd.getBytes();
+            md.reset();
+            byte[] digested = md.digest(passBytes);
+            StringBuffer sb = new StringBuffer();
+            for(int i=0;i<digested.length;i++)
+                sb.append(Integer.toHexString(0xff & digested[i]));
+            return sb.toString();
+        }
+        catch (Exception e) {
+            return passwd;
+        }
+    }
+
 	
     public static User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

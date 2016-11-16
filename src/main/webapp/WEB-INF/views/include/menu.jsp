@@ -24,7 +24,17 @@ $(function(){
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="/fund_sys">후원회</a>
+
+	      <sec:authorize access="isAnonymous()">
+	 <a class="navbar-brand" href="/fund_sys">후원회</a>
+          </sec:authorize>
+          
+          <sec:authorize access="isAuthenticated()">
+	 <a class="navbar-brand" href="../sponsor/sponsor_m.do">후원회 </a>
+          </sec:authorize>
+
+	    
+	      
 	    </div>
 
 	    <!-- Collect the nav links, forms, and other content for toggling -->
@@ -96,8 +106,8 @@ $(function(){
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">시스템관리<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
 		    <li><a href="#">시스템에러메세지</a></li>
-		    <li><a href="#">사용자등록</a></li>
-		    <li><a href="#">사용자목록</a></li>
+		    <li><a href="/fund_sys/user/user_r.do">사용자등록</a></li>
+		    <li><a href="/fund_sys/user/user_m.do">사용자목록</a></li>
 		  </ul>
 		</li>
 	

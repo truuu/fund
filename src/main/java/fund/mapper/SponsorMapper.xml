@@ -253,14 +253,19 @@
 	
 	<!-- DM 엑셀 -->
 	<select id="excelDM" resultType="fund.dto.Sponsor">
-		SELECT
-			sponsor.sponsorNo,name,(SELECT codeName FROM code WHERE
-			code.ID=sponsor.sponsorType2ID) AS sponsorType2,
-			(SELECT codeName FROM code WHERE code.ID=sponsor.churchID) AS church,
-			SUBSTRING(homeAddress,len(homeAddress)-4,5) AS postCode,
-			homeAddress,officeAddress,mailTo
-		FROM sponsor join payment ON sponsor.ID=payment.sponsorID
-		WHERE payment.paymentDate BETWEEN #{startDate} AND #{endDate}
+  SELECT *
+        FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
+        FROM(SELECT DISTINCT sponsor.sponsorNo,name,(SELECT codeName from code where
+      code.ID=sponsor.sponsorType2ID) AS sponsorType2,
+      (select codeName from
+      code where code.ID=sponsor.churchID) AS church,
+      homeAddress,officeAddress,mailTo
+      from sponsor join payment on
+      sponsor.ID=payment.sponsorID
+	 where payment.paymentDate between
+		#{startDate} and #{endDate}
+      )subquery
+	  )subquery
 	</select>
 	
 	<select id="castBySponsorType2" resultType="fund.dto.Sponsor">
