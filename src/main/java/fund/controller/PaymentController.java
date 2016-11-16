@@ -309,9 +309,41 @@ public class PaymentController extends BaseController{
 	public String monthPerDonationPurposePayment1(@RequestParam String startDate,@RequestParam String endDate,Model model) { 
 		
 		List<PaymentSummary1> list = paymentMapper.selectMonthDonationPurposePayment(startDate, endDate);
+		
+		String corp = list.get(0).getCorporate();
+		for(int i=0 ; i<list.size() ; i++){
+			if(i>0){
+				if(corp.equals(list.get(i).getCorporate()))
+					list.get(i).setCorporate(" ");
+				else
+					corp=list.get(i).getCorporate();
+			}
+		}
+		
+		String organ = list.get(0).getOrganization();
+		for(int i=0 ; i<list.size() ; i++){
+			if(i>0){
+				if(organ.equals(list.get(i).getOrganization()))
+					list.get(i).setOrganization(" ");
+				else
+					organ=list.get(i).getOrganization();
+			}
+		}
+		
 		model.addAttribute("list",list);
 		model.addAttribute("startDate",startDate);
 		model.addAttribute("endDate",endDate);
+		
+		String s1 = startDate.substring(5, 7);
+		String s2 = endDate.substring(5, 7);
+		
+		int from = Integer.parseInt(s1);
+		int to = Integer.parseInt(s2);
+		
+		model.addAttribute("from",from);
+		model.addAttribute("to",to);
+		
+		
 		
 		return "dataPrint/monthPerDonationPurposePayment";
 	}

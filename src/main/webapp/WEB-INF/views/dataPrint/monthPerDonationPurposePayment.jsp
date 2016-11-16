@@ -51,24 +51,16 @@ a2{ float:right; }
 
          </div>
       </div>
-   
+   <c:if test="${ not empty from }">
 		<table class="table table-bordered">
 			<thead>
 				<th>기관</th>
 				<th>기관종류</th>
 				<th>기부목적</th>
-				<th>1월</th>
-				<th>2월</th>
-				<th>3월</th>
-				<th>4월</th>
-				<th>5월</th>
-				<th>6월</th>
-				<th>7월</th>
-				<th>8월</th>
-				<th>9월</th>
-				<th>10월</th>
-				<th>11월</th>
-				<th>12월</th>
+				 <c:forEach var="i" begin="${from}" end="${to}" step="1">
+      				<th><c:out value="${i}월" /></th>
+      			 </c:forEach>
+				
 			</thead>
 
          <c:forEach var="payment" items="${ list }">
@@ -77,18 +69,22 @@ a2{ float:right; }
                   <td>${payment.corporate}</td>
                   <td>${payment.organization}</td>
                   <td>${payment.donationPurpose}</td>
-                  <td class="money">${payment.m1}</td>
-                  <td class="money">${payment.m2}</td>
-                  <td class="money">${payment.m3}</td>
-                  <td class="money">${payment.m4}</td>
-                  <td class="money">${payment.m5}</td>
-                  <td class="money">${payment.m6}</td>
-                  <td class="money">${payment.m7}</td>
-                  <td class="money">${payment.m8}</td>
-                  <td class="money">${payment.m9}</td>
-                  <td class="money">${payment.m10}</td>
-                  <td class="money">${payment.m11}</td>
-                  <td class="money">${payment.m12}</td>
+                   <c:forEach var="i" begin="${from}" end="${to}" step="1">
+                  <c:if test="${ i == 1 }"><td class="money">${payment.m1}</td> </c:if>
+                  <c:if test="${ i == 2 }"><td class="money">${payment.m2}</td> </c:if>
+                  <c:if test="${ i == 3 }"><td class="money">${payment.m3}</td> </c:if>
+                  <c:if test="${ i == 4 }"><td class="money">${payment.m4}</td> </c:if>
+                  <c:if test="${ i == 5 }"><td class="money">${payment.m5}</td> </c:if>
+                  <c:if test="${ i == 6 }"><td class="money">${payment.m6}</td> </c:if>
+                  <c:if test="${ i == 7 }"><td class="money">${payment.m7}</td> </c:if>
+                  <c:if test="${ i == 8 }"><td class="money">${payment.m8}</td> </c:if>
+                  <c:if test="${ i == 9 }"><td class="money">${payment.m9}</td> </c:if>
+                  <c:if test="${ i == 10 }"><td class="money">${payment.m10}</td> </c:if>
+                  <c:if test="${ i == 11 }"><td class="money">${payment.m11}</td> </c:if>
+                  <c:if test="${ i == 12 }"><td class="money">${payment.m12}</td> </c:if>
+                  
+                  </c:forEach>
+                
                   
                   
                </tr>
@@ -96,6 +92,6 @@ a2{ float:right; }
         
          </tbody>
       </table>
-
+</c:if>
    </form>
 </body>
