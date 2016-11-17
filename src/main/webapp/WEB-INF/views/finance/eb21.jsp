@@ -19,7 +19,7 @@
 			<form:form method="post" modelAttribute="eb21List">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4>EB21 금융등록2</h4>
+						<h4>EB21 금융등록</h4>
 						<div class="row">
 							<div class="col-lg-7">
 							<div class="form-inline">
@@ -28,6 +28,7 @@
 								<label> 출금일 선택 : </label>
 
 								&nbsp;
+
 								<select id="paymentDay" name="paymentDay" class="commoninput" >
 
 									<option value="20" ${ paymentDay == 20 ? "selected" : ""}> 20일 </option>
@@ -40,7 +41,7 @@
 								<div class="form-inline">
 								<div id="column-right">
 
-									<input type="date" name="paymentDate" class="commoninput"/>
+									<input name="paymentDate" class="commoninput" id="datepicker1"/>
 									<button type="submit" class="btn btn-info" name="cmd" value="createEB21file">EB21
 
 										생성</button>

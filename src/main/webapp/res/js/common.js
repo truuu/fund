@@ -1,3 +1,4 @@
+
 $(function() {
     $("tr[data-url]").click(function() {
         location.href = $(this).attr("data-url");
@@ -23,7 +24,7 @@ $(function() {
 })
 
 $(function(){
-	
+
 	$("#datepicker1").datepicker({
 		format : 'yyyy-mm-dd'		
 	});

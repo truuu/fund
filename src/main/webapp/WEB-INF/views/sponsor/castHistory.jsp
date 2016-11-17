@@ -54,15 +54,15 @@ $(function(){
 			<!-- Page Heading -->
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">회원구분별 출연 내역</h1>
+					<h1 class="page-header">회원구분별 출연 내역1</h1>
 				</div>
 			</div>
 			
 			<div class="row">
 				<div class="col-lg-9">
-					<label> 기간(시작-끝) </label> <input  id="datepicker1" class="commoninput" name="startDate" id="startDate"
-						value="${startDate}"> ~ <input  id="datepicker2" class="commoninput" name="endDate" id="endDate"
-						value="${endDate}">
+
+					<label> 기간(시작-끝) </label> <input id="datepicker1"  class="commoninput" name="startDate" id="startDate"
+						value="${startDate}"> ~ <input id="datepicker2"  class="commoninput" name="endDate" id="endDate" value="${endDate}">
 				</div>
 				<div class="col-lg-3">
 					<div id="column-right">

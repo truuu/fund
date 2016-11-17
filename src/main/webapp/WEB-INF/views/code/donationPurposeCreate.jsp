@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -12,6 +13,7 @@ table.table {
 
 #table_a {
 	width: 50%;
+	vertical-align: middle;
 }
 
 #btn3 {
@@ -21,7 +23,7 @@ table.table {
 </head>
 <body>
 	<h2 class="page-header">기부목적 추가</h2>
-	<form method="post">
+	<form:form method="post"  modelAttribute="donationPurpose">
 		<table class="table">
 			<tr>
 
@@ -42,11 +44,13 @@ table.table {
 			</tr>
 			<tr>
 				<td id="table_a">기부목적</td>
-				<td><input type="text" name="name" /></td>
+				<td><input type="text" name="name" /><br>
+				<form:errors path="name" /></td>
 			</tr>
 			<tr>
 				<td id="table_a">구분</td>
-				<td><input type="text" name="gubun" /></td>
+				<td><input type="text" name="gubun" /><br>
+				<form:errors path="gubun" /></td>
 			</tr>
 		</table>
 		<span>
@@ -57,7 +61,7 @@ table.table {
 			class="icon-ban-circle"></i> 취소
 		</a>
 
-	</form>
+	</form:form>
 
 </body>
 </html>
