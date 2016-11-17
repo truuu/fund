@@ -16,4 +16,4 @@
 <link rel="stylesheet" href="/fund_sys/res/css/site.css">
 <link rel="stylesheet"  href="/fund_sys/res/css/member.css" />
 <link rel="stylesheet"  href="/fund_sys/res/css/check.css" />
-<script src="/fund_sys/res/common.js"></script>
+<script src="/fund_sys/res/js/common.js"></script>
