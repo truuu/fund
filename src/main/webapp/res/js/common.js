@@ -23,6 +23,7 @@ $(function() {
 })
 
 $(function(){
+	
 	$("#datepicker1").datepicker({
 		format : 'yyyy-mm-dd'		
 	});
