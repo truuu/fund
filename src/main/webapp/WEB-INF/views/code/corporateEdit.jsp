@@ -17,6 +17,7 @@ table.table {
 
 #table_a {
 	width: 50%;
+	vertical-align: middle;
 }
 
 #btn3 {

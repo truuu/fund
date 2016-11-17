@@ -1,10 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="fund.dto.PaymentRecordStats" %>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
+<script>	
+$(function() {                          
+
+	$("form").submit(function() {
+		
+		 var startDate=$('#startDate').val();
+		 var endDate=$('#endDate').val();
+	    	
+		if(startDate==''||endDate==''){
+			alert('날짜를 모두 입력해주세요');
+			return false;
+		}
+		else
+			return true;
+	});
+})
+
+
+</script>
+
 <style>
 div.commitmentTable {
 	display: none;
@@ -54,32 +75,13 @@ div.table {
 	width: 100%;
 }
 
-button {
-	background-color: #222;
-	color: #FFFFFF;
-	border-radius: 5px;
-	display: inline-block;
-	font-weight: bold;
-	padding: 5px 21px;
-	font-size: 0.7em;
-	letter-spacing: 0.25px;
-	text-transform: uppercase;
-	margin: 5px 0 5px 0;
-	border: solid #222;
-	font-weight: bold;
-	padding: 5px 21px;
-	font-size: 0.7em;
-	letter-spacing: 0.25px;
-	text-transform: uppercase;
-	margin: 5px 0 5px 0;
-}
 tr#topTable td,tr#topTable th{ text-align:center; }
 #outPut1{ margin-left:20%; }
 #outPut2{ margin-left:40%; }
-
+#time{ float:right; }
 
 </style>
-<form method="post">
+<form:form method="post"  name="send" modelAttribute="paymentRecordStats">
 	<div id="wrapper">
 
 		<div id="page-wrapper">
@@ -98,40 +100,40 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 
 				<div class="row">
 					<div id="column-right">
-						<button type="submit" class="button">검색</button>
-						<button type="submit" class="button" name="cmd" value="report">보고서</button>
+						<button type="submit" class="btn btn-primary" >검색</button>
+						<button type="submit" class="btn btn-default" name="cmd" value="report">보고서</button>
 					</div>
 					<div class="col-lg-12">
 						<table>
 							<tr>
 
 								<td><label>정기/비정기</label></td>
-								<td><select name="srchType1" class="select_s">
-										<option value="0">선택</option>
-										<option value="1">정기</option>
-										<option value="2">비정기</option>
+								<td><select name="srchType1" id="srchType1" class="select_s">
+										<option value="0" ${gu1 == 0 ? "selected" : "" }>선택</option>
+										<option value="1" ${gu1 == 1 ? "selected" : "" }>정기</option>
+										<option value="2" ${gu1 == 2 ? "selected" : "" }>비정기</option>
 								</select></td>
 								
 
 								<td><label>소속교회</label></td>
-								<td><select name="srchType3" class="select_s">
-										<option value="0">선택</option>
+								<td><select name="srchType3" id="srchType3" class="select_s">
+										<option value="0" ${ churchID == 0 ? "selected" : "" }>선택</option>
 										<c:forEach var="church" items="${churchList}">
-											<option value="${church.ID}">${church.codeName}</option>
+											<option value="${church.ID}" ${ churchID == church.ID ? "selected" : "" }>${church.codeName}</option>
 										</c:forEach>
 								</select></td>
 							<tr>
 							
 							
 								<td><label>납입일</label></td>
-								<td><input type="date" name="startDate">~<input
-									type="date" name="endDate"></td>
+								<td><input type="date" class="commoninput" id="startDate" name="startDate" value="${startDate}" >~<input
+									type="date" class="commoninput" id="endDate" name="endDate" value="${endDate}" ></td>
 
 								<td><label>납입방법</label></td>
-								<td><select name="srchType4" class="select_s">
+								<td><select name="srchType4" class="select_s" id="srchType4" >
 										<option value="0">선택</option>
 										<c:forEach var="paymentMethod" items="${paymentMethodList}">
-											<option value="${paymentMethod.ID}">${paymentMethod.codeName}</option>
+											<option value="${paymentMethod.ID}" ${ paymentMethodID==paymentMethod.ID ? "selected" : "" }>${paymentMethod.codeName}</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -139,25 +141,25 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 								<td><label>기부목적</label></td>
 								<td><form:form method="post">
 										<div class="form-inline">
-											<input type="text" name="dname" readonly /> <a
+											<input type="text" name="dname" readonly value="${ donationPurpose }" /> <a
 												href="#searchDialog" class="btn btn-default"
 												data-toggle="modal">검색</a> <input type="hidden"
-												name="srchType2" id="donationPurposeID" />
+												name="srchType2" id="donationPurposeID"  />
 										</div>
 									</form:form></td>
 
 								<td><label>후원인구분</label></td>
-								<td><select name="srchType5" class="select_s">
+								<td><select name="srchType5" id="srchType5" class="select_s">
 										<option value="0">선택</option>
 										<c:forEach var="sponsorType" items="${sponsorType2List}">
-											<option value="${sponsorType.ID}">${sponsorType.codeName}</option>
+											<option value="${sponsorType.ID}" ${ sponsorTypeID==sponsorType.ID ? "selected" : "" }>${sponsorType.codeName}</option>
 										</c:forEach>
 								</select></td>
 
 							</tr>
 							<tr>
 							<td><label>후원인이름</label></td>
-								<td colspan="4"><input type="text" name="sponsorName" /></td>
+								<td colspan="4"><input type="text" id="sponsorName" name="sponsorName" value="${sponsorName}" /></td>
 							</tr>
 
 
@@ -166,10 +168,12 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 					</div>
 				</div>
 
-
 				<div class="row">
 					<div class="col-lg-12">
 						<hr>
+						<div id="column-right">
+							<a href="#" class="btn btn-default">출력</a> <a href="#" class="btn btn-default">엑셀다운</a>
+						</div>
 						
 
 						<div class="reporting">
@@ -210,7 +214,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 									</table>
 								</div>
 							</div>
-
+							<div id="time">${time}</div>
 							<div class="table-responsive">
 								<table class="table table-bordered">
 									<thead>
@@ -266,7 +270,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 		<!-- /#page-wrapper -->
 
 	</div>
-</form>
+</form:form>
 
 <!-- modal -->
 <div id="searchDialog" class="modal fade" role="dialog">

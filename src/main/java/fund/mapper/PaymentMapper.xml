@@ -133,7 +133,7 @@
 		s.churchID=c2.ID
 		join Code c3 on p.paymentMethodID=c3.ID
 
-		<where>
+		where
 		paymentDate between #{startDate} and #{endDate}
 		
 		<if test="srchType1 == 1">
@@ -151,7 +151,7 @@
 		<if test="srchType5 != 0">and s.sponsorType2ID = #{srchType5}</if>
 		
 		<if test="sponsorName != null and sponsorName !=''">and s.name = #{sponsorName}</if>
-		</where>
+		
 		
 	</select>
 
@@ -314,9 +314,35 @@
 		where p.sponsorID=#{sponsorID}
 	</select>
 	
-	<update id="updatePayment">
-		update payment set 수정할 것 
-		where ID=선택한payment테이블의id
-	</update>
+	<select id="selectMonthDonationPurposePayment" resultType="fund.dto.PaymentSummary1">
+
+	select isnull(corporate, '합계') corporate, isnull(organization, '합계') organization, isnull(donationPurpose, '합계') donationPurpose,
+	m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12
+	from
+	(
+		select corporate, organization, donationPurpose, sum([1]) m1, sum([2]) m2, sum([3]) m3, sum([4]) m4, sum([5]) m5, sum([6]) m6, 
+												 sum([7]) m7, sum([8]) m8, sum([9]) m9, sum([10]) m10, sum([11]) m11, sum([12]) m12
+		from
+		(
+			select *
+			from 
+				(select c.name "corporate",
+					(select codeName from code where ID = d.organizationID) organization,
+					(select name from donationPurpose where ID = d.id) donationPurpose,
+					month(p.paymentDate) 월, p.amount 금액
+				from payment p join donationPurpose d 
+					on p.donationPurposeID = d.id join corporate c on c.ID=d.corporateID
+				where p.paymentDate between #{startDate} and #{endDate}
+			) t
+			pivot
+			(   sum(금액)
+				for 월 in ([1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12])
+			) as t
+		) t
+		group by rollup(corporate, organization, donationPurpose)
+	) t
+	</select>
+	
+	
 
 </mapper>

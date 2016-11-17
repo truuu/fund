@@ -42,8 +42,7 @@ public class Payment {
 	String accountHolder;//예금주...
 	String paymentDateString;
 	
-	
-	
+
 	
 	public String getPaymentDateString() {
 		return paymentDateString;

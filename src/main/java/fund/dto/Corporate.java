@@ -1,10 +1,20 @@
 package fund.dto;
 
+import javax.validation.constraints.Null;
+
 public class Corporate {
 	int ID;
+	
+	@Null(message="기관명을 입력하세요!")
 	String name;
+	
+	@Null(message="기관번호를 입력하세요!")
 	String corporateNo;
+	
+	@Null(message="대표자명을 입력하세요!")
 	String representative;
+	
+	@Null(message="주소를 입력하세요!")
 	String address;
 	
 	public int getID() {

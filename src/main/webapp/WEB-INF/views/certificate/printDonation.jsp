@@ -39,6 +39,9 @@ textarea {
 	height: 100px;
 }
 iframe { width:800px; border: 1px solid #ddd; height:900px; }
+.btn{
+	margin-bottom:5px;
+}
 </style>
 
 <body>
@@ -48,7 +51,7 @@ iframe { width:800px; border: 1px solid #ddd; height:900px; }
 			<div class="container-fluid">
 				<h1 class="page-header">기부증서</h1>
 				<div id="column-right">
-					<button class="btn" type="button" onclick="htmlReport()">조회</button>
+					<button class="btn btn-info" type="button" onclick="htmlReport()">조회</button>
 					<button type="button" style="margin-bottom: 5px"
 						class="btn btn-default" onclick="print(1)">파일생성</button>
 					<button type="button" style="margin-bottom: 5px"
