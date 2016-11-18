@@ -269,6 +269,7 @@ public class SponsorController extends BaseController{
 	public String editIrrgularPayment(Model model,@RequestParam("id") int id,@RequestParam("sponsorID") int sponsorID,RedirectAttributes redirectAttributes) {
 		Payment payment = paymentMapper.selectIrregular(id);
 		model.addAttribute("payment",payment);
+		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
 		return "sponsor/editIrrgularPayment";
 	}
 	

@@ -50,6 +50,7 @@ public class DonationPurposeController extends BaseController{
 	//@Secured("ROLE_true")
 	@RequestMapping(value="/code/donationPurposeCreate.do", method=RequestMethod.POST)
 	public String create(@Valid DonationPurpose donationPurpose, BindingResult result,Model model) {
+		
 		if(codeService.validate(donationPurpose)==true)
 		{
 			donationPurposeMapper.insert(donationPurpose);
