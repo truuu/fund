@@ -48,7 +48,7 @@ $(function() {
          <!-- /.row -->
 
          <div>
-            <label> 신청기간 </label> <input type="date" class="commoninput" name="startDate"> ~ <input type="date" class="commoninput" name="endDate">
+            <label> 신청기간 </label> <input id="datepicker1" class="commoninput" name="startDate"> ~ <input id="datepicker2" class="commoninput" name="endDate">
              <button id="searchChurch" class="btn btn-primary">검색</button>
          </div>
 

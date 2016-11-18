@@ -15,11 +15,11 @@ public class Sponsor {
 
 	String sponsorNo; //
 	
-	@Size(min=1,message="이름을 입력하세요!")
+	@Size(min=1,message="이름을 입력해주세요")
 	String name; //
 	
 	
-	@Size(min = 13, max = 13,message="정확히 입력해주시요!")
+	@Size(min = 13, max = 13,message="정확히 입력해주시요")
 	String juminNo; //
 	
 	
@@ -35,7 +35,7 @@ public class Sponsor {
 	
 	String mobilePhone; //
 	
-	@Size(min=1,message="추천인을 입력하세요!")
+	@Size(min=1,message="추천인을 입력해주세요")
 	String recommender; //
 	
 	String recommenderRelation; //
@@ -76,22 +76,22 @@ public class Sponsor {
 	String sponsorType2;
 	String church;
 	
-	@NotEmpty(message="모두 입력해주세요!")
+	@NotEmpty(message="모두 입력해주세요")
 	String homeRoadAddress;
 	
-	@NotEmpty(message="모두 입력해주세요!")
+	@NotEmpty(message="모두 입력해주세요")
 	String homeDetailAddress;
 	
-	@NotEmpty(message="모두 입력해주세요!")
+	@NotEmpty(message="모두 입력해주세요")
 	String homePostCode;
 	
-	@NotEmpty(message="모두 입력해주세요!")
+	@NotEmpty(message="모두 입력해주세요")
 	String officeRoadAddress;
 	
-	@NotEmpty(message="모두 입력해주세요!")
+	@NotEmpty(message="모두 입력해주세요")
 	String officeDetailAddress;
 	
-	@NotEmpty(message="모두 입력해주세요!")
+	@NotEmpty(message="모두 입력해주세요")
 	String officePostCode;
 	
 	

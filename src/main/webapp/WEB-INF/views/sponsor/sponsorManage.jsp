@@ -52,7 +52,7 @@ tr#topTable td{
 
 			<div id="search">
 				<div class="column-right">
-					<select name="search" id="search" class="msize">
+					<select name="search"  id="search" class="commoninput">
 						<option selected="selected" value="검색조건">검색조건</option>
 						<option value="0">이름</option>
 						<option value="1">개인</option>
@@ -70,7 +70,7 @@ tr#topTable td{
 						<option value="13">기업가</option>
 						<option value="14">기타</option>
 						
-					</select> <input type="text" id="nameForSearch" name="nameForSearch">
+					</select> <input type="text" class="commoninput" id="nameForSearch" name="nameForSearch">
 					<button type="submit" class="btn btn-primary" onclick="sponorSearch()">검색</button>
 				</div>
 			</div>
