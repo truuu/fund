@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fund.BaseController;
 import fund.dto.*;
@@ -34,6 +35,7 @@ import fund.service.UserService;
 import fund.service.AES128UtilService;
 import fund.service.FileExtFilter;
 import net.sf.jasperreports.engine.JRException;
+
 
 
 @Controller
@@ -232,9 +234,9 @@ public class SponsorController extends BaseController{
 		return "sponsor/paymentList2";
 	}
 
-	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.GET)  // 비정기 납입등록
+	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.GET)  // 비정기 납입 등록
 	public String insertIrrgularPayment1(Model model,@RequestParam("id") int id) {
-		Sponsor sponsor=sponsorMapper.selectBySponsorNo(id);
+		Sponsor sponsor = sponsorMapper.selectBySponsorNo(id);
 		model.addAttribute("sponsor", sponsor);
 		model.addAttribute("sponsorID",id);
 		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
@@ -244,7 +246,11 @@ public class SponsorController extends BaseController{
 	}
 
 	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.POST)
-	public String insertIrrgularPayment2(IregularPayment iregularPayment,Model model) throws Exception {
+	public String insertIrrgularPayment2(@Valid IregularPayment iregularPayment,BindingResult result,Model model) throws Exception {
+		if (result.hasErrors()) {
+			// validation error!!
+			return "redirect:/sponsor/insertIrrgularPayment.do?id="+iregularPayment.getSponsorID();
+		}
 		Payment payment = new Payment();
 		payment.setSponsorID(iregularPayment.getSponsorID());
 		payment.setAmount(iregularPayment.getAmount());
@@ -258,6 +264,27 @@ public class SponsorController extends BaseController{
 
 		return "redirect:/sponsor/paymentList2.do?id="+iregularPayment.getSponsorID();
 	}
+	
+	@RequestMapping(value="/sponsor/editIrrgularPayment.do", method=RequestMethod.GET)  // 비정기 납입 수정
+	public String editIrrgularPayment(Model model,@RequestParam("id") int id,@RequestParam("sponsorID") int sponsorID,RedirectAttributes redirectAttributes) {
+		Payment payment = paymentMapper.selectIrregular(id);
+		model.addAttribute("payment",payment);
+		return "sponsor/editIrrgularPayment";
+	}
+	
+	@RequestMapping(value="/sponsor/editIrrgularPayment.do", method=RequestMethod.POST)  // 비정기 납입 수정
+	public String editIrrgularPayment(Payment payment, Model model) {
+		paymentMapper.updateIrregular(payment);
+		return "redirect:/sponsor/paymentList2.do?id="+payment.getSponsorID();
+	}
+	
+	@RequestMapping(value="/sponsor/deleteIrrgularPayment.do")
+	public String deleteIrrgularPayment(Model model, @RequestParam("id") int id,@RequestParam("sponsorID") int sponsorID) {
+		System.out.println(id);
+		paymentMapper.deleteIrregular(id);
+		return "redirect:/sponsor/paymentList2.do?id="+sponsorID;
+	}
+	
 
 	//후원자 정보 삭제하기
 	@RequestMapping(value="/sponsor/delete.do",method=RequestMethod.GET)
