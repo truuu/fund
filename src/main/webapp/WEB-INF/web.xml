@@ -53,7 +53,7 @@
   </welcome-file-list>
 
 
-      <!-- error 페이지 -->
+      <!-- error 페이지 
 
       <error-page>
 
@@ -72,6 +72,6 @@
     	<error-code>500</error-code>
     	<location>/home/index.do</location>
 
-    </error-page>
+    </error-page>-->
 
 </web-app>
