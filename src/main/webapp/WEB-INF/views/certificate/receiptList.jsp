@@ -20,17 +20,33 @@ $(function() {
 		$("form").submit();
 	});
 	
-	$("input.st").hide();
-	$("input.dur").hide();
-
+	$("input[name=st]").hide();
+	$("input[id=datepicker1]").hide();
+	$("input[id=datepicker2]").hide();
+	
+	if($("#ss").val()==1){
+		$("input[name=st]").show();
+	}
+	if($("#ss").val()==2){
+		$("input[id=datepicker1]").show();
+		$("input[id=datepicker2]").show();	
+	}
+	
 	$("#ss").change(function(){
 		if($(this).val()==1){
-			$("input.st").show();
-			$("input.dur").hide();
+			$("input[name=st]").show();
+			$("input[id=datepicker1]").hide();
+			$("input[id=datepicker2]").hide();
 		}
 		else if($(this).val()==2){
-			$("input.st").hide();
-			$("input.dur").show();
+			$("input[name=st]").hide();
+			$("input[id=datepicker1]").show();
+			$("input[id=datepicker2]").show();
+		}
+		else if($(this).val()==0){
+			$("input[name=st]").hide();
+			$("input[id=datepicker1]").hide();
+			$("input[id=datepicker2]").hide();
 		}
 	});
 				
@@ -48,14 +64,6 @@ $(function() {
         $("tbody input[type=checkbox]").trigger("click");
     });
 });
-$(function(){
-	$("#datepicker1").datepicker({
-		format : 'yyyy-mm-dd'		
-	});
-	$("#datepicker2").datepicker({
-		format : 'yyyy-mm-dd'		
-	});
-})
 
 
 </script>
@@ -67,14 +75,14 @@ $(function(){
 	<input type="hidden" name="pg" value="1"/>
 	<input type="hidden" name="bd" value="2"/>
 	<div class="form-inline">
-		<form:select path="ss"  >
-			<form:option value="0" label="검색조건" id="whdms" />
+		<form:select class="commoninput" path="ss"  >
+			<form:option value="0" label="검색조건"  />
 			<form:option value="1" label="후원자명" class="st"/>
 			<form:option value="2" label="발급일자 검색 기간" class="dur" />
 		</form:select>
-		<form:input path="st" class="st" />
-		<form:input  class="dur" id="datepicker1" path="sd" />
-		<form:input  class="dur" id="datepicker2" path="ed" />
+		<form:input path="st" class="commoninput" name="st" />
+		<form:input class="commoninput" name="dur" id="datepicker1" path="sd" />
+		<form:input class="commoninput" name="dur" id="datepicker2" path="ed" />
 		<button type="submit" class="btn btn-primary">검색</button>
 		<c:if test="${ pagination.ss != 0 }">
 			<a href="receiptList.do" class="btn btn-default">취소</a>
@@ -82,8 +90,8 @@ $(function(){
 	</div>
 	
 	<div class="pull-right">
-		<button type="submit" class="btn btn-danger" name="cmd" value="deleteRct">선택삭제</button>
-		<button type="submit" class="btn btn-info" name="cmd" value="rct">선택영수증</button>
+		<button type="submit" class="btn btn-danger" name="cmd" value="deleteRct">선택한 영수증 삭제</button>
+		<button type="submit" class="btn btn-info" name="cmd" value="rct">선택한 영수증 다운로드</button>
 	</div>
 	
 	<div class="receipt_List">	

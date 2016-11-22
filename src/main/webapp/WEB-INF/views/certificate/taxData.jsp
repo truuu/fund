@@ -26,8 +26,8 @@ td{ text-align:center; }
 	<div class="form-inline">
 	 <!--  기간과 기관 함께 검색  -->
 		기간:
-		<form:input id="datepicker1" path="sd"/>~
-		<form:input id="datepicker2" path="ed" />
+		<form:input class="commoninput" id="datepicker1" path="sd"/>~
+		<form:input class="commoninput" id="datepicker2" path="ed" />
 		기관종류: 
 		<form:select path="cp" name="corporateID">
 			<form:options itemValue="ID" itemLabel="name" items="${ corporates }"/>
