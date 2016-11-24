@@ -73,26 +73,32 @@ div table.table tbody tr td {
 	vertical-align: middle;
 }
 
-label{ text-align:right; }
-tr#topTable td, tr#topTable th{
-	text-align:center;
+label {
+	text-align: right;
+}
+
+tr#topTable td, tr#topTable th {
+	text-align: center;
 }
 </style>
 <ul class="nav nav-tabs">
-						<c:if test="${sponsorID==0}">
-				     	<li class="active"><a href="/fund_sys/sponsor/sponsor.do" data-toggle="tab">회원관리</a></li>
-					    </c:if>
-					    <c:if test="${sponsorID!=0}">
-						<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorID}">회원관리</a></li>
-						</c:if>
-						<c:if test="${sponsorID!=0}">
-						<li><a href="/fund_sys/sponsor/commitment.do?id=${sponsorID}">약정관리</a></li>
-						<li><a href="/fund_sys/sponsor/paymentList.do?id=${sponsorID}" >정기납입관리</a></li>
-						<li><a href="/fund_sys/sponsor/paymentList2.do?id=${sponsorID}">비정기납입관리</a></li>
-						<li class="active"><a href="/fund_sys/sponsor/insertIrrgularPayment.do?id=${sponsorID}" >비정기납입등록</a></li>
-						</c:if>
-					</ul>
-				<p>${sponsor.sponsorNo}&nbsp;  ${sponsor.name}&nbsp;  ${sponsor.sponsorType1}&nbsp;</p>
+	<c:if test="${sponsorID==0}">
+		<li class="active"><a href="/fund_sys/sponsor/sponsor.do"
+			data-toggle="tab">회원관리</a></li>
+	</c:if>
+	<c:if test="${sponsorID!=0}">
+		<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorID}">회원관리</a></li>
+	</c:if>
+	<c:if test="${sponsorID!=0}">
+		<li><a href="/fund_sys/sponsor/commitment.do?id=${sponsorID}">약정관리</a></li>
+		<li><a href="/fund_sys/sponsor/paymentList.do?id=${sponsorID}">정기납입관리</a></li>
+		<li><a href="/fund_sys/sponsor/paymentList2.do?id=${sponsorID}">비정기납입관리</a></li>
+		<li class="active"><a
+			href="/fund_sys/sponsor/insertIrrgularPayment.do?id=${sponsorID}">비정기납입등록</a></li>
+	</c:if>
+</ul>
+<p>${sponsor.sponsorNo}&nbsp;${sponsor.name}&nbsp;
+	${sponsor.sponsorType1}&nbsp;</p>
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
@@ -102,16 +108,18 @@ tr#topTable td, tr#topTable th{
 					<h1 class="page-header">비정기 납입등록</h1>
 				</div>
 			</div>
-			<input type="hidden" value="${sponsor.sponsorNo}" />
-			<input type="hidden" name="sponsorID" value="${sponsorID}" />
+			<input type="hidden" value="${sponsor.sponsorNo}" /> <input
+				type="hidden" name="sponsorID" value="${sponsorID}" />
 			<!-- /.row -->
-			<form method="post"  class="form-horizontal">
-			<input type="hidden" name="sponsorID" value="${sponsorID}" />
+			<form method="post" class="form-horizontal">
+				<input type="hidden" name="sponsorID" value="${sponsorID}" />
 				<div class="form-group">
 					<label for="amount" class="col-lg-2 control-label">납입금액</label>
 					<div class="col-lg-10">
-						<input type="text" class="money" id="amount" name="amount"
-							placeholder="금액" />
+						<div class="form-control">
+							<input type="text" class="money" id="amount"
+								name="amount" placeholder="금액" style="border:0px; width:800px;"/>
+						</div>
 					</div>
 				</div>
 				<div class="form-group">
@@ -125,11 +133,11 @@ tr#topTable td, tr#topTable th{
 				<div class="form-group">
 					<label for="donationPurposeID" class="col-lg-2 control-label">기부목적</label>
 					<div class="col-lg-10">
-										<input type="text" name="dname" readonly /> <a
-											href="#searchDialog" class="btn btn-default"
-											data-toggle="modal">검색</a> <input type="hidden"
-											name="donationPurposeID" id="donationPurposeID" />				
-									
+						<input type="text" name="dname" readonly /> <a
+							href="#searchDialog" class="btn btn-primary" data-toggle="modal">검색</a>
+						<input type="hidden" name="donationPurposeID"
+							id="donationPurposeID" />
+
 					</div>
 				</div>
 				<div class="form-group">
@@ -153,9 +161,7 @@ tr#topTable td, tr#topTable th{
 				</div>
 				<hr>
 				<div align="center">
-					<input type="submit" class="btn btn-primary"
-						style="background-color: #bd5151; border: 0px; color: white;"
-						value="저장" />
+					<input type="submit" class="btn btn-info" value="저장" />
 				</div>
 			</form>
 

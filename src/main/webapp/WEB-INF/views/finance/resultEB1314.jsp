@@ -17,11 +17,15 @@
 				</div>
 			</div>
 			<!-- /.row -->
-			<form method="post">
+			<form method="post" class="form-inline">
 				<label>EB13 생성일 </label>
-				<input type="date" name="startDate"> ~ <input type="date" name="endDate">
 				&nbsp;&nbsp;&nbsp;
-				<button type="submit" class="button">검색</button>
+				<div class="form-group">
+					<input name="startDate" class="commoninput" id="datepicker1"> ~
+					<input name="endDate" class="commoninput" id="datepicker2">
+				</div>
+				&nbsp;&nbsp;&nbsp;
+				<button type="submit" class="btn btn-primary">검색</button>
 
 				<div class="panel-body">
 					<div class="table-responsive">

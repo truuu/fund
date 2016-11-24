@@ -19,6 +19,7 @@ table.table {
 
 #table_a {
 	width: 50%;
+	vertical-align: middle;
 }
 
 #btn3 {
@@ -51,11 +52,13 @@ table.table {
 		</tr>
 		<tr>
 			<td id="table_a">기부목적</td>
-			<td><form:input path="name" /></td>
+			<td><form:input path="name" /><br>
+			<form:errors path="name" /></td>
 		</tr>
 		<tr>
 			<td id="table_a">구분</td>
-			<td><form:input path="gubun" /></td>
+			<td><form:input path="gubun" /><br>
+			<form:errors path="gubun" /></td>
 		</tr>
 		
 		</table>

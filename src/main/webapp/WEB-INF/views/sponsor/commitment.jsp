@@ -119,7 +119,7 @@ tr#topTable td, tr#topTable th{
 		<input type="hidden" name="sponsorID" value="${sponsorID}" />
 		<input type="hidden" name="sponsorNo" value="${sponsorNo}" />
 		<div class="input-group1">
-			<button type="button" id="new" class="btn btn-small">새로 등록</button>
+			<button type="button" id="new" class="btn btn-primary">새로 등록</button>
 		</div>
 		<div class="table-responsive">
 			<table class="table table-bordered">
@@ -180,11 +180,11 @@ tr#topTable td, tr#topTable th{
 
 						<tr>
 							<td id="table_a">약정일자</td>
-							<td><input type="date" name="commitmentDate"></td>
+							<td><input type="date" class="commoninput" name="commitmentDate"></td>
 							<td id="table_a">시작일</td>
-							<td><input type="date" name="commitmentStartDate"></td>
+							<td><input type="date" class="commoninput" name="commitmentStartDate"></td>
 							<td id="table_a">종료일</td>
-							<td><input type="date" name="endDate"></td>
+							<td><input type="date" class="commoninput" name="endDate"></td>
 						</tr>
 						<tr>
 							<td id="table_a">비고</td>

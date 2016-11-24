@@ -20,7 +20,7 @@
 			<div class="row">
 				<div class="col-lg-6 col-lg-offset-1">
 					<div class="login">
-						<form method="POST" action="home/login_processing.do">
+						<form method="POST" action="/fund_sys/home/login_processing.do">
 							<div class="row">
 								<div class="col-lg-6 col-lg-offset-4">
 									<img src="/fund_sys/res/images/skhu_logo.png" style="width: 200px;" />
@@ -28,9 +28,13 @@
 							</div>
 
 							<fieldset>
-								<input type="text" class="form-control" name="loginName" placeholder="아이디" /> <input
-									type="password" class="form-control" name="password" placeholder="비밀번호" />
-								<button type="submit" class="btn btn-primary">로그인</button>
+							
+								<input type="text" class="commoninput" name="loginName" placeholder="아이디" /> <input
+									type="password" class="commoninput" name="password" placeholder="비밀번호" />
+								<button type="submit" class="btn btn-primary">로그인 </button>
+								<c:if test="${user.loginCheck==false}">
+								<p style="color:red;">아이디 또는 비밀번호를 다시 확인하세요.<br>등록되지 않은 아이디이거나, 아이디 또는 비밀번호를 잘못 입력하셨습니다.</p>
+								</c:if>
 							</fieldset>
 
 						</form>

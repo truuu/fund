@@ -5,6 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<link rel="stylesheet" href="/fund_sys/res/css/user.css">
 <script type="text/javascript">
 
 $(function() {
@@ -20,13 +21,13 @@ $(function() {
     	    	  var json = data;
     	    	  if(json.loginName==null)
   	            {
-  	        	 alert("true11")
-  	        	 $('#checkResult').html('<b style="font-size:18px;color:blue">사용가능</b>');
+  	        	 
+  	        	 $('#checkResult').html('<b style="font-size:15px;color:blue">사용가능</b>');
   	        	}
   	         if(json.loginName!=null)
   	         {
-  	        	 $('#checkResult').html('<b style="font-size:18px;color:red">사용불가능</b>');
-  	        	 alert("false11")
+  	        	 $('#checkResult').html('<b style="font-size:15px;color:red">사용불가능</b>');
+  	        	
   	         }
     	        
     	      },
@@ -54,7 +55,7 @@ $(function() {
 			<!-- Page Heading -->
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">발급2</h1>
+					<h1 class="page-header">발급</h1>
 				</div>
 			</div>
 			<!-- /.row -->
@@ -65,29 +66,40 @@ $(function() {
 							
 							<form:form method="post" action="userInsert.do" id="target" modelAttribute="user">
 							<div class="input">
-								 <input type="text" class="box" name="loginName" id="loginName" placeholder="아이디" />
-								  
+								 
+								  <input type="text" value="${user.loginName }" class="box" name="loginName" id="loginName" placeholder="아이디" />
+								  <form:errors path="loginName" class="userError"/>
 							</div>
-							<form:errors path="loginName"/>
+							
+							
+							
+							
 							<div id="checkResult">
 							
 							</div>
 							<div class="input">
-								 <input type="password" class="box" name="password" placeholder="비밀번호" />
-								
+								 <input type="password" value="${user.password }" class="box" name="password" placeholder="비밀번호" />
+								 <form:errors path="password" class="userError"/>
 						    </div>
-						      <form:errors path="password"/>
+						    
+						      
+						     
 							<div class="input">
-								 <input type="text" class="box" name="name" placeholder="이름" />
-								  
+								 <input type="text" value="${user.name }" class="box" name="name" placeholder="이름" />
+								  <form:errors path="name" class="userError"/>
 							</div>
-							<form:errors path="name"/>
+							
+							
+							
 							<div class="input">
-								 <input type="email" class="box" name="email" placeholder="이메일" />
-								  
+								 <input type="email" value="${user.email}" class="box" name="email" placeholder="이메일" />
+								  <form:errors path="email" class="userError"/>
 						    </div>
-						      <form:errors path="email"/>
-							<div >
+						    
+						      
+						     
+						     
+							<div>
 								<center><button type="submit" class="login_btn">발급하기</button></center>
 						    </div>
 

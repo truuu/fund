@@ -29,7 +29,7 @@
 								<div id="column-right">
 									<button class="btn btn-default" type="submit" name="cmd"
 										value="selectEB13">목록 조회</button>
-									<button class="btn btn-default" type="submit" name="cmd"
+									<button class="btn btn-info" type="submit" name="cmd"
 										value="createEB13file">EB13 생성</button>
 								</div>
 							</div>

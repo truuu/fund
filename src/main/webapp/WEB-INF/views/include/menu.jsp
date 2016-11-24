@@ -24,7 +24,17 @@ $(function(){
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="/fund_sys">후원회</a>
+
+	      <sec:authorize access="isAnonymous()">
+	 <a class="navbar-brand" href="/fund_sys">후원회</a>
+          </sec:authorize>
+          
+          <sec:authorize access="isAuthenticated()">
+	 <a class="navbar-brand" href="../sponsor/sponsor_m.do">후원회 </a>
+          </sec:authorize>
+
+	    
+	      
 	    </div>
 
 	    <!-- Collect the nav links, forms, and other content for toggling -->
@@ -69,6 +79,7 @@ $(function(){
 		  <ul class="dropdown-menu" role="menu">
 		       <li><a href="/fund_sys/dataPrint/paymentRecordStats.do">납입 내역 조회</a></li>
 		       <li><a href="/fund_sys/dataPrint/paymentTotalStats.do">납입 총계 조회</a></li>
+		       <li><a href="/fund_sys/dataPrint/monthPerDonationPurposePayment.do">월별 기부목적별 납입현황</a></li>
 		  </ul>
 		</li>
 		<li class="dropdown">
