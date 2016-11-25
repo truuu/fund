@@ -55,7 +55,7 @@ table.table {
 		</table>
 		<span>
 		<button type="submit" id="btn3" class="btn btn-primary">
-			<i class="icon-ok icon-white"></i> 저장하기
+			<i class="icon-ok icon-white"></i> 저장
 		</button></span>
 		<a href="donationPurposeList.do" class="btn btn-default"> <i
 			class="icon-ban-circle"></i> 취소

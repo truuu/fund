@@ -34,17 +34,17 @@ table.table {
 		<table class="table">
 			<tr>
 				<td id="table_a">이름</td>
-				<td><input type="text" name="name" /><br>
+				<td><input type="text" name="name" value="${corporate.name}" /><br>
 				<form:errors path="name"/></td>
 			</tr>
 			<tr>
 				<td id="table_a">기관번호</td>
-				<td><input type="text" name="corporateNo" /><br>
+				<td><input type="text" name="corporateNo" value="${corporate.corporateNo}" /><br>
 				<form:errors path="corporateNo"/></td>
 			</tr>
 			<tr>
 				<td id="table_a">대표자명</td>
-				<td><input type="text" name="representative" /><br>
+				<td><input type="text" name="representative" value="${corporate.representative}"/><br>
 				<form:errors path="representative"/>
 				</td>
 			</tr>

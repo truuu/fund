@@ -67,7 +67,7 @@ table.table {
 				<i class="icon-ok icon-white"></i> 저장
 			</button>
 			<button type="button" onclick="deleteFunction()"
-				class="btn btn-default">
+				class="btn btn-danger">
 				<i class="icon-ok icon-white"></i> 삭제
 			</button>
 			<a href="donationPurposeList.do" class="btn btn-default"> <i

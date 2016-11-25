@@ -3,6 +3,12 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.CorporateMapper">
+	<select id="selectByName" resultType="fund.dto.Corporate">
+		SELECT *
+		FROM [Corporate]
+		WHERE name=#{name}
+	</select>
+	
 	<select id="selectCorporate" resultType="fund.dto.Corporate">
 		SELECT *
 		FROM [Corporate]

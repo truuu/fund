@@ -24,5 +24,7 @@ public interface CodeMapper {
 	void insert(Code code);
 	void update(Code code);
 	void delete(int ID);
+	
+	Code selectByCodeName(String codeName);
 
 }
