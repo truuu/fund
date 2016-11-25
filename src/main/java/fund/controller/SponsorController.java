@@ -48,7 +48,6 @@ public class SponsorController extends BaseController{
 	@Autowired AES128UtilService cipherService; //양방향 암호화 서비스
 	@Autowired FileExtFilter fileExtFilter;
 
-
 	//후원자관리 기본페이지
 	@RequestMapping(value="/sponsor/sponsor_m.do",method=RequestMethod.GET)
 	public String userManage(Model model, Pagination pagination)throws Exception{
@@ -132,6 +131,7 @@ public class SponsorController extends BaseController{
 
 		if (result.hasErrors()) {
 			// 에러 출력
+		
 			model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1));  // 후원인구분1 목록
 			model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));  // 후원인구분2 목록
 			return "sponsor/sponsor";
@@ -249,10 +249,15 @@ public class SponsorController extends BaseController{
 	public String insertIrrgularPayment2(@Valid IregularPayment iregularPayment,BindingResult result,Model model) throws Exception {
 		if (result.hasErrors()) {
 			// validation error!!
-			return "redirect:/sponsor/insertIrrgularPayment.do?id="+iregularPayment.getSponsorID();
+			System.out.println("error2");
+			System.out.println(iregularPayment.getAmount());
+			System.out.println(iregularPayment.getDonationPurposeID());
+			//return "redirect:/sponsor/insertIrrgularPayment.do?id="+iregularPayment.getSponsorID();
+			return "sponsor/insertIrrgularPayment";
 		}
 		Payment payment = new Payment();
 		payment.setSponsorID(iregularPayment.getSponsorID());
+		if(iregularPayment.getAmount() == 0) System.out.println("돈");
 		payment.setAmount(iregularPayment.getAmount());
 		Date date = (new SimpleDateFormat("yyyy-MM-dd")).parse(iregularPayment.getPaymentDate());
 		payment.setPaymentDate(date);

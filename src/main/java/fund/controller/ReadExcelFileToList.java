@@ -108,6 +108,8 @@ public class ReadExcelFileToList extends BaseController{
 			fis.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (IllegalStateException e){
+			System.out.println("error");
 		}
 		return countriesList;
 	}

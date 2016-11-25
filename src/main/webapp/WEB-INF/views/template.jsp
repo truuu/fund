@@ -14,10 +14,14 @@
 	<div class="container">
 		<div style="min-height: 700px">
 			<c:if test="${ not empty errorMsg }">
-				<div class="alert alert-danger">${ errorMsg }</div>
+				<center>
+				<div class="alert alert-danger" style="width:700px">${ errorMsg }</div>
+				</center>
 			</c:if>
 			<c:if test="${ not empty successMsg }">
-				<div class="alert alert-success">${ successMsg }</div>
+				<center>
+				<div class="alert alert-success" style="width:700px">${ successMsg }</div>
+				</center>
 			</c:if>
 			<tiles:insertAttribute name="content" />
 		</div>

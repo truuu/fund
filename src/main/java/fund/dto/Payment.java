@@ -1,29 +1,16 @@
 package fund.dto;
 
 import java.util.Date;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class Payment {
 	int id;
-	
-	@NotEmpty(message="id를 입력하세요.")
 	int sponsorID;
-	
 	int commitmentID;
-	
-	@NotEmpty(message="금액을 입력하세요.")
 	int amount;
-	
-	@NotEmpty(message="날짜를 입력하세요.")
 	Date paymentDate;
-	
 	String etc;
 	int receiptID;
-	
-	@NotEmpty(message="기부목적을 선택하세요.")
 	int donationPurposeID;
-	
-	@NotEmpty(message="납입방법을 선택하세요.")
 	int paymentMethodID;
 	
 	String donationPurpose; // 기부목적name
