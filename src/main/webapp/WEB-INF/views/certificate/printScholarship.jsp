@@ -67,7 +67,7 @@ iframe { width: 800px; border: 1px solid #ddd; height: 900px; }
 						<td id="table_a">일련번호</td>
 						<td id="table_b"><input type="text" id="serialNo" name="serialNo" value="${serialNo}"></td>
 						<td id="table_a">학과</td>
-						<td id="table_b"><select name="department" id="department">
+						<td id="table_b"><select name="department" class="commonInput" id="department">
 								<option selected="selected">선택</option>
 								<option value="신학과">신학과</option>
 								<option value="영어학과">영어학과</option>
@@ -86,9 +86,9 @@ iframe { width: 800px; border: 1px solid #ddd; height: 900px; }
 					</tr>
 					<tr>
 						<td id="table_a">학번</td>
-						<td id="table_b"><input type="text" name="studentNo" id="studentNo"></td>
+						<td id="table_b"><input type="text" name="studentNo" class="commonInput"  id="studentNo"></td>
 						<td id="table_a">성명</td>
-						<td id="table_b"><input type="text" name="studentName" id="studentName"></td>
+						<td id="table_b"><input type="text" name="studentName" class="commonInput"  id="studentName"></td>
 					</tr>
 					<tr>
 						<td id="table_a">내용</td>
