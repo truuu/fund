@@ -23,6 +23,7 @@ import fund.BaseController;
 import fund.dto.Payment;
 import fund.dto.PaymentRecordStats;
 import fund.dto.PaymentSummary1;
+import fund.dto.Sponsor;
 import fund.mapper.CodeMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
@@ -344,8 +345,53 @@ public class PaymentController extends BaseController{
 		model.addAttribute("to",to);
 		
 		
-		
 		return "dataPrint/monthPerDonationPurposePayment";
 	}
+	
+	@RequestMapping(value="/dataPrint/monthPerDonationPurposePayment.do",method=RequestMethod.POST, params="cmd=xlsx")
+	public void monthlyStatistics(@RequestParam String startDate,@RequestParam String endDate,Model model,
+			HttpServletRequest request, HttpServletResponse response) throws JRException, IOException, SQLException {
+		List<PaymentSummary1> list = paymentMapper.selectMonthDonationPurposePayment(startDate, endDate);
+		
+		String corp = list.get(0).getCorporate();
+		for(int i=0 ; i<list.size() ; i++){
+			if(i>0){
+				if(corp.equals(list.get(i).getCorporate()))
+					list.get(i).setCorporate(" ");
+				else
+					corp=list.get(i).getCorporate();
+			}
+		}
+		
+		String organ = list.get(0).getOrganization();
+		for(int i=0 ; i<list.size() ; i++){
+			if(i>0){
+				if(organ.equals(list.get(i).getOrganization()))
+					list.get(i).setOrganization(" ");
+				else
+					organ=list.get(i).getOrganization();
+			}
+		}
+		
+		model.addAttribute("list",list);
+		model.addAttribute("startDate",startDate);
+		model.addAttribute("endDate",endDate);
+		
+		String s1 = startDate.substring(5, 7);
+		String s2 = endDate.substring(5, 7);
+		
+		int from = Integer.parseInt(s1);
+		int to = Integer.parseInt(s2);
+		
+		model.addAttribute("from",from);
+		model.addAttribute("to",to);
+		
+		ReportBuilder reportBuilder = new ReportBuilder("monthlyStatistics",list,"monthlyStatistics.xlsx",request,response);
+		reportBuilder.build("xlsx");
+		
+		
+	}
+	
+	
 
 }
