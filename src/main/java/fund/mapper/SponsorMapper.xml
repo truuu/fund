@@ -18,6 +18,11 @@
 		order by ID DESC;
 	</select>
 	
+	<select id="ceateYear" resultType="String">
+		select TOP(1)sponsorNo from sponsor
+		order by ID DESC;
+	</select>
+	
 	<!-- 후언자 수정 -->
 	<update id="updateSponsor">
 		UPDATE sponsor SET
@@ -101,13 +106,26 @@
 		signUpDate,mobilePhone,email
 		from sponsor order by sponsorNo DESC;
 	</select>
+	
+	<!-- search name check -->
+	<select id="nameCheck" resultType="fund.dto.Sponsor">
+		select * from sponsor where name=#{name};
+	</select>
+	
+		<!-- search codeName check -->
+	<select id="codeNameCheck" resultType="fund.dto.Sponsor">
+		SELECT * FROM sponsor
+		where sponsorType1ID in(select ID from code where codeName=#{codeName}) or
+		sponsorType2ID in(select ID from code where   codeName=#{codeName});
+
+	</select>
 
 	<!-- 회원검색 후원인구분 1,2로 -->
 	<select id="sponsorSearch" resultType="fund.dto.Sponsor">
 
         SELECT *
         FROM
-            ( select sponsorNo,name,
+            ( select id,sponsorNo,name,
 		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
 		(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
 		(select codeName from code where code.ID=sponsor.churchID )AS church,
@@ -131,7 +149,7 @@
 	<!-- 회원검색 이름으로 -->
 	<select id="nameSearch" resultType="fund.dto.Sponsor">
  <![CDATA[
-        select sponsorNo,name,
+        select id,sponsorNo,name,
 		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS
 		sponsorType1,
 		(select codeName from code where
@@ -182,8 +200,14 @@
 	<select id="searchCount" resultType="int">
 		SELECT COUNT(*)
 		FROM sponsor
-		where sponsorType2ID=(select ID from code where
+		<if test="type==1">
+	where sponsorType1ID=(select ID from code where
 		codeName=#{codeName})
+        </if>
+        <if test="type==2">
+	where sponsorType2ID=(select ID from code where
+		codeName=#{codeName})
+        </if>
 	</select>
 
 

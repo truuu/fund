@@ -35,6 +35,8 @@ import fund.service.AES128UtilService;
 import fund.service.FileExtFilter;
 import net.sf.jasperreports.engine.JRException;
 
+import java.util.*;
+
 
 @Controller
 public class SponsorController extends BaseController{
@@ -52,15 +54,51 @@ public class SponsorController extends BaseController{
 	public String userManage(Model model, Pagination pagination)throws Exception{
 		pagination.setRecordCount(sponsorMapper.selectCount());
 		model.addAttribute("list", sponsorMapper.selectPage(pagination));
+		List<Code> code1=codeMapper.selectByCodeGroupID(1);
+		List<Code> code2=codeMapper.selectByCodeGroupID(2);
+		
+		code1.addAll(code2);
+		
+		model.addAttribute("sponsorType", code1);
 		return "sponsor/sponsorManage";
 	}
+	
+    //codeName check 
+	@RequestMapping(value="/sponsor/codeNameCheck.do",method=RequestMethod.GET)
+	public @ResponseBody List<Sponsor> codeNameCheck(@RequestParam("codeName")String codeName)throws Exception{
+		System.out.println("codeName >> "+codeName);
+		List<Sponsor> sponsor=sponsorMapper.codeNameCheck(codeName);
+		if(sponsor==null){
+			System.out.println("없음 검사 codeName");
+			sponsor=new ArrayList<Sponsor>();
+		}
 
+		return sponsor;
+	}
+	
+	//name check 
+	@RequestMapping(value="/sponsor/nameCheck.do",method=RequestMethod.GET)
+	public @ResponseBody List<Sponsor> nameCheck(@RequestParam("nameForSearch")String nameForSearch)throws Exception{
+			String name=nameForSearch;
+			List<Sponsor> sponsor=sponsorMapper.nameCheck(name);
+			if(sponsor==null){
+				System.out.println("업음 검사 ");
+				sponsor=new ArrayList<Sponsor>();
+				return sponsor;
+			}else{
+				System.out.println("값 있다  ");
+				 return sponsor;
+			}
 
+	 
+	}
+ 
 
 	//회원관리 검색기능 
 	@RequestMapping(value="/sponsor/search.do",method=RequestMethod.GET)
 	public String sponsorSearch(Model model, Pagination pagination)throws Exception{
 		String codeName=pagination.getCodeName();
+		System.out.println("paging test codename "+codeName);
 		List<Sponsor> sponsorList=null;
 		if(codeName.equals("이름")){
 			String nameForSearch=pagination.getNameForSearch();
@@ -68,10 +106,18 @@ public class SponsorController extends BaseController{
 		}else{
 
 			int type=sponsorMapper.sponsorTypeCheck(codeName);
+			System.out.println("codeName >> "+codeName+" type int >> "+type);
 			pagination.setType(type);
-			pagination.setRecordCount(sponsorMapper.searchCount(codeName));
+			pagination.setRecordCount(sponsorMapper.searchCount(pagination));
+			System.out.println("count >> "+sponsorMapper.searchCount(pagination));
 			sponsorList=sponsorMapper.sponsorSearch(pagination);
 		}
+		
+		List<Code> code1=codeMapper.selectByCodeGroupID(1);
+		List<Code> code2=codeMapper.selectByCodeGroupID(2);
+		code1.addAll(code2);
+		
+		model.addAttribute("sponsorType", code1);
 		model.addAttribute("list", sponsorList);
 		return "sponsor/sponsorManage";
 	}
@@ -79,35 +125,40 @@ public class SponsorController extends BaseController{
 	//신규
 	@RequestMapping(value="/sponsor/sponsor.do",method=RequestMethod.GET)
 	public String userRegister(Model model,Sponsor sponsor)throws Exception{
-		Integer num=sponsorMapper.ceateNumber();
-		String number;
-
-
-		if(num==null){
-			number="0001";
-		}else{
-			number=String.valueOf((int)num+1);
-			if(number.length()==1){
-				number="000"+number;
-			}
-			if(number.length()==2){
-				number="00"+number;
-			}
-			if(number.length()==3){
-				number="0"+number;
-			}
-
-		}
 		Calendar oCalendar = Calendar.getInstance( );  // 현재 날짜/시간 등의 각종 정보 얻기
-		String sponsorNo=oCalendar.get(Calendar.YEAR)+"-"+number;
-		sponsor.setSponsorNo(sponsorNo);
+		Integer num=sponsorMapper.ceateNumber();
+		String[] year=sponsorMapper.ceateYear().split("-");
+		int preYear=oCalendar.get(Calendar.YEAR);
+		String number;
+		if(num==null){//후원자를 처음 등록할때 0001 초기화 
+			number="0001";
+			String sponsorNo=preYear+"-"+number;
+			sponsor.setSponsorNo(sponsorNo);
+		}else{
+			if(Integer.parseInt(year[0])==preYear){//년도가 변하지 않았을때 
+				System.out.println("년도 그대로 !!!!!!");
+				number=String.valueOf((int)num+1);
+				if(number.length()==1){
+					number="000"+number;
+				}
+				if(number.length()==2){
+					number="00"+number;
+				}
+				if(number.length()==3){
+					number="0"+number;
+				}
 
+				String sponsorNo=preYear+"-"+number;
+				sponsor.setSponsorNo(sponsorNo);
 
-		model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1));  // 후원인구분1 목록
-		model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));  // 후원인구분1 목록
-
-
-
+			}
+			if(Integer.parseInt(year[0])!=preYear){ // 년도가 변했을때 후원자 번호 생성
+				System.out.println("년도 변함 !!!!!!!");
+				number="0001";
+				String sponsorNo=preYear+"-"+number;
+				sponsor.setSponsorNo(sponsorNo);
+			}
+		}
 
 		//첨부파일리스트 임시테스트 -> 세션값으로 방식으로 바꾸어야함 
 		//List<FileAttachment> list=fileAttachmentMapper.selectByArticleId(100);
@@ -302,7 +353,7 @@ public class SponsorController extends BaseController{
 		String check = request.getParameter("check");	
 		pagination.setRecordCount(sponsorMapper.countForDM(pagination));
 		List<Sponsor> postList=sponsorMapper.postManage(pagination);
-		
+
 		String temp,address,postCode;
 		int middle;
 		for (Sponsor i : postList) {
@@ -463,7 +514,7 @@ public class SponsorController extends BaseController{
 				i.setPostCode(postCode);
 			}
 		}
-		
+
 		ReportBuilder reportBuilder = new ReportBuilder("sendDM", list, "sendDM.xlsx",req,res);
 		reportBuilder.build("xlsx");
 	}

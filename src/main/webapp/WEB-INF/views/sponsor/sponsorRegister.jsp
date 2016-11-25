@@ -101,20 +101,25 @@ function fileDelete(id){
 
 <div class="panel panel-default">
    <div class="panel-heading">
-      <h4>회원기본정보9</h4>
+      <h4>회원기본정보4</h4>
 
 
       <div class="row">
          <div class="col-lg-12">
             <div id="column-right">
-               <c:if test="${ sponsor.signUpDate==null}">
-               <a onclick="insert()" class="btn btn-info">저장</a>
-            </c:if>
             
-            <c:if test="${ sponsor.signUpDate!=null}">
-               <a onclick="update()" class="btn btn-info">수정</a>
-            </c:if>
+            <c:choose>
 
+    <c:when test="${ sponsor.signUpDate!=''&&sponsor.signUpDate!=null}">
+       <a onclick="update()" class="btn btn-info">수정</a>
+    </c:when>
+
+    <c:otherwise>
+        <a onclick="insert()" class="btn btn-info">저장</a>
+    </c:otherwise>
+
+</c:choose>
+      
                <a onclick="deletes(${ sponsor.sponsorNo })" class="btn btn-danger">삭제</a>
             </div>
          </div>

@@ -10,6 +10,7 @@
 <input type="hidden" value="${sponsor.id}" />
 <div id="wrapper">
 	<!-- Nav tabs -->
+	<p>${sponsor.sponsorNo}&nbsp;  ${sponsor.name}&nbsp;  ${sponsor.sponsorType1}&nbsp;</p>
 					<ul class="nav nav-tabs">
 					<c:if test="${sponsor.id==0}">
 					<li class="active"><a href="/fund_sys/sponsor/sponsor.do" data-toggle="tab">회원관리</a></li>
@@ -24,7 +25,7 @@
 						<li><a href="/fund_sys/sponsor/insertIrrgularPayment.do?id=${sponsor.id}" >비정기납입등록</a></li>
 					</c:if>
 					</ul>
-					<p>${sponsor.sponsorNo}&nbsp;  ${sponsor.name}&nbsp;  ${sponsor.sponsorType1}&nbsp;</p>
+					
 <div class="panel panel-default">
 	
 <div class="panel-body">

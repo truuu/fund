@@ -8,9 +8,13 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import fund.service.AES128UtilService;
 
 
 public class Sponsor {
+	@Autowired AES128UtilService cipherService; //양방향 암호화 서비스
 	int id;
 
 	String sponsorNo; //
@@ -19,7 +23,7 @@ public class Sponsor {
 	String name; //
 	
 	
-	@Size(min = 13, max = 13,message="정확히 입력해주시요")
+	@Size(min = 10, max = 13,message="정확히 입력해주시요")
 	String juminNo; //
 	
 	
@@ -212,12 +216,21 @@ public class Sponsor {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getJuminNo() {
 		return juminNo;
 	}
 	public void setJuminNo(String juminNo) {
 		this.juminNo = juminNo;
 	}
+	
+	public String getDecJuminNo() throws Exception { // 자동으로 복호화해서 주민번호 가져오기 
+		return cipherService.decAES(juminNo);
+	}
+	/*public void setEncJuminNo(String juminNo) { //자동 암호화해서 주민번호 저장
+		this.juminNo = juminNo;
+	}*/
+	
 	public int getSponsorType1ID() {
 		return sponsorType1ID;
 	}

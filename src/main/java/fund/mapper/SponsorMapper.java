@@ -16,6 +16,7 @@ public interface SponsorMapper {
 	User selectByLoginId(String loginId);
 	List<Code> selectAuto(String input);
 	Integer ceateNumber();
+	String ceateYear();
 	List<Sponsor> sponsorManage();
 	List<Sponsor> postManage(Pagination pagination);
 	List<Sponsor> excelDM(Pagination pagination);
@@ -27,7 +28,7 @@ public interface SponsorMapper {
 
 
 	int selectCount();
-	int searchCount(String codeName);
+	int searchCount(Pagination pagination);
 	int nameCount(String nameForSearch);
 
 	int selectChurchCode(Sponsor sponsor);
@@ -41,6 +42,8 @@ public interface SponsorMapper {
 	List<Sponsor> sponsorSearch(Pagination pagination);
 	List<Sponsor> selectPage(Pagination pagination);
 	List<Sponsor> sponsorListExcel(Pagination pagination);
+	List<Sponsor> nameCheck(String name); // search name check
+	List<Sponsor> codeNameCheck(String codeName);
 
 	//�썑�썝�씤援щ텇2蹂� 異쒖뿰�궡�뿭
 	List<Sponsor> castBySponsorType2(@Param("startDate")String startDate,@Param("endDate")String endDate);
