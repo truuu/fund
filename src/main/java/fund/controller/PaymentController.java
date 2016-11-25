@@ -46,7 +46,7 @@ public class PaymentController extends BaseController{
 		return "dataPrint/donationPurposeStats";
 	}
 
-	@RequestMapping(value="/dataPrint/donationPurposeStats1.do")  
+	@RequestMapping(value="/dataPrint/donationPurposeStats.do",method=RequestMethod.POST)  
 	public String donationPurposeStats(Model model,@RequestParam String startDate,@RequestParam String endDate) {     
 		List<Payment> list = paymentMapper.selectComparePaymentDate(startDate, endDate);
 		int totalSponsor=0;
