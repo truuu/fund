@@ -13,11 +13,19 @@ $(function() {
 		
 		 var startDate=$('#datepicker1').val();
 		 var endDate=$('#datepicker2').val();
-	    	
+		 
+		 var s = new Date($('#datepicker1').val());
+		 var e = new Date($('#datepicker2').val());
+	     
 		if(startDate==''||endDate==''){
 			alert('날짜를 모두 입력해주세요');
 			return false;
 		}
+		else if(s.getFullYear()!=e.getFullYear()){
+			alert('기간 시작과 끝의 년도가 같아야 합니다');
+			return false;
+		}
+		
 		else
 			return true;
 	});
