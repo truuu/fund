@@ -50,7 +50,7 @@ a2{ float:right; }
             <label> 기간(시작-끝) </label> <input id="datepicker1" class="commoninput" name="startDate" value="${startDate}">
             ~ <input id="datepicker2" class="commoninput" name="endDate" value="${endDate}">
          </div>
-         <div class="col-lg-3">
+         <div class="col-lg-3">  
             <div id="column-right">
                <button type="submit" class="btn btn-primary" >검색</button>
                <button class="btn btn-default" type="submit" name="cmd" value="pdf">보고서</button>

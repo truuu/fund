@@ -2,22 +2,29 @@ package fund.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
 
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class CommitmentCreate {
 	
+	@NotEmpty(message="시작일을 입력하세요.")
 	String commitmentStartDate;       // 공통
+	
 	String commitmentDetailStartDate;
 	String commitmentEtc;
 	String commitmentDetailEtc;
-	
 	int sponsorID;                 //  commitment
+	
+	@Min(1)
 	int donationPurposeID;
 	int paymentMethodID;
-	
+
+	@NotEmpty(message="약정일을 입력하세요.")
 	String commitmentDate;
+	
 	String endDate;
-	        
 	int amountPerMonth;    // commitmentDetail
 	int paymentDay;
 	int bankID;
@@ -32,8 +39,6 @@ public class CommitmentCreate {
 	public void setCommitmentStartDate(String commitmentStartDate) {
 		this.commitmentStartDate = commitmentStartDate;
 	}
-	
-	
 	public String getCommitmentDetailStartDate() {
 		return commitmentDetailStartDate;
 	}
