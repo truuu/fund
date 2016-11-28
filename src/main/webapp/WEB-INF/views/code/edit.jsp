@@ -24,6 +24,7 @@ table.table {
 
 #table_a {
 	width: 50%;
+	vertical-align: middle;
 }
 
 #btn3 {
@@ -31,19 +32,19 @@ table.table {
 }
 </style>
 
-<h2>${name}수정</h2>
+<h2>${name} 수정</h2>
 <hr />
 
 <form:form method="post" modelAttribute="code">
 	<table class="table">
 		<tr>
 			<td id="table_a">코드명</td>
-			<td><form:input path="codeName" /><br>${error}
+			<td><form:input path="codeName" class="commoninput" /><br>${error}
 			</td>
 		</tr>
 		<tr>
 			<td id="table_a">기타</td>
-			<td><form:input path="etc1" /></td>
+			<td><form:input path="etc1" class="commoninput" /></td>
 		</tr>
 	</table>
 

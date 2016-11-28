@@ -24,9 +24,6 @@
 </script>
 
 <style>
-
-
-
 #new, #detail2 {
 	float: right;
 }
@@ -292,7 +289,7 @@ tr#topTable td, tr#topTable th{
 
 			<div class="modal-footer">
 				<div class="form-inline">
-					<button style="margin-bottom: 0px" class="btn" data-dismiss="modal">닫기</button>
+					<button style="margin-bottom: 0px" class="btn btn-default" data-dismiss="modal">닫기</button>
 					<button style="margin-bottom: 0px" class="btn btn-primary"
 						onclick="selectDonationPurpose()" data-dismiss="modal">선택</button>
 				</div>
