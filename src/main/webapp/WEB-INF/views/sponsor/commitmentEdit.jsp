@@ -99,6 +99,9 @@ div table.table tbody tr td {
 .table tbody tr td {
 	vertical-align: middle;
 }
+tr#topTable td, tr#topTable th{
+	text-align:center;
+}
 
 </style>
 
@@ -253,7 +256,7 @@ div table.table tbody tr td {
 					<div id="searchResult">
 						<table id="donationTable">
 							<thead>
-								<tr>
+								<tr id="topTable">
 									<th>기관</th>
 									<th>기관종류</th>
 									<th>기부목적</th>
@@ -262,7 +265,7 @@ div table.table tbody tr td {
 							<tbody>
 								<c:forEach var="donationPurpose"
 									items="${ donationPurposeList }">
-									<tr data-id="${ donationPurpose.ID }">
+									<tr data-id="${ donationPurpose.ID }" id="topTable">
 										<td>${ donationPurpose.corporateName }</td>
 										<td>${ donationPurpose.codeName }</td>
 										<td>${ donationPurpose.name }</td>

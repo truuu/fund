@@ -24,7 +24,13 @@ table.table {
 	margin-left: 25%;
 }
 .post{
+    margin-bottom: 6px;
+    padding: 3px 12px;
 	width:44%;
+	height: 30px;
+	border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 }
 </style>
 <body>
@@ -34,17 +40,17 @@ table.table {
 		<table class="table">
 			<tr>
 				<td id="table_a">이름</td>
-				<td><input type="text" name="name" value="${corporate.name}" /><br>
+				<td><input type="text" class="commoninput" name="name" value="${corporate.name}" /><br>
 				<form:errors path="name"/></td>
 			</tr>
 			<tr>
 				<td id="table_a">기관번호</td>
-				<td><input type="text" name="corporateNo" value="${corporate.corporateNo}" /><br>
+				<td><input type="text" class="commoninput" name="corporateNo" value="${corporate.corporateNo}" /><br>
 				<form:errors path="corporateNo"/></td>
 			</tr>
 			<tr>
 				<td id="table_a">대표자명</td>
-				<td><input type="text" name="representative" value="${corporate.representative}"/><br>
+				<td><input type="text" class="commoninput" name="representative" value="${corporate.representative}"/><br>
 				<form:errors path="representative"/>
 				</td>
 			</tr>
@@ -53,8 +59,8 @@ table.table {
 				<td>
 				<input type="text" name="postNum" id="sample6_postcode" class="post" placeholder="우편번호">
 				<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
-				<input type="text" name="address1" id="sample6_address" placeholder="주소">
-				<input type="text" name="address2" id="sample6_address2" placeholder="상세주소">
+				<input type="text" class="commoninput" name="address1" id="sample6_address" placeholder="주소">
+				<input type="text" class="commoninput" name="address2" id="sample6_address2" placeholder="상세주소">
 				<br>
 				<input type="hidden" name="address" />
 				<form:errors path="address"/>
