@@ -16,17 +16,16 @@
 	function save() {
 
 		if (confirm("저장하시겠습니까?") == true) {
-			location.href = "/fund_sys/sponsor/create.do";
+			return true;
 		} else {
-			return;
+			return false;
 		}
 	}
 </script>
 
 <style>
-div.commitmentTable {
-	display: none;
-}
+
+
 
 #new, #detail2 {
 	float: right;
@@ -97,7 +96,7 @@ tr#topTable td, tr#topTable th{
  <p>${sponsor.sponsorNo}&nbsp;  ${sponsor.name}&nbsp;  ${sponsor.sponsorType1}&nbsp;</p>
 <ul class="nav nav-tabs">
 						<c:if test="${sponsorID==0}">
-				     	<li class="active"><a href="/fund_sys/sponsor/sponsor.do" data-toggle="tab">회원관리</a></li>
+				     	<li><a href="/fund_sys/sponsor/sponsor.do" data-toggle="tab">회원관리</a></li>
 					    </c:if>
 					    <c:if test="${sponsorID!=0}">
 						<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorID}">회원관리</a></li>
@@ -112,18 +111,25 @@ tr#topTable td, tr#topTable th{
                    
 				
 				
-<div class="panel panel-default">
-	<div class="panel-heading">
+<div id="wrapper">
+	<div id="page-wrapper">
+		<div class="container-fluid">
+			<!-- Page Heading -->
+			<div class="row">
+	<div class="col-lg-12">
 		<h1 class="page-header">
-		약정 내역 
+		약정 내역
+		<button type="button" id="new" class="btn btn-primary">새로 등록</button>
 		</h1>
+		
+		</div>
 		<input type="hidden" name="sponsorID" value="${sponsorID}" />
 		<input type="hidden" name="sponsorNo" value="${sponsorNo}" />
-		<div class="input-group1">
-			<button type="button" id="new" class="btn btn-primary">새로 등록</button>
-		</div>
-		<div class="table-responsive">
-			<table class="table table-bordered">
+	
+		<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-bordered" id="table_s">
 				<thead>
 					<tr>
 						<th>약정번호</th>
@@ -150,7 +156,7 @@ tr#topTable td, tr#topTable th{
 				</tbody>
 			</table>
 		</div>
-		<form method="post">
+		<form:form method="post"  modelAttribute="commitmentCreate">
 			<input type="hidden" name="sponsorID" value="${sponsorID}" />
 			<div class="commitmentTable">
 				
@@ -158,8 +164,8 @@ tr#topTable td, tr#topTable th{
 					<tbody>
 						<tr>
 							<td style="vertical-align: middle;" id="table_a">납입방법</td>
-							<td style="vertical-align: middle;"><select
-								name="paymentMethodID">
+							<td style="vertical-align: middle;">
+							<select name="paymentMethodID" class="commoninput">
 									<c:forEach var="paymentMethod" items="${paymentMethodList}">
 										<option value="${paymentMethod.ID}">${paymentMethod.codeName}</option>
 									</c:forEach>
@@ -167,30 +173,34 @@ tr#topTable td, tr#topTable th{
 							<td id="table_a">기부목적</td>
 							<td><form:form method="post">
 									<div class="form-inline">
-										<input type="text" name="dname" readonly /> <a
+										<input type="text" class="commoninput" name="dname" readonly /> <a
 											href="#searchDialog" class="btn btn-default"
 											data-toggle="modal">검색</a> <input type="hidden"
 											name="donationPurposeID" id="donationPurposeID" />
+											<br>
 									</div>
-								</form:form></td>
+								</form:form><form:errors path="donationPurposeID" /></td>
 							<td id="table_a">기부기관</td>
 							<td style="vertical-align: middle;"><input type="text"
-								name="corporateName" readonly /></td>
+								class="commoninput" name="corporateName" readonly /></td>
 						</tr>
 
 
 						<tr>
 							<td id="table_a">약정일자</td>
-							<td><input type="date" class="commoninput" name="commitmentDate"></td>
+							<td><input type="date" class="commoninput" name="commitmentDate">
+							<br><form:errors path="commitmentDate" /></td>
 							<td id="table_a">시작일</td>
-							<td><input type="date" class="commoninput" name="commitmentStartDate"></td>
+							<td><input type="date" class="commoninput" name="commitmentStartDate">
+							<br><form:errors path="commitmentStartDate" />
+							</td>
 							<td id="table_a">종료일</td>
 							<td><input type="date" class="commoninput" name="endDate"></td>
 						</tr>
 						<tr>
 							<td id="table_a">비고</td>
-							<td colspan="5"><input size="130" id="etc" type="text"
-								name="commitmentEtc"></td>
+							<td colspan="5"><input size="130" id="etc" type="text" class="commoninput"
+								name="commitmentEtc" value="${commitmentCreate.commitmentEtc}" ></td>
 						</tr>
 					</tbody>
 				</table>
@@ -202,37 +212,40 @@ tr#topTable td, tr#topTable th{
 							<td><input type="text" class="money" name="amountPerMonth" />
 							</td>
 							<td id="table_a">결제일</td>
-							<td><select name="paymentDay"><option value="20">20일</option>
+							<td><select name="paymentDay" class="commoninput" ><option value="20">20일</option>
 									<option value="25">25일</option></select></td>
 							<td id="table_a">은행명</td>
-							<td><select name="bankID">
+							<td><select name="bankID" class="commoninput" >
 									<c:forEach var="bank" items="${bankList}">
 										<option value="${bank.ID}">${bank.codeName}</option>
 									</c:forEach>
 							</select></td>
 							<td id="table_a">계좌번호</td>
-							<td><input name="accountNo" type="text" /></td>
+							<td><input name="accountNo" type="text" class="commoninput" /></td>
 						</tr>
 						<tr>
 
 							<td id="table_a">예금주</td>
-							<td><input name="accountHolder" type="text" /></td>
+							<td><input name="accountHolder" class="commoninput" type="text" /></td>
 							
 							<td id="table_a">비고</td>
-							<td colspan="5"><input size="90" id="etc" type="text"
-								name="commitmentDetailEtc"></td>
+							<td colspan="5"><input size="90" id="etc" type="text" class="commoninput"
+								name="commitmentDetailEtc" value="${commitmentCreate.commitmentDetailEtc}"></td>
 						</tr>
 
 					</tbody>
 				</table>
 				<center>
-					<button type="submit" class="btn" name="cmd" value="create">저장</button>
+					<button type="submit" class="btn btn-info" name="cmd" value="create">저장</button>
 				</center>
 	
 			</div>
-		</form>
+		</form:form>
+		</div>
 	</div>
-
+	</div>
+	</div>
+	</div>
 </div>
 
 <!-- modal -->

@@ -53,9 +53,12 @@
   </welcome-file-list>
 
       <!-- error 페이지 -->
-       <error-page>
-       <error-code>400</error-code>
-       <location>/</location>
+
+      <error-page>
+
+    	<error-code>400</error-code>
+    	<location>/</location>
+
     </error-page>
     <error-page>
        <error-code>404</error-code>
@@ -70,7 +73,4 @@
        <location>/</location>
     </error-page>
   
-
-
-
 </web-app>

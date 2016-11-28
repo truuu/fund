@@ -58,7 +58,7 @@ tr#topTable td{
 								</thead>
 								<c:forEach var="paymentList2" items="${paymentList2}">
 									<tbody>
-										<tr id="topTable">
+										<tr data-url="editIrrgularPayment.do?id=${paymentList2.id}&&sponsorID=${sponsorID}">
 											<td>${paymentList2.paymentMethod}</td>
 											<td class="money">${paymentList2.amount}</td>
 											<td><fmt:formatDate value="${paymentList2.paymentDate}" pattern="yyyy-MM-dd"/></td>

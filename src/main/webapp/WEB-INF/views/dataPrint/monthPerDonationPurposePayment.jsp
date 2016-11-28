@@ -13,11 +13,19 @@ $(function() {
 		
 		 var startDate=$('#datepicker1').val();
 		 var endDate=$('#datepicker2').val();
-	    	
+		 
+		 var s = new Date($('#datepicker1').val());
+		 var e = new Date($('#datepicker2').val());
+	     
 		if(startDate==''||endDate==''){
 			alert('날짜를 모두 입력해주세요');
 			return false;
 		}
+		else if(s.getFullYear()!=e.getFullYear()){
+			alert('기간 시작과 끝의 년도가 같아야 합니다');
+			return false;
+		}
+		
 		else
 			return true;
 	});
@@ -42,7 +50,7 @@ a2{ float:right; }
             <label> 기간(시작-끝) </label> <input id="datepicker1" class="commoninput" name="startDate" value="${startDate}">
             ~ <input id="datepicker2" class="commoninput" name="endDate" value="${endDate}">
          </div>
-         <div class="col-lg-3">
+         <div class="col-lg-3">  
             <div id="column-right">
                <button type="submit" class="btn btn-primary" >검색</button>
                <button class="btn btn-default" type="submit" name="cmd" value="pdf">보고서</button>

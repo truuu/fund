@@ -28,19 +28,19 @@ public class TestCommitmentMapper {
         
         assertNotNull(commitmentMapper);
 
-        Commitment commitment = commitmentMapper.selectByID(67);
+        Commitment commitment = commitmentMapper.selectByID(54);
         assert(commitment == null);
-        assertEquals("2016-0001-01", commitment.getCommitmentNo());
+        assertEquals("2016-0002-03", commitment.getCommitmentNo());
         
-        commitment = commitmentMapper.selectByCommitmentNo("2016-0001-03");
-        assertNull(commitment); // 2016-0001-03 없는거 확인
+        commitment = commitmentMapper.selectByCommitmentNo("2016-0002-03");
+        assertNull(commitment); // 2016-0002-03 없는거 확인
 
-        // 2016-0001-03 약정 insert
+        // 2016-0002-03 약정 insert
         Commitment newCommitment = new Commitment();
-        newCommitment.setCommitmentNo("2016-0001-03");
-        newCommitment.setSponsorID(12);
-        newCommitment.setDonationPurposeID(21);
-        newCommitment.setPaymentMethodID(13);
+        newCommitment.setCommitmentNo("2016-0002-03");
+        newCommitment.setSponsorID(89);
+        newCommitment.setDonationPurposeID(90);
+        newCommitment.setPaymentMethodID(10);
         newCommitment.setCommitmentDate("2016-11-03");
         newCommitment.setStartDate("2016-11-03");
         newCommitment.setEndDate("2017-11-03");
@@ -60,7 +60,7 @@ public class TestCommitmentMapper {
 	
 		commitmentDetailMapper.insert(commitmentDetail);  // 약정 상세 insert
         
-        commitment = commitmentMapper.selectByCommitmentNo("2016-0001-03");
+        commitment = commitmentMapper.selectByCommitmentNo("2016-0002-03");
         commitmentDetail = commitmentDetailMapper.selectByCommitmentID3(commitment.getID());
        
         assert(commitment != null);
@@ -79,7 +79,7 @@ public class TestCommitmentMapper {
         
 
         // 약정 삭제된 것 확인
-        commitment = commitmentMapper.selectByCommitmentNo("2016-0001-03");
+        commitment = commitmentMapper.selectByCommitmentNo("2016-0002-03");
         assertNull(commitment);
         
         

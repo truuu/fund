@@ -72,7 +72,13 @@
 		FROM [CodeGroup]
 		WHERE ID = #{CodeGroupID}
 	</select>
-
+	
+	<select id="selectByCodeName" resultType="fund.dto.Code">
+		SELECT *
+		FROM [Code]
+		WHERE codeName = #{codeName}
+	</select>
+	
 	<select id="selectByCodeGroupID"  resultType="fund.dto.Code"> 
 	SELECT *
     FROM [Code] 

@@ -4,7 +4,17 @@
 	prefix="sec"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<script>
+	function deleteFunction() {
 
+		if (confirm("삭제하시겠습니까?") == true) {
+			location.href = "/fund_sys/sponsor/deleteIrrgularPayment.do?id=${payment.id}&&sponsorID=${payment.sponsorID}";
+		} else {
+			return;
+		}
+	}
+</script>
 <style>
 div.commitmentTable {
 	display: none;
@@ -81,90 +91,85 @@ tr#topTable td, tr#topTable th {
 	text-align: center;
 }
 </style>
-<p>${sponsor.sponsorNo}&nbsp;${sponsor.name}&nbsp;
-	${sponsor.sponsorType1}&nbsp;</p>
-<ul class="nav nav-tabs">
-	<c:if test="${sponsorID==0}">
-		<li class="active"><a href="/fund_sys/sponsor/sponsor.do"
-			data-toggle="tab">회원관리</a></li>
-	</c:if>
-	<c:if test="${sponsorID!=0}">
-		<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorID}">회원관리</a></li>
-	</c:if>
-	<c:if test="${sponsorID!=0}">
-		<li><a href="/fund_sys/sponsor/commitment.do?id=${sponsorID}">약정관리</a></li>
-		<li><a href="/fund_sys/sponsor/paymentList.do?id=${sponsorID}">정기납입관리</a></li>
-		<li><a href="/fund_sys/sponsor/paymentList2.do?id=${sponsorID}">비정기납입관리</a></li>
-		<li class="active"><a
-			href="/fund_sys/sponsor/insertIrrgularPayment.do?id=${sponsorID}">비정기납입등록</a></li>
-	</c:if>
-</ul>
-
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
 			<!-- Page Heading -->
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">비정기 납입등록</h1>
+					<h1 class="page-header">비정기 납입 수정</h1>
 				</div>
 			</div>
 			<input type="hidden" value="${sponsor.sponsorNo}" /> <input
 				type="hidden" name="sponsorID" value="${sponsorID}" />
 			<!-- /.row -->
-			<form:form method="post" class="form-horizontal" id="target" modelAttribute="payment">
+			<form:form method="post" class="form-horizontal"
+				modelAttribute="payment">
 				<input type="hidden" name="sponsorID" value="${sponsorID}" />
 				<div class="form-group">
 					<label for="amount" class="col-lg-2 control-label">납입금액</label>
 					<div class="col-lg-10">
 						<div class="form-control">
-							<input type="text" value="${payment.money }" class="money" id="amount"
-								name="amount" placeholder="금액" style="border:0px; width:800px;"/>
+							<input type="text" value="${payment.amount }" class="money"
+								id="amount" name="amount" placeholder="금액"
+								style="border: 0px; width: 800px;" />
 						</div>
-						<form:errors path="amount"/>
 					</div>
 				</div>
 				<div class="form-group">
 
 					<label for="paymentDateString" class="col-lg-2 control-label">납입일</label>
 					<div class="col-lg-10">
-						<input type="date" value="${payment.paymentDate }" class="form-control" id="paymentDateString"
-							name="paymentDate" placeholder="날짜" />
-							<form:errors path="paymentDate"/>
+
+						<input type="date" value="${payment.paymentDateString}"
+							class="commoninput" name="paymentDateString" />
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="donationPurposeID" class="col-lg-2 control-label">기부목적</label>
 					<div class="col-lg-10">
-						<input type="text" name="dname" readonly /> <a
-							href="#searchDialog" class="btn btn-primary" data-toggle="modal">검색</a>
-						<input type="hidden" value="${payment.donationPurposeID }" name="donationPurposeID"
-							id="donationPurposeID" />
-						<form:errors path="donationPurposeID"/>
+						<input type="text" name="dname" readonly
+							value="${payment.donationPurpose }" /> <a href="#searchDialog"
+							class="btn btn-primary" data-toggle="modal">검색</a> <input
+							type="hidden" value="${payment.donationPurposeID }"
+							name="donationPurposeID" id="donationPurposeID" />
+
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="select" class="col-lg-2 control-label">납입 방법</label>
 					<div class="col-lg-10">
-						<select class="form-control" value="${payment.paymentMethodID }" name="paymentMethodID">
-							<option value="13">직접입금</option>
-							<option value="14">현물</option>
-							<option value="15">부동산</option>
-							<option value="16">신용카드</option>
+						<select class="form-control" name="paymentMethodID">
+							<option value="13"
+								${payment.paymentMethodID == 13 ? "selected" : "" }>직접입금</option>
+							<option value="14"
+								${payment.paymentMethodID == 14 ? "selected" : "" }>현물</option>
+							<option value="15"
+								${payment.paymentMethodID == 15 ? "selected" : "" }>부동산</option>
+							<option value="16"
+								${payment.paymentMethodID == 16 ? "selected" : "" }>신용카드</option>
 						</select>
-						<form:errors path="paymentMethodID"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="etc" class="col-lg-2 control-label">비고</label>
 					<div class="col-lg-10">
-						<input type="text" class="form-control" id="etc" name="etc"
-							placeholder="비고" />
+						<input type="text" class="form-control" value="${payment.etc }"
+							id="etc" name="etc" placeholder="비고" />
 					</div>
 				</div>
 				<hr>
 				<div align="center">
-					<input type="submit" class="btn btn-info" value="저장" />
+					<button type="submit" id="btn3" class="btn btn-primary">
+						<i class="icon-ok icon-white"></i> 저장
+					</button>
+					<button type="button" onclick="deleteFunction()"
+						class="btn btn-default">
+						<i class="icon-ok icon-white"></i> 삭제
+					</button>
+					<a href="paymentList2.do?id=${ payment.sponsorID }"
+						class="btn btn-default"> <i class="icon-ban-circle"></i> 취소
+					</a>
 				</div>
 			</form:form>
 
@@ -188,12 +193,6 @@ tr#topTable td, tr#topTable th {
 				<h3>기부목적 검색</h3>
 			</div>
 			<div class="modal-body">
-				<!-- 
-				<form class="form-inline" method="post" action="#">
-					<span>이름:</span> <input type="text" name="name" />
-					<button type="submit" class="btn btn-default">검색</button>
-				</form>
-			-->
 				<div id="scroll">
 					<div id="searchResult">
 						<table id="donationTable">

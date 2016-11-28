@@ -19,6 +19,12 @@
 		where ID=#{ID}
 
 	</select>
+	
+	<select id="selectByName" resultType="fund.dto.DonationPurpose">
+		select *
+		from donationPurpose
+		where name=#{name}
+	</select>
 
 	<select id="selectCoporateName" resultType="String">
       select c2.name 
