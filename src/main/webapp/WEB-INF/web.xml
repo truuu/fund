@@ -54,31 +54,5 @@
 
 
 
-      <!-- error 페이지 -->
-<!--
->>>>>>> branch 'cms' of https://github.com/truuu/fund
-      <error-page>
-
-    	<error-code>400</error-code>
-    	<location>/</location>
-    </error-page>
-    <error-page>
-    	<error-code>404</error-code>
-    	<location>/</location>
-    </error-page>
-    <error-page>
-    	<error-code>403</error-code>
-    	<location>/</location>
-    </error-page>
-    <error-page>
-    	<error-code>500</error-code>
-    	<location>/</location>
-
-    </error-page>
-<<<<<<< HEAD
-
-
-=======
--->
 
 </web-app>
