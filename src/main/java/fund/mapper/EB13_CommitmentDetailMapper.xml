@@ -13,7 +13,7 @@
 	</select>
 	
 	<update id="updateEB14error">
-		update EB13_commitmentDetail set state='에러'
+		update EB13_commitmentDetail set state='에러', errorCode=#{errorCode}
 		where commitmentDetailID IN
 		(select cd.ID
 		from EB13_commitmentDetail eb
@@ -60,7 +60,7 @@
 	
 	<insert id="createEB13list" useGeneratedKeys="true" keyProperty="id">
 	    insert into EB13_commitmentDetail
-		values ((select MAX(ID) from EB13),#{commitmentDeailID},'신규')     
+		values ((select MAX(ID) from EB13),#{commitmentDetailID},'신규','0000')     
     </insert>
 	
 	<select id="test" resultType="fund.dto.EB13_CommitmentDetail">

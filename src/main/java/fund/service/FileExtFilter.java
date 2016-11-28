@@ -14,7 +14,7 @@ public class FileExtFilter {
 		String fileName = "/Users/parkeunsun/Documents/"+file.getOriginalFilename();
 		String ext = fileName.substring(fileName.lastIndexOf(".") + 1,
 				fileName.length());
-		final String[] BAD_EXTENSION = { "java", "jsp", "php", "asp", "html", "perl"};
+		final String[] BAD_EXTENSION = { "java", "jsp", "php", "asp", "html", "perl","pdf","xlsx","xls","jpg","png","gif"};
 
 		int len = BAD_EXTENSION.length;
 		for (int i = 0; i < len; i++) {

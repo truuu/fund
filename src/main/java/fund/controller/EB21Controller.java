@@ -120,7 +120,7 @@ public class EB21Controller extends BaseController{
 				return "finance/eb22";
 			}
 		}else{
-			return "finance/uploadEB22";
+			model.addAttribute("errorMsg", "EB파일을 업로드 해 주세요."); 
 		}
 		return "finance/uploadEB22";
 	}

@@ -8,9 +8,13 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import fund.service.AES128UtilService;
 
 
 public class Sponsor {
+	@Autowired AES128UtilService cipherService; //양방향 암호화 서비스
 	int id;
 
 	String sponsorNo; //
@@ -325,6 +329,9 @@ public class Sponsor {
 	}
 	public void setEtc(String etc) {
 		this.etc = etc;
+	}
+	public String getDecJuminNo() throws Exception { // 자동으로 복호화해서 주민번호 가져오기 
+	      return cipherService.decAES(juminNo);
 	}
 
 }
