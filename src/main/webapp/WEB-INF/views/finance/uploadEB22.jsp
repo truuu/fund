@@ -46,6 +46,7 @@
 										<th>은행</th>
 										<th>계좌번호</th>
 										<th>납입금액</th>
+										<th>불능코드</th>
 									</tr>
 								</thead>
 							</table>

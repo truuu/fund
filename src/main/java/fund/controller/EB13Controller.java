@@ -73,7 +73,6 @@ public class EB13Controller extends BaseController{
 
 		eb13Mapper.createEB13file();
 		for(int i = 0 ; i < commitmentDetailID.length; ++i){
-			System.out.println(commitmentDetailID[i]);
 			eb13_commitmentDetailMapper.createEB13list(commitmentDetailID[i]);
 		}
 		model.addAttribute("successMsg", "EB13 파일 생성을 완료했습니다."); 

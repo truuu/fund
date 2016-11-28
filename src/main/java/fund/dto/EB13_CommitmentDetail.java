@@ -26,10 +26,17 @@ public class EB13_CommitmentDetail {
 	String donationPurpose;
 	String name;
 	String etc1;
+	String description;
 	
 	Date startDate;
 	Date endDate;
 	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public int getID() {
 		return ID;
 	}

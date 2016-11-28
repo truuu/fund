@@ -50,16 +50,25 @@ public class EB21Controller extends BaseController{
 	}
 
 	@RequestMapping(value="/finance/eb21.do", method=RequestMethod.POST, params="cmd=selectEB21List")
-	public String selectEB21(@RequestParam("paymentDay") int paymentDay,Model model) throws ParseException{
+	public String selectEB21(@RequestParam("paymentDay") int paymentDay,Model model) throws Exception{
 		List<EB21_commitmentDetail> eb21List = commitmentDetailMapper.selectEB21(paymentDay);
+		for(int i = 0; i < eb21List.size(); i++){
+			String decoding = eb21List.get(i).getJumin2();
+			eb21List.get(i).setJumin(decoding.substring(0, 6));
+		}
+		
 		model.addAttribute("eb21List", eb21List);
 		model.addAttribute("paymentDay", paymentDay);
 
 		return "finance/eb21";
 	}
 	@RequestMapping(value="/finance/eb21.do", method=RequestMethod.POST, params="cmd=createEB21file")
-	public String createEB21file(@RequestParam("paymentDay") int paymentDay,@RequestParam("paymentDate") String paymentDate_old,@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws IOException, ParseException{
+	public String createEB21file(@RequestParam("paymentDay") int paymentDay,@RequestParam("paymentDate") String paymentDate_old,@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws Exception{
 		List<EB21_commitmentDetail> eb21List = commitmentDetailMapper.selectEB21(paymentDay);
+		for(int i = 0; i < eb21List.size(); i++){
+			String decoding = eb21List.get(i).getJumin2();
+			eb21List.get(i).setJumin(decoding.substring(0, 6));
+		}
 		model.addAttribute("eb21List",eb21List);
 
 		CreateEB21File.createEB21File(eb21List,paymentDate_old);//EB21파일생성.
@@ -104,7 +113,8 @@ public class EB21Controller extends BaseController{
 					int amount = Integer.parseInt(sub.substring(23, 36).trim());//돈 앞에 0 제거.
 					eb22.setAmountPerMonth(amount);
 					eb22.setJumin(sub.substring(36,49).trim());
-					String sponsorNo = sub.substring(88, 113).trim();
+					eb22.setErrorCode(sub.substring(50, 54));
+					String sponsorNo = sub.substring(72, 92).trim();
 					eb22.setSponsorNo(sponsorNo);
 					StringBuffer sNo = new StringBuffer(sponsorNo);
 					sNo.insert(4,"-");//후원인번호 가운데 "-" 추가
@@ -139,9 +149,10 @@ public class EB21Controller extends BaseController{
 			for (int i=0; i<eb22List.size();i++) {
 				EB22 x = eb22List.get(i);
 				String sponsorNo = x.getSponsorNo();
+				String errorCode = x.getErrorCode();
 				StringBuffer sNo = new StringBuffer(sponsorNo);
 				sNo.insert(4,"-");
-				eb21_commitmentDetailMapper.updateEB21error(sNo.toString(),paymentDate);
+				eb21_commitmentDetailMapper.updateEB21error(sNo.toString(),paymentDate,errorCode);
 				eb21_commitmentDetailMapper.updateEB21success(paymentDate);
 			}
 		}

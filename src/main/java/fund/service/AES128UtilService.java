@@ -47,6 +47,7 @@ public class AES128UtilService {
 
 	// 복호화
 	public String decAES(String enStr) throws Exception {
+		System.out.println("e "+enStr);
 	    Key keySpec = getAESKey();
 	    String iv = "0987654321654321";
 	    Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
