@@ -65,7 +65,7 @@ iframe { width:800px; border: 1px solid #ddd; height:900px; }
 						<tr>
 							<td id="table_a">일련번호</td>
 							<td id="table_b"><input type="text" id="serialNo" class="commoninput" name="serialNo"
-								value="${serialNo}"/></td>
+								value="${serialNo}" readonly /></td>
 						</tr>
 						<tr>
 							<td id="table_a">후원자명</td>

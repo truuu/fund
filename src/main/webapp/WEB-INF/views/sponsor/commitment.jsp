@@ -24,6 +24,7 @@
 </script>
 
 <style>
+tr:hover{ background-color: #ffe; cursor: pointer; }
 #new, #detail2 {
 	float: right;
 }
