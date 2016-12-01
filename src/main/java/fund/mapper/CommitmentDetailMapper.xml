@@ -74,7 +74,7 @@
 	</select>
 	
 	<select id="selectEB13" resultType="fund.dto.EB13_CommitmentDetail">
-	    select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin ,codeName,cd.accountNo,cd.ID commitmentDetailID,code.etc1
+	    select s.sponsorNo,cd.accountHolder,s.juminNo jumin ,codeName,cd.accountNo,cd.ID commitmentDetailID,code.etc1
 		from [commitmentDetail] cd
 		INNER JOIN [code]
 		ON cd.bankID=code.ID
