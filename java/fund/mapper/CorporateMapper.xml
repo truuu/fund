@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+             "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fund.mapper.CorporateMapper">
+	<select id="selectByName" resultType="fund.dto.Corporate">
+		SELECT *
+		FROM [Corporate]
+		WHERE name=#{name}
+	</select>
+	
+	<select id="selectCorporate" resultType="fund.dto.Corporate">
+		SELECT *
+		FROM [Corporate]
+	</select>
+	
+	<select id="selectCorporateID" resultType="Integer">
+		SELECT id
+		FROM [Corporate]
+	</select>
+	
+   	<select id="selectByID" resultType="fund.dto.Corporate"> 
+		SELECT  *
+		FROM  [Corporate]
+		WHERE ID = #{ID}
+	</select>
+	
+	<select id="selectPage" resultType="fund.dto.Corporate">
+		<![CDATA[
+		SELECT *
+		FROM(
+		SELECT *,ROW_NUMBER() OVER (ORDER BY ID) 행번호
+		FROM [Corporate]	) subquery
+		WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              행번호 <= #{currentPage} * #{pageSize}
+        ORDER BY 행번호
+        ]]>
+	</select>
+	
+	 <select id="selectCount" resultType="int">
+        SELECT COUNT(*)
+        FROM [Corporate]
+    </select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT [Corporate]
+               (name, corporateNo, representative, address)
+        VALUES (#{name},#{corporateNo},#{representative},#{address})
+	</insert>
+	
+	<update id="update">
+        UPDATE [Corporate]
+        SET name = #{name}, corporateNo = #{corporateNo}, representative = #{representative}, address = #{address}
+        WHERE ID = #{ID}
+    </update>
+	
+    <delete id="delete">
+        DELETE FROM [Corporate] WHERE ID = #{ID}
+    </delete>
+    
+	
+</mapper>
