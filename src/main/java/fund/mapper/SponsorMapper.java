@@ -34,8 +34,10 @@ public interface SponsorMapper {
 	int selectChurchCode(Sponsor sponsor);
 	//�썑�썝�옄�엯�젰 part
 	void sponsorInsert(Sponsor sponsor);
+	void sponsorInsert2(Sponsor sponsor);//소속교회를 입력하지 않은 경우 
 	void removeSponsor(String sponsorNo);
 	void updateSponsor(Sponsor sponsor);
+	void updateSponsor2(Sponsor sponsor);
 
 	Sponsor selectBySponsorNo(int id);
 	List<Sponsor> nameSearch(Pagination pagination);

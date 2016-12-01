@@ -56,49 +56,52 @@ public class SponsorController extends BaseController{
 		model.addAttribute("list", sponsorMapper.selectPage(pagination));
 		List<Code> code1=codeMapper.selectByCodeGroupID(1);
 		List<Code> code2=codeMapper.selectByCodeGroupID(2);
-		
+
 		code1.addAll(code2);
-		
+
 		model.addAttribute("sponsorType", code1);
 		return "sponsor/sponsorManage";
 	}
-	
-    //codeName check 
+
+	//codeName check 
 	@RequestMapping(value="/sponsor/codeNameCheck.do",method=RequestMethod.GET)
-	public @ResponseBody List<Sponsor> codeNameCheck(@RequestParam("codeName")String codeName)throws Exception{
+	public @ResponseBody Map<String, Object> codeNameCheck(@RequestParam("codeName")String codeName,HttpServletRequest request,HttpServletResponse response)throws Exception{
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		Map<String,Object> map = new HashMap<String,Object>();
 		System.out.println("codeName >> "+codeName);
 		List<Sponsor> sponsor=sponsorMapper.codeNameCheck(codeName);
 		if(sponsor==null){
 			System.out.println("없음 검사 codeName");
 			sponsor=new ArrayList<Sponsor>();
 		}
-
-		return sponsor;
+		System.out.println(sponsor.toString());
+		map.put("sponsor", sponsor);
+		return map;
 	}
-	
+
 	//name check 
-	@RequestMapping(value="/sponsor/nameCheck.do",method=RequestMethod.GET)
-	public @ResponseBody List<Sponsor> nameCheck(@RequestParam("nameForSearch")String nameForSearch)throws Exception{
-			String name=nameForSearch;
-			List<Sponsor> sponsor=sponsorMapper.nameCheck(name);
-			if(sponsor==null){
-				System.out.println("업음 검사 ");
-				sponsor=new ArrayList<Sponsor>();
-				return sponsor;
-			}else{
-				System.out.println("값 있다  ");
-				 return sponsor;
-			}
+	@RequestMapping(value="/sponsor/nameCheck.do",method=RequestMethod.GET,headers = "Accept=application/json")
+	public @ResponseBody List<Sponsor> nameCheck(@RequestParam("nameForSearch")String nameForSearch,HttpServletRequest request,HttpServletResponse response)throws Exception{
+		response.addHeader("Access-Control-Allow-Origin", "*");	
+		String name=nameForSearch;
+		List<Sponsor> sponsor=sponsorMapper.nameCheck(name);
+		if(sponsor==null){
+			System.out.println("업음 검사 ");
+			sponsor=new ArrayList<Sponsor>();
+			return sponsor;
+		}else{
+			System.out.println("값 있다  ");
+			return sponsor;
+		}
 
-	 
+
 	}
- 
+
 
 	//회원관리 검색기능 
 	@RequestMapping(value="/sponsor/search.do",method=RequestMethod.GET)
 	public String sponsorSearch(Model model, Pagination pagination)throws Exception{
 		String codeName=pagination.getCodeName();
-		System.out.println("paging test codename "+codeName);
 		List<Sponsor> sponsorList=null;
 		if(codeName.equals("이름")){
 			String nameForSearch=pagination.getNameForSearch();
@@ -106,17 +109,15 @@ public class SponsorController extends BaseController{
 		}else{
 
 			int type=sponsorMapper.sponsorTypeCheck(codeName);
-			System.out.println("codeName >> "+codeName+" type int >> "+type);
 			pagination.setType(type);
 			pagination.setRecordCount(sponsorMapper.searchCount(pagination));
-			System.out.println("count >> "+sponsorMapper.searchCount(pagination));
 			sponsorList=sponsorMapper.sponsorSearch(pagination);
 		}
-		
+
 		List<Code> code1=codeMapper.selectByCodeGroupID(1);
 		List<Code> code2=codeMapper.selectByCodeGroupID(2);
 		code1.addAll(code2);
-		
+
 		model.addAttribute("sponsorType", code1);
 		model.addAttribute("list", sponsorList);
 		return "sponsor/sponsorManage";
@@ -186,7 +187,12 @@ public class SponsorController extends BaseController{
 			return "sponsor/sponsor";
 
 		}
-		sponsor.setChurchID(sponsorMapper.selectChurchCode(sponsor));
+
+		if(!sponsor.getChurch().equals("")){
+			sponsor.setChurchID(sponsorMapper.selectChurchCode(sponsor));
+		}
+
+
 
 		String homeRoadAddress = request.getParameter("homeRoadAddress");
 		String homeDetailAddress = request.getParameter("homeDetailAddress");
@@ -208,10 +214,21 @@ public class SponsorController extends BaseController{
 
 
 		if(sponsor.getSort()==0){
-			sponsorMapper.sponsorInsert(sponsor);
+			if(!sponsor.getChurch().equals("")){//소속교회를 입력했을 경우
+				sponsorMapper.sponsorInsert(sponsor);
+			}
+			if(sponsor.getChurch().equals("")){ //소속교회를 입력하지 않은 경우 
+				sponsorMapper.sponsorInsert2(sponsor);
+			}
 		}
 		if(sponsor.getSort()==1){
-			sponsorMapper.updateSponsor(sponsor);
+			if(!sponsor.getChurch().equals("")){//소속교회를 변경한 경우
+				sponsorMapper.updateSponsor(sponsor);
+			}
+			if(sponsor.getChurch().equals("")){//소속교회를 지운  경우
+				sponsorMapper.updateSponsor2(sponsor);
+			}
+
 		}
 
 
@@ -229,22 +246,51 @@ public class SponsorController extends BaseController{
 
 		if(!homeAddress.equals("")){
 			String[] home=homeAddress.split("\\*");
-			String homeRoadAddress=home[0];
+			System.out.println("size >> "+home.length);
+			for(int i=0;i<home.length;i++){
+				if(i==0){
+					String homeRoadAddress=home[0];
+					sponsor.setHomeRoadAddress(homeRoadAddress);
+				}
+				if(i==1){
+					String homeDetailAddress=home[1];
+					sponsor.setHomeDetailAddress(homeDetailAddress);
+				}if(i==2){
+					String homePostCode=home[2];
+					sponsor.setHomePostCode(homePostCode);
+				}
+			}
+			/*String homeRoadAddress=home[0];
 			String homeDetailAddress=home[1];
 			String homePostCode=home[2];
 			sponsor.setHomeRoadAddress(homeRoadAddress);
 			sponsor.setHomeDetailAddress(homeDetailAddress);
-			sponsor.setHomePostCode(homePostCode);
+			sponsor.setHomePostCode(homePostCode);*/
 
 		}
 		if(!officeAddress.equals("")){
 			String[] office=officeAddress.split("\\*");
-			String officeRoadAddress=office[0];
+			
+			for(int i=0;i<office.length;i++){
+				if(i==0){
+					String officeRoadAddress=office[0];
+					sponsor.setOfficeRoadAddress(officeRoadAddress);
+				}
+				if(i==1){
+					String officeDetailAddress=office[1];
+					sponsor.setOfficeDetailAddress(officeDetailAddress);
+				}if(i==2){
+					String officePostCode=office[2];
+					sponsor.setOfficePostCode(officePostCode);
+				}
+			}
+			
+			/*String officeRoadAddress=office[0];
 			String officeDetailAddress=office[1];
 			String officePostCode=office[2];
 			sponsor.setOfficeRoadAddress(officeRoadAddress);
 			sponsor.setOfficeDetailAddress(officeDetailAddress);
-			sponsor.setOfficePostCode(officePostCode);
+			sponsor.setOfficePostCode(officePostCode);*/
 		}
 
 		String decoding=cipherService.decAES(sponsor.getJuminNo());//jumin decoding
