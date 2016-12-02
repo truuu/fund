@@ -43,34 +43,44 @@ public class EB13Controller extends BaseController{
 	@Autowired EB13_CommitmentDetailMapper eb13_commitmentDetailMapper;
 	@Autowired CommitmentDetailMapper commitmentDetailMapper;
 	@Autowired FileExtFilter fileExtFilter;
-	@Autowired AES128UtilService cipherService; //양방향 암호화 서비스
+	@Autowired AES128UtilService cipherService;
 
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.GET)
 	public String eb13(Model model) {
 		return "finance/eb13";
 	}
+	
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=selectEB13")
-	public String selectEB13(Model model)throws Exception{
-		List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
-		for(int i=0;i<eb13List.size();i++){
-			System.out.println(eb13List.get(i).getJumin());
-			String decoding=cipherService.decAES(eb13List.get(i).getJumin());//jumin decoding
-			eb13List.get(i).setJumin(decoding);
-		}
-		model.addAttribute("eb13List", eb13List);
-		return "finance/eb13";
-	}
+	   public String selectEB13(Model model)throws Exception{
+	      List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
+	      for(int i = 0; i < eb13List.size(); i++){
+	    	  if(eb13List.get(i).getSponsorType1ID() == 4){
+	    		 String decoding = eb13List.get(i).getJumin2();//사업자등록번호 디코딩
+	 	         eb13List.get(i).setJumin(decoding);
+	    	  }else{
+	    		 String decoding = eb13List.get(i).getJumin2();//주민번호 디코딩
+	 	         eb13List.get(i).setJumin(decoding.substring(0, 6));
+	    	  }
+	      }
+	      model.addAttribute("eb13List", eb13List);
+	      return "finance/eb13";
+	   }
+	
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=createEB13file")
-	public String createEB13file(@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws IOException{
+	public String createEB13file(@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws Exception{
 		List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
+		for(int i = 0; i < eb13List.size(); i++){
+	         String decoding = eb13List.get(i).getJumin2();
+	         eb13List.get(i).setJumin(decoding.substring(0, 6));
+	    }
 		model.addAttribute("eb13List", eb13List);
 		CreateEB13File.createEB13File(eb13List);
 
 		eb13Mapper.createEB13file();
-		for(int i=0 ; i<commitmentDetailID.length; ++i){
+		for(int i = 0 ; i < commitmentDetailID.length; ++i){
 			eb13_commitmentDetailMapper.createEB13list(commitmentDetailID[i]);
 		}
-		model.addAttribute("successMsg", "EB13 ���� ������ �Ϸ��߽��ϴ�."); 
+		model.addAttribute("successMsg", "EB13 파일 생성을 완료했습니다."); 
 		return "finance/eb13";
 	}
 
@@ -86,7 +96,7 @@ public class EB13Controller extends BaseController{
 
 	@RequestMapping(value="/finance/uploadEB14.do", method=RequestMethod.POST)
 	public String uploadEB14(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws IOException, ParseException {
-		if(fileExtFilter.badFileExtIsReturnBoolean(uploadedFile) == true){ // ���� Ȯ���� ���͸�.
+		if(fileExtFilter.badFileExtIsReturnBoolean(uploadedFile) == true){ // 파일 확장자 필터링.
 			if (uploadedFile.getSize() > 0 ) {
 				byte[] bytes = uploadedFile.getBytes();
 				String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
@@ -110,8 +120,8 @@ public class EB13Controller extends BaseController{
 					eb14.setBankCode(sub.substring(27, 33).trim());
 					eb14.setAccountNo(sub.substring(34, 50).trim());
 					eb14.setJumin(sub.substring(50, 67).trim());
+					eb14.setErrorCode(sub.substring(73,77)); //N 다음 불능코드 4자리
 					eb14List.add(eb14);
-
 				}	
 				model.addAttribute("eb14List",eb14List);
 				session.setAttribute("eb14ListSession", eb14List);
@@ -119,7 +129,7 @@ public class EB13Controller extends BaseController{
 				return "finance/eb14";
 			}
 		}else{
-			return "finance/uploadEB14";
+			model.addAttribute("errorMsg", "EB파일을 업로드 해 주세요."); 
 		}
 		return "finance/uploadEB14";
 	}
@@ -138,13 +148,14 @@ public class EB13Controller extends BaseController{
 				EB14 x = eb14List.get(i);
 				String sponsorNo = x.getSponsorNo();
 				Date createDate = x.getCreateDate();
+				String errorCode = x.getErrorCode();
 				StringBuffer sNo = new StringBuffer(sponsorNo);
 				sNo.insert(4,"-");
-				eb13_commitmentDetailMapper.updateEB14error(sNo.toString());
+				eb13_commitmentDetailMapper.updateEB14error(sNo.toString(),errorCode);//에러코드 추가
 				eb13_commitmentDetailMapper.updateEB14success(createDate);
 			}
 		}
-		model.addAttribute("successMsg", "EB14 ���� ������ �Ϸ��߽��ϴ�."); 
+		model.addAttribute("successMsg", "EB14 파일 적용을 완료했습니다."); 
 		return "finance/eb14";
 	}
 

@@ -35,9 +35,9 @@ import fund.service.ReportBuilder;
 import fund.service.UserService;
 import fund.service.AES128UtilService;
 import fund.service.FileExtFilter;
+import fund.service.PaymentService;
 import net.sf.jasperreports.engine.JRException;
 
-import java.util.*;
 
 
 @Controller
@@ -49,55 +49,16 @@ public class SponsorController extends BaseController{
 	@Autowired DonationPurposeMapper donationPurposeMapper;
 	@Autowired AES128UtilService cipherService; //양방향 암호화 서비스
 	@Autowired FileExtFilter fileExtFilter;
-
+	@Autowired PaymentService paymentService;
 
 	//후원자관리 기본페이지
 	@RequestMapping(value="/sponsor/sponsor_m.do",method=RequestMethod.GET)
 	public String userManage(Model model, Pagination pagination)throws Exception{
 		pagination.setRecordCount(sponsorMapper.selectCount());
 		model.addAttribute("list", sponsorMapper.selectPage(pagination));
-		List<Code> code1=codeMapper.selectByCodeGroupID(1);
-		List<Code> code2=codeMapper.selectByCodeGroupID(2);
-
-		code1.addAll(code2);
-
-		model.addAttribute("sponsorType", code1);
 		return "sponsor/sponsorManage";
 	}
 
-	//codeName check 
-	@RequestMapping(value="/sponsor/codeNameCheck.do",method=RequestMethod.GET)
-	public @ResponseBody Map<String, Object> codeNameCheck(@RequestParam("codeName")String codeName,HttpServletRequest request,HttpServletResponse response)throws Exception{
-		response.addHeader("Access-Control-Allow-Origin", "*");
-		Map<String,Object> map = new HashMap<String,Object>();
-		System.out.println("codeName >> "+codeName);
-		List<Sponsor> sponsor=sponsorMapper.codeNameCheck(codeName);
-		if(sponsor==null){
-			System.out.println("없음 검사 codeName");
-			sponsor=new ArrayList<Sponsor>();
-		}
-		System.out.println(sponsor.toString());
-		map.put("sponsor", sponsor);
-		return map;
-	}
-
-	//name check 
-	@RequestMapping(value="/sponsor/nameCheck.do",method=RequestMethod.GET,headers = "Accept=application/json")
-	public @ResponseBody List<Sponsor> nameCheck(@RequestParam("nameForSearch")String nameForSearch,HttpServletRequest request,HttpServletResponse response)throws Exception{
-		response.addHeader("Access-Control-Allow-Origin", "*");	
-		String name=nameForSearch;
-		List<Sponsor> sponsor=sponsorMapper.nameCheck(name);
-		if(sponsor==null){
-			System.out.println("업음 검사 ");
-			sponsor=new ArrayList<Sponsor>();
-			return sponsor;
-		}else{
-			System.out.println("값 있다  ");
-			return sponsor;
-		}
-
-
-	}
 
 
 	//회원관리 검색기능 
@@ -112,15 +73,9 @@ public class SponsorController extends BaseController{
 
 			int type=sponsorMapper.sponsorTypeCheck(codeName);
 			pagination.setType(type);
-			pagination.setRecordCount(sponsorMapper.searchCount(pagination));
+			pagination.setRecordCount(sponsorMapper.searchCount(codeName));
 			sponsorList=sponsorMapper.sponsorSearch(pagination);
 		}
-
-		List<Code> code1=codeMapper.selectByCodeGroupID(1);
-		List<Code> code2=codeMapper.selectByCodeGroupID(2);
-		code1.addAll(code2);
-
-		model.addAttribute("sponsorType", code1);
 		model.addAttribute("list", sponsorList);
 		return "sponsor/sponsorManage";
 	}
@@ -128,40 +83,35 @@ public class SponsorController extends BaseController{
 	//신규
 	@RequestMapping(value="/sponsor/sponsor.do",method=RequestMethod.GET)
 	public String userRegister(Model model,Sponsor sponsor)throws Exception{
-		Calendar oCalendar = Calendar.getInstance( );  // 현재 날짜/시간 등의 각종 정보 얻기
 		Integer num=sponsorMapper.ceateNumber();
-		String[] year=sponsorMapper.ceateYear().split("-");
-		int preYear=oCalendar.get(Calendar.YEAR);
 		String number;
-		if(num==null){//후원자를 처음 등록할때 0001 초기화 
+
+
+		if(num==null){
 			number="0001";
-			String sponsorNo=preYear+"-"+number;
-			sponsor.setSponsorNo(sponsorNo);
 		}else{
-			if(Integer.parseInt(year[0])==preYear){//년도가 변하지 않았을때 
-				System.out.println("년도 그대로 !!!!!!");
-				number=String.valueOf((int)num+1);
-				if(number.length()==1){
-					number="000"+number;
-				}
-				if(number.length()==2){
-					number="00"+number;
-				}
-				if(number.length()==3){
-					number="0"+number;
-				}
-
-				String sponsorNo=preYear+"-"+number;
-				sponsor.setSponsorNo(sponsorNo);
-
+			number=String.valueOf((int)num+1);
+			if(number.length()==1){
+				number="000"+number;
 			}
-			if(Integer.parseInt(year[0])!=preYear){ // 년도가 변했을때 후원자 번호 생성
-				System.out.println("년도 변함 !!!!!!!");
-				number="0001";
-				String sponsorNo=preYear+"-"+number;
-				sponsor.setSponsorNo(sponsorNo);
+			if(number.length()==2){
+				number="00"+number;
 			}
+			if(number.length()==3){
+				number="0"+number;
+			}
+
 		}
+		Calendar oCalendar = Calendar.getInstance( );  // 현재 날짜/시간 등의 각종 정보 얻기
+		String sponsorNo=oCalendar.get(Calendar.YEAR)+"-"+number;
+		sponsor.setSponsorNo(sponsorNo);
+
+
+		model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1));  // 후원인구분1 목록
+		model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));  // 후원인구분1 목록
+
+
+
 
 		//첨부파일리스트 임시테스트 -> 세션값으로 방식으로 바꾸어야함 
 		//List<FileAttachment> list=fileAttachmentMapper.selectByArticleId(100);
@@ -184,17 +134,13 @@ public class SponsorController extends BaseController{
 
 		if (result.hasErrors()) {
 			// 에러 출력
+		
 			model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1));  // 후원인구분1 목록
 			model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));  // 후원인구분2 목록
 			return "sponsor/sponsor";
 
 		}
-
-		if(!sponsor.getChurch().equals("")){
-			sponsor.setChurchID(sponsorMapper.selectChurchCode(sponsor));
-		}
-
-
+		sponsor.setChurchID(sponsorMapper.selectChurchCode(sponsor));
 
 		String homeRoadAddress = request.getParameter("homeRoadAddress");
 		String homeDetailAddress = request.getParameter("homeDetailAddress");
@@ -216,21 +162,10 @@ public class SponsorController extends BaseController{
 
 
 		if(sponsor.getSort()==0){
-			if(!sponsor.getChurch().equals("")){//소속교회를 입력했을 경우
-				sponsorMapper.sponsorInsert(sponsor);
-			}
-			if(sponsor.getChurch().equals("")){ //소속교회를 입력하지 않은 경우 
-				sponsorMapper.sponsorInsert2(sponsor);
-			}
+			sponsorMapper.sponsorInsert(sponsor);
 		}
 		if(sponsor.getSort()==1){
-			if(!sponsor.getChurch().equals("")){//소속교회를 변경한 경우
-				sponsorMapper.updateSponsor(sponsor);
-			}
-			if(sponsor.getChurch().equals("")){//소속교회를 지운  경우
-				sponsorMapper.updateSponsor2(sponsor);
-			}
-
+			sponsorMapper.updateSponsor(sponsor);
 		}
 
 
@@ -267,7 +202,7 @@ public class SponsorController extends BaseController{
 		}
 		if(!officeAddress.equals("")){
 			String[] office=officeAddress.split("\\*");
-			
+
 			for(int i=0;i<office.length;i++){
 				if(i==0){
 					String officeRoadAddress=office[0];
@@ -287,6 +222,7 @@ public class SponsorController extends BaseController{
 		if(!sponsor.getJuminNo().equals("")){
 			String decoding=cipherService.decAES(sponsor.getJuminNo());//jumin decoding
 			sponsor.setJuminNo(decoding);// 복호화 후 저장
+
 		}
 
 	
@@ -324,9 +260,9 @@ public class SponsorController extends BaseController{
 		return "sponsor/paymentList2";
 	}
 
-	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.GET)  // 비정기 납입등록
+	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.GET)  // 비정기 납입 등록
 	public String insertIrrgularPayment1(Model model,@RequestParam("id") int id) {
-		Sponsor sponsor=sponsorMapper.selectBySponsorNo(id);
+		Sponsor sponsor = sponsorMapper.selectBySponsorNo(id);
 		model.addAttribute("sponsor", sponsor);
 		model.addAttribute("sponsorID",id);
 		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
@@ -336,20 +272,59 @@ public class SponsorController extends BaseController{
 	}
 
 	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.POST)
-	public String insertIrrgularPayment2(IregularPayment iregularPayment,Model model) throws Exception {
-		Payment payment = new Payment();
-		payment.setSponsorID(iregularPayment.getSponsorID());
-		payment.setAmount(iregularPayment.getAmount());
-		Date date = (new SimpleDateFormat("yyyy-MM-dd")).parse(iregularPayment.getPaymentDate());
-		payment.setPaymentDate(date);
-		payment.setPaymentMethodID(iregularPayment.getPaymentMethodID());
-		payment.setDonationPurposeID(iregularPayment.getDonationPurposeID());
-		payment.setEtc(iregularPayment.getEtc());
-
-		paymentMapper.insertIrregularPayment(payment);
+	public String insertIrrgularPayment2(IregularPayment iregularPayment,BindingResult result,Model model,RedirectAttributes redirectAttributes) throws Exception {
+		//if (result.hasErrors()) {
+			// validation error!!
+//			if(iregularPayment.getAmount()==0) {
+//				String a = String.valueOf(iregularPayment.getAmount());
+//				a = null;
+//				System.out.println(a);
+//			}
+			
+			//return "redirect:/sponsor/insertIrrgularPayment.do?id="+iregularPayment.getSponsorID();
+			//return "sponsor/insertIrrgularPayment";
+		//}
+		String message = paymentService.validateBeforeInsert(iregularPayment);
+		if (message == null){
+			Payment payment = new Payment();
+			System.out.println(payment);
+			payment.setSponsorID(iregularPayment.getSponsorID());
+			payment.setAmount(iregularPayment.getAmount());
+			Date date = (new SimpleDateFormat("yyyy-MM-dd")).parse(iregularPayment.getPaymentDate());
+			payment.setPaymentDate(date);
+			payment.setPaymentMethodID(iregularPayment.getPaymentMethodID());
+			payment.setDonationPurposeID(iregularPayment.getDonationPurposeID());
+			payment.setEtc(iregularPayment.getEtc());
+	
+			paymentMapper.insertIrregularPayment(payment);
+		}else{
+			redirectAttributes.addFlashAttribute("eMsg", message);
+			return "redirect:/sponsor/insertIrrgularPayment.do?id="+iregularPayment.getSponsorID();
+		}
 
 		return "redirect:/sponsor/paymentList2.do?id="+iregularPayment.getSponsorID();
 	}
+	
+	@RequestMapping(value="/sponsor/editIrrgularPayment.do", method=RequestMethod.GET)  // 비정기 납입 수정
+	public String editIrrgularPayment(Model model,@RequestParam("id") int id,@RequestParam("sponsorID") int sponsorID,RedirectAttributes redirectAttributes) {
+		Payment payment = paymentMapper.selectIrregular(id);
+		model.addAttribute("payment",payment);
+		return "sponsor/editIrrgularPayment";
+	}
+	
+	@RequestMapping(value="/sponsor/editIrrgularPayment.do", method=RequestMethod.POST)  // 비정기 납입 수정
+	public String editIrrgularPayment(Payment payment, Model model) {
+		paymentMapper.updateIrregular(payment);
+		return "redirect:/sponsor/paymentList2.do?id="+payment.getSponsorID();
+	}
+	
+	@RequestMapping(value="/sponsor/deleteIrrgularPayment.do")
+	public String deleteIrrgularPayment(Model model, @RequestParam("id") int id,@RequestParam("sponsorID") int sponsorID) {
+		System.out.println(id);
+		paymentMapper.deleteIrregular(id);
+		return "redirect:/sponsor/paymentList2.do?id="+sponsorID;
+	}
+	
 
 	//후원자 정보 삭제하기
 	@RequestMapping(value="/sponsor/delete.do",method=RequestMethod.GET)
@@ -402,7 +377,7 @@ public class SponsorController extends BaseController{
 		String check = request.getParameter("check");	
 		pagination.setRecordCount(sponsorMapper.countForDM(pagination));
 		List<Sponsor> postList=sponsorMapper.postManage(pagination);
-
+		
 		String temp,address,postCode;
 		int middle;
 		for (Sponsor i : postList) {
@@ -563,7 +538,7 @@ public class SponsorController extends BaseController{
 				i.setPostCode(postCode);
 			}
 		}
-
+		
 		ReportBuilder reportBuilder = new ReportBuilder("sendDM", list, "sendDM.xlsx",req,res);
 		reportBuilder.build("xlsx");
 	}

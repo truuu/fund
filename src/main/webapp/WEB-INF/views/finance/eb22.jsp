@@ -45,6 +45,7 @@
 										<th>은행</th>
 										<th>계좌번호</th>
 										<th>납입금액</th>
+										<th>불능코드</th>
 									</tr>
 								</thead>
 								<c:forEach var="eb22List" items="${eb22List}">
@@ -56,6 +57,7 @@
 											<td>${eb22List.bankCode }</td>
 											<td>${eb22List.accountNo }</td>
 											<td class="money">${eb22List.amountPerMonth }</td>
+											<td>${eb22List.errorCode }</td>
 										</tr>
 									</tbody>
 								</c:forEach>

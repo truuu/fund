@@ -1,8 +1,11 @@
 package fund.dto;
 
 import java.util.Date;
+import fund.service.AES128UtilService;
 
 public class EB21_commitmentDetail {
+	AES128UtilService cipherService=new AES128UtilService(); //양방향 암호화 서비스
+	
 	int ID;
 	int EB21ID;
 	int commitmentDetailID;
@@ -12,10 +15,12 @@ public class EB21_commitmentDetail {
 	String sponsorNo;
 	String accountHolder;
 	String jumin;
+	String jumin2;
 	String codeName;
 	String accountNo;
 	int amountPerMonth;
 	int paymentDay;
+	int sponsorType1ID;
 	
 	String createDate;
 	String commitmentNo;
@@ -24,7 +29,28 @@ public class EB21_commitmentDetail {
 	String etc1;
 	Date paymentDate;
 	int sponsorID;
+	String description;
 	
+	public int getSponsorType1ID() {
+		return sponsorType1ID;
+	}
+	public void setSponsorType1ID(int sponsorType1ID) {
+		this.sponsorType1ID = sponsorType1ID;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getJumin2() throws Exception {
+		String test = cipherService.decAES(jumin2);
+		System.out.println(test);
+		return test;
+	}
+	public void setJumin2(String jumin2) {
+		this.jumin2 = jumin2;
+	}
 	public Date getPaymentDate() {
 		return paymentDate;
 	}

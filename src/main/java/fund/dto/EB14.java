@@ -8,6 +8,7 @@ public class EB14 {
 	String bankCode;
 	String accountNo;
 	Date createDate;
+	String errorCode;
 	
 	public Date getCreateDate() {
 		return createDate;
@@ -38,5 +39,11 @@ public class EB14 {
 	}
 	public void setAccountNo(String accountNo) {
 		this.accountNo = accountNo;
+	}
+	public String getErrorCode() {
+		return errorCode;
+	}
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
 	}
 }

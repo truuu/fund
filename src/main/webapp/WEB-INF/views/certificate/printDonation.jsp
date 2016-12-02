@@ -61,8 +61,10 @@ iframe { width:800px; border: 1px solid #ddd; height:900px; }
 					<tbody>
 						<tr>
 							<td id="table_a">일련번호</td>
-							<td id="table_b"><input type="text" id="serialNo" name="serialNo"
-								value="${serialNo}"/></td>
+
+							<td id="table_b"><input type="text" id="serialNo" class="commoninput" name="serialNo"
+								value="${serialNo}" readonly /></td>
+
 						</tr>
 						<tr>
 							<td id="table_a">후원자명</td>
@@ -70,7 +72,8 @@ iframe { width:800px; border: 1px solid #ddd; height:900px; }
 						</tr>
 						<tr>
 							<td id="table_a">약정액</td>
-							<td id="table_b"><input type="text" id="amount" class="money"
+
+							<td id="table_b"><input type="text" id="amount" class="money commoninput" 
 								name="amount"/></td>
 						</tr>
 						<tr>

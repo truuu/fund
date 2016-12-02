@@ -10,8 +10,8 @@ $(function() {
 
 	$("form").submit(function() {
 		
-		 var startDate=$('#startDate').val();
-		 var endDate=$('#endDate').val();
+		 var startDate=$('#datepicker1').val();
+		 var endDate=$('#datepicker2').val();
 	    	
 		if(startDate==''||endDate==''){
 			alert('날짜를 모두 입력해주세요');
@@ -128,8 +128,8 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 								</select></td>
 							<tr>
 							<td><label>납입일</label></td>
-								<td><input type="date" id="startDate" class="commoninput" name="startDate" value="${startDate}" >~<input
-									type="date" id="endDate" class="commoninput" name="endDate" value="${endDate}" ></td>
+								<td><input id="datepicker1" class="commoninput" name="startDate" value="${startDate}" >~
+								<input id="datepicker2" class="commoninput" name="endDate" value="${endDate}" ></td>
 									
 
 								<td><label>납입방법</label></td>

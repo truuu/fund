@@ -24,17 +24,6 @@ public class User {
 	
 	boolean admin;
 	
-	boolean loginCheck;
-	
-	
-	
-	public boolean isLoginCheck() {
-		return loginCheck;
-	}
-	public void setLoginCheck(boolean loginCheck) {
-		this.loginCheck = loginCheck;
-	}
-	
 	public int getId() {
 		return id;
 	}

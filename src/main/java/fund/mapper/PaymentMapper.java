@@ -39,4 +39,7 @@ public interface PaymentMapper {
 	List<Payment> selectPaymentTotal(PaymentRecordStats paymentRecordStats);
 	
 	List<PaymentSummary1> selectMonthDonationPurposePayment(@Param("startDate") String startDate,@Param("endDate") String endDate);
+	Payment selectIrregular(int id);
+	void updateIrregular(Payment payment);
+	void deleteIrregular(int id);
 }

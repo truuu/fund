@@ -42,6 +42,7 @@
 									<th>생년월일</th>
 									<th>은행</th>
 									<th>계좌번호</th>
+									<th>불능코드</th>
 								</tr>
 							</thead>
 							<c:forEach var="eb14Data" items="${eb14List}">
@@ -51,6 +52,7 @@
 									<td>${eb14Data.jumin }</td>
 									<td>${eb14Data.bankCode }</td>
 									<td>${eb14Data.accountNo }</td>
+									<td>${eb14Data.errorCode }</td>
 								</tr>
 							</tbody>
 							</c:forEach>

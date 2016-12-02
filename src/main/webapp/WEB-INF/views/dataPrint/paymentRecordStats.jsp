@@ -11,8 +11,8 @@ $(function() {
 
 	$("form").submit(function() {
 		
-		 var startDate=$('#startDate').val();
-		 var endDate=$('#endDate').val();
+		 var startDate=$('#datepicker1').val();
+		 var endDate=$('#datepicker2').val();
 	    	
 		if(startDate==''||endDate==''){
 			alert('날짜를 모두 입력해주세요');
@@ -126,8 +126,8 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 							
 							
 								<td><label>납입일</label></td>
-								<td><input type="date" class="commoninput" id="startDate" name="startDate" value="${startDate}" >~<input
-									type="date" class="commoninput" id="endDate" name="endDate" value="${endDate}" ></td>
+								<td><input class="commoninput" id="datepicker1" name="startDate" value="${startDate}" >~
+								<input class="commoninput" id="datepicker2" name="endDate" value="${endDate}" ></td>
 
 								<td><label>납입방법</label></td>
 								<td><select name="srchType4" class="select_s" id="srchType4" >

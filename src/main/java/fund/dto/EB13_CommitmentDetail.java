@@ -2,7 +2,13 @@ package fund.dto;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import fund.service.*;
+
 public class EB13_CommitmentDetail {
+	AES128UtilService cipherService=new AES128UtilService(); //양방향 암호화 서비스
+	
 	int ID;
 	int EB13ID;
 	int commitmentDetailID;
@@ -13,16 +19,31 @@ public class EB13_CommitmentDetail {
 	String codeName;
 	String accountNo;
 	String jumin;
+	String jumin2;
+	int sponsorType1ID;
 	
 	String createDate;
 	String commitmentNo;
 	String donationPurpose;
 	String name;
 	String etc1;
+	String description;
 	
 	Date startDate;
 	Date endDate;
 	
+	public int getSponsorType1ID() {
+		return sponsorType1ID;
+	}
+	public void setSponsorType1ID(int sponsorType1ID) {
+		this.sponsorType1ID = sponsorType1ID;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public int getID() {
 		return ID;
 	}
@@ -76,6 +97,13 @@ public class EB13_CommitmentDetail {
 	}
 	public void setJumin(String jumin) {
 		this.jumin = jumin;
+	}
+	public String getJumin2() throws Exception {
+		String test=cipherService.decAES(jumin2);
+		return test;
+	}
+	public void setJumin2(String jumin2) {
+		this.jumin2 = jumin2;
 	}
 	public String getCreateDate() {
 		return createDate;

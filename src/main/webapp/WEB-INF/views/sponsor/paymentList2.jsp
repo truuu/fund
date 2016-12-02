@@ -4,28 +4,32 @@
 	prefix="sec"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <style>
-tr#topTable td{
-	text-align:center;
+tr#topTable td {
+	text-align: center;
 }
 </style>
-<p>${sponsor.sponsorNo}&nbsp;  ${sponsor.name}&nbsp;  ${sponsor.sponsorType1}&nbsp;</p>
+<p>${sponsor.sponsorNo}&nbsp;${sponsor.name}&nbsp;
+	${sponsor.sponsorType1}&nbsp;</p>
 <ul class="nav nav-tabs">
-                         <c:if test="${sponsorID==0}">
-				    	<li class="active"><a href="/fund_sys/sponsor/sponsor.do" data-toggle="tab">회원관리</a></li>
-				     	</c:if>
-					    <c:if test="${sponsorID!=0}">
-						<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorID}">회원관리</a></li>
-						</c:if>
-						<c:if test="${sponsorID!=0}">
-						<li><a href="/fund_sys/sponsor/commitment.do?id=${sponsorID}">약정관리</a></li>
-						<li><a href="/fund_sys/sponsor/paymentList.do?id=${sponsorID}" >정기납입관리</a></li>
-						<li class="active"><a href="/fund_sys/sponsor/paymentList2.do?id=${sponsorID}">비정기납입관리</a></li>
-						<li><a href="/fund_sys/sponsor/insertIrrgularPayment.do?id=${sponsorID}" >비정기납입등록</a></li>
-						</c:if>
-					</ul>
-					
+	<c:if test="${sponsorID==0}">
+		<li class="active"><a href="/fund_sys/sponsor/sponsor.do"
+			data-toggle="tab">회원관리</a></li>
+	</c:if>
+	<c:if test="${sponsorID!=0}">
+		<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorID}">회원관리</a></li>
+	</c:if>
+	<c:if test="${sponsorID!=0}">
+		<li><a href="/fund_sys/sponsor/commitment.do?id=${sponsorID}">약정관리</a></li>
+		<li><a href="/fund_sys/sponsor/paymentList.do?id=${sponsorID}">정기납입관리</a></li>
+		<li class="active"><a
+			href="/fund_sys/sponsor/paymentList2.do?id=${sponsorID}">비정기납입관리</a></li>
+		<li><a
+			href="/fund_sys/sponsor/insertIrrgularPayment.do?id=${sponsorID}">비정기납입등록</a></li>
+	</c:if>
+</ul>
+
 
 <div id="wrapper">
 	<div id="page-wrapper">
@@ -37,8 +41,8 @@ tr#topTable td{
 						납입 목록 <small>- 비정기</small>
 					</h1>
 				</div>
-				<input type="hidden" value="${sponsor.sponsorNo}" />
-				<input type="hidden" value="${sponsorID}" />
+				<input type="hidden" value="${sponsor.sponsorNo}" /> <input
+					type="hidden" value="${sponsorID}" />
 			</div>
 			<!-- /.row -->
 			<form:form method="post" modelAttribute="paymentList2">
@@ -58,10 +62,11 @@ tr#topTable td{
 								</thead>
 								<c:forEach var="paymentList2" items="${paymentList2}">
 									<tbody>
-										<tr id="topTable">
+										<tr data-url="editIrrgularPayment.do?id=${paymentList2.id}&&sponsorID=${sponsorID}">
 											<td>${paymentList2.paymentMethod}</td>
 											<td class="money">${paymentList2.amount}</td>
-											<td><fmt:formatDate value="${paymentList2.paymentDate}" pattern="yyyy-MM-dd"/></td>
+											<td><fmt:formatDate value="${paymentList2.paymentDate}"
+													pattern="yyyy-MM-dd" /></td>
 											<td>${paymentList2.corporate}</td>
 											<td>${paymentList2.donationPurpose}</td>
 											<td>${paymentList2.etc}</td>

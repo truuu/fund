@@ -13,7 +13,7 @@
 	</select>
 	
 	<update id="updateEB14error">
-		update EB13_commitmentDetail set state='에러'
+		update EB13_commitmentDetail set state='에러', errorCode=#{errorCode}
 		where commitmentDetailID IN
 		(select cd.ID
 		from EB13_commitmentDetail eb
@@ -41,7 +41,7 @@
 	
 	<select id="selectEB1314" resultType="fund.dto.EB13_CommitmentDetail">
 		<![CDATA[ 
-			select e.createDate,s.sponsorNo,s.name,c.commitmentNo,eb.state,d.name donationPurpose
+			select e.createDate,s.sponsorNo,s.name,c.commitmentNo,eb.state,cec.description,d.name donationPurpose
 			from EB13_commitmentDetail eb JOIN commitmentDetail cd
 			ON EB.commitmentDetailID=CD.ID
 			JOIN EB13 e
@@ -54,13 +54,15 @@
 			ON c.sponsorID=s.ID
 			JOIN donationPurpose d
 			ON c.donationPurposeID=d.ID
+			LEFT JOIN cmsErrorCode cec
+			ON eb.errorCode = cec.code
 			WHERE e.createDate >= #{startDate} AND e.createDate <= #{endDate}
 		]]> 
 	</select>
 	
 	<insert id="createEB13list" useGeneratedKeys="true" keyProperty="id">
 	    insert into EB13_commitmentDetail
-		values ((select MAX(ID) from EB13),#{commitmentDeailID},'신규')     
+		values ((select MAX(ID) from EB13),#{commitmentDetailID},'신규','0000')     
     </insert>
 	
 	<select id="test" resultType="fund.dto.EB13_CommitmentDetail">

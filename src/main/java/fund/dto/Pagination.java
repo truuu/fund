@@ -220,9 +220,6 @@ public class Pagination {
         ArrayList<Page> list = new ArrayList<Page>();
         int pageCount = (recordCount + pageSize - 1) / pageSize;
         int basePage = ((currentPage - 1) / 10) * 10;
-        
-       
-        
         if (basePage > 0)
             list.add(new Page("Prev", basePage));
         for (int i = 1; i <= 10 && basePage + i <= pageCount; ++i)
