@@ -15,6 +15,7 @@ import fund.service.AES128UtilService;
 
 public class Sponsor {
 	//AES128UtilService cipherService=new AES128UtilService(); //양방향 암호화 서비스
+	
 	int id;
 
 	String sponsorNo; //
@@ -31,7 +32,6 @@ public class Sponsor {
 	
 	String mobilePhone; //
 	
-	@Size(min=1,message="추천인을 입력하세요!")
 	String recommender; //
 	
 	String recommenderRelation; //
@@ -44,21 +44,15 @@ public class Sponsor {
 	
 	String homeAddress;
 	String homePhone; //
-	
-	
-	@NotEmpty(message="이메일를 입력해주세요")
+
 	String email; //
-	
-	@NotEmpty(message="직장를 입력해주세요")
+
 	String company; //
-	
-	@NotEmpty(message="부서를 입력해주세요")
+
 	String department; //
-	
-	@NotEmpty(message="직위를 입력해주세요")
+
 	String position; //
-	
-	@NotEmpty(message="사무실번호를 입력해주세요")
+
 	String officePhone;
 	
 	String etc; //
@@ -72,22 +66,18 @@ public class Sponsor {
 	String sponsorType2;
 	String church;
 	
-	@NotEmpty(message="모두 입력해주세요!")
+
 	String homeRoadAddress;
 	
-	@NotEmpty(message="모두 입력해주세요!")
+
 	String homeDetailAddress;
-	
-	@NotEmpty(message="모두 입력해주세요!")
+
 	String homePostCode;
-	
-	@NotEmpty(message="모두 입력해주세요!")
+
 	String officeRoadAddress;
-	
-	@NotEmpty(message="모두 입력해주세요!")
+
 	String officeDetailAddress;
-	
-	@NotEmpty(message="모두 입력해주세요!")
+
 	String officePostCode;
 	
 	
