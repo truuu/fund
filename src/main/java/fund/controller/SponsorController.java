@@ -139,7 +139,7 @@ public class SponsorController extends BaseController{
 			sponsor.setSponsorNo(sponsorNo);
 		}else{
 			if(Integer.parseInt(year[0])==preYear){//년도가 변하지 않았을때 
-				System.out.println("년도 그대로 !!!!!!");
+				
 				number=String.valueOf((int)num+1);
 				if(number.length()==1){
 					number="000"+number;
@@ -156,7 +156,7 @@ public class SponsorController extends BaseController{
 
 			}
 			if(Integer.parseInt(year[0])!=preYear){ // 년도가 변했을때 후원자 번호 생성
-				System.out.println("년도 변함 !!!!!!!");
+		
 				number="0001";
 				String sponsorNo=preYear+"-"+number;
 				sponsor.setSponsorNo(sponsorNo);
@@ -441,15 +441,15 @@ public class SponsorController extends BaseController{
 	@RequestMapping(value="/sponsor/upload.do", method=RequestMethod.POST)
 	public String fileUpload(Model model,@RequestParam("id") int id,@RequestParam("file") MultipartFile uploadedFile) throws IOException {
 
-		System.out.println("파일업로드");
 
-		if(fileExtFilter.badFileExtIsReturnBoolean(uploadedFile) == true){ // 파일 확장자 필터링.
-			System.out.println("id test >> "+id);
+		if(fileExtFilter.badFileExtIsReturnBoolean2(uploadedFile) == true){ // 파일 확장자 필터링.
+
 			if (uploadedFile.getSize() > 0 ) {
 				FileAttachment file = new FileAttachment();
 				file.setSponsorID(id); // 나중에 조인해서 변경해야함
 				file.setFileName(Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString());
 				file.setFilesize((int)uploadedFile.getSize());
+				System.out.println("tes file >> "+uploadedFile.getBytes());
 				file.setData(uploadedFile.getBytes());
 
 				fileAttachmentMapper.insert(file);

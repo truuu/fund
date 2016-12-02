@@ -38,4 +38,18 @@ public class FileExtFilter {
 		}
 		return false;
 	}
+	public static boolean badFileExtIsReturnBoolean2(MultipartFile file) {
+		String fileName = "/Users/parkeunsun/Documents/"+file.getOriginalFilename();
+		String ext = fileName.substring(fileName.lastIndexOf(".") + 1,
+				fileName.length());
+		final String[] BAD_EXTENSION = { "java", "jsp", "php", "asp", "html","gif"};
+
+		int len = BAD_EXTENSION.length;
+		for (int i = 0; i < len; i++) {
+			if (ext.equalsIgnoreCase(BAD_EXTENSION[i])) {
+				return false; // 나쁜 확장자가 존재할때.. 
+			}
+		}
+		return true;
+	}
 }
