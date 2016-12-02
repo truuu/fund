@@ -7,7 +7,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <script>
 $(function() {                          
-
 	$("form").submit(function() {
 		
 		 var startDate=$('#datepicker1').val();
@@ -21,65 +20,49 @@ $(function() {
 			return true;
 	});
 })
-
 </script>
 <style>
 div.commitmentTable {
 	display: none;
 }
-
 .size {
 	width: 150px;
 }
-
-
 table#donationTable {
 	width: 100%;
 }
-
 #searchResult {
 	width: 100%;
 }
-
 div#scroll {
 	height: 280px;
 	overflow-y: scroll;
 }
-
 #searchResult tr:hover {
 	background-color: #ffe;
 	cursor: pointer;
 }
-
 #searchResult tr.selected {
 	background-color: #fee;
 	font-weight: bold;
 }
-
 button#detail {
 	margin: 0 auto;
 }
-
 div#table_a, div#td2 {
 	display: inline-block;
 }
-
 div.table-responsive {
 	border: 1px;
 }
-
 div.table {
 	width: 100%;
 }
-
-
 tr#topTable td,tr#topTable th{ text-align:center; }
 #outPut1{ margin-left:10%; }
 #outPut2{ margin-left:26%; }
 #outPut3{ margin-left:28%; }
 #time{ float:right; }
-
-
 </style>
 <form method="post">
 	<div id="wrapper">
@@ -110,7 +93,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 							<tr>
 							
 								<td><label>정기/비정기</label></td>
-								<td><select name="srchType1" class="select_s">
+								<td><select name="srchType1" class="commoninput">
 										<option value="0" ${gu1 == 0 ? "selected" : "" }>선택</option>
 										<option value="1" ${gu1 == 1 ? "selected" : "" }>정기</option>
 										<option value="2" ${gu1 == 2 ? "selected" : "" }>비정기</option>
@@ -120,7 +103,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 
 
 								<td><label>소속교회</label></td>
-								<td><select name="srchType3" class="select_s">
+								<td><select name="srchType3" class="commoninput">
 										<option value="0" ${ churchID == 0 ? "selected" : "" }>선택</option>
 										<c:forEach var="church" items="${churchList}">
 											<option value="${church.ID}" ${ churchID == church.ID ? "selected" : "" }>${church.codeName}</option>
@@ -133,7 +116,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 									
 
 								<td><label>납입방법</label></td>
-								<td><select name="srchType4" class="select_s">
+								<td><select name="srchType4" class="commoninput">
 										<option value="0">선택</option>
 										<c:forEach var="paymentMethod" items="${paymentMethodList}">
 											<option value="${paymentMethod.ID}" ${ paymentMethodID==paymentMethod.ID ? "selected" : "" }>${paymentMethod.codeName}</option>
@@ -144,7 +127,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 							<td><label>기부목적</label></td>
 								<td><form:form method="post">
 										<div class="form-inline">
-											<input type="text" name="dname" readonly value="${ donationPurpose }" /> <a
+											<input type="text" class="commoninput" name="dname" readonly value="${ donationPurpose }" /> <a
 												href="#searchDialog" class="btn btn-default"
 												data-toggle="modal">검색</a> <input type="hidden"
 												name="srchType2" id="donationPurposeID" />
@@ -153,7 +136,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 								
 
 								<td><label>후원인구분</label></td>
-								<td><select name="srchType5" class="select_s">
+								<td><select name="srchType5" class="commoninput">
 										<option value="0">선택</option>
 										<c:forEach var="sponsorType" items="${sponsorType2List}">
 											<option value="${sponsorType.ID}" ${ sponsorTypeID==sponsorType.ID ? "selected" : "" }>${sponsorType.codeName}</option>
@@ -163,7 +146,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 							</tr>
 							<tr>
 							<td><label>후원인이름</label></td>
-								<td colspan="4"><input type="text" name="sponsorName" value="${sponsorName}" /></td>
+								<td colspan="4"><input type="text" class="commoninput" name="sponsorName" value="${sponsorName}" /></td>
 							</tr>
 
 
@@ -338,7 +321,6 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 		$("input[name=corporateName]").val(corporateName);
 		$("input#donationPurposeID").val(donationPurposeID);
 	}
-
 	$(document).ready(function() {
 		$("#searchResult tr").click(function() {
 			$("#searchResult tr").removeClass("selected");
