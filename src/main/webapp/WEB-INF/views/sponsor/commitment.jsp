@@ -94,6 +94,7 @@ tr#topTable td, tr#topTable th{
 	text-align:center;
 }
 </style>
+ <p>${sponsor.sponsorNo}&nbsp;  ${sponsor.name}&nbsp;  ${sponsor.sponsorType1}&nbsp;</p>
 <ul class="nav nav-tabs">
 						<c:if test="${sponsorID==0}">
 				     	<li class="active"><a href="/fund_sys/sponsor/sponsor.do" data-toggle="tab">회원관리</a></li>
@@ -108,7 +109,7 @@ tr#topTable td, tr#topTable th{
 						<li><a href="/fund_sys/sponsor/insertIrrgularPayment.do?id=${sponsorID}" >비정기납입등록</a></li>
 						</c:if>
 					</ul>
-                    <p>${sponsor.sponsorNo}&nbsp;  ${sponsor.name}&nbsp;  ${sponsor.sponsorType1}&nbsp;</p>
+                   
 				
 				
 <div class="panel panel-default">

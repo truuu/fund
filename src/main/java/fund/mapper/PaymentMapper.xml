@@ -305,7 +305,7 @@
 	
 	<select id="selectPaymentIrregular" resultType="fund.dto.Payment">
 		select code.codeName as paymentMethod,p.amount,p.paymentDate,co.name as corporate,
-		dp.name as donationPurpose,p.etc,p.ID as id
+		dp.name as donationPurpose,p.etc
 		from payment p
 		JOIN code ON code.ID=p.paymentMethodID
 		JOIN codeGroup ON codeGroup.ID=4 AND code.codeGroupID=codeGroup.ID
@@ -313,28 +313,6 @@
 		JOIN corporate co ON dp.corporateID=co.ID
 		where p.sponsorID=#{sponsorID}
 	</select>
-	
-	<select id="selectIrregular" resultType="fund.dto.Payment">
-		select p.ID,p.amount,p.paymentDate as paymentDateString,p.donationPurposeID,p.paymentMethodID,p.sponsorID,p.etc,
-		co.name as corporate,dp.name as donationPurpose,code.codeName as paymentMethod
-		from payment p
-		JOIN code ON code.ID=p.paymentMethodID
-		JOIN codeGroup ON codeGroup.ID=4 AND code.codeGroupID=codeGroup.ID
-		JOIN donationPurpose dp ON p.donationPurposeID=dp.ID
-		JOIN corporate co ON dp.corporateID=co.ID
-		where p.ID=#{id}
-	</select>
-	
-	<update id="updateIrregular">
-		UPDATE [Payment]
-		SET amount = #{amount}, paymentDate=#{paymentDateString}, donationPurposeID=#{donationPurposeID}, paymentMethodID=#{paymentMethodID}
-		FROM [Payment]
-		WHERE ID=#{id}
-	</update>
-	
-	<delete id="deleteIrregular">
-		DELETE FROM [Payment] WHERE ID=#{id}
-	</delete>
 	
 	<select id="selectMonthDonationPurposePayment" resultType="fund.dto.PaymentSummary1">
 

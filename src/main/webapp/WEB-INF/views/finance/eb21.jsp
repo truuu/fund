@@ -28,7 +28,9 @@
 								<label> 출금일 선택 : </label>
 
 								&nbsp;
-								<select id="paymentDay" name="paymentDay" class="commoninput">
+
+								<select id="paymentDay" name="paymentDay" class="commoninput" >
+
 									<option value="20" ${ paymentDay == 20 ? "selected" : ""}> 20일 </option>
 									<option value="25" ${ paymentDay == 25 ? "selected" : ""}> 25일 </option>
 								</select>

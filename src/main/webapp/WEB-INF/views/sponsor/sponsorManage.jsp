@@ -8,16 +8,67 @@
 <script>
 function sponorSearch(){
 	var codeName=$("#search option:selected").text();
-	var nameForSearch=$('#nameForSearch').val();
+    var nameForSearch=$('#nameForSearch').val();
 	
 	
-
-	if(codeName=='이름'){
-		alert(codeName+' '+nameForSearch)
-	location.href="http://localhost:8080/fund_sys/sponsor/search.do?codeName="+codeName+"&nameForSearch="+nameForSearch;
+    if(codeName=='이름'){
+		
+		 $.ajax({
+    	      url:"nameCheck.do",
+    	      type:"GET",
+    	      contentType: "application/json; charset=utf-8",
+    	      data :{nameForSearch:nameForSearch},
+    	      dataType : "json",
+    	      success : function(data){
+    	    	  var json = data;
+  	             if(json==""){
+  	                 alert('존재하지 않은 이름입니다');
+  	             }else{
+  	            	 location.href="search.do?codeName="+codeName+"&nameForSearch="+nameForSearch;
+  	             }
+  
+    	      },
+    	      error : function(request, status,error) {
+    	          alert("통신오류")
+    	          console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    	      }
+    	   });
+		
+	
 	}else{
-		alert(codeName)
-		location.href="http://localhost:8080/fund_sys/sponsor/search.do?codeName="+codeName;
+		
+		if(codeName=='검색조건'){
+			if (confirm("전체 목록 페이지로 넘가시겠습니까?") == true) {
+				location.href="sponsor_m.do";
+			}
+		}
+	
+		if(codeName!='검색조건'){
+		 $.ajax({
+    	      url:"codeNameCheck.do",
+    	      type:"GET",
+    	      contentType: "application/json; charset=utf-8",
+    	      data :{codeName:codeName},
+    	      dataType : "json",
+    	      success : function(data){
+    	    	  var json = data;
+    	    	  if(json=="")
+  	            {
+  	        	 alert('조건에 맞는 후원자가 존재하지 않습니다.')
+  	        	}else{
+  	        		alert('존재하는 조건입니다.')
+  	        		location.href="search.do?codeName="+codeName;
+  	        	}
+  	       
+    	      },
+    	      error : function(request, status,error) {
+    	         alert("통신실패")
+    	          console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    	      }
+    	   });
+		
+		}
+
 		
 	}
 	
@@ -52,25 +103,14 @@ tr#topTable td{
 
 			<div id="search">
 				<div class="column-right">
-					<select name="search" id="search" class="msize">
+					<select name="search"  id="search" class="commoninput">
 						<option selected="selected" value="검색조건">검색조건</option>
 						<option value="0">이름</option>
-						<option value="1">개인</option>
-						<option value="2">가족</option>
-						<option value="3">단체</option>
-						<option value="4">법인</option>
-						<option value="5">직원</option>
-						<option value="6">교수</option>
-						<option value="7">동문</option>
-						<option value="8">학부모</option>
-						<option value="9">성직자</option>
-						<option value="10">교인</option>
-						<option value="11">독지가</option>
-						<option value="12">교회</option>
-						<option value="13">기업가</option>
-						<option value="14">기타</option>
+						<c:forEach var="code" items="${sponsorType}">
+                              <option value="${code.ID}">${code.codeName}</option>
+                         </c:forEach>
 						
-					</select> <input type="text" id="nameForSearch" name="nameForSearch">
+					</select> <input type="text" class="commoninput" id="nameForSearch" name="nameForSearch">
 					<button type="submit" class="btn btn-primary" onclick="sponorSearch()">검색</button>
 				</div>
 			</div>
@@ -80,6 +120,7 @@ tr#topTable td{
 				<button class="btn btn-info" type="submit" name="cmd" value="xlsx">엑셀파일</button>
 			</div>
     <input type="hidden" name="pg" value="1" />
+    <input type="hidden" name="codeName" value="${pagination.codeName }" />
 
 
 			<table class="table table-bordered table-hover">

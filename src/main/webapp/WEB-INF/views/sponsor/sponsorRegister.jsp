@@ -79,19 +79,25 @@ function fileDelete(id){
    }
    
    function insert(){
-   alert('저장')
-   $('#target').submit();
+	   if (confirm("후원자 정보를 저장하시겠습니까?") == true) {
+		   $('#target').submit();
+	   }
+ 
    }
    
    function update(){
-      alert('update')
-      $('#target').submit();
+	   if (confirm("후원자 정보를 수정하시겠습니까?") == true) {
+		   $('#target').submit();
+	   }
+    
      }
    
    
    function deletes(sponsorNo){
-      alert(sponsorNo)
-       location.href = "delete.do?id="+sponsorNo;
+	   if (confirm("후원자 정보를 삭제하시겠습니까?") == true) {
+		   location.href = "delete.do?id=target"+sponsorNo;
+	   }
+      
    }
 </script>
 <c:set var="mailReceiving" value="${sponsor.mailReceiving}"  />
@@ -101,20 +107,25 @@ function fileDelete(id){
 
 <div class="panel panel-default">
    <div class="panel-heading">
-      <h4>회원기본정보7</h4>
+      <h4>회원기본정보</h4>
 
 
       <div class="row">
          <div class="col-lg-12">
             <div id="column-right">
-               <c:if test="${ sponsor.signUpDate==null}">
-               <a onclick="insert()" class="btn btn-info">저장</a>
-            </c:if>
             
-            <c:if test="${ sponsor.signUpDate!=null}">
-               <a onclick="update()" class="btn btn-info">수정</a>
-            </c:if>
+            <c:choose>
 
+    <c:when test="${sponsor.id!=0}">
+       <a onclick="update()" class="btn btn-info">수정</a>
+    </c:when>
+
+    <c:otherwise>
+        <a onclick="insert()" class="btn btn-info">저장</a>
+    </c:otherwise>
+
+</c:choose>
+      
                <a onclick="deletes(${ sponsor.sponsorNo })" class="btn btn-danger">삭제</a>
             </div>
          </div>
@@ -137,10 +148,10 @@ function fileDelete(id){
                </c:if>
                
                   <td id="table_a">후원인번호</td>
-                  <td id="table_b"><input type="text" name="sponsorNo" readonly
+                  <td id="table_b"><input class="commoninput" type="text" name="sponsorNo" readonly
                      value="${ sponsor.sponsorNo }">
                      </td>
-                  <td id="table_a">우편물 발송여부  ${sponsor.mailReceiving}</td>
+                  <td id="table_a">우편물 발송여부</td>
                   <td id="table_b">
             
                   <c:if test="${sponsor.signUpDate==null}">
@@ -162,8 +173,8 @@ function fileDelete(id){
                <tr>
                   <td id="table_a">이름</td>
                   <td id="table_b">
-                  <form:input path="name" placeholder="이름을 입력해주세요" />
-                  <form:errors path="name"/>
+                  <form:input class="commoninput" path="name" placeholder="이름을 입력해주세요" />
+                  <div class="sponsorError"><form:errors path="name"/></div>
                   </td>
                   <td id="table_a">우편물 발송지</td>
                   <td id="table_b">
@@ -186,29 +197,30 @@ function fileDelete(id){
                </tr>
                <tr>
                   <td id="table_a">주민번호</td>
-                  <td id="table_b"><input type="text" name="juminNo" 
+                  <td id="table_b"><input class="commoninput" type="text" name="juminNo" 
                      placeholder="-를 제외하고 입력해주세요." value="${ sponsor.juminNo }">
-                     <form:errors path="juminNo"/></td>
+                     <div class="sponsorError"><form:errors path="juminNo"/></div>
+                   </td>
                   <td id="table_a" rowspan="2">자택주소</td>
-                  <td id="table_b" rowspan="2"><input type="text" name="homePostCode" id="homePostCode"
+                  <td id="table_b" rowspan="2"><input class="commoninput" type="text" name="homePostCode" id="homePostCode"
                            placeholder="우편번호" value="${ sponsor.homePostCode}" > <input type="button"
                            onclick="homeSearch()" value="우편번호 찾기"
                            style="display: inline-block;">
                            <div>
-                              <input type="text" name="homeRoadAddress" id="homeRoadAddress"
+                              <input class="commoninput" type="text" name="homeRoadAddress" id="homeRoadAddress"
                                  placeholder="도로명주소--------------" value="${sponsor.homeRoadAddress }" >
                            </div>
                            <div>
-                              <input type="text" name="homeDetailAddress" id="homeDetailAddress"
+                              <input class="commoninput" type="text" name="homeDetailAddress" id="homeDetailAddress"
                                  placeholder="상세주소" value="${ sponsor.homeDetailAddress }">
-                                 <form:errors path="homeDetailAddress"/>
+                                 <div class="sponsorError"><form:errors path="homeDetailAddress"/></div>
                            </div>
                            </td>
                   
                </tr>
                <tr>
                   <td id="table_a">후원인구분1</td>
-                   <td id="table_b"><select name="sponsorType1ID">
+                   <td id="table_b"><select name="sponsorType1ID" class="commoninput">
                            <c:forEach var="s1" items="${sponsorType1List}">
                               <option value="${s1.ID}" ${sponsor.sponsorType1ID==s1.ID ? "selected" : "" }>${s1.codeName}</option>
                            </c:forEach>
@@ -218,45 +230,47 @@ function fileDelete(id){
                <tr>
                   <td id="table_a">후원인구분2</td>
                   <td id="table_b">
-                      <select name="sponsorType2ID">
+                      <select name="sponsorType2ID" class="commoninput">
                            <c:forEach var="s2" items="${sponsorType2List}">
                               <option value="${s2.ID}" ${sponsor.sponsorType2ID==s2.ID ? "selected" : "" }>${s2.codeName}</option>
                            </c:forEach>
                      </select>
                   </td>
                   <td id="table_a">자택 전화번호</td>
-                  <td id="table_b"><input type="text" name="homePhone" placeholder="02-0000-0000" value="${ sponsor.homePhone}"></td>
+                  <td id="table_b"><input class="commoninput" type="text" name="homePhone" placeholder="02-0000-0000" value="${ sponsor.homePhone}"></td>
 
                </tr>
                <tr>
 
                   <td id="table_a">가입일</td>
-                  <td id="table_b"><input type="date" name="signUpDate" value="${ sponsor.signUpDate}"></td>
+                  <td id="table_b"><input class="commoninput" type="date" name="signUpDate" value="${ sponsor.signUpDate}"></td>
                   <td id="table_a">핸드폰 번호</td>
-                  <td id="table_b"><input type="text" name="mobilePhone"
+                  <td id="table_b"><input class="commoninput" type="text" name="mobilePhone"
                      placeholder="010-0000-0000" value="${ sponsor.mobilePhone}" ></td>
 
                </tr>
                <tr>
                   <td id="table_a">추천인</td>
-                  <td id="table_b"><input type="text" name="recommender"
+                  <td id="table_b"><input class="commoninput" type="text" name="recommender"
                      placeholder="추천인 이름을 적어주세요." value="${ sponsor.recommender}">
-                     <form:errors path="recommender"/></td>
+                     <div class="sponsorError"><form:errors path="recommender"/></div>
+                  </td>
                   <td id="table_a">이메일</td>
-                  <td id="table_b"><input type="email" name="email"
+                  <td id="table_b"><input class="commoninput" type="email" name="email"
                      placeholder="abcd@skhu.kr" value="${ sponsor.email}">
-                     <form:errors path="email"/>
+                     <div class="sponsorError"><form:errors path="email"/></div>
                   </td>
 
                </tr>
                <tr>
                   <td id="table_a">추천인관계  </td>
-                  <td><select name="recommenderRelation">
+                  <td><select name="recommenderRelation" class="commoninput">
+                        <option value="없음" ${sponsor.recommenderRelation==''? "selected" :""}>없음</option>
                         <option value="가족" ${sponsor.recommenderRelation=='가족'? "selected" :""}>가족</option>
                         <option value="지인" ${sponsor.recommenderRelation=='지인'? "selected" :""}>지인</option>
                   </select></td>
                   <td rowspan="2" id="table_a">비고</td>
-                  <td rowspan="2" id="table_b"><textarea name="etc" cols="30" rows="3">${ sponsor.etc}</textarea></td>
+                  <td rowspan="2" id="table_b"><textarea class="commoninput"  name="etc" cols="30" rows="3" style="height:100px;">${ sponsor.etc}</textarea></td>
                   
 
 
@@ -264,7 +278,7 @@ function fileDelete(id){
 
                <tr>
                   <td id="table_a">소속교회</td>
-                  <td id="table_b"><input type="text" id="autoChurch" name="church" value="${ sponsor.church}">
+                  <td id="table_b"><input class="commoninput" type="text" id="autoChurch" name="church" value="${ sponsor.church}">
                   </td>
                   
 
@@ -295,44 +309,44 @@ function fileDelete(id){
                   <tbody>
                      <tr>
                         <td id="table_a">직장</td>
-                        <td id="table_b"><input type="text" name="company" value="${ sponsor.company}">
-                         <form:errors path="company"/>
+                        <td id="table_b"><input class="commoninput" type="text" name="company" value="${ sponsor.company}">
+                         <div class="sponsorError"><form:errors path="company"/></div>
                         </td>
 
                      </tr>
                      <tr>
                         <td id="table_a">부서</td>
-                        <td id="table_b"><input type="text" name="department" value="${ sponsor.department}">
-                         <form:errors path="department"/>
+                        <td id="table_b"><input class="commoninput" type="text" name="department" value="${ sponsor.department}">
+                         <div class="sponsorError"><form:errors path="department"/></div>
                         </td>
 
                      </tr>
                      <tr>
                         <td id="table_a">직위</td>
-                        <td id="table_b"><input type="text" name="position" value="${ sponsor.position}">
-                         <form:errors path="position"/>
+                        <td id="table_b"><input class="commoninput" type="text" name="position" value="${ sponsor.position}">
+                         <div class="sponsorError"><form:errors path="position"/></div>
                         </td>
                      </tr>
 
                      <tr>
                         <td id="table_a">직장전화번호</td>
-                        <td id="table_b"><input type="text" name="officePhone" value="${ sponsor.officePhone}">
-                         <form:errors path="officePhone"/>
+                        <td id="table_b"><input class="commoninput" type="text" name="officePhone" value="${ sponsor.officePhone}">
+                         <div class="sponsorError"><form:errors path="officePhone"/></div>
                         </td>
                      </tr>
 
                      <tr>
                         <td id="table_a">직장주소</td>
                         <td id="table_b">
-                        <input type="text" name="officePostCode" id="officePostCode" placeholder="우편번호" value="${ sponsor.officePostCode}"> 
+                        <input class="commoninput" type="text" name="officePostCode" id="officePostCode" placeholder="우편번호" value="${ sponsor.officePostCode}"> 
                         <input type="button" onclick="officeSearch()" value="우편번호 찾기"
                            style="display: inline-block;">
                            <div>
-                              <input type="text" name="officeRoadAddress" id="officeRoadAddress"  placeholder="도로명주소" value="${ sponsor.officeRoadAddress}">
+                              <input class="commoninput" type="text" name="officeRoadAddress" id="officeRoadAddress"  placeholder="도로명주소" value="${ sponsor.officeRoadAddress}">
                            </div>
                            <div >
-                              <input type="text" name="officeDetailAddress" id="officeDetailAddress" placeholder="상세주소" value="${ sponsor.officeDetailAddress}">
-                           <form:errors path="officeDetailAddress"/>
+                              <input class="commoninput" type="text" name="officeDetailAddress" id="officeDetailAddress" placeholder="상세주소" value="${ sponsor.officeDetailAddress}">
+                           <div class="sponsorError"><form:errors path="officeDetailAddress"/></div>
                            </div>
                            </td>
                         

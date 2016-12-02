@@ -14,8 +14,8 @@ $(function(){
 	
 	
 	$('#searched').click(function(){
-		startDate=$('#startDate').val();
-		endDate=$('#endDate').val();
+		var startDate=$( "input[name$='startDate']" ).val();
+		var endDate=$( "input[name$='endDate']" ).val();
 		
 		if(startDate==''||endDate==''){
 			alert('날짜를 모두 입력해주세요')
@@ -30,8 +30,8 @@ $(function(){
 	});
 	
 	$('#pdf').click(function(){
-		startDate=$('#startDate').val();
-		endDate=$('#endDate').val();
+		startDate=$('#datepicker1').val();
+		endDate=$('#datepicker2').val();
 		
 		location.href="/fund_sys/sponsor/castList.do?cmd=pdf&startDate="+startDate+"&endDate="+endDate;
 	})
@@ -60,9 +60,9 @@ $(function(){
 			
 			<div class="row">
 				<div class="col-lg-9">
+
 					<label> 기간(시작-끝) </label> <input id="datepicker1"  class="commoninput" name="startDate" id="startDate"
-						value="${startDate}"> ~ <input id="datepicker2"  class="commoninput" name="endDate" id="endDate"
-						value="${endDate}">
+						value="${startDate}"> ~ <input id="datepicker2"  class="commoninput" name="endDate" id="endDate" value="${endDate}">
 				</div>
 				<div class="col-lg-3">
 					<div id="column-right">
