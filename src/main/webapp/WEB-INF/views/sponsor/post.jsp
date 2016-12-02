@@ -4,7 +4,7 @@
 	prefix="sec"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
-<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+
 <style>
 
 
@@ -32,8 +32,8 @@ $(function(){
 		alert(startDate)
 		alert(endDate)
 		
-		startDate=$('#startDate').val();
-		endDate=$('#endDate').val();
+	    startDate=$( "input[name$='startDate']" ).val();
+		endDate=$( "input[name$='endDate']" ).val();
 		check='t';
 		alert(startDate)
 		alert(endDate)
@@ -47,8 +47,8 @@ $(function(){
 	});
 	
 	$('#search').click(function(){
-		startDate=$('#startDate').val();
-		endDate=$('#endDate').val();
+	     startDate=$( "input[name$='startDate']" ).val();
+		 endDate=$( "input[name$='endDate']" ).val();
 		check='f';
 		if(startDate==''||endDate==''){
 			alert('날짜를 모두 입력해주세요')
@@ -76,7 +76,7 @@ $(function(){
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">
-						DM 발송용 주소록
+						DM 발송용 주소록1
 					</h1>
 				</div>
 			</div>
@@ -84,7 +84,9 @@ $(function(){
 			<div class="form-inline">
 				<label> 신청기간 </label>
 				<div class="form-group">
-				 <input  class="commoninput" id="startDate datepicker1" value="${ pagination.startDate}"> ~ <input type="date" id="endDate datepicker2" class="commoninput" value="${ pagination.endDate}">
+				 <input  id="datepicker1" class="commoninput" name="startDate" value="${ pagination.startDate}"> ~
+				  <input  id="datepicker2" class="commoninput" name="endDate" value="${ pagination.endDate}">
+			
 				 </div>
 				 <button  class="btn btn-primary" id="search" >검색</button>
 			</div>
