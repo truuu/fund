@@ -1,25 +1,29 @@
 package fund.dto;
 
+import java.util.Date;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import fund.service.AES128UtilService;
 
-@Component
+
 public class Sponsor {
 	@Autowired AES128UtilService cipherService; //양방향 암호화 서비스
 	int id;
 
 	String sponsorNo; //
 	
-	@Size(min=1,message="이름을 입력해주세요")
+	@Size(min=1,message="이름을 입력하세요!")
 	String name; //
 	
 	
-	@Size(min = 10, max = 13,message="정확히 입력해주시요")
+	@Size(min = 13, max = 13,message="정확히 입력해주시요!")
 	String juminNo; //
 	
 	
@@ -34,8 +38,12 @@ public class Sponsor {
     String signUpDate; //  Date -> String date시 에러남 400 파라미터타입문제 질문해야함
 	
 	String mobilePhone; //
+	
+	@Size(min=1,message="추천인을 입력하세요!")
 	String recommender; //
+	
 	String recommenderRelation; //
+	
 	
 	boolean mailReceiving; //
 	
@@ -46,18 +54,19 @@ public class Sponsor {
 	String homePhone; //
 	
 	
-
+	@NotEmpty(message="이메일를 입력해주세요")
 	String email; //
 	
+	@NotEmpty(message="직장를 입력해주세요")
 	String company; //
 	
-	
+	@NotEmpty(message="부서를 입력해주세요")
 	String department; //
 	
-
+	@NotEmpty(message="직위를 입력해주세요")
 	String position; //
 	
-
+	@NotEmpty(message="사무실번호를 입력해주세요")
 	String officePhone;
 	
 	String etc; //
@@ -71,12 +80,22 @@ public class Sponsor {
 	String sponsorType2;
 	String church;
 	
-	
+	@NotEmpty(message="모두 입력해주세요!")
 	String homeRoadAddress;
+	
+	@NotEmpty(message="모두 입력해주세요!")
 	String homeDetailAddress;
+	
+	@NotEmpty(message="모두 입력해주세요!")
 	String homePostCode;
-    String officeRoadAddress;
+	
+	@NotEmpty(message="모두 입력해주세요!")
+	String officeRoadAddress;
+	
+	@NotEmpty(message="모두 입력해주세요!")
 	String officeDetailAddress;
+	
+	@NotEmpty(message="모두 입력해주세요!")
 	String officePostCode;
 	
 	
@@ -197,15 +216,12 @@ public class Sponsor {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 	public String getJuminNo() {
 		return juminNo;
 	}
 	public void setJuminNo(String juminNo) {
 		this.juminNo = juminNo;
 	}
-	
-	
 	public int getSponsorType1ID() {
 		return sponsorType1ID;
 	}

@@ -54,7 +54,7 @@ public class EB13Controller extends BaseController{
 	   public String selectEB13(Model model)throws Exception{
 	      List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
 	      for(int i = 0; i < eb13List.size(); i++){
-	    	  if(eb13List.get(i).getSponsorType1ID() == 3 || eb13List.get(i).getSponsorType1ID() == 4){
+	    	  if(eb13List.get(i).getSponsorType1ID() == 4){
 	    		 String decoding = eb13List.get(i).getJumin2();//사업자등록번호 디코딩
 	 	         eb13List.get(i).setJumin(decoding);
 	    	  }else{
@@ -65,6 +65,7 @@ public class EB13Controller extends BaseController{
 	      model.addAttribute("eb13List", eb13List);
 	      return "finance/eb13";
 	   }
+	
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=createEB13file")
 	public String createEB13file(@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws Exception{
 		List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
@@ -95,7 +96,6 @@ public class EB13Controller extends BaseController{
 
 	@RequestMapping(value="/finance/uploadEB14.do", method=RequestMethod.POST)
 	public String uploadEB14(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws IOException, ParseException {
-
 		if(fileExtFilter.badFileExtIsReturnBoolean(uploadedFile) == true){ // 파일 확장자 필터링.
 			if (uploadedFile.getSize() > 0 ) {
 				byte[] bytes = uploadedFile.getBytes();
@@ -156,7 +156,6 @@ public class EB13Controller extends BaseController{
 			}
 		}
 		model.addAttribute("successMsg", "EB14 파일 적용을 완료했습니다."); 
-
 		return "finance/eb14";
 	}
 

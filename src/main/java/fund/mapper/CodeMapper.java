@@ -2,12 +2,9 @@ package fund.mapper;
 import java.util.List;
 import fund.dto.CodeGroup;
 import org.apache.ibatis.annotations.Param;
-
-
 import java.util.HashMap;
 import fund.dto.Code;
 import fund.dto.DonationPurpose;
-
 
 public interface CodeMapper {
 	List<Code> selectByBank(String bank);
