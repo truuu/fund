@@ -21,7 +21,7 @@ public class CodeController extends BaseController{
 	@Autowired CodeMapper codeMapper;
 	@Autowired CodeService codeService;
 
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping("/code/codeList.do")
 	public String codeList(Model model,@RequestParam("CodeGroupID") int CodeGroupID) {
 
