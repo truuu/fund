@@ -20,6 +20,7 @@ public class EB13_CommitmentDetail {
 	String accountNo;
 	String jumin;
 	String jumin2;
+	int sponsorType1ID;
 	
 	String createDate;
 	String commitmentNo;
@@ -31,6 +32,12 @@ public class EB13_CommitmentDetail {
 	Date startDate;
 	Date endDate;
 	
+	public int getSponsorType1ID() {
+		return sponsorType1ID;
+	}
+	public void setSponsorType1ID(int sponsorType1ID) {
+		this.sponsorType1ID = sponsorType1ID;
+	}
 	public String getDescription() {
 		return description;
 	}

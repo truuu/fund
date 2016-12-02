@@ -34,6 +34,7 @@ import fund.service.ReportBuilder;
 import fund.service.UserService;
 import fund.service.AES128UtilService;
 import fund.service.FileExtFilter;
+import fund.service.PaymentService;
 import net.sf.jasperreports.engine.JRException;
 
 
@@ -47,6 +48,7 @@ public class SponsorController extends BaseController{
 	@Autowired DonationPurposeMapper donationPurposeMapper;
 	@Autowired AES128UtilService cipherService; //양방향 암호화 서비스
 	@Autowired FileExtFilter fileExtFilter;
+	@Autowired PaymentService paymentService;
 
 	//후원자관리 기본페이지
 	@RequestMapping(value="/sponsor/sponsor_m.do",method=RequestMethod.GET)
@@ -246,26 +248,35 @@ public class SponsorController extends BaseController{
 	}
 
 	@RequestMapping(value="/sponsor/insertIrrgularPayment.do", method=RequestMethod.POST)
-	public String insertIrrgularPayment2(@Valid IregularPayment iregularPayment,BindingResult result,Model model) throws Exception {
-		if (result.hasErrors()) {
+	public String insertIrrgularPayment2(IregularPayment iregularPayment,BindingResult result,Model model,RedirectAttributes redirectAttributes) throws Exception {
+		//if (result.hasErrors()) {
 			// validation error!!
-			System.out.println("error2");
-			System.out.println(iregularPayment.getAmount());
-			System.out.println(iregularPayment.getDonationPurposeID());
+//			if(iregularPayment.getAmount()==0) {
+//				String a = String.valueOf(iregularPayment.getAmount());
+//				a = null;
+//				System.out.println(a);
+//			}
+			
 			//return "redirect:/sponsor/insertIrrgularPayment.do?id="+iregularPayment.getSponsorID();
-			return "sponsor/insertIrrgularPayment";
+			//return "sponsor/insertIrrgularPayment";
+		//}
+		String message = paymentService.validateBeforeInsert(iregularPayment);
+		if (message == null){
+			Payment payment = new Payment();
+			System.out.println(payment);
+			payment.setSponsorID(iregularPayment.getSponsorID());
+			payment.setAmount(iregularPayment.getAmount());
+			Date date = (new SimpleDateFormat("yyyy-MM-dd")).parse(iregularPayment.getPaymentDate());
+			payment.setPaymentDate(date);
+			payment.setPaymentMethodID(iregularPayment.getPaymentMethodID());
+			payment.setDonationPurposeID(iregularPayment.getDonationPurposeID());
+			payment.setEtc(iregularPayment.getEtc());
+	
+			paymentMapper.insertIrregularPayment(payment);
+		}else{
+			redirectAttributes.addFlashAttribute("eMsg", message);
+			return "redirect:/sponsor/insertIrrgularPayment.do?id="+iregularPayment.getSponsorID();
 		}
-		Payment payment = new Payment();
-		payment.setSponsorID(iregularPayment.getSponsorID());
-		if(iregularPayment.getAmount() == 0) System.out.println("돈");
-		payment.setAmount(iregularPayment.getAmount());
-		Date date = (new SimpleDateFormat("yyyy-MM-dd")).parse(iregularPayment.getPaymentDate());
-		payment.setPaymentDate(date);
-		payment.setPaymentMethodID(iregularPayment.getPaymentMethodID());
-		payment.setDonationPurposeID(iregularPayment.getDonationPurposeID());
-		payment.setEtc(iregularPayment.getEtc());
-
-		paymentMapper.insertIrregularPayment(payment);
 
 		return "redirect:/sponsor/paymentList2.do?id="+iregularPayment.getSponsorID();
 	}

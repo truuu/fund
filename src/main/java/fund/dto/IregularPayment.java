@@ -1,14 +1,13 @@
 package fund.dto;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Null;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class IregularPayment {
 	int sponsorID;
 	
-	@Min(10)
+	@Null(message="금액을 입력하세요.")
 	int amount;
 	
 	@NotEmpty(message="날짜를 입력하세요.")
@@ -16,8 +15,7 @@ public class IregularPayment {
 	
 	@Null(message="기부목적을 선택하세요.")
 	int donationPurposeID;
-	
-	@Null(message="납입방법을 선택하세요.")
+
 	int paymentMethodID;
 	
 	String etc;

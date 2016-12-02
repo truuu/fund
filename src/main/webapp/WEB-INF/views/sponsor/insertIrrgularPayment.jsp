@@ -105,7 +105,7 @@ tr#topTable td, tr#topTable th {
 			<!-- Page Heading -->
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">비정기 납입등록2</h1>
+					<h1 class="page-header">비정기 납입등록</h1>
 				</div>
 			</div>
 			<input type="hidden" value="${sponsor.sponsorNo}" /> <input
@@ -120,7 +120,7 @@ tr#topTable td, tr#topTable th {
 							<input type="text"  class="money" id="amount"
 								name="amount" placeholder="금액" style="border:0px; width:800px;"/>
 						</div>
-						<form:errors path="amount"/>
+						
 					</div>
 				</div>
 				<div class="form-group">
@@ -129,7 +129,7 @@ tr#topTable td, tr#topTable th {
 					<div class="col-lg-10">
 						<input type="date" value="${iregularPayment.paymentDate }" class="form-control" id="paymentDate"
 							name="paymentDate" placeholder="날짜" />
-							<form:errors path="paymentDate"/>
+							
 					</div>
 				</div>
 				<div class="form-group">
@@ -138,8 +138,8 @@ tr#topTable td, tr#topTable th {
 						<input type="text" name="dname" readonly /> <a
 							href="#searchDialog" class="btn btn-primary" data-toggle="modal">검색</a>
 						<input type="hidden" value="${iregularPayment.donationPurposeID }" name="donationPurposeID"
-							id="donationPurposeID" />
-						<form:errors path="donationPurposeID"/>
+							id="donationPurposeID"/>
+						
 					</div>
 				</div>
 				<div class="form-group">
@@ -151,7 +151,7 @@ tr#topTable td, tr#topTable th {
 							<option value="15">부동산</option>
 							<option value="16">신용카드</option>
 						</select>
-						<form:errors path="paymentMethodID"/>
+						
 					</div>
 				</div>
 				<div class="form-group">
@@ -162,6 +162,11 @@ tr#topTable td, tr#topTable th {
 					</div>
 				</div>
 				<hr>
+				
+				<center><c:if test="${not empty eMsg }">
+					<div class="alert alert-danger">${eMsg}</div>
+				</c:if></center>
+				
 				<div align="center">
 					<input type="submit" class="btn btn-info" value="저장" />
 				</div>

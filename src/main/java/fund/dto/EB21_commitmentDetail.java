@@ -20,6 +20,7 @@ public class EB21_commitmentDetail {
 	String accountNo;
 	int amountPerMonth;
 	int paymentDay;
+	int sponsorType1ID;
 	
 	String createDate;
 	String commitmentNo;
@@ -30,6 +31,12 @@ public class EB21_commitmentDetail {
 	int sponsorID;
 	String description;
 	
+	public int getSponsorType1ID() {
+		return sponsorType1ID;
+	}
+	public void setSponsorType1ID(int sponsorType1ID) {
+		this.sponsorType1ID = sponsorType1ID;
+	}
 	public String getDescription() {
 		return description;
 	}
