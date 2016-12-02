@@ -73,7 +73,7 @@ iframe { width:800px; border: 1px solid #ddd; height:900px; }
 						</tr>
 						<tr>
 							<td id="table_a">약정액</td>
-							<td id="table_b"><input type="text" id="amount" class="money" 
+							<td id="table_b"><input type="text" id="amount" class="money commoninput" 
 								name="amount"/></td>
 						</tr>
 						<tr>

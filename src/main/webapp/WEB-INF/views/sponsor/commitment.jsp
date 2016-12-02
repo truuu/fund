@@ -8,23 +8,30 @@
 
 <script>
 	$(function() {
+		$(".commitmentTable").hide(); 
+	});
+
+	$(function() {
 		$("#new").click(function() {
 			$(".commitmentTable").show();
 		});
 	});
 
-	function save() {
-
-		if (confirm("저장하시겠습니까?") == true) {
-			return true;
-		} else {
-			return false;
+	
+	$(function() {
+		var m = $("input[name=tableShow]").val();
+		//alert(m);
+		if(m!=''){
+			$(".commitmentTable").show(); 
 		}
-	}
+	});
 </script>
 
 <style>
-tr:hover{ background-color: #ffe; cursor: pointer; }
+#table_s tr:hover{ 
+	background-color: #ffe; 
+	cursor: pointer; 
+}
 #new, #detail2 {
 	float: right;
 }
@@ -118,7 +125,7 @@ tr#topTable td, tr#topTable th{
 		약정 내역
 		<button type="button" id="new" class="btn btn-primary">새로 등록</button>
 		</h1>
-		
+		<input type="hidden" name="tableShow" value="${tableShow}" />
 		</div>
 		<input type="hidden" name="sponsorID" value="${sponsorID}" />
 		<input type="hidden" name="sponsorNo" value="${sponsorNo}" />
@@ -153,7 +160,7 @@ tr#topTable td, tr#topTable th{
 				</tbody>
 			</table>
 		</div>
-		<form:form method="post"  modelAttribute="commitmentCreate">
+		<form method="post">
 			<input type="hidden" name="sponsorID" value="${sponsorID}" />
 			<div class="commitmentTable">
 				
@@ -170,29 +177,29 @@ tr#topTable td, tr#topTable th{
 							<td id="table_a">기부목적</td>
 							<td><form:form method="post">
 									<div class="form-inline">
-										<input type="text" class="commoninput" name="dname" readonly /> <a
+										<input type="text" class="commoninput" name="dname" readonly value="${commitmentCreate.dname}" /> <a
 											href="#searchDialog" class="btn btn-default"
 											data-toggle="modal">검색</a> <input type="hidden"
-											name="donationPurposeID" id="donationPurposeID" />
-											<br>
+											name="donationPurposeID" id="donationPurposeID" value="${commitmentCreate.donationPurposeID }" />
+											
 									</div>
-								</form:form><form:errors path="donationPurposeID" /></td>
+								</form:form>${e3}</td>
 							<td id="table_a">기부기관</td>
 							<td style="vertical-align: middle;"><input type="text"
-								class="commoninput" name="corporateName" readonly /></td>
+								class="commoninput" name="corporateName" readonly value="${commitmentCreate.corporateName}"  /></td>
 						</tr>
 
 
 						<tr>
 							<td id="table_a">약정일자</td>
-							<td><input type="date" class="commoninput" name="commitmentDate">
-							<br><form:errors path="commitmentDate" /></td>
+							<td><input id="datepicker1" class="commoninput" name="commitmentDate" value="${commitmentCreate.commitmentDate}" />
+							<br>${e1}</td>
 							<td id="table_a">시작일</td>
-							<td><input type="date" class="commoninput" name="commitmentStartDate">
-							<br><form:errors path="commitmentStartDate" />
+							<td><input id="datepicker2" class="commoninput" name="commitmentStartDate" value="${commitmentCreate.commitmentStartDate}" />
+							<br>${e2}
 							</td>
 							<td id="table_a">종료일</td>
-							<td><input type="date" class="commoninput" name="endDate"></td>
+							<td><input id="datepicker3" class="commoninput" name="endDate" value="${commitmentCreate.endDate}"  /></td>
 						</tr>
 						<tr>
 							<td id="table_a">비고</td>
@@ -206,8 +213,8 @@ tr#topTable td, tr#topTable th{
 					<tbody>
 						<tr>
 							<td id="table_a">1회납입액</td>
-							<td><input type="text" class="money" name="amountPerMonth" />
-							</td>
+							<td><input type="text" class="money commoninput" name="amountPerMonth" value="${commitmentCreate.amountPerMonth}" />
+							<br>${e4}</td>
 							<td id="table_a">결제일</td>
 							<td><select name="paymentDay" class="commoninput" ><option value="20">20일</option>
 									<option value="25">25일</option></select></td>
@@ -237,7 +244,7 @@ tr#topTable td, tr#topTable th{
 				</center>
 	
 			</div>
-		</form:form>
+		</form>
 		</div>
 	</div>
 	</div>

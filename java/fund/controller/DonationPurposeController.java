@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import fund.BaseController;
 import fund.dto.Corporate;
 import fund.dto.DonationPurpose;
-import fund.dto.Pagination;
 import fund.mapper.CodeMapper;
 import fund.mapper.CorporateMapper;
 import fund.mapper.DonationPurposeMapper;
@@ -31,7 +30,7 @@ public class DonationPurposeController extends BaseController{
 	@Autowired CodeService codeService;
 
 	/*donationPurpose List*/
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping("/code/donationPurposeList.do")
 	public String codeList(Model model) {
 		model.addAttribute("list",donationPurposeMapper.selectPage());
@@ -39,15 +38,15 @@ public class DonationPurposeController extends BaseController{
 	}
 
 	/*donationPurpose insert*/
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/code/donationPurposeCreate.do", method=RequestMethod.GET)
 	public String create(Model model) {
 		model.addAttribute("corporateList",corporateMapper.selectCorporate());
-		model.addAttribute("organizationList",codeMapper.selectByCodeGroupName("기관종류"));
+		model.addAttribute("organizationList",codeMapper.selectByCodeGroupID(7));
 		return "code/donationPurposeCreate";
 	}
 
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/code/donationPurposeCreate.do", method=RequestMethod.POST)
 	public String create(@Valid DonationPurpose donationPurpose, BindingResult result,Model model) {
 		
@@ -59,7 +58,7 @@ public class DonationPurposeController extends BaseController{
 		else if(result.hasErrors()) {
 	
 			model.addAttribute("corporateList",corporateMapper.selectCorporate());
-			model.addAttribute("organizationList",codeMapper.selectByCodeGroupName("기관종류"));
+			model.addAttribute("organizationList",codeMapper.selectByCodeGroupID(7));
 
 			return "code/donationPurposeCreate";
 
@@ -69,18 +68,18 @@ public class DonationPurposeController extends BaseController{
 	}
 
 	/*donationPurpose edit*/
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/code/donationPurposeEdit.do", method=RequestMethod.GET)
 	public String edit(Model model,@RequestParam("ID") int ID) {
 		DonationPurpose donationPurpose = donationPurposeMapper.selectByID(ID);
 		model.addAttribute("corporateList",corporateMapper.selectCorporate());
-		model.addAttribute("organizationList",codeMapper.selectByCodeGroupName("기관종류"));
+		model.addAttribute("organizationList",codeMapper.selectByCodeGroupID(7));
 		model.addAttribute("donationPurpose",donationPurpose);
 
 		return "code/donationPurposeEdit";
 	}
 
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/code/donationPurposeEdit.do", method=RequestMethod.POST)
 	public String edit(@Valid DonationPurpose donationPurpose,BindingResult result,Model model)
 			throws UnsupportedEncodingException {
@@ -93,7 +92,7 @@ public class DonationPurposeController extends BaseController{
 		else if(result.hasErrors()) {
 	
 			model.addAttribute("corporateList",corporateMapper.selectCorporate());
-			model.addAttribute("organizationList",codeMapper.selectByCodeGroupName("기관종류"));
+			model.addAttribute("organizationList",codeMapper.selectByCodeGroupID(7));
 
 			return "code/donationPurposeEdit";
 
@@ -103,7 +102,7 @@ public class DonationPurposeController extends BaseController{
 	}
 
 	/*donationPurpose delete*/
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping("/code/donationPurposeDelete.do")
 	public String delete(Model model, @RequestParam("ID") int ID) {
 		donationPurposeMapper.delete(ID);
