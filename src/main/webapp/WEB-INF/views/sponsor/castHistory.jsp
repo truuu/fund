@@ -54,7 +54,7 @@ $(function(){
 			<!-- Page Heading -->
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">회원구분별 출연 내역1</h1>
+					<h1 class="page-header">회원구분별 출연 내역</h1>
 				</div>
 			</div>
 			
@@ -87,6 +87,7 @@ $(function(){
 									<th>회원수</th>
 									<th>출연수</th>
 									<th>금액</th>
+									<th>비율</th>
 
 
 								</tr>
@@ -100,6 +101,7 @@ $(function(){
 										<td>${cast.sponsorCount}</td>
 										<td>${cast.castCount}</td>
 										<td>${cast.sum}원</td>
+										<td>${cast.persent}%</td>
 
 									</tr>
 								</c:forEach>
@@ -109,6 +111,7 @@ $(function(){
 										<td><b>${sponsorCount}</b></td>
 										<td><b>${castCount}</b></td>
 										<td><b>${sum} 원</b></td>
+										<td><b>${totalPercent}%</b></td>
 									</tr>
 								</c:if>
 
