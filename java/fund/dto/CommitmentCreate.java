@@ -1,38 +1,39 @@
 package fund.dto;
 
-import java.util.Date;
-
-import javax.validation.constraints.Future;
-import javax.validation.constraints.Min;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
 public class CommitmentCreate {
 	
-	@NotEmpty(message="시작일을 입력하세요.")
 	String commitmentStartDate;       // 공통
 	
 	String commitmentDetailStartDate;
 	String commitmentEtc;
 	String commitmentDetailEtc;
 	int sponsorID;                 //  commitment
-	
-	@Min(1)
-	int donationPurposeID;
+	Integer donationPurposeID;
 	int paymentMethodID;
-
-	@NotEmpty(message="약정일을 입력하세요.")
 	String commitmentDate;
-	
 	String endDate;
-	int amountPerMonth;    // commitmentDetail
+	Integer amountPerMonth;    // commitmentDetail
 	int paymentDay;
 	int bankID;
 	String accountNo;
 	String accountHolder;
 	
+	String dname;   // 기부목적이름
+	String corporateName;  // 기관이름
 	
 	
+	public String getDname() {
+		return dname;
+	}
+	public void setDname(String dname) {
+		this.dname = dname;
+	}
+	public String getCorporateName() {
+		return corporateName;
+	}
+	public void setCorporateName(String corporateName) {
+		this.corporateName = corporateName;
+	}
 	public String getCommitmentStartDate() {
 		return commitmentStartDate;
 	}
@@ -64,10 +65,10 @@ public class CommitmentCreate {
 		this.sponsorID = sponsorID;
 	}
 	
-	public int getDonationPurposeID() {
+	public Integer getDonationPurposeID() {
 		return donationPurposeID;
 	}
-	public void setDonationPurposeID(int donationPurposeID) {
+	public void setDonationPurposeID(Integer donationPurposeID) {
 		this.donationPurposeID = donationPurposeID;
 	}
 	public int getPaymentMethodID() {
@@ -94,10 +95,10 @@ public class CommitmentCreate {
 		return paymentDay;
 	}
 	
-	public int getAmountPerMonth() {
+	public Integer getAmountPerMonth() {
 		return amountPerMonth;
 	}
-	public void setAmountPerMonth(int amountPerMonth) {
+	public void setAmountPerMonth(Integer amountPerMonth) {
 		this.amountPerMonth = amountPerMonth;
 	}
 	public void setPaymentDay(int paymentDay) {

@@ -38,7 +38,7 @@ public class PrintCertificateController extends BaseController{
 	@Autowired PrintScholarshipMapper printScholarshipMapper;
 	@Autowired UserService userService;
 	
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping("/certificate/printDonation_list.do")
     public String donationList(Model model, Pagination pagination) {
 		pagination.setRecordCount(printDonationMapper.selectCount(pagination));
@@ -46,7 +46,7 @@ public class PrintCertificateController extends BaseController{
         return "certificate/printDonation_list";
     }
 	
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping("/certificate/printScholarship_list.do")
     public String scholarshipList(Model model, Pagination pagination) {
 		pagination.setRecordCount(printScholarshipMapper.selectCount(pagination));
@@ -54,7 +54,7 @@ public class PrintCertificateController extends BaseController{
         return "certificate/printScholarship_list";
     }
 	
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/certificate/printScholarship.do", method=RequestMethod.GET)
     public String printScholarship(Model model) {
 		model.addAttribute("serialNo",printScholarshipMapper.selectSerialNum());
@@ -63,7 +63,7 @@ public class PrintCertificateController extends BaseController{
 	
     
 	//장학증서 보고서 미리보기
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping("/report/printScholarship.do")
     public void printScholarshipReport(Model model,  @RequestParam("type") String type, 
             HttpServletRequest request, HttpServletResponse response) throws JRException, IOException {
@@ -89,7 +89,7 @@ public class PrintCertificateController extends BaseController{
 		reportBuilder.build(type);
     }
 	
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/certificate/scholarshipIssue.do") // 장학증서 발급
 	public String scholarshipPrint(Model model,String department,String studentNo, String studentName){
 		PrintScholarship printScholarship = new PrintScholarship();	
@@ -101,7 +101,7 @@ public class PrintCertificateController extends BaseController{
 		return "redirect:/certificate/printScholarship_list.do";
 	}
 	
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/certificate/printDonation.do", method=RequestMethod.GET)
     public String printDonation(Model model) {
 		model.addAttribute("serialNo",printDonationMapper.selectSerialNum());
@@ -111,7 +111,7 @@ public class PrintCertificateController extends BaseController{
 
 	
 	//기부증서보고서 미리보기
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping("report/printDonation.do")
 	 public void  printDonationReport(Model model,  @RequestParam("type") String type,HttpServletRequest request, HttpServletResponse response) throws JRException, IOException {
 		System.out.println(request.getParameter("amount"));
@@ -137,7 +137,7 @@ public class PrintCertificateController extends BaseController{
 	   }
 	
 	
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/certificate/donationIssue.do") // 기부증서 발급
 	public String donationPrint(Model model,int amount, String sponsorName, String serialNo){
 		PrintDonation printDonation = new PrintDonation();
@@ -149,21 +149,21 @@ public class PrintCertificateController extends BaseController{
 		return "redirect:/certificate/printDonation_list.do";
 	}
 	
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/certificate/donationRepoertContent.do")
 	public String donationReportContent(Model model){
 		
 		return "certificate/donationReportContent";
 	}
 	
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/certificate/scholarshipRepoertContent.do")
 	public String scholarshipReportContent(Model model){
 		
 		return "certificate/scholarshipReportContent";
 	}
 	
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/certificate/donationDelete.do")   // 기부증서 삭제
 	public String donationDelete(Model model,@RequestParam(value="checkboxValues[]") List<Integer> checkboxValues){
 
@@ -174,7 +174,7 @@ public class PrintCertificateController extends BaseController{
 		return "redirect:/certificate/printDonation_list.do";
 	}
 	
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/certificate/scholarshipDelete.do", method=RequestMethod.GET) // 장학증서 삭제
 	public String scholarshipDelete(Model model, @RequestParam(value="checkboxValues") List<Integer> checkboxValues){  // 삭제할 목록의 id를 배열로 받아서
 		
@@ -190,4 +190,3 @@ public class PrintCertificateController extends BaseController{
 	
 	
 }
-	

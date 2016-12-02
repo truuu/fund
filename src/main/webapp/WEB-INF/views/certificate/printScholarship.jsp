@@ -65,7 +65,9 @@ iframe { width: 800px; border: 1px solid #ddd; height: 900px; }
 				<tbody>
 					<tr>
 						<td id="table_a">일련번호</td>
-						<td id="table_b"><input type="text" id="serialNo" name="serialNo" value="${serialNo}"></td>
+
+						<td id="table_b"><input type="text" id="serialNo" name="serialNo" class="commoninput" value="${serialNo}" readonly /></td>
+
 						<td id="table_a">학과</td>
 						<td id="table_b"><select name="department" id="department">
 								<option selected="selected">선택</option>

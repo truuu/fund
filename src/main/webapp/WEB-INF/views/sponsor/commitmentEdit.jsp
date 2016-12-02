@@ -8,21 +8,53 @@
 <script>
 
 	$(function() {
+<<<<<<< HEAD
+		var m1 = $("input[name=deleteError]").val();
+=======
 		//$(".btn1").hide();
 		$("select").attr("readonly", true);  // 적용안됨 질문
 		$("input").attr("readonly", true);
+>>>>>>> branch 'master' of https://github.com/truuu/fund
 		
+		if(m1!='')
+			alert(m1);
+		
+		var m2 = $("input[name=deleteDetailError]").val();
+	
+		if(m2!='')
+			alert(m2);
+	});
 
+<<<<<<< HEAD
+	$(function() {
+		$("select").attr("disabled", true); 
+		$("input").attr("disabled", true);
+		$("a#searched1").attr("disabled", true);
+	});
+	
+	$(function() {
+		$("#updateButton").click(function() {
+			$(".btn").show();
+			$("select").attr("disabled", false);
+			$("input").attr("disabled", false);
+			$("a#searched1").attr("disabled", false);
+=======
 		$(".btn btn-primary").click(function() {
 			$(".btn1").show();
 			$("select").attr("readonly", false);
 			$("input").attr("readonly", false);
 			
+>>>>>>> branch 'master' of https://github.com/truuu/fund
 		});
 	});
+<<<<<<< HEAD
+
+
+=======
 </script>
 
 <script>
+>>>>>>> branch 'master' of https://github.com/truuu/fund
 function deleteCommitmentDetail(commitmentDetailID) {
 	if (confirm("약정 상세를 삭제하시겠습니까?") == true) {
 		commitmentID=$("#cmmID").val();
@@ -119,7 +151,8 @@ button#editButton {
 	<button type="button" style="margin-left: 3px;" 
 		class="btn btn-primary">수정하기</button>
 	<a href="commitment.do?id=${commitment.sponsorID}" id="list" class="btn btn-default">약정목록</a>
-	<h3>약정</h3>
+	<h3>약정</h3><input type="hidden" name="deleteError" value="${errorMessage1}" />
+	
 	<form method="post" action="commitmentUpdate.do">
 
 		<input type="hidden" name="ID" id="cid" value="${commitment.ID}" />
@@ -131,24 +164,29 @@ button#editButton {
 						<td id="table_a">납입방법</td>
 						<td>${ commitment.codeName }</td>
 						<td id="table_a">기부목적</td>
-						<td><div class="form-inline">
-							 <input type="text" name="dname" readonly value="${commitment.name}" />
-								<a href="#searchDialog" class="btn btn-default" data-toggle="modal">검색</a> 
-								<input type="hidden" name="donationPurposeID" id="donationPurposeID" value="${commitment.donationPurposeID }" />
+
+						<td><form:form method="post">
+						<div class="form-inline">
+							 <input type="text" name="dname" class="commoninput" readonly value="${commitment.name}" />
+								<a id="searched1" href="#searchDialog" class="btn btn-default" data-toggle="modal">검색</a> 
+								<input type="hidden" name="donationPurposeID" id="donationPurposeID"  value="${commitment.donationPurposeID }" />
+
 							</div>
+							</form:form>
 						</td>
 						<td id="table_a">기부기관</td>
-						<td style="vertical-align: middle;"><input type="text"
-							name="corporateName2" readonly value="${commitment.corporateName}"/></td>
-					</tr>
+
+						<td style="vertical-align: middle;"><input type="text" class="commoninput" 
+							name="corporateName" readonly value="${commitment.corporateName}" /></td>
+</tr>
 					
 					<tr>
 						<td id="table_a">약정일자</td>
-						<td><input type="date" class="commoninput" name="commitmentDate" value="${commitment.commitmentDate}" /></td>
+						<td><input id="datepicker1" class="commoninput" name="commitmentDate" value="${commitment.commitmentDate}" /></td>
 						<td id="table_a">시작일</td>
-						<td><input type="date" class="commoninput" name="startDate" value="${commitment.startDate}" /></td>
+						<td><input id="datepicker2" class="commoninput" name="startDate" value="${commitment.startDate}" /></td>
 						<td id="table_a">종료일</td>
-						<td><input type="date" class="commoninput" name="endDate" value="${commitment.endDate}" /></td>
+						<td><input id="datepicker3" class="commoninput" name="endDate" value="${commitment.endDate}" /></td>
 					</tr>
 					<tr>
 						<td id="table_a">비고</td>
@@ -163,7 +201,7 @@ button#editButton {
 		<a id="btn1" class="btn btn-default" onClick="deleteCommitment(${commitment.ID})">삭제</a>
 	</form>
 	<br>
-	<h3>약정 상세</h3>
+	<h3>약정 상세</h3><input type="hidden" name="deleteDetailError" value="${errorMessage2}" />
 
 <c:forEach var="commitmentDetail" items="${ commitmentDetails }" >
 	<form action="commitmentDetailSave.do" method="post">
@@ -173,7 +211,7 @@ button#editButton {
 			<tbody>
 				<tr>
 					<td id="table_a">1회납입액</td>
-					<td><input type="text" class="money" name="amountPerMonth" value="${ commitmentDetail.amountPerMonth }" /></td>
+					<td><input type="text" class="money commoninput" name="amountPerMonth" value="${ commitmentDetail.amountPerMonth }" /></td>
 					<td id="table_a">결제일</td>
 					<td><select name="paymentDay"><option value="20" ${commitmentDetail.paymentDay == 20 ? "selected" : "" }>20일</option>
 									<option value="25" ${commitmentDetail.paymentDay == 25 ? "selected" : "" }>25일</option></select></td>
@@ -213,7 +251,7 @@ button#editButton {
 			<tbody>
 				<tr>
 					<td id="table_a">1회납입액</td>
-					<td><input type="text" class="money" name="amountPerMonth" />
+					<td><input type="text" class="money commoninput" name="amountPerMonth" />
 					</td>
 					<td id="table_a">결제일</td>
 					<td><select name="paymentDay"><option value="20">20일</option>
@@ -307,8 +345,8 @@ button#editButton {
 		var name = selectedTr.find("td:nth-child(3)").text();
 		var corporateName = selectedTr.find("td:nth-child(1)").text();
 		$("input[name=dname]").val(name);
-		$("input[name=corporateName2]").val(corporateName2);
-		$("input#donationPurposeID").val(donationPurposeID);
+		$("input[name=corporateName]").val(corporateName);
+		$("input[name=donationPurposeID]").val(donationPurposeID);
 	}
 
 	$(document).ready(function() {
