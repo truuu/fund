@@ -76,7 +76,7 @@ $(function(){
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">
-						DM 발송용 주소록1
+						DM 발송용 주소록
 					</h1>
 				</div>
 			</div>

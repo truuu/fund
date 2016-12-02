@@ -35,3 +35,6 @@ $(function(){
 		format : 'yyyy-mm-dd'		
 	});
 })
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})

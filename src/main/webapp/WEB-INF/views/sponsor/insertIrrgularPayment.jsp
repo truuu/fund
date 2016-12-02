@@ -166,7 +166,7 @@ tr#topTable td, tr#topTable th {
 				<hr>
 				
 				<center><c:if test="${not empty eMsg }">
-					<div class="alert alert-danger">${eMsg}</div>
+					<div class="alert alert-danger" style="width:200px;">${eMsg}</div>
 				</c:if></center>
 				
 				<div align="center">

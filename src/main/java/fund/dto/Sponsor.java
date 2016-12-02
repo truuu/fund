@@ -15,6 +15,7 @@ import fund.service.AES128UtilService;
 
 public class Sponsor {
    //AES128UtilService cipherService=new AES128UtilService(); //양방향 암호화 서비스
+   
    int id;
 
    String sponsorNo; //
