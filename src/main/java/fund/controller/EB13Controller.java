@@ -54,7 +54,7 @@ public class EB13Controller extends BaseController{
 	   public String selectEB13(Model model)throws Exception{
 	      List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
 	      for(int i = 0; i < eb13List.size(); i++){
-	    	  if(eb13List.get(i).getSponsorType1ID() == 4){
+	    	  if(eb13List.get(i).getSponsorType1ID() == 3 || eb13List.get(i).getSponsorType1ID() == 4){
 	    		 String decoding = eb13List.get(i).getJumin2();//사업자등록번호 디코딩
 	 	         eb13List.get(i).setJumin(decoding);
 	    	  }else{
