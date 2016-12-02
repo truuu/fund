@@ -18,6 +18,15 @@
 
 <script type="text/javaScript">
 
+
+$(function() {
+    var m1 = $("input[name=deleteError]").val();
+    
+    if(m1!='')
+       alert(m1);
+ 
+ });
+
 function fileDelete(id){
    
    var sponsorId=$('#fileSponsorId').val();
@@ -93,9 +102,10 @@ function fileDelete(id){
      }
    
    
-   function deletes(sponsorNo){
+   function deletes(id){
+	   alert('delete !!')
 	   if (confirm("후원자 정보를 삭제하시겠습니까?") == true) {
-		   location.href = "delete.do?id=target"+sponsorNo;
+		   location.href = "delete.do?id="+id;
 	   }
       
    }
@@ -126,7 +136,8 @@ function fileDelete(id){
 
 </c:choose>
       
-               <a onclick="deletes(${ sponsor.sponsorNo })" class="btn btn-danger">삭제</a>
+               <a onclick="deletes(${ sponsor.id })" class="btn btn-danger">삭제</a>
+               <input type="hidden" name="deleteError" value="${errorMessage1}" />
             </div>
          </div>
       </div>

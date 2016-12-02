@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fund.BaseController;
 import fund.dto.*;
@@ -260,12 +262,7 @@ public class SponsorController extends BaseController{
 					sponsor.setHomePostCode(homePostCode);
 				}
 			}
-			/*String homeRoadAddress=home[0];
-			String homeDetailAddress=home[1];
-			String homePostCode=home[2];
-			sponsor.setHomeRoadAddress(homeRoadAddress);
-			sponsor.setHomeDetailAddress(homeDetailAddress);
-			sponsor.setHomePostCode(homePostCode);*/
+
 
 		}
 		if(!officeAddress.equals("")){
@@ -284,17 +281,15 @@ public class SponsorController extends BaseController{
 					sponsor.setOfficePostCode(officePostCode);
 				}
 			}
-			
-			/*String officeRoadAddress=office[0];
-			String officeDetailAddress=office[1];
-			String officePostCode=office[2];
-			sponsor.setOfficeRoadAddress(officeRoadAddress);
-			sponsor.setOfficeDetailAddress(officeDetailAddress);
-			sponsor.setOfficePostCode(officePostCode);*/
+	
+		}
+		
+		if(!sponsor.getJuminNo().equals("")){
+			String decoding=cipherService.decAES(sponsor.getJuminNo());//jumin decoding
+			sponsor.setJuminNo(decoding);// 복호화 후 저장
 		}
 
-		String decoding=cipherService.decAES(sponsor.getJuminNo());//jumin decoding
-		sponsor.setJuminNo(decoding);// 복호화 후 저장
+	
 
 
 
@@ -358,13 +353,21 @@ public class SponsorController extends BaseController{
 
 	//후원자 정보 삭제하기
 	@RequestMapping(value="/sponsor/delete.do",method=RequestMethod.GET)
-	public String sponsorDelete(@RequestParam("id")String sponsorNo,Model model)throws Exception{
+	public String sponsorDelete(@RequestParam("id")int id,Model model,RedirectAttributes redirectAttributes){
+		System.out.println("sponsor test >> "+id);
+		 try{
+			 sponsorMapper.removeSponsor(id);
+	      }
+	      catch(DataIntegrityViolationException e){
+	         redirectAttributes.addFlashAttribute("errorMessage1","해당 약정에 납입내역이나 약정상세가 있어 삭제할 수 없습니다.");
+	         return "redirect:/sponsor/detail.do?id="+id; 
+	      }
+	   
 
-		sponsorMapper.removeSponsor(sponsorNo);
+		
+		//sponsorMapper.removeSponsor(sponsorNo);
 		return "redirect:/sponsor/sponsor_m.do";
 	}
-
-
 
 
 	@RequestMapping(value="/user/member_r.do",method=RequestMethod.GET)

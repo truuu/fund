@@ -80,7 +80,7 @@
 	<!-- 후원자 삭제 -->
 	<delete id="removeSponsor">
 		DELETE FROM sponsor
-		WHERE sponsorNo = #{sponsorNo}
+		WHERE id = #{id}
 	</delete>
 	
 	<!-- 후원자 상세페이지 -->

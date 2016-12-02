@@ -8,27 +8,19 @@ import org.springframework.stereotype.Component;
 
 import fund.service.AES128UtilService;
 
-@Component
+
 public class Sponsor {
-	@Autowired AES128UtilService cipherService; //양방향 암호화 서비스
+	//AES128UtilService cipherService=new AES128UtilService(); //양방향 암호화 서비스
 	int id;
 
 	String sponsorNo; //
 	
 	@Size(min=1,message="이름을 입력해주세요")
 	String name; //
-	
-	
-	@Size(min = 10, max = 13,message="정확히 입력해주시요")
 	String juminNo; //
-	
-	
-	int sponsorType1ID; //
-	
-	
+    int sponsorType1ID; //
 	int sponsorType2ID; //
-	
-	int churchID; //
+    int churchID; //
 	
 	@NotEmpty(message="날짜를 입력해주세요")
     String signUpDate; //  Date -> String date시 에러남 400 파라미터타입문제 질문해야함
@@ -86,7 +78,15 @@ public class Sponsor {
 	//long sum;//후원인구분2별 출연내역 금액
 	int sum;//후원인구분2별 출연내역 금액
 	
+	double persent;//후원인별에 %값
 	
+	
+	public double getPersent() {
+		return persent;
+	}
+	public void setPersent(double persent) {
+		this.persent = persent;
+	}
 	public int getSum() {
 		return sum;
 	}
