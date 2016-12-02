@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+             "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fund.mapper.PrintScholarshipMapper">
+
+	<select id="selectPage" resultType="fund.dto.PrintScholarship">
+        <![CDATA[
+        SELECT *
+        FROM
+            (SELECT p.ID, p.studentName, p.studentNo, p.department, p.createDate, u.name, STR(YEAR(GETDATE()),4) + '-' + REPLACE(STR(num,4), ' ', '0') num2,
+                     ROW_NUMBER() OVER (ORDER BY p.ID DESC) 행번호
+              FROM [PrintScholarship] p LEFT JOIN [User] u ON p.userID = u.ID
+              WHERE
+                 (#{srchType} = 0) OR
+                  (#{srchType} = 1 AND CHARINDEX(#{srchText}, studentNo) = 1) OR
+                  (#{srchType} = 2 AND CHARINDEX(#{srchText}, studentName) = 1) OR
+                  (#{srchType} = 3 AND CHARINDEX(#{srchText}, department) = 1) OR
+                  (#{srchType} = 4 AND CHARINDEX(#{srchText}, createDate) = 1)
+               
+            ) subquery
+        WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+              행번호 <= #{currentPage} * #{pageSize}
+        ORDER BY 행번호
+        ]]>
+	</select>
+
+	<select id="selectCount" resultType="int">
+		SELECT COUNT(*)
+		FROM
+		[PrintScholarship] p LEFT JOIN [User] u ON p.userID = u.ID
+		WHERE
+		(#{srchType} = 0) OR
+		(#{srchType} = 1 AND CHARINDEX(#{srchText}, studentNo) = 1) OR
+		(#{srchType} = 2 AND CHARINDEX(#{srchText}, studentName) = 1) OR
+		(#{srchType} = 3 AND CHARINDEX(#{srchText}, department) = 1) OR
+		(#{srchType} = 4 AND CHARINDEX(#{srchText}, createDate) = 1)
+	</select>
+	
+		<select id="selectSerialNum" resultType="String">
+		SELECT STR(YEAR(GETDATE()),4) + '-' + REPLACE(STR(ISNULL(MAX(num),0)+1,4), ' ', '0') 
+		FROM PrintScholarship
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT [PrintScholarship]
+		(userID,createDate,studentNo,studentName,department,num)
+		VALUES (#{userID},GETDATE(),#{studentNo},#{studentName},#{department},
+		IsNULL((SELECT MAX([num]) FROM PrintScholarship), 0) + 1)
+	</insert>
+
+	<delete id="delete">
+		DELETE FROM [PrintScholarship] WHERE ID = #{ID}
+	</delete>
+
+</mapper>

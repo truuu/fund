@@ -21,7 +21,7 @@ tr:hover{ background-color: #ffe; cursor: pointer; }
 </style>
 </head>
 <body>
-<h1 class="page-header">기관</h1>
+<h2 class="page-header">기관</h2>
 <div class="code">
 	<div id="column-right">
 		<a href="/fund_sys/code/corporateCreate.do" type="button" class="btn btn-primary" >추가</a> 

@@ -112,25 +112,23 @@ tr#topTable td, tr#topTable th {
 			<input type="hidden" value="${sponsor.sponsorNo}" /> <input
 				type="hidden" name="sponsorID" value="${sponsorID}" />
 			<!-- /.row -->
-			<form:form method="post" class="form-horizontal" id="target" modelAttribute="payment">
+			<form method="post" class="form-horizontal">
 				<input type="hidden" name="sponsorID" value="${sponsorID}" />
 				<div class="form-group">
 					<label for="amount" class="col-lg-2 control-label">납입금액</label>
 					<div class="col-lg-10">
 						<div class="form-control">
-							<input type="text" value="${payment.money }" class="money" id="amount"
+							<input type="text" class="money" id="amount"
 								name="amount" placeholder="금액" style="border:0px; width:800px;"/>
 						</div>
-						<form:errors path="amount"/>
 					</div>
 				</div>
 				<div class="form-group">
 
 					<label for="paymentDateString" class="col-lg-2 control-label">납입일</label>
 					<div class="col-lg-10">
-						<input type="date" value="${payment.paymentDate }" class="form-control" id="paymentDateString"
+						<input type="date" class="form-control" id="paymentDateString"
 							name="paymentDate" placeholder="날짜" />
-							<form:errors path="paymentDate"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -138,21 +136,21 @@ tr#topTable td, tr#topTable th {
 					<div class="col-lg-10">
 						<input type="text" name="dname" readonly /> <a
 							href="#searchDialog" class="btn btn-primary" data-toggle="modal">검색</a>
-						<input type="hidden" value="${payment.donationPurposeID }" name="donationPurposeID"
+						<input type="hidden" name="donationPurposeID"
 							id="donationPurposeID" />
-						<form:errors path="donationPurposeID"/>
+
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="select" class="col-lg-2 control-label">납입 방법</label>
 					<div class="col-lg-10">
-						<select class="form-control" value="${payment.paymentMethodID }" name="paymentMethodID">
+						<select class="form-control" name="paymentMethodID">
 							<option value="13">직접입금</option>
 							<option value="14">현물</option>
 							<option value="15">부동산</option>
 							<option value="16">신용카드</option>
 						</select>
-						<form:errors path="paymentMethodID"/>
+
 					</div>
 				</div>
 				<div class="form-group">
@@ -166,7 +164,7 @@ tr#topTable td, tr#topTable th {
 				<div align="center">
 					<input type="submit" class="btn btn-info" value="저장" />
 				</div>
-			</form:form>
+			</form>
 
 		</div>
 
@@ -221,7 +219,7 @@ tr#topTable td, tr#topTable th {
 
 			<div class="modal-footer">
 				<div class="form-inline">
-					<button style="margin-bottom: 0px" class="btn btn-default" data-dismiss="modal">닫기</button>
+					<button style="margin-bottom: 0px" class="btn" data-dismiss="modal">닫기</button>
 					<button style="margin-bottom: 0px" class="btn btn-primary"
 						onclick="selectDonationPurpose()" data-dismiss="modal">선택</button>
 				</div>

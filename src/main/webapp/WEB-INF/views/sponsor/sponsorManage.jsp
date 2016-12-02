@@ -8,21 +8,15 @@
 <script>
 function sponorSearch(){
 	var codeName=$("#search option:selected").text();
+    var nameForSearch=$('#nameForSearch').val();
 	
-
 	
-	var nameForSearch=$('#nameForSearch').val();
-	
-	if(codeName='검색조건'){
-		if (confirm("전체 목록 페이지로 넘가시겠습니까?") == true) {
-			location.href="sponsor_m.do";
-		}
-	}
     if(codeName=='이름'){
 		
 		 $.ajax({
     	      url:"nameCheck.do",
     	      type:"GET",
+    	      contentType: "application/json; charset=utf-8",
     	      data :{nameForSearch:nameForSearch},
     	      dataType : "json",
     	      success : function(data){
@@ -42,11 +36,18 @@ function sponorSearch(){
 		
 	
 	}else{
-	
 		
+		if(codeName=='검색조건'){
+			if (confirm("전체 목록 페이지로 넘가시겠습니까?") == true) {
+				location.href="sponsor_m.do";
+			}
+		}
+	
+		if(codeName!='검색조건'){
 		 $.ajax({
     	      url:"codeNameCheck.do",
     	      type:"GET",
+    	      contentType: "application/json; charset=utf-8",
     	      data :{codeName:codeName},
     	      dataType : "json",
     	      success : function(data){
@@ -66,7 +67,7 @@ function sponorSearch(){
     	      }
     	   });
 		
-		
+		}
 
 		
 	}
@@ -95,7 +96,7 @@ tr#topTable td{
 <div id="wrapper">
 	<div id="page-wrapper">
 		<div class="container-fluid">
-			<h1 class="page-header">회원관리6</h1>
+			<h1 class="page-header">회원관리</h1>
 			<div id="column-right">
 				<a href="sponsor.do" class="btn btn-info">신규</a> 
 			</div>

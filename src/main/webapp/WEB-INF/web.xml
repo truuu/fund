@@ -52,5 +52,10 @@
     <welcome-file>/home/index.do</welcome-file>
   </welcome-file-list>
 
+      <!-- error 페이지 -->
+   
+  
+
+
 
 </web-app>

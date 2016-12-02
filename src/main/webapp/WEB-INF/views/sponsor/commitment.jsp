@@ -10,13 +10,11 @@
 	$(function() {
 		$(".commitmentTable").hide(); 
 	});
-
 	$(function() {
 		$("#new").click(function() {
 			$(".commitmentTable").show();
 		});
 	});
-
 	
 	$(function() {
 		var m = $("input[name=tableShow]").val();
@@ -35,62 +33,48 @@
 #new, #detail2 {
 	float: right;
 }
-
 .size {
 	width: 150px;
 }
-
 table#detail {
 	width: 35%;
 }
-
 table#detail2 {
 	width: 60%;
 }
-
 table#donationTable {
 	width: 100%;
 }
-
 #searchResult {
 	width: 100%;
 }
-
 div#scroll {
 	height: 280px;
 	overflow-y: scroll;
 }
-
 #searchResult tr:hover {
 	background-color: #ffe;
 	cursor: pointer;
 }
-
 #searchResult tr.selected {
 	background-color: #fee;
 	font-weight: bold;
 }
-
 button#detail {
 	margin: 0 auto;
 }
-
 div#table_a, div#td2 {
 	display: inline-block;
 }
-
 div.table-responsive {
 	border: 1px;
 }
-
 div.table {
 	width: 100%;
 }
-
 div table.table tbody tr td {
 	vertical-align: middle;
 }
-
 .table tbody tr td {
 	vertical-align: middle;
 }
@@ -318,7 +302,6 @@ tr#topTable td, tr#topTable th{
 		$("input[name=corporateName]").val(corporateName);
 		$("input#donationPurposeID").val(donationPurposeID);
 	}
-
 	$(document).ready(function() {
 		$("#searchResult tr").click(function() {
 			$("#searchResult tr").removeClass("selected");

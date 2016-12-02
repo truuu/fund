@@ -14,7 +14,6 @@ table.table {
 
 #table_a {
 	width: 50%;
-	vertical-align: middle;
 }
 
 #btn3 {
@@ -27,12 +26,12 @@ table.table {
 		<table class="table">
 			<tr>
 				<td id="table_a">코드명</td>
-				<td><input type="text" name="codeName" class="commoninput" /> <br>${error}</td>
+				<td><input type="text" name="codeName" /> <br>${error}</td>
 				
 			</tr>
 			<tr>
 				<td id="table_a">기타</td>
-				<td><input type="text" name="etc1" class="commoninput" /></td>
+				<td><input type="text" name="etc1" /></td>
 			</tr>
 		</table>
 		

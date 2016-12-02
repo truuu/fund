@@ -7,22 +7,22 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <head>
 <script>
+var startDate,endDate;
 
-$(function() {                          
-
-	$("form").submit(function() {
-		
-		 var startDate=$('#datepicker1').val();
-		 var endDate=$('#datepicker2').val();
-	    	
-		if(startDate==''||endDate==''){
-			alert('날짜를 모두 입력해주세요');
-			return false;
-		}
-		else
-			return true;
-	});
-})
+function searched(){
+	
+	startDate=$('#startDate').val();
+	endDate=$('#endDate').val();
+	
+	if(startDate==''||endDate==''){
+		alert('날짜를 모두 입력해주세요');
+	}
+	else{
+		location.href="/fund_sys/dataPrint/donationPurposeStats1.do?startDate="+startDate+"&endDate="+endDate;
+	}
+	
+	
+}
 </script>
 <style>
 tr#topTable td,h4{
@@ -39,12 +39,12 @@ a2{ float:right; }
    <form method="post">
       <div class="row">
          <div class="col-lg-9">
-            <label> 기간(시작-끝) </label> <input id="datepicker1" class="commoninput" name="startDate" value="${startDate}">
-            ~ <input id="datepicker2" class="commoninput" name="endDate" value="${endDate}">
+            <label> 기간(시작-끝) </label> <input type="date" id="startDate" class="commoninput" name="startDate" value="${startDate}">
+            ~ <input type="date" id="endDate" class="commoninput" name="endDate" value="${endDate}">
          </div>
          <div class="col-lg-3">
             <div id="column-right">
-               <button type="submit" class="btn btn-primary" onclick="searched()" >검색</button>
+               <button type="button" class="btn btn-primary" onclick="searched()" >검색</button>
                <button class="btn btn-default" type="submit" name="cmd" value="pdf">보고서</button>
                <button class="btn btn-default" type="submit" name="cmd" value="xlsx">엑셀</button>
             </div>

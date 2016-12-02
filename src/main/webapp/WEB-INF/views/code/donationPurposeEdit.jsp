@@ -34,7 +34,7 @@ table.table {
 	<table class="table">
 		<tr>
 			<td id="table_a">기관</td>
-			<td><form:select path="corporateID" class="commoninput">
+			<td><form:select path="corporateID">
 					<c:forEach var="corporate" items="${corporateList}">
 						<form:option value="${corporate.ID}" label="${corporate.name}" />
 					</c:forEach>
@@ -43,7 +43,7 @@ table.table {
 		</tr>
 		<tr>
 			<td id="table_a">기관종류</td>
-			<td><form:select path="organizationID" class="commoninput">
+			<td><form:select path="organizationID">
 					<c:forEach var="organization" items="${organizationList}">
 						<form:option value="${organization.ID}"
 							label="${organization.codeName}" />
@@ -52,12 +52,12 @@ table.table {
 		</tr>
 		<tr>
 			<td id="table_a">기부목적</td>
-			<td><form:input path="name" class="commoninput" /><br>
+			<td><form:input path="name" /><br>
 			<form:errors path="name" /></td>
 		</tr>
 		<tr>
 			<td id="table_a">구분</td>
-			<td><form:input path="gubun" class="commoninput" /><br>
+			<td><form:input path="gubun" /><br>
 			<form:errors path="gubun" /></td>
 		</tr>
 		
@@ -67,7 +67,7 @@ table.table {
 				<i class="icon-ok icon-white"></i> 저장
 			</button>
 			<button type="button" onclick="deleteFunction()"
-				class="btn btn-danger">
+				class="btn btn-default">
 				<i class="icon-ok icon-white"></i> 삭제
 			</button>
 			<a href="donationPurposeList.do" class="btn btn-default"> <i

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+             "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fund.mapper.CodeMapper">
+	<select id="selectByCodeGroupName" parameterType="String"
+		resultType="fund.dto.Code">
+		select c1.*
+		from [Code] c1 left join [CodeGroup] c2 on
+		c1.codeGroupID=c2.ID
+		where c2.name=#{name}
+	</select>
+
+	<select id="selectByPaymentMethod" resultType="fund.dto.Code">
+		select c2.*
+		from
+		CodeGroup c1 left join Code c2 on c1.ID=c2.codeGroupID
+		where
+		c1.name=#{name}
+	</select>
+
+	<select id="selectByBank" resultType="fund.dto.Code">
+		select c2.*
+		from CodeGroup
+		c1 left join Code c2 on c1.ID=c2.codeGroupID
+		where c1.name=#{bank}
+	</select>
+
+	<select id="selectSponsorType2" resultType="fund.dto.Code">
+		select c2.*
+		from
+		CodeGroup c1 left join Code c2 on c1.ID=c2.codeGroupID
+		where
+		c1.name=#{name}
+	</select>
+
+	<select id="selectAllPaymentMethod" resultType="fund.dto.Code">
+		select c2.*
+		from
+		CodeGroup c1 left join Code c2 on c1.ID=c2.codeGroupID
+		where
+		c1.name=#{name1} or c1.name=#{name2}
+	</select>
+
+	<select id="selectChurch" resultType="fund.dto.Code">
+		select c2.*
+		from CodeGroup
+		c1 left join Code c2 on c1.ID=c2.codeGroupID
+		where c1.name=#{name}
+
+	</select>
+
+	<select id="selectCodeName" resultType="String">
+		select codeName
+		from code
+		where ID=#{ID}
+	</select>
+
+	<select id="selectByID" parameterType="int" resultType="fund.dto.Code">
+		SELECT *
+		FROM [Code]
+		WHERE ID = #{ID}
+	</select>
+
+	<select id="selectCodeGroup" resultType="fund.dto.CodeGroup">
+		SELECT *
+		FROM [CodeGroup]
+	</select>
+
+	<select id="selectByName" resultType="java.lang.String">
+		SELECT name
+		FROM [CodeGroup]
+		WHERE ID = #{CodeGroupID}
+	</select>
+
+	<select id="selectByCodeGroupID"  resultType="fund.dto.Code"> 
+	SELECT *
+    FROM [Code] 
+    where codeGroupID = #{codeGroupID}
+            
+	</select>
+
+	<select id="selectCount" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM [Code]
+		WHERE codeGroupID = #{CodeGroupID}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT [Code]
+		(codeGroupID, codeName, etc1, etc2, etc3)
+		VALUES (#{codeGroupID},#{codeName},#{etc1},#{etc2},#{etc3})
+	</insert>
+
+	<update id="update">
+		UPDATE [Code]
+		SET codeName = #{codeName}, etc1 = #{etc1}
+		WHERE ID = #{ID}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM [Code] WHERE ID = #{ID}
+	</delete>
+
+</mapper>

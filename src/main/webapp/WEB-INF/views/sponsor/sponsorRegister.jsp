@@ -79,19 +79,25 @@ function fileDelete(id){
    }
    
    function insert(){
-   alert('저장')
-   $('#target').submit();
+	   if (confirm("후원자 정보를 저장하시겠습니까?") == true) {
+		   $('#target').submit();
+	   }
+ 
    }
    
    function update(){
-      alert('update')
-      $('#target').submit();
+	   if (confirm("후원자 정보를 수정하시겠습니까?") == true) {
+		   $('#target').submit();
+	   }
+    
      }
    
    
    function deletes(sponsorNo){
-      alert(sponsorNo)
-       location.href = "delete.do?id="+sponsorNo;
+	   if (confirm("후원자 정보를 삭제하시겠습니까?") == true) {
+		   location.href = "delete.do?id=target"+sponsorNo;
+	   }
+      
    }
 </script>
 <c:set var="mailReceiving" value="${sponsor.mailReceiving}"  />
@@ -101,7 +107,7 @@ function fileDelete(id){
 
 <div class="panel panel-default">
    <div class="panel-heading">
-      <h4>회원기본정보4</h4>
+      <h4>회원기본정보</h4>
 
 
       <div class="row">
@@ -110,7 +116,7 @@ function fileDelete(id){
             
             <c:choose>
 
-    <c:when test="${ sponsor.signUpDate!=''&&sponsor.signUpDate!=null}">
+    <c:when test="${sponsor.id!=0}">
        <a onclick="update()" class="btn btn-info">수정</a>
     </c:when>
 
@@ -145,7 +151,7 @@ function fileDelete(id){
                   <td id="table_b"><input class="commoninput" type="text" name="sponsorNo" readonly
                      value="${ sponsor.sponsorNo }">
                      </td>
-                  <td id="table_a">우편물 발송여부  ${sponsor.mailReceiving}</td>
+                  <td id="table_a">우편물 발송여부</td>
                   <td id="table_b">
             
                   <c:if test="${sponsor.signUpDate==null}">
@@ -259,6 +265,7 @@ function fileDelete(id){
                <tr>
                   <td id="table_a">추천인관계  </td>
                   <td><select name="recommenderRelation" class="commoninput">
+                        <option value="없음" ${sponsor.recommenderRelation==''? "selected" :""}>없음</option>
                         <option value="가족" ${sponsor.recommenderRelation=='가족'? "selected" :""}>가족</option>
                         <option value="지인" ${sponsor.recommenderRelation=='지인'? "selected" :""}>지인</option>
                   </select></td>

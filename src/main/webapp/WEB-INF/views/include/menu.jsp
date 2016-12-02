@@ -41,7 +41,7 @@ $(function(){
 	    <div class="navbar-collapse collapse" id="navbar-collapse-1">
 	      <ul class="nav navbar-nav">
 		<li class="dropdown">
-		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">기초정보관리<span class="caret"></span></a>
+		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">코드관리<span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
 		    <li><a href="/fund_sys/code/corporateList.do">기관</a></li>
 		    <li><a href="/fund_sys/code/donationPurposeList.do">기부목적</a></li>

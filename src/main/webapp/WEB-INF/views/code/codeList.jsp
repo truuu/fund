@@ -22,7 +22,7 @@ tr:hover{ background-color: #ffe; cursor: pointer; }
 </style>
 </head>
 <body>
-<h1 class="page-header">${name}</h1>
+<h2 class="page-header">${name}</h2>
 <div class="code">
 	<div id="column-right">
 		<a href="/fund_sys/code/create.do?CodeGroupID=${CodeGroupID}" type="button" class="btn btn-primary" 
