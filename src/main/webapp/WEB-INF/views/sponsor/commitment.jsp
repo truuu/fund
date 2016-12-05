@@ -181,10 +181,11 @@ tr#topTable td, tr#topTable th{
 							<br>${e1}</td>
 							<td id="table_a">시작일</td>
 							<td><input id="datepicker2" class="commoninput" name="commitmentStartDate" value="${commitmentCreate.commitmentStartDate}" />
-							<br>${e2}
+							<br><span>${e2}</span>${e5}
 							</td>
 							<td id="table_a">종료일</td>
-							<td><input id="datepicker3" class="commoninput" name="endDate" value="${commitmentCreate.endDate}"  /></td>
+							<td><input id="datepicker3" class="commoninput" name="endDate" value="${commitmentCreate.endDate}"  />
+							<br>${e6}</td>
 						</tr>
 						<tr>
 							<td id="table_a">비고</td>
@@ -201,21 +202,24 @@ tr#topTable td, tr#topTable th{
 							<td><input type="text" class="money commoninput" name="amountPerMonth" value="${commitmentCreate.amountPerMonth}" />
 							<br>${e4}</td>
 							<td id="table_a">결제일</td>
-							<td><select name="paymentDay" class="commoninput" ><option value="20">20일</option>
-									<option value="25">25일</option></select></td>
+							<td><select name="paymentDay" class="commoninput" >
+									<option value="20">20일</option>
+									<option value="25">25일</option>
+									</select></td>
 							<td id="table_a">은행명</td>
 							<td><select name="bankID" class="commoninput" >
+									<option value="0" selected>선택</option>
 									<c:forEach var="bank" items="${bankList}">
 										<option value="${bank.ID}">${bank.codeName}</option>
 									</c:forEach>
 							</select></td>
 							<td id="table_a">계좌번호</td>
-							<td><input name="accountNo" type="text" class="commoninput" /></td>
+							<td><input name="accountNo" type="text" class="commoninput" value="${commitmentCreate.accountNo}" /></td>
 						</tr>
 						<tr>
 
 							<td id="table_a">예금주</td>
-							<td><input name="accountHolder" class="commoninput" type="text" /></td>
+							<td><input name="accountHolder" class="commoninput" type="text" value="${commitmentCreate.accountHolder}" /></td>
 							
 							<td id="table_a">비고</td>
 							<td colspan="5"><input size="90" id="etc" type="text" class="commoninput"

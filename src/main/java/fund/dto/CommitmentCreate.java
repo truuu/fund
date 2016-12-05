@@ -1,31 +1,41 @@
 package fund.dto;
 
-import java.util.Date;
-
-
-
 public class CommitmentCreate {
 	
-	String commitmentStartDate;       // 공통
+	String commitmentStartDate;       
 	String commitmentDetailStartDate;
 	String commitmentEtc;
 	String commitmentDetailEtc;
 	
 	int sponsorID;                 //  commitment
-	int donationPurposeID;
+	Integer donationPurposeID;
 	int paymentMethodID;
 	
 	String commitmentDate;
 	String endDate;
 	        
-	int amountPerMonth;    // commitmentDetail
-	int paymentDay;
+	Integer amountPerMonth;    // commitmentDetail
+	Integer paymentDay;
 	int bankID;
 	String accountNo;
 	String accountHolder;
 	
+	String corporateName;
+	String dname;
 	
 	
+	public String getCorporateName() {
+		return corporateName;
+	}
+	public void setCorporateName(String corporateName) {
+		this.corporateName = corporateName;
+	}
+	public String getDname() {
+		return dname;
+	}
+	public void setDname(String dname) {
+		this.dname = dname;
+	}
 	public String getCommitmentStartDate() {
 		return commitmentStartDate;
 	}
@@ -59,12 +69,7 @@ public class CommitmentCreate {
 		this.sponsorID = sponsorID;
 	}
 	
-	public int getDonationPurposeID() {
-		return donationPurposeID;
-	}
-	public void setDonationPurposeID(int donationPurposeID) {
-		this.donationPurposeID = donationPurposeID;
-	}
+	
 	public int getPaymentMethodID() {
 		return paymentMethodID;
 	}
@@ -72,7 +77,19 @@ public class CommitmentCreate {
 		this.paymentMethodID = paymentMethodID;
 	}
 	
-
+	public Integer getDonationPurposeID() {
+		return donationPurposeID;
+	}
+	public void setDonationPurposeID(Integer donationPurposeID) {
+		this.donationPurposeID = donationPurposeID;
+	}
+	public Integer getAmountPerMonth() {
+		return amountPerMonth;
+	}
+	public void setAmountPerMonth(Integer amountPerMonth) {
+		this.amountPerMonth = amountPerMonth;
+	}
+	
 	public String getCommitmentDate() {
 		return commitmentDate;
 	}
@@ -85,17 +102,11 @@ public class CommitmentCreate {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	public int getPaymentDay() {
+	
+	public Integer getPaymentDay() {
 		return paymentDay;
 	}
-	
-	public int getAmountPerMonth() {
-		return amountPerMonth;
-	}
-	public void setAmountPerMonth(int amountPerMonth) {
-		this.amountPerMonth = amountPerMonth;
-	}
-	public void setPaymentDay(int paymentDay) {
+	public void setPaymentDay(Integer paymentDay) {
 		this.paymentDay = paymentDay;
 	}
 	public int getBankID() {

@@ -27,7 +27,7 @@ public class CorporateController extends BaseController{
 	
 	
 	/*Corporate list*/
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping("/code/corporateList.do")
 	public String codeList(Model model,Pagination pagination) {
 		pagination.setRecordCount(corporateMapper.selectCount());
@@ -36,13 +36,13 @@ public class CorporateController extends BaseController{
 	}
 	
 	/*Corporate insert*/
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/code/corporateCreate.do", method=RequestMethod.GET)
 	public String create(Model model) {
 		return "code/corporateCreate";
 	}
 
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/code/corporateCreate.do", method=RequestMethod.POST)
 	public String create(@Valid Corporate corporate, BindingResult result, @RequestParam("postNum") String postNum, 
 			@RequestParam("address1") String address1, @RequestParam("address2") String address2) {
@@ -68,7 +68,7 @@ public class CorporateController extends BaseController{
 	}
 	
 	/*Corporate edit*/
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/code/corporateEdit.do", method=RequestMethod.GET)
 	public String edit(Model model,@RequestParam("ID") int ID) {
 		Corporate corporate = corporateMapper.selectByID(ID);
@@ -76,7 +76,7 @@ public class CorporateController extends BaseController{
 		return "code/corporateEdit";
 	}
 	
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/code/corporateEdit.do", method=RequestMethod.POST)
     public String edit(Model model, Corporate corporate)
             throws UnsupportedEncodingException {
@@ -84,7 +84,7 @@ public class CorporateController extends BaseController{
         return "redirect:/code/corporateList.do";
     }
     
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
     @RequestMapping("/code/corporateDelete.do")
     public String delete(Model model, @RequestParam("ID") int ID) {
         corporateMapper.delete(ID);
