@@ -302,7 +302,8 @@ public class SponsorController extends BaseController{
 
       return "sponsor/sponsor";
    }
-
+   
+   /**정기 비정기 납입관리**/
    @RequestMapping(value="/sponsor/paymentList.do",method=RequestMethod.GET)  // 정기 납입관리
    public String paymentList(@RequestParam("id") int id, Model model){
       Sponsor sponsor=sponsorMapper.selectBySponsorNo(id);
