@@ -98,8 +98,8 @@ public class PaymentController extends BaseController{
 
 	@RequestMapping(value="/dataPrint/paymentRecordStats.do", method=RequestMethod.GET) 
 	public String paymentRecordStats(Model model) {     
-		model.addAttribute("sponsorType2List",codeMapper.selectSponsorType2("후원인구분2"));
-		model.addAttribute("churchList",codeMapper.selectChurch("소속교회"));
+		model.addAttribute("sponsorType2List",codeMapper.selectByCodeGroupName("후원인구분2"));
+		model.addAttribute("churchList",codeMapper.selectByCodeGroupName("소속교회"));
 		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
 		String name1="정기 납입방법";
 		String name2="비정기 납입방법";
@@ -110,8 +110,8 @@ public class PaymentController extends BaseController{
 	@RequestMapping(value="/dataPrint/paymentRecordStats.do",method=RequestMethod.POST) //납입 내역 조회
 	public String paymentRecordStats(Model model,PaymentRecordStats paymentRecordStats) {
 		
-		model.addAttribute("sponsorType2List",codeMapper.selectSponsorType2("후원인구분2"));
-		model.addAttribute("churchList",codeMapper.selectChurch("소속교회"));
+		model.addAttribute("sponsorType2List",codeMapper.selectByCodeGroupName("후원인구분2"));
+		model.addAttribute("churchList",codeMapper.selectByCodeGroupName("소속교회"));
 		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
 		String name1="정기 납입방법";
 		String name2="비정기 납입방법";
@@ -199,8 +199,8 @@ public class PaymentController extends BaseController{
 
 	@RequestMapping(value="/dataPrint/paymentTotalStats.do", method=RequestMethod.GET) // 납입 총계 조회
 	public String paymentTotalStats(Model model) { 
-		model.addAttribute("sponsorType2List",codeMapper.selectSponsorType2("후원인구분2"));
-		model.addAttribute("churchList",codeMapper.selectChurch("소속교회"));
+		model.addAttribute("sponsorType2List",codeMapper.selectByCodeGroupName("후원인구분2"));
+		model.addAttribute("churchList",codeMapper.selectByCodeGroupName("소속교회"));
 		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
 		String name1="정기 납입방법";
 		String name2="비정기 납입방법";
@@ -211,8 +211,8 @@ public class PaymentController extends BaseController{
 
 	@RequestMapping(value="/dataPrint/paymentTotalStats.do", method=RequestMethod.POST) 
 	public String paymentTotalStats(Model model,PaymentRecordStats paymentRecordStats) { 
-		model.addAttribute("sponsorType2List",codeMapper.selectSponsorType2("후원인구분2"));
-		model.addAttribute("churchList",codeMapper.selectChurch("소속교회"));
+		model.addAttribute("sponsorType2List",codeMapper.selectByCodeGroupName("후원인구분2"));
+		model.addAttribute("churchList",codeMapper.selectByCodeGroupName("소속교회"));
 		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
 		String name1="정기 납입방법";
 		String name2="비정기 납입방법";

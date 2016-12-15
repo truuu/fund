@@ -10,8 +10,8 @@ public interface DonationPurposeMapper {
 	String selectCoporateName(int ID);
 	List<DonationPurpose> selectDonationPurpose(); //donationPurpose table
 	DonationPurpose selectByID(int ID);
-	List<DonationPurpose> selectPage();
-	int selectCount();
+	DonationPurpose selectByName(String name);
+	
 	void insert(DonationPurpose donationPurpose);
     void update(DonationPurpose donationPurpose);
     void delete(int ID);

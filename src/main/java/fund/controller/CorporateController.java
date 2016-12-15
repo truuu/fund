@@ -29,9 +29,8 @@ public class CorporateController extends BaseController{
 	/*Corporate list*/
 	@Secured("ROLE_true")
 	@RequestMapping("/code/corporateList.do")
-	public String codeList(Model model,Pagination pagination) {
-		pagination.setRecordCount(corporateMapper.selectCount());
-		model.addAttribute("list",corporateMapper.selectPage(pagination));
+	public String codeList(Model model) {
+		model.addAttribute("list",corporateMapper.selectCorporate());
 		return "code/corporateList";
 	}
 	
@@ -66,21 +65,50 @@ public class CorporateController extends BaseController{
 		return "redirect:/code/corporateList.do";
 		
 	}
-	
 	/*Corporate edit*/
 	@Secured("ROLE_true")
 	@RequestMapping(value="/code/corporateEdit.do", method=RequestMethod.GET)
 	public String edit(Model model,@RequestParam("ID") int ID) {
 		Corporate corporate = corporateMapper.selectByID(ID);
+		
+	    String[] array;  
+	    array = (corporate.getAddress()).split("\\*");
+	  
+	    model.addAttribute("post",array[2]);
+	    model.addAttribute("address1",array[1]);
+	    model.addAttribute("address2",array[0]);
+
         model.addAttribute("corporate",corporate);
 		return "code/corporateEdit";
 	}
 	
 	@Secured("ROLE_true")
 	@RequestMapping(value="/code/corporateEdit.do", method=RequestMethod.POST)
-    public String edit(Model model, Corporate corporate)
+    public String edit(Model model, @Valid Corporate corporate, BindingResult result, 
+    		@RequestParam("postNum") String postNum, @RequestParam("address1") String address1, @RequestParam("address2") String address2)
             throws UnsupportedEncodingException {
-        corporateMapper.update(corporate);
+		
+		String address = address1+"*"+address2+"*"+postNum;  
+		corporate.setAddress(address);
+		
+		/*if(codeService.validate(postNum)==true){
+			String address = address1+"*"+address2+"*"+postNum;  
+			corporate.setAddress(address);
+		}*/
+		
+		if(codeService.validate(corporate)==true)
+		{
+			corporateMapper.update(corporate);
+			
+		}	
+		else if(result.hasErrors()) {
+			model.addAttribute("corporate", corporate);
+			model.addAttribute("post",postNum);
+		    model.addAttribute("address1",address1);
+		    model.addAttribute("address2",address2);
+			return "code/corporateEdit";
+           
+        }
         return "redirect:/code/corporateList.do";
     }
     

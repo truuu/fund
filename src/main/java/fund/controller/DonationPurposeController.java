@@ -34,7 +34,7 @@ public class DonationPurposeController extends BaseController{
 	@Secured("ROLE_true")
 	@RequestMapping("/code/donationPurposeList.do")
 	public String codeList(Model model) {
-		model.addAttribute("list",donationPurposeMapper.selectPage());
+		model.addAttribute("list",donationPurposeMapper.selectDonationPurpose());
 		return "code/donationPurposeList";
 	}
 

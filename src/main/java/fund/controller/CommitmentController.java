@@ -45,10 +45,10 @@ public class CommitmentController extends BaseController{
 		model.addAttribute("sponsor", sponsor);
 		model.addAttribute("list", commitmentMapper.selectBySponsorID(id)); 
 		String name="정기 납입방법";
-		model.addAttribute("paymentMethodList",codeMapper.selectByPaymentMethod(name));
+		model.addAttribute("paymentMethodList",codeMapper.selectByCodeGroupName(name));
 		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
 		String bank="은행";
-		model.addAttribute("bankList",codeMapper.selectByBank(bank));
+		model.addAttribute("bankList",codeMapper.selectByCodeGroupName(bank));
 		model.addAttribute("sponsorID",id);
 		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
 
@@ -150,7 +150,7 @@ public class CommitmentController extends BaseController{
 		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
 		String bank="은행";
 	
-		model.addAttribute("bankList",codeMapper.selectByBank(bank));
+		model.addAttribute("bankList",codeMapper.selectByCodeGroupName(bank));
 		return "sponsor/commitmentEdit";
 	}
 
