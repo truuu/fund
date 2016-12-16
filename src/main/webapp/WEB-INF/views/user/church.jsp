@@ -48,7 +48,8 @@ $(function() {
          <!-- /.row -->
 
          <div>
-            <label> 신청기간 </label> <input id="datepicker1" class="commoninput" name="startDate"> ~ <input id="datepicker2" class="commoninput" name="endDate">
+            <label> 신청기간 </label> <input id="datepicker1" class="commoninput" name="startDate" value="${ pagination.startDate}">
+             ~ <input id="datepicker2" class="commoninput" name="endDate" value="${ pagination.startDate}">
              <button id="searchChurch" class="btn btn-primary">검색</button>
          </div>
 
@@ -56,8 +57,7 @@ $(function() {
          <div class="row">
             <div class="col-lg-12">
             <hr>
-            <center><label> 신청기간 </label> <input type="text" class="commoninput" value="${ pagination.startDate}"> ~ <input type="text" class="commoninput" value="${ pagination.startDate}"></center>
-            <hr>
+            
                <div class="table-responsive">
 					<form method="get">
 

@@ -14,8 +14,10 @@ import fund.service.AES128UtilService;
 
 
 public class Sponsor {
-   //AES128UtilService cipherService=new AES128UtilService(); //양방향 암호화 서비스
-   int id;
+
+	//AES128UtilService cipherService=new AES128UtilService(); //양방향 암호화 서비스
+	
+	int id;
 
    String sponsorNo; //
    
@@ -28,21 +30,22 @@ public class Sponsor {
    
    @NotEmpty(message="날짜를 입력해주세요")
     String signUpDate; //  Date -> String date시 에러남 400 파라미터타입문제 질문해야함
-   
-   String mobilePhone; //
-   
-   String recommender; //
-   
-   String recommenderRelation; //
-   
-   
-   boolean mailReceiving; //
-   
-   
-   int mailTo;
-   
-   String homeAddress;
-   String homePhone; //
+
+	
+	String mobilePhone; //
+	
+	String recommender; //
+	
+	String recommenderRelation; //
+	
+	
+	boolean mailReceiving; //
+	
+	
+	int mailTo;
+	
+	String homeAddress;
+	String homePhone; //
 
    String email; //
 
