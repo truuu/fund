@@ -208,7 +208,6 @@ tr#topTable td, tr#topTable th{
 									</select></td>
 							<td id="table_a">은행명</td>
 							<td><select name="bankID" class="commoninput" >
-									<option value="0" selected>선택</option>
 									<c:forEach var="bank" items="${bankList}">
 										<option value="${bank.ID}">${bank.codeName}</option>
 									</c:forEach>
