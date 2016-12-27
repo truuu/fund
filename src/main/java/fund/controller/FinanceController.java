@@ -56,14 +56,16 @@ public class FinanceController extends BaseController{
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
 				stream.write(bytes);
 				stream.close();
-	
+				
 				List<XferResult> xferResultList = ReadExcelFileToList.readExcelData(fileName);
+				if(xferResultList.size() == 0) model.addAttribute("errorMsg", "올바르지 않은 형식의 Excel파일입니다."); 
+				
 				model.addAttribute("xferResultList",xferResultList);
 				session.setAttribute("xferResult", xferResultList);
 				return "finance/saveXferResult";
 			}
 		}else{
-			 return "redirect:uploadXferResult.do";
+			model.addAttribute("errorMsg", "Excel파일을 업로드 해 주세요."); 
 		}
 
 		return "finance/uploadXferResult";
@@ -89,7 +91,6 @@ public class FinanceController extends BaseController{
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		List<Payment> paymentList = new ArrayList<Payment>();
 		for (int i : indexes) {
-			System.out.println(i);
 			XferResult x = list.get(i);
 			String commitmentNo = commitmentNos[i];
 
@@ -134,7 +135,7 @@ public class FinanceController extends BaseController{
 				return "finance/salary";
 			}
 		}else{
-			model.addAttribute("errorMsg", "파일에 포함된 약정을 가진 후원인이 없습니다."); 
+			model.addAttribute("errorMsg", "Excel파일을 업로드 해 주세요."); 
 		}
 		return "finance/uploadSalaryResult";
 	}
@@ -151,6 +152,7 @@ public class FinanceController extends BaseController{
 			Salary x = list.get(i);
 			String sponsorNo = x.getSponsorNo();
 			Commitment commitment = commitmentMapper.selectIDBySponsorNo(sponsorNo); 
+			if(commitment == null) return "redirect:financeError.do";
 			
 			Payment payment = new Payment();
 			payment.setSponsorID(commitment.getSponsorID());
@@ -174,5 +176,11 @@ public class FinanceController extends BaseController{
 		model.addAttribute("salaryList",salaryList);
 
 		return "finance/salary";
+	}
+	
+	@RequestMapping(value="/finance/financeError.do", method=RequestMethod.GET)
+	public String financeError(Model model) throws Exception{
+		
+		return "finance/financeError";
 	}
 }

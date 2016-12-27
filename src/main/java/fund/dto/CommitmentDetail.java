@@ -1,6 +1,5 @@
 package fund.dto;
 
-import java.util.Date;
 
 public class CommitmentDetail {
 	int ID;
@@ -13,6 +12,14 @@ public class CommitmentDetail {
 	String accountHolder;
 	String etc;
 	
+	Integer amount2;
+	
+	public Integer getAmount2() {
+		return amount2;
+	}
+	public void setAmount2(Integer amount2) {
+		this.amount2 = amount2;
+	}
 	public int getID() {
 		return ID;
 	}

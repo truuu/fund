@@ -1,6 +1,8 @@
-package fund;
+package fund.test;
 
 import static org.junit.Assert.*;
+
+import java.util.List;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,10 @@ public class TestDonationPurposeMapper {
 	public void test() {
         
         assertNotNull(donationPurposeMapper);
+        
+        List<DonationPurpose> list = donationPurposeMapper.selectDonationPurpose();
+        String name = donationPurposeMapper.selectDonationPurpose2(90);
+        String corporateName = donationPurposeMapper.selectCoporateName(90);
 
         DonationPurpose donationPurpose = donationPurposeMapper.selectByID(90);
         assert(donationPurpose == null);
@@ -40,6 +46,11 @@ public class TestDonationPurposeMapper {
         assert(donationPurpose != null);
         assert(donationPurpose.getName() == "test 기부목적이름"); 
       
+        //update
+        donationPurpose.setName("test 기부목적이름2");
+        donationPurpose.setGubun("지정");
+        donationPurposeMapper.update(donationPurpose);
+        
         // 기관 delete
         donationPurposeMapper.delete(donationPurpose.getID());
         

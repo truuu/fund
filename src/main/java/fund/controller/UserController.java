@@ -80,19 +80,6 @@ public class UserController extends BaseController{
 	public String login(User user)throws Exception{
 		return "user/userRegister";
 	}
-	
-	//로그인 실패시
-	@RequestMapping("/user/loginfail.do")
-    public String loginFail(Model model) {
-    	User user=new User();
-    	user.setLoginCheck(false);
-        
-    	model.addAttribute("user", user);
-    	
-    	return "home/index";
-    	
-    }
-    
 
 	//회원관리 기본페이지
 	@RequestMapping(value="/user/user_m.do",method=RequestMethod.GET)

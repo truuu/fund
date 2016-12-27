@@ -5,6 +5,8 @@ import fund.dto.Pagination;
 import fund.dto.PrintDonation;
 
 public interface PrintDonationMapper {
+	PrintDonation selectByNum(int num);
+	PrintDonation selectMaxNum();
 	PrintDonation selectById(int ID);
     List<PrintDonation> selectPage(Pagination pagination);
     int selectCount(Pagination pagination);

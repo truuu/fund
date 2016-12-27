@@ -24,7 +24,7 @@
 	</select>
 	
 	<update id="updateEB21error">
-		update EB21_commitmentDetail set state='에러'
+		update EB21_commitmentDetail set state='에러',errorCode=#{errorCode}
 		where commitmentDetailID IN
 		(select cd.ID
 		from EB21_commitmentDetail eb
@@ -54,7 +54,7 @@
 	
 	<select id="selectEB2122" resultType="fund.dto.EB21_commitmentDetail">
 		<![CDATA[ 
-			select e.createDate,s.sponsorNo,s.name,c.commitmentNo,eb.state,d.name donationPurpose
+			select e.createDate,s.sponsorNo,s.name,c.commitmentNo,eb.state,cec.description,d.name donationPurpose
 			from EB21_commitmentDetail eb JOIN commitmentDetail cd
 			ON eb.commitmentDetailID=cd.ID
 			JOIN EB21 e
@@ -67,12 +67,14 @@
 			ON c.sponsorID=s.ID
 			JOIN donationPurpose d
 			ON c.donationPurposeID=d.ID
+			LEFT JOIN cmsErrorCode cec
+			ON eb.errorCode = cec.code
 			WHERE e.paymentDate >= #{startDate} AND e.paymentDate <= #{endDate}
 		]]> 
 	</select>
 	
 	<insert id="createEB21List" useGeneratedKeys="true" keyProperty="id">
 		insert into EB21_commitmentDetail
-		values ((select MAX(ID) from EB21),#{commitmentDetailID},'신청') 
+		values ((select MAX(ID) from EB21),#{commitmentDetailID},'신청','0000') 
 	</insert>
 </mapper>

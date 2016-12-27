@@ -1,20 +1,20 @@
 package fund.dto;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.Null;
 
 public class Corporate {
 	int ID;
 	
-	@NotEmpty(message="기관명을 입력하세요!")
+	@Null(message="기관명을 입력하세요!")
 	String name;
 	
-	@NotEmpty(message="기관번호를 입력하세요!")
+	@Null(message="기관번호를 입력하세요!")
 	String corporateNo;
 	
-	@NotEmpty(message="대표자명을 입력하세요!")
+	@Null(message="대표자명을 입력하세요!")
 	String representative;
 	
-	@NotEmpty(message="주소를 입력하세요!")
+	@Null(message="주소를 입력하세요!")
 	String address;
 	
 	public int getID() {

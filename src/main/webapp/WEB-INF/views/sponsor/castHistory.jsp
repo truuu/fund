@@ -14,8 +14,8 @@ $(function(){
 	
 	
 	$('#searched').click(function(){
-		startDate=$('#startDate').val();
-		endDate=$('#endDate').val();
+		var startDate=$( "input[name$='startDate']" ).val();
+		var endDate=$( "input[name$='endDate']" ).val();
 		
 		if(startDate==''||endDate==''){
 			alert('날짜를 모두 입력해주세요')
@@ -30,8 +30,8 @@ $(function(){
 	});
 	
 	$('#pdf').click(function(){
-		startDate=$('#startDate').val();
-		endDate=$('#endDate').val();
+		startDate=$('#datepicker1').val();
+		endDate=$('#datepicker2').val();
 		
 		location.href="/fund_sys/sponsor/castList.do?cmd=pdf&startDate="+startDate+"&endDate="+endDate;
 	})

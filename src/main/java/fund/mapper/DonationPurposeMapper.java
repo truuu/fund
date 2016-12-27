@@ -11,8 +11,7 @@ public interface DonationPurposeMapper {
 	List<DonationPurpose> selectDonationPurpose(); //donationPurpose table
 	DonationPurpose selectByID(int ID);
 	DonationPurpose selectByName(String name);
-	List<DonationPurpose> selectPage();
-	int selectCount();
+	
 	void insert(DonationPurpose donationPurpose);
     void update(DonationPurpose donationPurpose);
     void delete(int ID);

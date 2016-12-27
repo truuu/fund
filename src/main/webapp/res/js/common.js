@@ -15,10 +15,10 @@ $(function() {
 });
 
 $(function() {                          
-	$("[class=money]").mask("000,000,000,000,000,000",{reverse: true});
+	$(".money").mask("00,000,000,000",{reverse: true});
 
 	$("form").submit(function() {
-		$("[class=money]").unmask();
+		$(".money").unmask();
 	});
 });
 
@@ -98,3 +98,7 @@ $(function() {
         numberOfMonths: 1
     }); 
 }); 
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+});

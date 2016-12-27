@@ -21,7 +21,7 @@ public class CodeController extends BaseController{
 	@Autowired CodeMapper codeMapper;
 	@Autowired CodeService codeService;
 
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping("/code/codeList.do")
 	public String codeList(Model model,@RequestParam("CodeGroupID") int CodeGroupID) {
 
@@ -32,7 +32,7 @@ public class CodeController extends BaseController{
 		return "code/codeList";
 	}
 
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/code/create.do", method=RequestMethod.GET)
 	public String create(Model model,@RequestParam("CodeGroupID") int CodeGroupID) {
 		model.addAttribute("name",codeMapper.selectByName(CodeGroupID));
@@ -40,7 +40,7 @@ public class CodeController extends BaseController{
 		return "code/create";
 	}
 
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/code/create.do", method=RequestMethod.POST)   
 	public String create(Code code, @RequestParam("CodeGroupID") int CodeGroupID, RedirectAttributes redirectAttributes) {
 		String message = codeService.validate(code);
@@ -55,7 +55,7 @@ public class CodeController extends BaseController{
         return "redirect:/code/create.do?CodeGroupID="+CodeGroupID;
 	}
 
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/code/edit.do", method=RequestMethod.GET)
 	public String edit(Model model, @RequestParam("ID") int ID) {
 		Code code = codeMapper.selectByID(ID);
@@ -64,7 +64,7 @@ public class CodeController extends BaseController{
 		return "code/edit";
 	}
 	
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping(value="/code/edit.do", method=RequestMethod.POST)
 	public String edit(Model model, Code code, @RequestParam("CodeGroupID") int CodeGroupID, RedirectAttributes redirectAttributes)
 			throws UnsupportedEncodingException {
@@ -80,7 +80,7 @@ public class CodeController extends BaseController{
         return "redirect:/code/edit.do?ID="+code.getID();
 	}
 	
-	//@Secured("ROLE_true")
+	@Secured("ROLE_true")
 	@RequestMapping("/code/delete.do")
 	public String delete(Model model, @RequestParam("ID") int ID) {
 		Code code = codeMapper.selectByID(ID);

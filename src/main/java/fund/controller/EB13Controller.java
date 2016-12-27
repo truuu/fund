@@ -33,6 +33,7 @@ import fund.dto.XferResult;
 import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.EB13Mapper;
 import fund.mapper.EB13_CommitmentDetailMapper;
+import fund.service.AES128UtilService;
 import fund.service.FileExtFilter;
 
 
@@ -42,28 +43,44 @@ public class EB13Controller extends BaseController{
 	@Autowired EB13_CommitmentDetailMapper eb13_commitmentDetailMapper;
 	@Autowired CommitmentDetailMapper commitmentDetailMapper;
 	@Autowired FileExtFilter fileExtFilter;
+	@Autowired AES128UtilService cipherService;
 
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.GET)
 	public String eb13(Model model) {
 		return "finance/eb13";
 	}
+	
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=selectEB13")
-	public String selectEB13(Model model){
-		List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
-		model.addAttribute("eb13List", eb13List);
-		return "finance/eb13";
-	}
+	   public String selectEB13(Model model)throws Exception{
+	      List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
+	      for(int i = 0; i < eb13List.size(); i++){
+	    	  if(eb13List.get(i).getSponsorType1ID() == 3 || eb13List.get(i).getSponsorType1ID() == 4){
+	    		 String decoding = eb13List.get(i).getJumin2();//ì‚¬ì—…ìë“±ë¡ë²ˆí˜¸ ë””ì½”ë”©
+	 	         eb13List.get(i).setJumin(decoding);
+	    	  }else{
+	    		 String decoding = eb13List.get(i).getJumin2();//ì£¼ë¯¼ë²ˆí˜¸ ë””ì½”ë”©
+	 	         eb13List.get(i).setJumin(decoding.substring(0, 6));
+	    	  }
+	      }
+	      model.addAttribute("eb13List", eb13List);
+	      return "finance/eb13";
+	   }
+	
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=createEB13file")
-	public String createEB13file(@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws IOException{
+	public String createEB13file(@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws Exception{
 		List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
+		for(int i = 0; i < eb13List.size(); i++){
+	         String decoding = eb13List.get(i).getJumin2();
+	         eb13List.get(i).setJumin(decoding.substring(0, 6));
+	    }
 		model.addAttribute("eb13List", eb13List);
 		CreateEB13File.createEB13File(eb13List);
 
 		eb13Mapper.createEB13file();
-		for(int i=0 ; i<commitmentDetailID.length; ++i){
+		for(int i = 0 ; i < commitmentDetailID.length; ++i){
 			eb13_commitmentDetailMapper.createEB13list(commitmentDetailID[i]);
 		}
-		model.addAttribute("successMsg", "EB13 ÆÄÀÏ »ı¼ºÀ» ¿Ï·áÇß½À´Ï´Ù."); 
+		model.addAttribute("successMsg", "EB13 íŒŒì¼ ìƒì„±ì„ ì™„ë£Œí–ˆìŠµë‹ˆë‹¤."); 
 		return "finance/eb13";
 	}
 
@@ -79,7 +96,7 @@ public class EB13Controller extends BaseController{
 
 	@RequestMapping(value="/finance/uploadEB14.do", method=RequestMethod.POST)
 	public String uploadEB14(Model model,@RequestParam("file") MultipartFile uploadedFile,HttpSession session) throws IOException, ParseException {
-		if(fileExtFilter.badFileExtIsReturnBoolean(uploadedFile) == true){ // ÆÄÀÏ È®ÀåÀÚ ÇÊÅÍ¸µ.
+		if(fileExtFilter.badFileExtIsReturnBoolean(uploadedFile) == true){ // íŒŒì¼ í™•ì¥ì í•„í„°ë§.
 			if (uploadedFile.getSize() > 0 ) {
 				byte[] bytes = uploadedFile.getBytes();
 				String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
@@ -103,8 +120,8 @@ public class EB13Controller extends BaseController{
 					eb14.setBankCode(sub.substring(27, 33).trim());
 					eb14.setAccountNo(sub.substring(34, 50).trim());
 					eb14.setJumin(sub.substring(50, 67).trim());
+					eb14.setErrorCode(sub.substring(73,77)); //N ë‹¤ìŒ ë¶ˆëŠ¥ì½”ë“œ 4ìë¦¬
 					eb14List.add(eb14);
-
 				}	
 				model.addAttribute("eb14List",eb14List);
 				session.setAttribute("eb14ListSession", eb14List);
@@ -112,7 +129,7 @@ public class EB13Controller extends BaseController{
 				return "finance/eb14";
 			}
 		}else{
-			return "finance/uploadEB14";
+			model.addAttribute("errorMsg", "EBíŒŒì¼ì„ ì—…ë¡œë“œ í•´ ì£¼ì„¸ìš”."); 
 		}
 		return "finance/uploadEB14";
 	}
@@ -131,13 +148,14 @@ public class EB13Controller extends BaseController{
 				EB14 x = eb14List.get(i);
 				String sponsorNo = x.getSponsorNo();
 				Date createDate = x.getCreateDate();
+				String errorCode = x.getErrorCode();
 				StringBuffer sNo = new StringBuffer(sponsorNo);
 				sNo.insert(4,"-");
-				eb13_commitmentDetailMapper.updateEB14error(sNo.toString());
+				eb13_commitmentDetailMapper.updateEB14error(sNo.toString(),errorCode);//ì—ëŸ¬ì½”ë“œ ì¶”ê°€
 				eb13_commitmentDetailMapper.updateEB14success(createDate);
 			}
 		}
-		model.addAttribute("successMsg", "EB14 ÆÄÀÏ Àû¿ëÀ» ¿Ï·áÇß½À´Ï´Ù."); 
+		model.addAttribute("successMsg", "EB14 íŒŒì¼ ì ìš©ì„ ì™„ë£Œí–ˆìŠµë‹ˆë‹¤."); 
 		return "finance/eb14";
 	}
 

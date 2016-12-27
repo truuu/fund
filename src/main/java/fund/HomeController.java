@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import fund.mapper.CodeMapper;
-import fund.dto.User;
 
 @Controller
 public class HomeController extends BaseController {
@@ -19,22 +18,6 @@ public class HomeController extends BaseController {
     	
         return "home/index";
     }
-    
-  
-    
-    
-    @RequestMapping("/home/loginfail.do")
-    public String loginFail(Model model) {
-    	User user=new User();
-    	user.setLoginCheck(false);
-        
-    	model.addAttribute("user", user);
-    	
-    	return "home/index";
-    	
-    }
-    
-    
 
     @RequestMapping(value="/home/login.do", method=RequestMethod.GET)
     public String login(Model model) {

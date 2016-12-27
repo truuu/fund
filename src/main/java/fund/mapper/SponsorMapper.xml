@@ -18,6 +18,11 @@
 		order by ID DESC;
 	</select>
 	
+	<select id="ceateYear" resultType="String">
+		select TOP(1)sponsorNo from sponsor
+		order by ID DESC;
+	</select>
+	
 	<!-- 후언자 수정 -->
 	<update id="updateSponsor">
 		UPDATE sponsor SET
@@ -45,10 +50,37 @@
 		WHERE sponsorNo = #{sponsorNo}
 	</update>
 	
+	<!-- 후언자 수정 소속교회 정보를 지운경우  -->
+	<update id="updateSponsor2">
+		UPDATE sponsor SET
+		sponsorNo=#{sponsorNo},
+		name=#{name},
+		juminNo=#{juminNo},
+		sponsorType1ID=#{sponsorType1ID},
+		sponsorType2ID=#{sponsorType2ID},
+		churchID=null,
+		signUpDate=#{signUpDate},
+		mobilePhone=#{mobilePhone},
+		recommender=#{recommender},
+		recommenderRelation=#{recommenderRelation},
+		mailReceiving=#{mailReceiving},
+		mailTo=#{mailTo},
+		homeAddress=#{homeAddress},
+		homePhone=#{homePhone},
+		email=#{email},
+		company=#{company},
+		department=#{department},
+		position=#{position},
+		officePhone=#{officePhone},
+		officeAddress=#{officeAddress},
+		etc=#{etc}
+		WHERE sponsorNo = #{sponsorNo}
+	</update>
+	
 	<!-- 후원자 삭제 -->
 	<delete id="removeSponsor">
 		DELETE FROM sponsor
-		WHERE sponsorNo = #{sponsorNo}
+		WHERE id = #{id}
 	</delete>
 	
 	<!-- 후원자 상세페이지 -->
@@ -90,6 +122,16 @@
 		#{signUpDate},#{mobilePhone},#{recommender},#{recommenderRelation},#{mailReceiving},#{mailTo},#{homeAddress},
 		#{homePhone},#{email},#{company},#{department},#{position},#{officePhone},#{officeAddress},#{etc})
 	</insert>
+	<!-- 소속교회를 입력하지 않을 경우 -->
+	<insert id="sponsorInsert2" useGeneratedKeys="true" keyProperty="id">
+		insert into
+		sponsor(sponsorNo,name,juminNo,sponsorType1ID,sponsorType2ID,
+		signUpDate,mobilePhone,recommender,recommenderRelation,mailReceiving,mailTo,homeAddress,
+		homePhone,email,company,department,position,officePhone,officeAddress,etc)
+		values(#{sponsorNo},#{name},#{juminNo},#{sponsorType1ID},#{sponsorType2ID},
+		#{signUpDate},#{mobilePhone},#{recommender},#{recommenderRelation},#{mailReceiving},#{mailTo},#{homeAddress},
+		#{homePhone},#{email},#{company},#{department},#{position},#{officePhone},#{officeAddress},#{etc})
+	</insert>
 
 
 
@@ -105,13 +147,26 @@
 		signUpDate,mobilePhone,email
 		from sponsor order by sponsorNo DESC;
 	</select>
+	
+	<!-- search name check -->
+	<select id="nameCheck" resultType="fund.dto.Sponsor">
+		select * from sponsor where name=#{name};
+	</select>
+	
+		<!-- search codeName check -->
+	<select id="codeNameCheck" resultType="fund.dto.Sponsor">
+		SELECT * FROM sponsor
+		where sponsorType1ID in(select ID from code where codeName=#{codeName}) or
+		sponsorType2ID in(select ID from code where   codeName=#{codeName});
+
+	</select>
 
 	<!-- 회원검색 후원인구분 1,2로 -->
 	<select id="sponsorSearch" resultType="fund.dto.Sponsor">
 
         SELECT *
         FROM
-            ( select sponsorNo,name,
+            ( select id,sponsorNo,name,
 		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
 		(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
 		(select codeName from code where code.ID=sponsor.churchID )AS church,
@@ -135,7 +190,7 @@
 	<!-- 회원검색 이름으로 -->
 	<select id="nameSearch" resultType="fund.dto.Sponsor">
  <![CDATA[
-        select sponsorNo,name,
+        select id,sponsorNo,name,
 		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS
 		sponsorType1,
 		(select codeName from code where
@@ -186,8 +241,14 @@
 	<select id="searchCount" resultType="int">
 		SELECT COUNT(*)
 		FROM sponsor
-		where sponsorType2ID=(select ID from code where
+		<if test="type==1">
+	where sponsorType1ID=(select ID from code where
 		codeName=#{codeName})
+        </if>
+        <if test="type==2">
+	where sponsorType2ID=(select ID from code where
+		codeName=#{codeName})
+        </if>
 	</select>
 
 

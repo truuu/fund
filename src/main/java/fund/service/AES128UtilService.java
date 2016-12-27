@@ -34,6 +34,7 @@ public class AES128UtilService {
 
 	// 암호화
 	public String encAES(String str) throws Exception {
+		System.out.println("wgdns   >>>ß"+str);
 	    Key keySpec = getAESKey();
 	    String iv = "0987654321654321";
 	    Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");

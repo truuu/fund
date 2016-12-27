@@ -34,9 +34,12 @@ function htmlReport() {
 #table_a {
 	vertical-align: middle;
 }
-textarea {
-	width: 90%;
-	height: 100px;
+textarea{
+	width:85%;
+	height:100px;
+	border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 }
 iframe { width:800px; border: 1px solid #ddd; height:900px; }
 .btn{
@@ -61,16 +64,19 @@ iframe { width:800px; border: 1px solid #ddd; height:900px; }
 					<tbody>
 						<tr>
 							<td id="table_a">일련번호</td>
-							<td id="table_b"><input type="text" id="serialNo" name="serialNo"
-								value="${serialNo}"/></td>
+
+							<td id="table_b"><input type="text" id="serialNo" class="commoninput" name="serialNo"
+								value="${serialNo}" readonly /></td>
+
 						</tr>
 						<tr>
 							<td id="table_a">후원자명</td>
-							<td id="table_b"><input type="text" id="sponsorName" name="sponsorName"/></td>
+							<td id="table_b"><input type="text" id="sponsorName" class="commoninput" name="sponsorName"/></td>
 						</tr>
 						<tr>
 							<td id="table_a">약정액</td>
-							<td id="table_b"><input type="text" id="amount" class="money"
+
+							<td id="table_b"><input type="text" id="amount" class="money commoninput" 
 								name="amount"/></td>
 						</tr>
 						<tr>

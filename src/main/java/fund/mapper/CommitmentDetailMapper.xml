@@ -4,10 +4,10 @@
 
 <mapper namespace="fund.mapper.CommitmentDetailMapper">
 
-	<select id="selectByCommitmentID3" resultType="fund.dto.CommitmentDetail">
+	<select id="selectByCommitmentDetailID" resultType="fund.dto.CommitmentDetail">
 	select *
 	from CommitmentDetail
-	where commitmentID = #{commitmentID}
+	where ID = #{ID}
 	</select>
 	
 	<select id="selectByCommitmentID2" resultType="fund.dto.CommitmentDetail">
@@ -21,12 +21,13 @@
 	select MAX(ID)
 	from Commitment 
 	</select>
+	
+	<select id="selectMaxCommitmentDetailID" resultType="fund.dto.CommitmentDetail">
+	select *
+	from CommitmentDetail
+	where ID = (select MAX(ID) from commitmentDetail)
+	</select>
     
-   <select id="selectByCommitmentID" resultType="fund.dto.CommitmentDetail">
-   	SELECT c2.*
-   	FROM Commitment c1 left join CommitmentDetail c2 on c1.ID=c2.commitmentID 
-   	WHERE c1.ID=#{id}
-   </select>
    
    <insert id="insert" useGeneratedKeys="true" keyProperty="ID">
         INSERT CommitmentDetail
@@ -53,7 +54,7 @@
     </delete>
     
     <select id="selectEB21" resultType="fund.dto.EB21_commitmentDetail">
-    	select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin,code.codeName,cd.accountNo,cd.amountPerMonth,code.etc1,cd.ID commitmentDetailID
+    	select s.sponsorNo,cd.accountHolder,juminNo jumin2,code.codeName,cd.accountNo,cd.amountPerMonth,code.etc1,cd.ID commitmentDetailID,s.sponsorType1ID
 		from [commitmentDetail] cd
 		JOIN [EB13_commitmentDetail] eb
 		ON eb.state='성공' AND cd.ID=eb.commitmentDetailID
@@ -74,7 +75,7 @@
 	</select>
 	
 	<select id="selectEB13" resultType="fund.dto.EB13_CommitmentDetail">
-	    select s.sponsorNo,cd.accountHolder,LEFT(s.juminNo,6) jumin ,codeName,cd.accountNo,cd.ID commitmentDetailID,code.etc1
+	    select s.sponsorNo,cd.accountHolder,juminNo jumin2,codeName,cd.accountNo,cd.ID commitmentDetailID,code.etc1,s.sponsorType1ID
 		from [commitmentDetail] cd
 		INNER JOIN [code]
 		ON cd.bankID=code.ID

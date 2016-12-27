@@ -8,7 +8,14 @@ public class EB22 {
 	int amountPerMonth;
 	String paymentDate;
 	String name;
+	String errorCode;
 	
+	public String getErrorCode() {
+		return errorCode;
+	}
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
+	}
 	public String getName() {
 		return name;
 	}

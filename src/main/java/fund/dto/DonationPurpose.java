@@ -1,16 +1,16 @@
 package fund.dto;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.Null;
 
 public class DonationPurpose {
 	int ID;
 	int corporateID;
 	int organizationID;
 	
-	@NotEmpty(message="기부목적명을 입력하세요!")
+	@Null(message="기부목적명을 입력하세요!")
 	String name;
 	
-	@NotEmpty(message="구분을 입력하세요!")
+	@Null(message="구분을 입력하세요!")
 	String gubun;
 	
 	String codeName;

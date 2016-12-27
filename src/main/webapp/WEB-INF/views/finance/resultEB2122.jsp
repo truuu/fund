@@ -37,6 +37,7 @@
 									<th>이름</th>
 									<th>기부목적</th>
 									<th>상태</th>
+									<th>상세</th>
 								</tr>
 							</thead>
 							<c:forEach var="eb2122List" items="${eb2122List}">
@@ -50,6 +51,7 @@
 										<td>${eb2122List.name}</td>
 										<td>${eb2122List.donationPurpose}</td>
 										<td>${eb2122List.state}</td>
+										<td>${eb2122List.description}</td>
 									</tr>
 								</tbody>
 							</c:forEach>

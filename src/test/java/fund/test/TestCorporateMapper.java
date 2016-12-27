@@ -1,4 +1,4 @@
-package fund;
+package fund.test;
 
 import static org.junit.Assert.*;
 
@@ -24,7 +24,7 @@ public class TestCorporateMapper {
         
         assertNotNull(corporateMapper);
 
-        Corporate corporate = corporateMapper.selectByID(2);
+        Corporate corporate = corporateMapper.selectByID(1);
         assert(corporate == null);
         assertEquals("성공회대학교",corporate.getName());
 
@@ -41,6 +41,11 @@ public class TestCorporateMapper {
         assert(corporate != null);
         assert(corporate.getName() == "성공회대학교2"); 
       
+        corporate.setName("성공회대학교3");
+        corporate.setCorporateNo("bbb123");
+        corporate.setAddress("인천시 계양구 작전동 123번지");
+        corporateMapper.update(corporate);	
+        
         // 기관 delete
         corporateMapper.delete(corporate.getID());
         
