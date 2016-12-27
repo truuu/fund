@@ -22,6 +22,8 @@ import fund.dto.Corporate;
 import fund.dto.Pagination;
 import fund.dto.Payment;
 import fund.dto.Receipt;
+import fund.dto.Sponsor;
+import fund.dto.TempNo;
 import fund.service.*;
 import net.sf.jasperreports.engine.JRException;
 
@@ -31,6 +33,8 @@ public class ReceiptController extends BaseController{
 	@Autowired ReceiptMapper receiptMapper;
 	@Autowired PaymentMapper paymentMapper;
 	@Autowired CorporateMapper corporateMapper;
+	@Autowired SponsorMapper sponsorMapper;
+	@Autowired TempNoMapper tempNoMapper;
 	@Autowired SimpleDriverDataSource dataSource;
 		
 	@Autowired ReceiptService receiptService;
@@ -58,8 +62,8 @@ public class ReceiptController extends BaseController{
 	}
 	
 	@RequestMapping(value="/certificate/receiptList.do", method=RequestMethod.POST, params="cmd=rct")
-    public void receiptListReport(@RequestParam("rid") int[] rid,  
-            HttpServletRequest request, HttpServletResponse response) throws JRException, IOException, SQLException {
+    public void receiptListReport(@RequestParam("rid") int[] rid, HttpServletRequest request, HttpServletResponse response) throws JRException, IOException, SQLException {
+		tempNoMapper.deleteAll();
         StringBuilder stringBuilder = new StringBuilder();
         List<Receipt> list = new ArrayList<Receipt>();
         for(int i=0;i<rid.length;i++){
@@ -74,25 +78,48 @@ public class ReceiptController extends BaseController{
             stringBuilder.deleteCharAt(stringBuilder.length()-1);
             stringBuilder.append(')');
         }
+        
+        List<Sponsor> sponsorList = sponsorMapper.selectByReceipt(stringBuilder.toString());
+        tempNoMapper.deleteAll();
+        TempNo tempNo = new TempNo();
+        for(Sponsor s : sponsorList){
+        	tempNo.setId(s.getId());
+        	tempNo.setNo("01012345678");//임시
+        	tempNoMapper.tempInsert(tempNo);
+        }
+        
         ReportBuilder2 reportBuilder = new ReportBuilder2("donationReceipt","donationReceipt.pdf",request, response);
         reportBuilder.setConnection(dataSource.getConnection());
         reportBuilder.setParameter("whereClause", stringBuilder.toString());
         reportBuilder.addSubReport("paymentList.jasper");
         reportBuilder.build("pdf");
+        
+        tempNoMapper.deleteAll();
     }
 
 	@RequestMapping(value="/report/receiptView.do")
 	public void receiptReport(Model model, @RequestParam("id") int id,HttpServletRequest req,HttpServletResponse res)throws JRException, IOException, SQLException{
+		tempNoMapper.deleteAll();
 		List<Receipt> list = new ArrayList<Receipt>();
 		list.add(receiptMapper.selectById(id));
 		for(Receipt r : list)
 			r.setPaymentList(paymentMapper.selectByRctID(id));
 		String whereClause = "WHERE r.id="+id;
+		
+		Receipt tmpReceipt = new Receipt();
+		tmpReceipt = receiptMapper.selectById(id);
+		TempNo tempNo=new TempNo();
+		tempNo.setId(tmpReceipt.getSponsorID());
+		tempNo.setNo("012345678910");//임시
+		tempNoMapper.tempInsert(tempNo);
+		
 		ReportBuilder2 reportBuilder = new ReportBuilder2("donationReceipt","Receipt.pdf",req,res);
 		reportBuilder.setConnection(dataSource.getConnection());
 		reportBuilder.setParameter("whereClause", whereClause);
         reportBuilder.addSubReport("paymentList.jasper");
-        reportBuilder.build("pdf");		
+        reportBuilder.build("pdf");
+        
+        tempNoMapper.deleteAll();
  	}
 	
 	
@@ -134,9 +161,10 @@ public class ReceiptController extends BaseController{
 	}
 	
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.GET)
-	public String receiptByName(Model model,Pagination pagination)throws Exception {
+	public String receiptByName(Model model,Pagination pagination,String errorMsg)throws Exception {
 		model.addAttribute("paymentList",paymentMapper.selectReceiptByName(pagination));
 		model.addAttribute("corporates",corporateMapper.selectCorporate());
+		model.addAttribute("errorMsg",errorMsg);
 		return "certificate/receiptByName";
 	}
 	
@@ -164,7 +192,7 @@ public class ReceiptController extends BaseController{
 		String startdate = pagination.getStartDate();
 		String message = receiptService.validateBeforeInsert(pID);
 		model.addAttribute("corporates",corporateMapper.selectCorporate());
-
+		
 		if(message == null){
 			//영수증생성
 			String[] getY = startdate.split("-");			
@@ -190,7 +218,7 @@ public class ReceiptController extends BaseController{
 			}
 			
 		} else{
-			model.addAttribute("error",message);
+			model.addAttribute("errorMsg",message);
 			return "redirect:/certificate/receiptByName.do?"+pagination.getQueryString();
 		}
 		

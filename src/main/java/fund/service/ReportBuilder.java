@@ -60,6 +60,31 @@ public class ReportBuilder {
         }        
     }
     
+    public void monthlyStatBuild(String condition)throws JRException, IOException {
+    	response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put(JRParameter.IS_IGNORE_PAGINATION, true);
+        params.put("condition", condition);
+        
+        JasperPrint jasperPrint = JasperFillManager.fillReport(report, params, dataSource);
+        List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
+        jasperPrintList.add(jasperPrint);
+        JRXlsxExporter  exporter = new JRXlsxExporter (); 
+        exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+        SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();        
+        configuration.setOnePagePerSheet(false);
+        configuration.setIgnorePageMargins(true);
+        configuration.setIgnoreTextFormatting(true);
+        configuration.setRemoveEmptySpaceBetweenColumns(true);
+        configuration.setRemoveEmptySpaceBetweenRows(true);
+        configuration.setWhitePageBackground(false);
+        configuration.setCollapseRowSpan(false);
+        exporter.setConfiguration(configuration);
+        exporter.exportReport();
+    }
+    
     public void buildHtmlReport() throws JRException, IOException {
         response.setCharacterEncoding("UTF-8");
         Map<String,Object> params = new HashMap<String,Object>();

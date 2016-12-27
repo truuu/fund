@@ -21,32 +21,32 @@ $(function() {
 	});
 	
 	$("input[name=st]").hide();
-	$("input[id=datepicker1]").hide();
-	$("input[id=datepicker2]").hide();
+	$("input[id=startDt]").hide();
+	$("input[id=endDt]").hide();
 	
 	if($("#ss").val()==1){
 		$("input[name=st]").show();
 	}
 	if($("#ss").val()==2){
-		$("input[id=datepicker1]").show();
-		$("input[id=datepicker2]").show();	
+		$("input[id=startDt]").show();
+		$("input[id=endDt]").show();	
 	}
 	
 	$("#ss").change(function(){
 		if($(this).val()==1){
 			$("input[name=st]").show();
-			$("input[id=datepicker1]").hide();
-			$("input[id=datepicker2]").hide();
+			$("input[id=startDt]").hide();
+			$("input[id=endDt]").hide();
 		}
 		else if($(this).val()==2){
 			$("input[name=st]").hide();
-			$("input[id=datepicker1]").show();
-			$("input[id=datepicker2]").show();
+			$("input[id=startDt]").show();
+			$("input[id=endDt]").show();
 		}
 		else if($(this).val()==0){
 			$("input[name=st]").hide();
-			$("input[id=datepicker1]").hide();
-			$("input[id=datepicker2]").hide();
+			$("input[id=startDt]").hide();
+			$("input[id=endDt]").hide();
 		}
 	});
 				
@@ -65,6 +65,82 @@ $(function() {
     });
 });
 
+$(function() {
+    // 기간 설정 타입 1 
+    // start Date 설정시 end Date의 min Date 지정
+    $( "#startDt" ).datepicker({
+        dateFormat: "yy-mm-dd",
+        dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+        monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        numberOfMonths: 1,
+        changeMonth: true,
+        showMonthAfterYear: true ,
+        changeYear: true,
+        onClose: function( selectedDate ) {
+            $( "#endDt" ).datepicker( "option", "minDate", selectedDate );
+        }
+    }); 
+     // end Date 설정시 start Date max Date 지정
+    $( "#endDt" ).datepicker({
+        dateFormat: "yy-mm-dd",
+        dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+        monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        numberOfMonths: 1,
+        changeMonth: true,
+        showMonthAfterYear: true ,
+        changeYear: true,
+        onClose: function( selectedDate ) {
+            $( "#startDt" ).datepicker( "option", "maxDate", selectedDate );
+        }
+    });
+
+    // 기간 설정 타입 2 
+    // start Date 설정시 end Date 가 start Date보다 작을 경우 end Date를 start Date와 같게 설정
+    $("#startDt").datepicker({
+        dateFormat: "yy-mm-dd",
+        numberOfMonths: 1,
+        changeMonth: true,
+        showMonthAfterYear: true ,
+        changeYear: true,
+        onClose: function( selectedDate ) {
+            if ($( "#endDt" ).val() < selectedDate)
+            {
+                $( "#endDt" ).val(selectedDate);
+            }
+        }
+    }); 
+    // end Date 설정시 end Date 가 start Date 보다 작을 경우 start Date를  end Date와 같게 설정
+    $( "#endDt" ).datepicker({
+        dateFormat: "yy-mm-dd",
+        defaultDate: "+1w",
+        numberOfMonths: 1,
+        changeMonth: true,
+        showMonthAfterYear: true ,
+        changeYear: true,
+        onClose: function( selectedDate ) {
+            if ($("#startDt" ).val() > selectedDate)
+            {
+                $("#startDt" ).val(selectedDate);
+            }
+        }
+    });
+
+
+    //날짜
+    $( "#date" ).datepicker({
+        changeMonth: true ,
+        changeYear: true ,
+        showMonthAfterYear: true ,
+        dateFormat: "yy-mm-dd",
+        dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+        monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        numberOfMonths: 1
+    }); 
+}); 
+
 
 </script>
 
@@ -81,8 +157,8 @@ $(function() {
 			<form:option value="2" label="발급일자 검색 기간" class="dur" />
 		</form:select>
 		<form:input path="st" class="commoninput" name="st" />
-		<form:input class="commoninput" name="dur" id="datepicker1" path="sd" />
-		<form:input class="commoninput" name="dur" id="datepicker2" path="ed" />
+		<form:input class="commoninput" name="dur" id="startDt" path="sd" />
+		<form:input class="commoninput" name="dur" id="endDt" path="ed" />
 		<button type="submit" class="btn btn-primary">검색</button>
 		<c:if test="${ pagination.ss != 0 }">
 			<a href="receiptList.do" class="btn btn-default">취소</a>

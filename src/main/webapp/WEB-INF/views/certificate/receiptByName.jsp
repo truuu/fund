@@ -12,6 +12,81 @@ $(function(){
 	});
 });
 
+
+$(function() {
+    // 기간 설정 타입 1 
+    // start Date 설정시 end Date의 min Date 지정
+    $( "#startDt" ).datepicker({
+        dateFormat: "yy-mm-dd",
+        dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+        monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        numberOfMonths: 1,
+        changeMonth: true,
+        showMonthAfterYear: true ,
+        changeYear: true,
+        onClose: function( selectedDate ) {
+            $( "#endDt" ).datepicker( "option", "minDate", selectedDate );
+        }
+    }); 
+     // end Date 설정시 start Date max Date 지정
+    $( "#endDt" ).datepicker({
+        dateFormat: "yy-mm-dd",
+        dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+        monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        numberOfMonths: 1,
+        changeMonth: true,
+        showMonthAfterYear: true ,
+        changeYear: true,
+        onClose: function( selectedDate ) {
+            $( "#startDt" ).datepicker( "option", "maxDate", selectedDate );
+        }
+    });
+
+    // 기간 설정 타입 2 
+    // start Date 설정시 end Date 가 start Date보다 작을 경우 end Date를 start Date와 같게 설정
+    $("#startDt").datepicker({
+        dateFormat: "yy-mm-dd",
+        numberOfMonths: 1,
+        changeMonth: true,
+        showMonthAfterYear: true ,
+        changeYear: true,
+        onClose: function( selectedDate ) {
+            if ($( "#endDt" ).val() < selectedDate)
+            {
+                $( "#endDt" ).val(selectedDate);
+            }
+        }
+    }); 
+    // end Date 설정시 end Date 가 start Date 보다 작을 경우 start Date를  end Date와 같게 설정
+    $( "#endDt" ).datepicker({
+        dateFormat: "yy-mm-dd",
+        numberOfMonths: 1,
+        changeMonth: true,
+        showMonthAfterYear: true ,
+        changeYear: true,
+        onClose: function( selectedDate ) {
+            if ($("#startDt" ).val() > selectedDate)
+            {
+                $("#startDt" ).val(selectedDate);
+            }
+        }
+    });
+
+
+    //날짜
+    $( "#date" ).datepicker({
+        changeMonth: true ,
+        changeYear: true ,
+        showMonthAfterYear: true ,
+        dateFormat: "yy-mm-dd",
+        dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
+        monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+        numberOfMonths: 1
+    }); 
+}); 
 </script>
 <style>
 td{
@@ -26,7 +101,7 @@ td{
 	<div class="condition">
 		 	<p>기간과 이름은 필수검색 조건입니다.</p>
 			<p>
-				기간 : <form:input class="commoninput" id="datepicker1" path="sd" name="startDate"/>~<form:input class="commoninput" id="datepicker2" path="ed" />
+				기간 : <form:input class="commoninput" id="startDt" path="sd" name="startDate"/>~<form:input class="commoninput" id="endDt" path="ed" />
 				&nbsp;&nbsp; 이름 : <form:input class="commoninput" type="text" path="st"/>
 				&nbsp;&nbsp; 기관 : 
 				<form:select class="commoninput" path="cp" name="corporateID">
@@ -52,7 +127,7 @@ td{
 			        	<tr>
 			            	<td><c:if test="${ payment.receiptID != 0 }">
 			            			<button type="submit" class="btn btn-danger" name="cmd" value="deleteRct">
-			            			<input type="hidden" name="delid" value="${payment.receiptID}"/> 삭제</button>&nbsp;&nbsp;${ payment.rctNo }</c:if>
+			            			<input type="hidden" name="delid" value="${ payment.receiptID }"/> 삭제</button>&nbsp;&nbsp;${ payment.rctNo }</c:if>
 			            		   <c:if test="${ payment.receiptID == 0 }"><input type="checkbox" name="pid" value="${ payment.id }"></c:if></td>
 			             	<td style="vertical-align:middle">${ payment.sponsorNo }</td>
 			             	<td style="vertical-align:middle">${ payment.name }</td>
@@ -69,7 +144,7 @@ td{
 	</div>
 
 <div class="Issue">
-	<p>발급일자 : <input class="commoninput" id="datepicker3" name="createDate">&nbsp;&nbsp;<button type="submit" class="btn btn-info" name="cmd" value="issueRct">기부금 영수증 발급</button></p>
-	<c:if test="${ error != null }"><div class="alert alert-error">${error}</div></c:if>
+	<p>발급일자 : <input class="commoninput" id="date" name="createDate">&nbsp;&nbsp;<button type="submit" class="btn btn-info" name="cmd" value="issueRct">기부금 영수증 발급</button></p>
+	<!--<c:if test="${ not empty error }"><div class="alert alert-error">${error}</div></c:if>-->
 </div>
 </form:form>

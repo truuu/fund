@@ -19,12 +19,11 @@ public interface SponsorMapper {
 	List<Sponsor> sponsorManage();
 	List<Sponsor> postManage(Pagination pagination);
 	List<Sponsor> excelDM(Pagination pagination);
-
-
+	List<Sponsor> selectByReceipt(@Param("whereClause") String whereClause);
+	
 	int sponsorTypeCheck(String codeName);
 
 	int countForDM(Pagination pagination);
-
 
 	int selectCount();
 	int searchCount(String codeName);

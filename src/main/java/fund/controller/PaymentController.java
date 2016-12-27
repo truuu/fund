@@ -387,7 +387,7 @@ public class PaymentController extends BaseController{
 		model.addAttribute("to",to);
 		
 		ReportBuilder reportBuilder = new ReportBuilder("monthlyStatistics",list,"monthlyStatistics.xlsx",request,response);
-		reportBuilder.build("xlsx");
+		reportBuilder.monthlyStatBuild(startDate+" ~ "+endDate);
 		
 		
 	}

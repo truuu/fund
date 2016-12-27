@@ -3,7 +3,7 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.SponsorMapper">
-
+    
     <delete id="delete">
         DELETE FROM [User] WHERE id = #{id}
     </delete>
@@ -59,7 +59,11 @@
         from sponsor where id=#{id};
 	</select>
 	
-
+	<select id="selectByReceipt" resultType="fund.dto.Sponsor">
+		SELECT s.*
+		FROM [Receipt] r JOIN [Sponsor] s ON r.sponsorID = s.id
+		${whereClause}
+	</select>
 
 	<select id="selectAuto" resultType="fund.dto.Code">
 		SELECT
