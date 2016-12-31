@@ -166,10 +166,9 @@ function fileDelete(id){
                   <td id="table_b">
             
                   <c:if test="${sponsor.signUpDate==null}">
-                  <input type="radio" value="true" name="mailReceiving">
-                  발송동의
-                  <input type="radio" value="false" name="mailReceiving">
-                   발송미동의
+                  <input type="radio" value="true" name="mailReceiving">발송동의
+                  <input type="radio" value="false" name="mailReceiving">발송미동의
+                   <p style="color:red">저장하지 않으면 미동의로 저장됩니다.</p>
                   </td>
                   </c:if>
                   <c:if test="${sponsor.signUpDate!=null}">
@@ -191,10 +190,10 @@ function fileDelete(id){
                   <td id="table_b">
                   
                   <c:if test="${sponsor.signUpDate==null}">
-                  <input type="radio" value="0" name="mailTo">
-                  자택
-                    <input type="radio" value="1" name="mailTo">
-                        직장</td>
+                  <input type="radio" value="0" name="mailTo">자택
+                    <input type="radio" value="1" name="mailTo">직장 
+                        <p style="color:red">저장하지 않으면 자택으로 저장됩니다.</p>
+                  </td>
                    </c:if>
                    
                    <c:if test="${sponsor.signUpDate!=null}">

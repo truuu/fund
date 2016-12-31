@@ -1,7 +1,10 @@
 package fund;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -12,12 +15,8 @@ import fund.dto.CommitmentDetail;
 import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.CommitmentMapper;
 
-
-import org.junit.Test;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/dispatcher-servlet-test.xml","file:src/main/webapp/WEB-INF/dataSource.xml"}) // dispatcher-servlet-test.xml�쓽 寃쎈줈紐�
-
 public class TestCommitmentMapper {
 	
     @Autowired CommitmentMapper commitmentMapper;

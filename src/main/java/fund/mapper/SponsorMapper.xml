@@ -4,6 +4,12 @@
 
 <mapper namespace="fund.mapper.SponsorMapper">
 
+
+
+    <select id="testSelectBySponsorNo" resultType="fund.dto.Sponsor">
+	select * from [sponsor] where sponsorNo=#{sponsorNo};
+	</select>
+
     <delete id="delete">
         DELETE FROM [User] WHERE id = #{id}
     </delete>

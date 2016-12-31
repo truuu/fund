@@ -89,6 +89,24 @@ public class Sponsor {
 	
 	double persent;//후원인별에 %값
 	
+	// junit 테스트를 위해 초기화
+	public Sponsor(){
+		this.juminNo="";
+		this.mobilePhone="";
+		this.recommender="";
+		this.recommenderRelation="";
+		this.homeAddress="";
+		this.homePhone="";
+		this.email="";
+		this.company="";
+		this.department="";
+		this.position="";
+		this.officeAddress="";
+		this.officePhone="";
+		this.etc="";
+
+		
+	}
 	
 	public double getPersent() {
 		return persent;

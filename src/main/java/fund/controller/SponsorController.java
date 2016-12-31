@@ -70,13 +70,10 @@ public class SponsorController extends BaseController{
 	public @ResponseBody Map<String, Object> codeNameCheck(@RequestParam("codeName")String codeName,HttpServletRequest request,HttpServletResponse response)throws Exception{
 		response.addHeader("Access-Control-Allow-Origin", "*");
 		Map<String,Object> map = new HashMap<String,Object>();
-		System.out.println("codeName >> "+codeName);
 		List<Sponsor> sponsor=sponsorMapper.codeNameCheck(codeName);
-		if(sponsor==null){
-			System.out.println("없음 검사 codeName");
+		if(sponsor.isEmpty()){
 			sponsor=new ArrayList<Sponsor>();
 		}
-		System.out.println(sponsor.toString());
 		map.put("sponsor", sponsor);
 		return map;
 	}
@@ -88,11 +85,9 @@ public class SponsorController extends BaseController{
 		String name=nameForSearch;
 		List<Sponsor> sponsor=sponsorMapper.nameCheck(name);
 		if(sponsor==null){
-			System.out.println("업음 검사 ");
 			sponsor=new ArrayList<Sponsor>();
 			return sponsor;
 		}else{
-			System.out.println("값 있다  ");
 			return sponsor;
 		}
 
@@ -213,6 +208,12 @@ public class SponsorController extends BaseController{
 
 		sponsor.setHomeAddress(homeAddress);
 		sponsor.setOfficeAddress(officeAddress);
+	
+		System.out.println("controller mail >> "+sponsor.getMailTo());//int
+		
+		System.out.println("controller post >> "+sponsor.isMailReceiving());// boolean 발송여부
+		
+		
 
 
 		if(sponsor.getSort()==0){
@@ -248,7 +249,6 @@ public class SponsorController extends BaseController{
 
 		if(!homeAddress.equals("")){
 			String[] home=homeAddress.split("\\*");
-			System.out.println("size >> "+home.length);
 			for(int i=0;i<home.length;i++){
 				if(i==0){
 					String homeRoadAddress=home[0];
@@ -354,7 +354,7 @@ public class SponsorController extends BaseController{
 	//후원자 정보 삭제하기
 	@RequestMapping(value="/sponsor/delete.do",method=RequestMethod.GET)
 	public String sponsorDelete(@RequestParam("id")int id,Model model,RedirectAttributes redirectAttributes){
-		System.out.println("sponsor test >> "+id);
+		
 		 try{
 			 sponsorMapper.removeSponsor(id);
 	      }
@@ -449,7 +449,6 @@ public class SponsorController extends BaseController{
 				file.setSponsorID(id); // 나중에 조인해서 변경해야함
 				file.setFileName(Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString());
 				file.setFilesize((int)uploadedFile.getSize());
-				System.out.println("tes file >> "+uploadedFile.getBytes());
 				file.setData(uploadedFile.getBytes());
 
 				fileAttachmentMapper.insert(file);

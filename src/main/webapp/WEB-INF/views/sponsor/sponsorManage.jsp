@@ -51,8 +51,12 @@ function sponorSearch(){
     	      data :{codeName:codeName},
     	      dataType : "json",
     	      success : function(data){
+    	    	  //alert(data.sponsor[0])
+    	    	  //alert(data.sponsor[0].name)
+    	    
     	    	  var json = data;
-    	    	  if(json=="")
+                    //json.키값
+    	    	  if(json.sponsor[0]==undefined)
   	            {
   	        	 alert('조건에 맞는 후원자가 존재하지 않습니다.')
   	        	}else{

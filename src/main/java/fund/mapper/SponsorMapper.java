@@ -12,12 +12,12 @@ import fund.dto.User;
 
 public interface SponsorMapper {
 	EB22 selectSponsorName(String sponsorNo);
-	User selectById(int id);		
+	Sponsor testSelectBySponsorNo(String sponsorNo);		
 	User selectByLoginId(String loginId);
 	List<Code> selectAuto(String input);
 	Integer ceateNumber();
 	String ceateYear();
-	List<Sponsor> sponsorManage();
+	//List<Sponsor> sponsorManage();
 	List<Sponsor> postManage(Pagination pagination);
 	List<Sponsor> excelDM(Pagination pagination);
 
@@ -42,7 +42,7 @@ public interface SponsorMapper {
 	Sponsor selectBySponsorNo(int id);
 	List<Sponsor> nameSearch(Pagination pagination);
 	List<Sponsor> sponsorSearch(Pagination pagination);
-	List<Sponsor> selectPage(Pagination pagination);
+	List<Sponsor> selectPage(Pagination pagination);//sponsor manage page
 	List<Sponsor> sponsorListExcel(Pagination pagination);
 	List<Sponsor> nameCheck(String name); // search name check
 	List<Sponsor> codeNameCheck(String codeName);
