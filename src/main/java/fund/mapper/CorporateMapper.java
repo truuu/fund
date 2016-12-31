@@ -6,10 +6,10 @@ import fund.dto.Corporate;
 import fund.dto.Pagination;
 
 public interface CorporateMapper {
+	Corporate selectByName(String name);
 	List<Corporate> selectCorporate();
 	Corporate selectByID(int ID);
-	List<Corporate> selectPage(Pagination pagination);
-	int selectCount();
+	
 	List<Integer> selectCorporateID();
     void insert(Corporate corporate);
     void update(Corporate corporate);

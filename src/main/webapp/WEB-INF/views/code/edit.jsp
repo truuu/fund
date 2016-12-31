@@ -38,12 +38,12 @@ table.table {
 	<table class="table">
 		<tr>
 			<td id="table_a">코드명</td>
-			<td><form:input path="codeName" /><br>${error}
+			<td><form:input path="codeName" class="commoninput" /><br>${error}
 			</td>
 		</tr>
 		<tr>
 			<td id="table_a">기타</td>
-			<td><form:input path="etc1" /></td>
+			<td><form:input path="etc1" class="commoninput" /></td>
 		</tr>
 	</table>
 

@@ -4,10 +4,10 @@
 
 <mapper namespace="fund.mapper.CommitmentDetailMapper">
 
-	<select id="selectByCommitmentID3" resultType="fund.dto.CommitmentDetail">
+	<select id="selectByCommitmentDetailID" resultType="fund.dto.CommitmentDetail">
 	select *
 	from CommitmentDetail
-	where commitmentID = #{commitmentID}
+	where ID = #{ID}
 	</select>
 	
 	<select id="selectByCommitmentID2" resultType="fund.dto.CommitmentDetail">
@@ -21,12 +21,13 @@
 	select MAX(ID)
 	from Commitment 
 	</select>
+	
+	<select id="selectMaxCommitmentDetailID" resultType="fund.dto.CommitmentDetail">
+	select *
+	from CommitmentDetail
+	where ID = (select MAX(ID) from commitmentDetail)
+	</select>
     
-   <select id="selectByCommitmentID" resultType="fund.dto.CommitmentDetail">
-   	SELECT c2.*
-   	FROM Commitment c1 left join CommitmentDetail c2 on c1.ID=c2.commitmentID 
-   	WHERE c1.ID=#{id}
-   </select>
    
    <insert id="insert" useGeneratedKeys="true" keyProperty="ID">
         INSERT CommitmentDetail

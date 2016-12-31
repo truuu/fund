@@ -45,7 +45,6 @@ a2{ float:right; }
          <div class="col-lg-3">
             <div id="column-right">
                <button type="submit" class="btn btn-primary" >검색</button>
-               <button class="btn btn-default" type="submit" name="cmd" value="pdf">보고서</button>
                <button class="btn btn-default" type="submit" name="cmd" value="xlsx">엑셀</button>
             </div>
 

@@ -11,6 +11,19 @@
 		WHERE p.ID = #{ID}
 	</select>
 
+	<select id="selectMaxNum" resultType="fund.dto.PrintDonation">
+		select *
+		from PrintDonation
+		where ID = (select MAX(ID) from PrintDonation)
+	</select>
+	
+	<select id="selectByNum" resultType="fund.dto.PrintDonation">
+		select *
+		from PrintDonation
+		where num = #{num}
+	</select>
+	
+	
 	<select id="selectPage" resultType="fund.dto.PrintDonation">
         <![CDATA[
         SELECT *

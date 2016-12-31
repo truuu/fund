@@ -7,7 +7,9 @@ import fund.dto.EB13_CommitmentDetail;
 import fund.dto.EB21_commitmentDetail;
 
 public interface CommitmentDetailMapper {
-	CommitmentDetail selectByCommitmentID3(int commitmentID);
+	
+	CommitmentDetail selectMaxCommitmentDetailID();
+	CommitmentDetail selectByCommitmentDetailID(int id);
 	List<CommitmentDetail> selectByCommitmentID2(int commitmentID);
 	void insert(CommitmentDetail commitmentDetail);
 	void update(CommitmentDetail commitmentDetail);

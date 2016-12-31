@@ -4,6 +4,25 @@
 
 <mapper namespace="fund.mapper.PrintScholarshipMapper">
 
+	<select id="selectById" resultType="fund.dto.PrintScholarship">
+		SELECT p.*, u.name
+		FROM
+		PrintScholarship p LEFT JOIN [User] u ON p.userID = u.ID
+		WHERE p.ID = #{ID}
+	</select>
+	
+	<select id="selectMaxNum" resultType="fund.dto.PrintScholarship">
+		select *
+		from PrintScholarship
+		where ID = (select MAX(ID) from PrintScholarship)
+	</select>
+	
+	<select id="selectByNum" resultType="fund.dto.PrintScholarship">
+		select *
+		from PrintScholarship
+		where num = #{num}
+	</select>
+
 	<select id="selectPage" resultType="fund.dto.PrintScholarship">
         <![CDATA[
         SELECT *

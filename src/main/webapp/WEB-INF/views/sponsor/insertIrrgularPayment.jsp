@@ -152,7 +152,6 @@ tr#topTable td, tr#topTable th {
 							<option value="13">직접입금</option>
 							<option value="14">현물</option>
 							<option value="15">부동산</option>
-							<option value="16">신용카드</option>
 						</select>
 					</div>
 				</div>

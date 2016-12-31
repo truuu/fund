@@ -162,6 +162,7 @@ tr#topTable td, tr#topTable th{
 									<option value="25" ${commitmentDetail.paymentDay == 25 ? "selected" : "" }>25일</option></select></td>
 					<td id="table_a">은행명</td>
 					<td><select name="bankID" class="commoninput">
+									<option value="0">선택</option>
 									<c:forEach var="bank" items="${bankList}">
 										<option value="${bank.ID}" ${commitmentDetail.bankID==bank.ID ? "selected" : "" }>${bank.codeName}</option>
 									</c:forEach>
@@ -174,7 +175,14 @@ tr#topTable td, tr#topTable th{
 					<td id="table_a">예금주</td>
 					<td><input type="text" class="commoninput" name="accountHolder" value="${ commitmentDetail.accountHolder }" /></td>
 					<td id="table_a">약정금액</td>
-					<td class="money">${commitment.month*commitmentDetail.amountPerMonth}</td>
+					<td class="money">
+					
+					<c:choose>
+					<c:when test="${commitment.month==0}"> </c:when>
+					<c:otherwise>${(commitmentDetail.amountPerMonth)*(commitment.month)}</c:otherwise>
+					</c:choose>
+					
+					</td>
 					<td id="table_a">시작일</td>
 					<td><input type="date" class="commoninput" name="startDate" value="${ commitmentDetail.startDate }" ></td>
 					<td id="table_a">비고</td>
@@ -196,8 +204,8 @@ tr#topTable td, tr#topTable th{
 			<tbody>
 				<tr>
 					<td id="table_a">1회납입액</td>
-					<td><input type="text" class="money commoninput" name="amountPerMonth" />
-					</td>
+					<td><input type="text" class="money commoninput" name="amount2" value="${newCommitmentDetail.amount2}" />
+					<br>${err2}</td>
 					<td id="table_a">결제일</td>
 					<td><select name="paymentDay" class="commoninput" ><option value="20">20일</option>
 							<option value="25">25일</option></select></td>
@@ -208,16 +216,17 @@ tr#topTable td, tr#topTable th{
 							</c:forEach>
 					</select></td>
 					<td id="table_a">계좌번호</td>
-					<td><input name="accountNo" type="text" class="commoninput" /></td>
+					<td><input name="accountNo" type="text" class="commoninput" value="${newCommitmentDetail.accountNo}" /></td>
 				</tr>
 				<tr>
 					<td id="table_a">예금주</td>
-					<td><input name="accountHolder" class="commoninput" type="text" /></td>
+					<td><input name="accountHolder" class="commoninput" type="text" value="${newCommitmentDetail.accountHolder}" /></td>
 					<td id="table_a">시작일</td>
-					<td><input type="date" class="commoninput" name="startDate"></td>
+					<td><input type="date" class="commoninput" name="startDate" value="${newCommitmentDetail.startDate}">
+					<br>${err1}</td>
 					<td id="table_a">비고</td>
 					<td colspan="3"><input size="50" id="etc"  class="commoninput" type="text"
-						name="etc"></td>
+						name="etc" value="${newCommitmentDetail.etc}" ></td>
 				</tr>
 			</tbody>
 		</table>
@@ -238,12 +247,7 @@ tr#topTable td, tr#topTable th{
 				<h3>기부목적 검색</h3>
 			</div>
 			<div class="modal-body">
-				<!-- 
-				<form class="form-inline" method="post" action="#">
-					<span>이름:</span> <input type="text" name="name" />
-					<button type="submit" class="btn btn-default">검색</button>
-				</form>
-			-->
+			
 				<div id="scroll">
 					<div id="searchResult">
 						<table id="donationTable">

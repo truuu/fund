@@ -19,7 +19,13 @@
 		where ID=#{ID}
 
 	</select>
-
+	
+	<select id="selectByName" resultType="fund.dto.DonationPurpose">
+		select *
+		from donationPurpose
+		where name=#{name}
+	</select>
+	
 	<select id="selectCoporateName" resultType="String">
       select c2.name 
       from [DonationPurpose] d join [Corporate] c2 on d.corporateID = c2.ID
@@ -27,24 +33,11 @@
    </select>
 
 
-
 	<select id="selectByID" resultType="fund.dto.DonationPurpose">
 		SELECT *
 		FROM
 		[DonationPurpose]
 		WHERE ID = #{ID}
-	</select>
-
-	<select id="selectPage" resultType="fund.dto.DonationPurpose">
-		SELECT d.*, c2.name "corporateName", c1.codeName
-				FROM [DonationPurpose] d LEFT JOIN [Code] c1 ON d.organizationID=c1.ID	
-				  LEFT JOIN [Corporate] c2 ON d.corporateID=c2.ID 
-				 
-	</select>
-
-	<select id="selectCount" resultType="int">
-		SELECT COUNT(*)
-		FROM [DonationPurpose]
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">

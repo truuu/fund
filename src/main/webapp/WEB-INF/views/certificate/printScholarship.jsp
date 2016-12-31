@@ -45,8 +45,11 @@ function htmlReport() {
 	vertical-align: middle;
 }
 textarea{
-	width:90%;
+	width:85%;
 	height:100px;
+	border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 }
 iframe { width: 800px; border: 1px solid #ddd; height: 900px; }
 </style>
@@ -69,7 +72,7 @@ iframe { width: 800px; border: 1px solid #ddd; height: 900px; }
 						<td id="table_b"><input type="text" id="serialNo" name="serialNo" class="commoninput" value="${serialNo}" readonly /></td>
 
 						<td id="table_a">학과</td>
-						<td id="table_b"><select name="department" id="department">
+						<td id="table_b"><select name="department" id="department" class="commoninput">
 								<option selected="selected">선택</option>
 								<option value="신학과">신학과</option>
 								<option value="영어학과">영어학과</option>
@@ -88,13 +91,13 @@ iframe { width: 800px; border: 1px solid #ddd; height: 900px; }
 					</tr>
 					<tr>
 						<td id="table_a">학번</td>
-						<td id="table_b"><input type="text" name="studentNo" id="studentNo"></td>
+						<td id="table_b"><input type="text" name="studentNo" id="studentNo" class="commoninput"></td>
 						<td id="table_a">성명</td>
-						<td id="table_b"><input type="text" name="studentName" id="studentName"></td>
+						<td id="table_b"><input type="text" name="studentName" id="studentName" class="commoninput"></td>
 					</tr>
 					<tr>
 						<td id="table_a">내용</td>
-						<td colspan="3" id="table_b"><textarea id="content" name="content"></textarea></td>
+						<td colspan="3" id="table_b"><textarea id="content" name="content" ></textarea></td>
 					</tr>
 				</tbody>
 			</table>

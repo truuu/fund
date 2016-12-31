@@ -20,6 +20,8 @@
 		SELECT * FROM [Receipt] WHERE [no]=#{no}
 	</select>
 	
+	<!-- 영수증 데이터확인 용도-->
+	<!--  
 	<select id="selectReceiptView" resultType="fund.dto.Receipt">
 		SELECT DISTINCT r.*, s.name, s.juminNo, s.homeaddress 'address', c.name 'corName',c.corporateNo, c.address 'corAddress',c.representative
 		FROM [Receipt] r LEFT JOIN [Sponsor] s ON r.sponsorID=s.id 
@@ -27,7 +29,7 @@
 					LEFT JOIN [donationPurpose] d ON p.donationPurposeID=d.id
 					LEFT JOIN [corporate] c ON d.corporateID = c.id
 		WHERE r.id=#{id}
-	</select>
+	</select>-->
 	
 	<select id="selectReceiptList" resultType="fund.dto.Receipt">
 		SELECT receipt.no,sponsor.name,sponsor.juminNo,sponsor.mobilePhone

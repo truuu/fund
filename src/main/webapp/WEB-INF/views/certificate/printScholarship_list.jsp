@@ -52,21 +52,21 @@ td{
 	
 </script>
 
-	<h3>장학증서 발급대장</h3>
+	<h2>장학증서 발급대장</h2>
 	<form:form method="get" modelAttribute="pagination" class="pagination">
 		<input type="hidden" name="pg" value="1" />
 		<form:hidden path="bd" />
 
 
 		<div class="form-inline">
-			<form:select path="ss" id="search" class="msize">
+			<form:select path="ss" id="search" class="msize commoninput">
 				<form:option value="0" label="검색조건" />
 				<form:option value="1" label="학번" />
 				<form:option value="2" label="이름" />
 				<form:option value="3" label="학과" />
 				<form:option value="4" label="발행일" />
 			</form:select>
-			<form:input path="st" />
+			<form:input path="st" class="commoninput" />
 			<button type="submit" class="btn btn-primary">검색</button>
 			<a id="deleteBtn" onclick="deleteFunction()" class="btn btn-danger">삭제</a> <a
 				href="printScholarship.do" id="donationBtn"
