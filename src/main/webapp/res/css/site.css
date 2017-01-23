@@ -68,14 +68,13 @@ td {
 }
 
 #table_a {
-	font-weight:500;
+   font-weight: bold;
    background-color: #f8f8f8;
-   width: 15%;
+   width: 150px;
    text-align: center;
 }
 
 #table_b {
-   width: 30%;
    padding-left: 10px;
 }
 /*-- 온라인 약정 페이지 테이블 -- */
@@ -1039,3 +1038,7 @@ input#mailname {
 
 input[type=date] { line-height: 1em; }
 
+.commoninput {
+    border: 1px solid #aaa;
+    padding: 3px;	
+}

@@ -3,11 +3,8 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.SponsorMapper">
-
-
-
     <select id="testSelectBySponsorNo" resultType="fund.dto.Sponsor">
-	select * from [sponsor] where sponsorNo=#{sponsorNo};
+	   select * from [sponsor] where sponsorNo=#{sponsorNo};
 	</select>
 
     <delete id="delete">
@@ -96,8 +93,6 @@
 	   (select codeName from code where code.ID=sponsor.sponsorType1ID) AS sponsorType1
         from sponsor where id=#{id};
 	</select>
-	
-
 
 	<select id="selectAuto" resultType="fund.dto.Code">
 		SELECT
@@ -135,21 +130,6 @@
 		#{homePhone},#{email},#{company},#{department},#{position},#{officePhone},#{officeAddress},#{etc})
 	</insert>
 
-
-
-	<!-- 회원관리 -->
-	<select id="sponsorManage" resultType="fund.dto.Sponsor">
-		select sponsorNo,name,
-		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS
-		sponsorType1,
-		(select codeName from code where
-		code.ID=sponsor.sponsorType2ID )AS sponsorType2,
-		(select codeName from
-		code where code.ID=sponsor.churchID )AS church,
-		signUpDate,mobilePhone,email
-		from sponsor order by sponsorNo DESC;
-	</select>
-	
 	<!-- search name check -->
 	<select id="nameCheck" resultType="fund.dto.Sponsor">
 		select * from sponsor where name=#{name};
@@ -204,22 +184,60 @@
         ]]>
 	</select>
 
+    <!--  
+        정렬조건: 등록순, 후원인번호, 
+        검색조건: 이름, 후원인번호, 후원인구분1, 후원인구분2    -->
 	<select id="selectPage" resultType="fund.dto.Sponsor">
         <![CDATA[
+        declare @order int, @srchType int, @srchText nvarchar(50), @currentPage int, @pageSize int
+        set @order = #{order}
+        set @srchType = #{srchType}
+        set @srchText = #{srchText}
+        set @currentPage = #{currentPage}
+        set @pageSize = #{pageSize}
+        
         SELECT *
         FROM
-            ( SELECT sponsorNo,name,id,
-		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
-		(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
-		(select codeName from code where code.ID=sponsor.churchID )AS church,
-		signUpDate,mobilePhone,email, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
-             from sponsor
+            ( SELECT id, sponsorNo, name, signUpDate, mobilePhone, email, 
+                (select codeName from code where code.ID=s.sponsorType1ID )AS sponsorType1,
+                (select codeName from code where code.ID=s.sponsorType2ID )AS sponsorType2,
+                (select codeName from code where code.ID=s.churchID ) AS church,
+                CASE @order
+                    WHEN 0 THEN ROW_NUMBER() OVER (ORDER BY s.id DESC)
+                    WHEN 1 THEN ROW_NUMBER() OVER (ORDER BY s.sponsorNo DESC)
+                END 행번호
+                FROM [sponsor] s
+                WHERE
+                    ((@srchType = 0) OR
+                     (@srchType = 1 AND CHARINDEX(@srchText, name) = 1) OR
+                     (@srchType = 2 AND CHARINDEX(@srchText, sponsorNo) = 1)) 
+                AND (#{st1} = 0 OR #{st1} = sponsorType1ID)
+                AND (#{st2} = 0 OR #{st2} = sponsorType2ID)
             ) subquery
-        WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
-              행번호 <= #{currentPage} * #{pageSize}
+        WHERE 행번호 > (@currentPage - 1) * @pageSize AND
+                행번호 <= @currentPage * @pageSize
         ORDER BY 행번호
         ]]>
 	</select>
+    
+    <select id="selectCount" resultType="int">
+        <![CDATA[
+        declare @srchType int, @srchText nvarchar(50)
+        set @srchType = #{srchType}
+        set @srchText = #{srchText}
+        
+        SELECT COUNT(*) 
+        FROM [sponsor] s
+        WHERE
+            ((@srchType = 0) OR
+             (@srchType = 1 AND CHARINDEX(@srchText, name) = 1) OR
+             (@srchType = 2 AND CHARINDEX(@srchText, sponsorNo) = 1)) 
+        AND (#{st1} = 0 OR #{st1} = sponsorType1ID)
+        AND (#{st2} = 0 OR #{st2} = sponsorType2ID)
+        ]]>
+    </select>
+
+    
 	
 	<!-- 회원관리 이름으로 가져오기 위한 count -->
 	<select id="nameCount" resultType="int">
@@ -252,15 +270,6 @@
 		codeName=#{codeName})
         </if>
 	</select>
-
-
-	<select id="selectCount" resultType="int">
-		SELECT COUNT(*)
-		FROM sponsor
-	</select>
-
-
-
 
 	<!-- 후원자관리 조건 구별 -->
 	<select id="sponsorTypeCheck" resultType="int">
@@ -314,13 +323,12 @@
 	from sponsor join payment on
 		sponsor.ID=payment.sponsorID
 		where payment.paymentDate between
-		#{startDate} and #{endDate};
-	
+		#{startDate} and #{endDate};	
 	</select>
 	
 	<!-- DM 엑셀 -->
 	<select id="excelDM" resultType="fund.dto.Sponsor">
-  SELECT *
+    SELECT *
         FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
         FROM(SELECT DISTINCT sponsor.sponsorNo,name,(SELECT codeName from code where
       code.ID=sponsor.sponsorType2ID) AS sponsorType2,
@@ -342,13 +350,25 @@
            count(*) AS castCount
       from sponsor join payment on  sponsor.ID=payment.sponsorID  where payment.paymentDate between
      #{startDate} and #{endDate} group by sponsorType2ID;
-	
 	</select>
 
 	<select id="selectBySponsorNo2" resultType="String">
-	select sponsorNo
-	from Sponsor
-	where id=#{id}
-	
+	   select sponsorNo
+	   from Sponsor
+	   where id=#{id}	
 	</select>
+    
+    <select id="selectNotEncrypted" resultType="fund.dto.Sponsor">
+     <![CDATA[
+        select *
+        from sponsor
+        where len(juminNo) < 20        
+     ]]>
+    </select>
+    
+    <update id="updateJuminNo">
+        update sponsor
+        set juminNo = #{juminNo}
+        where id = #{id}
+    </update>
 </mapper>

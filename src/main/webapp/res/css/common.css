@@ -1,0 +1,8 @@
+thead tr { background: #eee; }
+tbody tr[data-url]:hover { background-color: #ffa; cursor: pointer; }
+div.form-inline { margin-bottom: 5px; }
+input[name=st] { width: 150px; }
+select[name=st] { width: 150px; }
+select[name=ss] { width: 100px; }
+select[name=sz] { width: 80px; float: right; }
+select[name=od] { width: 150px; margin-right: 100px; }
