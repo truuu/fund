@@ -10,25 +10,6 @@ body {
    background-color: #fff;
 }
 
-/*--startDate endDate common css--*/
-.commoninput{
-    margin-bottom:6px;
-    height: 30px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-}
-
 /*--navbar--*/
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus,
    .navbar-inverse .navbar-nav>.active>a:hover {
@@ -541,15 +522,19 @@ div.col-lg-13 {
    
 }
 
+.login .controls {
+	margin-top: 40px;
+	text-align: center;
+}
+
 .login input {
-   width: 250px;
-   height: 25px;
-   line-height: 18px;
-   margin: 40PX 0 10px 0;
-   padding: 15px;
+   width: 170px;
    font-size: 16px;
    display: inline-block;
 }
+
+.login .controls input { margin-top: 0; margin-bottom: 0; }
+.login .controls .btn { margin-top: 0; margin-bottom: 0; }
 
 
 /*********/
@@ -1054,20 +1039,3 @@ input#mailname {
 
 input[type=date] { line-height: 1em; }
 
-.commoninput{
-    margin-bottom:6px;
-    height: 30px;
-    padding: 2px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-}
