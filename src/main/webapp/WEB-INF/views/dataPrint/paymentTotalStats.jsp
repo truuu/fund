@@ -110,7 +110,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 							<tr>
 							
 								<td><label>정기/비정기</label></td>
-								<td><select name="srchType1" class="commoninput">
+								<td><select name="srchType1" >
 										<option value="0" ${gu1 == 0 ? "selected" : "" }>선택</option>
 										<option value="1" ${gu1 == 1 ? "selected" : "" }>정기</option>
 										<option value="2" ${gu1 == 2 ? "selected" : "" }>비정기</option>
@@ -120,7 +120,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 
 
 								<td><label>소속교회</label></td>
-								<td><select name="srchType3" class="commoninput">
+								<td><select name="srchType3" >
 										<option value="0" ${ churchID == 0 ? "selected" : "" }>선택</option>
 										<c:forEach var="church" items="${churchList}">
 											<option value="${church.ID}" ${ churchID == church.ID ? "selected" : "" }>${church.codeName}</option>
@@ -128,12 +128,12 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 								</select></td>
 							<tr>
 							<td><label>납입일</label></td>
-								<td><input id="datepicker1" class="commoninput" name="startDate" value="${startDate}" >~
-								<input id="datepicker2" class="commoninput" name="endDate" value="${endDate}" ></td>
+								<td><input id="datepicker1"  name="startDate" value="${startDate}" >~
+								<input id="datepicker2"  name="endDate" value="${endDate}" ></td>
 									
 
 								<td><label>납입방법</label></td>
-								<td><select name="srchType4" class="commoninput">
+								<td><select name="srchType4" >
 										<option value="0">선택</option>
 										<c:forEach var="paymentMethod" items="${paymentMethodList}">
 											<option value="${paymentMethod.ID}" ${ paymentMethodID==paymentMethod.ID ? "selected" : "" }>${paymentMethod.codeName}</option>
@@ -144,16 +144,16 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 							<td><label>기부목적</label></td>
 								<td><form:form method="post">
 										<div class="form-inline">
-											<input type="text" name="dname" readonly value="${ donationPurpose }" class="commoninput" /> <a
+											<input type="text" name="dname" readonly value="${ donationPurpose }"  /> <a
 												href="#searchDialog" class="btn btn-default"
 												data-toggle="modal">검색</a> <input type="hidden"
-												name="srchType2" id="donationPurposeID" class="commoninput" />
+												name="srchType2" id="donationPurposeID"  />
 										</div>
 									</form:form></td>
 								
 
 								<td><label>후원인구분</label></td>
-								<td><select name="srchType5" class="commoninput">
+								<td><select name="srchType5" >
 										<option value="0">선택</option>
 										<c:forEach var="sponsorType" items="${sponsorType2List}">
 											<option value="${sponsorType.ID}" ${ sponsorTypeID==sponsorType.ID ? "selected" : "" }>${sponsorType.codeName}</option>
@@ -163,7 +163,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 							</tr>
 							<tr>
 							<td><label>후원인이름</label></td>
-								<td colspan="4"><input type="text" name="sponsorName" value="${sponsorName}" class="commoninput" /></td>
+								<td colspan="4"><input type="text" name="sponsorName" value="${sponsorName}"  /></td>
 							</tr>
 
 

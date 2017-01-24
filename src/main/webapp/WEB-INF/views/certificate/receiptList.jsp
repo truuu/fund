@@ -151,14 +151,14 @@ $(function() {
 	<input type="hidden" name="pg" value="1"/>
 	<input type="hidden" name="bd" value="2"/>
 	<div class="form-inline">
-		<form:select class="commoninput" path="ss"  >
+		<form:select  path="ss"  >
 			<form:option value="0" label="검색조건"  />
 			<form:option value="1" label="후원자명" class="st"/>
 			<form:option value="2" label="발급일자 검색 기간" class="dur" />
 		</form:select>
-		<form:input path="st" class="commoninput" name="st" />
-		<form:input class="commoninput" name="dur" id="startDt" path="sd" />
-		<form:input class="commoninput" name="dur" id="endDt" path="ed" />
+		<form:input path="st"  name="st" />
+		<form:input  name="dur" id="startDt" path="sd" />
+		<form:input  name="dur" id="endDt" path="ed" />
 		<button type="submit" class="btn btn-primary">검색</button>
 		<c:if test="${ pagination.ss != 0 }">
 			<a href="receiptList.do" class="btn btn-default">취소</a>

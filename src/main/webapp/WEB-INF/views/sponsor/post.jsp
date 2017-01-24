@@ -84,8 +84,8 @@ $(function(){
 			<div class="form-inline">
 				<label> 신청기간 </label>
 				<div class="form-group">
-				 <input  id="datepicker1" class="commoninput" name="startDate" value="${ pagination.startDate}"> ~
-				  <input  id="datepicker2" class="commoninput" name="endDate" value="${ pagination.endDate}">
+				 <input  id="datepicker1"  name="startDate" value="${ pagination.startDate}"> ~
+				  <input  id="datepicker2"  name="endDate" value="${ pagination.endDate}">
 			
 				 </div>
 				 <button  class="btn btn-primary" id="search" >검색</button>

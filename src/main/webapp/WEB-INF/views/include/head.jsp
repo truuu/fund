@@ -10,9 +10,6 @@
 <script src="/fund_sys/res/js/common.js"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/fund_sys/res/css/site.css">
-<link rel="stylesheet"  href="/fund_sys/res/css/member.css" />
-<link rel="stylesheet"  href="/fund_sys/res/css/check.css" />
 <link rel="stylesheet"  href="/fund_sys/res/css/common.css" />
 
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>

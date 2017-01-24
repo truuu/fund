@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import fund.service.AES128UtilService;
+import fund.service.EncryptService;
 
 
 public class Sponsor {

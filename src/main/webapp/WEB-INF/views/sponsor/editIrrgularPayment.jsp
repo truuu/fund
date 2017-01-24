@@ -122,7 +122,7 @@ tr#topTable td, tr#topTable th {
 					<div class="col-lg-10">
 
 						<input type="date" value="${payment.paymentDateString}"
-							class="commoninput" name="paymentDateString" />
+							 name="paymentDateString" />
 					</div>
 				</div>
 				<div class="form-group">

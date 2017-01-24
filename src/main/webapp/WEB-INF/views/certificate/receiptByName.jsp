@@ -101,10 +101,10 @@ td{
 	<div class="condition">
 		 	<p>기간과 이름은 필수검색 조건입니다.</p>
 			<p>
-				기간 : <form:input class="commoninput" id="startDt" path="sd" name="startDate"/>~<form:input class="commoninput" id="endDt" path="ed" />
-				&nbsp;&nbsp; 이름 : <form:input class="commoninput" type="text" path="st"/>
+				기간 : <form:input  id="startDt" path="sd" name="startDate"/>~<form:input  id="endDt" path="ed" />
+				&nbsp;&nbsp; 이름 : <form:input  type="text" path="st"/>
 				&nbsp;&nbsp; 기관 : 
-				<form:select class="commoninput" path="cp" name="corporateID">
+				<form:select  path="cp" name="corporateID">
 					<form:options itemValue="ID" itemLabel="name" items="${ corporates }"/>
 				</form:select>
 				&nbsp;&nbsp;<button type="submit" class="btn btn-primary" name="cmd" value="search">검색</button>
@@ -144,7 +144,7 @@ td{
 	</div>
 
 <div class="Issue">
-	<p>발급일자 : <input class="commoninput" id="date" name="createDate">&nbsp;&nbsp;<button type="submit" class="btn btn-info" name="cmd" value="issueRct">기부금 영수증 발급</button></p>
+	<p>발급일자 : <input  id="date" name="createDate">&nbsp;&nbsp;<button type="submit" class="btn btn-info" name="cmd" value="issueRct">기부금 영수증 발급</button></p>
 	<!--<c:if test="${ not empty error }"><div class="alert alert-error">${error}</div></c:if>-->
 </div>
 </form:form>

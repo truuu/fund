@@ -1,39 +1,28 @@
 package fund.controller;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
-import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import fund.BaseController;
-import fund.dto.EB13;
 import fund.dto.EB13_CommitmentDetail;
 import fund.dto.EB14;
-import fund.dto.XferResult;
 import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.EB13Mapper;
 import fund.mapper.EB13_CommitmentDetailMapper;
-import fund.service.AES128UtilService;
 import fund.service.FileExtFilter;
 
 
@@ -43,13 +32,12 @@ public class EB13Controller extends BaseController{
 	@Autowired EB13_CommitmentDetailMapper eb13_commitmentDetailMapper;
 	@Autowired CommitmentDetailMapper commitmentDetailMapper;
 	@Autowired FileExtFilter fileExtFilter;
-	@Autowired AES128UtilService cipherService;
 
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.GET)
 	public String eb13(Model model) {
 		return "finance/eb13";
 	}
-	
+
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=selectEB13")
 	   public String selectEB13(Model model)throws Exception{
 	      List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
@@ -65,7 +53,7 @@ public class EB13Controller extends BaseController{
 	      model.addAttribute("eb13List", eb13List);
 	      return "finance/eb13";
 	   }
-	
+
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=createEB13file")
 	public String createEB13file(@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws Exception{
 		List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
@@ -80,7 +68,7 @@ public class EB13Controller extends BaseController{
 		for(int i = 0 ; i < commitmentDetailID.length; ++i){
 			eb13_commitmentDetailMapper.createEB13list(commitmentDetailID[i]);
 		}
-		model.addAttribute("successMsg", "EB13 파일 생성을 완료했습니다."); 
+		model.addAttribute("successMsg", "EB13 파일 생성을 완료했습니다.");
 		return "finance/eb13";
 	}
 
@@ -122,14 +110,14 @@ public class EB13Controller extends BaseController{
 					eb14.setJumin(sub.substring(50, 67).trim());
 					eb14.setErrorCode(sub.substring(73,77)); //N 다음 불능코드 4자리
 					eb14List.add(eb14);
-				}	
+				}
 				model.addAttribute("eb14List",eb14List);
 				session.setAttribute("eb14ListSession", eb14List);
 				session.setAttribute("fileNameSession", fileName);
 				return "finance/eb14";
 			}
 		}else{
-			model.addAttribute("errorMsg", "EB파일을 업로드 해 주세요."); 
+			model.addAttribute("errorMsg", "EB파일을 업로드 해 주세요.");
 		}
 		return "finance/uploadEB14";
 	}
@@ -155,7 +143,7 @@ public class EB13Controller extends BaseController{
 				eb13_commitmentDetailMapper.updateEB14success(createDate);
 			}
 		}
-		model.addAttribute("successMsg", "EB14 파일 적용을 완료했습니다."); 
+		model.addAttribute("successMsg", "EB14 파일 적용을 완료했습니다.");
 		return "finance/eb14";
 	}
 

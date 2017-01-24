@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import fund.service.*;
 
 public class EB13_CommitmentDetail {
-	AES128UtilService cipherService=new AES128UtilService(); //¾ç¹æÇâ ¾ÏÈ£È­ ¼­ºñ½º
+	EncryptService cipherService=new EncryptService(); //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½
 	
 	int ID;
 	int EB13ID;

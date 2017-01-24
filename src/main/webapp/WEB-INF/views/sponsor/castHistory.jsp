@@ -61,8 +61,8 @@ $(function(){
 			<div class="row">
 				<div class="col-lg-9">
 
-					<label> 기간(시작-끝) </label> <input id="datepicker1"  class="commoninput" name="startDate" id="startDate"
-						value="${startDate}"> ~ <input id="datepicker2"  class="commoninput" name="endDate" id="endDate" value="${endDate}">
+					<label> 기간(시작-끝) </label> <input id="datepicker1"   name="startDate" id="startDate"
+						value="${startDate}"> ~ <input id="datepicker2"   name="endDate" id="endDate" value="${endDate}">
 				</div>
 				<div class="col-lg-3">
 					<div id="column-right">

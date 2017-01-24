@@ -28,7 +28,7 @@
 								<label> 출금일 선택 : </label>
 
 								&nbsp;
-								<select id="paymentDay" name="paymentDay" class="commoninput">
+								<select id="paymentDay" name="paymentDay" >
 									<option value="20" ${ paymentDay == 20 ? "selected" : ""}> 20일 </option>
 									<option value="25" ${ paymentDay == 25 ? "selected" : ""}> 25일 </option>
 								</select>
@@ -39,7 +39,7 @@
 								<div class="form-inline">
 								<div id="column-right">
 
-									<input name="paymentDate" class="commoninput" id="datepicker1"/>
+									<input name="paymentDate"  id="datepicker1"/>
 									<button type="submit" class="btn btn-info" name="cmd" value="createEB21file">EB21
 
 										생성</button>

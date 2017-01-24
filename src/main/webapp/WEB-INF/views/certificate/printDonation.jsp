@@ -65,18 +65,18 @@ iframe { width:800px; border: 1px solid #ddd; height:900px; }
 						<tr>
 							<td id="table_a">일련번호</td>
 
-							<td id="table_b"><input type="text" id="serialNo" class="commoninput" name="serialNo"
+							<td id="table_b"><input type="text" id="serialNo"  name="serialNo"
 								value="${serialNo}" readonly /></td>
 
 						</tr>
 						<tr>
 							<td id="table_a">후원자명</td>
-							<td id="table_b"><input type="text" id="sponsorName" class="commoninput" name="sponsorName"/></td>
+							<td id="table_b"><input type="text" id="sponsorName"  name="sponsorName"/></td>
 						</tr>
 						<tr>
 							<td id="table_a">약정액</td>
 
-							<td id="table_b"><input type="text" id="amount" class="money commoninput" 
+							<td id="table_b"><input type="text" id="amount" class="money " 
 								name="amount"/></td>
 						</tr>
 						<tr>

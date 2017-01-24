@@ -28,8 +28,8 @@
 							</div>
 
 							<div class="controls">							
-								<input type="text" class="commoninput" name="loginName" placeholder="아이디" /> 
-								<input type="password" class="commoninput" name="password" placeholder="비밀번호" />
+								<input type="text"  name="loginName" placeholder="아이디" /> 
+								<input type="password"  name="password" placeholder="비밀번호" />
 								<button type="submit" class="btn btn-primary">로그인 </button>
 								<c:if test="${user.loginCheck==false}">
 								    <p style="color:red;">

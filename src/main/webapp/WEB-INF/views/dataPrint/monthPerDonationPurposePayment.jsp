@@ -39,8 +39,8 @@ a2{ float:right; }
    <form method="post">
       <div class="row">
          <div class="col-lg-9">
-            <label> 기간(시작-끝) </label> <input id="datepicker1" class="commoninput" name="startDate" value="${startDate}">
-            ~ <input id="datepicker2" class="commoninput" name="endDate" value="${endDate}">
+            <label> 기간(시작-끝) </label> <input id="datepicker1"  name="startDate" value="${startDate}">
+            ~ <input id="datepicker2"  name="endDate" value="${endDate}">
          </div>
          <div class="col-lg-3">
             <div id="column-right">

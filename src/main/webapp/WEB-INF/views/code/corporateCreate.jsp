@@ -40,17 +40,17 @@ table.table {
 		<table class="table">
 			<tr>
 				<td id="table_a">이름</td>
-				<td><input type="text" name="name" class="commoninput" /><br>
+				<td><input type="text" name="name"  /><br>
 				<form:errors path="name"/></td>
 			</tr>
 			<tr>
 				<td id="table_a">기관번호</td>
-				<td><input type="text" name="corporateNo" class="commoninput" /><br>
+				<td><input type="text" name="corporateNo"  /><br>
 				<form:errors path="corporateNo"/></td>
 			</tr>
 			<tr>
 				<td id="table_a">대표자명</td>
-				<td><input type="text" name="representative" class="commoninput" /><br>
+				<td><input type="text" name="representative"  /><br>
 				<form:errors path="representative"/>
 				</td>
 			</tr>
@@ -59,8 +59,8 @@ table.table {
 				<td>
 				<input type="text" name="postNum" id="sample6_postcode" class="post" placeholder="우편번호">
 				<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
-				<input type="text" class="commoninput" name="address1" id="sample6_address" placeholder="주소">
-				<input type="text" class="commoninput" name="address2" id="sample6_address2" placeholder="상세주소">
+				<input type="text"  name="address1" id="sample6_address" placeholder="주소">
+				<input type="text"  name="address2" id="sample6_address2" placeholder="상세주소">
 				<br>
 				<input type="hidden" name="address" />
 				<form:errors path="address"/>

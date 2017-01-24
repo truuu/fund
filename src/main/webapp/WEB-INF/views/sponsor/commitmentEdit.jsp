@@ -114,28 +114,28 @@ tr#topTable td, tr#topTable th{
 						<td id="table_a">기부목적</td>
 						<td><form:form method="post">
 						<div class="form-inline">
-							 <input type="text" name="dname" class="commoninput" readonly value="${commitment.name}" />
+							 <input type="text" name="dname"  readonly value="${commitment.name}" />
 								<a id="searched1" href="#searchDialog" class="btn btn-default" data-toggle="modal">검색</a> 
 								<input type="hidden" name="donationPurposeID" id="donationPurposeID"  value="${commitment.donationPurposeID }" />
 							</div>
 							</form:form>
 						</td>
 						<td id="table_a">기부기관</td>
-						<td style="vertical-align: middle;"><input type="text" class="commoninput" 
+						<td style="vertical-align: middle;"><input type="text"  
 							name="corporateName" readonly value="${commitment.corporateName}" /></td>
 					</tr>
 					
 					<tr>
 						<td id="table_a">약정일자</td>
-						<td><input id="datepicker1" class="commoninput" name="commitmentDate" value="${commitment.commitmentDate}" /></td>
+						<td><input id="datepicker1"  name="commitmentDate" value="${commitment.commitmentDate}" /></td>
 						<td id="table_a">시작일</td>
-						<td><input id="datepicker2" class="commoninput" name="startDate" value="${commitment.startDate}" /></td>
+						<td><input id="datepicker2"  name="startDate" value="${commitment.startDate}" /></td>
 						<td id="table_a">종료일</td>
-						<td><input id="datepicker3" class="commoninput" name="endDate" value="${commitment.endDate}" /></td>
+						<td><input id="datepicker3"  name="endDate" value="${commitment.endDate}" /></td>
 					</tr>
 					<tr>
 						<td id="table_a">비고</td>
-						<td colspan="3"><input name="etc" class="commoninput" size="100" value="${commitment.etc }" /></td>
+						<td colspan="3"><input name="etc"  size="100" value="${commitment.etc }" /></td>
 						<td id="table_a">약정종료</td>
 						<td><button type="button" id="endCommitment" onclick="end()">종료하기</button></td>
 					</tr>
@@ -156,24 +156,24 @@ tr#topTable td, tr#topTable th{
 			<tbody>
 				<tr>
 					<td id="table_a">1회납입액</td>
-					<td><input type="text" class="money commoninput" name="amountPerMonth" value="${ commitmentDetail.amountPerMonth }" /></td>
+					<td><input type="text" class="money " name="amountPerMonth" value="${ commitmentDetail.amountPerMonth }" /></td>
 					<td id="table_a">결제일</td>
-					<td><select name="paymentDay" class="commoninput" ><option value="20" ${commitmentDetail.paymentDay == 20 ? "selected" : "" }>20일</option>
+					<td><select name="paymentDay"  ><option value="20" ${commitmentDetail.paymentDay == 20 ? "selected" : "" }>20일</option>
 									<option value="25" ${commitmentDetail.paymentDay == 25 ? "selected" : "" }>25일</option></select></td>
 					<td id="table_a">은행명</td>
-					<td><select name="bankID" class="commoninput">
+					<td><select name="bankID" >
 									<option value="0">선택</option>
 									<c:forEach var="bank" items="${bankList}">
 										<option value="${bank.ID}" ${commitmentDetail.bankID==bank.ID ? "selected" : "" }>${bank.codeName}</option>
 									</c:forEach>
 						</select></td>
 					<td id="table_a">계좌번호</td>
-					<td><input type="text" class="commoninput" name="accountNo" value="${ commitmentDetail.accountNo }" /></td>
+					<td><input type="text"  name="accountNo" value="${ commitmentDetail.accountNo }" /></td>
 				</tr>
 				<tr>
 
 					<td id="table_a">예금주</td>
-					<td><input type="text" class="commoninput" name="accountHolder" value="${ commitmentDetail.accountHolder }" /></td>
+					<td><input type="text"  name="accountHolder" value="${ commitmentDetail.accountHolder }" /></td>
 					<td id="table_a">약정금액</td>
 					<td class="money">
 					
@@ -184,9 +184,9 @@ tr#topTable td, tr#topTable th{
 					
 					</td>
 					<td id="table_a">시작일</td>
-					<td><input type="date" class="commoninput" name="startDate" value="${ commitmentDetail.startDate }" ></td>
+					<td><input type="date"  name="startDate" value="${ commitmentDetail.startDate }" ></td>
 					<td id="table_a">비고</td>
-					<td colspan="3"><input type="text" class="commoninput" name="etc" value="${ commitmentDetail.etc }" /></td>
+					<td colspan="3"><input type="text"  name="etc" value="${ commitmentDetail.etc }" /></td>
 				</tr>
 
 			</tbody>
@@ -204,28 +204,28 @@ tr#topTable td, tr#topTable th{
 			<tbody>
 				<tr>
 					<td id="table_a">1회납입액</td>
-					<td><input type="text" class="money commoninput" name="amount2" value="${newCommitmentDetail.amount2}" />
+					<td><input type="text" class="money " name="amount2" value="${newCommitmentDetail.amount2}" />
 					<br>${err2}</td>
 					<td id="table_a">결제일</td>
-					<td><select name="paymentDay" class="commoninput" ><option value="20">20일</option>
+					<td><select name="paymentDay"  ><option value="20">20일</option>
 							<option value="25">25일</option></select></td>
 					<td id="table_a">은행명</td>
-					<td><select name="bankID" class="commoninput">
+					<td><select name="bankID" >
 							<c:forEach var="bank" items="${bankList}">
 								<option value="${bank.ID}">${bank.codeName}</option>
 							</c:forEach>
 					</select></td>
 					<td id="table_a">계좌번호</td>
-					<td><input name="accountNo" type="text" class="commoninput" value="${newCommitmentDetail.accountNo}" /></td>
+					<td><input name="accountNo" type="text"  value="${newCommitmentDetail.accountNo}" /></td>
 				</tr>
 				<tr>
 					<td id="table_a">예금주</td>
-					<td><input name="accountHolder" class="commoninput" type="text" value="${newCommitmentDetail.accountHolder}" /></td>
+					<td><input name="accountHolder"  type="text" value="${newCommitmentDetail.accountHolder}" /></td>
 					<td id="table_a">시작일</td>
-					<td><input type="date" class="commoninput" name="startDate" value="${newCommitmentDetail.startDate}">
+					<td><input type="date"  name="startDate" value="${newCommitmentDetail.startDate}">
 					<br>${err1}</td>
 					<td id="table_a">비고</td>
-					<td colspan="3"><input size="50" id="etc"  class="commoninput" type="text"
+					<td colspan="3"><input size="50" id="etc"   type="text"
 						name="etc" value="${newCommitmentDetail.etc}" ></td>
 				</tr>
 			</tbody>

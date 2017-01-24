@@ -1,10 +1,10 @@
 package fund.dto;
 
 import java.util.Date;
-import fund.service.AES128UtilService;
+import fund.service.EncryptService;
 
 public class EB21_commitmentDetail {
-	AES128UtilService cipherService=new AES128UtilService(); //¾ç¹æÇâ ¾ÏÈ£È­ ¼­ºñ½º
+	EncryptService cipherService=new EncryptService(); //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½
 	
 	int ID;
 	int EB21ID;

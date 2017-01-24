@@ -2,10 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<style>
-    select.sponsorType { margin-left: 20px; }
-</style>
-
 <h1>후원인 목록</h1>
 <hr />
 
@@ -25,19 +21,19 @@
         </form:select>
         <form:input path="st" />
         
-        <form:select path="st1" class="sponsorType">
-            <form:option value="0" label="후원인구분1" />
+        <form:select path="st1" class="ml10">
+            <form:option value="0" label="후원인구분1 " />
             <form:options itemValue="ID" itemLabel="codeName" items="${ sponsorType1Codes }" />         
         </form:select>
 
-        <form:select path="st2" class="sponsorType">
-            <form:option value="0" label="후원인구분2" />
+        <form:select path="st2" class="ml10 mr10">
+            <form:option value="0" label="후원인구분2 " />
             <form:options itemValue="ID" itemLabel="codeName" items="${ sponsorType2Codes }" />         
         </form:select>
         
-        <button type="submit" class="btn btn-small">검색</button>
+        <button type="submit" class="btn btn-small btn-info">검색</button>
         <c:if test="${ pagination.ss != 0 }">
-            <a href="list.do" class="btn btn-small">취소</a>
+            <a href="list.do" class="btn btn-small btn-default">취소</a>
         </c:if>
     </div>
 
@@ -57,7 +53,7 @@
       </thead>
       <tbody>
         <c:forEach var="sponsor" items="${list}">
-          <tr data-url="detail.do?id=${sponsor.id}">
+          <tr data-url="detail.do?id=${sponsor.id}&${pagination.queryString}">
             <td>${sponsor.sponsorNo}</td>
             <td>${sponsor.name}</td>
             <td>${sponsor.sponsorType1}</td>

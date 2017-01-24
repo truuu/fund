@@ -92,7 +92,7 @@ $(function() {
 <form method="post">
 	<div>
 		<p>기간과 발급일자를 입력해주세요. 입력한 기간에 납입된 내역에 대해 입력한 발급일자로 영수증이 발급됩니다.</p>
-		<p>기간 : <input class="commoninput" id="startDt" name="startDate" >~<input id="endDt" class="commoninput" name="endDate" >&nbsp; 발급일자 : <input class="commoninput" id="date" name="createDate" >
+		<p>기간 : <input  id="startDt" name="startDate" >~<input id="endDt"  name="endDate" >&nbsp; 발급일자 : <input  id="date" name="createDate" >
 			<input type="submit" class="btn btn-info"></p>
 	</div>
 </form>

@@ -38,17 +38,17 @@ table.table {
 	<table class="table">
 		<tr>
 			<td id="table_a">이름</td>
-			<td><form:input path="name" class="commoninput" /><br>
+			<td><form:input path="name"  /><br>
 			<form:errors path="name" /></td>
 		</tr>
 		<tr>
 			<td id="table_a">기관번호</td>
-			<td><form:input path="corporateNo" class="commoninput" /><br>
+			<td><form:input path="corporateNo"  /><br>
 			<form:errors path="corporateNo" /></td>
 		</tr>
 		<tr>
 			<td id="table_a">대표자명</td>
-			<td><form:input path="representative" class="commoninput" /><br>
+			<td><form:input path="representative"  /><br>
 			<form:errors path="representative" /></td>
 		</tr>
 		<tr>
@@ -56,8 +56,8 @@ table.table {
 				<td>
 				<input type="text" name="postNum" id="sample6_postcode" class="post" placeholder="우편번호" value="${post}" >
 				<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
-				<input type="text" name="address1" class="commoninput" id="sample6_address" placeholder="주소" value="${address2}" >
-				<input type="text" name="address2" class="commoninput" id="sample6_address2" placeholder="상세주소" value="${address1}" >
+				<input type="text" name="address1"  id="sample6_address" placeholder="주소" value="${address2}" >
+				<input type="text" name="address2"  id="sample6_address2" placeholder="상세주소" value="${address1}" >
 				<br>
 				<input type="hidden" name="address" />
 				<form:errors path="address"/>

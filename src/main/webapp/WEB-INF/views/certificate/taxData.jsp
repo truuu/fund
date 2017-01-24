@@ -86,10 +86,10 @@ td{ text-align:center; }
 	<div class="form-inline">
 	 <!--  기간과 기관 함께 검색  -->
 		기간:
-		<form:input class="commoninput" id="startDt" path="sd"/>~
-		<form:input class="commoninput" id="endDt" path="ed" />
+		<form:input  id="startDt" path="sd"/>~
+		<form:input  id="endDt" path="ed" />
 		기관종류: 
-		<form:select path="cp" class="commoninput" name="corporateID">
+		<form:select path="cp"  name="corporateID">
 			<form:options itemValue="ID" itemLabel="name" items="${ corporates }"/>
 		</form:select>
 

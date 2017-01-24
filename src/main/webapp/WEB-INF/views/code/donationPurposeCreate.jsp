@@ -28,7 +28,7 @@ table.table {
 			<tr>
 
 				<td id="table_a">기관</td>
-				<td><select name="corporateID" class="commoninput">
+				<td><select name="corporateID" >
 						<c:forEach var="corporate" items="${corporateList}">
 							<option value="${corporate.ID}">${corporate.name}</option>
 						</c:forEach>
@@ -36,7 +36,7 @@ table.table {
 			</tr>
 			<tr>
 				<td id="table_a">기관종류</td>
-				<td><select name="organizationID" class="commoninput">
+				<td><select name="organizationID" >
 						<c:forEach var="organization" items="${organizationList}">
 							<option value="${organization.ID}">${organization.codeName}</option>
 						</c:forEach>
@@ -44,12 +44,12 @@ table.table {
 			</tr>
 			<tr>
 				<td id="table_a">기부목적</td>
-				<td><input type="text" name="name" class="commoninput" /><br>
+				<td><input type="text" name="name"  /><br>
 				<form:errors path="name" /></td>
 			</tr>
 			<tr>
 				<td id="table_a">구분</td>
-				<td><input type="text" name="gubun" class="commoninput" /><br>
+				<td><input type="text" name="gubun"  /><br>
 				<form:errors path="gubun" /></td>
 			</tr>
 		</table>

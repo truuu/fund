@@ -59,14 +59,14 @@ td{
 
 
 		<div class="form-inline">
-			<form:select path="ss" id="search" class="msize commoninput">
+			<form:select path="ss" id="search" class="msize ">
 				<form:option value="0" label="검색조건" />
 				<form:option value="1" label="학번" />
 				<form:option value="2" label="이름" />
 				<form:option value="3" label="학과" />
 				<form:option value="4" label="발행일" />
 			</form:select>
-			<form:input path="st" class="commoninput" />
+			<form:input path="st"  />
 			<button type="submit" class="btn btn-primary">검색</button>
 			<a id="deleteBtn" onclick="deleteFunction()" class="btn btn-danger">삭제</a> <a
 				href="printScholarship.do" id="donationBtn"

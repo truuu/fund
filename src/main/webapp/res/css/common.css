@@ -1,8 +1,55 @@
-thead tr { background: #eee; }
-tbody tr[data-url]:hover { background-color: #ffa; cursor: pointer; }
-div.form-inline { margin-bottom: 5px; }
+body .mt4 { margin-top: 4px; }
+body .mt6 { margin-top: 6px; }
+body .mt8 { margin-top: 8px; }
+body .mb4 { margin-bottom: 4px; }
+body .mb6 { margin-bottom: 6px; }
+body .mb8 { margin-bottom: 8px; }
+body .ml5 { margin-left: 5px; }
+body .ml10 { margin-left: 10px; }
+body .ml15 { margin-left: 15px; }
+body .mr5 { margin-right: 5px; }
+body .mr10 { margin-right: 10px; }
+body .mr15 { margin-right: 15px; }
+
+body thead tr { background: #eee; }
+body tbody tr[data-url]:hover { background-color: #ffa; cursor: pointer; }
+body td.lb { background: #eee; text-align: right; width: }
+body table.lbw150 td.lb { width: 150px; }
+body table.lbw100 td.lb { width: 100px; }
+
+body select { border: 1px solid #aaa; padding: 4px; }
+body input { border: 1px solid #aaa; padding: 4px; }
+body textarea { border: 1px solid #aaa; padding: 4px; }
+
+/*****/
+body { font-size: 14px; font-family: 굴림체; }
+
 input[name=st] { width: 150px; }
 select[name=st] { width: 150px; }
 select[name=ss] { width: 100px; }
 select[name=sz] { width: 80px; float: right; }
 select[name=od] { width: 150px; margin-right: 100px; }
+
+/** internet explorer only **/ 
+input:-ms-input-placeholder { color: #aaa; }
+
+/** bootstrap override **/
+body input { line-height: 1em; }
+body select { line-height: 1em; }
+
+
+/** 로그인 **/
+.login {
+    width: 800px;
+    height: 400px;
+    border: 1px solid #ddd;
+    background-color: #eee;
+    margin-top: 100px;
+    padding: 50px 80px;
+    margin-left: 13%;   
+}
+
+.login .controls { margin-top: 40px; text-align: center; }
+.login .controls input { width: 170px; margin-top: 0; margin-bottom: 0; }
+.login .controls .btn { margin-top: 0; margin-bottom: 0; }
+
