@@ -36,11 +36,11 @@ $(function() {
 
 <ul class="nav nav-tabs">
   <c:if test="${ sponsor.id == 0 }">
-    <li class="active"><a href="/fund_sys/sponsor/sponsor.do" data-toggle="tab">회원정보</a></li>
+    <li class="active"><a href="/fund_sys/sponsor/sponsor.do" data-toggle="tab">후원인정보</a></li>
   </c:if>
 
   <c:if test="${sponsor.id != 0}">
-    <li class="active"><a href="/fund_sys/sponsor/detail.do?id=${sponsor.id}" data-toggle="tab">회원정보</a></li>
+    <li class="active"><a href="/fund_sys/sponsor/basicInfo.do?id=${sponsor.id}" data-toggle="tab">후원인정보</a></li>
   </c:if>
 
   <c:if test="${sponsor.id != 0}">

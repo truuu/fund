@@ -36,20 +36,3 @@ input:-ms-input-placeholder { color: #aaa; }
 /** bootstrap override **/
 body input { line-height: 1em; }
 body select { line-height: 1em; }
-
-
-/** 로그인 **/
-.login {
-    width: 800px;
-    height: 400px;
-    border: 1px solid #ddd;
-    background-color: #eee;
-    margin-top: 100px;
-    padding: 50px 80px;
-    margin-left: 13%;   
-}
-
-.login .controls { margin-top: 40px; text-align: center; }
-.login .controls input { width: 170px; margin-top: 0; margin-bottom: 0; }
-.login .controls .btn { margin-top: 0; margin-bottom: 0; }
-

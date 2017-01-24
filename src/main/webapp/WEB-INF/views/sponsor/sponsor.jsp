@@ -13,10 +13,10 @@
 	<p>${sponsor.sponsorNo}&nbsp;  ${sponsor.name}&nbsp;  ${sponsor.sponsorType1}&nbsp;</p>
 					<ul class="nav nav-tabs">
 					<c:if test="${sponsor.id==0}">
-					<li class="active"><a href="/fund_sys/sponsor/sponsor.do" data-toggle="tab">회원관리</a></li>
+					<li class="active"><a href="/fund_sys/sponsor/sponsor.do" data-toggle="tab">후원인정보</a></li>
 					</c:if>
 					<c:if test="${sponsor.id!=0}">
-						<li class="active"><a href="/fund_sys/sponsor/detail.do?id=${sponsor.id}" data-toggle="tab">회원관리</a></li>
+						<li class="active"><a href="/fund_sys/sponsor/basicInfo.do?id=${sponsor.id}" data-toggle="tab">후원인정보</a></li>
 				    </c:if>
 					<c:if test="${sponsor.id!=0}">
 						<li><a href="/fund_sys/sponsor/commitment.do?id=${sponsor.id}">약정관리</a></li>

@@ -86,10 +86,10 @@ tr#topTable td, tr#topTable th {
 <ul class="nav nav-tabs">
 	<c:if test="${sponsorID==0}">
 		<li class="active"><a href="/fund_sys/sponsor/sponsor.do"
-			data-toggle="tab">회원관리</a></li>
+			data-toggle="tab">후원인정보</a></li>
 	</c:if>
 	<c:if test="${sponsorID!=0}">
-		<li><a href="/fund_sys/sponsor/detail.do?id=${sponsorID}">회원관리</a></li>
+		<li><a href="/fund_sys/sponsor/basicInfo.do?id=${sponsorID}">후원인정보</a></li>
 	</c:if>
 	<c:if test="${sponsorID!=0}">
 		<li><a href="/fund_sys/sponsor/commitment.do?id=${sponsorID}">약정관리</a></li>

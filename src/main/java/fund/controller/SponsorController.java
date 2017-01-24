@@ -68,8 +68,8 @@ public class SponsorController extends BaseController{
 	    return "sponsor/list";
 	}
 
-    @RequestMapping("/sponsor/detail.do")
-    public String sponsorDetail(@RequestParam("id")int id, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception{
+    @RequestMapping("/sponsor/basicInfo.do")
+    public String basicInfo(@RequestParam("id")int id, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception{
         Sponsor sponsor=sponsorMapper.selectBySponsorNo(id);
         SponsorService.decryptJuminNo(sponsor);
 
@@ -88,7 +88,7 @@ public class SponsorController extends BaseController{
         model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));
         model.addAttribute("files", fileAttachmentMapper.selectBySponosrId(id));
 
-        return "sponsor/edit";
+        return "sponsor/basicInfo";
     }
 
     @RequestMapping("/sponsor/encryptNo.do")
@@ -288,7 +288,7 @@ public class SponsorController extends BaseController{
         }
         catch(DataIntegrityViolationException e){
              redirectAttributes.addFlashAttribute("errorMsg","해당 약정에 납입내역이나 약정상세가 있어 삭제할 수 없습니다.");
-             return "redirect:/sponsor/detail.do?id="+id;
+             return "redirect:/sponsor/basicInfo.do?id="+id;
         }
 		//sponsorMapper.removeSponsor(sponsorNo);
 		return "redirect:/sponsor/list.do";
@@ -361,7 +361,7 @@ public class SponsorController extends BaseController{
 			file.setFilesize((int)uploadedFile.getSize());			file.setData(uploadedFile.getBytes());
 			fileAttachmentMapper.insert(file);
 		}
-		return "redirect:/sponsor/detail.do?id=" + sid;
+		return "redirect:/sponsor/basicInfo.do?id=" + sid;
 	}
 
 	//파일 다운로드
@@ -381,7 +381,7 @@ public class SponsorController extends BaseController{
 	@RequestMapping(value="sponsor/fileDelete.do",method=RequestMethod.GET)
 	public String fileDelete(@RequestParam("id") int id, @RequestParam("sid") int sid)throws IOException{
 		fileAttachmentMapper.deleteById(id);
-		return "redirect:/sponsor/detail.do?id=" + sid;
+		return "redirect:/sponsor/basicInfo.do?id=" + sid;
 	}
 
 	//- 후원인구분2별 출연내역 -
