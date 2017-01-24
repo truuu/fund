@@ -31,34 +31,15 @@ $(function() {
 });
 </script>
 
-<h2>${sponsor.name} <small>${sponsor.sponsorNo}</small></h2>
-<br />
-
-<ul class="nav nav-tabs">
-  <c:if test="${ sponsor.id == 0 }">
-    <li class="active"><a href="/fund_sys/sponsor/sponsor.do" data-toggle="tab">후원인정보</a></li>
-  </c:if>
-
-  <c:if test="${sponsor.id != 0}">
-    <li class="active"><a href="/fund_sys/sponsor/basicInfo.do?id=${sponsor.id}" data-toggle="tab">후원인정보</a></li>
-  </c:if>
-
-  <c:if test="${sponsor.id != 0}">
-    <li><a href="/fund_sys/sponsor/commitment.do?id=${sponsor.id}">약정관리</a></li>
-    <li><a href="/fund_sys/sponsor/paymentList.do?id=${sponsor.id}">정기납입관리</a></li>
-    <li><a href="/fund_sys/sponsor/paymentList2.do?id=${sponsor.id}">비정기납입관리</a></li>
-    <li><a href="/fund_sys/sponsor/insertIrrgularPayment.do?id=${sponsor.id}">비정기납입등록</a></li>
-  </c:if>
-</ul>
+<c:set var="tab1" value="active" /> 
+<%@include file="_tab.jsp" %>
 
 <form:form method="post" action="sponsorInsert.do" id="target" modelAttribute="sponsor">
 
-<div class="row">
-  <div class="pull-right mt4 mb4">
-    <button class="btn btn-primary" type="submit">저장</button>
-    <a href="delete.do?id=${ sponsor.id }" class="btn btn-danger" data-confirm-delete>삭제</a>
-    <a href="list.do?${ pagination.queryString }" class="btn btn-info">목록으로</a>
-  </div>
+<div class="pull-right mt4 mb4">
+  <button class="btn btn-primary" type="submit">저장</button>
+  <a href="delete.do?id=${ sponsor.id }" class="btn btn-danger" data-confirm-delete>삭제</a>
+  <a href="list.do?${ pagination.queryString }" class="btn btn-info">후원인 목록</a>
 </div>
 
 <table class="table table-bordered lbw150">
@@ -149,7 +130,7 @@ $(function() {
     <table class="table table-bordered lbw150">
       <tr>
         <td class="lb">직장</td>
-        <td><input  type="text" name="company" value="${ sponsor.company}" />
+        <td><input type="text" name="company" value="${ sponsor.company}" class="w300" />
           <span class="sponsorError"><form:errors path="company" /></span></td>
       </tr>
       <tr>

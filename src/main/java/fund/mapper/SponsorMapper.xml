@@ -352,12 +352,6 @@
      #{startDate} and #{endDate} group by sponsorType2ID;
 	</select>
 
-	<select id="selectBySponsorNo2" resultType="String">
-	   select sponsorNo
-	   from Sponsor
-	   where id=#{id}	
-	</select>
-    
     <select id="selectNotEncrypted" resultType="fund.dto.Sponsor">
      <![CDATA[
         select *

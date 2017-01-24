@@ -4,62 +4,49 @@
 
 <mapper namespace="fund.mapper.DonationPurposeMapper">
 
-	<select id="selectDonationPurpose" resultType="fund.dto.DonationPurpose">
-		select d.*,c1.codeName,c2.name "corporateName"
-		from DonationPurpose d left
-		join Code c1 on d.organizationID=c1.ID
-		left join Corporate c2 on
-		d.corporateID=c2.ID
+	<select id="selectAll" resultType="fund.dto.DonationPurpose">
+		select d.*, c1.codeName, c2.name "corporateName"
+		from DonationPurpose d 
+             left join Code c1 on d.organizationID = c1.ID
+		     left join Corporate c2 on d.corporateID=c2.ID
 		order by c2.ID, c1.ID, d.ID
 	</select>
 
-	<select id="selectDonationPurpose2" resultType="String">
-		select name
-		from donationPurpose
-		where ID=#{ID}
-
-	</select>
-	
 	<select id="selectByName" resultType="fund.dto.DonationPurpose">
 		select *
 		from donationPurpose
-		where name=#{name}
+		where name = #{name}
 	</select>
 	
 	<select id="selectCoporateName" resultType="String">
       select c2.name 
       from [DonationPurpose] d join [Corporate] c2 on d.corporateID = c2.ID
-      where d.ID=#{ID}
+      where d.ID = #{ID}
    </select>
 
 
 	<select id="selectByID" resultType="fund.dto.DonationPurpose">
 		SELECT *
-		FROM
-		[DonationPurpose]
+		FROM [DonationPurpose]
 		WHERE ID = #{ID}
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
-		INSERT
-		[DonationPurpose]
-		(corporateID, organizationID, name, gubun)
-		VALUES
-		(#{corporateID},#{organizationID},#{name},#{gubun})
+		INSERT [DonationPurpose] (corporateID, organizationID, name, gubun)
+		VALUES (#{corporateID}, #{organizationID}, #{name}, #{gubun})
 	</insert>
 
 	<update id="update">
 		UPDATE [DonationPurpose]
-		SET corporateID =
-		#{corporateID}, organizationID = #{organizationID},
-		name = #{name},
-		gubun = #{gubun}
+		SET corporateID = #{corporateID}, 
+            organizationID = #{organizationID},
+		    name = #{name},
+		    gubun = #{gubun}
 		WHERE ID = #{ID}
 	</update>
 
 	<delete id="delete">
 		DELETE FROM [DonationPurpose] WHERE ID = #{ID}
 	</delete>
-	
 
 </mapper>

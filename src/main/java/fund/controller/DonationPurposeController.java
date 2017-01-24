@@ -1,9 +1,7 @@
 package fund.controller;
 
 import java.io.UnsupportedEncodingException;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -12,11 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import fund.BaseController;
-import fund.dto.Corporate;
 import fund.dto.DonationPurpose;
-import fund.dto.Pagination;
 import fund.mapper.CodeMapper;
 import fund.mapper.CorporateMapper;
 import fund.mapper.DonationPurposeMapper;
@@ -34,7 +29,7 @@ public class DonationPurposeController extends BaseController{
 	@Secured("ROLE_true")
 	@RequestMapping("/code/donationPurposeList.do")
 	public String codeList(Model model) {
-		model.addAttribute("list",donationPurposeMapper.selectDonationPurpose());
+		model.addAttribute("list",donationPurposeMapper.selectAll());
 		return "code/donationPurposeList";
 	}
 
@@ -53,10 +48,10 @@ public class DonationPurposeController extends BaseController{
 		if(codeService.validate(donationPurpose)==true)
 		{
 			donationPurposeMapper.insert(donationPurpose);
-			
-		}	
+
+		}
 		else if(result.hasErrors()) {
-	
+
 			model.addAttribute("corporateList",corporateMapper.selectCorporate());
 			model.addAttribute("organizationList",codeMapper.selectByCodeGroupID(7));
 
@@ -83,21 +78,21 @@ public class DonationPurposeController extends BaseController{
 	@RequestMapping(value="/code/donationPurposeEdit.do", method=RequestMethod.POST)
 	public String edit(@Valid DonationPurpose donationPurpose,BindingResult result,Model model)
 			throws UnsupportedEncodingException {
-		
+
 		if(codeService.validate(donationPurpose)==true)
 		{
 			donationPurposeMapper.update(donationPurpose);
-			
-		}	
+
+		}
 		else if(result.hasErrors()) {
-	
+
 			model.addAttribute("corporateList",corporateMapper.selectCorporate());
 			model.addAttribute("organizationList",codeMapper.selectByCodeGroupID(7));
 
 			return "code/donationPurposeEdit";
 
 		}
-		
+
 		return "redirect:/code/donationPurposeList.do";
 	}
 

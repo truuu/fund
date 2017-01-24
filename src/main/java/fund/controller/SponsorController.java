@@ -56,6 +56,7 @@ public class SponsorController extends BaseController{
 	@Autowired FileExtFilter fileExtFilter;
 
 
+	// 후원인 목록
 	@RequestMapping("/sponsor/list.do")
 	public String list(Model model, @ModelAttribute("pagination") PaginationSponsor pagination) {
 	    List<Sponsor> list = sponsorMapper.selectPage(pagination);
@@ -68,6 +69,7 @@ public class SponsorController extends BaseController{
 	    return "sponsor/list";
 	}
 
+	// 후원인 기본정보
     @RequestMapping("/sponsor/basicInfo.do")
     public String basicInfo(@RequestParam("id")int id, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception{
         Sponsor sponsor=sponsorMapper.selectBySponsorNo(id);
@@ -91,6 +93,7 @@ public class SponsorController extends BaseController{
         return "sponsor/basicInfo";
     }
 
+    // 주민등록번호 암호화 되지 않은 후원인 암호화
     @RequestMapping("/sponsor/encryptNo.do")
     public String encryptNo(Model model) throws Exception {
         System.out.println("a");
@@ -238,8 +241,6 @@ public class SponsorController extends BaseController{
 		model.addAttribute("sponsor", sponsor);
 		List<Payment> paymentList = paymentMapper.selectPaymentRegular(id);
 		model.addAttribute("paymentList", paymentList);
-		model.addAttribute("sponsorID",id);
-		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
 		return "sponsor/paymentList";
 	}
 
@@ -249,8 +250,6 @@ public class SponsorController extends BaseController{
 		model.addAttribute("sponsor", sponsor);
 		List<Payment> paymentList2 = paymentMapper.selectPaymentIrregular(id);
 		model.addAttribute("paymentList2", paymentList2);
-		model.addAttribute("sponsorID",id);
-		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
 		return "sponsor/paymentList2";
 	}
 
@@ -259,8 +258,7 @@ public class SponsorController extends BaseController{
 		Sponsor sponsor=sponsorMapper.selectBySponsorNo(id);
 		model.addAttribute("sponsor", sponsor);
 		model.addAttribute("sponsorID",id);
-		model.addAttribute("sponsorNo",sponsorMapper.selectBySponsorNo2(id));
-		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
+		model.addAttribute("donationPurposeList",donationPurposeMapper.selectAll());
 
 		return "sponsor/insertIrrgularPayment";
 	}

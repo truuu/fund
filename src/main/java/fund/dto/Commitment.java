@@ -1,129 +1,186 @@
 package fund.dto;
 
-import java.util.Date;
+public class Commitment {
+    int ID;
+    int sponsorID;
+    String commitmentNo;
+    int donationPurposeID;
+    int paymentMethodID;
+    String commitmentDate;
+    String startDate;
+    String endDate;
+    int amountPerMonth;
+    int paymentDay;
+    int bankID;
+    String accountNo;
+    String accountHodler;
+    String etc;
 
-public class Commitment{
-	int ID;
-	int sponsorID;
-	String commitmentNo;
-	int donationPurposeID;
-	int paymentMethodID;
-	String commitmentDate;
-	String startDate;
-	String endDate;
-	String etc;
-	String name;//donationPurpose name
-	String codeName; // paymentMethodID
-	String sponsorNo; 
-	String state;
-	String corporateName; //corporateName
-	int month;
-	
-	String donationPurposeName;
-	
-	
-	public int getMonth() {
-		return month;
-	}
-	public void setMonth(int month) {
-		this.month = month;
-	}
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
-	}
-	
-	public int getID() {
-		return ID;
-	}
-	public void setID(int iD) {
-		ID = iD;
-	}
-	public int getSponsorID() {
-		return sponsorID;
-	}
-	public void setSponsorID(int sponsorID) {
-		this.sponsorID = sponsorID;
-	}
-	public String getCommitmentNo() {
-		return commitmentNo;
-	}
-	public void setCommitmentNo(String commitmentNo) {
-		this.commitmentNo = commitmentNo;
-	}
-	public int getDonationPurposeID() {
-		return donationPurposeID;
-	}
-	public void setDonationPurposeID(int donationPurposeID) {
-		this.donationPurposeID = donationPurposeID;
-	}
-	public int getPaymentMethodID() {
-		return paymentMethodID;
-	}
-	public void setPaymentMethodID(int paymentMethodID) {
-		this.paymentMethodID = paymentMethodID;
-	}
+    String paymentMethodName;
+    String donationPurposeName;
+    String corporateName;
+    String organizationName;
+    String state;
+    int months;
 
-	public String getCommitmentDate() {
-		return commitmentDate;
-	}
-	public void setCommitmentDate(String commitmentDate) {
-		this.commitmentDate = commitmentDate;
-	}
-	public String getStartDate() {
-		return startDate;
-	}
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
+    public int getID() {
+        return ID;
+    }
 
+    public void setID(int iD) {
+        ID = iD;
+    }
 
-	public String getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
-	public String getEtc() {
-		return etc;
-	}
-	public void setEtc(String etc) {
-		this.etc = etc;
-	}
-	public String getDonationPurposeName() {
-		return donationPurposeName;
-	}
-	public void setDonationPurposeName(String donationPurposeName) {
-		this.donationPurposeName = donationPurposeName;
-	}
+    public int getSponsorID() {
+        return sponsorID;
+    }
 
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getCodeName() {
-		return codeName;
-	}
-	public void setCodeName(String codeName) {
-		this.codeName = codeName;
-	}
-	public String getSponsorNo() {
-		return sponsorNo;
-	}
-	public void setSponsorNo(String sponsorNo) {
-		this.sponsorNo = sponsorNo;
-	}
-	public String getCorporateName() {
-		return corporateName;
-	}
-	public void setCorporateName(String corporateName) {
-		this.corporateName = corporateName;
-	}
-	
+    public void setSponsorID(int sponsorID) {
+        this.sponsorID = sponsorID;
+    }
 
-	
+    public String getCommitmentNo() {
+        return commitmentNo;
+    }
+
+    public void setCommitmentNo(String commitmentNo) {
+        this.commitmentNo = commitmentNo;
+    }
+
+    public int getDonationPurposeID() {
+        return donationPurposeID;
+    }
+
+    public void setDonationPurposeID(int donationPurposeID) {
+        this.donationPurposeID = donationPurposeID;
+    }
+
+    public int getPaymentMethodID() {
+        return paymentMethodID;
+    }
+
+    public void setPaymentMethodID(int paymentMethodID) {
+        this.paymentMethodID = paymentMethodID;
+    }
+
+    public String getCommitmentDate() {
+        return commitmentDate;
+    }
+
+    public void setCommitmentDate(String commitmentDate) {
+        this.commitmentDate = commitmentDate;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public int getAmountPerMonth() {
+        return amountPerMonth;
+    }
+
+    public void setAmountPerMonth(int amountPerMonth) {
+        this.amountPerMonth = amountPerMonth;
+    }
+
+    public int getPaymentDay() {
+        return paymentDay;
+    }
+
+    public void setPaymentDay(int paymentDay) {
+        this.paymentDay = paymentDay;
+    }
+
+    public int getBankID() {
+        return bankID;
+    }
+
+    public void setBankID(int bankID) {
+        this.bankID = bankID;
+    }
+
+    public String getAccountNo() {
+        return accountNo;
+    }
+
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
+    }
+
+    public String getAccountHodler() {
+        return accountHodler;
+    }
+
+    public void setAccountHodler(String accountHodler) {
+        this.accountHodler = accountHodler;
+    }
+
+    public String getEtc() {
+        return etc;
+    }
+
+    public void setEtc(String etc) {
+        this.etc = etc;
+    }
+
+    public String getPaymentMethodName() {
+        return paymentMethodName;
+    }
+
+    public void setPaymentMethodName(String paymentMethodName) {
+        this.paymentMethodName = paymentMethodName;
+    }
+
+    public String getDonationPurposeName() {
+        return donationPurposeName;
+    }
+
+    public void setDonationPurposeName(String donationPurposeName) {
+        this.donationPurposeName = donationPurposeName;
+    }
+
+    public String getCorporateName() {
+        return corporateName;
+    }
+
+    public void setCorporateName(String corporateName) {
+        this.corporateName = corporateName;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public int getMonths() {
+        return months;
+    }
+
+    public void setMonths(int months) {
+        this.months = months;
+    }
+
 }

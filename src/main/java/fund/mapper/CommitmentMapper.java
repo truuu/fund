@@ -1,18 +1,19 @@
 package fund.mapper;
-import java.util.*;
+
+import java.util.List;
 import fund.dto.Commitment;
+
 public interface CommitmentMapper {
 
-	List<Commitment> selectCommitmentBySponsorNo(String sponsorNo);
+    Commitment selectByID(int ID);
 	Commitment selectByCommitmentNo(String commitmentNo);
-	Commitment selectIDBySponsorNo(String sponsorNo);
-	Commitment selectByID(int ID);
+
+	Commitment selectBySponsorAndPaymentMethod(String sponsorNo, int paymentMethodID);
 	List<Commitment> selectBySponsorID(int ID);
+
 	void insert(Commitment commitment);
 	void update(Commitment commitment);
 	void delete(int ID);
 	void updateEndDate(int ID);
-	int selectCountCommitment(int sponsorID);
-	
 }
 

@@ -3,13 +3,10 @@ package fund.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.stereotype.Controller;
@@ -17,13 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-
 import fund.BaseController;
 import fund.dto.Payment;
 import fund.dto.PaymentRecordStats;
 import fund.dto.PaymentSummary1;
-import fund.dto.Sponsor;
 import fund.mapper.CodeMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
@@ -31,7 +25,6 @@ import fund.mapper.SponsorMapper;
 import fund.service.ReportBuilder;
 import fund.service.ReportBuilder3;
 import net.sf.jasperreports.engine.JRException;
-import fund.dto.EB13_CommitmentDetail;
 
 @Controller
 public class PaymentController extends BaseController{
@@ -41,14 +34,14 @@ public class PaymentController extends BaseController{
 	@Autowired SponsorMapper sponsorMapper;
 	@Autowired SimpleDriverDataSource dataSource;
 
-	@RequestMapping(value="/dataPrint/donationPurposeStats.do", method=RequestMethod.GET)  
-	public String donationPurposeStats(Model model) {     
+	@RequestMapping(value="/dataPrint/donationPurposeStats.do", method=RequestMethod.GET)
+	public String donationPurposeStats(Model model) {
 
 		return "dataPrint/donationPurposeStats";
 	}
 
-	@RequestMapping(value="/dataPrint/donationPurposeStats1.do")  
-	public String donationPurposeStats(Model model,@RequestParam String startDate,@RequestParam String endDate) {     
+	@RequestMapping(value="/dataPrint/donationPurposeStats1.do")
+	public String donationPurposeStats(Model model,@RequestParam String startDate,@RequestParam String endDate) {
 		List<Payment> list = paymentMapper.selectComparePaymentDate(startDate, endDate);
 		int totalSponsor=0;
 		int totalDonationPurpose=0;
@@ -97,11 +90,11 @@ public class PaymentController extends BaseController{
 		reportBuilder.build("xlsx");
 	}
 
-	@RequestMapping(value="/dataPrint/paymentRecordStats.do", method=RequestMethod.GET) 
-	public String paymentRecordStats(Model model) {     
+	@RequestMapping(value="/dataPrint/paymentRecordStats.do", method=RequestMethod.GET)
+	public String paymentRecordStats(Model model) {
 		model.addAttribute("sponsorType2List",codeMapper.selectByCodeGroupName("후원인구분2"));
 		model.addAttribute("churchList",codeMapper.selectByCodeGroupName("소속교회"));
-		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
+		model.addAttribute("donationPurposeList",donationPurposeMapper.selectAll());
 		String name1="정기 납입방법";
 		String name2="비정기 납입방법";
 		model.addAttribute("paymentMethodList",codeMapper.selectAllPaymentMethod(name1,name2));
@@ -110,10 +103,10 @@ public class PaymentController extends BaseController{
 
 	@RequestMapping(value="/dataPrint/paymentRecordStats.do",method=RequestMethod.POST) //납입 내역 조회
 	public String paymentRecordStats(Model model,PaymentRecordStats paymentRecordStats) {
-		
+
 		model.addAttribute("sponsorType2List",codeMapper.selectByCodeGroupName("후원인구분2"));
 		model.addAttribute("churchList",codeMapper.selectByCodeGroupName("소속교회"));
-		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
+		model.addAttribute("donationPurposeList",donationPurposeMapper.selectAll());
 		String name1="정기 납입방법";
 		String name2="비정기 납입방법";
 		model.addAttribute("paymentMethodList",codeMapper.selectAllPaymentMethod(name1,name2));
@@ -128,7 +121,7 @@ public class PaymentController extends BaseController{
 				model.addAttribute("gubun","비정기");
 		}
 		if(paymentRecordStats.getSrchType2()!=null){
-			model.addAttribute("donationPurpose",donationPurposeMapper.selectDonationPurpose2(paymentRecordStats.getSrchType2()));
+			model.addAttribute("donationPurpose", donationPurposeMapper.selectByID(paymentRecordStats.getSrchType2()));
 			model.addAttribute("corporateName",donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2()));
 		}
 		if(paymentRecordStats.getSrchType3()!=null)	{
@@ -162,7 +155,7 @@ public class PaymentController extends BaseController{
 			count++;
 		}
 		model.addAttribute("total",total);
-		model.addAttribute("count",count);	
+		model.addAttribute("count",count);
 		model.addAttribute("list",list);
 
 		return "dataPrint/paymentRecordStats";
@@ -179,11 +172,11 @@ public class PaymentController extends BaseController{
 				condition[0]="비정기";
 		}
 		if(paymentRecordStats.getSrchType2()!=null){
-			condition[3]=donationPurposeMapper.selectDonationPurpose2(paymentRecordStats.getSrchType2());
-			condition[5]=donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2());
+			condition[3] = donationPurposeMapper.selectByID(paymentRecordStats.getSrchType2()).getName();
+			condition[5] = donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2());
 		}
 		if(paymentRecordStats.getSrchType3()!=null)
-			condition[4]=codeMapper.selectCodeName(paymentRecordStats.getSrchType3());		
+			condition[4]=codeMapper.selectCodeName(paymentRecordStats.getSrchType3());
 		if(paymentRecordStats.getSrchType4()!=null)
 			condition[7]=codeMapper.selectCodeName(paymentRecordStats.getSrchType4());
 		if(paymentRecordStats.getSrchType5()!=null)
@@ -199,10 +192,10 @@ public class PaymentController extends BaseController{
 	}
 
 	@RequestMapping(value="/dataPrint/paymentTotalStats.do", method=RequestMethod.GET) // 납입 총계 조회
-	public String paymentTotalStats(Model model) { 
+	public String paymentTotalStats(Model model) {
 		model.addAttribute("sponsorType2List",codeMapper.selectByCodeGroupName("후원인구분2"));
 		model.addAttribute("churchList",codeMapper.selectByCodeGroupName("소속교회"));
-		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
+		model.addAttribute("donationPurposeList",donationPurposeMapper.selectAll());
 		String name1="정기 납입방법";
 		String name2="비정기 납입방법";
 		model.addAttribute("paymentMethodList",codeMapper.selectAllPaymentMethod(name1,name2));
@@ -210,11 +203,11 @@ public class PaymentController extends BaseController{
 		return "dataPrint/paymentTotalStats";
 	}
 
-	@RequestMapping(value="/dataPrint/paymentTotalStats.do", method=RequestMethod.POST) 
-	public String paymentTotalStats(Model model,PaymentRecordStats paymentRecordStats) { 
+	@RequestMapping(value="/dataPrint/paymentTotalStats.do", method=RequestMethod.POST)
+	public String paymentTotalStats(Model model,PaymentRecordStats paymentRecordStats) {
 		model.addAttribute("sponsorType2List",codeMapper.selectByCodeGroupName("후원인구분2"));
 		model.addAttribute("churchList",codeMapper.selectByCodeGroupName("소속교회"));
-		model.addAttribute("donationPurposeList",donationPurposeMapper.selectDonationPurpose());
+		model.addAttribute("donationPurposeList",donationPurposeMapper.selectAll());
 		String name1="정기 납입방법";
 		String name2="비정기 납입방법";
 		model.addAttribute("paymentMethodList",codeMapper.selectAllPaymentMethod(name1,name2));
@@ -231,7 +224,7 @@ public class PaymentController extends BaseController{
 				model.addAttribute("gubun","비정기");
 		}
 		if(paymentRecordStats.getSrchType2()!=null){
-			model.addAttribute("donationPurpose",donationPurposeMapper.selectDonationPurpose2(paymentRecordStats.getSrchType2()));
+			model.addAttribute("donationPurpose",donationPurposeMapper.selectByID(paymentRecordStats.getSrchType2()));
 			model.addAttribute("corporateName",donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2()));
 		}
 		if(paymentRecordStats.getSrchType3()!=null)	{
@@ -265,7 +258,7 @@ public class PaymentController extends BaseController{
 		}
 		model.addAttribute("total",total);
 		model.addAttribute("total2",total2);
-		model.addAttribute("count",count);	
+		model.addAttribute("count",count);
 		model.addAttribute("list",list);
 
 		return "dataPrint/paymentTotalStats";
@@ -282,7 +275,7 @@ public class PaymentController extends BaseController{
 				condition[0]="비정기";
 		}
 		if(paymentRecordStats.getSrchType2()!=null){
-			condition[3]=donationPurposeMapper.selectDonationPurpose2(paymentRecordStats.getSrchType2());
+			condition[3]=donationPurposeMapper.selectByID(paymentRecordStats.getSrchType2()).getName();
 			condition[5]=donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2());
 		}
 		if(paymentRecordStats.getSrchType3()!=null)
@@ -301,16 +294,16 @@ public class PaymentController extends BaseController{
 	}
 
 	@RequestMapping(value="/dataPrint/monthPerDonationPurposePayment.do", method=RequestMethod.GET) // 월별 기부목적별 납입현황
-	public String monthPerDonationPurposePayment(Model model) { 
-		
+	public String monthPerDonationPurposePayment(Model model) {
+
 		return "dataPrint/monthPerDonationPurposePayment";
 	}
-	
-	@RequestMapping(value="/dataPrint/monthPerDonationPurposePayment.do",method=RequestMethod.POST) 
-	public String monthPerDonationPurposePayment1(@RequestParam String startDate,@RequestParam String endDate,Model model) { 
-		
+
+	@RequestMapping(value="/dataPrint/monthPerDonationPurposePayment.do",method=RequestMethod.POST)
+	public String monthPerDonationPurposePayment1(@RequestParam String startDate,@RequestParam String endDate,Model model) {
+
 		List<PaymentSummary1> list = paymentMapper.selectMonthDonationPurposePayment(startDate, endDate);
-		
+
 		String corp = list.get(0).getCorporate();
 		for(int i=0 ; i<list.size() ; i++){
 			if(i>0){
@@ -320,7 +313,7 @@ public class PaymentController extends BaseController{
 					corp=list.get(i).getCorporate();
 			}
 		}
-		
+
 		String organ = list.get(0).getOrganization();
 		for(int i=0 ; i<list.size() ; i++){
 			if(i>0){
@@ -330,29 +323,29 @@ public class PaymentController extends BaseController{
 					organ=list.get(i).getOrganization();
 			}
 		}
-		
+
 		model.addAttribute("list",list);
 		model.addAttribute("startDate",startDate);
 		model.addAttribute("endDate",endDate);
-		
+
 		String s1 = startDate.substring(5, 7);
 		String s2 = endDate.substring(5, 7);
-		
+
 		int from = Integer.parseInt(s1);
 		int to = Integer.parseInt(s2);
-		
+
 		model.addAttribute("from",from);
 		model.addAttribute("to",to);
-		
-		
+
+
 		return "dataPrint/monthPerDonationPurposePayment";
 	}
-	
+
 	@RequestMapping(value="/dataPrint/monthPerDonationPurposePayment.do",method=RequestMethod.POST, params="cmd=xlsx")
 	public void monthlyStatistics(@RequestParam String startDate,@RequestParam String endDate,Model model,
 			HttpServletRequest request, HttpServletResponse response) throws JRException, IOException, SQLException {
 		List<PaymentSummary1> list = paymentMapper.selectMonthDonationPurposePayment(startDate, endDate);
-		
+
 		String corp = list.get(0).getCorporate();
 		for(int i=0 ; i<list.size() ; i++){
 			if(i>0){
@@ -362,7 +355,7 @@ public class PaymentController extends BaseController{
 					corp=list.get(i).getCorporate();
 			}
 		}
-		
+
 		String organ = list.get(0).getOrganization();
 		for(int i=0 ; i<list.size() ; i++){
 			if(i>0){
@@ -372,26 +365,26 @@ public class PaymentController extends BaseController{
 					organ=list.get(i).getOrganization();
 			}
 		}
-		
+
 		model.addAttribute("list",list);
 		model.addAttribute("startDate",startDate);
 		model.addAttribute("endDate",endDate);
-		
+
 		String s1 = startDate.substring(5, 7);
 		String s2 = endDate.substring(5, 7);
-		
+
 		int from = Integer.parseInt(s1);
 		int to = Integer.parseInt(s2);
-		
+
 		model.addAttribute("from",from);
 		model.addAttribute("to",to);
-		
+
 		ReportBuilder reportBuilder = new ReportBuilder("monthlyStatistics",list,"monthlyStatistics.xlsx",request,response);
 		reportBuilder.monthlyStatBuild(startDate+" ~ "+endDate);
-		
-		
+
+
 	}
-	
-	
+
+
 
 }

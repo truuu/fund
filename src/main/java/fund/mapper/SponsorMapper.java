@@ -11,16 +11,16 @@ import fund.dto.User;
 
 public interface SponsorMapper {
 	EB22 selectSponsorName(String sponsorNo);
-	Sponsor testSelectBySponsorNo(String sponsorNo);		
+	Sponsor testSelectBySponsorNo(String sponsorNo);
 	User selectByLoginId(String loginId);
 	List<Code> selectAuto(String input);
 	Integer ceateNumber();
 	String ceateYear();
-	
+
 	List<Sponsor> postManage(Pagination pagination);
 	List<Sponsor> excelDM(Pagination pagination);
 	List<Sponsor> selectByReceipt(@Param("whereClause") String whereClause);
-	
+
 	int sponsorTypeCheck(String codeName);
 
 	int countForDM(Pagination pagination);
@@ -31,7 +31,7 @@ public interface SponsorMapper {
 
 	int selectChurchCode(Sponsor sponsor);
 	void sponsorInsert(Sponsor sponsor);
-	void sponsorInsert2(Sponsor sponsor); 
+	void sponsorInsert2(Sponsor sponsor);
 	void removeSponsor(int id);
 	void updateSponsor(Sponsor sponsor);
 	void updateSponsor2(Sponsor sponsor);
@@ -45,8 +45,7 @@ public interface SponsorMapper {
 	List<Sponsor> codeNameCheck(String codeName);
 
 	List<Sponsor> castBySponsorType2(@Param("startDate")String startDate,@Param("endDate")String endDate);
-	
-	String selectBySponsorNo2(int id);	
+
 	List<Sponsor> selectNotEncrypted();
 	void updateJuminNo(Sponsor sponsor);
 }

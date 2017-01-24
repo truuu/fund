@@ -1,17 +1,14 @@
 package fund.mapper;
 import java.util.List;
-
 import fund.dto.DonationPurpose;
-import fund.dto.Pagination;
 
 public interface DonationPurposeMapper {
 
-	String selectDonationPurpose2(int num);
+    DonationPurpose selectByID(int ID);
+    DonationPurpose selectByName(String name);
 	String selectCoporateName(int ID);
-	List<DonationPurpose> selectDonationPurpose(); //donationPurpose table
-	DonationPurpose selectByID(int ID);
-	DonationPurpose selectByName(String name);
-	
+	List<DonationPurpose> selectAll();
+
 	void insert(DonationPurpose donationPurpose);
     void update(DonationPurpose donationPurpose);
     void delete(int ID);
