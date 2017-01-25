@@ -25,54 +25,54 @@ public class TestPaymentMapper {
 
 	@Test
 	public void test() throws ParseException {
-		//paymentMapper°¡ autowired µÇ¾ú´ÂÁö È®ÀÎ.
+		//paymentMapperï¿½ï¿½ autowired ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½.
 		assertNotNull(paymentMapper);
 
-		//Á¤±â ³³ÀÔ È®ÀÎ
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 		paymentMapper.selectPaymentRegular(111);
 
-		//ºñÁ¤±â ³³ÀÔ µî·Ï insert
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ insert
 		String pDate = "2016-12-08";
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = transFormat.parse(pDate);
 
 		Payment payment = new Payment();
-		payment.setSponsorID(129);
+		payment.setSponsorId(129);
 		payment.setAmount(50000);
 		payment.setPaymentDate(date);
-		payment.setDonationPurposeID(90);
-		payment.setPaymentMethodID(14);//ºñÁ¤±â Çö¹° ÄÚµå
-		payment.setEtc("jUnit Å×½ºÆ®");
+		payment.setDonationPurposeId(90);
+		payment.setPaymentMethodId(14);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
+		payment.setEtc("jUnit ï¿½×½ï¿½Æ®");
 		paymentMapper.insertIrregularPayment(payment);
 
-		//ÀÚµ¿ÀÌÃ¼ ³³ÀÔ µî·Ï insert
+		//ï¿½Úµï¿½ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ insert
 		Payment payment2 = new Payment();
-		payment2.setSponsorID(137);
-		payment2.setCommitmentID(95);//paymentMethodID°¡ 11ÀÎ ¾àÁ¤ÀÌ¿©¾ß ÇÔ.
+		payment2.setSponsorId(137);
+		payment2.setCommitmentId(95);//paymentMethodIDï¿½ï¿½ 11ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½.
 		payment2.setAmount(60000);
 		payment2.setPaymentDate(date);
-		payment2.setDonationPurposeID(90);
-		payment2.setPaymentMethodID(11);//ÀÚµ¿ÀÌÃ¼ ÄÚµå
+		payment2.setDonationPurposeId(90);
+		payment2.setPaymentMethodId(11);//ï¿½Úµï¿½ï¿½ï¿½Ã¼ ï¿½Úµï¿½
 		paymentMapper.insertXferResult(payment2);
 
-		//±Þ¿©°øÁ¦ ³³ÀÔ µî·Ï insert
+		//ï¿½Þ¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ insert
 		Payment payment3 = new Payment();
-		payment3.setSponsorID(114);
-		payment3.setCommitmentID(50);//paymentMethodID°¡ 12ÀÎ ¾àÁ¤ÀÌ¿©¾ß ÇÔ.
+		payment3.setSponsorId(114);
+		payment3.setCommitmentId(50);//paymentMethodIDï¿½ï¿½ 12ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½.
 		payment3.setAmount(70000);
 		payment3.setPaymentDate(date);
-		payment3.setDonationPurposeID(91);
-		payment3.setPaymentMethodID(12);//±Þ¿©°øÁ¦ ÄÚµå
+		payment3.setDonationPurposeId(91);
+		payment3.setPaymentMethodId(12);//ï¿½Þ¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 		paymentMapper.insertXferResult(payment3);
 
-		//ºñÁ¤±â ³³ÀÔµÈ »ç¶÷ È®ÀÎ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ôµï¿½ ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 		List<Payment> payment4 = paymentMapper.selectPaymentIrregular(129);
 		assert(payment4 != null);
 
-		//¼öÁ¤ÇÒ ºñÁ¤±â ³³ÀÔÀÌ ÀÖ´Â Áö È®ÀÎ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ È®ï¿½ï¿½
 		paymentMapper.selectIrregular(92);
 
-		//ºñÁ¤±â ³³ÀÔ »èÁ¦
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		paymentMapper.delete(92);
 
 

@@ -27,22 +27,22 @@ public class TestCommitmentMapper {
 
         assertNotNull(commitmentMapper);
 
-        Commitment commitment = commitmentMapper.selectByID(85);  // 후원자 박대표
+        Commitment commitment = commitmentMapper.selectById(85);  // 후원자 박대표
 
         assert(commitment == null);
         assertEquals("2016-0120-01", commitment.getCommitmentNo());
 
         commitment = commitmentMapper.selectByCommitmentNo("2016-0120-03");
-        List<Commitment> commitment2 = commitmentMapper.selectBySponsorID(122);
+        List<Commitment> commitment2 = commitmentMapper.selectBySponsorId(122);
 
         assertNull(commitment); // 2016-0120-03 없는거 확인
 
         // 2016-0120-03 약정 insert
         Commitment newCommitment = new Commitment();
         //newCommitment.setCommitmentNo("2016-0120-03");
-        newCommitment.setSponsorID(122);
-        newCommitment.setDonationPurposeID(90);
-        newCommitment.setPaymentMethodID(10);
+        newCommitment.setSponsorId(122);
+        newCommitment.setDonationPurposeId(90);
+        newCommitment.setPaymentMethodId(10);
         newCommitment.setCommitmentDate("2016-11-03");
         newCommitment.setStartDate("2016-11-03");
         newCommitment.setEndDate("2017-11-03");
@@ -68,15 +68,15 @@ public class TestCommitmentMapper {
         assert(commitment != null);
         assert(commitmentDetail != null);
 
-        commitment.setDonationPurposeID(97); // 기부목적 경영학부 장학금으로 변경
+        commitment.setDonationPurposeId(97); // 기부목적 경영학부 장학금으로 변경
         commitmentMapper.update(commitment);
 
         commitmentDetail.setStartDate("2016-12-03");
         commitmentDetailMapper.update(commitmentDetail);
 
-        commitmentMapper.updateEndDate(commitment.getID()); //약정 종료
+        commitmentMapper.updateEndDate(commitment.getId()); //약정 종료
 
-        List<CommitmentDetail> datailList = commitmentDetailMapper.selectByCommitmentID2(commitment.getID());
+        List<CommitmentDetail> datailList = commitmentDetailMapper.selectByCommitmentID2(commitment.getId());
 
         int number = commitmentDetail.getID();  // 약정상세id 저장
         int number2 = commitmentDetailMapper.selectCommitmentID();  // MAX id
@@ -86,7 +86,7 @@ public class TestCommitmentMapper {
         commitmentDetailMapper.delete(commitmentDetail.getID());
 
         // 약정 delete
-        commitmentMapper.delete(commitment.getID());
+        commitmentMapper.delete(commitment.getId());
 
         // 약정 상세 삭제된 것 확인
         commitmentDetail = commitmentDetailMapper.selectByCommitmentDetailID(number);

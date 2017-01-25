@@ -60,7 +60,7 @@ public class CodeController extends BaseController{
 	public String edit(Model model, @RequestParam("ID") int ID) {
 		Code code = codeMapper.selectByID(ID);
 		model.addAttribute("code", code);
-		model.addAttribute("name",codeMapper.selectByName(code.getCodeGroupID()));
+		model.addAttribute("name",codeMapper.selectByName(code.getCodeGroupId()));
 		return "code/edit";
 	}
 	
@@ -77,7 +77,7 @@ public class CodeController extends BaseController{
 		else
 			redirectAttributes.addFlashAttribute("error", message);  // codeName blank
        
-        return "redirect:/code/edit.do?ID="+code.getID();
+        return "redirect:/code/edit.do?ID="+code.getId();
 	}
 	
 	@Secured("ROLE_true")
@@ -85,7 +85,7 @@ public class CodeController extends BaseController{
 	public String delete(Model model, @RequestParam("ID") int ID) {
 		Code code = codeMapper.selectByID(ID);
 		codeMapper.delete(ID);
-		return "redirect:/code/codeList.do?CodeGroupID="+code.getCodeGroupID() ;
+		return "redirect:/code/codeList.do?CodeGroupID="+code.getCodeGroupId() ;
 	}
 
 }

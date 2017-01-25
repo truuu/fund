@@ -3,19 +3,13 @@ package fund.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import fund.dto.Code;
 import fund.dto.EB22;
 import fund.dto.Pagination;
 import fund.dto.Sponsor;
-import fund.dto.User;
 
 public interface SponsorMapper {
-	EB22 selectSponsorName(String sponsorNo);
-	Sponsor testSelectBySponsorNo(String sponsorNo);
-	User selectByLoginId(String loginId);
-	List<Code> selectAuto(String input);
-	Integer ceateNumber();
-	String ceateYear();
+
+    Sponsor selectById(int id);
 
 	List<Sponsor> postManage(Pagination pagination);
 	List<Sponsor> excelDM(Pagination pagination);
@@ -36,7 +30,6 @@ public interface SponsorMapper {
 	void updateSponsor(Sponsor sponsor);
 	void updateSponsor2(Sponsor sponsor);
 
-	Sponsor selectBySponsorNo(int id);
 	List<Sponsor> nameSearch(Pagination pagination);
 	List<Sponsor> sponsorSearch(Pagination pagination);
 	List<Sponsor> selectPage(Pagination pagination);//sponsor manage page
@@ -48,5 +41,7 @@ public interface SponsorMapper {
 
 	List<Sponsor> selectNotEncrypted();
 	void updateJuminNo(Sponsor sponsor);
+
+    EB22 selectSponsorName(String sponsorNo);
 }
 

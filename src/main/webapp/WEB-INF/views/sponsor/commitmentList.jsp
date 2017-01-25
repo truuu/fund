@@ -6,9 +6,9 @@
 <c:set var="tab2" value="active" /> 
 <%@include file="_tab.jsp" %>
 
+<c:set var="pg" value="${ pagination.queryString }" />
 <div class="pull-right mt4 mb4">
-  <button type="button" class="btn btn-primary">새로 등록</button>
-  <a href="list.do?${ pagination.queryString }" class="btn btn-info">후원인 목록</a>
+  <a href="commitmentNew.do?sid=${sponsor.id}&${pg}" class="btn btn-primary">새로 등록</a>
 </div>
 
 <table class="table table-bordered">
@@ -26,7 +26,7 @@
   </thead>
   <tbody>
     <c:forEach var="commitment" items="${ list }">
-      <tr data-url="commitmentEdit.do?ID=${commitment.ID}">
+      <tr data-url="commitmentEdit.do?id=${commitment.id}&sid=${sponsor.id}&${pagination.queryString}">
         <td>${ commitment.commitmentNo }</td>
         <td>${ commitment.donationPurposeName }</td>
         <td>${ commitment.paymentMethodName }</td>

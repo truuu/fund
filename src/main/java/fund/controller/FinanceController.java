@@ -92,14 +92,14 @@ public class FinanceController extends BaseController{
 			Commitment commitment = commitmentMapper.selectByCommitmentNo(commitmentNo);
 
 			Payment payment = new Payment();
-			payment.setSponsorID(commitment.getSponsorID());
-			payment.setCommitmentID(commitment.getID());
+			payment.setSponsorId(commitment.getSponsorId());
+			payment.setCommitmentId(commitment.getId());
 			payment.setCommitmentNo(commitmentNo);
 			Date pDate = transFormat.parse(x.getPaymentDate());
 			payment.setPaymentDate(pDate);
 			payment.setAmount(Integer.parseInt(x.getAmount()));
-			payment.setDonationPurposeID(commitment.getDonationPurposeID());
-			payment.setPaymentMethodID(commitment.getPaymentMethodID());
+			payment.setDonationPurposeId(commitment.getDonationPurposeId());
+			payment.setPaymentMethodId(commitment.getPaymentMethodId());
 			paymentMapper.insertXferResult(payment);
 			paymentList.add(payment);
 
@@ -150,14 +150,14 @@ public class FinanceController extends BaseController{
 			if(commitment == null) return "redirect:financeError.do";
 
 			Payment payment = new Payment();
-			payment.setSponsorID(commitment.getSponsorID());
-			payment.setCommitmentID(commitment.getID());
+			payment.setSponsorId(commitment.getSponsorId());
+			payment.setCommitmentId(commitment.getId());
 			payment.setCommitmentNo(commitment.getCommitmentNo());
 			Date pDate = transFormat.parse(x.getPaymentDate());
 			payment.setPaymentDate(pDate);
 			payment.setAmount(Integer.parseInt(x.getAmount()));
-			payment.setDonationPurposeID(commitment.getDonationPurposeID());
-			payment.setPaymentMethodID(commitment.getPaymentMethodID());
+			payment.setDonationPurposeId(commitment.getDonationPurposeId());
+			payment.setPaymentMethodId(commitment.getPaymentMethodId());
 			paymentMapper.insertSalaryResult(payment);
 			paymentList.add(payment);
 

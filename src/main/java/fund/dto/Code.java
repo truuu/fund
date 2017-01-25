@@ -1,33 +1,31 @@
 package fund.dto;
 
 public class Code {
-		int ID;
-		int codeGroupID;
-		
+		int id;
+		int codeGroupId;
 		String codeName;
-		
 		String etc1;
 		String etc2;
 		String etc3;
-		String name; // codeGroup의 name
-		
+		String codeGroupName;
+
 		public String getName() {
-			return name;
+			return codeGroupName;
 		}
-		public void setName(String name) {
-			this.name = name;
+		public void setName(String codeGroupName) {
+			this.codeGroupName = codeGroupName;
 		}
-		public int getID() {
-			return ID;
+		public int getId() {
+			return id;
 		}
-		public void setID(int iD) {
-			ID = iD;
+		public void setId(int id) {
+			this.id = id;
 		}
-		public int getCodeGroupID() {
-			return codeGroupID;
+		public int getCodeGroupId() {
+			return codeGroupId;
 		}
-		public void setCodeGroupID(int codeGroupID) {
-			this.codeGroupID = codeGroupID;
+		public void setCodeGroupId(int codeGroupId) {
+			this.codeGroupId = codeGroupId;
 		}
 		public String getCodeName() {
 			return codeName;
@@ -53,7 +51,7 @@ public class Code {
 		public void setEtc3(String etc3) {
 			this.etc3 = etc3;
 		}
-		
-		
-		
+
+
+
 }

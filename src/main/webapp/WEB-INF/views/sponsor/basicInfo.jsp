@@ -39,17 +39,18 @@ $(function() {
 <div class="pull-right mt4 mb4">
   <button class="btn btn-primary" type="submit">저장</button>
   <a href="delete.do?id=${ sponsor.id }" class="btn btn-danger" data-confirm-delete>삭제</a>
-  <a href="list.do?${ pagination.queryString }" class="btn btn-info">후원인 목록</a>
 </div>
+
+<!--  TODO: 삭제 -->
+<c:if test="${ sponsor.signUpDate == null}">
+  <input type="hidden" name="sort" value="0" />
+</c:if>
+<c:if test="${ sponsor.signUpDate != null}">
+  <input type="hidden" name="sort" value="1" />
+</c:if>
 
 <table class="table table-bordered lbw150">
   <tr>
-    <c:if test="${ sponsor.signUpDate == null}">
-      <input type="hidden" name="sort" value="0" />
-    </c:if>
-    <c:if test="${ sponsor.signUpDate != null}">
-      <input type="hidden" name="sort" value="1" />
-    </c:if>
     <td class="lb">후원인번호</td>
     <td><input  type="text" name="sponsorNo" readonly value="${ sponsor.sponsorNo }" /></td>
     <td class="lb">우편물 발송여부</td>
@@ -82,14 +83,14 @@ $(function() {
   </tr>
   <tr>
     <td class="lb">후원인구분1</td>
-    <td><form:select path="sponsorType1ID">
-        <form:options itemValue="ID" itemLabel="codeName" items="${ sponsorType1List }" />
+    <td><form:select path="sponsorType1Id">
+        <form:options itemValue="id" itemLabel="codeName" items="${ sponsorType1List }" />
       </form:select></td>
   </tr>
   <tr>
     <td class="lb">후원인구분2</td>
-    <td><form:select path="sponsorType2ID">
-        <form:options itemValue="ID" itemLabel="codeName" items="${ sponsorType2List }" />
+    <td><form:select path="sponsorType2Id">
+        <form:options itemValue="id" itemLabel="codeName" items="${ sponsorType2List }" />
       </form:select></td>
     <td class="lb">자택 전화번호</td>
     <td><input  type="text" name="homePhone" placeholder="02-0000-0000" value="${ sponsor.homePhone}" /></td>
@@ -173,8 +174,8 @@ $(function() {
           <c:forEach var="file" items="${ files }">
             <tr>
               <td>
-                <a class="btn btn-small" href="download.do?id=${file.ID}"><i class="icon icon-file"></i> ${ file.fileName } / ${file.ID} </a> 
-                <a class="glyphicon glyphicon-remove" href="fileDelete.do?id=${file.ID}&sid=${sponsor.id}" data-confirm-delete></a></td>
+                <a class="btn btn-small" href="download.do?id=${file.id}"><i class="icon icon-file"></i> ${ file.fileName } / ${file.id} </a> 
+                <a class="glyphicon glyphicon-remove" href="fileDelete.do?id=${file.id}&sid=${sponsor.id}" data-confirm-delete></a></td>
             </tr>
           </c:forEach>
         </tbody>

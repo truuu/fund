@@ -5,15 +5,16 @@ import fund.dto.Commitment;
 
 public interface CommitmentMapper {
 
-    Commitment selectByID(int ID);
+    Commitment selectById(int id);
 	Commitment selectByCommitmentNo(String commitmentNo);
 
-	Commitment selectBySponsorAndPaymentMethod(String sponsorNo, int paymentMethodID);
-	List<Commitment> selectBySponsorID(int ID);
+	Commitment selectBySponsorAndPaymentMethod(String sponsorNo, int paymentMethodid);
+	List<Commitment> selectBySponsorId(int id);
+	String generateCommitmentNo(int sponsorId);
 
 	void insert(Commitment commitment);
 	void update(Commitment commitment);
-	void delete(int ID);
-	void updateEndDate(int ID);
+	void delete(int id);
+	void updateEndDate(int id);
 }
 

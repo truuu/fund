@@ -7,21 +7,23 @@
         <![CDATA[
         DECLARE @today Date
         SET @today = GETDATE()
-        SELECT c.*, me.codeName paymentMethodName, do.name donationPurposeName, 
-            co.name corporateName, org.codeName orginizationName,
+        SELECT c.*, me.codeName paymentMethodName, b.codeName bankName,
+            do.name donationPurposeName, 
+            co.name corporateName, org.codeName organizationName,
             CASE WHEN @today < startDate THEN '시작전' 
                  WHEN @today > endDate THEN '종료'
                  ELSE '진행' END [state],
-            datediff(MM, startDate, endDate) months                 
+            datediff(MM, startDate, ISNULL(endDate, GETDATE())) months                 
         FROM Commitment c 
-            join [Code] me on me.ID = c.paymentMethodID
-            join DonationPurpose do on do.ID = c.donationPurposeID
-            join Corporate co on co.ID = do.corporateID
-            join [Code] org on org.ID = do.organizationID
+            join [Code] me on me.id = c.paymentMethodId
+            join [Code] b on b.id = c.bankId
+            join DonationPurpose do on do.id = c.donationPurposeId
+            join Corporate co on co.id = do.corporateId
+            join [Code] org on org.id = do.organizationId
         ]]>
     </sql>
 
-	<select id="selectByID" resultType="fund.dto.Commitment">
+	<select id="selectById" resultType="fund.dto.Commitment">
         <include refid="select1"></include>
         WHERE c.id = #{id}
 	</select>
@@ -33,58 +35,58 @@
 	
 	<select id="selectBySponsorAndPaymentMethod" resultType="fund.dto.Commitment">
         <include refid="select1"></include>
-		WHERE c.paymentMethodID = #{paymentMethodID}
-        AND c.ID IN (SELECT ID FROM commitment WHERE sponsorID = #{sponsorNo})
+		WHERE c.paymentMethodId = #{paymentMethodId}
+        AND c.id IN (SELECT id FROM commitment WHERE sponsorId = #{sponsorNo})
 	</select>
 
-	<select id="selectBySponsorID" resultType="fund.dto.Commitment">
+	<select id="selectBySponsorId" resultType="fund.dto.Commitment">
         <include refid="select1"></include>
-        WHERE c.ID IN (SELECT ID FROM commitment WHERE sponsorID = #{sponsorNo})
+        WHERE c.id IN (SELECT id FROM commitment WHERE sponsorId = #{sponsorNo})        
 	</select>
+    
+    <select id="generateCommitmentNo" resultType="java.lang.String">
+        DECLARE @n INT
+        SET @n = ISNULL((SELECT MAX(CONVERT(INT, RIGHT(commitmentNo, 2),0))
+                        FROM commitment
+                        WHERE sponsorID = #{sponsorId}), 0) + 1
+        SELECT sponsorNo + '-' + REPLACE(STR(@n,2), ' ', '0')
+        FROM sponsor
+        WHERE id = #{sponsorId}
+    </select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
-		DECLARE @num INT, @commitmentNo VARCHAR(50), @sponsorNo VARCHAR(50)
-
-		SET @num = (SELECT ISNULL(COUNT(*),0)+1  FROM commitment WHERE sponsorID = #{sponsorID})
-		SET @sponsorNo = (SELECT TOP 1 sponsorNo FROM sponsor WHERE ID = #{sponsorID})
-		SET @commitmentNo = @sponsorNo + '-' + REPLACE(STR(@num,2),' ','0')
-	
-		INSERT Commitment (sponsorID, commitmentNo, donationPurposeID, paymentMethodID, commitmentDate, startDate, endDate, 
-                           amountPerMonth, paymentDay, bankID, accountNo, accountHolder, etc)
+		INSERT Commitment (sponsorId, commitmentNo, donationPurposeId, paymentMethodId, 
+                           commitmentDate, startDate, endDate, 
+                           amountPerMonth, paymentDay, bankId, accountNo, accountHolder, etc)
 		VALUES 
-		         (#{sponsorID}, @commitmentNo, #{donationPurposeID}, #{paymentMethodID}, #{commitmentDate}, #{startDate}, #{endDate},
-                  #{amountPerMonth}, #{paymentDay}, #{bankID}, #{accountNo}, #{accountHolder}, #{etc})
+		         (#{sponsorId}, #{commitmentNo}, #{donationPurposeId}, #{paymentMethodId}, 
+                  CONVERT(DATE, #{commitmentDate}), CONVERT(DATE, #{startDate}), CONVERT(DATE, #{endDate}),
+                  #{amountPerMonth}, #{paymentDay}, #{bankId}, #{accountNo}, #{accountHolder}, #{etc})
 	</insert>
 
 	<update id="update">
 		UPDATE Commitment
 		SET
-            commitmentNo = #{commitmentNo},
-            donationPurposeID = #{donationPurposeID},
-            paymentMethodID = #{paymentMethodID},
+            donationPurposeId = #{donationPurposeId},
+            paymentMethodId = #{paymentMethodId},
             commitmentDate = #{commitmentDate},
             startDate = #{startDate},
             endDate = #{endDate},
             amountPerMonth = #{amountPerMonth},
             paymentDay = #{paymentDay},
-            bankID = #{bankID},
-            accountNo = #{accountNo},
-            accountHolder = #{accountHolder},
             etc = #{etc}
-		WHERE ID = #{ID}
+		WHERE id = #{id}
 	</update>
 	
 	<update id="updateEndDate">
 		update Commitment
 		set endDate = getDate()
-		where ID = #{ID}
+		where id = #{id}
 	</update>
 	
 	<delete id="delete">
 	   delete from Commitment
-	   where ID = #{ID}
+	   where id = #{id}
 	</delete>
-
-
 
 </mapper>

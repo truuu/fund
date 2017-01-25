@@ -11,7 +11,6 @@
 
 <div class="pull-right mt4 mb4">
   <button type="submit" class="btn btn-primary" name="cmd" value="save">저장</button>
-  <button type="submit" class="btn btn-danger" name="cmd" value="delete" data-confirm-delete>삭제</button>
   <a href="commitmentList.do?id=${ sponsor.id }&${ pagination.queryString }" class="btn btn-info">약정 목록</a>
 </div>
 
@@ -32,21 +31,19 @@
     <td class="lb">시작일</td>
     <td><form:input path="startDate" class="startDt" /></td>
     <td class="lb">은행</td>
-    <td>${ commitment.bankName }</td>
+    <td><form:select path="bankId" itemValue="id" itemLabel="codeName" items="${ banks }" /></td>
   </tr>
   <tr>
     <td class="lb">종료일</td>
-    <td><form:input path="endDate" class="endDt" />
-        <button type="submit" class="btn btn-sm" name="cmd" value="close">종료하기</button>
-    </td>
+    <td><form:input path="endDate" class="endDt" /></td>
     <td class="lb">계좌번호</td>
-    <td>${ commitment.accountNo }</td>
+    <td><form:input path="accountNo" /></td>
   </tr>
   <tr>
     <td class="lb">월납입일</td>
     <td><form:input path="paymentDay" /></td>
     <td class="lb">예금주</td>
-    <td>${ commitment.accountHolder }</td>
+    <td><form:input path="accountHolder" /></td>
   </tr>
   <tr>
     <td class="lb">기부목적</td>

@@ -3,9 +3,16 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.SponsorMapper">
-    <select id="testSelectBySponsorNo" resultType="fund.dto.Sponsor">
-	   select * from [sponsor] where sponsorNo=#{sponsorNo};
-	</select>
+
+    <select id="selectById" resultType="fund.dto.Sponsor">
+        SELECT *,
+          (SELECT codeName FROM code c WHERE c.ID = s.churchID ) church,
+          (SELECT codeName FROM code t WHERE t.ID = s.sponsorType1ID) sponsorType1
+        FROM sponsor s
+        WHERE id = #{id}
+    </select>
+    
+    
 
     <delete id="delete">
         DELETE FROM [User] WHERE id = #{id}
@@ -16,17 +23,7 @@
 		where sponsorNo=#{sponsorNo}
 	</select>
 	
-	<select id="ceateNumber" resultType="Integer">
-		select TOP(1)ID from sponsor
-		order by ID DESC;
-	</select>
-	
-	<select id="ceateYear" resultType="String">
-		select TOP(1)sponsorNo from sponsor
-		order by ID DESC;
-	</select>
-	
-	<!-- 후언자 수정 -->
+	<!-- 후원자 수정 -->
 	<update id="updateSponsor">
 		UPDATE sponsor SET
 		sponsorNo=#{sponsorNo},
@@ -86,21 +83,7 @@
 		WHERE id = #{id}
 	</delete>
 	
-	<!-- 후원자 상세페이지 -->
-	<select id="selectBySponsorNo" resultType="fund.dto.Sponsor">
-		select id,sponsorNo,name,juminNo,sponsorType1ID,sponsorType2ID,signUpDate,mobilePhone,recommender,recommenderRelation,mailReceiving,mailTo,homeAddress,homePhone,email,company,department,position,officePhone,officeAddress,etc,
-         (select codeName from code where code.ID=sponsor.churchID )AS church,
-	   (select codeName from code where code.ID=sponsor.sponsorType1ID) AS sponsorType1
-        from sponsor where id=#{id};
-	</select>
 
-	<select id="selectAuto" resultType="fund.dto.Code">
-		SELECT
-		codeName
-		FROM Code
-		WHERE
-		codeGroupID=5 and codeName LIKE '%'+#{input}+'%'
-	</select>
 	<!-- text로 받은 교회의 id값 리턴 -->
 	<select id="selectChurchCode" resultType="int">
 		SELECT

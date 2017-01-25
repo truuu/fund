@@ -23,12 +23,12 @@
         
         <form:select path="st1" class="ml10">
             <form:option value="0" label="후원인구분1 " />
-            <form:options itemValue="ID" itemLabel="codeName" items="${ sponsorType1Codes }" />         
+            <form:options itemValue="id" itemLabel="codeName" items="${ sponsorType1Codes }" />         
         </form:select>
 
         <form:select path="st2" class="ml10 mr10">
             <form:option value="0" label="후원인구분2 " />
-            <form:options itemValue="ID" itemLabel="codeName" items="${ sponsorType2Codes }" />         
+            <form:options itemValue="id" itemLabel="codeName" items="${ sponsorType2Codes }" />         
         </form:select>
         
         <button type="submit" class="btn btn-small btn-info">검색</button>

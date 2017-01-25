@@ -38,7 +38,7 @@ public class TestCodeMapper {
        
         Code newCode = new Code();
         
-        newCode.setCodeGroupID(1);
+        newCode.setCodeGroupId(1);
         newCode.setCodeName("개인2");
         newCode.setEtc1("기타test");
         codeMapper.insert(newCode);
@@ -46,7 +46,7 @@ public class TestCodeMapper {
         code = codeMapper.selectByCodeName("개인2");
         List<Code> codeList1 = codeMapper.selectByCodeGroupName("후원인구분1");
         List<Code> codeList2 =codeMapper.selectAllPaymentMethod("정기 납입방법","비정기 납입방법");
-        String name = codeMapper.selectCodeName(code.getID());
+        String name = codeMapper.selectCodeName(code.getId());
         List<CodeGroup> codeGroupList = codeMapper.selectCodeGroup();
         String codeGroupName = codeMapper.selectByName(1);
         List<Code> codeList3 = codeMapper.selectByCodeGroupID(1);
@@ -58,7 +58,7 @@ public class TestCodeMapper {
         assert(code.getCodeName() == "개인3"); 
       
         // 코드 delete
-        codeMapper.delete(code.getID());
+        codeMapper.delete(code.getId());
         
         // 삭제된 것 확인
         code = codeMapper.selectByCodeName("개인3"); 

@@ -37,7 +37,7 @@
 							<%@ include file="/WEB-INF/views/sponsor/sponsorRegister.jsp"%>
 						</div>
 						<div class="tab-pane fade" id="contract">
-							<%@ include file="/WEB-INF/views/sponsor/commitment.jsp"%>
+							<%@ include file="/WEB-INF/views/sponsor/commitmentList.jsp"%>
 						</div>
 						<div class="tab-pane fade" id="regular">
 						<%@ include file="/WEB-INF/views/sponsor/paymentList.jsp"%>

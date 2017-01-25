@@ -72,5 +72,12 @@
 	<delete id="delete">
 		DELETE FROM [Code] WHERE ID = #{ID}
 	</delete>
+    
+    <select id="selectChurchByName" resultType="fund.dto.Code">
+        SELECT codeName
+        FROM Code
+        WHERE codeGroupID = 5 and codeName LIKE '%'+#{name}+'%'
+    </select>
+   
 
 </mapper>

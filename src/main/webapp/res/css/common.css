@@ -21,11 +21,17 @@ body select { border: 1px solid #aaa; padding: 4px; }
 body input { border: 1px solid #aaa; padding: 4px; }
 body textarea { border: 1px solid #aaa; padding: 4px; }
 
-body input.w100 { width: 100px; }
-body input.w150 { width: 150px; }
-body input.w200 { width: 200px; }
-body input.w250 { width: 250px; }
-body input.w300 { width: 300px; }
+body .w100 { width: 100px; }
+body .w150 { width: 150px; }
+body .w200 { width: 200px; }
+body .w250 { width: 250px; }
+body .w300 { width: 300px; }
+body .w400 { width: 400px; }
+body .w600 { width: 600px; }
+body .h100 { height: 100px; }
+body .h150 { height: 150px; }
+body .h200 { height: 200px; }
+body .h600 { height: 600px; }
 
 .right { text-align: right; }
 /*****/
@@ -43,3 +49,4 @@ input:-ms-input-placeholder { color: #aaa; }
 /** bootstrap override **/
 body input { line-height: 1em; }
 body select { line-height: 1em; }
+a.btn-gray { background-color: #ccc; color:black; }

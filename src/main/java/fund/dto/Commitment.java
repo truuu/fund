@@ -1,42 +1,43 @@
 package fund.dto;
 
 public class Commitment {
-    int ID;
-    int sponsorID;
+    int id;
+    int sponsorId;
     String commitmentNo;
-    int donationPurposeID;
-    int paymentMethodID;
+    int donationPurposeId;
+    int paymentMethodId;
     String commitmentDate;
     String startDate;
     String endDate;
     int amountPerMonth;
     int paymentDay;
-    int bankID;
+    int bankId;
     String accountNo;
-    String accountHodler;
+    String accountHolder;
     String etc;
 
     String paymentMethodName;
+    String bankName;
     String donationPurposeName;
     String corporateName;
     String organizationName;
     String state;
     int months;
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
-    public void setID(int iD) {
-        ID = iD;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getSponsorID() {
-        return sponsorID;
+    public int getSponsorId() {
+        return sponsorId;
     }
 
-    public void setSponsorID(int sponsorID) {
-        this.sponsorID = sponsorID;
+    public void setSponsorId(int sponsorId) {
+        this.sponsorId = sponsorId;
     }
 
     public String getCommitmentNo() {
@@ -47,20 +48,20 @@ public class Commitment {
         this.commitmentNo = commitmentNo;
     }
 
-    public int getDonationPurposeID() {
-        return donationPurposeID;
+    public int getDonationPurposeId() {
+        return donationPurposeId;
     }
 
-    public void setDonationPurposeID(int donationPurposeID) {
-        this.donationPurposeID = donationPurposeID;
+    public void setDonationPurposeId(int donationPurposeId) {
+        this.donationPurposeId = donationPurposeId;
     }
 
-    public int getPaymentMethodID() {
-        return paymentMethodID;
+    public int getPaymentMethodId() {
+        return paymentMethodId;
     }
 
-    public void setPaymentMethodID(int paymentMethodID) {
-        this.paymentMethodID = paymentMethodID;
+    public void setPaymentMethodId(int paymentMethodId) {
+        this.paymentMethodId = paymentMethodId;
     }
 
     public String getCommitmentDate() {
@@ -103,12 +104,12 @@ public class Commitment {
         this.paymentDay = paymentDay;
     }
 
-    public int getBankID() {
-        return bankID;
+    public int getBankId() {
+        return bankId;
     }
 
-    public void setBankID(int bankID) {
-        this.bankID = bankID;
+    public void setBankId(int bankId) {
+        this.bankId = bankId;
     }
 
     public String getAccountNo() {
@@ -119,12 +120,12 @@ public class Commitment {
         this.accountNo = accountNo;
     }
 
-    public String getAccountHodler() {
-        return accountHodler;
+    public String getAccountHolder() {
+        return accountHolder;
     }
 
-    public void setAccountHodler(String accountHodler) {
-        this.accountHodler = accountHodler;
+    public void setAccountHolder(String accountHolder) {
+        this.accountHolder = accountHolder;
     }
 
     public String getEtc() {
@@ -141,6 +142,14 @@ public class Commitment {
 
     public void setPaymentMethodName(String paymentMethodName) {
         this.paymentMethodName = paymentMethodName;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
     public String getDonationPurposeName() {

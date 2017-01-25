@@ -24,33 +24,33 @@ public class TestEB22Mapper {
 
 	@Test
 	public void test() throws ParseException {
-		//eb21_commitmentDetailMapper°¡ autowired µÇ¾ú´ÂÁö È®ÀÎ.
+		//eb21_commitmentDetailMapperï¿½ï¿½ autowired ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½.
 		assertNotNull(eb21_commitmentDetailMapper);
-		//paymentMapper°¡ autowired µÇ¾ú´ÂÁö È®ÀÎ.
+		//paymentMapperï¿½ï¿½ autowired ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½.
 		assertNotNull(paymentMapper);
 
-		//eb22ÆÄÀÏÀ» Àû¿ëÇÒ ¼ö ÀÖ´Â ÈÄ¿øÀÎÀÌ ÀÖ´ÂÁö È®ÀÎ
+		//eb22ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 		eb21_commitmentDetailMapper.selectEB21success();
 
-		//¿¡·¯ÀÎ »ç¿ëÀÚ update
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ update
 		String pDate = "2016-12-20";
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = transFormat.parse(pDate);
 		eb21_commitmentDetailMapper.updateEB21error("129",date,"0012");
-		//¼º°øÀÎ »ç¿ëÀÚ update
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ update
 		eb21_commitmentDetailMapper.updateEB21success(date);
 		
-		//¼º°øÀÎ »ç¿ëÀÚ ³³ÀÔ ¸ñ·Ï¿¡ insert
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ insert
 		Payment payment = new Payment();
-		payment.setSponsorID(129);
-		payment.setCommitmentID(91);
+		payment.setSponsorId(129);
+		payment.setCommitmentId(91);
 		payment.setAmount(50000);
 		payment.setPaymentDate(date);
-		payment.setDonationPurposeID(90);
-		payment.setPaymentMethodID(10);
+		payment.setDonationPurposeId(90);
+		payment.setPaymentMethodId(10);
 		paymentMapper.insertEB21Payment(payment);
 		
-		//eb2122 °á°ú È®ÀÎ
+		//eb2122 ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 		eb21_commitmentDetailMapper.selectEB2122("2016-11-01", "2016-12-30");
 	}
 
