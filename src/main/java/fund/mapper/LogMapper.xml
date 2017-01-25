@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fund.mapper.LogMapper">
+
+    <select id="selectById" resultType="fund.dto.Log">
+        SELECT * FROM [log] WHERE id = #{id}
+    </select>
+    
+    <!-- 정렬순서: 등록순, IP, URL, category
+         검색조건: ip, category, body
+     -->
+    <select id="selectPage" resultType="fund.dto.Log">
+        <![CDATA[
+        DECLARE @order INT, @srchType INT, @srchText nvarchar(50), @currentPage INT, @pageSize INT
+        SET @order = 0
+        SET @srchType = 0
+        SET @srchText = ''
+        SET @currentPage = 1
+        SET @pageSize = 15
+        
+        SELECT *
+        FROM
+            ( SELECT g.*,
+                (SELECT name FROM [user] u WHERE u.ID = g.userID) userName,
+                CASE @order
+                    WHEN 0 THEN ROW_NUMBER() OVER (ORDER BY g.id DESC)
+                    WHEN 1 THEN ROW_NUMBER() OVER (ORDER BY g.IP)
+                    WHEN 1 THEN ROW_NUMBER() OVER (ORDER BY g.URL)
+                    WHEN 1 THEN ROW_NUMBER() OVER (ORDER BY g.category)
+                END 행번호
+                FROM [log] g
+                WHERE
+                    ((@srchType = 0) OR
+                     (@srchType = 1 AND g.IP = @srchText) OR
+                     (@srchType = 2 AND CHARINDEX(@srchText, g.URL) > 0) OR
+                     (@srchType = 3 AND CHARINDEX(@srchText, g.body) > 0)) 
+            ) subquery
+        WHERE 행번호 > (@currentPage - 1) * @pageSize AND
+              행번호 <= @currentPage * @pageSize
+        ORDER BY 행번호
+        ]]>
+    </select>
+    
+    <select id="selectCount" resultType="int">
+        <![CDATA[
+        DECLARE @srchtype INT, @srchtext NVARCHAR(50)
+        SET @srchtype = #{srchtype}
+        SET @srchtext = #{srchtext}
+        
+        SELECT count(*) 
+        FROM [log] g
+        WHERE
+            ((@srchtype = 0) OR
+             (@srchtype = 1 AND g.ip = @srchtext) OR
+             (@srchtype = 2 AND CHARINDEX(@srchtext, g.url) > 0) OR
+             (@srchtype = 3 AND CHARINDEX(@srchtext, g.body) > 0)) 
+        ]]>
+    </select>    
+
+    <update id="update">
+        UPDATE [log]
+        SET 
+            userID = #{userID},
+            IP = #{IP},
+            URL = #{URL},
+            category = #{category},
+            writeTime = #{writeTime},
+            body = #{body}
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT [log] (userID, IP, URL, category, writeTime, body)
+        VALUES (#{userID}, #{IP}, #{URL}, #{category}, #{writeTime}, #{body})
+    </insert>
+    
+    <delete id="delete">
+       delete from Log
+       where id = #{id}
+    </delete>
+
+</mapper>

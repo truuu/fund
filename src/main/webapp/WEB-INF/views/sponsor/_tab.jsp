@@ -13,7 +13,7 @@
   <li class="${ tab1 }"><a href="/fund_sys/sponsor/basicInfo.do?${q}">후원인정보</a></li>
   <c:if test="${ sponsor.id != 0 }">
     <li class="${ tab2 }"><a href="/fund_sys/sponsor/commitmentList.do?${q}">약정관리</a></li>
-    <li class="${ tab3 }"><a href="/fund_sys/sponsor/paymentList.do?${q}">정기납입관리</a></li>
+    <li class="${ tab3 }"><a href="/fund_sys/sponsor/paymentList1.do?${q}">정기납입관리</a></li>
     <li class="${ tab4 }"><a href="/fund_sys/sponsor/paymentList2.do?${q}">비정기납입관리</a></li>
     <li class="${ tab5 }"><a href="/fund_sys/sponsor/insertIrrgularPayment.do?${q}">비정기납입등록</a></li>
   </c:if>

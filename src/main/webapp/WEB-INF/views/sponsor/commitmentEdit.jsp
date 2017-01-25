@@ -37,7 +37,7 @@
   <tr>
     <td class="lb">종료일</td>
     <td><form:input path="endDate" class="endDt" />
-        <button type="submit" class="btn btn-sm" name="cmd" value="close">종료하기</button>
+        <button type="submit" class="btn btn-sm" name="cmd" value="close" data-confirm="종료하시겠습니까?">종료하기</button>
     </td>
     <td class="lb">계좌번호</td>
     <td>${ commitment.accountNo }</td>

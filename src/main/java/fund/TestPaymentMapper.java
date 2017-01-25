@@ -1,18 +1,15 @@
 package fund;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertNotNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import fund.dto.Payment;
 import fund.dto.PaymentRecordStats;
 import fund.dto.PaymentSummary1;
@@ -29,7 +26,7 @@ public class TestPaymentMapper {
 		assertNotNull(paymentMapper);
 
 		//���� ���� Ȯ��
-		paymentMapper.selectPaymentRegular(111);
+		paymentMapper.selectPaymentList1(111);
 
 		//������ ���� ��� insert
 		String pDate = "2016-12-08";
@@ -66,7 +63,7 @@ public class TestPaymentMapper {
 		paymentMapper.insertXferResult(payment3);
 
 		//������ ���Ե� ��� Ȯ��
-		List<Payment> payment4 = paymentMapper.selectPaymentIrregular(129);
+		List<Payment> payment4 = paymentMapper.selectPaymentList2(129);
 		assert(payment4 != null);
 
 		//������ ������ ������ �ִ� �� Ȯ��
@@ -81,7 +78,7 @@ public class TestPaymentMapper {
 		PaymentRecordStats paymentRecordStats = new PaymentRecordStats();
 		paymentRecordStats.setStartDate("2016-06-01");
 		paymentRecordStats.setEndDate("2016-12-01");
-		paymentRecordStats.setSrchType1(1); 
+		paymentRecordStats.setSrchType1(1);
 		paymentRecordStats.setSrchType2(90);
 
 		List<Payment> list2 = paymentMapper.selectPaymentRecord(paymentRecordStats);

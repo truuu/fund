@@ -14,6 +14,7 @@ public class Payment {
     int paymentMethodId;
 
     String donationPurpose; // 기부목적name
+    String organizationName;
     int count1; // 기부후원인 수 count
     int count2; // 기부목적 count
     int sum; // 총 기부금
@@ -305,5 +306,14 @@ public class Payment {
     public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
     }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+
 
 }
