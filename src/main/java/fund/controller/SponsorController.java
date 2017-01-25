@@ -4,26 +4,17 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import fund.BaseController;
 import fund.dto.Code;
 import fund.dto.FileAttachment;
@@ -35,18 +26,21 @@ import fund.mapper.DonationPurposeMapper;
 import fund.mapper.FileAttachmentMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.SponsorMapper;
+import fund.service.C;
+import fund.service.CodeService;
 import fund.service.FileExtFilter;
 import fund.service.ReportBuilder;
 import fund.service.SponsorService;
-import fund.service.UserService;
 import net.sf.jasperreports.engine.JRException;
 
 @Controller
 public class SponsorController extends BaseController {
 
+    @Autowired SponsorService sponsorService;
     @Autowired SponsorMapper sponsorMapper;
     @Autowired FileAttachmentMapper fileAttachmentMapper;
     @Autowired PaymentMapper paymentMapper;
+    @Autowired CodeService codeService;
     @Autowired CodeMapper codeMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
     @Autowired FileExtFilter fileExtFilter;
@@ -54,223 +48,45 @@ public class SponsorController extends BaseController {
     // 후원인 목록
     @RequestMapping("/sponsor/list.do")
     public String list(Model model, @ModelAttribute("pagination") PaginationSponsor pagination) {
-        List<Sponsor> list = sponsorMapper.selectPage(pagination);
-        pagination.setRecordCount(sponsorMapper.selectCount(pagination));
-        List<Code> sponsorType1Codes = codeMapper.selectByCodeGroupID(1);
-        List<Code> sponsorType2Codes = codeMapper.selectByCodeGroupID(2);
+        List<Sponsor> list = sponsorService.selectPage(pagination);
+        List<Code> sponsorType1Codes = codeMapper.selectByCodeGroupId(1);
+        List<Code> sponsorType2Codes = codeMapper.selectByCodeGroupId(2);
         model.addAttribute("list", list);
         model.addAttribute("sponsorType1Codes", sponsorType1Codes);
         model.addAttribute("sponsorType2Codes", sponsorType2Codes);
         return "sponsor/list";
     }
 
-    // 후원인 기본정보
-    @RequestMapping("/sponsor/basicInfo.do")
-    public String basicInfo(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
-        Sponsor sponsor = sponsorMapper.selectById(id);
-        SponsorService.decryptJuminNo(sponsor);
-
-        String[] a = SponsorService.splitAddress(sponsor.getHomeAddress());
-        sponsor.setHomeRoadAddress(a[0]);
-        sponsor.setHomeDetailAddress(a[1]);
-        sponsor.setHomePostCode(a[2]);
-
-        a = SponsorService.splitAddress(sponsor.getOfficeAddress());
-        sponsor.setOfficeRoadAddress(a[0]);
-        sponsor.setOfficeDetailAddress(a[1]);
-        sponsor.setOfficePostCode(a[2]);
-
-        model.addAttribute("sponsor", sponsor);
-        model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1));
-        model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));
+    // 후원인 수정
+    @RequestMapping(value="/sponsor/sponsorEdit.do", method=RequestMethod.GET)
+    public String sponsorEdit(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
+        model.addAttribute("sponsor", sponsorService.selectById(id));
+        model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분1));
+        model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분2));
         model.addAttribute("files", fileAttachmentMapper.selectBySponosrId(id));
-
-        return "sponsor/basicInfo";
+        model.addAttribute("json_churchList", codeService.getJSON(C.코드그룹ID_소속교회));
+        return "sponsor/sponsorEdit";
     }
 
+    // 후원인 저장
+    @RequestMapping(value="/sponsor/sponsorEdit.do", method=RequestMethod.POST, params="cmd=save")
+    public String sponsorEdit(Sponsor sponsor, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
+        sponsorService.update(sponsor);
+        return sponsorEdit(sponsor.getId(), pagination, model);
+    }
 
+    // 후원인 삭제
+    @RequestMapping(value="/sponsor/sponsorEdit.do", method=RequestMethod.POST, params="cmd=delete")
+    public String sponsorDelete(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
+        sponsorService.delete(id);
+        return "redirect:list.do?" + pagination.getQueryString();
+    }
 
     // 주민등록번호 암호화 되지 않은 후원인 암호화
     @RequestMapping("/sponsor/encryptNo.do")
     public String encryptNo(Model model) throws Exception {
-        System.out.println("a");
-        List<Sponsor> list = sponsorMapper.selectNotEncrypted();
-        System.out.println(list.size());
-        for (Sponsor sponsor : list) {
-            SponsorService.encryptJuminNo(sponsor);
-            sponsorMapper.updateJuminNo(sponsor);
-            System.out.println(sponsor.getId() + " " + sponsor.getJuminNo());
-        }
-        model.addAttribute("list", list);
+        model.addAttribute("list", sponsorService.encryptJuminNo());
         return "sponsor/encryptNo";
-    }
-
-    // codeName check
-    @RequestMapping(value = "/sponsor/codeNameCheck.do", method = RequestMethod.GET)
-    public @ResponseBody Map<String, Object> codeNameCheck(@RequestParam("codeName") String codeName,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        Map<String, Object> map = new HashMap<String, Object>();
-        List<Sponsor> sponsor = sponsorMapper.codeNameCheck(codeName);
-        if (sponsor.isEmpty()) {
-            sponsor = new ArrayList<Sponsor>();
-        }
-        map.put("sponsor", sponsor);
-        return map;
-    }
-
-    // name check
-    @RequestMapping(value = "/sponsor/nameCheck.do", method = RequestMethod.GET, headers = "Accept=application/json")
-    public @ResponseBody List<Sponsor> nameCheck(@RequestParam("nameForSearch") String nameForSearch,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        String name = nameForSearch;
-        List<Sponsor> sponsor = sponsorMapper.nameCheck(name);
-        if (sponsor == null) {
-            sponsor = new ArrayList<Sponsor>();
-            return sponsor;
-        } else {
-            return sponsor;
-        }
-    }
-
-    // 신규
-    @RequestMapping(value = "/sponsor/sponsor.do", method = RequestMethod.GET)
-    public String userRegister(Model model, Sponsor sponsor) throws Exception {
-        Calendar oCalendar = Calendar.getInstance(); // 현재 날짜/시간 등의 각종 정보 얻기
-        Integer num = 0; // sponsorMapper.ceateNumber();
-        String[] year = null; //sponsorMapper.ceateYear().split("-");
-        int preYear = oCalendar.get(Calendar.YEAR);
-        String number;
-        if (num == null) {// 후원자를 처음 등록할때 0001 초기화
-            number = "0001";
-            String sponsorNo = preYear + "-" + number;
-            sponsor.setSponsorNo(sponsorNo);
-        } else {
-            if (Integer.parseInt(year[0]) == preYear) {// 년도가 변하지 않았을때
-
-                number = String.valueOf(num + 1);
-                if (number.length() == 1) {
-                    number = "000" + number;
-                }
-                if (number.length() == 2) {
-                    number = "00" + number;
-                }
-                if (number.length() == 3) {
-                    number = "0" + number;
-                }
-
-                String sponsorNo = preYear + "-" + number;
-                sponsor.setSponsorNo(sponsorNo);
-
-            }
-            if (Integer.parseInt(year[0]) != preYear) { // 년도가 변했을때 후원자 번호 생성
-
-                number = "0001";
-                String sponsorNo = preYear + "-" + number;
-                sponsor.setSponsorNo(sponsorNo);
-            }
-        }
-        // 첨부파일리스트 임시테스트 -> 세션값으로 방식으로 바꾸어야함
-        // List<FileAttachment>
-        // list=fileAttachmentMapper.selectByArticleId(100);
-        // model.addAttribute("files",
-        // fileAttachmentMapper.selectByArticleId(100));
-        model.addAttribute("sponsor", sponsor);
-
-        model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1)); // 후원인구분1
-                                                                                   // 목록
-        model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2)); // 후원인구분1
-                                                                                   // 목록
-        return "sponsor/sponsor";
-    }
-
-    // 회원입력 insert
-    @RequestMapping(value = "/sponsor/sponsorInsert.do", method = RequestMethod.POST)
-    public String sponsorRegister(HttpServletRequest request, Model model, @Valid Sponsor sponsor, BindingResult result)
-            throws Exception {
-        if (result.hasErrors()) {
-            // 에러 출력
-            model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1)); // 후원인구분1
-                                                                                       // 목록
-            model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2)); // 후원인구분2
-                                                                                       // 목록
-            return "sponsor/sponsor";
-
-        }
-        if (!sponsor.getChurch().equals("")) {
-            sponsor.setChurchId(sponsorMapper.selectChurchCode(sponsor));
-        }
-
-        String homeRoadAddress = request.getParameter("homeRoadAddress");
-        String homeDetailAddress = request.getParameter("homeDetailAddress");
-        String homePostCode = request.getParameter("homePostCode");
-
-        String officeRoadAddress = request.getParameter("officeRoadAddress");
-        String officeDetailAddress = request.getParameter("officeDetailAddress");
-        String officePostCode = request.getParameter("officePostCode");
-
-        String homeAddress = homeRoadAddress + "*" + homeDetailAddress + "*" + homePostCode;
-        String officeAddress = officeRoadAddress + "*" + officeDetailAddress + "*" + officePostCode;
-
-        SponsorService.encryptJuminNo(sponsor);
-
-        sponsor.setHomeAddress(homeAddress);
-        sponsor.setOfficeAddress(officeAddress);
-
-        System.out.println("controller mail >> " + sponsor.getMailTo());// int
-        System.out.println("controller post >> " + sponsor.isMailReceiving());// boolean
-                                                                              // 발송여부
-
-        if (sponsor.getSort() == 0) {
-            if (!sponsor.getChurch().equals("")) {// 소속교회를 입력했을 경우
-                sponsorMapper.sponsorInsert(sponsor);
-            }
-            if (sponsor.getChurch().equals("")) { // 소속교회를 입력하지 않은 경우
-                sponsorMapper.sponsorInsert2(sponsor);
-            }
-        }
-        if (sponsor.getSort() == 1) {
-            if (!sponsor.getChurch().equals("")) {// 소속교회를 변경한 경우
-                sponsorMapper.updateSponsor(sponsor);
-            }
-            if (sponsor.getChurch().equals("")) {// 소속교회를 지운 경우
-                sponsorMapper.updateSponsor2(sponsor);
-            }
-        }
-        return "redirect:/sponsor/sponsor_m.do";
-    }
-
-
-    // 후원자 정보 삭제하기
-    @RequestMapping(value = "/sponsor/delete.do", method = RequestMethod.GET)
-    public String sponsorDelete(@RequestParam("id") int id, Model model, RedirectAttributes redirectAttributes) {
-        try {
-            sponsorMapper.removeSponsor(id);
-        } catch (DataIntegrityViolationException e) {
-            redirectAttributes.addFlashAttribute("errorMsg", "해당 약정에 납입내역이나 약정상세가 있어 삭제할 수 없습니다.");
-            return "redirect:/sponsor/basicInfo.do?id=" + id;
-        }
-        // sponsorMapper.removeSponsor(sponsorNo);
-        return "redirect:/sponsor/list.do";
-    }
-
-    @RequestMapping(value = "/user/member_r.do", method = RequestMethod.GET)
-    public String memberRegister(Model model) throws Exception {
-        return "user/memberRegister";
-    }
-
-    @RequestMapping(value = "/sponsor/post.do", method = RequestMethod.GET)
-    public String post(Model model) throws Exception {
-        return "sponsor/post";
-    }
-
-    // 소속교호찾기 자동완성
-    @RequestMapping(value = "/sponsor/autoList.do", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
-    public @ResponseBody List<Code> autoList(HttpServletRequest request, HttpServletResponse response) {
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        String input = request.getParameter("input");
-        return codeMapper.selectChurchByName(input);
     }
 
     // 기간기준으로 DM발송 리스트 찾기
@@ -278,11 +94,11 @@ public class SponsorController extends BaseController {
     public String postByDate(HttpServletRequest request, HttpServletResponse response, Model model,
             Pagination pagination) throws Exception {
         String check = request.getParameter("check");
+
         pagination.setRecordCount(sponsorMapper.countForDM(pagination));
         List<Sponsor> postList = sponsorMapper.postManage(pagination);
 
         String temp, address, postCode;
-        int middle;
         for (Sponsor i : postList) {
             if (i.getMailTo() == 0) {
                 temp = i.getHomeAddress();
@@ -306,7 +122,7 @@ public class SponsorController extends BaseController {
             model.addAttribute("postList", postList);
         }
         if (check.equals("t")) {
-            UserService.writeNoticeListToFile("post.xls", postList);
+            //UserService.writeNoticeListToFile("post.xls", postList);
             model.addAttribute("postList", postList);
         }
         return "sponsor/post";
@@ -324,7 +140,7 @@ public class SponsorController extends BaseController {
             file.setData(uploadedFile.getBytes());
             fileAttachmentMapper.insert(file);
         }
-        return "redirect:/sponsor/basicInfo.do?id=" + sid;
+        return "redirect:/sponsor/sponsorEdit.do?id=" + sid;
     }
 
     // 파일 다운로드
@@ -345,7 +161,7 @@ public class SponsorController extends BaseController {
     @RequestMapping(value = "sponsor/fileDelete.do", method = RequestMethod.GET)
     public String fileDelete(@RequestParam("id") int id, @RequestParam("sid") int sid) throws IOException {
         fileAttachmentMapper.deleteById(id);
-        return "redirect:/sponsor/basicInfo.do?id=" + sid;
+        return "redirect:/sponsor/sponsorEdit.do?id=" + sid;
     }
 
     // - 후원인구분2별 출연내역 -

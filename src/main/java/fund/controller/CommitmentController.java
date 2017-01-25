@@ -40,9 +40,9 @@ public class CommitmentController extends BaseController {
     public String commitmentList(Model model, @RequestParam("sid") int sid) {
         model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("list", commitmentMapper.selectBySponsorId(sid));
-        model.addAttribute("paymentMethodList", codeMapper.selectByCodeGroupID(C.코드그룹ID_정기납입방법));
+        model.addAttribute("paymentMethodList", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
         model.addAttribute("donationPurposeList", donationPurposeMapper.selectAll());
-        model.addAttribute("bankList", codeMapper.selectByCodeGroupID(C.코드그룹ID_은행));
+        model.addAttribute("bankList", codeMapper.selectByCodeGroupId(C.코드그룹ID_은행));
         return "sponsor/commitmentList";
     }
 
@@ -52,7 +52,7 @@ public class CommitmentController extends BaseController {
        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
        model.addAttribute("commitment", commitmentMapper.selectById(id));
        model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
-       model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupID(C.코드그룹ID_정기납입방법));
+       model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
        return "sponsor/commitmentEdit";
     }
 
@@ -96,8 +96,8 @@ public class CommitmentController extends BaseController {
         model.addAttribute("commitment", commitment);
         model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
-        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupID(C.코드그룹ID_정기납입방법));
-        model.addAttribute("banks", codeMapper.selectByCodeGroupID(C.코드그룹ID_은행));
+        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
+        model.addAttribute("banks", codeMapper.selectByCodeGroupId(C.코드그룹ID_은행));
         return "sponsor/commitmentNew";
     }
 

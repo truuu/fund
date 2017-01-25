@@ -1,64 +1,49 @@
 package fund.dto;
 
-import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotEmpty;
-
 public class Sponsor {
-    // AES128UtilService cipherService=new AES128UtilService(); //양방향 암호화 서비스
 
     int id;
-    String sponsorNo; //
-
-    @Size(min = 1, message = "이름을 입력하세요!")
-    String name; //
-    String juminNo; //
-    int sponsorType1Id; //
-    int sponsorType2Id; //
-    int churchId; //
-
-    @NotEmpty(message = "날짜를 입력해주세요")
-    String signUpDate; // Date -> String date시 에러남 400 파라미터타입문제 질문해야함
-
-    String mobilePhone; //
-    String recommender; //
-    String recommenderRelation; //
-    boolean mailReceiving; //
+    String sponsorNo;
+    String name;
+    String juminNo;
+    int sponsorType1Id;
+    int sponsorType2Id;
+    int churchId;
+    String signUpDate;
+    String mobilePhone;
+    String recommender;
+    String recommenderRelation;
+    boolean mailReceiving;
     int mailTo;
-
     String homeAddress;
-    String homePhone; //
-    String email; //
-    String company; //
-    String department; //
-    String position; //
+    String homePhone;
+    String email;
+    String company;
+    String department;
+    String position;
     String officePhone;
-    String etc; //
+    String etc;
     String officeAddress;
 
+    // 기타
     String address;
     String postCode;
     String sponsorType1;
     String sponsorType2;
     String church;
-
     String homeRoadAddress;
     String homeDetailAddress;
     String homePostCode;
-
     String officeRoadAddress;
     String officeDetailAddress;
     String officePostCode;
 
-    int sort; // 구분용 회원입력 0 - 회원수정 1
-    int sponsorCount; // 후원인구분2별 출연내역 회원수
-    int castCount; // 후원인구분2별 출연내역 출연수
-    // long sum;//후원인구분2별 출연내역 금액
-    int sum;// 후원인구분2별 출연내역 금액
+    int sponsorCount;  // 후원인구분2별 출연내역 회원수
+    int castCount;     // 후원인구분2별 출연내역 출연수
+    int sum;           // 후원인구분2별 출연내역 금액
+    double persent;    // 후원인별에 %값
 
-    double persent;// 후원인별에 %값
-
-    // junit 테스트를 위해 초기화
-    public Sponsor() {
+    public Sponsor() { // junit 테스트를 위해 초기화
         this.juminNo = "";
         this.mobilePhone = "";
         this.recommender = "";
@@ -72,137 +57,7 @@ public class Sponsor {
         this.officeAddress = "";
         this.officePhone = "";
         this.etc = "";
-
     }
-
-    public double getPersent() {
-        return persent;
-    }
-
-    public void setPersent(double persent) {
-        this.persent = persent;
-    }
-
-    public int getSum() {
-        return sum;
-    }
-
-    public void setSum(int sum) {
-        this.sum = sum;
-    }
-
-    public int getSponsorCount() {
-        return sponsorCount;
-    }
-
-    public void setSponsorCount(int sponsorCount) {
-        this.sponsorCount = sponsorCount;
-    }
-
-    public int getCastCount() {
-        return castCount;
-    }
-
-    public void setCastCount(int castCount) {
-        this.castCount = castCount;
-    }
-
-    public int getSort() {
-        return sort;
-    }
-
-    public void setSort(int sort) {
-        this.sort = sort;
-    }
-
-    public String getHomeRoadAddress() {
-        return homeRoadAddress;
-    }
-
-    public void setHomeRoadAddress(String homeRoadAddress) {
-        this.homeRoadAddress = homeRoadAddress;
-    }
-
-    public String getHomeDetailAddress() {
-        return homeDetailAddress;
-    }
-
-    public void setHomeDetailAddress(String homeDetailAddress) {
-        this.homeDetailAddress = homeDetailAddress;
-    }
-
-    public String getHomePostCode() {
-        return homePostCode;
-    }
-
-    public void setHomePostCode(String homePostCode) {
-        this.homePostCode = homePostCode;
-    }
-
-    public String getOfficeRoadAddress() {
-        return officeRoadAddress;
-    }
-
-    public void setOfficeRoadAddress(String officeRoadAddress) {
-        this.officeRoadAddress = officeRoadAddress;
-    }
-
-    public String getOfficeDetailAddress() {
-        return officeDetailAddress;
-    }
-
-    public void setOfficeDetailAddress(String officeDetailAddress) {
-        this.officeDetailAddress = officeDetailAddress;
-    }
-
-    public String getOfficePostCode() {
-        return officePostCode;
-    }
-
-    public void setOfficePostCode(String officePostCode) {
-        this.officePostCode = officePostCode;
-    }
-
-    public String getSponsorType1() {
-        return sponsorType1;
-    }
-
-    public void setSponsorType1(String sponsorType1) {
-        this.sponsorType1 = sponsorType1;
-    }
-
-    public String getSponsorType2() {
-        return sponsorType2;
-    }
-
-    public void setSponsorType2(String sponsorType2) {
-        this.sponsorType2 = sponsorType2;
-    }
-
-    public String getChurch() {
-        return church;
-    }
-
-    public void setChurch(String church) {
-        this.church = church;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPostCode() {
-        return postCode;
-    }
-
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
-    }
-    // DM발송때 address postCode
 
     public int getId() {
         return id;
@@ -364,6 +219,14 @@ public class Sponsor {
         this.officePhone = officePhone;
     }
 
+    public String getEtc() {
+        return etc;
+    }
+
+    public void setEtc(String etc) {
+        this.etc = etc;
+    }
+
     public String getOfficeAddress() {
         return officeAddress;
     }
@@ -372,12 +235,124 @@ public class Sponsor {
         this.officeAddress = officeAddress;
     }
 
-    public String getEtc() {
-        return etc;
+    public String getAddress() {
+        return address;
     }
 
-    public void setEtc(String etc) {
-        this.etc = etc;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
+
+    public String getSponsorType1() {
+        return sponsorType1;
+    }
+
+    public void setSponsorType1(String sponsorType1) {
+        this.sponsorType1 = sponsorType1;
+    }
+
+    public String getSponsorType2() {
+        return sponsorType2;
+    }
+
+    public void setSponsorType2(String sponsorType2) {
+        this.sponsorType2 = sponsorType2;
+    }
+
+    public String getChurch() {
+        return church;
+    }
+
+    public void setChurch(String church) {
+        this.church = church;
+    }
+
+    public String getHomeRoadAddress() {
+        return homeRoadAddress;
+    }
+
+    public void setHomeRoadAddress(String homeRoadAddress) {
+        this.homeRoadAddress = homeRoadAddress;
+    }
+
+    public String getHomeDetailAddress() {
+        return homeDetailAddress;
+    }
+
+    public void setHomeDetailAddress(String homeDetailAddress) {
+        this.homeDetailAddress = homeDetailAddress;
+    }
+
+    public String getHomePostCode() {
+        return homePostCode;
+    }
+
+    public void setHomePostCode(String homePostCode) {
+        this.homePostCode = homePostCode;
+    }
+
+    public String getOfficeRoadAddress() {
+        return officeRoadAddress;
+    }
+
+    public void setOfficeRoadAddress(String officeRoadAddress) {
+        this.officeRoadAddress = officeRoadAddress;
+    }
+
+    public String getOfficeDetailAddress() {
+        return officeDetailAddress;
+    }
+
+    public void setOfficeDetailAddress(String officeDetailAddress) {
+        this.officeDetailAddress = officeDetailAddress;
+    }
+
+    public String getOfficePostCode() {
+        return officePostCode;
+    }
+
+    public void setOfficePostCode(String officePostCode) {
+        this.officePostCode = officePostCode;
+    }
+
+    public int getSponsorCount() {
+        return sponsorCount;
+    }
+
+    public void setSponsorCount(int sponsorCount) {
+        this.sponsorCount = sponsorCount;
+    }
+
+    public int getCastCount() {
+        return castCount;
+    }
+
+    public void setCastCount(int castCount) {
+        this.castCount = castCount;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
+    }
+
+    public double getPersent() {
+        return persent;
+    }
+
+    public void setPersent(double persent) {
+        this.persent = persent;
     }
 
 }

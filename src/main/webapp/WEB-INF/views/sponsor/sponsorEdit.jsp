@@ -13,22 +13,18 @@
 </style>
 
 <script type="text/javaScript">
+var churchList = ${ json_churchList };
 $(function() {
-  $('#autoChurch').keyup(function() {
-     var content = $('#autoChurch').val();
-     if (content.length >= 2) {
-        $.ajax({
-           url: "http://localhost:8080/fund_sys/sponsor/autoList.do?input=" + content,
-           type: "GET", dataType: "json",
-           error: function(request, status,error) { },
-           success: function(data) { 
-               var a = $.map(data, function(e) { return e.codeName; });
-                $("#autoChurch").autocomplete({ source : a });
-           }
-        });
-     }
-  });
-});
+    $("#church").autocomplete({ 
+        source : churchList, 
+        select: function(event, ui) {
+            event.preventDefault();
+            $("input[name=church]").val(ui.item.label);
+            $("input[name=churchId]").val(ui.item.value); 
+        },
+        focus: function (event, ui) { event.preventDefault(); }
+    });
+});    
 </script>
 
 <c:set var="tab1" value="active" /> 
@@ -37,8 +33,8 @@ $(function() {
 <form:form method="post" action="sponsorInsert.do" id="target" modelAttribute="sponsor">
 
 <div class="pull-right mt4 mb4">
-  <button class="btn btn-primary" type="submit">저장</button>
-  <a href="delete.do?id=${ sponsor.id }" class="btn btn-danger" data-confirm-delete>삭제</a>
+  <button class="btn btn-primary" type="submit" name="cmd" value="save">저장</button>
+  <button class="btn btn-danger" type="submit" name="cmd" value="delete" data-confirm-delete>삭제</button>   
 </div>
 
 <!--  TODO: 삭제 -->
@@ -121,7 +117,10 @@ $(function() {
   </tr>
   <tr>
     <td class="lb">소속교회</td>
-    <td><input  type="text" id="autoChurch" name="church" value="${ sponsor.church}" /></td>
+    <td>
+        <input type="text" id="church" name="church" value="${ sponsor.church }" />
+        <form:hidden path="churchId" value="${ sponsor.churchId } " />
+    </td>
   </tr>
 </table>
 

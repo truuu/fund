@@ -41,8 +41,6 @@
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">후원인관리<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="/fund_sys/sponsor/list.do">후원인목록</a></li>
-              <li><a href="/fund_sys/sponsor/sponsor_m.do">후원인목록</a></li>
-              <li><a href="/fund_sys/sponsor/sponsor.do">후원인등록</a></li>
               <li><a href="/fund_sys/sponsor/post.do">DM주소록 생성</a></li>
             </ul></li>
 

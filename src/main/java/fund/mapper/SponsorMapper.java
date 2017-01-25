@@ -10,6 +10,12 @@ import fund.dto.Sponsor;
 public interface SponsorMapper {
 
     Sponsor selectById(int id);
+    List<Sponsor> selectNotEncrypted();
+
+    void update(Sponsor sponsor);
+    void updateJuminNo(Sponsor sponsor);
+    void delete(int id);
+
 
 	List<Sponsor> postManage(Pagination pagination);
 	List<Sponsor> excelDM(Pagination pagination);
@@ -34,13 +40,9 @@ public interface SponsorMapper {
 	List<Sponsor> sponsorSearch(Pagination pagination);
 	List<Sponsor> selectPage(Pagination pagination);//sponsor manage page
 	List<Sponsor> sponsorListExcel(Pagination pagination);
-	List<Sponsor> nameCheck(String name); // search name check
-	List<Sponsor> codeNameCheck(String codeName);
 
 	List<Sponsor> castBySponsorType2(@Param("startDate")String startDate,@Param("endDate")String endDate);
 
-	List<Sponsor> selectNotEncrypted();
-	void updateJuminNo(Sponsor sponsor);
 
     EB22 selectSponsorName(String sponsorNo);
 }

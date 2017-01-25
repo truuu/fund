@@ -38,7 +38,7 @@ public class DonationPurposeController extends BaseController{
 	@RequestMapping(value="/code/donationPurposeCreate.do", method=RequestMethod.GET)
 	public String create(Model model) {
 		model.addAttribute("corporateList",corporateMapper.selectCorporate());
-		model.addAttribute("organizationList",codeMapper.selectByCodeGroupID(7));
+		model.addAttribute("organizationList",codeMapper.selectByCodeGroupId(7));
 		return "code/donationPurposeCreate";
 	}
 
@@ -53,7 +53,7 @@ public class DonationPurposeController extends BaseController{
 		else if(result.hasErrors()) {
 
 			model.addAttribute("corporateList",corporateMapper.selectCorporate());
-			model.addAttribute("organizationList",codeMapper.selectByCodeGroupID(7));
+			model.addAttribute("organizationList",codeMapper.selectByCodeGroupId(7));
 
 			return "code/donationPurposeCreate";
 
@@ -68,7 +68,7 @@ public class DonationPurposeController extends BaseController{
 	public String edit(Model model,@RequestParam("ID") int ID) {
 		DonationPurpose donationPurpose = donationPurposeMapper.selectByID(ID);
 		model.addAttribute("corporateList",corporateMapper.selectCorporate());
-		model.addAttribute("organizationList",codeMapper.selectByCodeGroupID(7));
+		model.addAttribute("organizationList",codeMapper.selectByCodeGroupId(7));
 		model.addAttribute("donationPurpose",donationPurpose);
 
 		return "code/donationPurposeEdit";
@@ -87,7 +87,7 @@ public class DonationPurposeController extends BaseController{
 		else if(result.hasErrors()) {
 
 			model.addAttribute("corporateList",corporateMapper.selectCorporate());
-			model.addAttribute("organizationList",codeMapper.selectByCodeGroupID(7));
+			model.addAttribute("organizationList",codeMapper.selectByCodeGroupId(7));
 
 			return "code/donationPurposeEdit";
 

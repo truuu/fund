@@ -53,7 +53,7 @@
       </thead>
       <tbody>
         <c:forEach var="sponsor" items="${list}">
-          <tr data-url="basicInfo.do?id=${sponsor.id}&${pagination.queryString}">
+          <tr data-url="sponsorEdit.do?id=${sponsor.id}&${pagination.queryString}">
             <td>${sponsor.sponsorNo}</td>
             <td>${sponsor.name}</td>
             <td>${sponsor.sponsorType1}</td>

@@ -53,7 +53,7 @@ public class SponsorPaymentController {
     public String paymentEdit2(Model model, @RequestParam("id") int id) {
         model.addAttribute("payment", paymentMapper.selectById(id));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
-        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupID(C.코드그룹ID_비정기납입방법));
+        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_비정기납입방법));
         return "sponsor/paymentEdit2";
     }
 
@@ -82,7 +82,7 @@ public class SponsorPaymentController {
     public String paymentNew2(Model model) {
         model.addAttribute("payment", new Payment());
         model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
-        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupID(C.코드그룹ID_비정기납입방법));
+        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_비정기납입방법));
         return "sponsor/paymentEdit2";
     }
 

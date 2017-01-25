@@ -4,78 +4,66 @@
 
 <mapper namespace="fund.mapper.SponsorMapper">
 
-    <select id="selectById" resultType="fund.dto.Sponsor">
-        SELECT *,
-          (SELECT codeName FROM code c WHERE c.ID = s.churchID ) church,
-          (SELECT codeName FROM code t WHERE t.ID = s.sponsorType1ID) sponsorType1
-        FROM sponsor s
-        WHERE id = #{id}
-    </select>
-    
-    
+<select id="selectById" resultType="fund.dto.Sponsor">
+    SELECT *,
+      (SELECT codeName FROM code c WHERE c.ID = s.churchID ) church,
+      (SELECT codeName FROM code t WHERE t.ID = s.sponsorType1ID) sponsorType1
+    FROM sponsor s
+    WHERE id = #{id}
+</select>
 
-    <delete id="delete">
-        DELETE FROM [User] WHERE id = #{id}
-    </delete>
+<select id="selectNotEncrypted" resultType="fund.dto.Sponsor">
+ <![CDATA[
+    SELECT *
+    FROM sponsor
+    WHERE LEN(juminNo) < 20        
+ ]]>
+</select>
+    
+<update id="update">
+    UPDATE sponsor
+    SET 
+        name = #{name},
+        juminNo = #{juminNo},
+        sponsorType1ID = #{sponsorType1ID},
+        sponsorType2ID = #{sponsorType2ID},
+        churchID = #{churchID},
+        signUpDate = #{signUpDate},
+        mobilePhone = #{mobilePhone},
+        recommender = #{recommender},
+        recommenderRelation = #{recommenderRelation},
+        mailReceiving = #{mailReceiving},
+        mailTo = #{mailTo},
+        homeAddress = #{homeAddress},
+        homePhone = #{homePhone},
+        email = #{email},
+        company = #{company},
+        department = #{department},
+        position = #{position},
+        officePhone = #{officePhone},
+        officeAddress = #{officeAddress},
+        etc = #{etc}
+    WHERE id = #{id}
+</update>
+
+<update id="updateJuminNo">
+    UPDATE sponsor
+    SET juminNo = #{juminNo}
+    WHERE id = #{id}
+</update>
+
+<delete id="delete">
+    DELETE FROM [User] WHERE id = #{id}
+</delete>
+
+
+
     
     <select id="selectSponsorName" resultType="fund.dto.EB22">
 		select name from [sponsor]
 		where sponsorNo=#{sponsorNo}
 	</select>
 	
-	<!-- 후원자 수정 -->
-	<update id="updateSponsor">
-		UPDATE sponsor SET
-		sponsorNo=#{sponsorNo},
-		name=#{name},
-		juminNo=#{juminNo},
-		sponsorType1ID=#{sponsorType1ID},
-		sponsorType2ID=#{sponsorType2ID},
-		churchID=#{churchID},
-		signUpDate=#{signUpDate},
-		mobilePhone=#{mobilePhone},
-		recommender=#{recommender},
-		recommenderRelation=#{recommenderRelation},
-		mailReceiving=#{mailReceiving},
-		mailTo=#{mailTo},
-		homeAddress=#{homeAddress},
-		homePhone=#{homePhone},
-		email=#{email},
-		company=#{company},
-		department=#{department},
-		position=#{position},
-		officePhone=#{officePhone},
-		officeAddress=#{officeAddress},
-		etc=#{etc}
-		WHERE sponsorNo = #{sponsorNo}
-	</update>
-	
-	<!-- 후언자 수정 소속교회 정보를 지운경우  -->
-	<update id="updateSponsor2">
-		UPDATE sponsor SET
-		sponsorNo=#{sponsorNo},
-		name=#{name},
-		juminNo=#{juminNo},
-		sponsorType1ID=#{sponsorType1ID},
-		sponsorType2ID=#{sponsorType2ID},
-		churchID=null,
-		signUpDate=#{signUpDate},
-		mobilePhone=#{mobilePhone},
-		recommender=#{recommender},
-		recommenderRelation=#{recommenderRelation},
-		mailReceiving=#{mailReceiving},
-		mailTo=#{mailTo},
-		homeAddress=#{homeAddress},
-		homePhone=#{homePhone},
-		email=#{email},
-		company=#{company},
-		department=#{department},
-		position=#{position},
-		officePhone=#{officePhone},
-		officeAddress=#{officeAddress},
-		etc=#{etc}
-		WHERE sponsorNo = #{sponsorNo}
-	</update>
 	
 	<!-- 후원자 삭제 -->
 	<delete id="removeSponsor">
@@ -118,14 +106,6 @@
 		select * from sponsor where name=#{name};
 	</select>
 	
-		<!-- search codeName check -->
-	<select id="codeNameCheck" resultType="fund.dto.Sponsor">
-		SELECT * FROM sponsor
-		where sponsorType1ID in(select ID from code where codeName=#{codeName}) or
-		sponsorType2ID in(select ID from code where   codeName=#{codeName});
-
-	</select>
-
 	<!-- 회원검색 후원인구분 1,2로 -->
 	<select id="sponsorSearch" resultType="fund.dto.Sponsor">
 
@@ -335,17 +315,5 @@
      #{startDate} and #{endDate} group by sponsorType2ID;
 	</select>
 
-    <select id="selectNotEncrypted" resultType="fund.dto.Sponsor">
-     <![CDATA[
-        select *
-        from sponsor
-        where len(juminNo) < 20        
-     ]]>
-    </select>
     
-    <update id="updateJuminNo">
-        update sponsor
-        set juminNo = #{juminNo}
-        where id = #{id}
-    </update>
 </mapper>

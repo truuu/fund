@@ -4,19 +4,52 @@
 
 <mapper namespace="fund.mapper.CodeMapper">
 
-	<select id="selectByCodeName" resultType="fund.dto.Code">
-		select *
-		from code
-		where codeName=#{codeName}
-	</select>
+<select id="selectById" parameterType="int" resultType="fund.dto.Code">
+    SELECT *
+    FROM [Code]
+    WHERE ID = #{ID}
+</select>
 
-	<select id="selectByCodeGroupName" parameterType="String"
-		resultType="fund.dto.Code">
-		select c1.*
-		from [Code] c1 left join [CodeGroup] c2 on
-		c1.codeGroupID=c2.ID
-		where c2.name=#{name}
-	</select>
+<select id="selectByCodeName" resultType="fund.dto.Code">
+    SELECT *
+    FROM code
+    WHERE codeName=#{codeName}
+</select>
+
+<select id="selectCodeGroupById" resultType="fund.dto.CodeGroup">
+    SELECT *
+    FROM [CodeGroup]
+    WHERE ID = #{ID}
+</select>
+
+<select id="selectByCodeGroupId"  resultType="fund.dto.Code"> 
+    SELECT *
+    FROM [Code] 
+    WHERE codeGroupID = #{codeGroupID}            
+</select>
+
+<select id="selectByCodeGroupName" resultType="fund.dto.Code">
+    SELECT c1.*
+    FROM [Code] c1 left JOIN [CodeGroup] c2 ON c1.codeGroupID = c2.ID
+    WHERE c2.name = #{name}
+</select>
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT [Code] (codeGroupID, codeName, etc1, etc2, etc3)
+    VALUES (#{codeGroupID}, #{codeName}, #{etc1}, #{etc2}, #{etc3})
+</insert>
+
+<update id="update">
+    UPDATE [Code]
+    SET codeName = #{codeName}, 
+    etc1 = #{etc1}
+    WHERE ID = #{id}
+</update>
+
+<delete id="delete">
+    DELETE FROM [Code] WHERE ID = #{id}
+</delete>
+
 
 	<select id="selectAllPaymentMethod" resultType="fund.dto.Code">
 		select c2.*
@@ -27,57 +60,11 @@
 	</select>
 
 
-	<select id="selectCodeName" resultType="String">
-		select codeName
-		from code
-		where ID=#{ID}
-	</select>
-
-	<select id="selectByID" parameterType="int" resultType="fund.dto.Code">
-		SELECT *
-		FROM [Code]
-		WHERE ID = #{ID}
-	</select>
-
 	<select id="selectCodeGroup" resultType="fund.dto.CodeGroup">
 		SELECT *
 		FROM [CodeGroup]
 	</select>
 
-	<select id="selectByName" resultType="java.lang.String">
-		SELECT name
-		FROM [CodeGroup]
-		WHERE ID = #{CodeGroupID}
-	</select>
-
-	<select id="selectByCodeGroupID"  resultType="fund.dto.Code"> 
-	SELECT *
-    FROM [Code] 
-    where codeGroupID = #{codeGroupID}
-            
-	</select>
-
-	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
-		INSERT [Code]
-		(codeGroupID, codeName, etc1, etc2, etc3)
-		VALUES (#{codeGroupID},#{codeName},#{etc1},#{etc2},#{etc3})
-	</insert>
-
-	<update id="update">
-		UPDATE [Code]
-		SET codeName = #{codeName}, etc1 = #{etc1}
-		WHERE ID = #{ID}
-	</update>
-
-	<delete id="delete">
-		DELETE FROM [Code] WHERE ID = #{ID}
-	</delete>
-    
-    <select id="selectChurchByName" resultType="fund.dto.Code">
-        SELECT codeName
-        FROM Code
-        WHERE codeGroupID = 5 and codeName LIKE '%'+#{name}+'%'
-    </select>
    
 
 </mapper>
