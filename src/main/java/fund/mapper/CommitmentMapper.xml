@@ -5,23 +5,23 @@
 <mapper namespace="fund.mapper.CommitmentMapper">
 
 <sql id="select1"> 
-<![CDATA[
-DECLARE @today Date
-SET @today = GETDATE()
-SELECT c.*, me.codeName paymentMethodName, b.codeName bankName,
-    do.name donationPurposeName, 
-    co.name corporateName, org.codeName organizationName,
-    CASE WHEN @today < startDate THEN '시작전' 
-         WHEN @today > endDate THEN '종료'
-         ELSE '진행' END [state],
-    datediff(MM, startDate, ISNULL(endDate, GETDATE())) months                 
-FROM Commitment c 
-    LEFT JOIN [Code] me ON me.id = c.paymentMethodId
-    LEFT JOIN [Code] b ON b.id = c.bankId
-    LEFT JOIN DonationPurpose do ON do.id = c.donationPurposeId
-    LEFT JOIN Corporate co ON co.id = do.corporateId
-    LEFT JOIN [Code] org ON org.id = do.organizationId
-]]>
+    <![CDATA[
+    DECLARE @today Date
+    SET @today = GETDATE()
+    SELECT c.*, me.codeName paymentMethodName, b.codeName bankName,
+        do.name donationPurposeName, 
+        co.name corporateName, org.codeName organizationName,
+        CASE WHEN @today < startDate THEN '시작전' 
+             WHEN @today > endDate THEN '종료'
+             ELSE '진행' END [state],
+        datediff(MM, startDate, ISNULL(endDate, GETDATE())) months                 
+    FROM Commitment c 
+        LEFT JOIN [Code] me ON me.id = c.paymentMethodId
+        LEFT JOIN [Code] b ON b.id = c.bankId
+        LEFT JOIN DonationPurpose do ON do.id = c.donationPurposeId
+        LEFT JOIN Corporate co ON co.id = do.corporateId
+        LEFT JOIN [Code] org ON org.id = do.organizationId
+    ]]>
 </sql>
 
 <select id="selectById" resultType="fund.dto.Commitment">

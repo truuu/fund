@@ -3,40 +3,67 @@
              
 <mapper namespace="fund.mapper.PaymentMapper">
 
-<select id="selectPaymentList1" resultType="fund.dto.Payment">
-    SELECT p.amount, p.paymentDate, p.etc,
+<sql id="select1">
+    SELECT p.*,
+      co.name corporateName, og.codeName organizationName, dp.name donationPurposeName, me.codeName paymentMethodName,
       c.commitmentNo, c.accountNo, c.accountHolder,
-      (SELECT code.codeName FROM code WHERE code.ID=c.bankID) AS bankName,
-      co.name corporate, og.codeName organizationName, dp.name donationPurpose, me.codeName paymentMethod
-    FROM payment p
-      LEFT JOIN commitment c ON p.commitmentID = c.ID
-      LEFT JOIN code me ON me.ID = p.paymentMethodID 
-      LEFT JOIN donationPurpose dp ON c.donationPurposeID = dp.ID
-      LEFT JOIN code og ON og.ID = dp.organizationID 
-      LEFT JOIN corporate co ON dp.corporateID = co.ID
-      LEFT JOIN code bk ON bk.ID = c.bankID
-    WHERE p.sponsorID = #{sponsorId}
-    AND me.codeGroupID = 3
-    ORDER BY paymentDate DESC
-</select>
-
-<select id="selectPaymentList2" resultType="fund.dto.Payment">
-    SELECT p.amount, p.paymentDate, p.etc, p.donationPurposeID,
-      co.name corporate, og.codeName organizationName, dp.name donationPurpose, me.codeName paymentMethod
+      bk.codeName bankName
     FROM payment p
       LEFT JOIN code me ON me.ID = p.paymentMethodID 
       LEFT JOIN donationPurpose dp ON p.donationPurposeID = dp.ID
       LEFT JOIN code og ON og.ID = dp.organizationID 
       LEFT JOIN corporate co ON dp.corporateID = co.ID
-    WHERE p.sponsorID = #{sponsorId}
-    AND me.codeGroupID = 4
+      LEFT JOIN commitment c ON p.commitmentID = c.ID
+      LEFT JOIN code bk ON bk.ID = c.bankID
+</sql>
+
+<select id="selectById" resultType="fund.dto.Payment">
+    <include refid="select1"></include>
+    WHERE p.id = #{id}
 </select>
 
-<select id="selectById" resultType="int">
-	SELECT sponsorID
-	FROM Payment
-	WHERE id = #{id}
+<select id="selectPaymentList1" resultType="fund.dto.Payment">
+    <include refid="select1"></include>
+    WHERE p.sponsorID = #{sponsorId}
+    AND me.codeGroupID = 3
+    ORDER BY ${orderBy}
 </select>
+
+<select id="selectPaymentList2" resultType="fund.dto.Payment">
+    <include refid="select1"></include>
+    WHERE p.sponsorID = #{sponsorId}
+    AND me.codeGroupID = 4
+    ORDER BY ${orderBy}
+</select>
+
+<update id="update"> <!-- 비정기 납입 저장 -->    
+    <![CDATA[
+    UPDATE Payment
+      SET 
+        amount = #{amount}, 
+        paymentDate=CONVERT(DATE, IIF(LEN(RTRIM(#{paymentDate})) < 10, null, #{paymentDate})), 
+        donationPurposeID = #{donationPurposeId}, 
+        paymentMethodID = #{paymentMethodId},
+        etc = #{etc}
+    FROM [Payment]
+    WHERE ID = #{id}
+    ]]>
+</update>
+
+<delete id="delete">
+    DELETE FROM Payment WHERE id = #{id}
+</delete>
+
+<insert id="insert2" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+    INSERT INTO payment (sponsorID, amount, donationPurposeID, paymentMethodID, etc, paymentDate)
+    VALUES  (#{sponsorId}, #{amount}, #{donationPurposeId}, #{paymentMethodId}, #{etc},
+             CONVERT(DATE, IIF(LEN(RTRIM(#{paymentDate})) < 10, null, #{paymentDate})))
+    ]]>
+</insert>
+    
+    
+
 	
 	<select id="selectDistinctSponsorID" resultType="Integer">
 		SELECT DISTINCT sponsorID
@@ -124,10 +151,6 @@
 		SET receiptID = NULL
 		WHERE receiptID=#{id}
 	</update>
-
-    <delete id="delete">
-        DELETE FROM [Payment] WHERE id = #{id}
-    </delete>
 
 	<select id="selectComparePaymentDate" resultType="fund.dto.Payment">
 		select (select
@@ -296,11 +319,6 @@
 		values(#{sponsorID},#{commitmentID},#{amountPerMonth},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
 	</insert>
 	
-	<insert id="insertXferResult" useGeneratedKeys="true" keyProperty="id">
-		insert into payment(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
-		values(#{sponsorID},#{commitmentID},#{amount},CONVERT(DATE,#{paymentDate}),#{donationPurposeID},#{paymentMethodID})
-	</insert>
-	
 	<insert id="insertSalaryResult" useGeneratedKeys="true" keyProperty="id">
 		insert into payment(sponsorID,commitmentID,amount,paymentDate,donationPurposeID,paymentMethodID)
 		values(#{sponsorID},#{commitmentID},#{amount},#{paymentDate},#{donationPurposeID},#{paymentMethodID})
@@ -324,17 +342,6 @@
 		JOIN corporate co ON dp.corporateID=co.ID
 		where p.ID=#{id}
 	</select>
-	
-	<update id="updateIrregular">
-		UPDATE [Payment]
-		SET amount = #{amount}, paymentDate=#{paymentDateString}, donationPurposeID=#{donationPurposeID}, paymentMethodID=#{paymentMethodID}
-		FROM [Payment]
-		WHERE ID=#{id}
-	</update>
-	
-	<delete id="deleteIrregular">
-		DELETE FROM [Payment] WHERE ID=#{id}
-	</delete>
 	
 	<select id="selectMonthDonationPurposePayment" resultType="fund.dto.PaymentSummary1">
 

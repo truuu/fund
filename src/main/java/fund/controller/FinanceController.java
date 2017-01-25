@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +81,7 @@ public class FinanceController extends BaseController{
 	public String saveCommitmentNo( @RequestParam("index") int[] indexes, @RequestParam("commitmentNo") String[] commitmentNos,HttpSession session,Model model) throws IOException, ParseException {
 		List<XferResult> list = (List<XferResult>)session.getAttribute("xferResult");
 		if (list == null) return "redirect:saveXferResult1.do";
-		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		//SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		List<Payment> paymentList = new ArrayList<Payment>();
 		for (int i : indexes) {
 			XferResult x = list.get(i);
@@ -95,8 +93,9 @@ public class FinanceController extends BaseController{
 			payment.setSponsorId(commitment.getSponsorId());
 			payment.setCommitmentId(commitment.getId());
 			payment.setCommitmentNo(commitmentNo);
-			Date pDate = transFormat.parse(x.getPaymentDate());
-			payment.setPaymentDate(pDate);
+			//Date pDate = transFormat.parse(x.getPaymentDate());
+			//payment.setPaymentDate(pDate);
+			payment.setPaymentDate(x.getPaymentDate());
 			payment.setAmount(Integer.parseInt(x.getAmount()));
 			payment.setDonationPurposeId(commitment.getDonationPurposeId());
 			payment.setPaymentMethodId(commitment.getPaymentMethodId());
@@ -141,7 +140,7 @@ public class FinanceController extends BaseController{
 	public String salaryToPayment(HttpSession session,Model model) throws ParseException{
 		List<Salary> list = (List<Salary>)session.getAttribute("salaryListSession");
 		if (list == null) return "redirect:uploadSalaryResult.do";
-		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		//SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		List<Payment> paymentList = new ArrayList<Payment>();
 		for (int i=0; i<list.size(); i++) {
 			Salary x = list.get(i);
@@ -153,8 +152,9 @@ public class FinanceController extends BaseController{
 			payment.setSponsorId(commitment.getSponsorId());
 			payment.setCommitmentId(commitment.getId());
 			payment.setCommitmentNo(commitment.getCommitmentNo());
-			Date pDate = transFormat.parse(x.getPaymentDate());
-			payment.setPaymentDate(pDate);
+			//Date pDate = transFormat.parse(x.getPaymentDate());
+            //payment.setPaymentDate(pDate);
+			payment.setPaymentDate(x.getPaymentDate());
 			payment.setAmount(Integer.parseInt(x.getAmount()));
 			payment.setDonationPurposeId(commitment.getDonationPurposeId());
 			payment.setPaymentMethodId(commitment.getPaymentMethodId());

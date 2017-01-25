@@ -48,9 +48,9 @@ public class CommitmentController extends BaseController {
 
     /* 약정 수정 */
     @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.GET)
-    public String commitmentEdit(Model model, @RequestParam("cid") int cid, @RequestParam("sid") int sid) throws ParseException {
+    public String commitmentEdit(Model model, @RequestParam("id") int id, @RequestParam("sid") int sid) throws ParseException {
        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
-       model.addAttribute("commitment", commitmentMapper.selectById(cid));
+       model.addAttribute("commitment", commitmentMapper.selectById(id));
        model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupID(C.코드그룹ID_정기납입방법));
        return "sponsor/commitmentEdit";
@@ -71,15 +71,15 @@ public class CommitmentController extends BaseController {
 
     /* 약정 종료 */
     @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.POST, params="cmd=close")
-    public String commitmentClose(Model model, @RequestParam("cid") int cid, @RequestParam("sid") int sid) throws Exception {
-        commitmentMapper.updateEndDate(cid);
+    public String commitmentClose(Model model, @RequestParam("id") int id, @RequestParam("sid") int sid) throws Exception {
+        commitmentMapper.updateEndDate(id);
         return redirectToList(model, sid);
     }
 
     /* 약정 삭제 */
     @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.POST, params="cmd=delete")
-    public String commitmentDelete(Model model, @RequestParam("cid") int cid, @RequestParam("sid") int sid) throws Exception {
-        commitmentMapper.delete(cid);
+    public String commitmentDelete(Model model, @RequestParam("id") int id, @RequestParam("sid") int sid) throws Exception {
+        commitmentMapper.delete(id);
         return redirectToList(model, sid);
     }
 
@@ -111,6 +111,7 @@ public class CommitmentController extends BaseController {
             commitmentMapper.insert(commitment);
             return redirectToList(model, sid);
         } catch (DataIntegrityViolationException e) {
+            // TODO: 에러처리
             //String msg = e.getMessage();
             //Pattern r = Pattern.compile("@&([^)]+)&@");
             //Matcher m = r.matcher(msg);

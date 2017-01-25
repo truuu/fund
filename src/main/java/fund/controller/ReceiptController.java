@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,37 +15,41 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import fund.BaseController;
-import fund.mapper.*;
-import fund.dto.Corporate;
 import fund.dto.Pagination;
 import fund.dto.Payment;
 import fund.dto.Receipt;
 import fund.dto.Sponsor;
 import fund.dto.TempNo;
-import fund.service.*;
+import fund.mapper.CorporateMapper;
+import fund.mapper.PaymentMapper;
+import fund.mapper.ReceiptMapper;
+import fund.mapper.SponsorMapper;
+import fund.mapper.TempNoMapper;
+import fund.service.ReceiptService;
+import fund.service.ReportBuilder;
+import fund.service.ReportBuilder2;
 import net.sf.jasperreports.engine.JRException;
 
 @Controller
 public class ReceiptController extends BaseController{
-	
+
 	@Autowired ReceiptMapper receiptMapper;
 	@Autowired PaymentMapper paymentMapper;
 	@Autowired CorporateMapper corporateMapper;
 	@Autowired SponsorMapper sponsorMapper;
 	@Autowired TempNoMapper tempNoMapper;
 	@Autowired SimpleDriverDataSource dataSource;
-		
+
 	@Autowired ReceiptService receiptService;
-	
+
 	@RequestMapping(value="/certificate/receiptList.do")
 	public String receiptManage(Model model, Pagination pagination)throws Exception {
 		pagination.setRecordCount(receiptMapper.selectCount(pagination));
 		model.addAttribute("receiptList",receiptMapper.selectPage(pagination));
 		return "certificate/receiptList";
 	}
-	
+
 	@RequestMapping(value="/certificate/receiptList.do", method=RequestMethod.POST, params="cmd=deleteRct")
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public String deleteReceipts(Model model, HttpServletRequest req,HttpServletResponse res)throws Exception{
@@ -60,7 +64,7 @@ public class ReceiptController extends BaseController{
 		}
 		return "redirect:/certificate/receiptList.do";
 	}
-	
+
 	@RequestMapping(value="/certificate/receiptList.do", method=RequestMethod.POST, params="cmd=rct")
     public void receiptListReport(@RequestParam("rid") int[] rid, HttpServletRequest request, HttpServletResponse response) throws JRException, IOException, SQLException {
 		tempNoMapper.deleteAll();
@@ -78,7 +82,7 @@ public class ReceiptController extends BaseController{
             stringBuilder.deleteCharAt(stringBuilder.length()-1);
             stringBuilder.append(')');
         }
-        
+
         List<Sponsor> sponsorList = sponsorMapper.selectByReceipt(stringBuilder.toString());
         tempNoMapper.deleteAll();
         TempNo tempNo = new TempNo();
@@ -87,13 +91,13 @@ public class ReceiptController extends BaseController{
         	tempNo.setNo("01012345678");//임시
         	tempNoMapper.tempInsert(tempNo);
         }
-        
+
         ReportBuilder2 reportBuilder = new ReportBuilder2("donationReceipt","donationReceipt.pdf",request, response);
         reportBuilder.setConnection(dataSource.getConnection());
         reportBuilder.setParameter("whereClause", stringBuilder.toString());
         reportBuilder.addSubReport("paymentList.jasper");
         reportBuilder.build("pdf");
-        
+
         tempNoMapper.deleteAll();
     }
 
@@ -105,24 +109,24 @@ public class ReceiptController extends BaseController{
 		for(Receipt r : list)
 			r.setPaymentList(paymentMapper.selectByRctID(id));
 		String whereClause = "WHERE r.id="+id;
-		
+
 		Receipt tmpReceipt = new Receipt();
 		tmpReceipt = receiptMapper.selectById(id);
 		TempNo tempNo=new TempNo();
 		tempNo.setId(tmpReceipt.getSponsorID());
 		tempNo.setNo("012345678910");//임시
 		tempNoMapper.tempInsert(tempNo);
-		
+
 		ReportBuilder2 reportBuilder = new ReportBuilder2("donationReceipt","Receipt.pdf",req,res);
 		reportBuilder.setConnection(dataSource.getConnection());
 		reportBuilder.setParameter("whereClause", whereClause);
         reportBuilder.addSubReport("paymentList.jasper");
         reportBuilder.build("pdf");
-        
+
         tempNoMapper.deleteAll();
  	}
-	
-	
+
+
 	@RequestMapping(value="/certificate/receiptByDur.do",method=RequestMethod.GET )
 	public String receiptByDuration(Model model)throws Exception{
 		return "certificate/receiptByDur";
@@ -159,7 +163,7 @@ public class ReceiptController extends BaseController{
 		}
 		return "redirect:/certificate/receiptList.do";
 	}
-	
+
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.GET)
 	public String receiptByName(Model model,Pagination pagination,String errorMsg)throws Exception {
 		model.addAttribute("paymentList",paymentMapper.selectReceiptByName(pagination));
@@ -167,14 +171,14 @@ public class ReceiptController extends BaseController{
 		model.addAttribute("errorMsg",errorMsg);
 		return "certificate/receiptByName";
 	}
-	
+
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params="cmd=search")
 	public String paymentListForReceipt(Model model, Payment payment,Pagination pagination,HttpServletRequest req, HttpServletResponse res)throws Exception{
 		model.addAttribute("paymentList",paymentMapper.selectReceiptByName(pagination));
 		model.addAttribute("corporates",corporateMapper.selectCorporate());
 		return "certificate/receiptByName";
 	}
-	
+
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params="cmd=deleteRct")
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public String deleteReceipt(Payment payment,Pagination pagination,Model model, HttpServletRequest req, HttpServletResponse res)throws Exception{
@@ -184,18 +188,17 @@ public class ReceiptController extends BaseController{
 		model.addAttribute("corporates",corporateMapper.selectCorporate());
 		return "redirect:/certificate/receiptByName.do?"+pagination.getQueryString();
 	}
-	
+
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params="cmd=issueRct" )
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public String issueReceiptByName(Model model,Pagination pagination, HttpServletRequest req,HttpServletResponse res)throws Exception{
-		String[] pID = req.getParameterValues("pid");
+	public String issueReceiptByName(Model model,Pagination pagination, @RequestParam("pid") int[] pID, HttpServletRequest req,HttpServletResponse res)throws Exception{
 		String startdate = pagination.getStartDate();
 		String message = receiptService.validateBeforeInsert(pID);
 		model.addAttribute("corporates",corporateMapper.selectCorporate());
-		
+
 		if(message == null){
 			//영수증생성
-			String[] getY = startdate.split("-");			
+			String[] getY = startdate.split("-");
 			int rctNoInt;
 
 			if(receiptMapper.getLastNo(getY[0])==null)
@@ -208,24 +211,24 @@ public class ReceiptController extends BaseController{
 			String newRctNo = getY[0]+"-"+String.format("%04d", rctNoInt+1);
 
 			Receipt rct = new Receipt();
-			rct.setSponsorID(paymentMapper.selectById(pID[0]));
+			rct.setSponsorID(paymentMapper.selectById(pID[0]).getSponsorId());
 			rct.setCreateDate(req.getParameter("createDate"));
 			rct.setNo(newRctNo);
 			receiptMapper.insert(rct);
 			int rctID = receiptMapper.selectRctID();
-			for(int i=0;i<pID.length;i++){
+			for(int i=0; i < pID.length;i++){
 				paymentMapper.issueReceiptByName(rctID,pID[i]);
 			}
-			
+
 		} else{
 			model.addAttribute("errorMsg",message);
 			return "redirect:/certificate/receiptByName.do?"+pagination.getQueryString();
 		}
-		
+
 		return "redirect:/certificate/receiptList.do";
 	}
-	
-	
+
+
 	@RequestMapping("/certificate/taxData.do")
 	public String taxData(Model model,Pagination pagination)throws Exception{
 		pagination.setRecordCount(paymentMapper.selectCount(pagination));
@@ -240,5 +243,5 @@ public class ReceiptController extends BaseController{
  		ReportBuilder reportBuilder = new ReportBuilder("taxData",list,"taxData.xlsx",req,res);
 		reportBuilder.build("xlsx");
  	}
-	
+
 }

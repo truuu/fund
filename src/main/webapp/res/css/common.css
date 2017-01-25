@@ -65,4 +65,5 @@ input:-ms-input-placeholder { color: #aaa; }
 /** bootstrap override **/
 body input { line-height: 1em; }
 body select { line-height: 1em; }
-a.btn-gray { background-color: #ccc; color:black; }
+body a.btn-gray { background-color: #ddd; color:black; }
+body button.btn-gray { background-color: #ddd; color:black; }

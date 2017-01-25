@@ -1,167 +1,45 @@
 package fund.dto;
 
-import java.util.Date;
-
 public class Payment {
     int id;
     int sponsorId;
     int commitmentId;
     int amount;
-    Date paymentDate;
+    String paymentDate;
     String etc;
     int receiptId;
     int donationPurposeId;
     int paymentMethodId;
 
-    String donationPurpose; // 기부목적name
+    String donationPurposeName;
     String organizationName;
+    String paymentMethodName;
+    String corporateName;
+
+    String corporateId;
+
     int count1; // 기부후원인 수 count
     int count2; // 기부목적 count
-    int sum; // 총 기부금
-    double percent; // 백분율
+    int sum;    // 총 기부금
+    double percent;      // 백분율
     String sponsorNo;
-    String name; // 후원인 이름
+    String name;         // 후원인 이름
     String sponsorType2; // 후원인구분2
     String church;
-    String gubun; // 정기/비정기 구분
-    String paymentMethod; // 납입 방법
-    int totalSum; // 납입 총계 후원인당 총액
-    int totalCount; // 납입 총계 후원인당 총납입수
+    String gubun;    // 정기/비정기 구분
+    int totalSum;    // 납입 총계 후원인당 총액1
+    int totalCount;  // 납입 총계 후원인당 총납입수
 
     String juminNo;
-
     String commitmentNo;
     String accountNo;
     String bankName;
     String accountHoler;
-    String corporate;
     int amountPerMonth;
 
     String rctNo;// 영수증번호
-    String corporateId;
-
     String accountHolder;// 예금주...
     String paymentDateString;
-
-    public String getPaymentDateString() {
-        return paymentDateString;
-    }
-
-    public void setPaymentDateString(String paymentDateString) {
-        this.paymentDateString = paymentDateString;
-    }
-
-    public String getAccountHolder() {
-        return accountHolder;
-    }
-
-    public void setAccountHolder(String accountHolder) {
-        this.accountHolder = accountHolder;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public String getCommitmentNo() {
-        return commitmentNo;
-    }
-
-    public void setCommitmentNo(String commitmentNo) {
-        this.commitmentNo = commitmentNo;
-    }
-
-    public String getAccountNo() {
-        return accountNo;
-    }
-
-    public void setAccountNo(String accountNo) {
-        this.accountNo = accountNo;
-    }
-
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
-
-    public String getAccountHoler() {
-        return accountHoler;
-    }
-
-    public void setAccountHoler(String accountHoler) {
-        this.accountHoler = accountHoler;
-    }
-
-    public String getCorporate() {
-        return corporate;
-    }
-
-    public void setCorporate(String corporate) {
-        this.corporate = corporate;
-    }
-
-    public String getDonationPurpose() {
-        return donationPurpose;
-    }
-
-    public void setDonationPurpose(String donationPurpose) {
-        this.donationPurpose = donationPurpose;
-    }
-
-    public int getAmountPerMonth() {
-        return amountPerMonth;
-    }
-
-    public void setAmountPerMonth(int amountPerMonth) {
-        this.amountPerMonth = amountPerMonth;
-    }
-
-    public String getJuminNo() {
-        return juminNo;
-    }
-
-    public void setJuminNo(String juminNo) {
-        this.juminNo = juminNo;
-    }
-
-    public String getCorporateId() {
-        return corporateId;
-    }
-
-    public void setCorporateId(String corporateId) {
-        this.corporateId = corporateId;
-    }
-
-    public String getRctNo() {
-        return rctNo;
-    }
-
-    public void setRctNo(String rctNo) {
-        this.rctNo = rctNo;
-    }
-
-    public String getSponsorNo() {
-        return sponsorNo;
-    }
-
-    public void setSponsorNo(String sponsorNo) {
-        this.sponsorNo = sponsorNo;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public int getId() {
         return id;
@@ -195,11 +73,11 @@ public class Payment {
         this.amount = amount;
     }
 
-    public Date getPaymentDate() {
+    public String getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Date paymentDate) {
+    public void setPaymentDate(String paymentDate) {
         this.paymentDate = paymentDate;
     }
 
@@ -235,6 +113,46 @@ public class Payment {
         this.paymentMethodId = paymentMethodId;
     }
 
+    public String getDonationPurposeName() {
+        return donationPurposeName;
+    }
+
+    public void setDonationPurposeName(String donationPurposeName) {
+        this.donationPurposeName = donationPurposeName;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+
+    public String getPaymentMethodName() {
+        return paymentMethodName;
+    }
+
+    public void setPaymentMethodName(String paymentMethodName) {
+        this.paymentMethodName = paymentMethodName;
+    }
+
+    public String getCorporateName() {
+        return corporateName;
+    }
+
+    public void setCorporateName(String corporateName) {
+        this.corporateName = corporateName;
+    }
+
+    public String getCorporateId() {
+        return corporateId;
+    }
+
+    public void setCorporateId(String corporateId) {
+        this.corporateId = corporateId;
+    }
+
     public int getCount1() {
         return count1;
     }
@@ -265,6 +183,22 @@ public class Payment {
 
     public void setPercent(double percent) {
         this.percent = percent;
+    }
+
+    public String getSponsorNo() {
+        return sponsorNo;
+    }
+
+    public void setSponsorNo(String sponsorNo) {
+        this.sponsorNo = sponsorNo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSponsorType2() {
@@ -307,13 +241,76 @@ public class Payment {
         this.totalCount = totalCount;
     }
 
-    public String getOrganizationName() {
-        return organizationName;
+    public String getJuminNo() {
+        return juminNo;
     }
 
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
+    public void setJuminNo(String juminNo) {
+        this.juminNo = juminNo;
     }
 
+    public String getCommitmentNo() {
+        return commitmentNo;
+    }
+
+    public void setCommitmentNo(String commitmentNo) {
+        this.commitmentNo = commitmentNo;
+    }
+
+    public String getAccountNo() {
+        return accountNo;
+    }
+
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public String getAccountHoler() {
+        return accountHoler;
+    }
+
+    public void setAccountHoler(String accountHoler) {
+        this.accountHoler = accountHoler;
+    }
+
+    public int getAmountPerMonth() {
+        return amountPerMonth;
+    }
+
+    public void setAmountPerMonth(int amountPerMonth) {
+        this.amountPerMonth = amountPerMonth;
+    }
+
+    public String getRctNo() {
+        return rctNo;
+    }
+
+    public void setRctNo(String rctNo) {
+        this.rctNo = rctNo;
+    }
+
+    public String getAccountHolder() {
+        return accountHolder;
+    }
+
+    public void setAccountHolder(String accountHolder) {
+        this.accountHolder = accountHolder;
+    }
+
+    public String getPaymentDateString() {
+        return paymentDateString;
+    }
+
+    public void setPaymentDateString(String paymentDateString) {
+        this.paymentDateString = paymentDateString;
+    }
 
 }

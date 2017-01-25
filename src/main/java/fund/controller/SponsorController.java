@@ -66,8 +66,8 @@ public class SponsorController extends BaseController {
 
     // 후원인 기본정보
     @RequestMapping("/sponsor/basicInfo.do")
-    public String basicInfo(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
-        Sponsor sponsor = sponsorMapper.selectById(sid);
+    public String basicInfo(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
+        Sponsor sponsor = sponsorMapper.selectById(id);
         SponsorService.decryptJuminNo(sponsor);
 
         String[] a = SponsorService.splitAddress(sponsor.getHomeAddress());
@@ -83,10 +83,12 @@ public class SponsorController extends BaseController {
         model.addAttribute("sponsor", sponsor);
         model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1));
         model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));
-        model.addAttribute("files", fileAttachmentMapper.selectBySponosrId(sid));
+        model.addAttribute("files", fileAttachmentMapper.selectBySponosrId(id));
 
         return "sponsor/basicInfo";
     }
+
+
 
     // 주민등록번호 암호화 되지 않은 후원인 암호화
     @RequestMapping("/sponsor/encryptNo.do")

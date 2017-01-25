@@ -1,17 +1,14 @@
 package fund;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertNotNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import fund.dto.Payment;
 import fund.mapper.EB21_CommitmentDetailMapper;
 import fund.mapper.PaymentMapper;
@@ -39,17 +36,17 @@ public class TestEB22Mapper {
 		eb21_commitmentDetailMapper.updateEB21error("129",date,"0012");
 		//������ ����� update
 		eb21_commitmentDetailMapper.updateEB21success(date);
-		
+
 		//������ ����� ���� ��Ͽ� insert
 		Payment payment = new Payment();
 		payment.setSponsorId(129);
 		payment.setCommitmentId(91);
 		payment.setAmount(50000);
-		payment.setPaymentDate(date);
+		payment.setPaymentDate(pDate);
 		payment.setDonationPurposeId(90);
 		payment.setPaymentMethodId(10);
 		paymentMapper.insertEB21Payment(payment);
-		
+
 		//eb2122 ��� Ȯ��
 		eb21_commitmentDetailMapper.selectEB2122("2016-11-01", "2016-12-30");
 	}

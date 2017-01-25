@@ -7,9 +7,14 @@
 <c:set var="tab4" value="active" />
 <%@include file="_tab.jsp" %>
 
+<c:set var="pg" value="${ pagination.queryString }" />
+<c:set var="sid" value="${ sponsor.id }" />
+
 <div class="pull-right mt4 mb4">
-  <a href="paymentNew.do?${q}" class="btn btn-primary">새로 등록</a>
-</div>    
+  <a href="paymentNew2.do?sid=${sid}&${pg}" class="btn btn-primary">새로 등록</a>
+</div>
+
+<%@include file="_paymentOrderBy.jsp" %>
 
 <table class="table table-bordered mt20">
   <thead>
@@ -23,13 +28,14 @@
   </thead>
   <c:forEach var="payment" items="${ list }">
     <tbody>
-      <tr>
-        <td>${ payment.paymentMethod }</td>
+      <tr data-url="paymentEdit2.do?id=${payment.id}&sid=${sid}&${pg}">
+        <td>${ payment.paymentMethodName }</td>
         <td class="right"><fmt:formatNumber value="${ payment.amount}" /></td>
-        <td><fmt:formatDate value="${ payment.paymentDate}" pattern="yyyy-MM-dd" /></td>
-        <td>${ payment.corporate } / ${ payment.organizationName } / ${ payment.donationPurpose }</td>
+        <td>${ payment.paymentDate}</td>
+        <td>${ payment.corporateName } / ${ payment.organizationName } / ${ payment.donationPurposeName }</td>
         <td>${ payment.etc }</td>
       </tr>
     </tbody>
   </c:forEach>
 </table>
+

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import fund.dto.Payment;
+import fund.dto.PaymentListParam;
 import fund.dto.PaymentRecordStats;
 import fund.dto.PaymentSummary1;
 import fund.mapper.PaymentMapper;
@@ -26,7 +27,7 @@ public class TestPaymentMapper {
 		assertNotNull(paymentMapper);
 
 		//���� ���� Ȯ��
-		paymentMapper.selectPaymentList1(111);
+		paymentMapper.selectPaymentList1(new PaymentListParam(111, "ID DESC"));
 
 		//������ ���� ��� insert
 		String pDate = "2016-12-08";
@@ -36,18 +37,18 @@ public class TestPaymentMapper {
 		Payment payment = new Payment();
 		payment.setSponsorId(129);
 		payment.setAmount(50000);
-		payment.setPaymentDate(date);
+		payment.setPaymentDate(pDate);
 		payment.setDonationPurposeId(90);
 		payment.setPaymentMethodId(14);//������ ���� �ڵ�
 		payment.setEtc("jUnit �׽�Ʈ");
-		paymentMapper.insertIrregularPayment(payment);
+		paymentMapper.insert2(payment);
 
 		//�ڵ���ü ���� ��� insert
 		Payment payment2 = new Payment();
 		payment2.setSponsorId(137);
 		payment2.setCommitmentId(95);//paymentMethodID�� 11�� �����̿��� ��.
 		payment2.setAmount(60000);
-		payment2.setPaymentDate(date);
+		payment2.setPaymentDate(pDate);
 		payment2.setDonationPurposeId(90);
 		payment2.setPaymentMethodId(11);//�ڵ���ü �ڵ�
 		paymentMapper.insertXferResult(payment2);
@@ -57,13 +58,13 @@ public class TestPaymentMapper {
 		payment3.setSponsorId(114);
 		payment3.setCommitmentId(50);//paymentMethodID�� 12�� �����̿��� ��.
 		payment3.setAmount(70000);
-		payment3.setPaymentDate(date);
+		payment3.setPaymentDate(pDate);
 		payment3.setDonationPurposeId(91);
 		payment3.setPaymentMethodId(12);//�޿����� �ڵ�
 		paymentMapper.insertXferResult(payment3);
 
 		//������ ���Ե� ��� Ȯ��
-		List<Payment> payment4 = paymentMapper.selectPaymentList2(129);
+		List<Payment> payment4 = paymentMapper.selectPaymentList2(new PaymentListParam(129, "ID DESC"));
 		assert(payment4 != null);
 
 		//������ ������ ������ �ִ� �� Ȯ��

@@ -7,6 +7,8 @@
 <c:set var="tab3" value="active" />
 <%@include file="_tab.jsp" %>
 
+<%@include file="_paymentOrderBy.jsp" %>
+
 <table class="table table-bordered mt20">
   <thead>
     <tr>
@@ -25,13 +27,13 @@
     <tbody>
       <tr>
         <td>${ payment.commitmentNo }</td>
-        <td>${ payment.paymentMethod }</td>
+        <td>${ payment.paymentMethodName }</td>
         <td class="right"><fmt:formatNumber value="${ payment.amount}" /></td>
-        <td><fmt:formatDate value="${ payment.paymentDate}" pattern="yyyy-MM-dd" /></td>
+        <td>${ payment.paymentDate}</td>
         <td>${ payment.accountNo }</td>
         <td>${ payment.bankName }</td>
         <td>${ payment.accountHolder }</td>
-        <td>${ payment.corporate } / ${ payment.organizationName } / ${ payment.donationPurpose }</td>
+        <td>${ payment.corporateName } / ${ payment.organizationName } / ${ payment.donationPurposeName }</td>
         <td>${ payment.etc }</td>
       </tr>
     </tbody>
