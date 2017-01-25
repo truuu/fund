@@ -8,7 +8,7 @@
 <h2>${sponsor.name} <small>${sponsor.sponsorNo}</small></h2>
 <br />
 
-<c:set var="q" value="id=${sponsor.id}&${pagination.queryString}" />
+<c:set var="q" value="sid=${sponsor.id}&${pagination.queryString}" />
 <ul class="nav nav-tabs">
   <li class="${ tab1 }"><a href="/fund_sys/sponsor/basicInfo.do?${q}">후원인정보</a></li>
   <c:if test="${ sponsor.id != 0 }">

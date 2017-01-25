@@ -66,9 +66,8 @@ public class SponsorController extends BaseController {
 
     // 후원인 기본정보
     @RequestMapping("/sponsor/basicInfo.do")
-    public String basicInfo(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination,
-            Model model) throws Exception {
-        Sponsor sponsor = sponsorMapper.selectById(id);
+    public String basicInfo(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
+        Sponsor sponsor = sponsorMapper.selectById(sid);
         SponsorService.decryptJuminNo(sponsor);
 
         String[] a = SponsorService.splitAddress(sponsor.getHomeAddress());
@@ -84,7 +83,7 @@ public class SponsorController extends BaseController {
         model.addAttribute("sponsor", sponsor);
         model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupID(1));
         model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupID(2));
-        model.addAttribute("files", fileAttachmentMapper.selectBySponosrId(id));
+        model.addAttribute("files", fileAttachmentMapper.selectBySponosrId(sid));
 
         return "sponsor/basicInfo";
     }

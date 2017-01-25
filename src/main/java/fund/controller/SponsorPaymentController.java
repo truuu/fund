@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import fund.dto.IregularPayment;
 import fund.dto.PaginationSponsor;
 import fund.dto.Payment;
-import fund.dto.Sponsor;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.SponsorMapper;
@@ -30,26 +29,23 @@ public class SponsorPaymentController {
 
     // 정기 납입
     @RequestMapping("/sponsor/paymentList1.do")
-    public String paymentList1(@RequestParam("id") int id, Model model) {
-        model.addAttribute("sponsor", sponsorMapper.selectById(id));
-        model.addAttribute("list", paymentMapper.selectPaymentList1(id));
+    public String paymentList1(@RequestParam("sid") int sid, Model model) {
+        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
+        model.addAttribute("list", paymentMapper.selectPaymentList1(sid));
         return "sponsor/paymentList1";
     }
 
     // 비정기 납입
     @RequestMapping("/sponsor/paymentList2.do")
-    public String paymentList2(Model model, @RequestParam("id") int id) {
-        model.addAttribute("sponsor", sponsorMapper.selectById(id));
-        model.addAttribute("list", paymentMapper.selectPaymentList2(id));
+    public String paymentList2(Model model, @RequestParam("sid") int sid) {
+        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
+        model.addAttribute("list", paymentMapper.selectPaymentList2(sid));
         return "sponsor/paymentList2";
     }
 
-    @RequestMapping(value = "/sponsor/insertIrrgularPayment.do", method = RequestMethod.GET)
-    public String insertIrrgularPayment1(Model model, @RequestParam("id") int id) {
-        Sponsor sponsor = sponsorMapper.selectById(id);
-        model.addAttribute("sponsor", sponsor);
-        model.addAttribute("sponsorID", id);
-        model.addAttribute("donationPurposeList", donationPurposeMapper.selectAll());
+    // 비정기 납입 수정
+    @RequestMapping(value="/sponsor/paymentEdit2.do", method=RequestMethod.GET)
+    public String paymentEdit2(Model model, @RequestParam("id") int id) {
 
         return "sponsor/insertIrrgularPayment";
     }

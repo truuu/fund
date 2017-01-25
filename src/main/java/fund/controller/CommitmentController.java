@@ -37,9 +37,9 @@ public class CommitmentController extends BaseController {
 
     /* 약정목록 */
     @RequestMapping(value = "/sponsor/commitmentList.do", method = RequestMethod.GET)
-    public String commitmentList(Model model, @RequestParam("id") int id) {
-        model.addAttribute("sponsor", sponsorMapper.selectById(id));
-        model.addAttribute("list", commitmentMapper.selectBySponsorId(id));
+    public String commitmentList(Model model, @RequestParam("sid") int sid) {
+        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
+        model.addAttribute("list", commitmentMapper.selectBySponsorId(sid));
         model.addAttribute("paymentMethodList", codeMapper.selectByCodeGroupID(C.코드그룹ID_정기납입방법));
         model.addAttribute("donationPurposeList", donationPurposeMapper.selectAll());
         model.addAttribute("bankList", codeMapper.selectByCodeGroupID(C.코드그룹ID_은행));
@@ -48,9 +48,9 @@ public class CommitmentController extends BaseController {
 
     /* 약정 수정 */
     @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.GET)
-    public String commitmentEdit(Model model, @RequestParam("id") int id, @RequestParam("sid") int sid) throws ParseException {
+    public String commitmentEdit(Model model, @RequestParam("cid") int cid, @RequestParam("sid") int sid) throws ParseException {
        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
-       model.addAttribute("commitment", commitmentMapper.selectById(id));
+       model.addAttribute("commitment", commitmentMapper.selectById(cid));
        model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupID(C.코드그룹ID_정기납입방법));
        return "sponsor/commitmentEdit";
@@ -71,15 +71,15 @@ public class CommitmentController extends BaseController {
 
     /* 약정 종료 */
     @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.POST, params="cmd=close")
-    public String commitmentClose(Model model, @RequestParam("id") int id, @RequestParam("sid") int sid) throws Exception {
-        commitmentMapper.updateEndDate(id);
+    public String commitmentClose(Model model, @RequestParam("cid") int cid, @RequestParam("sid") int sid) throws Exception {
+        commitmentMapper.updateEndDate(cid);
         return redirectToList(model, sid);
     }
 
     /* 약정 삭제 */
     @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.POST, params="cmd=delete")
-    public String commitmentDelete(Model model, @RequestParam("id") int id, @RequestParam("sid") int sid) throws Exception {
-        commitmentMapper.delete(id);
+    public String commitmentDelete(Model model, @RequestParam("cid") int cid, @RequestParam("sid") int sid) throws Exception {
+        commitmentMapper.delete(cid);
         return redirectToList(model, sid);
     }
 

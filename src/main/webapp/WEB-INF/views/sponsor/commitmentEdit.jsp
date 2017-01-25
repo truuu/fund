@@ -12,7 +12,7 @@
 <div class="pull-right mt4 mb4">
   <button type="submit" class="btn btn-primary" name="cmd" value="save">저장</button>
   <button type="submit" class="btn btn-danger" name="cmd" value="delete" data-confirm-delete>삭제</button>
-  <a href="commitmentList.do?id=${ sponsor.id }&${ pagination.queryString }" class="btn btn-info">약정 목록</a>
+  <a href="commitmentList.do?sid=${ sponsor.id }&${ pagination.queryString }" class="btn btn-info">약정 목록</a>
 </div>
 
 <table class="table table-bordered lbw150">

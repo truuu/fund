@@ -26,7 +26,7 @@
   </thead>
   <tbody>
     <c:forEach var="commitment" items="${ list }">
-      <tr data-url="commitmentEdit.do?id=${commitment.id}&sid=${sponsor.id}&${pagination.queryString}">
+      <tr data-url="commitmentEdit.do?cid=${commitment.id}&sid=${sponsor.id}&${pagination.queryString}">
         <td>${ commitment.commitmentNo }</td>
         <td>${ commitment.donationPurposeName }</td>
         <td>${ commitment.paymentMethodName }</td>
