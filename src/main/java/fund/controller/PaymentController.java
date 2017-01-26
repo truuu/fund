@@ -121,8 +121,8 @@ public class PaymentController extends BaseController{
 				model.addAttribute("gubun","비정기");
 		}
 		if(paymentRecordStats.getSrchType2()!=null){
-			model.addAttribute("donationPurpose", donationPurposeMapper.selectByID(paymentRecordStats.getSrchType2()));
-			model.addAttribute("corporateName",donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2()));
+			model.addAttribute("donationPurpose", donationPurposeMapper.selectById(paymentRecordStats.getSrchType2()));
+			model.addAttribute("corporateName",donationPurposeMapper.selectById(paymentRecordStats.getSrchType2()).getCorporateName());
 		}
 		if(paymentRecordStats.getSrchType3()!=null)	{
 			model.addAttribute("church",codeMapper.selectById(paymentRecordStats.getSrchType3()));
@@ -172,8 +172,8 @@ public class PaymentController extends BaseController{
 				condition[0]="비정기";
 		}
 		if(paymentRecordStats.getSrchType2()!=null){
-			condition[3] = donationPurposeMapper.selectByID(paymentRecordStats.getSrchType2()).getName();
-			condition[5] = donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2());
+			condition[3] = donationPurposeMapper.selectById(paymentRecordStats.getSrchType2()).getName();
+			condition[5] = donationPurposeMapper.selectById(paymentRecordStats.getSrchType2()).getCorporateName();
 		}
 		if(paymentRecordStats.getSrchType3()!=null)
 			condition[4]=codeMapper.selectById(paymentRecordStats.getSrchType3()).getName();
@@ -224,8 +224,8 @@ public class PaymentController extends BaseController{
 				model.addAttribute("gubun","비정기");
 		}
 		if(paymentRecordStats.getSrchType2()!=null){
-			model.addAttribute("donationPurpose",donationPurposeMapper.selectByID(paymentRecordStats.getSrchType2()));
-			model.addAttribute("corporateName",donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2()));
+			model.addAttribute("donationPurpose",donationPurposeMapper.selectById(paymentRecordStats.getSrchType2()));
+			model.addAttribute("corporateName",donationPurposeMapper.selectById(paymentRecordStats.getSrchType2()).getCorporateName());
 		}
 		if(paymentRecordStats.getSrchType3()!=null)	{
 			model.addAttribute("church",codeMapper.selectById(paymentRecordStats.getSrchType3()).getName());
@@ -275,8 +275,8 @@ public class PaymentController extends BaseController{
 				condition[0]="비정기";
 		}
 		if(paymentRecordStats.getSrchType2()!=null){
-			condition[3]=donationPurposeMapper.selectByID(paymentRecordStats.getSrchType2()).getName();
-			condition[5]=donationPurposeMapper.selectCoporateName(paymentRecordStats.getSrchType2());
+			condition[3]=donationPurposeMapper.selectById(paymentRecordStats.getSrchType2()).getName();
+			condition[5]=donationPurposeMapper.selectById(paymentRecordStats.getSrchType2()).getCorporateName();
 		}
 		if(paymentRecordStats.getSrchType3()!=null)
 			condition[4]=codeMapper.selectById(paymentRecordStats.getSrchType3()).getName();

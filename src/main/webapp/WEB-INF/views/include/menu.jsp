@@ -32,8 +32,8 @@
         <ul class="nav navbar-nav">
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">기초정보관리<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="/fund_sys/code/corporateList.do">기관</a></li>
-              <li><a href="/fund_sys/code/donationPurposeList.do">기부목적</a></li>
+              <li><a href="/fund_sys/corporate/list.do">기관</a></li>
+              <li><a href="/fund_sys/donationPurpose/list.do">기부목적</a></li>
               <c:forEach var="codeGroup" items="${ codeGroupList }">
                 <li><a href="/fund_sys/code/codeList.do?CodeGroupID=${codeGroup.ID}">${codeGroup.name}</a></li>
               </c:forEach>

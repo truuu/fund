@@ -1,52 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-             "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.DonationPurposeMapper">
 
-	<select id="selectAll" resultType="fund.dto.DonationPurpose">
-		select d.*, c1.codeName, c2.name "corporateName"
-		from DonationPurpose d 
-             left join Code c1 on d.organizationID = c1.ID
-		     left join Corporate c2 on d.corporateID=c2.ID
-		order by c2.ID, c1.ID, d.ID
-	</select>
+<select id="selectAll" resultType="fund.dto.DonationPurpose">
+    SELECT d.*, c1.codeName organizationName, c2.name corporateName
+    FROM DonationPurpose d 
+         left JOIN Code c1 ON d.organizationID = c1.ID
+         left JOIN Corporate c2 ON d.corporateID = c2.ID
+    ORDER BY c2.ID, c1.ID, d.ID
+</select>
 
-	<select id="selectByName" resultType="fund.dto.DonationPurpose">
-		select *
-		from donationPurpose
-		where name = #{name}
-	</select>
-	
-	<select id="selectCoporateName" resultType="String">
-      select c2.name 
-      from [DonationPurpose] d join [Corporate] c2 on d.corporateID = c2.ID
-      where d.ID = #{id}
-   </select>
+<select id="selectById" resultType="fund.dto.DonationPurpose">
+	SELECT * FROM DonationPurpose WHERE id = #{id}
+</select>
 
+<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	INSERT DonationPurpose (corporateId, organizationId, name, gubun)
+	VALUES (#{corporateId}, #{organizationId}, #{name}, #{gubun})
+</insert>
 
-	<select id="selectByID" resultType="fund.dto.DonationPurpose">
-		SELECT *
-		FROM [DonationPurpose]
-		WHERE ID = #{id}
-	</select>
+<update id="update">
+	UPDATE DonationPurpose
+	SET corporateId = #{corporateId}, 
+        organizationId = #{organizationId},
+	    name = #{name},
+	    gubun = #{gubun}
+	WHERE id = #{id}
+</update>
 
-	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
-		INSERT [DonationPurpose] (corporateID, organizationID, name, gubun)
-		VALUES (#{corporateID}, #{organizationID}, #{name}, #{gubun})
-	</insert>
-
-	<update id="update">
-		UPDATE [DonationPurpose]
-		SET corporateID = #{corporateID}, 
-            organizationID = #{organizationID},
-		    name = #{name},
-		    gubun = #{gubun}
-		WHERE ID = #{id}
-	</update>
-
-	<delete id="delete">
-		DELETE FROM [DonationPurpose] WHERE ID = #{id}
-	</delete>
+<delete id="delete">
+	DELETE FROM [DonationPurpose] WHERE id = #{id}
+</delete>
 
 </mapper>
