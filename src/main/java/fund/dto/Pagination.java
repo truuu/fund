@@ -74,7 +74,9 @@ public class Pagination {
         String temp = (srchText == null) ? "" : URLEncoder.encode(srchText, "UTF-8");
         return String.format("pg=%d&sz=%d&od=%d&ss=%d&st=%s&sd=%s&ed=%s&cp=%s",
                 currentPage, pageSize, order, srchType, temp,
-                startDate, endDate, corporateId);
+                startDate == null ? "" : startDate,
+                endDate == null ? "" : endDate,
+                corporateId);
     }
 
     public List<Page> getPageList() {

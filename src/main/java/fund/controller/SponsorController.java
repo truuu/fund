@@ -122,13 +122,16 @@ public class SponsorController extends BaseController {
 
     @RequestMapping("/sponsor/sendDMxlsx.do")
     public void sendDMxlsx(Pagination pagination, HttpServletRequest req, HttpServletResponse res) throws JRException, IOException {
-        int count = sponsorMapper.selectCountForDM(pagination);
-        pagination.setRecordCount(count);
-        pagination.setPageSize(count);
-        List<Sponsor> list = sponsorMapper.selectForDM(pagination);
-        String fname = "sendDM_" + pagination.getStartDate() + "_" + pagination.getEndDate() + ".xlsx";
-        ReportBuilder reportBuilder = new ReportBuilder("sendDM", list, fname, req, res);
-        reportBuilder.build("xlsx");
+        if (StringUtils.isBlank(pagination.getStartDate()) == false) {
+            int count = sponsorMapper.selectCountForDM(pagination);
+            pagination.setRecordCount(count);
+            pagination.setPageSize(count);
+            List<Sponsor> list = sponsorMapper.selectForDM(pagination);
+            String fname = "sendDM_" + pagination.getStartDate() + "_" + pagination.getEndDate() + ".xlsx";
+            ReportBuilder reportBuilder = new ReportBuilder("sendDM", list, fname, req, res);
+            reportBuilder.build("xlsx");
+        } else
+            res.sendRedirect("sendDM.do");
     }
 
 
