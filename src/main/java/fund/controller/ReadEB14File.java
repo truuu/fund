@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import fund.BaseController;
-
 public class ReadEB14File extends BaseController{
 	public static ArrayList<String> readEB14File(String fileName){
 		BufferedReader br = null;        

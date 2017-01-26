@@ -15,7 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import fund.BaseController;
+import fund.dto.Corporate;
 import fund.dto.Pagination;
 import fund.dto.Payment;
 import fund.dto.Receipt;
@@ -141,9 +141,9 @@ public class ReceiptController extends BaseController{
 		String createdate = req.getParameter("createDate");
 		String[] getY = startdate.split("-");
 
-		List<Integer> corporateID = corporateMapper.selectCorporateID();
-		for(Integer corID : corporateID ){
-			List<Integer> sponsorID = paymentMapper.selectDistinctSponsorID(startdate, enddate, corID);
+		List<Corporate> corporates = corporateMapper.selectAll();
+		for (Corporate corporate : corporates ){
+			List<Integer> sponsorID = paymentMapper.selectDistinctSponsorID(startdate, enddate, corporate.getId());
 			for(int i=0;i<sponsorID.size();i++){
 				int rctNoInt;
 				if(receiptMapper.getLastNo(getY[0])==null)
@@ -158,7 +158,7 @@ public class ReceiptController extends BaseController{
 				rct.setCreateDate(createdate);
 				rct.setNo(newRctNo);
 				receiptMapper.insert(rct);
-				paymentMapper.issueReceiptByDur(receiptMapper.getRid(),startdate, enddate, corID, sponsorID.get(i));
+				paymentMapper.issueReceiptByDur(receiptMapper.getRid(),startdate, enddate, corporate.getId(), sponsorID.get(i));
 			}
 		}
 		return "redirect:/certificate/receiptList.do";
@@ -167,7 +167,7 @@ public class ReceiptController extends BaseController{
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.GET)
 	public String receiptByName(Model model,Pagination pagination,String errorMsg)throws Exception {
 		model.addAttribute("paymentList",paymentMapper.selectReceiptByName(pagination));
-		model.addAttribute("corporates",corporateMapper.selectCorporate());
+		model.addAttribute("corporates",corporateMapper.selectAll());
 		model.addAttribute("errorMsg",errorMsg);
 		return "certificate/receiptByName";
 	}
@@ -175,7 +175,7 @@ public class ReceiptController extends BaseController{
 	@RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params="cmd=search")
 	public String paymentListForReceipt(Model model, Payment payment,Pagination pagination,HttpServletRequest req, HttpServletResponse res)throws Exception{
 		model.addAttribute("paymentList",paymentMapper.selectReceiptByName(pagination));
-		model.addAttribute("corporates",corporateMapper.selectCorporate());
+		model.addAttribute("corporates",corporateMapper.selectAll());
 		return "certificate/receiptByName";
 	}
 
@@ -185,7 +185,7 @@ public class ReceiptController extends BaseController{
 		int rctId = Integer.parseInt(req.getParameter("delid"));
 		paymentMapper.deleteReceiptByReceiptID(rctId);
 		receiptMapper.deleteById(rctId);
-		model.addAttribute("corporates",corporateMapper.selectCorporate());
+		model.addAttribute("corporates",corporateMapper.selectAll());
 		return "redirect:/certificate/receiptByName.do?"+pagination.getQueryString();
 	}
 
@@ -194,7 +194,7 @@ public class ReceiptController extends BaseController{
 	public String issueReceiptByName(Model model,Pagination pagination, @RequestParam("pid") int[] pID, HttpServletRequest req,HttpServletResponse res)throws Exception{
 		String startdate = pagination.getStartDate();
 		String message = receiptService.validateBeforeInsert(pID);
-		model.addAttribute("corporates",corporateMapper.selectCorporate());
+		model.addAttribute("corporates",corporateMapper.selectAll());
 
 		if(message == null){
 			//영수증생성
@@ -233,7 +233,7 @@ public class ReceiptController extends BaseController{
 	public String taxData(Model model,Pagination pagination)throws Exception{
 		pagination.setRecordCount(paymentMapper.selectCount(pagination));
 		model.addAttribute("taxDataList",paymentMapper.selectPage(pagination));
-		model.addAttribute("corporates",corporateMapper.selectCorporate());
+		model.addAttribute("corporates",corporateMapper.selectAll());
 		return "certificate/taxData";
 	}
 

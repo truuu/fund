@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fund.dto.Code;
-import fund.dto.Corporate;
 import fund.dto.DonationPurpose;
 import fund.mapper.CodeMapper;
 
@@ -22,14 +21,6 @@ public class CodeService {
 
 	public boolean validate(String postNum){
 		if (StringUtils.isBlank(postNum)) return false;
-		return true;
-	}
-
-	public boolean validate(Corporate corporate){
-		if (StringUtils.isBlank(corporate.getName())) return false;
-		if (StringUtils.isBlank(corporate.getCorporateNo())) return false;
-		if (StringUtils.isBlank(corporate.getRepresentative())) return false;
-		if (StringUtils.isBlank(corporate.getAddress())) return false;
 		return true;
 	}
 

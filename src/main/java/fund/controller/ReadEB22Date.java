@@ -10,8 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import fund.BaseController;
-
 public class ReadEB22Date extends BaseController{
 	public static String readEB22Date(String fileName){
 		

@@ -1,4 +1,4 @@
-package fund;
+package fund.service;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;

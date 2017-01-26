@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script type="text/javascript">
@@ -33,7 +34,6 @@
             <ul class="dropdown-menu" role="menu">
               <li><a href="/fund_sys/code/corporateList.do">기관</a></li>
               <li><a href="/fund_sys/code/donationPurposeList.do">기부목적</a></li>
-              <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
               <c:forEach var="codeGroup" items="${ codeGroupList }">
                 <li><a href="/fund_sys/code/codeList.do?CodeGroupID=${codeGroup.ID}">${codeGroup.name}</a></li>
               </c:forEach>

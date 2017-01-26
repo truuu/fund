@@ -1,18 +1,12 @@
 package fund.mapper;
 
 import java.util.List;
-
 import fund.dto.Corporate;
-import fund.dto.Pagination;
 
 public interface CorporateMapper {
-	Corporate selectByName(String name);
-	List<Corporate> selectCorporate();
-	Corporate selectByID(int ID);
-	
-	List<Integer> selectCorporateID();
+	List<Corporate> selectAll();
+	Corporate selectById(int ID);
     void insert(Corporate corporate);
     void update(Corporate corporate);
     void delete(int ID);
-
 }

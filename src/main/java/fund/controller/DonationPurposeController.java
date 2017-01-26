@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import fund.BaseController;
 import fund.dto.DonationPurpose;
 import fund.mapper.CodeMapper;
 import fund.mapper.CorporateMapper;
@@ -37,7 +36,7 @@ public class DonationPurposeController extends BaseController{
 	@Secured("ROLE_true")
 	@RequestMapping(value="/code/donationPurposeCreate.do", method=RequestMethod.GET)
 	public String create(Model model) {
-		model.addAttribute("corporateList",corporateMapper.selectCorporate());
+		model.addAttribute("corporateList",corporateMapper.selectAll());
 		model.addAttribute("organizationList",codeMapper.selectByCodeGroupId(7));
 		return "code/donationPurposeCreate";
 	}
@@ -52,7 +51,7 @@ public class DonationPurposeController extends BaseController{
 		}
 		else if(result.hasErrors()) {
 
-			model.addAttribute("corporateList",corporateMapper.selectCorporate());
+			model.addAttribute("corporateList",corporateMapper.selectAll());
 			model.addAttribute("organizationList",codeMapper.selectByCodeGroupId(7));
 
 			return "code/donationPurposeCreate";
@@ -67,7 +66,7 @@ public class DonationPurposeController extends BaseController{
 	@RequestMapping(value="/code/donationPurposeEdit.do", method=RequestMethod.GET)
 	public String edit(Model model,@RequestParam("ID") int ID) {
 		DonationPurpose donationPurpose = donationPurposeMapper.selectByID(ID);
-		model.addAttribute("corporateList",corporateMapper.selectCorporate());
+		model.addAttribute("corporateList",corporateMapper.selectAll());
 		model.addAttribute("organizationList",codeMapper.selectByCodeGroupId(7));
 		model.addAttribute("donationPurpose",donationPurpose);
 
@@ -86,7 +85,7 @@ public class DonationPurposeController extends BaseController{
 		}
 		else if(result.hasErrors()) {
 
-			model.addAttribute("corporateList",corporateMapper.selectCorporate());
+			model.addAttribute("corporateList",corporateMapper.selectAll());
 			model.addAttribute("organizationList",codeMapper.selectByCodeGroupId(7));
 
 			return "code/donationPurposeEdit";

@@ -47,7 +47,7 @@
     <td class="lb" rowspan="2">자택주소</td>
     <td rowspan="2">
       <input class="address" type="text" name="homePostCode" id="homePostCode" placeholder="우편번호" value="${ sponsor.homePostCode }" /> 
-      <input type="button" onclick="homeSearch()" value="우편번호 찾기" class="btn btn-sm" />
+      <input type="button" onclick="postCodeSearch('homePostCode', 'homeRoadAddress')" value="우편번호 찾기" class="btn btn-sm" />
       <div>
         <input class=" address" type="text" name="homeRoadAddress" id="homeRoadAddress" placeholder="도로명주소" value="${sponsor.homeRoadAddress }" />
       </div>
@@ -132,7 +132,7 @@
         <td class="lb">직장주소</td>
         <td>
           <input class=" address" type="text" name="officePostCode" id="officePostCode" placeholder="우편번호" value="${ sponsor.officePostCode}" /> 
-          <input type="button" onclick="officeSearch()" value="우편번호 찾기" class="btn btn-sm"/>
+          <input type="button" onclick="postCodeSearch('officePostCode', 'officeRoadAddress')" value="우편번호 찾기" class="btn btn-sm"/>
           <div>
             <input class=" address" type="text" name="officeRoadAddress" id="officeRoadAddress" placeholder="도로명주소" value="${ sponsor.officeRoadAddress}" />
           </div>
