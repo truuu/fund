@@ -5,11 +5,17 @@
   <a href="list.do?${ pagination.queryString }" class="btn btn-info">후원인 목록</a>
 </div>
 
-<h2>${sponsor.name} <small>${sponsor.sponsorNo}</small></h2>
-<br />
-
 <c:set var="pg" value="${pagination.queryString}" />
 <c:set var="sid" value="${sponsor.id}" />
+
+<c:if test="${ sid > 0 }">
+    <h2>${sponsor.name} <small>${sponsor.sponsorNo}</small></h2>
+</c:if>
+<c:if test="${ sid == 0 }">
+    <h2>후원인 신규 등록</h2>
+</c:if>
+   
+<br />
 
 <ul class="nav nav-tabs">
   <li class="${ tab1 }"><a href="/fund_sys/sponsor/sponsorEdit.do?id=${sid}&${pg}">후원인정보</a></li>

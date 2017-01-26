@@ -14,7 +14,7 @@
     <select id="selectById" resultType="fund.dto.FileAttachment">
         SELECT *
         FROM   fileAttachment
-        WHERE  ID = #{ID}
+        WHERE  ID = #{id}
     </select>
 
 

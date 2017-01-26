@@ -67,3 +67,4 @@ body input { line-height: 1em; }
 body select { line-height: 1em; }
 body a.btn-gray { background-color: #ddd; color:black; }
 body button.btn-gray { background-color: #ddd; color:black; }
+body label.clean { font-weight: normal; }

@@ -7,7 +7,7 @@
 	<select id="selectByCommitmentDetailID" resultType="fund.dto.CommitmentDetail">
 	select *
 	from CommitmentDetail
-	where ID = #{ID}
+	where ID = #{id}
 	</select>
 	
 	<select id="selectByCommitmentID2" resultType="fund.dto.CommitmentDetail">
@@ -45,16 +45,16 @@
               accountHolder = #{accountHolder}, 
               startDate = #{startDate,jdbcType=DATE},
               etc = #{etc}
-        WHERE ID = #{ID}
+        WHERE ID = #{id}
     </update>
     
     <delete id="delete">
     delete from CommitmentDetail
-    where ID=#{ID}
+    where ID=#{id}
     </delete>
     
     <select id="selectEB21" resultType="fund.dto.EB21_commitmentDetail">
-    	select s.sponsorNo,cd.accountHolder,juminNo jumin2,code.codeName,cd.accountNo,cd.amountPerMonth,code.etc1,cd.ID commitmentDetailID,s.sponsorType1ID
+    	select s.sponsorNo,cd.accountHolder,juminNo jumin2,code.codeName,cd.accountNo,cd.amountPerMonth,code.etc1,cd.ID commitmentDetailID,s.sponsorType1Id
 		from [commitmentDetail] cd
 		JOIN [EB13_commitmentDetail] eb
 		ON eb.state='성공' AND cd.ID=eb.commitmentDetailID
@@ -75,7 +75,7 @@
 	</select>
 	
 	<select id="selectEB13" resultType="fund.dto.EB13_CommitmentDetail">
-	    select s.sponsorNo,cd.accountHolder,juminNo jumin2,codeName,cd.accountNo,cd.ID commitmentDetailID,code.etc1,s.sponsorType1ID
+	    select s.sponsorNo,cd.accountHolder,juminNo jumin2,codeName,cd.accountNo,cd.ID commitmentDetailID,code.etc1,s.sponsorType1Id
 		from [commitmentDetail] cd
 		INNER JOIN [code]
 		ON cd.bankID=code.ID

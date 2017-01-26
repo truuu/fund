@@ -53,7 +53,7 @@ public class EB21Controller extends BaseController{
 	public String selectEB21(@RequestParam("paymentDay") int paymentDay,Model model) throws Exception{
 		List<EB21_commitmentDetail> eb21List = commitmentDetailMapper.selectEB21(paymentDay);
 		for(int i = 0; i < eb21List.size(); i++){
-			if(eb21List.get(i).getSponsorType1ID() == 3 || eb21List.get(i).getSponsorType1ID() == 4){
+			if(eb21List.get(i).getsponsorType1Id() == 3 || eb21List.get(i).getsponsorType1Id() == 4){
 				String decoding = eb21List.get(i).getJumin2();//사업자등록번호 디코딩
 				eb21List.get(i).setJumin(decoding);
 			}else{

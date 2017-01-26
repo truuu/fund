@@ -1,12 +1,8 @@
 package fund.service;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fund.dto.Church;
 import fund.dto.Code;
 import fund.dto.Corporate;
 import fund.dto.DonationPurpose;
@@ -41,12 +37,6 @@ public class CodeService {
 		if (StringUtils.isBlank(donationPurpose.getName())) return false;
 		if (StringUtils.isBlank(donationPurpose.getGubun())) return false;
 		return true;
-	}
-
-	public String getJSON(int codeGroupId) throws JsonProcessingException {
-	    List<Church> list = codeMapper.selectByCodeGroupId(codeGroupId)
-	                        .stream().map(code -> new Church(code)).collect(Collectors.toList());
-        return mapper.writeValueAsString(list);
 	}
 
 }

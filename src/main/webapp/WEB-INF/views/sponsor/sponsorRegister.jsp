@@ -77,13 +77,13 @@ $(function() {
   </tr>
   <tr>
     <td id="table_a">후원인구분1</td>
-    <td id="table_b"><form:select path="sponsorType1ID">
+    <td id="table_b"><form:select path="sponsorType1Id">
         <form:options itemValue="ID" itemLabel="codeName" items="${ sponsorType1List }" />
       </form:select></td>
   </tr>
   <tr>
     <td id="table_a">후원인구분2</td>
-    <td id="table_b"><form:select path="sponsorType2ID">
+    <td id="table_b"><form:select path="sponsorType2Id">
         <form:options itemValue="ID" itemLabel="codeName" items="${ sponsorType2List }" />
       </form:select></td>
     <td id="table_a">자택 전화번호</td>

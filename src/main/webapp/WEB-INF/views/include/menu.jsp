@@ -40,8 +40,8 @@
             </ul></li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">후원인관리<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="/fund_sys/sponsor/list.do">후원인목록</a></li>
-              <li><a href="/fund_sys/sponsor/post.do">DM주소록 생성</a></li>
+              <li><a href="/fund_sys/sponsor/list.do">후원인 목록</a></li>
+              <li><a href="/fund_sys/sponsor/sendDM.do">우편 발송</a></li>
             </ul></li>
 
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">금융연동<span class="caret"></span></a>

@@ -8,7 +8,7 @@
 		SELECT p.*, u.name
 		FROM
 		PrintScholarship p LEFT JOIN [User] u ON p.userID = u.ID
-		WHERE p.ID = #{ID}
+		WHERE p.ID = #{id}
 	</select>
 	
 	<select id="selectMaxNum" resultType="fund.dto.PrintScholarship">
@@ -69,7 +69,7 @@
 	</insert>
 
 	<delete id="delete">
-		DELETE FROM [PrintScholarship] WHERE ID = #{ID}
+		DELETE FROM [PrintScholarship] WHERE ID = #{id}
 	</delete>
 
 </mapper>

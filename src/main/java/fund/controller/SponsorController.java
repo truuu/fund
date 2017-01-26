@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,7 +65,7 @@ public class SponsorController extends BaseController {
         model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분1));
         model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분2));
         model.addAttribute("files", fileAttachmentMapper.selectBySponosrId(id));
-        model.addAttribute("json_churchList", codeService.getJSON(C.코드그룹ID_소속교회));
+        model.addAttribute("churchList", codeMapper.selectByCodeGroupId(C.코드그룹ID_소속교회));
         return "sponsor/sponsorEdit";
     }
 
@@ -72,6 +73,7 @@ public class SponsorController extends BaseController {
     @RequestMapping(value="/sponsor/sponsorEdit.do", method=RequestMethod.POST, params="cmd=save")
     public String sponsorEdit(Sponsor sponsor, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
         sponsorService.update(sponsor);
+        model.addAttribute("successMsg", "저장했습니다.");
         return sponsorEdit(sponsor.getId(), pagination, model);
     }
 
@@ -82,6 +84,26 @@ public class SponsorController extends BaseController {
         return "redirect:list.do?" + pagination.getQueryString();
     }
 
+    // 후원인 생성
+    @RequestMapping(value="/sponsor/sponsorNew.do", method=RequestMethod.GET)
+    public String sponsorNew(@ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
+        Sponsor sponsor = new Sponsor();
+        sponsor.setSponsorNo(sponsorMapper.generateSponsorNo());
+        model.addAttribute("sponsor", sponsor);
+        model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분1));
+        model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분2));
+        model.addAttribute("churchList", codeMapper.selectByCodeGroupId(C.코드그룹ID_소속교회));
+        return "sponsor/sponsorEdit";
+    }
+
+    // 후원인 저장
+    @RequestMapping(value="/sponsor/sponsorNew.do", method=RequestMethod.POST, params="cmd=save")
+    public String sponsorNew(Sponsor sponsor, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
+        sponsor.setSponsorNo(sponsorMapper.generateSponsorNo());
+        sponsorService.insert(sponsor);
+        return "redirect:list.do";
+    }
+
     // 주민등록번호 암호화 되지 않은 후원인 암호화
     @RequestMapping("/sponsor/encryptNo.do")
     public String encryptNo(Model model) throws Exception {
@@ -89,44 +111,35 @@ public class SponsorController extends BaseController {
         return "sponsor/encryptNo";
     }
 
-    // 기간기준으로 DM발송 리스트 찾기
-    @RequestMapping(value = "/sponsor/postSearch.do")
-    public String postByDate(HttpServletRequest request, HttpServletResponse response, Model model,
-            Pagination pagination) throws Exception {
-        String check = request.getParameter("check");
-
-        pagination.setRecordCount(sponsorMapper.countForDM(pagination));
-        List<Sponsor> postList = sponsorMapper.postManage(pagination);
-
-        String temp, address, postCode;
-        for (Sponsor i : postList) {
-            if (i.getMailTo() == 0) {
-                temp = i.getHomeAddress();
-                String[] home = temp.split("\\*");
-                address = home[0] + home[1];
-                postCode = home[2];
-                i.setAddress(address);
-                i.setPostCode(postCode);
-            }
-            if (i.getMailTo() == 1) {
-                temp = i.getOfficeAddress();
-                String[] office = temp.split("\\*");
-                address = office[0] + office[1];
-                postCode = office[2];
-
-                i.setAddress(address);
-                i.setPostCode(postCode);
-            }
+    @RequestMapping("/sponsor/sendDM.do")
+    public String sendDM(Model model, Pagination pagination) {
+        if (StringUtils.isBlank(pagination.getStartDate()) == false) {
+            pagination.setRecordCount(sponsorMapper.selectCountForDM(pagination));
+            model.addAttribute("list", sponsorMapper.selectForDM(pagination));
         }
-        if (check.equals("f")) {
-            model.addAttribute("postList", postList);
-        }
-        if (check.equals("t")) {
-            //UserService.writeNoticeListToFile("post.xls", postList);
-            model.addAttribute("postList", postList);
-        }
-        return "sponsor/post";
+        return "sponsor/sendDM";
     }
+
+    @RequestMapping("/sponsor/sendDMxlsx.do")
+    public void sendDMxlsx(Pagination pagination, HttpServletRequest req, HttpServletResponse res) throws JRException, IOException {
+        int count = sponsorMapper.selectCountForDM(pagination);
+        pagination.setRecordCount(count);
+        pagination.setPageSize(count);
+        List<Sponsor> list = sponsorMapper.selectForDM(pagination);
+        String fname = "sendDM_" + pagination.getStartDate() + "_" + pagination.getEndDate() + ".xlsx";
+        ReportBuilder reportBuilder = new ReportBuilder("sendDM", list, fname, req, res);
+        reportBuilder.build("xlsx");
+    }
+
+
+
+
+
+
+
+
+
+
 
     // 파일업로드
     @RequestMapping(value = "/sponsor/upload.do", method = RequestMethod.POST)
@@ -226,36 +239,6 @@ public class SponsorController extends BaseController {
         reportBuilder.build("xlsx");
     }
 
-    // DM발송 엑셀
-    @RequestMapping(value = "/sponsor/postSearch.do", params = "cmd=xlsx")
-    public void excelDMReport(Pagination pagination, HttpServletRequest req, HttpServletResponse res)
-            throws JRException, IOException {
-        List<Sponsor> list = sponsorMapper.excelDM(pagination);
-        String temp, address, postCode;
-        int middle;
-        for (Sponsor i : list) {
-            if (i.getMailTo() == 0) {
-                temp = i.getHomeAddress();
-                String[] home = temp.split("\\*");
-                address = home[0] + home[1];
-                postCode = home[2];
-                i.setAddress(address);
-                i.setPostCode(postCode);
-            }
-            if (i.getMailTo() == 1) {
-                temp = i.getOfficeAddress();
-                String[] office = temp.split("\\*");
-                address = office[0] + office[1];
-                postCode = office[2];
-
-                i.setAddress(address);
-                i.setPostCode(postCode);
-            }
-        }
-
-        ReportBuilder reportBuilder = new ReportBuilder("sendDM", list, "sendDM.xlsx", req, res);
-        reportBuilder.build("xlsx");
-    }
 
     // 후원인목록
     @RequestMapping(value = "/sponsor/sponsor_m.do", params = "cmd=xlsx")

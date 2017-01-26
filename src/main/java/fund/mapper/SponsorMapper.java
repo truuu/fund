@@ -11,21 +11,24 @@ public interface SponsorMapper {
 
     Sponsor selectById(int id);
     List<Sponsor> selectNotEncrypted();
+    List<Sponsor> selectPage(Pagination pagination);
+    int selectCount(Pagination pagination);
 
     void update(Sponsor sponsor);
     void updateJuminNo(Sponsor sponsor);
     void delete(int id);
+    void insert(Sponsor sponsor);
+    String generateSponsorNo();
 
+    List<Sponsor> selectForDM(Pagination pagination);
+    int selectCountForDM(Pagination pagination);
 
-	List<Sponsor> postManage(Pagination pagination);
-	List<Sponsor> excelDM(Pagination pagination);
 	List<Sponsor> selectByReceipt(@Param("whereClause") String whereClause);
 
 	int sponsorTypeCheck(String codeName);
 
 	int countForDM(Pagination pagination);
 
-    int selectCount(Pagination pagination);
 	int searchCount(Pagination pagination); // TODO: 삭제
 	int nameCount(String nameForSearch);
 
@@ -38,7 +41,6 @@ public interface SponsorMapper {
 
 	List<Sponsor> nameSearch(Pagination pagination);
 	List<Sponsor> sponsorSearch(Pagination pagination);
-	List<Sponsor> selectPage(Pagination pagination);//sponsor manage page
 	List<Sponsor> sponsorListExcel(Pagination pagination);
 
 	List<Sponsor> castBySponsorType2(@Param("startDate")String startDate,@Param("endDate")String endDate);

@@ -179,7 +179,7 @@
 
 		from Payment p join Sponsor s on
 		p.sponsorID=s.ID join Code c1 on
-		s.sponsorType2ID=c1.ID join
+		s.sponsorType2Id=c1.ID join
 		DonationPurpose d on d.ID=p.donationPurposeID join Code c2 on
 		s.churchID=c2.ID
 		join Code c3 on p.paymentMethodID=c3.ID
@@ -199,7 +199,7 @@
 		
 		<if test="srchType4 != 0">and p.paymentMethodID = #{srchType4}</if>
 		
-		<if test="srchType5 != 0">and s.sponsorType2ID = #{srchType5}</if>
+		<if test="srchType5 != 0">and s.sponsorType2Id = #{srchType5}</if>
 		
 		<if test="sponsorName != null and sponsorName !=''">and s.name = #{sponsorName}</if>
 		
@@ -212,7 +212,7 @@
 		c1.codeName "sponsorType2",c2.codeName "church"
 		from
 		Payment p join Sponsor s on p.sponsorID=s.ID join Code c1 on
-		s.sponsorType2ID=c1.ID
+		s.sponsorType2Id=c1.ID
 		join DonationPurpose d on
 		d.ID=p.donationPurposeID join Code c2 on
 		s.churchID=c2.ID
@@ -234,7 +234,7 @@
 		
 		<if test="srchType4 != 0">and p.paymentMethodID = #{srchType4}</if>
 		
-		<if test="srchType5 != 0">and s.sponsorType2ID = #{srchType5}</if>
+		<if test="srchType5 != 0">and s.sponsorType2Id = #{srchType5}</if>
 		
 		<if test="sponsorName != null and sponsorName !=''">and s.name = #{sponsorName}</if>
 		
@@ -248,9 +248,9 @@
         FROM [Payment] p LEFT JOIN [Sponsor] s ON p.sponsorID = s.ID
         			LEFT JOIN [DonationPurpose] d ON p.donationPurposeID = d.ID
         			LEFT JOIN [Corporate] c ON d.corporateID = c.ID 
-        			LEFT JOIN [Code] c1 ON c1.ID=s.sponsorType2ID
+        			LEFT JOIN [Code] c1 ON c1.ID=s.sponsorType2Id
         			LEFT JOIN [Code] c2 ON c2.ID=s.churchID
-        WHERE s.sponsorType2ID=#{sponsorType2ID}
+        WHERE s.sponsorType2Id=#{sponsorType2Id}
                    AND p.paymentDate >= #{date1} AND p.paymentDate < #{date2} 
                    AND s.churchID=#{churchID} AND p.donationPurposeID=#{donationPurposeID}
                    AND s.sponsorNo=#{sponsorNo} AND c.ID=#{corporateID}                  
@@ -265,7 +265,7 @@
 	on p.sponsorID=s.ID left join code c on c.ID=s.churchID
  	group by s.name,s.sponsorNo,c.codeName,p.commitmentID
  	
-     WHERE p.commitmentID=#{commitmentID} AND s.sponsorType2ID=#{sponsorType2ID}
+     WHERE p.commitmentID=#{commitmentID} AND s.sponsorType2Id=#{sponsorType2Id}
                    AND p.paymentDate >= #{date1} AND p.paymentDate < #{date2} 
                    AND s.churchID=#{churchID} AND p.donationPurposeID=#{donationPurposeID}
                    AND s.sponsorNo=#{sponsorNo} AND c.ID=#{corporateID}
@@ -280,7 +280,7 @@
 		'출연수',sum(p.amount) '납입액'
 		from payment p join sponsor s
 		on
-		p.sponsorID=s.id join code c on s.sponsorType2ID=c.id
+		p.sponsorID=s.id join code c on s.sponsorType2Id=c.id
 		where
 		c.codeGroup='후원인구분2'
 		group by c.codeName

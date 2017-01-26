@@ -7,7 +7,7 @@
 <select id="selectById" resultType="fund.dto.Sponsor">
     SELECT *,
       (SELECT codeName FROM code c WHERE c.ID = s.churchID ) church,
-      (SELECT codeName FROM code t WHERE t.ID = s.sponsorType1ID) sponsorType1
+      (SELECT codeName FROM code t WHERE t.ID = s.sponsorType1Id) sponsorType1
     FROM sponsor s
     WHERE id = #{id}
 </select>
@@ -19,33 +19,91 @@
     WHERE LEN(juminNo) < 20        
  ]]>
 </select>
+
+<!--  
+    정렬조건: 등록순, 후원인번호, 
+    검색조건: 이름, 후원인번호, 후원인구분1, 후원인구분2    -->
+<select id="selectPage" resultType="fund.dto.Sponsor">
+    <![CDATA[
+    DECLARE @order INT, @srchType INT, @srchText NVARCHAR(50), @currentPage INT, @pageSize INT
+    SET @order = #{order}
+    SET @srchType = #{srchType}
+    SET @srchText = #{srchText}
+    SET @currentPage = #{currentPage}
+    SET @pageSize = #{pageSize}
+    
+    SELECT *
+    FROM
+        ( SELECT id, sponsorNo, name, signUpDate, mobilePhone, email, 
+            (SELECT codeName FROM code WHERE code.ID=s.sponsorType1Id )AS sponsorType1,
+            (SELECT codeName FROM code WHERE code.ID=s.sponsorType2Id )AS sponsorType2,
+            (SELECT codeName FROM code WHERE code.ID=s.churchID ) AS church,
+            CASE @order
+                WHEN 0 THEN ROW_NUMBER() OVER (ORDER BY s.id DESC)
+                WHEN 1 THEN ROW_NUMBER() OVER (ORDER BY s.sponsorNo DESC)
+            END 행번호
+            FROM [sponsor] s
+            WHERE
+                ((@srchType = 0) OR
+                 (@srchType = 1 AND CHARINDEX(@srchText, name) = 1) OR
+                 (@srchType = 2 AND CHARINDEX(@srchText, sponsorNo) = 1)) 
+            AND (#{st1} = 0 OR #{st1} = sponsorType1Id)
+            AND (#{st2} = 0 OR #{st2} = sponsorType2Id)
+        ) subquery
+    WHERE 행번호 > (@currentPage - 1) * @pageSize AND
+            행번호 <= @currentPage * @pageSize
+    ORDER BY 행번호
+    ]]>
+</select>
+
+<select id="selectCount" resultType="int">
+    <![CDATA[
+    DECLARE @srchType INT, @srchText NVARCHAR(50)
+    SET @srchType = #{srchType}
+    SET @srchText = #{srchText}
+    
+    SELECT COUNT(*) 
+    FROM [sponsor] s
+    WHERE
+        ((@srchType = 0) OR
+         (@srchType = 1 AND CHARINDEX(@srchText, name) = 1) OR
+         (@srchType = 2 AND CHARINDEX(@srchText, sponsorNo) = 1)) 
+    AND (#{st1} = 0 OR #{st1} = sponsorType1Id)
+    AND (#{st2} = 0 OR #{st2} = sponsorType2Id)
+    ]]>
+</select>
+    
     
 <update id="update">
     UPDATE sponsor
     SET 
         name = #{name},
         juminNo = #{juminNo},
-        sponsorType1ID = #{sponsorType1ID},
-        sponsorType2ID = #{sponsorType2ID},
-        churchID = #{churchID},
+        sponsorType1Id = #{sponsorType1Id},
+        sponsorType2Id = #{sponsorType2Id},
+        churchId = IIF(#{churchId} = 0, null, #{churchId}),
         signUpDate = #{signUpDate},
         mobilePhone = #{mobilePhone},
         recommender = #{recommender},
         recommenderRelation = #{recommenderRelation},
         mailReceiving = #{mailReceiving},
         mailTo = #{mailTo},
-        homeAddress = #{homeAddress},
+        homeRoadAddress = #{homeRoadAddress},
+        homeDetailAddress = #{homeDetailAddress},
+        homePostCode = #{homePostCode},
         homePhone = #{homePhone},
         email = #{email},
         company = #{company},
         department = #{department},
         position = #{position},
         officePhone = #{officePhone},
-        officeAddress = #{officeAddress},
+        officeRoadAddress = #{officeRoadAddress},
+        officeDetailAddress = #{officeDetailAddress},
+        officePostCode = #{officePostCode},
         etc = #{etc}
     WHERE id = #{id}
-</update>
-
+</update>    
+    
 <update id="updateJuminNo">
     UPDATE sponsor
     SET juminNo = #{juminNo}
@@ -53,11 +111,61 @@
 </update>
 
 <delete id="delete">
-    DELETE FROM [User] WHERE id = #{id}
+    DELETE FROM sponsor WHERE id = #{id}
 </delete>
 
+<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT sponsor(sponsorNo, name, juminNo, sponsorType1Id, sponsorType2Id, churchId, signUpDate, mobilePhone, 
+        recommender, recommenderRelation, mailReceiving, mailTo, homeRoadAddress, homeDetailAddress, homePostCode, homePhone, 
+        email, company, department, position, officePhone, officeRoadAddress, officeDetailAddress, officePostCode, etc)
+    VALUES (#{sponsorNo}, #{name}, #{juminNo}, #{sponsorType1Id}, #{sponsorType2Id}, IIF(#{churchId} = 0, null, #{churchId}), #{signUpDate}, #{mobilePhone}, 
+        #{recommender}, #{recommenderRelation}, #{mailReceiving}, #{mailTo},  #{homeRoadAddress}, #{homeDetailAddress}, #{homePostCode}, #{homePhone},
+         #{email}, #{company}, #{department}, #{position}, #{officePhone}, #{officeRoadAddress}, #{officeDetailAddress}, #{officePostCode}, #{etc})
+</insert>
 
+<select id="generateSponsorNo" resultType="java.lang.String">
+    DECLARE @n INT, @year CHAR(4)
+    SET @year = YEAR(GETDATE())
+    SET @n = (SELECT MAX(CONVERT(INT, RIGHT(sponsorNo,4)))
+                FROM sponsor
+                WHERE CHARINDEX(@year, sponsorNo) = 1 AND LEN(sponsorNo) = 9
+                AND ISNUMERIC(RIGHT(sponsorNo,4)) = 1)
+    SET @n = ISNULL(@n,0) + 1
 
+    SELECT @year + '-' + REPLACE(STR(@n,4), ' ', '0')
+</select>
+
+<select id="selectForDM" resultType="fund.dto.Sponsor">
+    <![CDATA[
+    SELECT *
+    FROM (
+        SELECT *, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
+        FROM (
+            SELECT s.*,
+                (SELECT codeName FROM code c WHERE c.id = s.sponsorType2Id) AS sponsorType2,
+                (SELECT codeName FROM code c WHERE c.id = s.churchId) AS church
+            FROM sponsor s 
+            WHERE s.id IN (SELECT sponsorId FROM payment p WHERE paymentDate BETWEEN #{startDate} AND #{endDate})
+            AND s.mailReceiving = 1
+        ) subquery1
+    ) subquery2
+    WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+          행번호 <= #{currentPage} * #{pageSize}
+    ORDER BY 행번호
+    ]]>
+</select>
+    
+<select id="selectCountForDM" resultType="int">
+    SELECT COUNT(*)
+    FROM sponsor s 
+    WHERE s.id IN (SELECT sponsorId FROM payment p WHERE paymentDate BETWEEN #{startDate} AND #{endDate})
+    AND s.mailReceiving = 1
+</select>    
+    
+    
+    
+    
+    
     
     <select id="selectSponsorName" resultType="fund.dto.EB22">
 		select name from [sponsor]
@@ -83,20 +191,20 @@
 
 	<insert id="sponsorInsert" useGeneratedKeys="true" keyProperty="id">
 		insert into
-		sponsor(sponsorNo,name,juminNo,sponsorType1ID,sponsorType2ID,churchID,
+		sponsor(sponsorNo,name,juminNo,sponsorType1Id,sponsorType2Id,churchID,
 		signUpDate,mobilePhone,recommender,recommenderRelation,mailReceiving,mailTo,homeAddress,
 		homePhone,email,company,department,position,officePhone,officeAddress,etc)
-		values(#{sponsorNo},#{name},#{juminNo},#{sponsorType1ID},#{sponsorType2ID},#{churchID},
+		values(#{sponsorNo},#{name},#{juminNo},#{sponsorType1Id},#{sponsorType2Id},#{churchID},
 		#{signUpDate},#{mobilePhone},#{recommender},#{recommenderRelation},#{mailReceiving},#{mailTo},#{homeAddress},
 		#{homePhone},#{email},#{company},#{department},#{position},#{officePhone},#{officeAddress},#{etc})
 	</insert>
 	<!-- 소속교회를 입력하지 않을 경우 -->
 	<insert id="sponsorInsert2" useGeneratedKeys="true" keyProperty="id">
 		insert into
-		sponsor(sponsorNo,name,juminNo,sponsorType1ID,sponsorType2ID,
+		sponsor(sponsorNo,name,juminNo,sponsorType1Id,sponsorType2Id,
 		signUpDate,mobilePhone,recommender,recommenderRelation,mailReceiving,mailTo,homeAddress,
 		homePhone,email,company,department,position,officePhone,officeAddress,etc)
-		values(#{sponsorNo},#{name},#{juminNo},#{sponsorType1ID},#{sponsorType2ID},
+		values(#{sponsorNo},#{name},#{juminNo},#{sponsorType1Id},#{sponsorType2Id},
 		#{signUpDate},#{mobilePhone},#{recommender},#{recommenderRelation},#{mailReceiving},#{mailTo},#{homeAddress},
 		#{homePhone},#{email},#{company},#{department},#{position},#{officePhone},#{officeAddress},#{etc})
 	</insert>
@@ -112,17 +220,17 @@
         SELECT *
         FROM
             ( select id,sponsorNo,name,
-		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
-		(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
+		(select codeName from code where code.ID=sponsor.sponsorType1Id )AS sponsorType1,
+		(select codeName from code where code.ID=sponsor.sponsorType2Id )AS sponsorType2,
 		(select codeName from code where code.ID=sponsor.churchID )AS church,
 		signUpDate,mobilePhone,email, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
 		from sponsor
 		<if test="type==1">
-		 where sponsorType1ID=ALL(select ID from code where codeName=#{codeName})
+		 where sponsorType1Id=ALL(select ID from code where codeName=#{codeName})
             ) subquery
         </if>
         <if test="type==2">
-		 where sponsorType2ID=ALL(select ID from code where codeName=#{codeName})
+		 where sponsorType2Id=ALL(select ID from code where codeName=#{codeName})
             ) subquery
         </if>
       <![CDATA[
@@ -136,10 +244,10 @@
 	<select id="nameSearch" resultType="fund.dto.Sponsor">
  <![CDATA[
         select id,sponsorNo,name,
-		(select codeName from code where code.ID=sponsor.sponsorType1ID )AS
+		(select codeName from code where code.ID=sponsor.sponsorType1Id )AS
 		sponsorType1,
 		(select codeName from code where
-		code.ID=sponsor.sponsorType2ID )AS sponsorType2,
+		code.ID=sponsor.sponsorType2Id )AS sponsorType2,
 		(select codeName from
 		code where code.ID=sponsor.churchID )AS church,
 		signUpDate,mobilePhone,email
@@ -147,58 +255,6 @@
         ]]>
 	</select>
 
-    <!--  
-        정렬조건: 등록순, 후원인번호, 
-        검색조건: 이름, 후원인번호, 후원인구분1, 후원인구분2    -->
-	<select id="selectPage" resultType="fund.dto.Sponsor">
-        <![CDATA[
-        declare @order int, @srchType int, @srchText nvarchar(50), @currentPage int, @pageSize int
-        set @order = #{order}
-        set @srchType = #{srchType}
-        set @srchText = #{srchText}
-        set @currentPage = #{currentPage}
-        set @pageSize = #{pageSize}
-        
-        SELECT *
-        FROM
-            ( SELECT id, sponsorNo, name, signUpDate, mobilePhone, email, 
-                (select codeName from code where code.ID=s.sponsorType1ID )AS sponsorType1,
-                (select codeName from code where code.ID=s.sponsorType2ID )AS sponsorType2,
-                (select codeName from code where code.ID=s.churchID ) AS church,
-                CASE @order
-                    WHEN 0 THEN ROW_NUMBER() OVER (ORDER BY s.id DESC)
-                    WHEN 1 THEN ROW_NUMBER() OVER (ORDER BY s.sponsorNo DESC)
-                END 행번호
-                FROM [sponsor] s
-                WHERE
-                    ((@srchType = 0) OR
-                     (@srchType = 1 AND CHARINDEX(@srchText, name) = 1) OR
-                     (@srchType = 2 AND CHARINDEX(@srchText, sponsorNo) = 1)) 
-                AND (#{st1} = 0 OR #{st1} = sponsorType1ID)
-                AND (#{st2} = 0 OR #{st2} = sponsorType2ID)
-            ) subquery
-        WHERE 행번호 > (@currentPage - 1) * @pageSize AND
-                행번호 <= @currentPage * @pageSize
-        ORDER BY 행번호
-        ]]>
-	</select>
-    
-    <select id="selectCount" resultType="int">
-        <![CDATA[
-        declare @srchType int, @srchText nvarchar(50)
-        set @srchType = #{srchType}
-        set @srchText = #{srchText}
-        
-        SELECT COUNT(*) 
-        FROM [sponsor] s
-        WHERE
-            ((@srchType = 0) OR
-             (@srchType = 1 AND CHARINDEX(@srchText, name) = 1) OR
-             (@srchType = 2 AND CHARINDEX(@srchText, sponsorNo) = 1)) 
-        AND (#{st1} = 0 OR #{st1} = sponsorType1ID)
-        AND (#{st2} = 0 OR #{st2} = sponsorType2ID)
-        ]]>
-    </select>
 
     
 	
@@ -209,11 +265,10 @@
 		where name=#{nameForSearch}
 	</select>
 	
-	<!-- 후원인목록 엑셀파일 -->
 	<select id="sponsorListExcel" resultType="fund.dto.Sponsor">
 		SELECT sponsorNo,name,
-			(select codeName from code where code.ID=sponsor.sponsorType1ID )AS sponsorType1,
-			(select codeName from code where code.ID=sponsor.sponsorType2ID )AS sponsorType2,
+			(select codeName from code where code.ID=sponsor.sponsorType1Id )AS sponsorType1,
+			(select codeName from code where code.ID=sponsor.sponsorType2Id )AS sponsorType2,
 			(select codeName from code where code.ID=sponsor.churchID )AS church,
 			SUBSTRING(homeAddress,len(homeAddress)-4,5) AS postCode,
 			signUpDate,mobilePhone,email
@@ -225,11 +280,11 @@
 		SELECT COUNT(*)
 		FROM sponsor
 		<if test="type==1">
-	where sponsorType1ID=(select ID from code where
+	where sponsorType1Id=(select ID from code where
 		codeName=#{codeName})
         </if>
         <if test="type==2">
-	where sponsorType2ID=(select ID from code where
+	where sponsorType2Id=(select ID from code where
 		codeName=#{codeName})
         </if>
 	</select>
@@ -242,33 +297,14 @@
 	</select>
 
 	<!-- DM발송 -->
-	<select id="postManage" resultType="fund.dto.Sponsor">
-	 <![CDATA[
-		  SELECT *
-        FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
-        FROM(SELECT DISTINCT sponsor.sponsorNo,name,(SELECT codeName from code where
-      code.ID=sponsor.sponsorType2ID) AS sponsorType2,
-      (select codeName from
-      code where code.ID=sponsor.churchID) AS church,
-      homeAddress,officeAddress,mailTo
-      from sponsor join payment on
-      sponsor.ID=payment.sponsorID
-	 where payment.paymentDate between
-		#{startDate} and #{endDate}
-      )subquery
-	  )subquery
-	    WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
-              행번호 <= #{currentPage} * #{pageSize}
-        ORDER BY 행번호;
-		 ]]>
-	</select>
+
 	<!-- postManage 이전에 해야하는 line 수  -->
 	<select id="postManagePro" resultType="int">
 	 <![CDATA[
 		 SELECT ROW_NUMBER() OVER (ORDER BY sponsor.sponsorNo DESC) AS line
         FROM(select
 		 DISTINCT sponsor.sponsorNo,name,(select codeName from code where
-		code.ID=sponsor.sponsorType2ID) AS sponsorType2,
+		code.ID=sponsor.sponsorType2Id) AS sponsorType2,
 		(select codeName from
 		code where code.ID=sponsor.churchID) AS church,
 		homeAddress,officeAddress,mailTo
@@ -280,39 +316,15 @@
 		 ]]>
 	</select>
 	
-	<!-- DM 페이징을 위한 count -->
-	<select id="countForDM" resultType="int">
-	select count(DISTINCT(sponsor.ID))
-	from sponsor join payment on
-		sponsor.ID=payment.sponsorID
-		where payment.paymentDate between
-		#{startDate} and #{endDate};	
-	</select>
 	
-	<!-- DM 엑셀 -->
-	<select id="excelDM" resultType="fund.dto.Sponsor">
-    SELECT *
-        FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
-        FROM(SELECT DISTINCT sponsor.sponsorNo,name,(SELECT codeName from code where
-      code.ID=sponsor.sponsorType2ID) AS sponsorType2,
-      (select codeName from
-      code where code.ID=sponsor.churchID) AS church,
-      homeAddress,officeAddress,mailTo
-      from sponsor join payment on
-      sponsor.ID=payment.sponsorID
-	 where payment.paymentDate between
-		#{startDate} and #{endDate}
-      )subquery
-	  )subquery
-	</select>
 	
 	<select id="castBySponsorType2" resultType="fund.dto.Sponsor">
-	select (select codeName from code where code.ID=sponsor.sponsorType2ID) AS sponsorType2,
+	select (select codeName from code where code.ID=sponsor.sponsorType2Id) AS sponsorType2,
            sum(CAST( amount AS BIGINT )) AS sum,
            count(distinct sponsorID) AS sponsorCount,
            count(*) AS castCount
       from sponsor join payment on  sponsor.ID=payment.sponsorID  where payment.paymentDate between
-     #{startDate} and #{endDate} group by sponsorType2ID;
+     #{startDate} and #{endDate} group by sponsorType2Id;
 	</select>
 
     

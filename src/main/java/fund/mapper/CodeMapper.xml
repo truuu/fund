@@ -7,7 +7,7 @@
 <select id="selectById" parameterType="int" resultType="fund.dto.Code">
     SELECT *
     FROM [Code]
-    WHERE ID = #{ID}
+    WHERE ID = #{id}
 </select>
 
 <select id="selectByCodeName" resultType="fund.dto.Code">
@@ -19,19 +19,14 @@
 <select id="selectCodeGroupById" resultType="fund.dto.CodeGroup">
     SELECT *
     FROM [CodeGroup]
-    WHERE ID = #{ID}
+    WHERE ID = #{id}
 </select>
 
 <select id="selectByCodeGroupId"  resultType="fund.dto.Code"> 
     SELECT *
     FROM [Code] 
     WHERE codeGroupID = #{codeGroupID}            
-</select>
-
-<select id="selectByCodeGroupName" resultType="fund.dto.Code">
-    SELECT c1.*
-    FROM [Code] c1 left JOIN [CodeGroup] c2 ON c1.codeGroupID = c2.ID
-    WHERE c2.name = #{name}
+    ORDER BY codeName
 </select>
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">

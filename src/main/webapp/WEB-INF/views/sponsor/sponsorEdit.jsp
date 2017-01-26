@@ -12,54 +12,33 @@
   textarea { width: 400px; height: 100px; }
 </style>
 
-<script type="text/javaScript">
-var churchList = ${ json_churchList };
-$(function() {
-    $("#church").autocomplete({ 
-        source : churchList, 
-        select: function(event, ui) {
-            event.preventDefault();
-            $("input[name=church]").val(ui.item.label);
-            $("input[name=churchId]").val(ui.item.value); 
-        },
-        focus: function (event, ui) { event.preventDefault(); }
-    });
-});    
-</script>
-
 <c:set var="tab1" value="active" /> 
 <%@include file="_tab.jsp" %>
 
-<form:form method="post" action="sponsorInsert.do" id="target" modelAttribute="sponsor">
+<form:form method="post" modelAttribute="sponsor">
 
 <div class="pull-right mt4 mb4">
   <button class="btn btn-primary" type="submit" name="cmd" value="save">저장</button>
-  <button class="btn btn-danger" type="submit" name="cmd" value="delete" data-confirm-delete>삭제</button>   
+  <c:if test="${ sponsor.id > 0 }">
+    <button class="btn btn-danger" type="submit" name="cmd" value="delete" data-confirm-delete>삭제</button>
+  </c:if>
 </div>
-
-<!--  TODO: 삭제 -->
-<c:if test="${ sponsor.signUpDate == null}">
-  <input type="hidden" name="sort" value="0" />
-</c:if>
-<c:if test="${ sponsor.signUpDate != null}">
-  <input type="hidden" name="sort" value="1" />
-</c:if>
 
 <table class="table table-bordered lbw150">
   <tr>
     <td class="lb">후원인번호</td>
     <td><input  type="text" name="sponsorNo" readonly value="${ sponsor.sponsorNo }" /></td>
     <td class="lb">우편물 발송여부</td>
-    <td><input type="radio" value="true" name="mailReceiving" ${ sponsor.mailReceiving ? "checked" :"" } />발송동의 
-      <input type="radio" value="false" name="mailReceiving" ${ !sponsor.mailReceiving ? "checked" :"" } />발송미동의</td>
+    <td><label class="clean"><input type="radio" value="true" name="mailReceiving" ${ sponsor.mailReceiving ? "checked" :"" } />발송동의</label> 
+        <label class="clean"><input type="radio" value="false" name="mailReceiving" ${ !sponsor.mailReceiving ? "checked" :"" } />발송미동의</label> </td>
   </tr>
   <tr>
     <td class="lb">이름</td>
     <td><form:input  path="name" placeholder="이름을 입력해주세요" />
       <span class="sponsorError"><form:errors path="name" /></span></td>
     <td class="lb">우편물 발송지</td>
-    <td><input type="radio" value="0" name="mailTo" ${ sponsor.mailTo==0 ? "checked" :"" } />자택 
-      <input type="radio" value="1" name="mailTo" ${ sponsor.mailTo==1 ? "checked" :"" } /> 직장</td>
+    <td><label class="clean"><input type="radio" value="0" name="mailTo" ${ sponsor.mailTo==0 ? "checked" :"" } />자택</label> 
+        <label class="clean"><input type="radio" value="1" name="mailTo" ${ sponsor.mailTo==1 ? "checked" :"" } />직장</label></td>
   </tr>
   <tr>
     <td class="lb">주민번호</td>
@@ -118,8 +97,9 @@ $(function() {
   <tr>
     <td class="lb">소속교회</td>
     <td>
-        <input type="text" id="church" name="church" value="${ sponsor.church }" />
+        <span id="churchName">${ sponsor.church }</span> 
         <form:hidden path="churchId" value="${ sponsor.churchId } " />
+        <a href="#churchDialog" class="btn btn-sm btn-gray" data-toggle="modal">검색</a>
     </td>
   </tr>
 </table>
@@ -192,4 +172,5 @@ $(function() {
 </form:form>
 
 <span id="guide" style="color: #999"></span> <!-- daum_postcode.js 에서 사용함 -->
- 
+
+<%@include file="_churchDialog.jsp" %> 

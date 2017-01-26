@@ -23,7 +23,7 @@
    	<select id="selectByID" resultType="fund.dto.Corporate"> 
 		SELECT  *
 		FROM  [Corporate]
-		WHERE ID = #{ID}
+		WHERE ID = #{id}
 	</select>
 	
 	
@@ -36,11 +36,11 @@
 	<update id="update">
         UPDATE [Corporate]
         SET name = #{name}, corporateNo = #{corporateNo}, representative = #{representative}, address = #{address}
-        WHERE ID = #{ID}
+        WHERE ID = #{id}
     </update>
 	
     <delete id="delete">
-        DELETE FROM [Corporate] WHERE ID = #{ID}
+        DELETE FROM [Corporate] WHERE ID = #{id}
     </delete>
     
 	

@@ -21,14 +21,14 @@
 	<select id="selectCoporateName" resultType="String">
       select c2.name 
       from [DonationPurpose] d join [Corporate] c2 on d.corporateID = c2.ID
-      where d.ID = #{ID}
+      where d.ID = #{id}
    </select>
 
 
 	<select id="selectByID" resultType="fund.dto.DonationPurpose">
 		SELECT *
 		FROM [DonationPurpose]
-		WHERE ID = #{ID}
+		WHERE ID = #{id}
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
@@ -42,11 +42,11 @@
             organizationID = #{organizationID},
 		    name = #{name},
 		    gubun = #{gubun}
-		WHERE ID = #{ID}
+		WHERE ID = #{id}
 	</update>
 
 	<delete id="delete">
-		DELETE FROM [DonationPurpose] WHERE ID = #{ID}
+		DELETE FROM [DonationPurpose] WHERE ID = #{id}
 	</delete>
 
 </mapper>

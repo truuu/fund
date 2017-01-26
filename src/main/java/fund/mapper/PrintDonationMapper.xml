@@ -8,7 +8,7 @@
 		SELECT p.*, u.name
 		FROM
 		PrintDonation p LEFT JOIN [User] u ON p.userID = u.ID
-		WHERE p.ID = #{ID}
+		WHERE p.ID = #{id}
 	</select>
 
 	<select id="selectMaxNum" resultType="fund.dto.PrintDonation">
@@ -72,7 +72,7 @@
 	
 
 	<delete id="delete">
-		DELETE FROM [PrintDonation] WHERE ID = #{ID}
+		DELETE FROM [PrintDonation] WHERE ID = #{id}
 	</delete>
 
 </mapper>

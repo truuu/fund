@@ -24,18 +24,18 @@ public class PaginationSponsor extends Pagination {
         this.st2 = st2;
     }
 
-    @Override
-    public String getQueryString() throws UnsupportedEncodingException {
-        String s = super.getQueryString();
-        return String.format("%s&st1=%d&st2=%d&od1=%d", s, st1, st2, od1);
-    }
-
     public int getOd1() {
         return od1;
     }
 
     public void setOd1(int od1) {
         this.od1 = od1;
+    }
+
+    @Override
+    public String getQueryString() throws UnsupportedEncodingException {
+        String s = super.getQueryString();
+        return String.format("%s&st1=%d&st2=%d&od1=%d", s, st1, st2, od1);
     }
 
 }
