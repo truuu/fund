@@ -5,6 +5,7 @@ body .mt20 { margin-top: 20px; }
 body .mb4 { margin-bottom: 4px; }
 body .mb6 { margin-bottom: 6px; }
 body .mb8 { margin-bottom: 8px; }
+body .mb20 { margin-bottom: 20px; }
 body .ml5 { margin-left: 5px; }
 body .ml10 { margin-left: 10px; }
 body .ml15 { margin-left: 15px; }
@@ -27,6 +28,7 @@ body .w150 { width: 150px; }
 body .w200 { width: 200px; }
 body .w250 { width: 250px; }
 body .w300 { width: 300px; }
+body .w350 { width: 350px; }
 body .w400 { width: 400px; }
 body .w600 { width: 600px; }
 body .h100 { height: 100px; }

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import fund.dto.EB13_CommitmentDetail;
+import fund.dto.EB13_Commitment;
 import fund.dto.EB14;
 import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.EB13Mapper;
@@ -39,9 +39,9 @@ public class EB13Controller extends BaseController{
 
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=selectEB13")
 	   public String selectEB13(Model model)throws Exception{
-	      List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
+	      List<EB13_Commitment> eb13List = commitmentDetailMapper.selectEB13();
 	      for(int i = 0; i < eb13List.size(); i++){
-	    	  if(eb13List.get(i).getsponsorType1Id() == 3 || eb13List.get(i).getsponsorType1Id() == 4){
+	    	  if(eb13List.get(i).getSponsorType1Id() == 3 || eb13List.get(i).getSponsorType1Id() == 4){
 	    		 String decoding = eb13List.get(i).getJumin2();//사업자등록번호 디코딩
 	 	         eb13List.get(i).setJumin(decoding);
 	    	  }else{
@@ -55,7 +55,7 @@ public class EB13Controller extends BaseController{
 
 	@RequestMapping(value="/finance/eb13.do", method=RequestMethod.POST, params="cmd=createEB13file")
 	public String createEB13file(@RequestParam("commitmentDetailID") int[] commitmentDetailID,Model model) throws Exception{
-		List<EB13_CommitmentDetail> eb13List = commitmentDetailMapper.selectEB13();
+		List<EB13_Commitment> eb13List = commitmentDetailMapper.selectEB13();
 		for(int i = 0; i < eb13List.size(); i++){
 	         String decoding = eb13List.get(i).getJumin2();
 	         eb13List.get(i).setJumin(decoding.substring(0, 6));
@@ -63,7 +63,7 @@ public class EB13Controller extends BaseController{
 		model.addAttribute("eb13List", eb13List);
 		CreateEB13File.createEB13File(eb13List);
 
-		eb13Mapper.createEB13file();
+		eb13Mapper.insert();
 		for(int i = 0 ; i < commitmentDetailID.length; ++i){
 			eb13_commitmentDetailMapper.createEB13list(commitmentDetailID[i]);
 		}
@@ -153,7 +153,7 @@ public class EB13Controller extends BaseController{
 
 	@RequestMapping(value="/finance/resultEB1314.do", method=RequestMethod.POST)
 	public String resultEB1314(Model model,@RequestParam String startDate,@RequestParam String endDate) {
-		List<EB13_CommitmentDetail> eb1314result = eb13_commitmentDetailMapper.selectEB1314(startDate, endDate);
+		List<EB13_Commitment> eb1314result = eb13_commitmentDetailMapper.selectEB1314(startDate, endDate);
 		model.addAttribute("eb1314List", eb1314result);
 		return "finance/resultEB1314";
 	}

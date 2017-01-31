@@ -5,93 +5,128 @@
 <mapper namespace="fund.mapper.CommitmentMapper">
 
 <sql id="select1"> 
-    <![CDATA[
-    DECLARE @today Date
-    SET @today = GETDATE()
-    SELECT c.*, me.codeName paymentMethodName, b.codeName bankName,
-        do.name donationPurposeName, 
-        co.name corporateName, org.codeName organizationName,
-        CASE WHEN @today < startDate THEN '시작전' 
-             WHEN @today > endDate THEN '종료'
-             ELSE '진행' END [state],
-        datediff(MM, startDate, ISNULL(endDate, GETDATE())) months                 
-    FROM Commitment c 
-        LEFT JOIN [Code] me ON me.id = c.paymentMethodId
-        LEFT JOIN [Code] b ON b.id = c.bankId
-        LEFT JOIN DonationPurpose do ON do.id = c.donationPurposeId
-        LEFT JOIN Corporate co ON co.id = do.corporateId
-        LEFT JOIN [Code] org ON org.id = do.organizationId
-    ]]>
+  <![CDATA[
+  DECLARE @today Date
+  SET @today = GETDATE()
+  SELECT c.*, me.codeName paymentMethodName, b.codeName bankName,
+    do.name donationPurposeName, 
+    co.name corporateName, org.codeName organizationName,
+    CASE WHEN @today < startDate THEN '시작전' 
+         WHEN @today > endDate THEN '종료'
+         ELSE '진행' END [state],
+    datediff(MM, startDate, ISNULL(endDate, GETDATE())) months                 
+  FROM Commitment c 
+    LEFT JOIN [Code] me ON me.id = c.paymentMethodId
+    LEFT JOIN [Code] b ON b.id = c.bankId
+    LEFT JOIN DonationPurpose do ON do.id = c.donationPurposeId
+    LEFT JOIN Corporate co ON co.id = do.corporateId
+    LEFT JOIN [Code] org ON org.id = do.organizationId
+  ]]>
 </sql>
 
 <select id="selectById" resultType="fund.dto.Commitment">
-    <include refid="select1"></include>
-    WHERE c.id = #{id}
+  <include refid="select1"></include>
+  WHERE c.id = #{id}
 </select>
 
 <select id="selectByCommitmentNo" resultType="fund.dto.Commitment">
-    <include refid="select1"></include>
-    WHERE c.commitmentNo = #{commitmentNo}
+  <include refid="select1"></include>
+  WHERE c.commitmentNo = #{commitmentNo}
 </select>
 
 <select id="selectBySponsorAndPaymentMethod" resultType="fund.dto.Commitment">
-    <include refid="select1"></include>
-    WHERE c.paymentMethodId = #{paymentMethodId}
-    AND c.id IN (SELECT id FROM commitment WHERE sponsorId = #{sponsorNo})
+  <include refid="select1"></include>
+  WHERE c.paymentMethodId = #{paymentMethodId}
+  AND c.id IN (SELECT id FROM commitment WHERE sponsorId = #{sponsorNo})
 </select>
 
 <select id="selectBySponsorId" resultType="fund.dto.Commitment">
-    <include refid="select1"></include>
-    WHERE c.id IN (SELECT id FROM commitment WHERE sponsorId = #{sponsorNo})        
+  <include refid="select1"></include>
+  WHERE c.id IN (SELECT id FROM commitment WHERE sponsorId = #{sponsorNo})        
 </select>
 
 <select id="generateCommitmentNo" resultType="java.lang.String">
-    DECLARE @n INT
-    SET @n = ISNULL((SELECT MAX(CONVERT(INT, RIGHT(commitmentNo, 2),0))
-                    FROM commitment
-                    WHERE sponsorID = #{sponsorId}), 0) + 1
-    SELECT sponsorNo + '-' + REPLACE(STR(@n,2), ' ', '0')
-    FROM sponsor
-    WHERE id = #{sponsorId}
+  DECLARE @n INT
+  SET @n = ISNULL((SELECT MAX(CONVERT(INT, RIGHT(commitmentNo, 2),0))
+                  FROM commitment
+                  WHERE sponsorID = #{sponsorId}), 0) + 1
+  SELECT sponsorNo + '-' + REPLACE(STR(@n,2), ' ', '0')
+  FROM sponsor
+  WHERE id = #{sponsorId}
 </select>
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-    <![CDATA[
-    INSERT Commitment (sponsorId, commitmentNo, donationPurposeId, paymentMethodId, 
-                       commitmentDate, startDate, endDate, 
-                       amountPerMonth, paymentDay, bankId, accountNo, accountHolder, etc)
-    VALUES 
-             (#{sponsorId}, #{commitmentNo}, #{donationPurposeId}, #{paymentMethodId}, 
-               CONVERT(DATE, IIF(LEN(RTRIM(#{commitmentDate})) < 10, null, #{commitmentDate})),
-               CONVERT(DATE, IIF(LEN(RTRIM(#{startDate})) < 10, null, #{startDate})),
-               CONVERT(DATE, IIF(LEN(RTRIM(#{endDate})) < 10, null, #{endDate})),
-              #{amountPerMonth}, #{paymentDay}, #{bankId}, #{accountNo}, #{accountHolder}, #{etc})
-    ]]>
+  <![CDATA[
+  INSERT Commitment (sponsorId, commitmentNo, donationPurposeId, paymentMethodId, 
+               commitmentDate, startDate, endDate, 
+               amountPerMonth, paymentDay, bankId, accountNo, accountHolder, etc)
+  VALUES 
+    (#{sponsorId}, #{commitmentNo}, #{donationPurposeId}, #{paymentMethodId}, 
+     CONVERT(DATE, IIF(LEN(RTRIM(#{commitmentDate})) < 10, null, #{commitmentDate})),
+     CONVERT(DATE, IIF(LEN(RTRIM(#{startDate})) < 10, null, #{startDate})),
+     CONVERT(DATE, IIF(LEN(RTRIM(#{endDate})) < 10, null, #{endDate})),
+     #{amountPerMonth}, #{paymentDay}, #{bankId}, #{accountNo}, #{accountHolder}, #{etc})
+  ]]>
 </insert>
 
 <update id="update">
-    UPDATE Commitment
-    SET
-        donationPurposeId = #{donationPurposeId},
-        paymentMethodId = #{paymentMethodId},
-        commitmentDate = #{commitmentDate},
-        startDate = #{startDate},
-        endDate = #{endDate},
-        amountPerMonth = #{amountPerMonth},
-        paymentDay = #{paymentDay},
-        etc = #{etc}
-    WHERE id = #{id}
+  UPDATE Commitment
+  SET
+    donationPurposeId = #{donationPurposeId},
+    paymentMethodId = #{paymentMethodId},
+    commitmentDate = #{commitmentDate},
+    startDate = #{startDate},
+    endDate = #{endDate},
+    amountPerMonth = #{amountPerMonth},
+    paymentDay = #{paymentDay},
+    etc = #{etc}
+  WHERE id = #{id}
 </update>
     
 <update id="updateEndDate">
-    UPDATE Commitment
-    SET endDate = getDate()
-    WHERE id = #{id}
+  UPDATE Commitment
+  SET endDate = getDate()
+  WHERE id = #{id}
 </update>
     
 <delete id="delete">
-   DELETE FROM Commitment
-   WHERE id = #{id}
+  DELETE FROM Commitment WHERE id = #{id}
 </delete>
+
+<!-- CMS -->
+<select id="selectEB13Candidate" resultType="fund.dto.Commitment">        
+  SELECT s.*, c.*, b.codeName bankName, b.etc1 bankCode
+  FROM commitment c
+    JOIN sponsor s ON c.sponsorId = s.id
+    JOIN [code] b ON c.bankId = b.id
+  WHERE c.paymentMethodId = 10
+  AND (eb13State IS NULL OR eb13State = '에러')
+  ORDER BY c.commitmentDate DESC
+</select>
+
+<select id="selectByEB13Date" resultType="fund.dto.Commitment">
+  SELECT * FROM commitment WHERE eb13Date = #{date}  
+</select>
+
+<select id="selectByEB14ResultParam" resultType="fund.dto.Commitment">
+  SELECT s.*, c.*, b.codeName bankName, b.etc1 bankCode, e.description eb13errorCodeMsg
+  FROM commitment c
+    JOIN sponsor s ON c.sponsorId = s.id
+    JOIN [code] b ON c.bankId = b.id
+    LEFT JOIN cmsErrorCode e ON e.code = c.eb13ErrorCode
+  WHERE c.paymentMethodId = 10
+  AND ((#{state} = 'all') OR
+       (#{state} = 'null' AND eb13State IS NULL) OR
+       (#{state} = eb13State))
+  AND eb13Date BETWEEN #{startDt} AND #{endDt}
+  ORDER BY c.commitmentDate DESC
+</select>
+
+<update id="updateEB13">
+  UPDATE commitment
+  SET eb13Date = #{eb13Date}, eb13State = #{eb13State}, eb13ErrorCode = #{eb13ErrorCode}
+  WHERE id = #{id}
+</update>
+
 
 </mapper>

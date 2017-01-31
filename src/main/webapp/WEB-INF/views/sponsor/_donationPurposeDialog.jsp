@@ -25,9 +25,9 @@
             </thead>
             <tbody>
             <c:forEach var="donationPurpose" items="${ donationPurposes }">
-              <tr data-id="${ donationPurpose.ID }">
+              <tr data-id="${ donationPurpose.id }">
                 <td>${ donationPurpose.corporateName }</td>
-                <td>${ donationPurpose.codeName }</td>
+                <td>${ donationPurpose.organizationName }</td>
                 <td>${ donationPurpose.name }</td>
               </tr>
             </c:forEach>

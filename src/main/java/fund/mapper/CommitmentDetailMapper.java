@@ -3,7 +3,7 @@ package fund.mapper;
 import java.util.List;
 
 import fund.dto.CommitmentDetail;
-import fund.dto.EB13_CommitmentDetail;
+import fund.dto.EB13_Commitment;
 import fund.dto.EB21_commitmentDetail;
 
 public interface CommitmentDetailMapper {
@@ -16,6 +16,6 @@ public interface CommitmentDetailMapper {
 	int selectCommitmentID();
 	void delete(int ID);
 
-	List<EB21_commitmentDetail> selectEB21(int pDay);//eb21ÆÄÀÏ·Î ¸¸µé ¸ñ·Ï Ãâ·Â
-	List<EB13_CommitmentDetail> selectEB13();//eb13ÆÄÀÏ·Î ¸¸µé ¸ñ·Ï Ãâ·Â
+	List<EB21_commitmentDetail> selectEB21(int pDay);//eb21ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+	List<EB13_Commitment> selectEB13();//eb13ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 }

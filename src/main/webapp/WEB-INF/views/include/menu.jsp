@@ -46,13 +46,15 @@
 
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">금융연동<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="/fund_sys/finance/eb13.do">EB13생성</a></li>
-              <li><a href="/fund_sys/finance/uploadEB14.do">EB14등록</a></li>
+              <li><a href="/fund_sys/cms/eb13.do">EB13 생성</a></li>
+              <li><a href="/fund_sys/cms/eb14.do">EB14 등록</a></li>
+              <li><a href="/fund_sys/cms/eb14result.do">EB13/14 결과조회</a></li>
+              
+              
               <li><a href="/fund_sys/finance/eb21.do">EB21생성</a></li>
               <li><a href="/fund_sys/finance/uploadEB22.do">EB22등록</a></li>
               <li><a href="/fund_sys/finance/uploadXferResult.do">자동이체 결과등록</a></li>
               <li><a href="/fund_sys/finance/uploadSalaryResult.do">급여공제 결과등록</a></li>
-              <li><a href="/fund_sys/finance/resultEB1314.do">EB13/14 결과조회</a></li>
               <li><a href="/fund_sys/finance/resultEB2122.do">EB21/22 결과조회</a></li>
             </ul></li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">납입관리<span class="caret"></span></a>

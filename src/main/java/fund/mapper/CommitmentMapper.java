@@ -1,7 +1,9 @@
 package fund.mapper;
 
+import java.util.Date;
 import java.util.List;
 import fund.dto.Commitment;
+import fund.dto.EB14ResultParam;
 
 public interface CommitmentMapper {
 
@@ -16,5 +18,12 @@ public interface CommitmentMapper {
 	void update(Commitment commitment);
 	void delete(int id);
 	void updateEndDate(int id);
+
+	// CMS
+	List<Commitment> selectEB13Candidate();
+	List<Commitment> selectByEB13Date(Date date);
+	List<Commitment> selectByEB14ResultParam(EB14ResultParam param);
+	void updateEB13(Commitment commitment);
+
 }
 
