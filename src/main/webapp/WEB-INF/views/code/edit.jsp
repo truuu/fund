@@ -1,66 +1,36 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<script>
-function deleteFunction() {
 
-    if(confirm("삭제하시겠습니까?")==true){
-    	location.href="/fund_sys/code/delete.do?ID=${code.ID}";
-    }
-    else{
-    		return;
-    }
-}
-</script>
-<style>
-input[name=title] {
-	width: 700px;
-	border-style: groove;
-	margin: 4px;
-}
-
-table.table {
-	width: 40%;
-}
-
-#table_a {
-	width: 50%;
-}
-
-#btn3 {
-	margin-left: 22%;
-}
-</style>
-
-<h2>${name}수정</h2>
+<h1>${ codeGroup.name } ${ code.id > 0 ? "수정" : "등록" }</h1>
 <hr />
 
 <form:form method="post" modelAttribute="code">
-	<table class="table">
-		<tr>
-			<td id="table_a">코드명</td>
-			<td><form:input path="codeName"  /><br>${error}
-			</td>
-		</tr>
-		<tr>
-			<td id="table_a">기타</td>
-			<td><form:input path="etc1"  /></td>
-		</tr>
-	</table>
 
-	<form:input type="hidden" path="CodeGroupID" />
+<div class="pull-right mt4 mb4">
+  <button type="submit" class="btn btn-primary" name="cmd" value="save">저장</button>
+  <c:if test="${ code.id > 0 }">
+    <button type="submit" class="btn btn-danger" name="cmd" value="delete" data-confirm-delete>삭제</button>
+  </c:if>    
+  <a href="list.do?gid=${codeGroup.id}" class="btn btn-info">목록으로</a>
+</div>
 
+<form:hidden path="codeGroupId" />
 
-	<div>
-		<button type="submit" id="btn3" class="btn btn-primary">
-			<i class="icon-ok icon-white"></i> 저장
-		</button>
-		<button type="button" onclick="deleteFunction()"
-			class="btn btn-default">
-			<i class="icon-ok icon-white"></i> 삭제
-		</button>
-		<a href="codeList.do?CodeGroupID=${ code.codeGroupID }"
-			class="btn btn-default"> <i class="icon-ban-circle"></i> 취소
-		</a>
-	</div>
+<table class="table table-bordered lbw150">
+  <tr>
+    <td class="lb">코드명</td>
+    <td><form:input path="CodeName" /></td>
+    <td class="lb">${ codeGroup.etc1 }</td>
+    <td><form:input path="etc1" /></td>
+  </tr>
+  <tr>
+    <td class="lb">${ codeGroup.etc2 }</td>
+    <td><form:input path="etc2" /></td>
+    <td class="lb">${ codeGroup.etc3 }</td>
+    <td><form:input path="etc3" /></td>
+  </tr>
+</table>  
+
 </form:form>
 

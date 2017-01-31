@@ -5,51 +5,47 @@
 <mapper namespace="fund.mapper.CodeMapper">
 
 <select id="selectById" parameterType="int" resultType="fund.dto.Code">
-    SELECT *
-    FROM [Code]
-    WHERE ID = #{id}
+    SELECT * FROM [Code] WHERE id = #{id}
 </select>
 
 <select id="selectByCodeName" resultType="fund.dto.Code">
-    SELECT *
-    FROM code
-    WHERE codeName=#{codeName}
+    SELECT * FROM code WHERE codeName = #{codeName}
 </select>
 
 <select id="selectCodeGroupById" resultType="fund.dto.CodeGroup">
-    SELECT *
-    FROM [CodeGroup]
-    WHERE ID = #{id}
+    SELECT * FROM [CodeGroup] WHERE id = #{id}
 </select>
 
 <select id="selectByCodeGroupId"  resultType="fund.dto.Code"> 
     SELECT *
     FROM [Code] 
-    WHERE codeGroupID = #{codeGroupID}            
+    WHERE codeGroupId = #{codeGroupId}            
     ORDER BY codeName
 </select>
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-    INSERT [Code] (codeGroupID, codeName, etc1, etc2, etc3)
-    VALUES (#{codeGroupID}, #{codeName}, #{etc1}, #{etc2}, #{etc3})
+    INSERT [Code] (codeGroupId, codeName, etc1, etc2, etc3)
+    VALUES (#{codeGroupId}, #{codeName}, #{etc1}, #{etc2}, #{etc3})
 </insert>
 
 <update id="update">
     UPDATE [Code]
     SET codeName = #{codeName}, 
-    etc1 = #{etc1}
-    WHERE ID = #{id}
+    etc1 = #{etc1},
+    etc2 = #{etc2},
+    etc3 = #{etc3}
+    WHERE id = #{id}
 </update>
 
 <delete id="delete">
-    DELETE FROM [Code] WHERE ID = #{id}
+    DELETE FROM [Code] WHERE id = #{id}
 </delete>
 
 
 	<select id="selectAllPaymentMethod" resultType="fund.dto.Code">
 		select c2.*
 		from
-		CodeGroup c1 left join Code c2 on c1.ID=c2.codeGroupID
+		CodeGroup c1 left join Code c2 on c1.id = c2.codeGroupId
 		where
 		c1.name=#{name1} or c1.name=#{name2}
 	</select>

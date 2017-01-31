@@ -1,82 +1,59 @@
 package fund.controller;
 
-import java.io.UnsupportedEncodingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import fund.dto.Code;
 import fund.mapper.CodeMapper;
-import fund.service.CodeService;
 
 @Controller
 public class CodeController extends BaseController{
 
-	@Autowired CodeMapper codeMapper;
-	@Autowired CodeService codeService;
+    @Autowired CodeMapper codeMapper;
 
-	@RequestMapping("/code/codeList.do")
-	public String codeList(Model model,@RequestParam("CodeGroupID") int codeGroupId) {
+    @RequestMapping("/code/list.do")
+    public String list(Model model, @RequestParam("gid") int codeGroupId) {
+        model.addAttribute("list", codeMapper.selectByCodeGroupId(codeGroupId));
+        model.addAttribute("codeGroup", codeMapper.selectCodeGroupById(codeGroupId));
+        return "code/list";
+    }
 
-		model.addAttribute("list", codeMapper.selectByCodeGroupId(codeGroupId));
-		model.addAttribute("name", codeMapper.selectCodeGroupById(codeGroupId).getName());
-		model.addAttribute("CodeGroupID",codeGroupId);
+    @RequestMapping(value="/code/create.do", method=RequestMethod.GET)
+    public String create(Model model, @RequestParam("gid") int codeGroupId) {
+        Code code = new Code();
+        code.setCodeGroupId(codeGroupId);
+        model.addAttribute("code", code);
+        model.addAttribute("codeGroup", codeMapper.selectCodeGroupById(codeGroupId));
+        return "code/edit";
+    }
 
-		return "code/codeList";
-	}
+    @RequestMapping(value="/code/create.do", method=RequestMethod.POST)
+    public String create(Code code, @RequestParam("gid") int codeGroupId) {
+        codeMapper.insert(code);
+        return "redirect:list.do?gid=" + codeGroupId;
+    }
 
-	@RequestMapping(value="/code/create.do", method=RequestMethod.GET)
-	public String create(Model model,@RequestParam("CodeGroupID") int codeGroupId) {
-		model.addAttribute("name",codeMapper.selectCodeGroupById(codeGroupId).getName());
-		model.addAttribute("CodeGroupID",codeGroupId);
-		return "code/create";
-	}
+    @RequestMapping(value="/code/edit.do", method=RequestMethod.GET)
+    public String edit(Model model, @RequestParam("id") int id, @RequestParam("gid") int codeGroupId) {
+        model.addAttribute("code", codeMapper.selectById(id));
+        model.addAttribute("codeGroup", codeMapper.selectCodeGroupById(codeGroupId));
+        return "code/edit";
+    }
 
-	@RequestMapping(value="/code/create.do", method=RequestMethod.POST)
-	public String create(Code code, @RequestParam("CodeGroupID") int CodeGroupID, RedirectAttributes redirectAttributes) {
-		String message = codeService.validate(code);
-		if(message==null){
-			codeMapper.insert(code);
-			return "redirect:/code/codeList.do?CodeGroupID="+CodeGroupID;
-		}
+    @RequestMapping(value="/code/edit.do", method=RequestMethod.POST, params="cmd=save")
+    public String edit(Model model, Code code, @RequestParam("gid") int codeGroupId) {
+        codeMapper.update(code);
+        model.addAttribute("codeGroup", codeMapper.selectCodeGroupById(codeGroupId));
+        return "redirect:list.do?gid=" + codeGroupId;
+    }
 
-		else
-			redirectAttributes.addFlashAttribute("error", message);  // codeName blank
-
-        return "redirect:/code/create.do?CodeGroupID="+CodeGroupID;
-	}
-
-	@RequestMapping(value="/code/edit.do", method=RequestMethod.GET)
-	public String edit(Model model, @RequestParam("ID") int ID) {
-		Code code = codeMapper.selectById(ID);
-		model.addAttribute("code", code);
-		model.addAttribute("name",codeMapper.selectCodeGroupById(code.getCodeGroupId()).getName());
-		return "code/edit";
-	}
-
-	@RequestMapping(value="/code/edit.do", method=RequestMethod.POST)
-	public String edit(Model model, Code code, @RequestParam("CodeGroupID") int CodeGroupID, RedirectAttributes redirectAttributes)
-			throws UnsupportedEncodingException {
-
-		String message = codeService.validate(code);
-		if(message==null){
-			codeMapper.update(code);
-			return "redirect:/code/codeList.do?CodeGroupID="+CodeGroupID;
-		}
-		else
-			redirectAttributes.addFlashAttribute("error", message);  // codeName blank
-
-        return "redirect:/code/edit.do?ID="+code.getId();
-	}
-
-	@RequestMapping("/code/delete.do")
-	public String delete(Model model, @RequestParam("ID") int ID) {
-		Code code = codeMapper.selectById(ID);
-		codeMapper.delete(ID);
-		return "redirect:/code/codeList.do?CodeGroupID="+code.getCodeGroupId() ;
-	}
+    @RequestMapping(value="/code/edit.do", method=RequestMethod.POST, params="cmd=delete")
+    public String delete(Model model, @RequestParam("id") int id, @RequestParam("gid") int codeGroupId) {
+        codeMapper.delete(id);
+        return "redirect:list.do?gid=" + codeGroupId;
+    }
 
 }

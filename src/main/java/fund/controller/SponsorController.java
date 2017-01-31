@@ -27,7 +27,6 @@ import fund.mapper.FileAttachmentMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.SponsorMapper;
 import fund.service.C;
-import fund.service.CodeService;
 import fund.service.FileExtFilter;
 import fund.service.ReportBuilder;
 import fund.service.SponsorService;
@@ -40,7 +39,6 @@ public class SponsorController extends BaseController {
     @Autowired SponsorMapper sponsorMapper;
     @Autowired FileAttachmentMapper fileAttachmentMapper;
     @Autowired PaymentMapper paymentMapper;
-    @Autowired CodeService codeService;
     @Autowired CodeMapper codeMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
     @Autowired FileExtFilter fileExtFilter;

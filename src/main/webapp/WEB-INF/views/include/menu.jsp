@@ -35,7 +35,7 @@
               <li><a href="/fund_sys/corporate/list.do">기관</a></li>
               <li><a href="/fund_sys/donationPurpose/list.do">기부목적</a></li>
               <c:forEach var="codeGroup" items="${ codeGroupList }">
-                <li><a href="/fund_sys/code/codeList.do?CodeGroupID=${codeGroup.ID}">${codeGroup.name}</a></li>
+                <li><a href="/fund_sys/code/list.do?gid=${codeGroup.id}">${codeGroup.name}</a></li>
               </c:forEach>
             </ul></li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">후원인관리<span class="caret"></span></a>

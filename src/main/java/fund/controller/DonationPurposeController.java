@@ -11,7 +11,6 @@ import fund.mapper.CodeMapper;
 import fund.mapper.CorporateMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.service.C;
-import fund.service.CodeService;
 
 @Controller
 public class DonationPurposeController extends BaseController{
@@ -19,7 +18,6 @@ public class DonationPurposeController extends BaseController{
 	@Autowired DonationPurposeMapper donationPurposeMapper;
 	@Autowired CorporateMapper corporateMapper;
 	@Autowired CodeMapper codeMapper;
-	@Autowired CodeService codeService;
 
 	@RequestMapping("/donationPurpose/list.do")
 	public String list(Model model) {

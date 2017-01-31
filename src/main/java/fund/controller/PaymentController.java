@@ -129,11 +129,11 @@ public class PaymentController extends BaseController{
 			model.addAttribute("churchID",paymentRecordStats.getSrchType3());
 		}
 		if(paymentRecordStats.getSrchType4()!=null){
-			model.addAttribute("paymentMethod", codeMapper.selectById(paymentRecordStats.getSrchType4()).getName());
+			model.addAttribute("paymentMethod", codeMapper.selectById(paymentRecordStats.getSrchType4()).getCodeName()); // TODO: 코드명인가 코드그룹명인가?
 			model.addAttribute("paymentMethodID", paymentRecordStats.getSrchType4());
 		}
 		if(paymentRecordStats.getSrchType5()!=null){
-			model.addAttribute("sponsorType", codeMapper.selectById(paymentRecordStats.getSrchType5()).getName());
+			model.addAttribute("sponsorType", codeMapper.selectById(paymentRecordStats.getSrchType5()).getCodeName()); // TODO: 코드명인가 코드그룹명인가?
 			model.addAttribute("sponsorTypeID",paymentRecordStats.getSrchType5());
 		}
 		if(paymentRecordStats.getSponsorName()!=null){
@@ -176,11 +176,11 @@ public class PaymentController extends BaseController{
 			condition[5] = donationPurposeMapper.selectById(paymentRecordStats.getSrchType2()).getCorporateName();
 		}
 		if(paymentRecordStats.getSrchType3()!=null)
-			condition[4]=codeMapper.selectById(paymentRecordStats.getSrchType3()).getName();
+			condition[4]=codeMapper.selectById(paymentRecordStats.getSrchType3()).getCodeName(); // TODO: 코드명인가 코드그룹명인가?
 		if(paymentRecordStats.getSrchType4()!=null)
-			condition[7]=codeMapper.selectById(paymentRecordStats.getSrchType4()).getName();
+			condition[7]=codeMapper.selectById(paymentRecordStats.getSrchType4()).getCodeName(); // TODO: 코드명인가 코드그룹명인가?
 		if(paymentRecordStats.getSrchType5()!=null)
-			condition[6]=codeMapper.selectById(paymentRecordStats.getSrchType5()).getName();
+			condition[6]=codeMapper.selectById(paymentRecordStats.getSrchType5()).getCodeName(); // TODO: 코드명인가 코드그룹명인가?
 
 		condition[1]=paymentRecordStats.getStartDate();
 		condition[2]=paymentRecordStats.getEndDate();
@@ -228,15 +228,15 @@ public class PaymentController extends BaseController{
 			model.addAttribute("corporateName",donationPurposeMapper.selectById(paymentRecordStats.getSrchType2()).getCorporateName());
 		}
 		if(paymentRecordStats.getSrchType3()!=null)	{
-			model.addAttribute("church",codeMapper.selectById(paymentRecordStats.getSrchType3()).getName());
+			model.addAttribute("church",codeMapper.selectById(paymentRecordStats.getSrchType3()).getCodeName()); // TODO: 코드명인가 코드그룹명인가?
 			model.addAttribute("churchID",paymentRecordStats.getSrchType3());
 		}
 		if(paymentRecordStats.getSrchType4()!=null){
-			model.addAttribute("paymentMethod",codeMapper.selectById(paymentRecordStats.getSrchType4()).getName());
+			model.addAttribute("paymentMethod",codeMapper.selectById(paymentRecordStats.getSrchType4()).getCodeName()); // TODO: 코드명인가 코드그룹명인가?
 			model.addAttribute("paymentMethodID",paymentRecordStats.getSrchType4());
 		}
 		if(paymentRecordStats.getSrchType5()!=null){
-			model.addAttribute("sponsorType",codeMapper.selectById(paymentRecordStats.getSrchType5()).getName());
+			model.addAttribute("sponsorType",codeMapper.selectById(paymentRecordStats.getSrchType5()).getCodeName()); // TODO: 코드명인가 코드그룹명인가?
 			model.addAttribute("sponsorTypeID",paymentRecordStats.getSrchType5());
 		}
 
@@ -279,11 +279,11 @@ public class PaymentController extends BaseController{
 			condition[5]=donationPurposeMapper.selectById(paymentRecordStats.getSrchType2()).getCorporateName();
 		}
 		if(paymentRecordStats.getSrchType3()!=null)
-			condition[4]=codeMapper.selectById(paymentRecordStats.getSrchType3()).getName();
+			condition[4]=codeMapper.selectById(paymentRecordStats.getSrchType3()).getCodeName(); // TODO: 코드명인가 코드그룹명인가?;
 		if(paymentRecordStats.getSrchType4()!=null)
-			condition[7]=codeMapper.selectById(paymentRecordStats.getSrchType4()).getName();
+			condition[7]=codeMapper.selectById(paymentRecordStats.getSrchType4()).getCodeName(); // TODO: 코드명인가 코드그룹명인가?
 		if(paymentRecordStats.getSrchType5()!=null)
-			condition[6]=codeMapper.selectById(paymentRecordStats.getSrchType5()).getName();
+			condition[6]=codeMapper.selectById(paymentRecordStats.getSrchType5()).getCodeName(); // TODO: 코드명인가 코드그룹명인가?
 		condition[1]=paymentRecordStats.getStartDate();
 		condition[2]=paymentRecordStats.getEndDate();
 		condition[8]=paymentRecordStats.getSponsorName();

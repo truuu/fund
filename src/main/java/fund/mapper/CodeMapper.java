@@ -5,6 +5,7 @@ import fund.dto.Code;
 import fund.dto.CodeGroup;
 
 public interface CodeMapper {
+
     Code selectById(int id);
 	Code selectByCodeName(String codeName);
 	CodeGroup selectCodeGroupById(int id);
