@@ -94,8 +94,8 @@
 </delete>
 
 <!-- CMS -->
-<select id="selectEB13Candidate" resultType="fund.dto.Commitment">        
-  SELECT s.*, c.*, b.codeName bankName, b.etc1 bankCode
+<select id="selectEB13Candidate" resultType="fund.dto.Commitment">
+  SELECT c.*, s.sponsorNo, s.name, s.juminNo, b.codeName bankName, b.etc1 bankCode
   FROM commitment c
     JOIN sponsor s ON c.sponsorId = s.id
     JOIN [code] b ON c.bankId = b.id
@@ -104,12 +104,27 @@
   ORDER BY c.commitmentDate DESC
 </select>
 
+<select id="selectEB21Candidate" resultType="fund.dto.Commitment">        
+  <![CDATA[
+  SELECT c.*, s.sponsorNo, s.name, s.juminNo, b.codeName bankName, b.etc1 bankCode
+  FROM commitment c
+    JOIN sponsor s ON c.sponsorId = s.id
+    JOIN [code] b ON c.bankId = b.id
+  WHERE c.paymentMethodId = 10
+  AND eb13State = '성공'
+  AND (endDate IS NULL OR endDate <= #{paymentDate})
+  AND paymentDay = #{paymentDay}
+  ORDER BY c.commitmentDate DESC
+  ]]>
+</select>
+
 <select id="selectByEB13Date" resultType="fund.dto.Commitment">
   SELECT * FROM commitment WHERE eb13Date = #{date}  
 </select>
 
-<select id="selectByEB14ResultParam" resultType="fund.dto.Commitment">
-  SELECT s.*, c.*, b.codeName bankName, b.etc1 bankCode, e.description eb13errorCodeMsg
+<select id="selectByCmsResultParam" resultType="fund.dto.Commitment">
+  SELECT c.*, s.sponsorNo, s.name, s.juminNo,
+      b.codeName bankName, b.etc1 bankCode, e.description eb13errorCodeMsg
   FROM commitment c
     JOIN sponsor s ON c.sponsorId = s.id
     JOIN [code] b ON c.bankId = b.id
@@ -118,7 +133,7 @@
   AND ((#{state} = 'all') OR
        (#{state} = 'null' AND eb13State IS NULL) OR
        (#{state} = eb13State))
-  AND eb13Date BETWEEN #{startDt} AND #{endDt}
+  AND (eb13Date BETWEEN #{startDt} AND #{endDt})
   ORDER BY c.commitmentDate DESC
 </select>
 

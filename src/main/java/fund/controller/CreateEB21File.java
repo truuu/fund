@@ -2,7 +2,6 @@ package fund.controller;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.ParseException;
@@ -24,12 +23,12 @@ public class CreateEB21File extends BaseController{
 		int amountPerMonth;
 		int dataCount = 0;
 		int amountSum = 0;
-		
+
 		String h = "H000000009983010152EB21"+mmdd.format(paymentDate)+yymmdd.format(paymentDate);
 		String h2 = "005459315922014245";
 		String padded = String.format("%-117s",h2);
 		bufferedWriter.write(h+padded);
-		
+
 		for(EB21_commitmentDetail i : eb21List){
 			dataCount++;
 			sponsorNo = i.getSponsorNo();
@@ -51,14 +50,14 @@ public class CreateEB21File extends BaseController{
 
 			amountSum = amountSum + amountPerMonth;
 		}
-		
+
 		String t = "T999999999983010152EB21"+mmdd.format(paymentDate);
 		String count = String.format("%08d",dataCount);
 		String sum = String.format("%013d",amountSum);
 		String alterclose = "000000000000000000000";
 		String space2 = String.format("%-94s", alterclose);
 		bufferedWriter.write(t+count+count+sum+space2);
-		
+
 		bufferedWriter.close();
 	}
 }

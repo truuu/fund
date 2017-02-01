@@ -9,9 +9,9 @@
   <input type="hidden" name="pg" value="1" />
 
   <div class="form-inline mb4">
-    <span>기간</span> 
-    <form:input class="startDt" path="sd" /> ~ 
-    <form:input class="endDt" path="ed" />
+    <span>기간:</span> 
+    <form:input class="startDt w100" path="sd" /> ~ 
+    <form:input class="endDt w100" path="ed" />
     <button type="submit" class="btn btn-primary">검색</button>
     <a href="sendDMxlsx.do?${pagination.queryString}" class="btn btn-info">액셀 다운로드</a>
   </div>

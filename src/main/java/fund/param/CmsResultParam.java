@@ -1,6 +1,6 @@
-package fund.dto;
+package fund.param;
 
-public class EB14ResultParam {
+public class CmsResultParam {
 
     String startDt;
     String endDt;

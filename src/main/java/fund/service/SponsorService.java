@@ -3,6 +3,7 @@ package fund.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import fund.dto.Commitment;
 import fund.dto.Pagination;
 import fund.dto.Sponsor;
 import fund.mapper.SponsorMapper;
@@ -26,6 +27,10 @@ public class SponsorService {
         sponsor.setJuminNo(s);
     }
 
+    public static  void decriptJuminNo(List<Commitment> list) throws Exception {
+        for (Commitment c : list)
+            c.setJuminNo(EncryptService.decAES(c.getJuminNo()));
+    }
 
     public Sponsor selectById(int id) throws Exception {
         Sponsor sponsor = sponsorMapper.selectById(id);

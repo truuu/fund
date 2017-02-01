@@ -2,19 +2,27 @@ body .mt4 { margin-top: 4px; }
 body .mt6 { margin-top: 6px; }
 body .mt8 { margin-top: 8px; }
 body .mt20 { margin-top: 20px; }
+body .mt100 { margin-top: 100px; }
 body .mb4 { margin-bottom: 4px; }
 body .mb6 { margin-bottom: 6px; }
 body .mb8 { margin-bottom: 8px; }
 body .mb20 { margin-bottom: 20px; }
+body .mb100 { margin-bottom: 100px; }
 body .ml5 { margin-left: 5px; }
 body .ml10 { margin-left: 10px; }
 body .ml15 { margin-left: 15px; }
+body .ml100 { margin-left: 100px; }
 body .mr5 { margin-right: 5px; }
 body .mr10 { margin-right: 10px; }
 body .mr15 { margin-right: 15px; }
+body .mr100 { margin-right: 100px; }
+body span.block { display: inline-block; }
 
-body thead tr { background: #eee; }
+body thead tr { background-color: #eee; }
 body tbody tr[data-url]:hover { background-color: #ffa; cursor: pointer; }
+body table tr.my-error { background-color: #fee; } 
+body table tr.my-success { background-color: #efe; }
+body table tr.disable { background-color: #eee; color: #888; }
 body td.lb { background: #eee; text-align: right; width: }
 body table.lbw150 td.lb { width: 150px; }
 body table.lbw100 td.lb { width: 100px; }
@@ -23,6 +31,7 @@ body select { border: 1px solid #aaa; padding: 4px; }
 body input { border: 1px solid #aaa; padding: 4px; }
 body textarea { border: 1px solid #aaa; padding: 4px; }
 
+body .w50 { width: 50px; }
 body .w100 { width: 100px; }
 body .w150 { width: 150px; }
 body .w200 { width: 200px; }
@@ -35,6 +44,7 @@ body .h100 { height: 100px; }
 body .h150 { height: 150px; }
 body .h200 { height: 200px; }
 body .h600 { height: 600px; }
+
 
 .right { text-align: right; }
 
@@ -70,3 +80,7 @@ body select { line-height: 1em; }
 body a.btn-gray { background-color: #ddd; color:black; }
 body button.btn-gray { background-color: #ddd; color:black; }
 body label.clean { font-weight: normal; }
+
+body input.date { width: 100px; }
+body input.startDt { width: 100px; }
+body input.endDt   { width: 100px; }

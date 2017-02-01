@@ -1,18 +1,15 @@
 package fund.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import fund.dto.EB14;
 import fund.dto.EB21_commitmentDetail;
 import fund.dto.EB22;
 import fund.dto.Payment;
-import fund.dto.XferResult;
 import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.EB21Mapper;
 import fund.mapper.EB21_CommitmentDetailMapper;
@@ -59,7 +53,7 @@ public class EB21Controller extends BaseController{
 				eb21List.get(i).setJumin(decoding.substring(0, 6));
 			}
 		}
-		
+
 		model.addAttribute("eb21List", eb21List);
 		model.addAttribute("paymentDay", paymentDay);
 
@@ -76,11 +70,11 @@ public class EB21Controller extends BaseController{
 
 		CreateEB21File.createEB21File(eb21List,paymentDate_old);//EB21파일생성.
 
-		eb21Mapper.createEB21file(paymentDate_old);
+		//eb21Mapper.createEB21file(paymentDate_old);
 		for(int i=0 ; i<commitmentDetailID.length; ++i){
 			eb21_commitmentDetailMapper.createEB21List(commitmentDetailID[i]);
 		}
-		model.addAttribute("successMsg", "EB21 파일 생성을 완료했습니다."); 
+		model.addAttribute("successMsg", "EB21 파일 생성을 완료했습니다.");
 		return "finance/eb21";
 	}
 
@@ -133,7 +127,7 @@ public class EB21Controller extends BaseController{
 				return "finance/eb22";
 			}
 		}else{
-			model.addAttribute("errorMsg", "EB파일을 업로드 해 주세요."); 
+			model.addAttribute("errorMsg", "EB파일을 업로드 해 주세요.");
 		}
 		return "finance/uploadEB22";
 	}
@@ -164,7 +158,7 @@ public class EB21Controller extends BaseController{
 		for(Payment i : successList){
 			paymentMapper.insertEB21Payment(i);
 		}//payment테이블에 납입 업데이트
-		model.addAttribute("successMsg", "EB22 파일 적용을 완료했습니다."); 
+		model.addAttribute("successMsg", "EB22 파일 적용을 완료했습니다.");
 		return "finance/eb22";
 	}
 	@RequestMapping(value="/finance/resultEB2122.do", method=RequestMethod.GET)

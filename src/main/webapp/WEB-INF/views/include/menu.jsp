@@ -49,6 +49,11 @@
               <li><a href="/fund_sys/cms/eb13.do">EB13 생성</a></li>
               <li><a href="/fund_sys/cms/eb14.do">EB14 등록</a></li>
               <li><a href="/fund_sys/cms/eb14result.do">EB13/14 결과조회</a></li>
+              <li class="divider"></li>
+              <li><a href="/fund_sys/cms/eb21.do">EB21 생성</a></li>
+              <li><a href="/fund_sys/cms/eb22.do">EB22 등록</a></li>
+              <li><a href="/fund_sys/cms/eb22result.do">EB21/22 결과조회</a></li>
+              <li class="divider"></li>
               
               
               <li><a href="/fund_sys/finance/eb21.do">EB21생성</a></li>

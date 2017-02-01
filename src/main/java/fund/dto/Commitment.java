@@ -41,7 +41,7 @@ public class Commitment {
     public boolean isValid() {
         int length = (juminNo + "").length();
         return StringUtils.isNotBlank(bankName) && StringUtils.isNotBlank(juminNo) && StringUtils.isNotBlank(accountNo)
-                && (length == 13 || length == 10);
+                && (length == 13 || length == 10 || length == 6);
 
     }
     //

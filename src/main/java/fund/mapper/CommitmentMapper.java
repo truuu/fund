@@ -3,7 +3,8 @@ package fund.mapper;
 import java.util.Date;
 import java.util.List;
 import fund.dto.Commitment;
-import fund.dto.EB14ResultParam;
+import fund.param.CmsResultParam;
+import fund.param.EB21Param;
 
 public interface CommitmentMapper {
 
@@ -22,8 +23,9 @@ public interface CommitmentMapper {
 	// CMS
 	List<Commitment> selectEB13Candidate();
 	List<Commitment> selectByEB13Date(Date date);
-	List<Commitment> selectByEB14ResultParam(EB14ResultParam param);
+	List<Commitment> selectByCmsResultParam(CmsResultParam param);
 	void updateEB13(Commitment commitment);
 
+    List<Commitment> selectEB21Candidate(EB21Param param);
 }
 
