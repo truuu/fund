@@ -17,7 +17,7 @@ public interface PaymentMapper {
 
     void update(Payment payment);
     void delete(int id);
-    void insert2(Payment payment);
+    void insert(Payment payment);
 
 	List<Integer> selectDistinctSponsorID(@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("corporateID") int corporateID);
 	List<Payment> selectReceiptByName(Pagination pagination);

@@ -16,6 +16,7 @@
 
 <%@include file="_paymentOrderBy.jsp" %>
 
+<c:set var="sum" value="${ 0 }" />
 <table class="table table-bordered mt20">
   <thead>
     <tr>
@@ -26,8 +27,8 @@
       <th>비고</th>
     </tr>
   </thead>
-  <c:forEach var="payment" items="${ list }">
-    <tbody>
+  <tbody>
+    <c:forEach var="payment" items="${ list }">
       <tr data-url="paymentEdit2.do?id=${payment.id}&sid=${sid}&${pg}">
         <td>${ payment.paymentMethodName }</td>
         <td class="right"><fmt:formatNumber value="${ payment.amount}" /></td>
@@ -35,7 +36,13 @@
         <td>${ payment.corporateName } / ${ payment.organizationName } / ${ payment.donationPurposeName }</td>
         <td>${ payment.etc }</td>
       </tr>
-    </tbody>
-  </c:forEach>
+      <c:set var="sum" value="${ sum + payment.amount }" />
+    </c:forEach>
+    <tr>
+      <td>합계</td>
+      <td class="right"><fmt:formatNumber value="${ sum }" /></td>
+      <td colspan="3"></td>
+    </tr>    
+  </tbody>
 </table>
 

@@ -42,7 +42,7 @@ public class FinanceController extends BaseController{
 			if (uploadedFile.getSize() > 0 ) {
 				byte[] bytes = uploadedFile.getBytes();
 
-				String fileName = "/Users/parkeunsun/Documents/"+uploadedFile.getOriginalFilename();
+				String fileName = "d:/temp/"+uploadedFile.getOriginalFilename();
 
 				File tempFile = new File(fileName);
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile));
@@ -177,4 +177,6 @@ public class FinanceController extends BaseController{
 
 		return "finance/financeError";
 	}
+
+
 }

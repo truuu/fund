@@ -3,11 +3,11 @@ package fund.dto;
 public class Payment {
     int id;
     int sponsorId;
-    int commitmentId;
+    Integer commitmentId;
     int amount;
     String paymentDate;
     String etc;
-    int receiptId;
+    Integer receiptId;
     int donationPurposeId;
     int paymentMethodId;
 
@@ -20,15 +20,15 @@ public class Payment {
 
     int count1; // 기부후원인 수 count
     int count2; // 기부목적 count
-    int sum;    // 총 기부금
-    double percent;      // 백분율
+    int sum; // 총 기부금
+    double percent; // 백분율
     String sponsorNo;
-    String name;         // 후원인 이름
+    String name; // 후원인 이름
     String sponsorType2; // 후원인구분2
     String church;
-    String gubun;    // 정기/비정기 구분
-    int totalSum;    // 납입 총계 후원인당 총액1
-    int totalCount;  // 납입 총계 후원인당 총납입수
+    String gubun; // 정기/비정기 구분
+    int totalSum; // 납입 총계 후원인당 총액1
+    int totalCount; // 납입 총계 후원인당 총납입수
 
     String juminNo;
     String commitmentNo;
@@ -57,11 +57,11 @@ public class Payment {
         this.sponsorId = sponsorId;
     }
 
-    public int getCommitmentId() {
+    public Integer getCommitmentId() {
         return commitmentId;
     }
 
-    public void setCommitmentId(int commitmentId) {
+    public void setCommitmentId(Integer commitmentId) {
         this.commitmentId = commitmentId;
     }
 
@@ -89,11 +89,11 @@ public class Payment {
         this.etc = etc;
     }
 
-    public int getReceiptId() {
+    public Integer getReceiptId() {
         return receiptId;
     }
 
-    public void setReceiptId(int receiptId) {
+    public void setReceiptId(Integer receiptId) {
         this.receiptId = receiptId;
     }
 

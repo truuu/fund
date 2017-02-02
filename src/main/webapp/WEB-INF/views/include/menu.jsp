@@ -54,13 +54,8 @@
               <li><a href="/fund_sys/cms/eb22.do">EB22 등록</a></li>
               <li><a href="/fund_sys/cms/eb22result.do">EB21/22 결과조회</a></li>
               <li class="divider"></li>
-              
-              
-              <li><a href="/fund_sys/finance/eb21.do">EB21생성</a></li>
-              <li><a href="/fund_sys/finance/uploadEB22.do">EB22등록</a></li>
-              <li><a href="/fund_sys/finance/uploadXferResult.do">자동이체 결과등록</a></li>
-              <li><a href="/fund_sys/finance/uploadSalaryResult.do">급여공제 결과등록</a></li>
-              <li><a href="/fund_sys/finance/resultEB2122.do">EB21/22 결과조회</a></li>
+              <li><a href="/fund_sys/cms/xfer.do">자동이체 결과등록</a></li>
+              <li><a href="/fund_sys/cms/sal.do">급여공제 결과등록</a></li>
             </ul></li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">납입관리<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">

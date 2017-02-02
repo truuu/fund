@@ -1,6 +1,7 @@
 package fund.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,7 @@ import fund.mapper.SponsorMapper;
 import fund.service.C;
 
 @Controller
-public class SponsorPaymentController {
+public class SponsorPaymentController extends BaseController {
 
     @Autowired CodeMapper codeMapper;
     @Autowired SponsorMapper sponsorMapper;
@@ -36,7 +37,8 @@ public class SponsorPaymentController {
     @RequestMapping("/sponsor/paymentList1.do")
     public String paymentList1(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
         PaymentListParam param = new PaymentListParam(sid, orderBy[pagination.getOd1()]);
-        model.addAttribute("list", paymentMapper.selectPaymentList1(param));
+        List<Payment> list = paymentMapper.selectPaymentList1(param);
+        model.addAttribute("list", list);
         return "sponsor/paymentList1";
     }
 
@@ -90,7 +92,7 @@ public class SponsorPaymentController {
     @RequestMapping(value="/sponsor/paymentNew2.do", method=RequestMethod.POST)
     public String paymentNew2(Model model, @RequestParam("sid") int sid, Payment payment) throws Exception {
         payment.setSponsorId(sid);
-        paymentMapper.insert2(payment);
+        paymentMapper.insert(payment);
         return redirectToList(model, sid);
     }
 }

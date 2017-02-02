@@ -3,13 +3,13 @@ package fund.controller;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.OutputStreamWriter;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +23,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import fund.dto.Commitment;
 import fund.dto.EB21;
+import fund.dto.Payment;
+import fund.dto.Sal;
+import fund.dto.Xfer;
 import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.EB21Mapper;
+import fund.mapper.PaymentMapper;
 import fund.param.CmsResultParam;
 import fund.param.EB21Param;
+import fund.service.C;
 import fund.service.C2;
 import fund.service.EncryptService;
+import fund.service.ExcelService;
 import fund.service.SponsorService;
 
 @Controller
@@ -42,6 +48,7 @@ public class CmsController extends BaseController {
     @Autowired CommitmentMapper commitmentMapper;
     @Autowired CodeMapper codeMapper;
     @Autowired EB21Mapper eb21Mapper;
+    @Autowired PaymentMapper paymentMapper;
 
     //// EB13
     @RequestMapping(value="/cms/eb13.do", method=RequestMethod.GET)
@@ -126,8 +133,9 @@ public class CmsController extends BaseController {
 
     //// EB14
     @RequestMapping(value="/cms/eb14.do", method=RequestMethod.GET)
-    public String eb14() {
-        return "cms/eb14";
+    public String eb14(Model model) {
+        model.addAttribute("title", "EB14 파일 업로드");
+        return "cms/upload";
     }
 
     // TODO: 에러 발생시 EB14 재등록 메시지.
@@ -135,9 +143,9 @@ public class CmsController extends BaseController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String eb14(Model model, @RequestParam("file") MultipartFile file) throws Exception {
         ByteArrayInputStream stream = new ByteArrayInputStream(file.getBytes());
-        String s = IOUtils.toString(stream, "MS949");
+        String s = IOUtils.toString(stream, "ASCII");
 
-        Date today = format_yyMMdd.parse(s, new ParsePosition(27));
+        Date today = format_yyMMdd.parse(s.substring(27,27+6));
         int headerLength = 120, trailerLength = 120, recordLength = 120;
         s = s.substring(headerLength);
         s = s.substring(0, s.length() - trailerLength);
@@ -161,7 +169,7 @@ public class CmsController extends BaseController {
     static List<String> split(String s, int size) {
         List<String> list = new ArrayList<String>();
         int index = 0;
-        while (index < s.length()) {
+        while (index + size <= s.length()) {
           String t = s.substring(index, index + size);
           list.add(t);
           index += size;
@@ -299,8 +307,9 @@ public class CmsController extends BaseController {
 
     //// EB22
     @RequestMapping(value="/cms/eb22.do", method=RequestMethod.GET)
-    public String eb22() {
-        return "cms/eb22";
+    public String eb22(Model model) {
+        model.addAttribute("title", "EB22 파일 업로드");
+        return "cms/upload";
     }
 
     // TODO: 에러 발생시 EB22 재등록 메시지.
@@ -308,9 +317,9 @@ public class CmsController extends BaseController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String eb22(Model model, @RequestParam("file") MultipartFile file) throws Exception {
         ByteArrayInputStream stream = new ByteArrayInputStream(file.getBytes());
-        String s = IOUtils.toString(stream, "MS949");
+        String s = IOUtils.toString(stream, "ASCII");
 
-        Date today = format_yyMMdd.parse(s, new ParsePosition(27));
+        Date today = format_yyMMdd.parse(s.substring(27,27+6));
         int headerLength = 150, trailerLength = 150, recordLength = 150;
         s = s.substring(headerLength);
         s = s.substring(0, s.length() - trailerLength);
@@ -354,22 +363,121 @@ public class CmsController extends BaseController {
         model.addAttribute("list", list);
         return "cms/eb22result";
     }
+
+
+    //// 자동이체
+    @RequestMapping(value="/cms/xfer.do", method=RequestMethod.GET)
+    public String xfer(Model model) {
+        model.addAttribute("title", "자동이체 결과파일 업로드");
+        return "cms/upload";
+    }
+
+    @RequestMapping(value="/cms/xfer.do", method=RequestMethod.POST, params="cmd=upload")
+    public String xfer(Model model, @RequestParam("file") MultipartFile file, HttpSession session) throws Exception {
+        String redirect1 = "redirect:xfer.do";
+        if (file.getSize() <= 0) return redirect1;
+        List<Xfer> list = ExcelService.get자동이체Result(file.getInputStream());
+        if (list.size() <= 0) return redirect1;
+        session.setAttribute("xfer_notSaved", list);
+        session.setAttribute("xfer_saved", null);
+        return "cms/xfer";
+    }
+
+    @SuppressWarnings("unchecked")
+    @RequestMapping(value="/cms/xfer.do", method=RequestMethod.POST, params="cmd=save")
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public String xfer(Model model, @RequestParam("commitmentNo") String[] commitmentNo, HttpSession session) throws Exception {
+        List<Xfer> list = (List<Xfer>)session.getAttribute("xfer_notSaved");
+        List<Xfer> list_saved = (List<Xfer>)session.getAttribute("xfer_saved");
+        if (list_saved == null) list_saved = new ArrayList<Xfer>();
+        List<Xfer> list_notSaved = new ArrayList<Xfer>();
+
+        for (int i = 0; i < list.size(); ++i) {
+            Xfer x = list.get(i);
+            x.setCommitmentNo(commitmentNo[i]);
+            if (insertPayment(x)) list_saved.add(x);
+            else list_notSaved.add(x);
+        }
+        session.setAttribute("xfer_notSaved", list_notSaved);
+        session.setAttribute("xfer_saved", list_saved);
+        return "cms/xfer";
+    }
+
+    private boolean insertPayment(Xfer xfer) {
+        try {
+            Commitment c = commitmentMapper.selectByCommitmentNo(xfer.getCommitmentNo());
+            Payment payment = new Payment();
+            payment.setSponsorId(c.getSponsorId());
+            payment.setCommitmentId(c.getId());
+            payment.setAmount(xfer.getAmount());
+            payment.setPaymentDate(format_yyyyMMdd.format(xfer.getDate()));
+            payment.setEtc(xfer.getEtc1());
+            payment.setDonationPurposeId(c.getDonationPurposeId());
+            payment.setPaymentMethodId(C.코드ID_자동이제);
+            paymentMapper.insert(payment);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+    //// 급여공제
+    @RequestMapping(value="/cms/sal.do", method=RequestMethod.GET)
+    public String salary(Model model) {
+        model.addAttribute("title", "급여공제 결과파일 업로드");
+        return "cms/upload";
+    }
+
+    @RequestMapping(value="/cms/sal.do", method=RequestMethod.POST, params="cmd=upload")
+    public String sal(@RequestParam("file") MultipartFile file, HttpSession session) throws Exception {
+        String redirect1 = "redirect:sal.do";
+        if (file.getSize() <= 0) return redirect1;
+        List<Sal> list = ExcelService.get급여공제Result(file.getInputStream());
+        if (list.size() <= 0) return redirect1;
+        session.setAttribute("sal_notSaved", list);
+        session.setAttribute("sal_saved", null);
+        return "cms/sal";
+    }
+
+    @SuppressWarnings("unchecked")
+    @RequestMapping(value="/cms/sal.do", method=RequestMethod.POST, params="cmd=save")
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public String sal(Model model, @RequestParam("commitmentNo") String[] commitmentNo, HttpSession session) throws Exception {
+        List<Sal> list = (List<Sal>)session.getAttribute("sal_notSaved");
+        List<Sal> list_saved = (List<Sal>)session.getAttribute("sal_saved");
+        if (list_saved == null) list_saved = new ArrayList<Sal>();
+        List<Sal> list_notSaved = new ArrayList<Sal>();
+
+        for (int i = 0; i < list.size(); ++i) {
+            Sal s = list.get(i);
+            s.setCommitmentNo(commitmentNo[i]);
+            if (insertPayment(s)) list_saved.add(s);
+            else list_notSaved.add(s);
+        }
+        session.setAttribute("sal_notSaved", list_notSaved);
+        session.setAttribute("sal_saved", list_saved);
+        return "cms/sal";
+    }
+
+    private boolean insertPayment(Sal sal) {
+        try {
+            Commitment c = commitmentMapper.selectByCommitmentNo(sal.getCommitmentNo());
+            Payment payment = new Payment();
+            payment.setSponsorId(c.getSponsorId());
+            payment.setCommitmentId(c.getId());
+            payment.setAmount(sal.getAmount());
+            payment.setPaymentDate(format_yyyyMMdd.format(sal.getDate()));
+            payment.setEtc(sal.getEtc());
+            payment.setDonationPurposeId(c.getDonationPurposeId());
+            payment.setPaymentMethodId(C.코드ID_급여공제);
+            paymentMapper.insert(payment);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

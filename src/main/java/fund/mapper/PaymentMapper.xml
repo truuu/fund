@@ -4,62 +4,59 @@
 <mapper namespace="fund.mapper.PaymentMapper">
 
 <sql id="select1">
-    SELECT p.*,
-      co.name corporateName, og.codeName organizationName, dp.name donationPurposeName, me.codeName paymentMethodName,
-      c.commitmentNo, c.accountNo, c.accountHolder,
-      bk.codeName bankName
-    FROM payment p
-      LEFT JOIN code me ON me.ID = p.paymentMethodID 
-      LEFT JOIN donationPurpose dp ON p.donationPurposeID = dp.ID
-      LEFT JOIN code og ON og.ID = dp.organizationID 
-      LEFT JOIN corporate co ON dp.corporateID = co.ID
-      LEFT JOIN commitment c ON p.commitmentID = c.ID
-      LEFT JOIN code bk ON bk.ID = c.bankID
+  SELECT p.*,
+    co.name corporateName, og.codeName organizationName, dp.name donationPurposeName, me.codeName paymentMethodName,
+    c.commitmentNo, c.accountNo, c.accountHolder,
+    bk.codeName bankName
+  FROM payment p
+    LEFT JOIN code me ON me.ID = p.paymentMethodID 
+    LEFT JOIN donationPurpose dp ON p.donationPurposeID = dp.ID
+    LEFT JOIN code og ON og.ID = dp.organizationID 
+    LEFT JOIN corporate co ON dp.corporateID = co.ID
+    LEFT JOIN commitment c ON p.commitmentID = c.ID
+    LEFT JOIN code bk ON bk.ID = c.bankID
 </sql>
 
 <select id="selectById" resultType="fund.dto.Payment">
-    <include refid="select1"></include>
-    WHERE p.id = #{id}
+  <include refid="select1"></include>
+  WHERE p.id = #{id}
 </select>
 
 <select id="selectPaymentList1" resultType="fund.dto.Payment">
-    <include refid="select1"></include>
-    WHERE p.sponsorID = #{sponsorId}
-    AND me.codeGroupID = 3
-    ORDER BY ${orderBy}
+  <include refid="select1"></include>
+  WHERE p.sponsorID = #{sponsorId}
+  AND me.codeGroupID = 3
+  ORDER BY ${orderBy}
 </select>
 
 <select id="selectPaymentList2" resultType="fund.dto.Payment">
-    <include refid="select1"></include>
-    WHERE p.sponsorID = #{sponsorId}
-    AND me.codeGroupID = 4
-    ORDER BY ${orderBy}
+  <include refid="select1"></include>
+  WHERE p.sponsorID = #{sponsorId}
+  AND me.codeGroupID = 4
+  ORDER BY ${orderBy}
 </select>
 
-<update id="update"> <!-- 비정기 납입 저장 -->    
-    <![CDATA[
-    UPDATE Payment
-      SET 
-        amount = #{amount}, 
-        paymentDate=CONVERT(DATE, IIF(LEN(RTRIM(#{paymentDate})) < 10, null, #{paymentDate})), 
-        donationPurposeID = #{donationPurposeId}, 
-        paymentMethodID = #{paymentMethodId},
-        etc = #{etc}
-    FROM [Payment]
-    WHERE ID = #{id}
-    ]]>
+<update id="update">    
+  <![CDATA[
+  UPDATE Payment
+    SET 
+      amount = #{amount}, 
+      payment = #{paymentDate}, 
+      donationPurposeId = #{donationPurposeId}, 
+      paymentMethodId = #{paymentMethodId},
+      etc = #{etc}
+  FROM [Payment]
+  WHERE ID = #{id}
+  ]]>
 </update>
 
 <delete id="delete">
-    DELETE FROM Payment WHERE id = #{id}
+  DELETE FROM Payment WHERE id = #{id}
 </delete>
 
-<insert id="insert2" useGeneratedKeys="true" keyProperty="id">
-    <![CDATA[
-    INSERT INTO payment (sponsorID, amount, donationPurposeID, paymentMethodID, etc, paymentDate)
-    VALUES  (#{sponsorId}, #{amount}, #{donationPurposeId}, #{paymentMethodId}, #{etc},
-             CONVERT(DATE, IIF(LEN(RTRIM(#{paymentDate})) < 10, null, #{paymentDate})))
-    ]]>
+<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+  INSERT payment(sponsorId, commitmentId, amount, paymentDate, etc, receiptId, donationPurposeId, paymentMethodId)
+  VALUES (#{sponsorId}, #{commitmentId}, #{amount}, #{paymentDate}, #{etc}, #{receiptId}, #{donationPurposeId}, #{paymentMethodId})
 </insert>
     
     

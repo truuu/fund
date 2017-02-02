@@ -57,7 +57,7 @@ public class CommitmentController extends BaseController {
 
     private String redirectToList(Model model, int sid) throws Exception {
         PaginationSponsor pagination = (PaginationSponsor)model.asMap().get("pagination");
-        String qs = String.format("id=%d&%s", sid, pagination.getQueryString());
+        String qs = String.format("sid=%d&%s", sid, pagination.getQueryString());
         return "redirect:commitmentList.do?" + qs;
     }
 
@@ -117,7 +117,6 @@ public class CommitmentController extends BaseController {
             //if (m.find()) System.out.println(m.group(1));
 
             String msg = e.getMessage();
-            System.out.println(msg);
 
             return redirectToList(model, sid);
         }

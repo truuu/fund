@@ -1,8 +1,10 @@
+body .mt0 { margin-top: 0px; }
 body .mt4 { margin-top: 4px; }
 body .mt6 { margin-top: 6px; }
 body .mt8 { margin-top: 8px; }
 body .mt20 { margin-top: 20px; }
 body .mt100 { margin-top: 100px; }
+body .mb0 { margin-bottom: 0px; }
 body .mb4 { margin-bottom: 4px; }
 body .mb6 { margin-bottom: 6px; }
 body .mb8 { margin-bottom: 8px; }
@@ -39,6 +41,7 @@ body .w250 { width: 250px; }
 body .w300 { width: 300px; }
 body .w350 { width: 350px; }
 body .w400 { width: 400px; }
+body .w500 { width: 500px; }
 body .w600 { width: 600px; }
 body .h100 { height: 100px; }
 body .h150 { height: 150px; }
