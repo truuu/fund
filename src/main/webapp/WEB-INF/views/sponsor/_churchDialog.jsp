@@ -37,13 +37,14 @@
 
 <script>
     $(document).ready(function() {
-        $("#scroll tr").click(function() {
+        $("#churchDialog #scroll tr").click(function() {
             var tr = $(this);
             var churchId = tr.find("td:nth-child(1)").text();
             console.log(churchId);
             var churchName = tr.find("td:nth-child(2)").text();
             $("span#churchName").text(churchName);
-            $("input[name=churchId]").val(churchId);
+            $("input[name*=churchName]").val(churchName);
+            $("input[name*=churchId]").val(churchId);
             $("#churchDialog").modal('toggle');
         })
     });

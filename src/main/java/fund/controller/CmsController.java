@@ -413,7 +413,7 @@ public class CmsController extends BaseController {
             payment.setPaymentDate(format_yyyyMMdd.format(xfer.getDate()));
             payment.setEtc(xfer.getEtc1());
             payment.setDonationPurposeId(c.getDonationPurposeId());
-            payment.setPaymentMethodId(C.코드ID_자동이제);
+            payment.setPaymentMethodId(C.코드ID_자동이체);
             paymentMapper.insert(payment);
             return true;
         } catch (Exception e) {

@@ -23,7 +23,6 @@ import fund.mapper.PaymentMapper;
 import fund.mapper.SponsorMapper;
 import fund.service.C;
 import fund.service.ReportBuilder;
-import fund.service.ReportBuilder3;
 import net.sf.jasperreports.engine.JRException;
 
 @Controller
@@ -186,8 +185,8 @@ public class PaymentController extends BaseController{
 		condition[2]=paymentRecordStats.getEndDate();
 		condition[8]=paymentRecordStats.getSponsorName();
 		List<Payment> list = paymentMapper.selectPaymentRecord(paymentRecordStats);
-		ReportBuilder3 reportBuilder = new ReportBuilder3("payment1_list",list,"paymentRecord_List.pdf",condition,request,response);
-		reportBuilder.build("pdf");
+		//ReportBuilder3 reportBuilder = new ReportBuilder3("payment1_list",list,"paymentRecord_List.pdf",condition,request,response);
+		//condition.reportBuilder.build("pdf");
 
 	}
 
@@ -288,8 +287,8 @@ public class PaymentController extends BaseController{
 		condition[2]=paymentRecordStats.getEndDate();
 		condition[8]=paymentRecordStats.getSponsorName();
 		List<Payment> list = paymentMapper.selectPaymentTotal(paymentRecordStats);
-		ReportBuilder3 reportBuilder = new ReportBuilder3("payment2_list",list,"paymentTotal_List.pdf",condition,request,response);
-		reportBuilder.build("pdf");
+		//ReportBuilder3 reportBuilder = new ReportBuilder3("payment2_list",list,"paymentTotal_List.pdf",condition,request,response);
+		//reportBuilder.build("pdf");
 
 	}
 

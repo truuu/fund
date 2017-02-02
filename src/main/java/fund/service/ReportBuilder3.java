@@ -3,14 +3,11 @@ package fund.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -37,47 +34,36 @@ public class ReportBuilder3 {
     HttpServletRequest request;
     HttpServletResponse response;
     JasperReport report;
-    
+
     String fileName="report";
-    String[] searchCondition = new String[9];
-    
-    public ReportBuilder3(String reportFileName, Collection<?> collection, String name, String[] search,
+    Map<String,Object> params;
+
+    public ReportBuilder3(String reportFileName, Collection<?> collection, String name, Map<String,Object> params,
             HttpServletRequest request, HttpServletResponse response) throws JRException {
         this.reportFileName = reportFileName;
         this.dataSource = new JRBeanCollectionDataSource(collection);
         this.request = request;
         this.response = response;
         this.fileName=name;
-        this.searchCondition=search;
+        this.params = params;
         if (reportFolderPath == null)
             reportFolderPath = request.getSession().getServletContext().getRealPath("/WEB-INF/report");
         String reportFilePath = reportFolderPath + "/" + reportFileName + ".jasper";
         this.report = (JasperReport)JRLoader.loadObjectFromFile(reportFilePath);
     }
-    
+
     public void build(String type) throws JRException, IOException {
         switch (type) {
         case "pdf": buildPDFReport(); break;
         case "xlsx": buildXlsxReport(); break;
         default: buildHtmlReport(); break;
-        }        
+        }
     }
-    
+
     public void buildHtmlReport() throws JRException, IOException {
         response.setCharacterEncoding("UTF-8");
-        Map<String,Object> params = new HashMap<String,Object>();
-        
         params.put(JRParameter.IS_IGNORE_PAGINATION, true);
-        params.put("regular", searchCondition[0]);
-        params.put("paymentDate_start", searchCondition[1]);
-        params.put("paymentDate_end", searchCondition[2]);
-        params.put("donationPurpose", searchCondition[3]);
-        params.put("church", searchCondition[4]);
-        params.put("corporate", searchCondition[5]);
-        params.put("sponsorType", searchCondition[6]);
-        params.put("paymentMethod", searchCondition[7]);
-        params.put("sponsorName",searchCondition[8]);
-        
+
         JasperPrint jasperPrint = JasperFillManager.fillReport(report, params, dataSource);
         List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
         jasperPrintList.add(jasperPrint);
@@ -91,29 +77,19 @@ public class ReportBuilder3 {
         exporter.setConfiguration(configuration);
         exporter.exportReport();
     }
-    
+
     public void buildXlsxReport() throws IOException, JRException {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
-        Map<String,Object> params = new HashMap<String,Object>();
         params.put(JRParameter.IS_IGNORE_PAGINATION, true);
-        params.put("regular", searchCondition[0]);
-        params.put("paymentDate_start", searchCondition[1]);
-        params.put("paymentDate_end", searchCondition[2]);
-        params.put("donationPurpose", searchCondition[3]);
-        params.put("church", searchCondition[4]);
-        params.put("corporate", searchCondition[5]);
-        params.put("sponsorType", searchCondition[6]);
-        params.put("paymentMethod", searchCondition[7]);
-        params.put("sponsorName",searchCondition[8]);
-        
+
         JasperPrint jasperPrint = JasperFillManager.fillReport(report, params, dataSource);
         List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
         jasperPrintList.add(jasperPrint);
-        JRXlsxExporter  exporter = new JRXlsxExporter (); 
+        JRXlsxExporter  exporter = new JRXlsxExporter ();
         exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
         exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
-        SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();        
+        SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
         configuration.setOnePagePerSheet(false);
         configuration.setIgnorePageMargins(true);
         configuration.setIgnoreTextFormatting(true);
@@ -124,28 +100,19 @@ public class ReportBuilder3 {
         exporter.setConfiguration(configuration);
         exporter.exportReport();
     }
-    
+
     public void buildPDFReport() throws JRException, IOException {
         byte[] bytes = null;
-        Map<String,Object> params = new HashMap<String,Object>();
-        params.put("regular", searchCondition[0]);
-        params.put("paymentDate_start", searchCondition[1]);
-        params.put("paymentDate_end", searchCondition[2]);
-        params.put("donationPurpose", searchCondition[3]);
-        params.put("church", searchCondition[4]);
-        params.put("corporate", searchCondition[5]);
-        params.put("sponsorType", searchCondition[6]);
-        params.put("paymentMethod", searchCondition[7]);
-        params.put("sponsorName",searchCondition[8]);
-        
+        params.remove(JRParameter.IS_IGNORE_PAGINATION);
+
         bytes = JasperRunManager.runReportToPdf(report, params, dataSource);
-        response.setContentType("application/pdf");        
+        response.setContentType("application/pdf");
         response.setContentLength(bytes.length);
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
         ServletOutputStream ouputStream = response.getOutputStream();
         ouputStream.write(bytes, 0, bytes.length);
         ouputStream.flush();
         ouputStream.close();
-    }      
-	
+    }
+
 }

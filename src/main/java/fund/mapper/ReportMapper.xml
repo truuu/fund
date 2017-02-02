@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fund.mapper.ReportMapper">
+
+<select id="selectReport1" resultType="hashmap">
+DECLARE @regular INT, @churchId INT, @startDate DATE, @endDate DATE, @paymentMethodId INT, 
+  @donationPurposeId INT, @sponsorType2Id INT, @sponsorName NVARCHAR(50), @corporateId INT
+SET @regular = #{regular}
+SET @churchId = #{churchId}
+SET @startDate = #{startDate}
+SET @endDate = #{endDate}
+SET @paymentMethodId = #{paymentMethodId}
+SET @donationPurposeId = #{donationPurposeId}
+SET @sponsorType2Id = #{sponsorType2Id}
+SET @sponsorName = #{sponsorName}
+SET @corporateId = #{corporateId}
+
+SELECT s.sponsorNo, s.name, 
+  (SELECT codeName FROM code c WHERE c.id = s.sponsorType2Id) sponsorType2Name,
+  (SELECT codeName FROM code c WHERE c.id = s.churchId) churchName,
+  (CASE WHEN p.commitmentId IS NULL THEN '비정기' ELSE '정기' END) regular,
+  (SELECT codeName FROM code c WHERE c.id = p.paymentMethodId) paymentMethodName,
+  p.paymentDate, p.amount, c.id commitmentId, d.name donationPurposeName
+FROM payment p 
+  LEFT JOIN commitment c ON c.id = p.commitmentId
+  LEFT JOIN sponsor s ON s.id = p.sponsorId
+  LEFT JOIN donationPurpose d ON d.id = p.donationPurposeId
+WHERE 
+    (@regular IS NULL OR @regular = -1 OR (@regular = 1 AND p.commitmentId IS NOT NULL) OR (@regular = 0 AND p.commitmentId IS NULL))
+AND (@churchId IS NULL OR @churchId = '' OR @churchId = s.churchId)
+AND (@startDate IS NULL OR @startDate = '' OR p.paymentDate BETWEEN @startDate AND @endDate)
+AND (@paymentMethodId IS NULL OR @paymentMethodId = '' OR @paymentMethodId = p.paymentMethodId)
+AND (@donationPurposeId IS NULL OR @donationPurposeId = '' OR @donationPurposeId = p.donationPurposeId)
+AND (@sponsorType2Id IS NULL OR @sponsorType2Id = '' OR @sponsorType2Id = s.sponsorType2Id)
+AND (@sponsorName IS NULL OR @sponsorName = '' OR @sponsorName = s.name)
+AND (@corporateId IS NULL OR @corporateId = '' OR @corporateId = d.corporateId)
+</select>
+
+</mapper>

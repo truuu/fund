@@ -44,16 +44,15 @@
 
 <script>
     $(document).ready(function() {
-        $("#scroll tr").click(function() {
+        $("#donationPurposeDialog #scroll tr").click(function() {
             var tr = $(this);
             var donationPurposeId = tr.attr("data-id");
             var corporateName = tr.find("td:nth-child(1)").text();
             var organizationName = tr.find("td:nth-child(2)").text();
             var donationPurposeName = tr.find("td:nth-child(3)").text();
-            $("span#corporateName").text(corporateName);
-            $("span#organizationName").text(organizationName);
-            $("span#donationPurposeName").text(donationPurposeName);
-            $("input[name=donationPurposeId]").val(donationPurposeId);
+            $("span#donationPurposeName").text(corporateName + ' / ' + organizationName + ' / ' + donationPurposeName);
+            $("input[name*=donationPurposeName]").val(corporateName + ' / ' + organizationName + ' / ' + donationPurposeName);
+            $("input[name*=donationPurposeId]").val(donationPurposeId);
             $("#donationPurposeDialog").modal('toggle');
         })
     });

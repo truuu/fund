@@ -123,7 +123,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 								<td><select name="srchType3" >
 										<option value="0" ${ churchID == 0 ? "selected" : "" }>선택</option>
 										<c:forEach var="church" items="${churchList}">
-											<option value="${church.ID}" ${ churchID == church.ID ? "selected" : "" }>${church.codeName}</option>
+											<option value="${church.id}" ${ churchID == church.id ? "selected" : "" }>${church.codeName}</option>
 										</c:forEach>
 								</select></td>
 							<tr>
@@ -136,7 +136,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 								<td><select name="srchType4" >
 										<option value="0">선택</option>
 										<c:forEach var="paymentMethod" items="${paymentMethodList}">
-											<option value="${paymentMethod.ID}" ${ paymentMethodID==paymentMethod.ID ? "selected" : "" }>${paymentMethod.codeName}</option>
+											<option value="${paymentMethod.id}" ${ paymentMethodID==paymentMethod.id ? "selected" : "" }>${paymentMethod.codeName}</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -156,7 +156,7 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 								<td><select name="srchType5" >
 										<option value="0">선택</option>
 										<c:forEach var="sponsorType" items="${sponsorType2List}">
-											<option value="${sponsorType.ID}" ${ sponsorTypeID==sponsorType.ID ? "selected" : "" }>${sponsorType.codeName}</option>
+											<option value="${sponsorType.id}" ${ sponsorTypeID==sponsorType.id ? "selected" : "" }>${sponsorType.codeName}</option>
 										</c:forEach>
 								</select></td>
 
@@ -301,9 +301,9 @@ tr#topTable td,tr#topTable th{ text-align:center; }
 							<tbody>
 								<c:forEach var="donationPurpose"
 									items="${ donationPurposeList }">
-									<tr data-id="${ donationPurpose.ID }" id="topTable">
+									<tr data-id="${ donationPurpose.id }" id="topTable">
 										<td>${ donationPurpose.corporateName }</td>
-										<td>${ donationPurpose.codeName }</td>
+										<td>${ donationPurpose.organizationName }</td>
 										<td>${ donationPurpose.name }</td>
 									</tr>
 								</c:forEach>
