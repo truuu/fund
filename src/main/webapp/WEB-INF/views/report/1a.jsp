@@ -11,7 +11,7 @@
   <div class="pull-right mb4">
     <button type="submit" class="btn btn-primary" name="cmd" value="search">검색</button>
     <button type="button" class="btn btn-default" onclick="cancelSearch()">검색취소</button>    
-    <button type="submit" class="btn btn-gray" name="cmd" value="report">보고서</button>
+    <button type="submit" class="btn btn-gray" name="cmd" value="xlsx">엑셀</button>
   </div>
 
   <div>

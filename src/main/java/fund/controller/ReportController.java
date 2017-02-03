@@ -77,8 +77,13 @@ public class ReportController extends BaseController {
         id = (String)map.get("sponsorType2Id");
         if (StringUtils.isBlank(id) == false) map.put("sponsorType2Name", codeMapper.selectById(Integer.valueOf(id)).getCodeName());
 
-        ReportBuilder3 reportBuilder = new ReportBuilder3("payment1_list",list,"납입내역.pdf", map, req, res);
-        reportBuilder.build("pdf");
+        id = (String)map.get("regular");
+        if (id == "-1") map.put("regularString", "전체");
+        else if(id == "1") map.put("regularString", "정기");
+        else map.put("regularString", "비정기");
+        
+        ReportBuilder3 reportBuilder = new ReportBuilder3("payment1_list",list,"납입내역.xlsx", map, req, res);
+        reportBuilder.build("xlsx");
     }
 
     @RequestMapping(value="/report/1b", method=RequestMethod.GET)
