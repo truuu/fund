@@ -1,5 +1,6 @@
 package fund.controller;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ public class ReportController extends BaseController {
     @Autowired DonationPurposeMapper donationPurposeMapper;
     @Autowired CorporateMapper corporateMapper;
 
+    //// report1
     final static OrderBy[] report1aOrderBy = new OrderBy[] {
         new OrderBy("납입일", "ORDER BY paymentDate"),
         new OrderBy("회원번호", "ORDER BY sponsorNo, paymentDate"),
@@ -46,19 +48,19 @@ public class ReportController extends BaseController {
 
     @RequestMapping(value="/report/1a", method=RequestMethod.GET)
     public String report1a(Model model) {
-        addModels(model);
+        addModel1(model);
         model.addAttribute("param", new Param());
         return "report/1a";
     }
 
     @RequestMapping(value="/report/1a", method=RequestMethod.POST, params="cmd=search")
     public String report1a(Model model, Param param) {
-        addModels(model);
+        addModel1(model);
         model.addAttribute("list", reportMapper.selectReport1a(param.getMap()));
         return "report/1a";
     }
 
-    private void addModels(Model model) {
+    private void addModel1(Model model) {
         model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분2));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
@@ -67,7 +69,7 @@ public class ReportController extends BaseController {
         model.addAttribute("report1aOrderBy", report1aOrderBy);
     }
 
-    @RequestMapping(value="/report/1a", method=RequestMethod.POST, params="cmd=report")
+    @RequestMapping(value="/report/1a", method=RequestMethod.POST, params="cmd=excel")
     public void report1(Model model, Param mapParam, HttpServletRequest req, HttpServletResponse res) throws Exception {
         HashMap<String, Object> map = mapParam.getMap();
         List<HashMap<String, Object>> list = reportMapper.selectReport1a(map);
@@ -81,7 +83,7 @@ public class ReportController extends BaseController {
         if (id == "-1") map.put("regularString", "전체");
         else if(id == "1") map.put("regularString", "정기");
         else map.put("regularString", "비정기");
-        
+
         ReportBuilder3 reportBuilder = new ReportBuilder3("payment1_list",list,"납입내역.xlsx", map, req, res);
         reportBuilder.build("xlsx");
     }
@@ -89,16 +91,35 @@ public class ReportController extends BaseController {
     @RequestMapping(value="/report/1b", method=RequestMethod.GET)
     public String report1b(Model model) {
         model.addAttribute("param", new Param());
-        addModels(model);
+        addModel1(model);
         return "report/1b";
     }
 
     @RequestMapping(value="/report/1b", method=RequestMethod.POST, params="cmd=search")
     public String report1b(Model model, Param param) {
-        addModels(model);
+        addModel1(model);
         model.addAttribute("list", reportMapper.selectReport1b(param.getMap()));
         return "report/1b";
     }
 
+
+    //// report2
+    @RequestMapping(value="/report/2", method=RequestMethod.GET)
+    public String report2(Model model) {
+        Param param = new Param();
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        param.getMap().put("startDate", String.format("%d-01-01", year));
+        param.getMap().put("endDate", String.format("%d-12-31", year));
+        model.addAttribute("param", param);
+        return "report/2";
+    }
+
+    @RequestMapping(value="/report/2", method=RequestMethod.POST, params="cmd=search")
+    public String report2(Model model, Param param) {
+        List<HashMap<String, Object>> list = reportMapper.selectReport2(param.getMap());
+
+        model.addAttribute("list", list);
+        return "report/2";
+    }
 
 }

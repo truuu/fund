@@ -78,4 +78,31 @@ FROM
 ${ orderBy }  
 </select>
 
+<select id="selectReport2" resultType="hashmap">
+DECLARE @startDate DATE, @endDate DATE, @sum INT
+SET @startDate = #{startDate}
+SET @endDate = #{endDate}
+SET @sum = (SELECT SUM(amount) FROM payment WHERE paymentDate BETWEEN @startDate AND @endDate)
+
+SELECT donationPurposeId, c.name corporateName, o.codeName organizationName, d.name donationPurposeName, 
+  amount, sponsorCount, paymentCount, (amount * 100.0 / @sum) ratio
+FROM (
+  SELECT donationPurposeId, SUM(amount) amount, COUNT(DISTINCT sponsorId) sponsorCount, COUNT(DISTINCT id) paymentCount
+  FROM payment
+  WHERE paymentDate BETWEEN @startDate AND @endDate
+  GROUP BY donationPurposeId
+) t
+  LEFT JOIN donationPurpose d ON t.donationPurposeId = d.id 
+  LEFT JOIN corporate c ON c.id = d.corporateId
+  LEFT JOIN code o ON o.id = d.organizationId
+
+UNION ALL
+SELECT 9999999999 donationPurposeId, '' corporateName, '' organizationName, '합계' donationPurposeName, 
+  SUM(amount) amount, COUNT(DISTINCT sponsorId) sponsorCount, COUNT(*) paymentCount, 100.0 ratio
+FROM payment 
+WHERE paymentDate BETWEEN @startDate AND @endDate
+
+ORDER BY donationPurposeId
+</select>
+
 </mapper>

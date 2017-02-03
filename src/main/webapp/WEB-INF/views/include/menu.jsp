@@ -2,13 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<script type="text/javascript">
-	$(function() {
-		$("#logout").click(function() {
-			location.href = "../home/logout.do";
-		});
-	});
-</script>
+
 <div class="wrapper">
   <nav class="navbar navbar-default" role="navigation">
     <div class="container">
@@ -37,13 +31,14 @@
               <c:forEach var="codeGroup" items="${ codeGroupList }">
                 <li><a href="/fund_sys/code/list.do?gid=${codeGroup.id}">${codeGroup.name}</a></li>
               </c:forEach>
-            </ul></li>
+            </ul>
+          </li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">후원인관리<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="/fund_sys/sponsor/list.do">후원인 목록</a></li>
               <li><a href="/fund_sys/sponsor/sendDM.do">우편 발송</a></li>
-            </ul></li>
-
+            </ul>
+          </li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">금융연동<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="/fund_sys/cms/eb13.do">EB13 생성</a></li>
@@ -56,16 +51,16 @@
               <li class="divider"></li>
               <li><a href="/fund_sys/cms/xfer.do">자동이체 결과등록</a></li>
               <li><a href="/fund_sys/cms/sal.do">급여공제 결과등록</a></li>
-            </ul></li>
+            </ul>
+          </li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">납입조회<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="/fund_sys/report/1a.do">납입 내역 조회</a></li>
-              <li><a href="/fund_sys/report/1b.do">납입 합계 조회</a></li>
               <li class="divider"></li>
-              
-              <li><a href="/fund_sys/dataPrint/paymentTotalStats.do">납입 총계 조회</a></li>
-              <li><a href="/fund_sys/dataPrint/monthPerDonationPurposePayment.do">월별 기부목적별 납입현황</a></li>
-            </ul></li>
+              <li><a href="/fund_sys/report/1b.do">후원입별 납입 합계</a></li>
+              <li><a href="/fund_sys/report/2.do">기부목적별 납입 합계</a></li>
+            </ul>
+          </li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">증서관리<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="/fund_sys/certificate/receiptList.do">영수증발급대장</a></li>
@@ -75,14 +70,15 @@
               <li class="divider"></li>
               <li><a href="/fund_sys/certificate/printScholarship_list.do">장학증서 발급대장</a></li>
               <li><a href="/fund_sys/certificate/printDonation_list.do">기부증서 발급대장</a></li>
-            </ul></li>
+            </ul>
+          </li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">자료출력<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="/fund_sys/dataPrint/donationPurposeStats.do">기부목적별 납입현황</a></li>
               <li><a href="/fund_sys/sponsor/cast.do">후원인별 납입현황</a></li>
               <li><a href="/fund_sys/user/church.do">소속교회별납입현황</a></li>
-
-            </ul></li>
+            </ul>
+          </li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">시스템관리<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="#">시스템에러메세지</a></li>
@@ -91,8 +87,8 @@
               <li class="divider"></li>
               <li><a href="/fund_sys/sponsor/encryptNo.do">후원인 암호화</a></li>
               <li><a href="/fund_sys/log/list.do">로그 기록</a></li>
-            </ul></li>
-
+            </ul>
+          </li>
         </ul>
 
         <sec:authorize access="authenticated">
