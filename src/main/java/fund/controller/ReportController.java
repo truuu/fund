@@ -1,5 +1,6 @@
 package fund.controller;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -69,25 +70,44 @@ public class ReportController extends BaseController {
         model.addAttribute("corporates", corporateMapper.selectAll());
         model.addAttribute("report1aOrderBy", report1aOrderBy);
     }
-
+  
     @RequestMapping(value="/report/1a", method=RequestMethod.POST, params="cmd=excel")
     public void report1(Model model, Param mapParam, HttpServletRequest req, HttpServletResponse res) throws Exception {
-        HashMap<String, Object> map = mapParam.getMap();
-        List<HashMap<String, Object>> list = reportMapper.selectReport1a(map);
+        paymentReport(mapParam, req, res,"payment1_list","납입내역.xlsx",1);
+        }
+        
+    @RequestMapping(value="/report/1b", method=RequestMethod.POST, params="cmd=excel")
+    public void report1bReport(Model model, Param mapParam, HttpServletRequest req, HttpServletResponse res) throws Exception {
+    	paymentReport(mapParam, req, res,"payment2_list","납입합계내역.xlsx",2);
+    }
 
+	private void paymentReport(Param mapParam, HttpServletRequest req, HttpServletResponse res,
+			String reportFileName,String fileName, int option)
+			throws Exception {
+		HashMap<String, Object> map = mapParam.getMap();
+		List<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+		
+		if(option==1) list = reportMapper.selectReport1a(map);
+		else list = reportMapper.selectReport1b(map);
+		
         String id = (String)map.get("paymentMethodId");
         if (StringUtils.isBlank(id) == false) map.put("paymentMethodName", codeMapper.selectById(Integer.valueOf(id)).getCodeName());
         id = (String)map.get("sponsorType2Id");
         if (StringUtils.isBlank(id) == false) map.put("sponsorType2Name", codeMapper.selectById(Integer.valueOf(id)).getCodeName());
+        id = (String)map.get("corporateId");
+        if (StringUtils.isBlank(id) == false) map.put("corporateName", corporateMapper.selectById(Integer.valueOf(id)).getName());        
+      
+        switch ((String)map.get("regular")) {
+        case "-1": map.put("regularString", "전체"); break;
+        case "1": map.put("regularString", "정기"); break;
+        case "0": map.put("regularString", "비정기"); break;
+        default : map.put("regularString", ""); break;
+        }
+        
+        ReportBuilder3 reportBuilder = new ReportBuilder3(reportFileName, list, fileName, map, req, res);
+        reportBuilder.build(fileName.substring(fileName.length()-4,fileName.length()));
+	}
 
-        id = (String)map.get("regular");
-        if (id == "-1") map.put("regularString", "전체");
-        else if(id == "1") map.put("regularString", "정기");
-        else map.put("regularString", "비정기");
-
-        ReportBuilder3 reportBuilder = new ReportBuilder3("payment1_list",list,"납입내역.xlsx", map, req, res);
-        reportBuilder.build("xlsx");
-    }
 
     @RequestMapping(value="/report/1b", method=RequestMethod.GET)
     public String report1b(Model model) {
@@ -127,5 +147,24 @@ public class ReportController extends BaseController {
         model.addAttribute("title", report2Title[i]);
         return "report/2";
     }
+    
+    @RequestMapping(value="/report/2/{i}", method=RequestMethod.POST, params="cmd=excel")
+    public void report2aReport(Model model, Param param, @PathVariable("i") int i, HttpServletRequest req, HttpServletResponse res)throws Exception {
+        List<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+    	
+    	switch (i) {
+        case 0: list = reportMapper.selectReport2a(param.getMap()); break;
+        case 1: list = reportMapper.selectReport2b(param.getMap()); break;
+        case 2: list = reportMapper.selectReport2c(param.getMap()); break;
+        }
+        
+        HashMap<String, Object> map = list.get(list.size()-1);
+        map.put("title", report2Title[i]);
+        list.remove(list.size()-1);
+        
+        ReportBuilder3 reportBuilder = new ReportBuilder3("paymentByType", list, report2Title[i]+"별납입내역.xlsx",map, req, res);
+        reportBuilder.build("xlsx");
+    }
+    
 
 }

@@ -57,7 +57,7 @@
             <ul class="dropdown-menu" role="menu">
               <li><a href="/fund_sys/report/1a.do">납입 내역 조회</a></li>
               <li class="divider"></li>
-              <li><a href="/fund_sys/report/1b.do">후원입별 납입 합계</a></li>
+              <li><a href="/fund_sys/report/1b.do">후원인별 납입 합계</a></li>
               <li><a href="/fund_sys/report/2/0.do">기부목적별 납입 합계</a></li>
               <li><a href="/fund_sys/report/2/1.do">회원구분별 납입 합계</a></li>
               <li><a href="/fund_sys/report/2/2.do">소속교회별 납입 합계</a></li>
