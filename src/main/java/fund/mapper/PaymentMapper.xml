@@ -29,11 +29,17 @@
   ORDER BY ${orderBy}
 </select>
 
+<select id="selectPaymentList1a" resultType="fund.dto.Payment">
+  <include refid="select1"></include>
+  WHERE p.commitmentId = #{commitmentId}
+  ORDER BY p.paymentDate
+</select>
+
 <select id="selectPaymentList2" resultType="fund.dto.Payment">
   <include refid="select1"></include>
   WHERE p.sponsorID = #{sponsorId}
   AND me.codeGroupID = 4
-  ORDER BY ${orderBy}
+  ORDER BY p.paymentDate
 </select>
 
 <update id="update">    

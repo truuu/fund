@@ -14,8 +14,6 @@
   <a href="paymentNew2.do?sid=${sid}&${pg}" class="btn btn-primary">새로 등록</a>
 </div>
 
-<%@include file="_paymentOrderBy.jsp" %>
-
 <c:set var="sum" value="${ 0 }" />
 <table class="table table-bordered mt20">
   <thead>

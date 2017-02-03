@@ -66,11 +66,9 @@
     <form:option value="100" />
   </form:select>
 
-  <div class="pagination pagination-small pagination-centered">
-    <ul>
-      <c:forEach var="page" items="${ pagination.pageList }">
-        <li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
-      </c:forEach>
-    </ul>
-  </div>
+  <ul class="pagination">
+    <c:forEach var="page" items="${ pagination.pageList }">
+      <li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
+    </c:forEach>
+  </ul>
 </form:form>

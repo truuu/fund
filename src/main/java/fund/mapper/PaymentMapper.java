@@ -13,7 +13,8 @@ public interface PaymentMapper {
 
     Payment selectById(int id);
     List<Payment> selectPaymentList1(PaymentListParam param);
-    List<Payment> selectPaymentList2(PaymentListParam param);
+    List<Payment> selectPaymentList2(int sponsorId);
+    List<Payment> selectPaymentList1a(int commitmentId);
 
     void update(Payment payment);
     void delete(int id);

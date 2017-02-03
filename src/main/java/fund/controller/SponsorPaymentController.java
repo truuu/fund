@@ -1,7 +1,6 @@
 package fund.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import fund.dto.PaginationSponsor;
 import fund.dto.Payment;
-import fund.dto.PaymentListParam;
 import fund.mapper.CodeMapper;
+import fund.mapper.CommitmentMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.SponsorMapper;
@@ -24,6 +23,7 @@ public class SponsorPaymentController extends BaseController {
     @Autowired CodeMapper codeMapper;
     @Autowired SponsorMapper sponsorMapper;
     @Autowired PaymentMapper paymentMapper;
+    @Autowired CommitmentMapper commitmentMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
 
     @ModelAttribute
@@ -36,17 +36,20 @@ public class SponsorPaymentController extends BaseController {
     // 정기 납입
     @RequestMapping("/sponsor/paymentList1.do")
     public String paymentList1(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
-        PaymentListParam param = new PaymentListParam(sid, orderBy[pagination.getOd1()]);
-        List<Payment> list = paymentMapper.selectPaymentList1(param);
-        model.addAttribute("list", list);
+        model.addAttribute("commitments", commitmentMapper.selectBySponsorId(sid));
         return "sponsor/paymentList1";
+    }
+
+    @RequestMapping(value="/sponsor/paymentList1ajax.do", method=RequestMethod.POST)
+    public String paymentList1a(@RequestParam("commitmentId") int commitmentId, Model model) {
+        model.addAttribute("list", paymentMapper.selectPaymentList1a(commitmentId));
+        return "sponsor/paymentList1ajax/ajax";
     }
 
     // 비정기 납입
     @RequestMapping("/sponsor/paymentList2.do")
     public String paymentList2(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
-        PaymentListParam param = new PaymentListParam(sid, orderBy[pagination.getOd1()]);
-        model.addAttribute("list", paymentMapper.selectPaymentList2(param));
+        model.addAttribute("list", paymentMapper.selectPaymentList2(sid));
         return "sponsor/paymentList2";
     }
 

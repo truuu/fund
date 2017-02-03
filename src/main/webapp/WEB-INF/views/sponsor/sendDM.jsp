@@ -16,7 +16,7 @@
     <a href="sendDMxlsx.do?${pagination.queryString}" class="btn btn-info">액셀 다운로드</a>
   </div>
 
-  <table class="table table-bordered table-hover" id="table_s">
+  <table class="table table-bordered" id="table_s">
     <thead>
       <tr>
         <th>회원번호</th>
@@ -41,13 +41,11 @@
     </tbody>
   </table>
 
-  <div class="pagination">
-    <ul class="pagination">
-      <c:forEach var="page" items="${ pagination.pageList }">
-        <li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
-      </c:forEach>
-    </ul>
-  </div>
+  <ul class="pagination mt0">
+    <c:forEach var="page" items="${ pagination.pageList }">
+      <li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
+    </c:forEach>
+  </ul>
 
   <form:select path="sz" data-auto-submit="true">
     <form:option value="10" />
