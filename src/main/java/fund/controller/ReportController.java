@@ -103,22 +103,42 @@ public class ReportController extends BaseController {
     }
 
 
-    //// report2
-    @RequestMapping(value="/report/2", method=RequestMethod.GET)
+    //// report2a
+    @RequestMapping(value="/report/2a", method=RequestMethod.GET)
     public String report2(Model model) {
         Param param = new Param();
         int year = Calendar.getInstance().get(Calendar.YEAR);
         param.getMap().put("startDate", String.format("%d-01-01", year));
         param.getMap().put("endDate", String.format("%d-12-31", year));
         model.addAttribute("param", param);
+        model.addAttribute("title", "기부목적");
         return "report/2";
     }
 
-    @RequestMapping(value="/report/2", method=RequestMethod.POST, params="cmd=search")
+    @RequestMapping(value="/report/2a", method=RequestMethod.POST, params="cmd=search")
     public String report2(Model model, Param param) {
-        List<HashMap<String, Object>> list = reportMapper.selectReport2(param.getMap());
+        model.addAttribute("list", reportMapper.selectReport2(param.getMap()));
+        model.addAttribute("title", "기부목적");
+        return "report/2";
+    }
 
-        model.addAttribute("list", list);
+
+    //// report2b
+    @RequestMapping(value="/report/2b", method=RequestMethod.GET)
+    public String report3(Model model) {
+        Param param = new Param();
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        param.getMap().put("startDate", String.format("%d-01-01", year));
+        param.getMap().put("endDate", String.format("%d-12-31", year));
+        model.addAttribute("param", param);
+        model.addAttribute("title", "회원구분");
+        return "report/2";
+    }
+
+    @RequestMapping(value="/report/2b", method=RequestMethod.POST, params="cmd=search")
+    public String report3(Model model, Param param) {
+        model.addAttribute("list", reportMapper.selectReport2(param.getMap()));
+        model.addAttribute("title", "회원구분");
         return "report/2";
     }
 

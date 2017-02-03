@@ -97,7 +97,7 @@ FROM (
   LEFT JOIN code o ON o.id = d.organizationId
 
 UNION ALL
-SELECT 9999999999 donationPurposeId, '' corporateName, '' organizationName, '합계' donationPurposeName, 
+SELECT 999999999 donationPurposeId, '' corporateName, '' organizationName, '합계' donationPurposeName, 
   SUM(amount) amount, COUNT(DISTINCT sponsorId) sponsorCount, COUNT(*) paymentCount, 100.0 ratio
 FROM payment 
 WHERE paymentDate BETWEEN @startDate AND @endDate
@@ -105,4 +105,28 @@ WHERE paymentDate BETWEEN @startDate AND @endDate
 ORDER BY donationPurposeId
 </select>
 
+<select id="selectReport3" resultType="hashmap">
+DECLARE @startDate DATE, @endDate DATE, @sum INT
+SET @startDate = #{startDate}
+SET @endDate = #{endDate}
+SET @sum = (SELECT SUM(amount) FROM payment WHERE paymentDate BETWEEN @startDate AND @endDate)
+
+SELECT sponsorType2Id, c.codeName sponsorType2Name, 
+  amount, sponsorCount, paymentCount, (amount * 100.0 / @sum) ratio
+FROM (
+  SELECT sponsorType2Id, SUM(amount) amount, COUNT(DISTINCT sponsorId) sponsorCount, COUNT(DISTINCT p.id) paymentCount
+  FROM payment p LEFT JOIN sponsor s ON s.id = p.sponsorId
+  WHERE paymentDate BETWEEN @startDate AND @endDate
+  GROUP BY s.sponsorType2Id
+) t
+  LEFT JOIN code c ON c.id = t.sponsorType2Id
+
+UNION ALL
+SELECT 999999999 sponsorType2Id, '합계' sponsorType2Name,
+  SUM(amount) amount, COUNT(DISTINCT sponsorId) sponsorCount, COUNT(*) paymentCount, 100.0 ratio
+FROM payment 
+WHERE paymentDate BETWEEN @startDate AND @endDate
+
+ORDER BY sponsorType2Id
+</select>
 </mapper>

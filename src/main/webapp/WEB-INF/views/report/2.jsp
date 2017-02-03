@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<h1>기부목적별 납입 합계</h1>
+<h1>${ title }별 납입 합계</h1>
 <hr />
 
 <form:form modelAttribute="param">
@@ -23,7 +23,7 @@
 <table class="table table-bordered mt4">
   <thead>
     <tr>
-      <th>기부목적</th>
+      <th>${ title }</th>
       <th class="right">후원인수</th>
       <th class="right">납입수</th>
       <th class="right">금액</th>

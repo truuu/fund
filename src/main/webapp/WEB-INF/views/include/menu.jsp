@@ -58,7 +58,8 @@
               <li><a href="/fund_sys/report/1a.do">납입 내역 조회</a></li>
               <li class="divider"></li>
               <li><a href="/fund_sys/report/1b.do">후원입별 납입 합계</a></li>
-              <li><a href="/fund_sys/report/2.do">기부목적별 납입 합계</a></li>
+              <li><a href="/fund_sys/report/2a.do">기부목적별 납입 합계</a></li>
+              <li><a href="/fund_sys/report/2b.do">회원구분별 납입 합계</a></li>
             </ul>
           </li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">증서관리<span class="caret"></span></a>
