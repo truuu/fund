@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class Log {
     int id;
-    int userId;
+    String currentUser;
     String ip;
     String url;
     String category;
@@ -19,12 +19,12 @@ public class Log {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getCurrentUser() {
+        return currentUser;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
     }
 
     public String getIp() {

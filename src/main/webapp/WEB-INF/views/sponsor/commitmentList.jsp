@@ -10,7 +10,7 @@
 <c:set var="sid" value="${ sponsor.id }" />
 
 <div class="pull-right mt4 mb4">
-  <a href="commitmentNew.do?sid=${sid}&${pg}" class="btn btn-primary">새로 등록</a>
+  <a href="commitmentNew.do?sid=${sid}&${pg}" class="btn btn-primary">약정 등록</a>
 </div>
 
 <table class="table table-bordered">

@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface ReportMapper {
 
-    List<HashMap<String,Object>> selectReport1(HashMap<String,Object> param);
+    List<HashMap<String,Object>> selectReport1a(HashMap<String,Object> param);
+    List<HashMap<String,Object>> selectReport1b(HashMap<String,Object> param);
 
 }

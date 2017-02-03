@@ -50,8 +50,9 @@
             var corporateName = tr.find("td:nth-child(1)").text();
             var organizationName = tr.find("td:nth-child(2)").text();
             var donationPurposeName = tr.find("td:nth-child(3)").text();
-            $("span#donationPurposeName").text(corporateName + ' / ' + organizationName + ' / ' + donationPurposeName);
-            $("input[name*=donationPurposeName]").val(corporateName + ' / ' + organizationName + ' / ' + donationPurposeName);
+            var s = corporateName + ' / ' + organizationName + ' / ' + donationPurposeName;
+            $("span#donationPurposeName").text(s);
+            $("input[name*=donationPurposeName]").val(s);
             $("input[name*=donationPurposeId]").val(donationPurposeId);
             $("#donationPurposeDialog").modal('toggle');
         })

@@ -9,7 +9,7 @@
   <input type="hidden" name="pg" value="1" />
 
   <div class="pull-right mb4">
-    <a href="sponsorNew.do?${pagination.queryString}" class="btn btn-primary">새로 등록</a>
+    <a href="sponsorNew.do?${pagination.queryString}" class="btn btn-primary">후원인 등록</a>
   </div>
 
   <div class="form-inline">

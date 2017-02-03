@@ -1,6 +1,8 @@
 package fund.service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -38,13 +40,13 @@ public class ReportBuilder3 {
     String fileName="report";
     Map<String,Object> params;
 
-    public ReportBuilder3(String reportFileName, Collection<?> collection, String name, Map<String,Object> params,
-            HttpServletRequest request, HttpServletResponse response) throws JRException {
+    public ReportBuilder3(String reportFileName, Collection<?> collection, String fileName, Map<String,Object> params,
+            HttpServletRequest request, HttpServletResponse response) throws JRException, UnsupportedEncodingException {
         this.reportFileName = reportFileName;
         this.dataSource = new JRBeanCollectionDataSource(collection);
         this.request = request;
         this.response = response;
-        this.fileName=name;
+        this.fileName = URLEncoder.encode(fileName,"UTF-8");
         this.params = params;
         if (reportFolderPath == null)
             reportFolderPath = request.getSession().getServletContext().getRealPath("/WEB-INF/report");
@@ -106,7 +108,6 @@ public class ReportBuilder3 {
         params.remove(JRParameter.IS_IGNORE_PAGINATION);
 
         bytes = JasperRunManager.runReportToPdf(report, params, dataSource);
-        response.setContentType("application/pdf");
         response.setContentLength(bytes.length);
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
         ServletOutputStream ouputStream = response.getOutputStream();

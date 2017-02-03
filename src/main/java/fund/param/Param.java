@@ -2,7 +2,7 @@ package fund.param;
 
 import java.util.HashMap;
 
-public class MapParam {
+public class Param {
     HashMap<String, Object> map = new HashMap<String,Object>();
 
     public HashMap<String, Object> getMap() {

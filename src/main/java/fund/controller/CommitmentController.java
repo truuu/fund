@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.util.Date;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +18,7 @@ import fund.mapper.CommitmentMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.SponsorMapper;
 import fund.service.C;
+import fund.service.LogService;
 import fund.service.Util;
 
 @Controller
@@ -29,30 +29,22 @@ public class CommitmentController extends BaseController {
     @Autowired CodeMapper codeMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
     @Autowired SponsorMapper sponsorMapper;
+    @Autowired LogService logService;
 
     @ModelAttribute
-    void modelAttr1(@ModelAttribute("pagination") PaginationSponsor pagination) {
+        void modelAttr1(@ModelAttribute("pagination") PaginationSponsor pagination,
+                        @RequestParam("sid") int sid, Model model) {
+        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
+        model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
+        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
+        model.addAttribute("banks", codeMapper.selectByCodeGroupId(C.코드그룹ID_은행));
     }
 
-    /* 약정목록 */
+    /* 약정 목록 화면 */
     @RequestMapping(value = "/sponsor/commitmentList.do", method = RequestMethod.GET)
     public String commitmentList(Model model, @RequestParam("sid") int sid) {
-        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("list", commitmentMapper.selectBySponsorId(sid));
-        model.addAttribute("paymentMethodList", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
-        model.addAttribute("donationPurposeList", donationPurposeMapper.selectAll());
-        model.addAttribute("bankList", codeMapper.selectByCodeGroupId(C.코드그룹ID_은행));
         return "sponsor/commitmentList";
-    }
-
-    /* 약정 수정 */
-    @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.GET)
-    public String commitmentEdit(Model model, @RequestParam("id") int id, @RequestParam("sid") int sid) throws ParseException {
-       model.addAttribute("sponsor", sponsorMapper.selectById(sid));
-       model.addAttribute("commitment", commitmentMapper.selectById(id));
-       model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
-       model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
-       return "sponsor/commitmentEdit";
     }
 
     private String redirectToList(Model model, int sid) throws Exception {
@@ -61,28 +53,29 @@ public class CommitmentController extends BaseController {
         return "redirect:commitmentList.do?" + qs;
     }
 
-    /* 약정 저장 */
-    @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.POST, params="cmd=save")
-    public String commitmentSave(Model model, @RequestParam("sid") int sid, Commitment commitment) throws Exception {
-        commitmentMapper.update(commitment);
-        return redirectToList(model, sid);
+
+    /* 약정 수정 화면 */
+    @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.GET)
+    public String commitmentEdit(Model model, @RequestParam("id") int id) throws ParseException {
+       model.addAttribute("commitment", commitmentMapper.selectById(id));
+       return "sponsor/commitmentEdit";
     }
 
-    /* 약정 종료 */
-    @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.POST, params="cmd=close")
-    public String commitmentClose(Model model, @RequestParam("id") int id, @RequestParam("sid") int sid) throws Exception {
-        commitmentMapper.updateEndDate(id);
-        return redirectToList(model, sid);
+    @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.POST)
+    public String commitmentSave(Model model, @RequestParam("sid") int sid, Commitment commitment, @RequestParam("cmd") String cmd) throws Exception {
+        try {
+            switch (cmd) {
+            case "save":  commitmentMapper.update(commitment); break;
+            case "close":  commitmentMapper.updateEndDate(commitment.getId()); break;
+            case "delete": commitmentMapper.delete(commitment.getId()); break;
+            }
+            return redirectToList(model, sid);
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "sponsor/commitmentEdit");
+        }
     }
 
-    /* 약정 삭제 */
-    @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.POST, params="cmd=delete")
-    public String commitmentDelete(Model model, @RequestParam("id") int id, @RequestParam("sid") int sid) throws Exception {
-        commitmentMapper.delete(id);
-        return redirectToList(model, sid);
-    }
-
-    /* 약정 신규 */
+    /* 약정 신규 화면 */
     @RequestMapping(value="/sponsor/commitmentNew.do", method=RequestMethod.GET)
     public String commitmentNew(Model model, @RequestParam("sid") int sid) throws ParseException {
         Commitment commitment = new Commitment();
@@ -94,13 +87,9 @@ public class CommitmentController extends BaseController {
         commitment.setPaymentDay(20);
         model.addAttribute("commitment", commitment);
         model.addAttribute("sponsor", sponsorMapper.selectById(sid));
-        model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
-        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
-        model.addAttribute("banks", codeMapper.selectByCodeGroupId(C.코드그룹ID_은행));
         return "sponsor/commitmentNew";
     }
 
-    /* 약정 신규 저장 */
     @RequestMapping(value="/sponsor/commitmentNew.do", method=RequestMethod.POST)
     public String commitmentNewSave(Model model, @RequestParam("sid") int sid, Commitment commitment) throws Exception {
         try {
@@ -109,16 +98,8 @@ public class CommitmentController extends BaseController {
             if (StringUtils.isBlank(commitment.getEndDate())) commitment.setEndDate(null);
             commitmentMapper.insert(commitment);
             return redirectToList(model, sid);
-        } catch (DataIntegrityViolationException e) {
-            // TODO: 에러처리
-            //String msg = e.getMessage();
-            //Pattern r = Pattern.compile("@&([^)]+)&@");
-            //Matcher m = r.matcher(msg);
-            //if (m.find()) System.out.println(m.group(1));
-
-            String msg = e.getMessage();
-
-            return redirectToList(model, sid);
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "sponsor/commitmentNew");
         }
     }
 

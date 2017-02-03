@@ -59,7 +59,10 @@
             </ul></li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">납입조회<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="/fund_sys/report/1.do">납입 내역 조회</a></li>
+              <li><a href="/fund_sys/report/1a.do">납입 내역 조회</a></li>
+              <li><a href="/fund_sys/report/1b.do">납입 합계 조회</a></li>
+              <li class="divider"></li>
+              
               <li><a href="/fund_sys/dataPrint/paymentTotalStats.do">납입 총계 조회</a></li>
               <li><a href="/fund_sys/dataPrint/monthPerDonationPurposePayment.do">월별 기부목적별 납입현황</a></li>
             </ul></li>
@@ -87,6 +90,7 @@
               <li><a href="/fund_sys/user/user_m.do">사용자목록</a></li>
               <li class="divider"></li>
               <li><a href="/fund_sys/sponsor/encryptNo.do">후원인 암호화</a></li>
+              <li><a href="/fund_sys/log/list.do">로그 기록</a></li>
             </ul></li>
 
         </ul>

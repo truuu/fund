@@ -110,3 +110,9 @@ $(function() {
 $(function () {
   $('[data-toggle="popover"]').popover()
 });
+
+function cancelSearch() { // 납입 내역 조회 화면에서...
+  var url = location.href;
+  url = url.replace(/\?.+$/, '');
+  location.href = url;
+}

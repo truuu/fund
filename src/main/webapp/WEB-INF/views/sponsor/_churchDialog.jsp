@@ -50,6 +50,7 @@
     });
     function cancelChurch() {
         $("span#churchName").text('');
+        $("input[name*=churchName]").val('');
         $("input[name=churchId]").val(0);
     }
 </script>
