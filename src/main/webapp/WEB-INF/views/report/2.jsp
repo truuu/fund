@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<h1>월별 기부목적별 납입 합계</h1>
+<h1>기부목적별 납입 합계</h1>
 <hr />
 
 <form:form modelAttribute="param">
