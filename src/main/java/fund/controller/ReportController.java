@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import fund.mapper.CodeMapper;
@@ -102,43 +103,28 @@ public class ReportController extends BaseController {
         return "report/1b";
     }
 
+    static String[] report2Title = new String[] { "기부목적", "회원구분", "소속교회" };
 
-    //// report2a
-    @RequestMapping(value="/report/2a", method=RequestMethod.GET)
-    public String report2(Model model) {
+    //// report2
+    @RequestMapping(value="/report/2/{i}", method=RequestMethod.GET)
+    public String report2a(Model model, @PathVariable("i") int i) {
         Param param = new Param();
         int year = Calendar.getInstance().get(Calendar.YEAR);
         param.getMap().put("startDate", String.format("%d-01-01", year));
         param.getMap().put("endDate", String.format("%d-12-31", year));
         model.addAttribute("param", param);
-        model.addAttribute("title", "기부목적");
+        model.addAttribute("title", report2Title[i]);
         return "report/2";
     }
 
-    @RequestMapping(value="/report/2a", method=RequestMethod.POST, params="cmd=search")
-    public String report2(Model model, Param param) {
-        model.addAttribute("list", reportMapper.selectReport2(param.getMap()));
-        model.addAttribute("title", "기부목적");
-        return "report/2";
-    }
-
-
-    //// report2b
-    @RequestMapping(value="/report/2b", method=RequestMethod.GET)
-    public String report3(Model model) {
-        Param param = new Param();
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        param.getMap().put("startDate", String.format("%d-01-01", year));
-        param.getMap().put("endDate", String.format("%d-12-31", year));
-        model.addAttribute("param", param);
-        model.addAttribute("title", "회원구분");
-        return "report/2";
-    }
-
-    @RequestMapping(value="/report/2b", method=RequestMethod.POST, params="cmd=search")
-    public String report3(Model model, Param param) {
-        model.addAttribute("list", reportMapper.selectReport2(param.getMap()));
-        model.addAttribute("title", "회원구분");
+    @RequestMapping(value="/report/2/{i}", method=RequestMethod.POST, params="cmd=search")
+    public String report2a(Model model, Param param, @PathVariable("i") int i) {
+        switch (i) {
+        case 0: model.addAttribute("list", reportMapper.selectReport2a(param.getMap())); break;
+        case 1: model.addAttribute("list", reportMapper.selectReport2b(param.getMap())); break;
+        case 2: model.addAttribute("list", reportMapper.selectReport2c(param.getMap())); break;
+        }
+        model.addAttribute("title", report2Title[i]);
         return "report/2";
     }
 

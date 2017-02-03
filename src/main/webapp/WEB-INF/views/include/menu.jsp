@@ -58,8 +58,9 @@
               <li><a href="/fund_sys/report/1a.do">납입 내역 조회</a></li>
               <li class="divider"></li>
               <li><a href="/fund_sys/report/1b.do">후원입별 납입 합계</a></li>
-              <li><a href="/fund_sys/report/2a.do">기부목적별 납입 합계</a></li>
-              <li><a href="/fund_sys/report/2b.do">회원구분별 납입 합계</a></li>
+              <li><a href="/fund_sys/report/2/0.do">기부목적별 납입 합계</a></li>
+              <li><a href="/fund_sys/report/2/1.do">회원구분별 납입 합계</a></li>
+              <li><a href="/fund_sys/report/2/2.do">소속교회별 납입 합계</a></li>
             </ul>
           </li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">증서관리<span class="caret"></span></a>
@@ -71,13 +72,6 @@
               <li class="divider"></li>
               <li><a href="/fund_sys/certificate/printScholarship_list.do">장학증서 발급대장</a></li>
               <li><a href="/fund_sys/certificate/printDonation_list.do">기부증서 발급대장</a></li>
-            </ul>
-          </li>
-          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">자료출력<span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="/fund_sys/dataPrint/donationPurposeStats.do">기부목적별 납입현황</a></li>
-              <li><a href="/fund_sys/sponsor/cast.do">후원인별 납입현황</a></li>
-              <li><a href="/fund_sys/user/church.do">소속교회별납입현황</a></li>
             </ul>
           </li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">시스템관리<span class="caret"></span></a>

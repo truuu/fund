@@ -34,7 +34,7 @@
   <tbody>
     <c:forEach var="p" items="${list}">
       <tr>
-        <td>${p.corporateName} ${p.organizationName} ${p.donationPurposeName}</td>
+        <td>${p.name} </td>
         <td class="right"><fmt:formatNumber value="${p.sponsorCount}" /></td>
         <td class="right"><fmt:formatNumber value="${p.paymentCount}" /></td>
         <td class="right"><fmt:formatNumber value="${p.amount}" /></td>
