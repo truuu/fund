@@ -20,6 +20,9 @@ $(function() {
     $("[data-confirm-delete]").click(function() {
     	return confirm("삭제하시겠습니까?");
     })
+    $("[data-stop-propagation]").click(function(e) {
+    	e.stopPropagation();
+    })
 });
 
 $(function() {                          

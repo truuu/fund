@@ -1,26 +1,16 @@
 package fund.mapper;
 
 
-import fund.dto.User;
-import fund.dto.Pagination;
-import fund.dto.Sponsor;
 import java.util.List;
+import fund.dto.User;
 
- public interface UserMapper {		
-     User selectById(int id);		
-     User selectByLoginId(String loginName);	
-     void userInsert(User user);
-     List<Sponsor> churchSum2(Pagination  pagination);
-     List<Sponsor> churchSum(Pagination  pagination);
-     int countForChurch(Pagination  pagination);//페이징을 위한 count
-     
-     //사용자관리
-     int userSelectCount();
-     List<User> userSelectPage(Pagination pagination);
-     //아이디 중복확인
-     User repeatCheck(String loginName);
-     
-     
- 		
+ public interface UserMapper {
+     User selectById(int id);
+     User selectByLoginId(String loginName);
+     List<User> selectAll();
+     void insert(User user);
+     void update(User user);
+     void updatePassword(User user);
+     void delete(int id);
  }
 

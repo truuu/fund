@@ -1,6 +1,5 @@
 package fund.controller;
 
-import java.io.UnsupportedEncodingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,7 +61,7 @@ public class SponsorPaymentController extends BaseController {
         return "sponsor/paymentEdit2";
     }
 
-    private String redirectToList(Model model, int sid) throws UnsupportedEncodingException {
+    private String redirectToList(Model model, int sid) {
         PaginationSponsor pagination = (PaginationSponsor)model.asMap().get("pagination");
         String qs = String.format("sid=%d&%s", sid, pagination.getQueryString());
         return "redirect:paymentList2.do?" + qs;

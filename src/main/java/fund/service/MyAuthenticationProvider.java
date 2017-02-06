@@ -3,9 +3,6 @@ package fund.service;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
-import fund.dto.*;
-import fund.mapper.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,9 +11,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-import org.springframework.util.SystemPropertyUtils;
-
 import fund.dto.User;
+import fund.mapper.SponsorMapper;
 import fund.mapper.UserMapper;
 
 @Component
@@ -24,7 +20,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired SponsorMapper sponsorMapper;
     @Autowired UserMapper userMapper;
-    
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String loginName = authentication.getName();
@@ -41,7 +37,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_전체"));
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.isAdmin()));
+        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserType()));
         return new MyAuthenticaion(loginName, password, grantedAuthorities, user);
     }
 
@@ -49,7 +45,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
-    
+
     public static String encryptPasswd(String passwd) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");

@@ -76,10 +76,7 @@
           </li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">시스템관리<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="#">시스템에러메세지</a></li>
-              <li><a href="/fund_sys/user/user_r.do">사용자등록</a></li>
-              <li><a href="/fund_sys/user/user_m.do">사용자목록</a></li>
-              <li class="divider"></li>
+              <li><a href="/fund_sys/user/list.do">사용자목록</a></li>
               <li><a href="/fund_sys/sponsor/encryptNo.do">후원인 암호화</a></li>
               <li><a href="/fund_sys/log/list.do">로그 기록</a></li>
             </ul>

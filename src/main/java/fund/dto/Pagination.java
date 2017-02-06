@@ -17,11 +17,6 @@ public class Pagination {
 
 
 
-
-
-
-
-
     int corporateId;
     int type;//소속교회, 회원구분 등 codeGroupID
     String codeName;// 개인, 단체, 교회 등 code 이름
@@ -70,13 +65,17 @@ public class Pagination {
     public String getEd() { return endDate; }
     public int getCp() { return corporateId; }
 
-    public String getQueryString() throws UnsupportedEncodingException {
-        String temp = (srchText == null) ? "" : URLEncoder.encode(srchText, "UTF-8");
-        return String.format("pg=%d&sz=%d&od=%d&ss=%d&st=%s&sd=%s&ed=%s&cp=%s",
-                currentPage, pageSize, order, srchType, temp,
-                startDate == null ? "" : startDate,
-                endDate == null ? "" : endDate,
-                corporateId);
+    public String getQueryString() {
+        String url = null;
+        try {
+            String temp = (srchText == null) ? "" : URLEncoder.encode(srchText, "UTF-8");
+            url = String.format("pg=%d&sz=%d&od=%d&ss=%d&st=%s&sd=%s&ed=%s&cp=%s",
+                    currentPage, pageSize, order, srchType, temp,
+                    startDate == null ? "" : startDate,
+                    endDate == null ? "" : endDate,
+                    corporateId);
+        } catch (UnsupportedEncodingException e) { }
+        return url;
     }
 
     public List<Page> getPageList() {

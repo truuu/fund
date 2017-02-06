@@ -1,80 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>		
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"		
-             "http://mybatis.org/dtd/mybatis-3-mapper.dtd">		
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">		
 		
-<mapper namespace="fund.mapper.UserMapper">		
+<mapper namespace="fund.mapper.UserMapper">
 
-    <select id="repeatCheck" resultType="fund.dto.User">		
-        SELECT * FROM [User] WHERE loginName = #{loginName}		
-    </select>
+<select id="selectAll" resultType="fund.dto.User">        
+  SELECT * FROM [user]      
+</select>
+
+<select id="selectById" resultType="fund.dto.User">     
+  SELECT * FROM [User] WHERE id = #{id}       
+</select>       
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+  INSERT [user] (loginName, [password], [name], [email], userType)
+  VALUES (#{loginName}, #{password}, #{name}, #{email}, #{userType})
+</insert>
+
+<update id="update">
+  UPDATE [user] 
+  SET [loginName] = #{loginName}, [name] = #{name}, userType = #{userType}, email = #{email}
+  WHERE id = #{id}
+</update>
+
+<update id="updatePassword">
+  UPDATE [user] 
+  SET [password] = #{password}
+  WHERE id = #{id}
+</update>
+
+<delete id="delete">
+  DELETE FROM [user] WHERE id = #{id}
+</delete>
 		
-	<select id="userSelectCount" resultType="int">
-		SELECT COUNT(*)
-		FROM [User]
-	</select>	
-	
-	<select id="userSelectPage" resultType="fund.dto.User">
-        <![CDATA[
-        SELECT *
-        FROM
-            ( SELECT loginName,name,email, ROW_NUMBER() OVER (ORDER BY id) 행번호
-             from [User]
-            ) subquery
-        WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
-              행번호 <= #{currentPage} * #{pageSize}
-        ORDER BY 행번호
-        ]]>
-	</select>
-		
-    <select id="selectById" resultType="fund.dto.User">		
-        SELECT * FROM [User] WHERE id = #{id}		
-    </select>		
-    		
-    <select id="selectByLoginId" resultType="fund.dto.User">		
-        SELECT * FROM [User] WHERE loginName = #{loginName}		
-    </select>		
-		
-    <select id="selectAll" resultType="fund.dto.User">		
-        SELECT u.*, d.departmentName		
-        FROM [User] u LEFT JOIN department d ON u.departmentId = d.id		
-    </select>	
-    
-    <select id="churchSum" resultType="fund.dto.Sponsor">		
-  select (select codeName from code where code.ID=sponsor.churchID) AS church,
-              sum(CAST( amount AS BIGINT )) AS sum
-      from sponsor join payment on  sponsor.ID=payment.sponsorID  where sponsor.churchID is not null  and payment.paymentDate between
-		#{startDate} and #{endDate} group by churchID;
-	
-    </select>	
-    
-    <!--페이징 임시 테스트 -->
-    <select id="churchSum2" resultType="fund.dto.Sponsor">		
-     <![CDATA[
-       select *
-       from(select (select codeName from code where code.ID=sponsor.churchID) AS church,
-              sum(CAST( amount AS BIGINT )) AS sum,
-              ROW_NUMBER() OVER (ORDER BY churchID DESC) 행번호
-      from sponsor join payment on  sponsor.ID=payment.sponsorID  where sponsor.churchID is not null  and payment.paymentDate between
-		#{startDate} and #{endDate} group by churchID
-		)subquery
-		 WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
-              행번호 <= #{currentPage} * #{pageSize}
-        ORDER BY 행번호 
-	 ]]>
-    </select>
-    
-    <!-- 교회별 페이징을 위한 count -->
-   <select id="countForChurch" resultType="int">
-	select (select count(*) from code where code.ID=sponsor.churchID) AS church
-      from sponsor join payment on  sponsor.ID=payment.sponsorID  where payment.paymentDate between
-		#{startDate} and #{endDate} group by churchID
-	</select>
-    
-    <insert id="userInsert"  useGeneratedKeys="true" keyProperty="id">
-      insert into [User](loginName,password,name,email,admin)
-      values(#{loginName},#{password},#{name},#{email},0)
-    </insert>	
-    
- 		
 </mapper>		
-

@@ -1,7 +1,5 @@
 package fund.dto;
 
-import java.io.UnsupportedEncodingException;
-
 public class PaginationSponsor extends Pagination {
 
     int st1;
@@ -33,7 +31,7 @@ public class PaginationSponsor extends Pagination {
     }
 
     @Override
-    public String getQueryString() throws UnsupportedEncodingException {
+    public String getQueryString() {
         String s = super.getQueryString();
         return String.format("%s&st1=%d&st2=%d&od1=%d", s, st1, st2, od1);
     }

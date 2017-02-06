@@ -4,18 +4,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
-<h2>로그 기록</h2>
+<h1>로그 기록</h1>
 <hr />
 
 <form:form method="get" modelAttribute="pagination">
   <input type="hidden" name="pg" value="1" />
 
   <div class="pull-right">
-    <button type="button" class="btn btn-primary">삭제</button>
+    <button type="submit" class="btn btn-danger" name="cmd" value="delete" data-confirm-delete>삭제</button>
   </div>
 
   <div class="form-inline">
-    <form:select path="od">
+    <form:select path="od"  data-auto-submit="true">
       <form:option value="0" label="정렬순서" />
       <form:option value="1" label="IP" />
       <form:option value="2" label="URL" />
@@ -32,14 +32,14 @@
     <form:input path="st" />
     <button type="submit" class="btn btn-small">검색</button>
     <c:if test="${ pagination.ss != 0 }">
-      <a href="list.do" class="btn btn-small">취소</a>
+      <a href="list.do" class="btn btn-small btn-default">취소</a>
     </c:if>
   </div>
 
-  <table class="table table-bordered">
+  <table class="table table-bordered mt4">
     <thead>
       <tr>
-        <th>id</th>
+        <th><input type="checkbox" /></th>
         <th>사용자</th>
         <th>날짜</th>
         <th>IP</th>
@@ -48,8 +48,8 @@
     </thead>
     <tbody>
       <c:forEach var="p" items="${ list }">
-        <tr data-url="log.do?id=${p.id}&${pagination.queryString}">
-          <td>${ p.id }</td>
+        <tr data-url="detail.do?id=${p.id}&${pagination.queryString}">
+          <td data-stop-propagation><input type="checkbox" name="id" value="${ p.id }" /></td>
           <td>${ p.currentUser }</td>
           <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${ p.writeTime }" /></td>
           <td>${ p.ip }</td>
