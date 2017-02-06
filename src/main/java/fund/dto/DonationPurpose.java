@@ -22,8 +22,8 @@ public class DonationPurpose {
         return corporateId;
     }
 
-    public void setCorporateId(int corporateID) {
-        this.corporateId = corporateID;
+    public void setCorporateId(int corporateId) {
+        this.corporateId = corporateId;
     }
 
     public int getOrganizationId() {

@@ -13,10 +13,12 @@ body .mb100 { margin-bottom: 100px; }
 body .ml5 { margin-left: 5px; }
 body .ml10 { margin-left: 10px; }
 body .ml15 { margin-left: 15px; }
+body .ml30 { margin-left: 30px; }
 body .ml100 { margin-left: 100px; }
 body .mr5 { margin-right: 5px; }
 body .mr10 { margin-right: 10px; }
 body .mr15 { margin-right: 15px; }
+body .mr20 { margin-right: 20px; }
 body .mr100 { margin-right: 100px; }
 body span.block { display: inline-block; }
 

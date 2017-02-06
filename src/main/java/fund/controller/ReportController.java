@@ -18,7 +18,7 @@ import fund.mapper.CorporateMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.ReportMapper;
 import fund.param.OrderBy;
-import fund.param.Param;
+import fund.param.MyParam;
 import fund.service.C;
 import fund.service.ReportBuilder3;
 
@@ -51,12 +51,12 @@ public class ReportController extends BaseController {
     @RequestMapping(value="/report/1a", method=RequestMethod.GET)
     public String report1a(Model model) {
         addModel1(model);
-        model.addAttribute("param", new Param());
+        model.addAttribute("param", new MyParam());
         return "report/1a";
     }
 
     @RequestMapping(value="/report/1a", method=RequestMethod.POST, params="cmd=search")
-    public String report1a(Model model, Param param) {
+    public String report1a(Model model, MyParam param) {
         addModel1(model);
         model.addAttribute("list", reportMapper.selectReport1a(param.getMap()));
         return "report/1a";
@@ -72,16 +72,16 @@ public class ReportController extends BaseController {
     }
   
     @RequestMapping(value="/report/1a", method=RequestMethod.POST, params="cmd=excel")
-    public void report1(Model model, Param mapParam, HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public void report1(Model model, MyParam mapParam, HttpServletRequest req, HttpServletResponse res) throws Exception {
         paymentReport(mapParam, req, res,"payment1_list","납입내역.xlsx",1);
         }
         
     @RequestMapping(value="/report/1b", method=RequestMethod.POST, params="cmd=excel")
-    public void report1bReport(Model model, Param mapParam, HttpServletRequest req, HttpServletResponse res) throws Exception {
-    	paymentReport(mapParam, req, res,"payment2_list","납입합계내역.xlsx",2);
+    public void report1bReport(Model model, MyParam param, HttpServletRequest req, HttpServletResponse res) throws Exception {
+    	paymentReport(param, req, res,"payment2_list","납입합계내역.xlsx",2);
     }
 
-	private void paymentReport(Param mapParam, HttpServletRequest req, HttpServletResponse res,
+	private void paymentReport(MyParam mapParam, HttpServletRequest req, HttpServletResponse res,
 			String reportFileName,String fileName, int option)
 			throws Exception {
 		HashMap<String, Object> map = mapParam.getMap();
@@ -111,13 +111,13 @@ public class ReportController extends BaseController {
 
     @RequestMapping(value="/report/1b", method=RequestMethod.GET)
     public String report1b(Model model) {
-        model.addAttribute("param", new Param());
+        model.addAttribute("param", new MyParam());
         addModel1(model);
         return "report/1b";
     }
 
     @RequestMapping(value="/report/1b", method=RequestMethod.POST, params="cmd=search")
-    public String report1b(Model model, Param param) {
+    public String report1b(Model model, MyParam param) {
         addModel1(model);
         model.addAttribute("list", reportMapper.selectReport1b(param.getMap()));
         return "report/1b";
@@ -128,7 +128,7 @@ public class ReportController extends BaseController {
     //// report2
     @RequestMapping(value="/report/2/{i}", method=RequestMethod.GET)
     public String report2a(Model model, @PathVariable("i") int i) {
-        Param param = new Param();
+        MyParam param = new MyParam();
         int year = Calendar.getInstance().get(Calendar.YEAR);
         param.getMap().put("startDate", String.format("%d-01-01", year));
         param.getMap().put("endDate", String.format("%d-12-31", year));
@@ -138,7 +138,7 @@ public class ReportController extends BaseController {
     }
 
     @RequestMapping(value="/report/2/{i}", method=RequestMethod.POST, params="cmd=search")
-    public String report2a(Model model, Param param, @PathVariable("i") int i) {
+    public String report2a(Model model, MyParam param, @PathVariable("i") int i) {
         switch (i) {
         case 0: model.addAttribute("list", reportMapper.selectReport2a(param.getMap())); break;
         case 1: model.addAttribute("list", reportMapper.selectReport2b(param.getMap())); break;
@@ -149,7 +149,7 @@ public class ReportController extends BaseController {
     }
     
     @RequestMapping(value="/report/2/{i}", method=RequestMethod.POST, params="cmd=excel")
-    public void report2aReport(Model model, Param param, @PathVariable("i") int i, HttpServletRequest req, HttpServletResponse res)throws Exception {
+    public void report2aReport(Model model, MyParam param, @PathVariable("i") int i, HttpServletRequest req, HttpServletResponse res)throws Exception {
         List<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
     	
     	switch (i) {

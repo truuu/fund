@@ -37,7 +37,7 @@ public class Payment {
     String accountHoler;
     int amountPerMonth;
 
-    String rctNo;// 영수증번호
+    String receiptNo;// 영수증번호
     String accountHolder;// 예금주...
     String paymentDateString;
 
@@ -289,12 +289,12 @@ public class Payment {
         this.amountPerMonth = amountPerMonth;
     }
 
-    public String getRctNo() {
-        return rctNo;
+    public String getReceiptNo() {
+        return receiptNo;
     }
 
-    public void setRctNo(String rctNo) {
-        this.rctNo = rctNo;
+    public void setReceiptNo(String receiptNo) {
+        this.receiptNo = receiptNo;
     }
 
     public String getAccountHolder() {

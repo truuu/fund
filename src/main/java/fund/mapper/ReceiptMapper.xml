@@ -3,6 +3,48 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fund.mapper.ReceiptMapper">
+
+<select id="selectPage" resultType="fund.dto.Receipt">
+<![CDATA[
+DECLARE @srchType INT, @srchText NVARCHAR(50), @currentPage INT, @pageSize INT
+SET @srchType = #{srchType}
+SET @srchText = #{srchText}
+SET @pageSize = #{pageSize}
+SET @currentPage = #{currentPage}
+
+SELECT *
+FROM ( 
+  SELECT r.id, r.[no], s.name, s.juminNo, s.mobilePhone, r.createDate,
+    ROW_NUMBER() OVER (ORDER BY r.id DESC) 행번호, SUM(p.amount) amount
+  FROM Receipt r 
+    LEFT JOIN [Sponsor] s ON r.sponsorID = s.id
+    LEFT JOIN [Payment] p ON r.id=p.receiptID
+  WHERE
+    (@srchType = 0) OR
+    (@srchType = 1 AND CHARINDEX(@srchText, s.name) = 1)
+  GROUP BY r.id,r.[no],s.name,s.juminNo, s.mobilePhone, r.createDate
+) subquery
+WHERE 
+  행번호 > (@currentPage - 1) * @pageSize AND
+  행번호 <= @currentPage * @pageSize
+ORDER BY 행번호
+]]>
+</select>
+
+<select id="selectCount" resultType="int">
+DECLARE @srchType INT, @srchText NVARCHAR(50)
+SET @srchType = 0
+SET @srchText = null
+
+SELECT COUNT(*)
+FROM [Receipt] r 
+  LEFT JOIN Sponsor s ON r.sponsorId = s.id
+  LEFT JOIN Payment p ON r.id = p.receiptId
+WHERE
+  (@srchType = 0) OR
+  (@srchType = 1 AND CHARINDEX(@srchText, s.name) = 1 )
+</select>
+    
 	
 	<select id="selectRctID" resultType="int">
 		SELECT top 1 id
@@ -20,52 +62,13 @@
 		SELECT * FROM [Receipt] WHERE [no]=#{no}
 	</select>
 	
-	<!-- 영수증 데이터확인 용도-->
-	<!--  
-	<select id="selectReceiptView" resultType="fund.dto.Receipt">
-		SELECT DISTINCT r.*, s.name, s.juminNo, s.homeaddress 'address', c.name 'corName',c.corporateNo, c.address 'corAddress',c.representative
-		FROM [Receipt] r LEFT JOIN [Sponsor] s ON r.sponsorID=s.id 
-					LEFT JOIN [Payment] p ON r.id=p.receiptID
-					LEFT JOIN [donationPurpose] d ON p.donationPurposeID=d.id
-					LEFT JOIN [corporate] c ON d.corporateID = c.id
-		WHERE r.id=#{id}
-	</select>-->
-	
 	<select id="selectReceiptList" resultType="fund.dto.Receipt">
 		SELECT receipt.no,sponsor.name,sponsor.juminNo,sponsor.mobilePhone
 		FROM [Receipt] JOIN [Sponsor] ON receipt.sponsorID=sponsor.id 
 					JOIN [Payment] ON receipt.id=payment.receiptID 
 	</select>
 	
-	<select id="selectPage" resultType="fund.dto.Receipt">
-		<![CDATA[
-			SELECT *
-			FROM
-				( SELECT r.id, r.[no], s.name, s.juminNo, s.mobilePhone, r.createDate,
-								ROW_NUMBER() OVER (ORDER BY r.id DESC) 행번호, sum(p.amount) 'amount'
-				   FROM [Receipt] r LEFT JOIN [Sponsor] s ON r.sponsorID = s.id
-				   			LEFT JOIN [Payment] p ON r.id=p.receiptID
-				   WHERE
-						(#{srchType}=0) OR
-						(#{srchType}=1 AND CHARINDEX(#{srchText}, s.name) =1 )OR
-						(#{srchType}=2 AND r.createDate BETWEEN #{startDate} AND #{endDate})
-				   GROUP BY r.id,r.[no],s.name,s.juminNo, s.mobilePhone, r.createDate
-				) subquery
-			WHERE 행번호 >(#{currentPage} -1) * #{pageSize} AND
-						행번호 <= #{currentPage} * #{pageSize}
-			ORDER BY 행번호
-		]]>
-	</select>
-	
-	<select id="selectCount" resultType="int">
-		SELECT COUNT(*)
-		FROM [Receipt] r LEFT JOIN [Sponsor] s ON r.sponsorID = s.id
-					LEFT JOIN [Payment] p ON r.id=p.receiptID
-		WHERE
-				(#{srchType}=0) OR
-				(#{srchType}=1 AND CHARINDEX(#{srchText}, s.name) =1 )OR
-				(#{srchType}=2  AND r.createDate BETWEEN #{startDate} AND #{endDate})
-	</select>
+
 	
 	<select id="getRid" resultType="int">
 		SELECT max(id) FROM [Receipt]

@@ -104,8 +104,8 @@ td{
 				기간 : <form:input  id="startDt" path="sd" name="startDate"/>~<form:input  id="endDt" path="ed" />
 				&nbsp;&nbsp; 이름 : <form:input  type="text" path="st"/>
 				&nbsp;&nbsp; 기관 : 
-				<form:select  path="cp" name="corporateID">
-					<form:options itemValue="ID" itemLabel="name" items="${ corporates }"/>
+				<form:select  path="cp" name="corporateId">
+					<form:options itemValue="id" itemLabel="name" items="${ corporates }"/>
 				</form:select>
 				&nbsp;&nbsp;<button type="submit" class="btn btn-primary" name="cmd" value="search">검색</button>
 			</p>
@@ -125,14 +125,14 @@ td{
 			    <tbody>
 			        <c:forEach var="payment" items="${ paymentList }">
 			        	<tr>
-			            	<td><c:if test="${ payment.receiptID != 0 }">
+			            	<td><c:if test="${ payment.receiptId != 0 }">
 			            			<button type="submit" class="btn btn-danger" name="cmd" value="deleteRct">
-			            			<input type="hidden" name="delid" value="${ payment.receiptID }"/> 삭제</button>&nbsp;&nbsp;${ payment.rctNo }</c:if>
-			            		   <c:if test="${ payment.receiptID == 0 }"><input type="checkbox" name="pid" value="${ payment.id }"></c:if></td>
+			            			<input type="hidden" name="delid" value="${ payment.receiptId }"/> 삭제</button>&nbsp;&nbsp;${ payment.rctNo }</c:if>
+			            		   <c:if test="${ payment.receiptId == 0 }"><input type="checkbox" name="pid" value="${ payment.id }"></c:if></td>
 			             	<td style="vertical-align:middle">${ payment.sponsorNo }</td>
 			             	<td style="vertical-align:middle">${ payment.name }</td>
-			             	<td style="vertical-align:middle"><c:if test="${ payment.commitmentID != 0}">정기 </c:if>
-			             	 	   <c:if test="${ payment.commitmentID == 0}">비정기</c:if></td>
+			             	<td style="vertical-align:middle"><c:if test="${ payment.commitmentId != 0}">정기 </c:if>
+			             	 	   <c:if test="${ payment.commitmentId == 0}">비정기</c:if></td>
 			             	<td style="vertical-align:middle"><fmt:formatDate pattern="yyyy-MM-dd"
 									value="${ payment.paymentDate }" /></td>
 			             	<td style="vertical-align:middle" class="money">${ payment.amount }</td>

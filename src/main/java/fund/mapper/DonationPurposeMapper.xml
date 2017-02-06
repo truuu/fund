@@ -6,9 +6,9 @@
 <select id="selectAll" resultType="fund.dto.DonationPurpose">
     SELECT d.*, c1.codeName organizationName, c2.name corporateName
     FROM DonationPurpose d 
-         left JOIN Code c1 ON d.organizationID = c1.ID
-         left JOIN Corporate c2 ON d.corporateID = c2.ID
-    ORDER BY c2.ID, c1.ID, d.ID
+         left JOIN Code c1 ON d.organizationId = c1.id
+         left JOIN Corporate c2 ON d.corporateId = c2.id
+    ORDER BY c2.id, c1.id, d.id
 </select>
 
 <select id="selectById" resultType="fund.dto.DonationPurpose">

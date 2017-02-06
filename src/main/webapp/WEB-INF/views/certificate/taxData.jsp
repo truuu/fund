@@ -89,8 +89,8 @@ td{ text-align:center; }
 		<form:input  id="startDt" path="sd"/>~
 		<form:input  id="endDt" path="ed" />
 		기관종류: 
-		<form:select path="cp"  name="corporateID">
-			<form:options itemValue="ID" itemLabel="name" items="${ corporates }"/>
+		<form:select path="cp"  name="corporateId">
+			<form:options itemValue="id" itemLabel="name" items="${ corporates }"/>
 		</form:select>
 
 		<button type="submit" class="btn btn-primary">검색</button>

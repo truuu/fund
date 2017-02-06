@@ -63,13 +63,13 @@
               <li><a href="/fund_sys/report/2/2.do">소속교회별 납입 합계</a></li>
             </ul>
           </li>
-          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">증서관리<span class="caret"></span></a>
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">영수증<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="/fund_sys/certificate/receiptList.do">영수증발급대장</a></li>
-              <li><a href="/fund_sys/certificate/receiptByDur.do">영수증일괄생성</a></li>
-              <li><a href="/fund_sys/certificate/receiptByName.do">영수증개별생성</a></li>
-              <li><a href="/fund_sys/certificate/taxData.do">국세청보고자료</a></li>
+              <li><a href="/fund_sys/receipt/list.do">영수증 발급대장</a></li>
+              <li><a href="/fund_sys/receipt/create1.do">영수증 개별생성</a></li>
+              <li><a href="/fund_sys/receipt/create2.do">영수증 일괄생성</a></li>              
               <li class="divider"></li>
+              <li><a href="/fund_sys/certificate/taxData.do">국세청보고자료</a></li>
               <li><a href="/fund_sys/certificate/printScholarship_list.do">장학증서 발급대장</a></li>
               <li><a href="/fund_sys/certificate/printDonation_list.do">기부증서 발급대장</a></li>
             </ul>

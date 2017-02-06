@@ -1,6 +1,7 @@
 package fund.mapper;
 
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import fund.dto.Pagination;
 import fund.dto.Payment;
@@ -20,15 +21,19 @@ public interface PaymentMapper {
     void delete(int id);
     void insert(Payment payment);
 
-	List<Integer> selectDistinctSponsorID(@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("corporateID") int corporateID);
-	List<Payment> selectReceiptByName(Pagination pagination);
+    List<Payment> selectForReceiptCreation(Map<String,Object> map);
+
+
+
+
+	List<Integer> selectDistinctSponsorID(@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("corporateId") int corporateId);
 	List<Payment> selectByRctID(int rid);
 	List<Payment> selectPage(Pagination pagination);
 	int selectCount(Pagination pagination);
 	List<Payment> selectTaxData(Pagination pagination);
-	void issueReceiptByDur(@Param("receiptID") int receiptID,@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("corporateID") int corporateID,@Param("sponsorID") int sponsorID);
-	void issueReceiptByName(@Param("receiptID") int receiptID, @Param("id") int id);
-	void deleteReceiptByReceiptID(int id);
+	void issueReceiptByDur(@Param("receiptId") int receiptId,@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("corporateId") int corporateId,@Param("sponsorId") int sponsorId);
+	void issueReceiptByName(@Param("receiptId") int receiptId, @Param("id") int id);
+	void deleteReceiptByReceiptId(int id);
 
 	void insertEB21Payment(Payment payment);
 	void insertXferResult(Payment payment);
