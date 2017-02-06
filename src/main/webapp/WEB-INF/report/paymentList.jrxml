@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2016-12-26T10:07:55 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="paymentList" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="faf87966-e2e6-4e9e-8e2b-9e15ac700f27">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="patronageDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="receiptID" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT p.amount, p.paymentDate, c.etc1
+FROM payment p LEFT JOIN code c ON p.paymentMethodID = c.ID
+WHERE receiptID=$P{receiptID}]]>
+	</queryString>
+	<field name="amount" class="java.lang.Integer"/>
+	<field name="paymentDate" class="java.sql.Date"/>
+	<field name="etc1" class="java.lang.String"/>
+	<variable name="SUM_amount" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="20" uuid="a12d4a1e-c954-4bd4-8c39-a9b561248cc3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[4. 기부내용]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="180" y="0" width="100" height="30" uuid="d9babb20-b480-4942-a1a4-9e1ce9c605ef"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[연월일]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="0" width="50" height="30" uuid="64574fd1-ddd6-499a-9297-8bdd4eb7a082"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[구분]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="81" height="30" uuid="305f31f8-d2b7-4158-a3a0-8fe93d6600a4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[유형]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="1" width="70" height="29" uuid="1a66b292-ab42-4f30-872f-ee724c6800ca"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[금액]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="0" width="50" height="30" uuid="10db2e6f-79d9-4b81-9651-160553fd90c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[코드]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="1" width="200" height="14" uuid="5c5a8778-6875-466c-8dbf-f2562937d8a3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[내용]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="15" width="71" height="15" uuid="ac85b2af-b3cb-4b8e-95ee-0d6304dcd8a3">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[품명]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="351" y="15" width="72" height="15" uuid="dbeef81a-f616-4db9-acd7-405b43c0de6d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[수량]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="423" y="15" width="57" height="15" uuid="36c988ec-85d8-4e40-9866-1e49b36ccac8">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[단가]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="0" width="81" height="30" uuid="fb3279c3-1a50-4e59-8a0d-7a4b5544fe09"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[법정]]></text>
+			</staticText>
+			<textField pattern="yyyy/MM/dd">
+				<reportElement x="180" y="0" width="100" height="30" uuid="8a8a02d4-1c9e-4190-89d8-e94365f2590a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{paymentDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.##;¤-#,##0.##">
+				<reportElement x="480" y="0" width="70" height="30" uuid="c45d96dc-110a-41e4-9c40-db78515cd82b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="0" width="50" height="30" uuid="2cb9570d-b85f-483d-92b4-3dfb3604aeef"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[10]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="0" width="50" height="30" uuid="0ad22bf5-01d5-48f7-9708-2c27e455a006"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{etc1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="280" y="0" width="71" height="30" uuid="511ff5ef-da3b-4096-824f-e84480698d77"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[교육, 장학]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField pattern="#,##0.##;¤-#,##0.##">
+				<reportElement x="480" y="0" width="70" height="30" uuid="3bab7328-4ad7-49a2-b75b-4cc8efdd0653"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{SUM_amount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
