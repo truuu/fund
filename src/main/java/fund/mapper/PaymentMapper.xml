@@ -46,13 +46,14 @@
   <![CDATA[
   UPDATE Payment
     SET 
+      receiptId = #{receiptId},
       amount = #{amount}, 
-      payment = #{paymentDate}, 
+      paymentDate = #{paymentDate}, 
       donationPurposeId = #{donationPurposeId}, 
       paymentMethodId = #{paymentMethodId},
       etc = #{etc}
-  FROM [Payment]
-  WHERE ID = #{id}
+  FROM Payment
+  WHERE id = #{id}
   ]]>
 </update>
 
@@ -78,6 +79,7 @@ FROM Payment p
 WHERE p.paymentDate BETWEEN @startDate AND @endDate
 AND p.sponsorId IN (SELECT id FROM [sponsor] WHERE name = @srchText)
 AND p.donationPurposeId IN (SELECT id FROM donationPurpose WHERE @corporateId = 0 OR corporateId = @corporateId)
+ORDER BY p.paymentDate DESC
 </select> 
     
 
@@ -155,12 +157,6 @@ AND p.donationPurposeId IN (SELECT id FROM donationPurpose WHERE @corporateId = 
 			AND d.corporateId = #{corporateId}
 			AND p.receiptID IS NULL
 			AND p.sponsorId = #{sponsorId}
-	</update>
-	
-	<update id="issueReceiptByName">
-		UPDATE [Payment]
-		SET receiptID = #{receiptID}
-		WHERE id=#{id}
 	</update>
 	
 	<update id="deleteReceiptByReceiptID">

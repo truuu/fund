@@ -1,4 +1,4 @@
-package fund.dto;
+package fund.dto.pagination;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -15,21 +15,6 @@ public class Pagination {
     String startDate;
     String endDate;
 
-
-
-    int corporateId;
-    int type;//소속교회, 회원구분 등 codeGroupID
-    String codeName;// 개인, 단체, 교회 등 code 이름
-    String nameForSearch;//후원인관리에서 이름으로 검색때 사용
-
-	public String getNameForSearch() { return nameForSearch; 	}
-	public void setNameForSearch(String nameForSearch) { this.nameForSearch = nameForSearch; }
-    public int getType() { return type; }
-    public void setType(int type) { this.type = type; }
-    public String getCodeName() { return codeName; }
-    public void setCodeName(String codeName) { this.codeName = codeName; }
-    public int getCorporateId() { return corporateId; }
-    public void setCorporateId(int corporateId) { this.corporateId = corporateId; }
     public String getStartDate() { return startDate; }
     public void setStartDate(String startDate) { this.startDate = startDate; }
     public String getEndDate() { return endDate; }
@@ -54,7 +39,6 @@ public class Pagination {
     public void setSt(String srchText) { this.srchText = srchText; }
     public void setSd(String startDate) { this.startDate = startDate; }
     public void setEd(String endDate) { this.endDate = endDate; }
-    public void setCp(int corporateId) { this.corporateId = corporateId; }
 
     public int getPg() { return currentPage; }
     public int getSz() { return pageSize; }
@@ -63,17 +47,15 @@ public class Pagination {
     public String getSt() { return srchText; }
     public String getSd() { return startDate; }
     public String getEd() { return endDate; }
-    public int getCp() { return corporateId; }
 
     public String getQueryString() {
         String url = null;
         try {
             String temp = (srchText == null) ? "" : URLEncoder.encode(srchText, "UTF-8");
-            url = String.format("pg=%d&sz=%d&od=%d&ss=%d&st=%s&sd=%s&ed=%s&cp=%s",
+            url = String.format("pg=%d&sz=%d&od=%d&ss=%d&st=%s&sd=%s&ed=%s",
                     currentPage, pageSize, order, srchType, temp,
                     startDate == null ? "" : startDate,
-                    endDate == null ? "" : endDate,
-                    corporateId);
+                    endDate == null ? "" : endDate);
         } catch (UnsupportedEncodingException e) { }
         return url;
     }

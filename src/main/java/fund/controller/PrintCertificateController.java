@@ -15,12 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import fund.dto.Pagination;
 import fund.dto.PrintDonation;
 import fund.dto.PrintDonationCreate;
 import fund.dto.PrintScholarship;
 import fund.dto.PrintScholarshipCreate;
+import fund.dto.pagination.Pagination;
 import fund.mapper.PrintDonationMapper;
 import fund.mapper.PrintScholarshipMapper;
 import fund.service.PrintCertificateService;

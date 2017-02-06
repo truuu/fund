@@ -4,8 +4,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import fund.dto.Commitment;
-import fund.dto.Pagination;
 import fund.dto.Sponsor;
+import fund.dto.pagination.Pagination;
 import fund.mapper.SponsorMapper;
 
 @Service

@@ -1,10 +1,9 @@
 package fund.mapper;
 
 import java.util.List;
-
-import fund.dto.Pagination;
 import fund.dto.PrintDonation;
 import fund.dto.PrintScholarship;
+import fund.dto.pagination.Pagination;
 
 public interface PrintScholarshipMapper {
 	PrintScholarship selectByNum(int num);

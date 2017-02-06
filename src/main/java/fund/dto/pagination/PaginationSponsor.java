@@ -1,4 +1,4 @@
-package fund.dto;
+package fund.dto.pagination;
 
 public class PaginationSponsor extends Pagination {
 

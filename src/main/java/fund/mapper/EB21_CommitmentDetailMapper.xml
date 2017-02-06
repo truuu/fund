@@ -5,13 +5,13 @@
 <mapper namespace="fund.mapper.EB21_CommitmentDetailMapper">
 	
 	<select id="selectEB21success" resultType="fund.dto.Payment">
-    	select c.sponsorID,c.ID commitmentID,e.paymentDate,c.donationPurposeID,c.paymentMethodID,cd.amountPerMonth
+    	select c.sponsorId,c.id commitmentId,e.paymentDate,c.donationPurposeID,c.paymentMethodID,cd.amountPerMonth
 		from EB21_commitmentDetail eb
 		JOIN commitmentDetail cd
-		ON eb.commitmentDetailID=cd.ID
+		ON eb.commitmentDetailID=cd.id
 		JOIN commitment c
-		ON cd.commitmentID=c.ID
-		JOIN EB21 e ON e.ID=eb.EB21ID
+		ON cd.commitmentId=c.id
+		JOIN EB21 e ON e.id=eb.EB21ID
 		where eb.state='성공'
     </select>
 	
@@ -26,14 +26,14 @@
 	<update id="updateEB21error">
 		update EB21_commitmentDetail set state='에러',errorCode=#{errorCode}
 		where commitmentDetailID IN
-		(select cd.ID
+		(select cd.id
 		from EB21_commitmentDetail eb
 		JOIN commitmentDetail cd
-		ON eb.commitmentDetailID=cd.ID
+		ON eb.commitmentDetailID=cd.id
 		JOIN commitment c
-		ON cd.commitmentID=c.ID
+		ON cd.commitmentId=c.id
 		JOIN sponsor s
-		ON c.sponsorID=s.ID
+		ON c.sponsorId=s.id
 		JOIN EB21 e
 		ON e.paymentDate=#{paymentDate}
 		where s.sponsorNo=#{sponsorNo})
@@ -47,7 +47,7 @@
 		where state='에러')
 		AND
 		EB21ID IN
-		(select e.ID
+		(select e.id
 		from EB21 e
 		where e.paymentDate=#{paymentDate})
 	</update>
@@ -56,17 +56,17 @@
 		<![CDATA[ 
 			select e.createDate,s.sponsorNo,s.name,c.commitmentNo,eb.state,cec.description,d.name donationPurpose
 			from EB21_commitmentDetail eb JOIN commitmentDetail cd
-			ON eb.commitmentDetailID=cd.ID
+			ON eb.commitmentDetailID=cd.id
 			JOIN EB21 e
-			ON eb.EB21ID=e.ID
+			ON eb.EB21ID=e.id
 			INNER JOIN code
-			ON cd.bankID=code.ID
+			ON cd.bankID=code.id
 			LEFT JOIN commitment c
-			ON cd.commitmentID=c.ID
+			ON cd.commitmentId=c.id
 			LEFT JOIN sponsor s
-			ON c.sponsorID=s.ID
+			ON c.sponsorId=s.id
 			JOIN donationPurpose d
-			ON c.donationPurposeID=d.ID
+			ON c.donationPurposeID=d.id
 			LEFT JOIN cmsErrorCode cec
 			ON eb.errorCode = cec.code
 			WHERE e.paymentDate >= #{startDate} AND e.paymentDate <= #{endDate}

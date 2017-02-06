@@ -1,4 +1,4 @@
-package fund.param;
+package fund.dto.param;
 
 public class CmsResultParam {
 

@@ -2,7 +2,7 @@ package fund.mapper;
 
 import java.util.List;
 import fund.dto.Log;
-import fund.dto.Pagination;
+import fund.dto.pagination.Pagination;
 
 public interface LogMapper {
     Log selectById(int id);

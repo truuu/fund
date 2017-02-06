@@ -5,13 +5,13 @@ import fund.service.EncryptService;
 
 public class EB21_commitmentDetail {
 	EncryptService cipherService=new EncryptService(); //����� ��ȣȭ ����
-	
+
 	int ID;
 	int EB21ID;
 	int commitmentDetailID;
 	int commitmentID;
 	String state;
-	
+
 	String sponsorNo;
 	String accountHolder;
 	String jumin;
@@ -21,16 +21,16 @@ public class EB21_commitmentDetail {
 	int amountPerMonth;
 	int paymentDay;
 	int sponsorType1Id;
-	
+
 	String createDate;
 	String commitmentNo;
 	String donationPurpose;
 	String name;
 	String etc1;
 	Date paymentDate;
-	int sponsorID;
+	int sponsorId;
 	String description;
-	
+
 	public int getsponsorType1Id() {
 		return sponsorType1Id;
 	}
@@ -57,11 +57,11 @@ public class EB21_commitmentDetail {
 	public void setPaymentDate(Date paymentDate) {
 		this.paymentDate = paymentDate;
 	}
-	public int getSponsorID() {
-		return sponsorID;
+	public int getSponsorId() {
+		return sponsorId;
 	}
-	public void setSponsorID(int sponsorID) {
-		this.sponsorID = sponsorID;
+	public void setSponsorId(int sponsorId) {
+		this.sponsorId = sponsorId;
 	}
 	public int getPaymentDay() {
 		return paymentDay;

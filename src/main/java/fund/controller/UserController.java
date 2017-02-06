@@ -7,8 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import fund.dto.Pagination;
 import fund.dto.User;
+import fund.dto.pagination.Pagination;
 import fund.mapper.UserMapper;
 import fund.service.UserService;
 

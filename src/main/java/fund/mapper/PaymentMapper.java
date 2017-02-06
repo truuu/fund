@@ -3,11 +3,11 @@ package fund.mapper;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Param;
-import fund.dto.Pagination;
 import fund.dto.Payment;
 import fund.dto.PaymentListParam;
 import fund.dto.PaymentRecordStats;
 import fund.dto.PaymentSummary1;
+import fund.dto.pagination.Pagination;
 
 
 public interface PaymentMapper {
@@ -31,8 +31,6 @@ public interface PaymentMapper {
 	List<Payment> selectPage(Pagination pagination);
 	int selectCount(Pagination pagination);
 	List<Payment> selectTaxData(Pagination pagination);
-	void issueReceiptByDur(@Param("receiptId") int receiptId,@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("corporateId") int corporateId,@Param("sponsorId") int sponsorId);
-	void issueReceiptByName(@Param("receiptId") int receiptId, @Param("id") int id);
 	void deleteReceiptByReceiptId(int id);
 
 	void insertEB21Payment(Payment payment);

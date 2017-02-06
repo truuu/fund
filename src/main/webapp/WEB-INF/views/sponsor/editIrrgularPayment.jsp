@@ -9,7 +9,7 @@
 	function deleteFunction() {
 
 		if (confirm("삭제하시겠습니까?") == true) {
-			location.href = "/fund_sys/sponsor/deleteIrrgularPayment.do?id=${payment.id}&&sponsorID=${payment.sponsorID}";
+			location.href = "/fund_sys/sponsor/deleteIrrgularPayment.do?id=${payment.id}&&sponsorId=${payment.sponsorId}";
 		} else {
 			return;
 		}
@@ -101,11 +101,11 @@ tr#topTable td, tr#topTable th {
 				</div>
 			</div>
 			<input type="hidden" value="${sponsor.sponsorNo}" /> <input
-				type="hidden" name="sponsorID" value="${sponsorID}" />
+				type="hidden" name="sponsorId" value="${sponsorId}" />
 			<!-- /.row -->
 			<form:form method="post" class="form-horizontal"
 				modelAttribute="payment">
-				<input type="hidden" name="sponsorID" value="${sponsorID}" />
+				<input type="hidden" name="sponsorId" value="${sponsorId}" />
 				<div class="form-group">
 					<label for="amount" class="col-lg-2 control-label">납입금액</label>
 					<div class="col-lg-10">
@@ -167,7 +167,7 @@ tr#topTable td, tr#topTable th {
 						class="btn btn-default">
 						<i class="icon-ok icon-white"></i> 삭제
 					</button>
-					<a href="paymentList2.do?id=${ payment.sponsorID }"
+					<a href="paymentList2.do?id=${ payment.sponsorId }"
 						class="btn btn-default"> <i class="icon-ban-circle"></i> 취소
 					</a>
 				</div>

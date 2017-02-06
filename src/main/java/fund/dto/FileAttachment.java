@@ -4,23 +4,23 @@ import java.util.Date;
 
 public class FileAttachment {
 	int ID;
-	int sponsorID;
+	int sponsorId;
 	String fileName;
 	int filesize;
 	Date createDate;
 	byte[] data;
-	
+
 	public int getID() {
 		return ID;
 	}
 	public void setID(int iD) {
 		ID = iD;
 	}
-	public int getSponsorID() {
-		return sponsorID;
+	public int getSponsorId() {
+		return sponsorId;
 	}
-	public void setSponsorID(int sponsorID) {
-		this.sponsorID = sponsorID;
+	public void setSponsorId(int sponsorId) {
+		this.sponsorId = sponsorId;
 	}
 	public String getFileName() {
 		return fileName;

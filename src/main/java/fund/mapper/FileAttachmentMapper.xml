@@ -8,7 +8,7 @@
     <select id="selectBySponosrId" resultType="fund.dto.FileAttachment">
         SELECT *
         FROM   fileAttachment
-        WHERE  sponsorID = #{sponsorID}
+        WHERE  sponsorId = #{sponsorId}
     </select>
     
     <select id="selectById" resultType="fund.dto.FileAttachment">
@@ -19,8 +19,8 @@
 
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO fileAttachment(sponsorID,fileName,fileSize,createDate,data)
-        VALUES (#{sponsorID}, #{fileName}, #{filesize},GETDATE(), #{data})
+        INSERT INTO fileAttachment(sponsorId,fileName,fileSize,createDate,data)
+        VALUES (#{sponsorId}, #{fileName}, #{filesize},GETDATE(), #{data})
     </insert>
 
     <delete id="deleteById">

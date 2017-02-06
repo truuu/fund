@@ -1,30 +1,29 @@
 package fund.dto;
 
 import javax.validation.constraints.Null;
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class IregularPayment {
-	int sponsorID;
-	
-	@Null(message="±Ý¾×À» ÀÔ·ÂÇÏ¼¼¿ä.")
+	int sponsorId;
+
+	@Null(message="ï¿½Ý¾ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.")
 	int amount;
-	
-	@NotEmpty(message="³¯Â¥¸¦ ÀÔ·ÂÇÏ¼¼¿ä.")
+
+	@NotEmpty(message="ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.")
 	String paymentDate;
-	
-	@Null(message="±âºÎ¸ñÀûÀ» ¼±ÅÃÇÏ¼¼¿ä.")
+
+	@Null(message="ï¿½ï¿½Î¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.")
 	int donationPurposeID;
 
 	int paymentMethodID;
-	
+
 	String etc;
-	
-	public int getSponsorID() {
-		return sponsorID;
+
+	public int getSponsorId() {
+		return sponsorId;
 	}
-	public void setSponsorID(int sponsorID) {
-		this.sponsorID = sponsorID;
+	public void setSponsorId(int sponsorId) {
+		this.sponsorId = sponsorId;
 	}
 	public int getAmount() {
 		return amount;
@@ -56,7 +55,7 @@ public class IregularPayment {
 	public void setEtc(String etc) {
 		this.etc = etc;
 	}
-	
-	
+
+
 
 }

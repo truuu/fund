@@ -6,8 +6,8 @@
 
 <select id="selectById" resultType="fund.dto.Sponsor">
   SELECT *,
-    (SELECT codeName FROM code c WHERE c.ID = s.churchID ) church,
-    (SELECT codeName FROM code t WHERE t.ID = s.sponsorType1Id) sponsorType1
+    (SELECT codeName FROM code c WHERE c.id = s.churchID ) church,
+    (SELECT codeName FROM code t WHERE t.id = s.sponsorType1Id) sponsorType1
   FROM sponsor s
   WHERE id = #{id}
 </select>
@@ -20,9 +20,6 @@
  ]]>
 </select>
 
-<!--  
-    정렬조건: 등록순, 후원인번호, 
-    검색조건: 이름, 후원인번호, 후원인구분1, 후원인구분2    -->
 <select id="selectPage" resultType="fund.dto.Sponsor">
   <![CDATA[
   DECLARE @order INT, @srchType INT, @srchText NVARCHAR(50), @currentPage INT, @pageSize INT
@@ -35,9 +32,9 @@
   SELECT *
   FROM
       ( SELECT id, sponsorNo, name, signUpDate, mobilePhone, email, 
-          (SELECT codeName FROM code WHERE code.ID=s.sponsorType1Id )AS sponsorType1,
-          (SELECT codeName FROM code WHERE code.ID=s.sponsorType2Id )AS sponsorType2,
-          (SELECT codeName FROM code WHERE code.ID=s.churchID ) AS church,
+          (SELECT codeName FROM code WHERE code.id=s.sponsorType1Id )AS sponsorType1,
+          (SELECT codeName FROM code WHERE code.id=s.sponsorType2Id )AS sponsorType2,
+          (SELECT codeName FROM code WHERE code.id=s.churchID ) AS church,
           CASE @order
               WHEN 0 THEN ROW_NUMBER() OVER (ORDER BY s.id DESC)
               WHEN 1 THEN ROW_NUMBER() OVER (ORDER BY s.sponsorNo DESC)
@@ -126,42 +123,42 @@
 </insert>
 
 <select id="generateSponsorNo" resultType="java.lang.String">
-    DECLARE @n INT, @year CHAR(4)
-    SET @year = YEAR(GETDATE())
-    SET @n = (SELECT MAX(CONVERT(INT, RIGHT(sponsorNo,4)))
-                FROM sponsor
-                WHERE CHARINDEX(@year, sponsorNo) = 1 AND LEN(sponsorNo) = 9
-                AND ISNUMERIC(RIGHT(sponsorNo,4)) = 1)
-    SET @n = ISNULL(@n,0) + 1
+  DECLARE @n INT, @year CHAR(4)
+  SET @year = YEAR(GETDATE())
+  SET @n = (SELECT MAX(CONVERT(INT, RIGHT(sponsorNo,4)))
+              FROM sponsor
+              WHERE CHARINDEX(@year, sponsorNo) = 1 AND LEN(sponsorNo) = 9
+              AND ISNUMERIC(RIGHT(sponsorNo,4)) = 1)
+  SET @n = ISNULL(@n,0) + 1
 
-    SELECT @year + '-' + REPLACE(STR(@n,4), ' ', '0')
+  SELECT @year + '-' + REPLACE(STR(@n,4), ' ', '0')
 </select>
 
 <select id="selectForDM" resultType="fund.dto.Sponsor">
-    <![CDATA[
-    SELECT *
-    FROM (
-        SELECT *, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
-        FROM (
-            SELECT s.*,
-                (SELECT codeName FROM code c WHERE c.id = s.sponsorType2Id) AS sponsorType2,
-                (SELECT codeName FROM code c WHERE c.id = s.churchId) AS church
-            FROM sponsor s 
-            WHERE s.id IN (SELECT sponsorId FROM payment p WHERE paymentDate BETWEEN #{startDate} AND #{endDate})
-            AND s.mailReceiving = 1
-        ) subquery1
-    ) subquery2
-    WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
-          행번호 <= #{currentPage} * #{pageSize}
-    ORDER BY 행번호
-    ]]>
+  <![CDATA[
+  SELECT *
+  FROM (
+      SELECT *, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
+      FROM (
+          SELECT s.*,
+              (SELECT codeName FROM code c WHERE c.id = s.sponsorType2Id) AS sponsorType2,
+              (SELECT codeName FROM code c WHERE c.id = s.churchId) AS church
+          FROM sponsor s 
+          WHERE s.id IN (SELECT sponsorId FROM payment p WHERE paymentDate BETWEEN #{startDate} AND #{endDate})
+          AND s.mailReceiving = 1
+      ) subquery1
+  ) subquery2
+  WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
+        행번호 <= #{currentPage} * #{pageSize}
+  ORDER BY 행번호
+  ]]>
 </select>
     
 <select id="selectCountForDM" resultType="int">
-    SELECT COUNT(*)
-    FROM sponsor s 
-    WHERE s.id IN (SELECT sponsorId FROM payment p WHERE paymentDate BETWEEN #{startDate} AND #{endDate})
-    AND s.mailReceiving = 1
+  SELECT COUNT(*)
+  FROM sponsor s 
+  WHERE s.id IN (SELECT sponsorId FROM payment p WHERE paymentDate BETWEEN #{startDate} AND #{endDate})
+  AND s.mailReceiving = 1
 </select>    
     
     
@@ -222,9 +219,9 @@
         SELECT *
         FROM
             ( select id,sponsorNo,name,
-		(select codeName from code where code.ID=sponsor.sponsorType1Id )AS sponsorType1,
-		(select codeName from code where code.ID=sponsor.sponsorType2Id )AS sponsorType2,
-		(select codeName from code where code.ID=sponsor.churchID )AS church,
+		(select codeName from code where code.id=sponsor.sponsorType1Id )AS sponsorType1,
+		(select codeName from code where code.id=sponsor.sponsorType2Id )AS sponsorType2,
+		(select codeName from code where code.id=sponsor.churchID )AS church,
 		signUpDate,mobilePhone,email, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
 		from sponsor
 		<if test="type==1">
@@ -246,12 +243,12 @@
 	<select id="nameSearch" resultType="fund.dto.Sponsor">
  <![CDATA[
         select id,sponsorNo,name,
-		(select codeName from code where code.ID=sponsor.sponsorType1Id )AS
+		(select codeName from code where code.id=sponsor.sponsorType1Id )AS
 		sponsorType1,
 		(select codeName from code where
-		code.ID=sponsor.sponsorType2Id )AS sponsorType2,
+		code.id=sponsor.sponsorType2Id )AS sponsorType2,
 		(select codeName from
-		code where code.ID=sponsor.churchID )AS church,
+		code where code.id=sponsor.churchID )AS church,
 		signUpDate,mobilePhone,email
 		from sponsor WHERE name=#{nameForSearch} order by sponsorNo DESC;
         ]]>
@@ -269,9 +266,9 @@
 	
 	<select id="sponsorListExcel" resultType="fund.dto.Sponsor">
 		SELECT sponsorNo,name,
-			(select codeName from code where code.ID=sponsor.sponsorType1Id )AS sponsorType1,
-			(select codeName from code where code.ID=sponsor.sponsorType2Id )AS sponsorType2,
-			(select codeName from code where code.ID=sponsor.churchID )AS church,
+			(select codeName from code where code.id=sponsor.sponsorType1Id )AS sponsorType1,
+			(select codeName from code where code.id=sponsor.sponsorType2Id )AS sponsorType2,
+			(select codeName from code where code.id=sponsor.churchID )AS church,
 			SUBSTRING(homeAddress,len(homeAddress)-4,5) AS postCode,
 			signUpDate,mobilePhone,email
 	    FROM sponsor
@@ -306,12 +303,12 @@
 		 SELECT ROW_NUMBER() OVER (ORDER BY sponsor.sponsorNo DESC) AS line
         FROM(select
 		 DISTINCT sponsor.sponsorNo,name,(select codeName from code where
-		code.ID=sponsor.sponsorType2Id) AS sponsorType2,
+		code.id=sponsor.sponsorType2Id) AS sponsorType2,
 		(select codeName from
-		code where code.ID=sponsor.churchID) AS church,
+		code where code.id=sponsor.churchID) AS church,
 		homeAddress,officeAddress,mailTo
 		from sponsor join payment on
-		sponsor.ID=payment.sponsorID
+		sponsor.id=payment.sponsorId
 		where payment.paymentDate between
 		#{startDate} and #{endDate}
 		)subquery
@@ -321,11 +318,11 @@
 	
 	
 	<select id="castBySponsorType2" resultType="fund.dto.Sponsor">
-	select (select codeName from code where code.ID=sponsor.sponsorType2Id) AS sponsorType2,
+	select (select codeName from code where code.id=sponsor.sponsorType2Id) AS sponsorType2,
            sum(CAST( amount AS BIGINT )) AS sum,
-           count(distinct sponsorID) AS sponsorCount,
+           count(distinct sponsorId) AS sponsorCount,
            count(*) AS castCount
-      from sponsor join payment on  sponsor.ID=payment.sponsorID  where payment.paymentDate between
+      from sponsor join payment on  sponsor.id=payment.sponsorId  where payment.paymentDate between
      #{startDate} and #{endDate} group by sponsorType2Id;
 	</select>
 

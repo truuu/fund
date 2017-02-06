@@ -1,29 +1,29 @@
 package fund.dto;
 
 public class CommitmentCreate {
-	
-	String commitmentStartDate;       
+
+	String commitmentStartDate;
 	String commitmentDetailStartDate;
 	String commitmentEtc;
 	String commitmentDetailEtc;
-	
-	int sponsorID;                 //  commitment
+
+	int sponsorId;                 //  commitment
 	Integer donationPurposeID;
 	int paymentMethodID;
-	
+
 	String commitmentDate;
 	String endDate;
-	        
+
 	Integer amountPerMonth;    // commitmentDetail
 	Integer paymentDay;
 	int bankID;
 	String accountNo;
 	String accountHolder;
-	
+
 	String corporateName;
 	String dname;
-	
-	
+
+
 	public String getCorporateName() {
 		return corporateName;
 	}
@@ -42,8 +42,8 @@ public class CommitmentCreate {
 	public void setCommitmentStartDate(String commitmentStartDate) {
 		this.commitmentStartDate = commitmentStartDate;
 	}
-	
-	
+
+
 	public String getCommitmentDetailStartDate() {
 		return commitmentDetailStartDate;
 	}
@@ -63,20 +63,20 @@ public class CommitmentCreate {
 		this.commitmentDetailEtc = commitmentDetailEtc;
 	}
 	public int getSponsorID() {
-		return sponsorID;
+		return sponsorId;
 	}
-	public void setSponsorID(int sponsorID) {
-		this.sponsorID = sponsorID;
+	public void setSponsorID(int sponsorId) {
+		this.sponsorId = sponsorId;
 	}
-	
-	
+
+
 	public int getPaymentMethodID() {
 		return paymentMethodID;
 	}
 	public void setPaymentMethodID(int paymentMethodID) {
 		this.paymentMethodID = paymentMethodID;
 	}
-	
+
 	public Integer getDonationPurposeID() {
 		return donationPurposeID;
 	}
@@ -89,7 +89,7 @@ public class CommitmentCreate {
 	public void setAmountPerMonth(Integer amountPerMonth) {
 		this.amountPerMonth = amountPerMonth;
 	}
-	
+
 	public String getCommitmentDate() {
 		return commitmentDate;
 	}
@@ -102,7 +102,7 @@ public class CommitmentCreate {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	
+
 	public Integer getPaymentDay() {
 		return paymentDay;
 	}
@@ -127,7 +127,7 @@ public class CommitmentCreate {
 	public void setAccountHolder(String accountHolder) {
 		this.accountHolder = accountHolder;
 	}
-	
-	
-	
+
+
+
 }

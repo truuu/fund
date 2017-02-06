@@ -1,12 +1,19 @@
 package fund.mapper;
 
 import java.util.List;
-
 import fund.dto.Receipt;
-import fund.dto.Pagination;
+import fund.dto.pagination.Pagination;
 
 public interface ReceiptMapper {
-	int selectRctID();//영
+
+    void insert(Receipt receipt);
+    String generateReceiptNo(String createDate);
+
+
+
+
+
+    int selectRctID();//영
 	Receipt selectById(int id);
 	Receipt selectByNo(String no);
 	//List<Receipt> selectReceiptList();
@@ -15,7 +22,6 @@ public interface ReceiptMapper {
 	int getRid();
 	String getLastNo(String year);
 	int selectCount(Pagination pagination);
-	void insert(Receipt receipt);
 	void deleteByNo(String no);
 	void deleteById(int id);
 

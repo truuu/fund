@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import fund.dto.Commitment;
-import fund.dto.PaginationSponsor;
+import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.CommitmentMapper;

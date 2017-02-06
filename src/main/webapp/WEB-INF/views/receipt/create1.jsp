@@ -6,11 +6,7 @@
 <h1>기부금 영수증 개별발급</h1>
 <hr />
 
-${ param.map.createDate } / ${ param.map[createDate] } / ${ param } <br />
-${ param.map.a } / ${ param.map[a] } / ${ param.getMap() } <br />
-${ map.a } / ${ map } <br />
-
-<form:form method="post" modelAttribute="param">
+<form:form method="post" modelAttribute="wrapper">
 
 <span>납입기간:</span>
 <form:input path="map[startDate]" class="startDt" placeholder="필수" /> ~ 
@@ -37,7 +33,7 @@ ${ map.a } / ${ map } <br />
     <c:forEach var="p" items="${ list }">
       <tr>
         <td><c:if test="${ p.receiptId == null }">
-              <input type="checkbox" name="pid" value="${ p.id }" onchange="toggleCreateButton()" />
+              <input type="checkbox" name="pid" value="${ p.id }" onclick="toggleCreateButton()" />
             </c:if>
         </td>
         <td>${ p.receiptNo }</td>          
@@ -59,7 +55,7 @@ ${ map.a } / ${ map } <br />
   <div class="createReceipt">
     <span id="sum">금액 합계: 0</span>
     <span class="block ml30">영수증 발급일:</span>
-    <input name="createDate" class="date" value="${ param.map.createDate }">
+    <form:input class="date" path="map[createDate]" />
     <button type="submit" class="btn btn-info" name="cmd" value="createReceipt">선택항목 영수증 발급</button>
   </div>
 </c:if>
@@ -68,16 +64,14 @@ ${ map.a } / ${ map } <br />
 
 <script>
 function toggleCreateButton() {
-  if ($("input[name=pid]:checked").size() > 0) {
-	  $("div.createReceipt").show();
-	  var sum = 0;
-	  $("input[name=pid]:checked").each(function(i, c) {
-		  sum += (1 * $(c).parents("tr").find("td.right").text().replace(",", ""));
-	  });
-	  $("span#sum").text("금액 합계: " + sum);
-  }
-  else $("div.createReceipt").hide();
+  var sum = 0;
+  $("input[name=pid]:checked").each(function(i, c) {
+	  sum += (1 * $(c).parents("tr").find("td.right").text().replace(",", ""));
+  });
+  $("span#sum").text("금액 합계: " + sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  if (sum > 0) $("button[value=createReceipt]").show();
+  else $("button[value=createReceipt]").hide();
 }
-$("div.createReceipt").hide();
+$("button[value=createReceipt]").hide();
 </script>
 

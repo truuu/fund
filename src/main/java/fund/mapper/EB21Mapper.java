@@ -3,7 +3,7 @@ package fund.mapper;
 import java.util.Date;
 import java.util.List;
 import fund.dto.EB21;
-import fund.param.CmsResultParam;
+import fund.dto.param.CmsResultParam;
 
 public interface EB21Mapper {
     List<EB21> selectByPaymentDate(Date paymentDate);

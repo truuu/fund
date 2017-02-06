@@ -3,8 +3,8 @@ package fund.mapper;
 import java.util.Date;
 import java.util.List;
 import fund.dto.Commitment;
-import fund.param.CmsResultParam;
-import fund.param.EB21Param;
+import fund.dto.param.CmsResultParam;
+import fund.dto.param.EB21Param;
 
 public interface CommitmentMapper {
 

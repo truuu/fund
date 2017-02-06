@@ -49,7 +49,7 @@
   DECLARE @n INT
   SET @n = ISNULL((SELECT MAX(CONVERT(INT, RIGHT(commitmentNo, 2),0))
                   FROM commitment
-                  WHERE sponsorID = #{sponsorId}), 0) + 1
+                  WHERE sponsorId = #{sponsorId}), 0) + 1
   SELECT sponsorNo + '-' + REPLACE(STR(@n,2), ' ', '0')
   FROM sponsor
   WHERE id = #{sponsorId}

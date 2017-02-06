@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import fund.dto.Code;
 import fund.dto.FileAttachment;
-import fund.dto.Pagination;
-import fund.dto.PaginationSponsor;
 import fund.dto.Sponsor;
+import fund.dto.pagination.Pagination;
+import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.FileAttachmentMapper;
@@ -147,7 +147,7 @@ public class SponsorController extends BaseController {
             @RequestParam("file") MultipartFile uploadedFile) throws IOException {
         if (uploadedFile.getSize() > 0) {
             FileAttachment file = new FileAttachment();
-            file.setSponsorID(sid); // 나중에 조인해서 변경해야함
+            file.setSponsorId(sid); // 나중에 조인해서 변경해야함
             file.setFileName(Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString());
             file.setFilesize((int) uploadedFile.getSize());
             file.setData(uploadedFile.getBytes());

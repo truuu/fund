@@ -1,8 +1,8 @@
-package fund.param;
+package fund.dto.param;
 
 import java.util.HashMap;
 
-public class MyParam {
+public class Wrapper {
     HashMap<String, Object> map = new HashMap<String,Object>();
 
     public HashMap<String, Object> getMap() {

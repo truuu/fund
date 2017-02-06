@@ -4,8 +4,8 @@ package fund.mapper;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import fund.dto.EB22;
-import fund.dto.Pagination;
 import fund.dto.Sponsor;
+import fund.dto.pagination.Pagination;
 
 public interface SponsorMapper {
 

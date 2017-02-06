@@ -12,21 +12,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import fund.dto.Corporate;
-import fund.dto.Pagination;
 import fund.dto.Payment;
 import fund.dto.Receipt;
 import fund.dto.Sponsor;
 import fund.dto.TempNo;
+import fund.dto.pagination.Pagination;
+import fund.dto.pagination.PaginationReceipt;
+import fund.dto.param.Wrapper;
 import fund.mapper.CorporateMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.ReceiptMapper;
 import fund.mapper.SponsorMapper;
 import fund.mapper.TempNoMapper;
-import fund.param.MyParam;
 import fund.service.ReceiptService;
 import fund.service.ReportBuilder;
 import fund.service.ReportBuilder2;
@@ -44,21 +46,45 @@ public class ReceiptController extends BaseController {
     @Autowired SimpleDriverDataSource dataSource;
     @Autowired ReceiptService receiptService;
 
+    @ModelAttribute
+    void modela(Model model, @ModelAttribute("pagination") PaginationReceipt pagination) {
+    }
+
+    @RequestMapping(value = "/receipt/list.do")
+    public String list(Model model, @ModelAttribute("pagination") PaginationReceipt pagination) throws Exception {
+        pagination.setRecordCount(receiptMapper.selectCount(pagination));
+        model.addAttribute("list", receiptMapper.selectPage(pagination));
+        return "receipt/list";
+    }
+
     @RequestMapping(value = "/receipt/create1.do", method = RequestMethod.GET)
     public String create1(Model model) throws Exception {
-        MyParam param = new MyParam();
-        param.getMap().put("createDate", Util.toYMD());
-        model.addAttribute("param", param);
+        model.addAttribute("wrapper", new Wrapper());
         model.addAttribute("corporates", corporateMapper.selectAll());
         return "receipt/create1";
     }
 
     @RequestMapping(value = "/receipt/create1.do", method = RequestMethod.POST, params="cmd=search")
-    public String create1Search(Model model, MyParam param) throws Exception {
-        model.addAttribute("list", paymentMapper.selectForReceiptCreation(param.getMap()));
+    public String create1Search(Model model, Wrapper wrapper) throws Exception {
+        wrapper.getMap().put("createDate", Util.toYMD());
+        model.addAttribute("list", paymentMapper.selectForReceiptCreation(wrapper.getMap()));
         model.addAttribute("corporates", corporateMapper.selectAll());
         return "receipt/create1";
     }
+
+    @RequestMapping(value = "/receipt/create1.do", method = RequestMethod.POST, params="cmd=createReceipt")
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public String create1CreateReceipt(Model model, @RequestParam("pid") int[] pid, Wrapper wrapper) throws Exception {
+        String createDate = wrapper.getMap().get("createDate").toString();
+        receiptService.createReceipt(createDate, pid);
+        return "redirect: list.do";
+    }
+
+
+
+
+
+
 
     @RequestMapping(value = "/certificate/receiptList.do")
     public String receiptManage(Model model, Pagination pagination) throws Exception {
@@ -94,8 +120,8 @@ public class ReceiptController extends BaseController {
         if (list.size() > 0) { // 영수증목록이 1개 이상인 경우
             stringBuilder.append("WHERE r.id IN ("); // payment
             for (Receipt r : list) {
-                r.setPaymentList(paymentMapper.selectByRctID(r.getID()));
-                stringBuilder.append(r.getID()).append(',');
+                r.setPaymentList(paymentMapper.selectByRctID(r.getId()));
+                stringBuilder.append(r.getId()).append(',');
             }
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
             stringBuilder.append(')');
@@ -132,7 +158,7 @@ public class ReceiptController extends BaseController {
         Receipt tmpReceipt = new Receipt();
         tmpReceipt = receiptMapper.selectById(id);
         TempNo tempNo = new TempNo();
-        tempNo.setId(tmpReceipt.getSponsorID());
+        tempNo.setId(tmpReceipt.getSponsorId());
         tempNo.setNo("012345678910");// 임시
         tempNoMapper.tempInsert(tempNo);
 
@@ -162,8 +188,8 @@ public class ReceiptController extends BaseController {
 
         List<Corporate> corporates = corporateMapper.selectAll();
         for (Corporate corporate : corporates) {
-            List<Integer> sponsorID = paymentMapper.selectDistinctSponsorID(startdate, enddate, corporate.getId());
-            for (int i = 0; i < sponsorID.size(); i++) {
+            List<Integer> sponsorId = paymentMapper.selectDistinctSponsorID(startdate, enddate, corporate.getId());
+            for (int i = 0; i < sponsorId.size(); i++) {
                 int rctNoInt;
                 if (receiptMapper.getLastNo(getY[0]) == null)
                     rctNoInt = 0;
@@ -173,12 +199,11 @@ public class ReceiptController extends BaseController {
                 }
                 String newRctNo = getY[0] + "-" + String.format("%04d", rctNoInt + 1);
                 Receipt rct = new Receipt();
-                rct.setSponsorID(sponsorID.get(i));
+                rct.setSponsorId(sponsorId.get(i));
                 rct.setCreateDate(createdate);
                 rct.setNo(newRctNo);
                 receiptMapper.insert(rct);
-                paymentMapper.issueReceiptByDur(receiptMapper.getRid(), startdate, enddate, corporate.getId(),
-                        sponsorID.get(i));
+                //paymentMapper.issueReceiptByDur(receiptMapper.getRid(), startdate, enddate, corporate.getId(), sponsorId.get(i));
             }
         }
         return "redirect:/certificate/receiptList.do";
@@ -208,7 +233,7 @@ public class ReceiptController extends BaseController {
     public String issueReceiptByName(Model model, Pagination pagination, @RequestParam("pid") int[] pID,
             HttpServletRequest req, HttpServletResponse res) throws Exception {
         String startdate = pagination.getStartDate();
-        String message = receiptService.validateBeforeInsert(pID);
+        String message = null; //receiptService.validateBeforeInsert(pID);
         model.addAttribute("corporates", corporateMapper.selectAll());
 
         if (message == null) {
@@ -226,13 +251,13 @@ public class ReceiptController extends BaseController {
             String newRctNo = getY[0] + "-" + String.format("%04d", rctNoInt + 1);
 
             Receipt rct = new Receipt();
-            rct.setSponsorID(paymentMapper.selectById(pID[0]).getSponsorId());
+            rct.setSponsorId(paymentMapper.selectById(pID[0]).getSponsorId());
             rct.setCreateDate(req.getParameter("createDate"));
             rct.setNo(newRctNo);
             receiptMapper.insert(rct);
             int rctID = receiptMapper.selectRctID();
             for (int i = 0; i < pID.length; i++) {
-                paymentMapper.issueReceiptByName(rctID, pID[i]);
+                //paymentMapper.issueReceiptByName(rctID, pID[i]);
             }
 
         } else {

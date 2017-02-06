@@ -17,8 +17,8 @@ FROM (
   SELECT r.id, r.[no], s.name, s.juminNo, s.mobilePhone, r.createDate,
     ROW_NUMBER() OVER (ORDER BY r.id DESC) 행번호, SUM(p.amount) amount
   FROM Receipt r 
-    LEFT JOIN [Sponsor] s ON r.sponsorID = s.id
-    LEFT JOIN [Payment] p ON r.id=p.receiptID
+    LEFT JOIN [Sponsor] s ON r.sponsorId = s.id
+    LEFT JOIN [Payment] p ON r.id=p.receiptId
   WHERE
     (@srchType = 0) OR
     (@srchType = 1 AND CHARINDEX(@srchText, s.name) = 1)
@@ -44,8 +44,26 @@ WHERE
   (@srchType = 0) OR
   (@srchType = 1 AND CHARINDEX(@srchText, s.name) = 1 )
 </select>
+
+<select id="generateReceiptNo" resultType="java.lang.String">
+  DECLARE @n INT, @year CHAR(4)
+  SET @year = SUBSTRING(#{createDate}, 1, 4)
+  SET @n = (
+    SELECT MAX(CONVERT(INT, RIGHT([no],4)))
+    FROM receipt
+    WHERE CHARINDEX(@year, [no]) = 1 AND LEN([no]) = 9
+    AND ISNUMERIC(RIGHT([no], 4)) = 1)
+  SET @n = ISNULL(@n,0) + 1
+  SELECT @year + '-' + REPLACE(STR(@n, 4), ' ', '0')
+</select>
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+  INSERT INTO Receipt (sponsorId, createDate, [no])
+  VALUES( #{sponsorId},#{createDate},#{no})
+</insert>
     
 	
+  
 	<select id="selectRctID" resultType="int">
 		SELECT top 1 id
 		FROM [Receipt]
@@ -64,8 +82,8 @@ WHERE
 	
 	<select id="selectReceiptList" resultType="fund.dto.Receipt">
 		SELECT receipt.no,sponsor.name,sponsor.juminNo,sponsor.mobilePhone
-		FROM [Receipt] JOIN [Sponsor] ON receipt.sponsorID=sponsor.id 
-					JOIN [Payment] ON receipt.id=payment.receiptID 
+		FROM [Receipt] JOIN [Sponsor] ON receipt.sponsorId=sponsor.id 
+					JOIN [Payment] ON receipt.id=payment.receiptId 
 	</select>
 	
 
@@ -81,10 +99,6 @@ WHERE
 		ORDER BY id DESC
 	</select>
     
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-    	INSERT INTO [Receipt](sponsorID,createDate,[no])
-    	VALUES( #{sponsorID},#{createDate},#{no})
-    </insert>
     
     <delete id="deleteByNo">
     	DELETE FROM [Receipt] WHERE [no]=#{no}
