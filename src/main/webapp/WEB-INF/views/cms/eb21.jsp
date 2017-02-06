@@ -4,7 +4,7 @@
 
 <h1>EB21 생성</h1>
 
-<form:form class="mb4" modelAttribute="param">
+<form:form class="mb4" modelAttribute="cParam">
   <span>출금일:</span>
   <form:input path="paymentDay" class="w50" />
   <button type="submit" class="btn btn-info" name="cmd" value="search">조회</button>

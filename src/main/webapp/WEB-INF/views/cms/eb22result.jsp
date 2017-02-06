@@ -5,7 +5,7 @@
 
 <h1>EB21/EB22 결과</h1>
 
-<form:form class="pull-right mb4" modelAttribute="param">
+<form:form class="pull-right mb4" modelAttribute="cParam">
   <span>기간:</span>
   <form:input path="startDt" class="startDt" /> ~
   <form:input path="endDt" class="endDt" />

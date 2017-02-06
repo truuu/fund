@@ -188,7 +188,7 @@ public class CmsController extends BaseController {
         param.setState("all");
         List<Commitment> list = commitmentMapper.selectByCmsResultParam(param);
         SponsorService.decriptJuminNo(list);
-        model.addAttribute("param", param);
+        model.addAttribute("cParam", param);
         model.addAttribute("list", list);
         return "cms/eb14result";
     }
@@ -197,7 +197,7 @@ public class CmsController extends BaseController {
     public String eb14Result(Model model, CmsResultParam param) throws Exception {
         List<Commitment> list = commitmentMapper.selectByCmsResultParam(param);
         SponsorService.decriptJuminNo(list);
-        model.addAttribute("param", param);
+        model.addAttribute("cParam", param);
         model.addAttribute("list", list);
         return "cms/eb14result";
     }
@@ -213,7 +213,7 @@ public class CmsController extends BaseController {
         EB21Param param = new EB21Param();
         param.setPaymentDay(paymentDay);
         param.setPaymentDate(format_yyyyMMdd.format(paymentDate.getTime()));
-        model.addAttribute("param", param);
+        model.addAttribute("cParam", param);
         return "cms/eb21";
     }
 
@@ -221,7 +221,7 @@ public class CmsController extends BaseController {
     public String eb21(Model model, EB21Param param) throws Exception {
         List<Commitment> list = commitmentMapper.selectEB21Candidate(param);
         SponsorService.decriptJuminNo(list);
-        model.addAttribute("param", param);
+        model.addAttribute("cParam", param);
         model.addAttribute("list", list);
         return "cms/eb21";
     }
@@ -351,7 +351,7 @@ public class CmsController extends BaseController {
         param.setEndDt(format_yyyyMMdd.format(date2));
         param.setState("에러");
         List<EB21> list = eb21Mapper.selectByCmsResultParam(param);
-        model.addAttribute("param", param);
+        model.addAttribute("cParam", param);
         model.addAttribute("list", list);
         return "cms/eb22result";
     }
@@ -359,7 +359,7 @@ public class CmsController extends BaseController {
     @RequestMapping(value="/cms/eb22result.do", method=RequestMethod.POST)
     public String eb21Result(Model model, CmsResultParam param) throws Exception {
         List<EB21> list = eb21Mapper.selectByCmsResultParam(param);
-        model.addAttribute("param", param);
+        model.addAttribute("cParam", param);
         model.addAttribute("list", list);
         return "cms/eb22result";
     }
