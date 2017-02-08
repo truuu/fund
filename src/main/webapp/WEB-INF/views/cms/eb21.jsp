@@ -4,13 +4,13 @@
 
 <h1>EB21 생성</h1>
 
-<form:form class="mb4" modelAttribute="cParam">
+<form:form class="mb4" modelAttribute="wrapper">
   <span>출금일:</span>
-  <form:input path="paymentDay" class="w50" />
+  <form:input path="map[paymentDay]" class="w50" />
   <button type="submit" class="btn btn-info" name="cmd" value="search">조회</button>
   
   <span class="block ml100">출금일:</span>
-  <form:input path="paymentDate" class="date" />
+  <form:input path="map[paymentDate]" class="date" />
   <button type="submit" class="btn btn-primary" name="cmd" value="create">EB21 파일 생성</button>
 </form:form>
 

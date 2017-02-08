@@ -12,7 +12,7 @@
   WHERE REPLACE(c.commitmentNo, '-', '') = #{commitmentNo} 
 </select>
 
-<select id="selectByCmsResultParam" resultType="fund.dto.EB21">
+<select id="selectCmsResult" resultType="fund.dto.EB21">
   SELECT e.*, c.commitmentNo, s.sponsorNo, s.name sponsorName, 
     d.name donationPurposeName, cp.name corporateName, og.codeName organizationName,
     ec.[description]

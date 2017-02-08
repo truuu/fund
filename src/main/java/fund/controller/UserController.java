@@ -57,7 +57,7 @@ public class UserController extends BaseController{
     @RequestMapping(value="/user/edit.do", method=RequestMethod.POST, params="cmd=delete")
     public String delete(Model model, @RequestParam("id") int id, Pagination pagination) {
         userMapper.delete(id);
-        return "redirect: list.do";
+        return "redirect:list.do";
     }
 
     @RequestMapping(value="/user/create.do", method=RequestMethod.GET)
@@ -71,7 +71,7 @@ public class UserController extends BaseController{
         if (comparePassword(user)) {
             user.setPassword(UserService.encryptPasswd(user.getPassword1()));
             userMapper.insert(user);
-            return "redirect: list.do";
+            return "redirect:list.do";
         } else
             model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
         return "user/create";

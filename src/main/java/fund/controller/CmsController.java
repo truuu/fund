@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.io.IOUtils;
@@ -26,8 +27,7 @@ import fund.dto.EB21;
 import fund.dto.Payment;
 import fund.dto.Sal;
 import fund.dto.Xfer;
-import fund.dto.param.CmsResultParam;
-import fund.dto.param.EB21Param;
+import fund.dto.param.Wrapper;
 import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.EB21Mapper;
@@ -179,25 +179,26 @@ public class CmsController extends BaseController {
 
     @RequestMapping(value="/cms/eb14result.do", method=RequestMethod.GET)
     public String eb14Result(Model model) throws Exception {
-        CmsResultParam param = new CmsResultParam();
+        Wrapper wrapper= new Wrapper();
+        Map<String, Object> map = wrapper.getMap();
         Calendar cal = Calendar.getInstance(); cal.add(Calendar.MONTH, -1);
         Date date1 = cal.getTime();
         Date date2 = new Date();
-        param.setStartDt(format_yyyyMMdd.format(date1));
-        param.setEndDt(format_yyyyMMdd.format(date2));
-        param.setState("all");
-        List<Commitment> list = commitmentMapper.selectByCmsResultParam(param);
+        map.put("startDt", format_yyyyMMdd.format(date1));
+        map.put("endDt", format_yyyyMMdd.format(date2));
+        map.put("state", "all");
+        List<Commitment> list = commitmentMapper.selectCmsResult(map);
         SponsorService.decriptJuminNo(list);
-        model.addAttribute("cParam", param);
+        model.addAttribute("wrapper", wrapper);
         model.addAttribute("list", list);
         return "cms/eb14result";
     }
 
     @RequestMapping(value="/cms/eb14result.do", method=RequestMethod.POST)
-    public String eb14Result(Model model, CmsResultParam param) throws Exception {
-        List<Commitment> list = commitmentMapper.selectByCmsResultParam(param);
+    public String eb14Result(Model model, Wrapper wrapper) throws Exception {
+        List<Commitment> list = commitmentMapper.selectCmsResult(wrapper.getMap());
         SponsorService.decriptJuminNo(list);
-        model.addAttribute("cParam", param);
+        model.addAttribute("wrapper", wrapper);
         model.addAttribute("list", list);
         return "cms/eb14result";
     }
@@ -210,41 +211,42 @@ public class CmsController extends BaseController {
         int paymentDay = day > 20 ? 25 : 20;
         Calendar paymentDate = Calendar.getInstance();
         paymentDate.set(Calendar.DAY_OF_MONTH, paymentDay);
-        EB21Param param = new EB21Param();
-        param.setPaymentDay(paymentDay);
-        param.setPaymentDate(format_yyyyMMdd.format(paymentDate.getTime()));
-        model.addAttribute("cParam", param);
+        Wrapper wrapper = new Wrapper();
+        Map<String,Object> map = wrapper.getMap();
+        map.put("paymentDay", paymentDay);
+        map.put("paymentDate", format_yyyyMMdd.format(paymentDate.getTime()));
+        model.addAttribute("wrapper", wrapper);
         return "cms/eb21";
     }
 
     @RequestMapping(value="/cms/eb21.do", method=RequestMethod.POST, params="cmd=search")
-    public String eb21(Model model, EB21Param param) throws Exception {
-        List<Commitment> list = commitmentMapper.selectEB21Candidate(param);
+    public String eb21(Model model, Wrapper wrapper) throws Exception {
+        List<Commitment> list = commitmentMapper.selectEB21Candidate(wrapper.getMap());
         SponsorService.decriptJuminNo(list);
-        model.addAttribute("cParam", param);
         model.addAttribute("list", list);
         return "cms/eb21";
     }
 
     // TODO: 에러 발생시 EB21 파일 사용 불가 메시지.
     @RequestMapping(value="/cms/eb21.do", method=RequestMethod.POST, params="cmd=create")
-    public void eb21Create(EB21Param param, HttpServletResponse response) throws Exception {
-        List<Commitment> list = commitmentMapper.selectEB21Candidate(param);
+    public void eb21Create(Wrapper wrapper, HttpServletResponse response) throws Exception {
+        Map<String, Object> map = wrapper.getMap();
+        List<Commitment> list = commitmentMapper.selectEB21Candidate(map);
         SponsorService.decriptJuminNo(list);
 
-        Date today = format_yyyyMMdd.parse(param.getPaymentDate());
+        Date today = format_yyyyMMdd.parse((String)map.get("paymentDate"));
         String fileName = "EB21" + format_MMdd.format(today);
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
 
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "MS949"))) {
-            downloadEB21File(writer, fileName, param);
+            downloadEB21File(writer, fileName, map);
         }
     }
 
-    private void downloadEB21File(BufferedWriter writer, String fileName, EB21Param param) throws Exception {
+    private void downloadEB21File(BufferedWriter writer, String fileName, Map<String,Object> map) throws Exception {
         String orgCode = "9983010152";
-        String yyMMdd = param.getPaymentDate().replaceAll("-", "").substring(2);
+        String yyMMdd = ((String)map.get("paymentDate")).replaceAll("-", "").substring(2);
 
         writer.write("H");
         writer.write(StringUtils.repeat('0', 8));
@@ -258,9 +260,9 @@ public class CmsController extends BaseController {
         int count = 0;
         int total = 0;
         EB21 eb21 = new EB21();
-        eb21.setPaymentDate(format_yyyyMMdd.parse(param.getPaymentDate()));
+        eb21.setPaymentDate(format_yyyyMMdd.parse((String)map.get("paymentDate")));
         eb21.setState("신청");
-        List<Commitment> list = commitmentMapper.selectEB21Candidate(param);
+        List<Commitment> list = commitmentMapper.selectEB21Candidate(map);
         for(Commitment c : list) {
             c.setJuminNo(EncryptService.decAES(c.getJuminNo()));
             if (c.isValid() == false) continue;
@@ -343,23 +345,24 @@ public class CmsController extends BaseController {
 
     @RequestMapping(value="/cms/eb22result.do", method=RequestMethod.GET)
     public String eb21Result(Model model) throws Exception {
-        CmsResultParam param = new CmsResultParam();
+        Wrapper wrapper = new Wrapper();
+        Map<String,Object> map = wrapper.getMap();
         Calendar cal = Calendar.getInstance(); cal.add(Calendar.DAY_OF_MONTH, -14);
         Date date1 = cal.getTime();
         Date date2 = new Date();
-        param.setStartDt(format_yyyyMMdd.format(date1));
-        param.setEndDt(format_yyyyMMdd.format(date2));
-        param.setState("에러");
-        List<EB21> list = eb21Mapper.selectByCmsResultParam(param);
-        model.addAttribute("cParam", param);
+        map.put("startDt", format_yyyyMMdd.format(date1));
+        map.put("endDt", format_yyyyMMdd.format(date2));
+        map.put("state", "에러");
+        List<EB21> list = eb21Mapper.selectCmsResult(map);
+        model.addAttribute("wrapper", wrapper);
         model.addAttribute("list", list);
         return "cms/eb22result";
     }
 
     @RequestMapping(value="/cms/eb22result.do", method=RequestMethod.POST)
-    public String eb21Result(Model model, CmsResultParam param) throws Exception {
-        List<EB21> list = eb21Mapper.selectByCmsResultParam(param);
-        model.addAttribute("cParam", param);
+    public String eb21Result(Model model, Wrapper wrapper) throws Exception {
+        List<EB21> list = eb21Mapper.selectCmsResult(wrapper.getMap());
+        model.addAttribute("wrapper", wrapper);
         model.addAttribute("list", list);
         return "cms/eb22result";
     }

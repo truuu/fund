@@ -122,7 +122,7 @@
   SELECT * FROM commitment WHERE eb13Date = #{date}  
 </select>
 
-<select id="selectByCmsResultParam" resultType="fund.dto.Commitment">
+<select id="selectCmsResult" resultType="fund.dto.Commitment">
   SELECT c.*, s.sponsorNo, s.name, s.juminNo,
       b.codeName bankName, b.etc1 bankCode, e.description eb13errorCodeMsg
   FROM commitment c

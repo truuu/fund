@@ -22,12 +22,12 @@ public interface PaymentMapper {
     void insert(Payment payment);
 
     List<Payment> selectForReceiptCreation(Map<String,Object> map);
+    List<Payment> selectByReceiptId(int rid);
 
 
 
 
 	List<Integer> selectDistinctSponsorID(@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("corporateId") int corporateId);
-	List<Payment> selectByRctID(int rid);
 	List<Payment> selectPage(Pagination pagination);
 	int selectCount(Pagination pagination);
 	List<Payment> selectTaxData(Pagination pagination);

@@ -2,9 +2,8 @@ package fund.mapper;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import fund.dto.Commitment;
-import fund.dto.param.CmsResultParam;
-import fund.dto.param.EB21Param;
 
 public interface CommitmentMapper {
 
@@ -23,9 +22,9 @@ public interface CommitmentMapper {
 	// CMS
 	List<Commitment> selectEB13Candidate();
 	List<Commitment> selectByEB13Date(Date date);
-	List<Commitment> selectByCmsResultParam(CmsResultParam param);
+	List<Commitment> selectCmsResult(Map<String,Object> map);
 	void updateEB13(Commitment commitment);
 
-    List<Commitment> selectEB21Candidate(EB21Param param);
+    List<Commitment> selectEB21Candidate(Map<String,Object> map);
 }
 

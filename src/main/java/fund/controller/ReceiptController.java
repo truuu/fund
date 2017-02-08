@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import fund.dto.Corporate;
 import fund.dto.Payment;
 import fund.dto.Receipt;
@@ -32,6 +33,7 @@ import fund.mapper.TempNoMapper;
 import fund.service.ReceiptService;
 import fund.service.ReportBuilder;
 import fund.service.ReportBuilder2;
+import fund.service.SponsorService;
 import fund.service.Util;
 import net.sf.jasperreports.engine.JRException;
 
@@ -58,7 +60,7 @@ public class ReceiptController extends BaseController {
     }
 
     @RequestMapping(value = "/receipt/create1.do", method = RequestMethod.GET)
-    public String create1(Model model) throws Exception {
+    public String create1(RedirectAttributes ra, Model model) throws Exception {
         model.addAttribute("wrapper", new Wrapper());
         model.addAttribute("corporates", corporateMapper.selectAll());
         return "receipt/create1";
@@ -74,10 +76,38 @@ public class ReceiptController extends BaseController {
 
     @RequestMapping(value = "/receipt/create1.do", method = RequestMethod.POST, params="cmd=createReceipt")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public String create1CreateReceipt(Model model, @RequestParam("pid") int[] pid, Wrapper wrapper) throws Exception {
+    public String create1CreateReceipt(RedirectAttributes ra, @RequestParam("pid") int[] pid, Wrapper wrapper) throws Exception {
         String createDate = wrapper.getMap().get("createDate").toString();
         receiptService.createReceipt(createDate, pid);
-        return "redirect: list.do";
+
+        ra.addFlashAttribute("successMsg", "영수증이 생성되었습니다.");
+        return "redirect:list.do";
+    }
+
+    @RequestMapping("/receipt/detail.do")
+    public String detail() {
+        return "receipt/detail";
+    }
+
+    @RequestMapping(value = "/receipt/report.do")
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void report(Model model, @RequestParam("id") int id, @RequestParam("type") String type,
+            HttpServletRequest req, HttpServletResponse res) throws Exception {
+        Receipt receipt = receiptMapper.selectById(id);
+        Sponsor sponsor = sponsorMapper.selectById(receipt.getSponsorId());
+        SponsorService.decryptJuminNo(sponsor);
+        TempNo tempNo = new TempNo();
+        tempNo.setId(receipt.getSponsorId());
+        tempNo.setNo(sponsor.getJuminNo());
+        tempNoMapper.deleteAll();
+        tempNoMapper.tempInsert(tempNo);
+        String whereClause = "WHERE r.id=" + id;
+        ReportBuilder2 reportBuilder = new ReportBuilder2("donationReceipt", "Receipt.pdf", req, res);
+        reportBuilder.setConnection(dataSource.getConnection());
+        reportBuilder.setParameter("whereClause", whereClause);
+        reportBuilder.addSubReport("paymentList.jasper");
+        reportBuilder.build(type); // pdf OR html
+        tempNoMapper.deleteAll();
     }
 
 
@@ -120,7 +150,7 @@ public class ReceiptController extends BaseController {
         if (list.size() > 0) { // 영수증목록이 1개 이상인 경우
             stringBuilder.append("WHERE r.id IN ("); // payment
             for (Receipt r : list) {
-                r.setPaymentList(paymentMapper.selectByRctID(r.getId()));
+                r.setPaymentList(paymentMapper.selectByReceiptId(r.getId()));
                 stringBuilder.append(r.getId()).append(',');
             }
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
@@ -145,31 +175,6 @@ public class ReceiptController extends BaseController {
         tempNoMapper.deleteAll();
     }
 
-    @RequestMapping(value = "/report/receiptView.do")
-    public void receiptReport(Model model, @RequestParam("id") int id, HttpServletRequest req, HttpServletResponse res)
-            throws JRException, IOException, SQLException {
-        tempNoMapper.deleteAll();
-        List<Receipt> list = new ArrayList<Receipt>();
-        list.add(receiptMapper.selectById(id));
-        for (Receipt r : list)
-            r.setPaymentList(paymentMapper.selectByRctID(id));
-        String whereClause = "WHERE r.id=" + id;
-
-        Receipt tmpReceipt = new Receipt();
-        tmpReceipt = receiptMapper.selectById(id);
-        TempNo tempNo = new TempNo();
-        tempNo.setId(tmpReceipt.getSponsorId());
-        tempNo.setNo("012345678910");// 임시
-        tempNoMapper.tempInsert(tempNo);
-
-        ReportBuilder2 reportBuilder = new ReportBuilder2("donationReceipt", "Receipt.pdf", req, res);
-        reportBuilder.setConnection(dataSource.getConnection());
-        reportBuilder.setParameter("whereClause", whereClause);
-        reportBuilder.addSubReport("paymentList.jasper");
-        reportBuilder.build("pdf");
-
-        tempNoMapper.deleteAll();
-    }
 
     @RequestMapping(value = "/certificate/receiptByDur.do", method = RequestMethod.GET)
     public String receiptByDuration(Model model) throws Exception {

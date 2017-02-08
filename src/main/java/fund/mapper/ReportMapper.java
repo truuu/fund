@@ -1,14 +1,14 @@
 package fund.mapper;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface ReportMapper {
 
-    List<HashMap<String,Object>> selectReport1a(HashMap<String,Object> param);
-    List<HashMap<String,Object>> selectReport1b(HashMap<String,Object> param);
-    List<HashMap<String,Object>> selectReport2a(HashMap<String,Object> param);
-    List<HashMap<String,Object>> selectReport2b(HashMap<String,Object> param);
-    List<HashMap<String,Object>> selectReport2c(HashMap<String,Object> param);
+    List<Map<String,Object>> selectReport1a(Map<String,Object> param);
+    List<Map<String,Object>> selectReport1b(Map<String,Object> param);
+    List<Map<String,Object>> selectReport2a(Map<String,Object> param);
+    List<Map<String,Object>> selectReport2b(Map<String,Object> param);
+    List<Map<String,Object>> selectReport2c(Map<String,Object> param);
 
 }

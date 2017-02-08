@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-12-26T10:33:54 -->
+<!-- 2017-02-06T19:57:47 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="donationReceipt" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="153773b0-5fdd-4db2-b581-52596adfaac5">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="patronageDataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -12,13 +12,14 @@
 	<parameter name="paymentList.jasper" class="java.lang.String"/>
 	<parameter name="whereClause" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT  DISTINCT r.*, s.name, s.homeaddress AS address, c.name AS corName,c.corporateNo, t.no AS juminNo,
-	 c.address AS corAddress,representative
-FROM [Receipt] r LEFT JOIN [Sponsor] s ON r.sponsorID=s.id 
-					LEFT JOIN [Payment] p ON r.id=p.receiptID
-					LEFT JOIN [donationPurpose] d ON p.donationPurposeID=d.id
-					LEFT JOIN [corporate] c ON d.corporateID = c.id
-					JOIN tempNo t ON s.id=t.id
+		<![CDATA[SELECT  DISTINCT r.*, s.name, c.name AS corName, c.corporateNo, t.no AS juminNo, representative,
+  s.homePostCode+' '+s.homeRoadAddress+' '+s.homeDetailAddress AS address, 
+  c.postCode+' '+c.roadAddress+' '+c.detailAddress AS corAddress
+FROM [Receipt] r LEFT JOIN [Sponsor] s ON r.sponsorID = s.id 
+  LEFT JOIN [Payment] p ON r.id = p.receiptID
+  LEFT JOIN [donationPurpose] d ON p.donationPurposeID = d.id
+  LEFT JOIN [corporate] c ON d.corporateID = c.id
+  LEFT JOIN tempNo t ON s.id = t.id
 $P!{whereClause}]]>
 	</queryString>
 	<field name="ID" class="java.lang.Integer"/>
@@ -91,8 +92,7 @@ $P!{whereClause}]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{address}.split("\\*")[0]
-]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{address}.split("\\*")[0]]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="120" width="80" height="30" uuid="6d2ec0e3-193c-405b-8e1b-e61adeaf96f5"/>

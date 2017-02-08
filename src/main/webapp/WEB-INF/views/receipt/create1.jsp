@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<h1>기부금 영수증 개별발급</h1>
+<h1>영수증 개별발급</h1>
 <hr />
 
 <form:form method="post" modelAttribute="wrapper">
@@ -20,7 +20,7 @@
 <table class="table table-bordered mt4">
   <thead>
     <tr>
-      <th>선택</th>
+      <th><input type="checkbox" onclick="toggleAll()" /></th>
       <th>영수증번호</th>
       <th>후원인번호</th>
       <th>후원인명</th>
@@ -66,12 +66,19 @@
 function toggleCreateButton() {
   var sum = 0;
   $("input[name=pid]:checked").each(function(i, c) {
-	  sum += (1 * $(c).parents("tr").find("td.right").text().replace(",", ""));
+	  sum += (1 * $(c).parents("tr").find("td.right").text().replace(/,/g, ""));
   });
   $("span#sum").text("금액 합계: " + sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
   if (sum > 0) $("button[value=createReceipt]").show();
   else $("button[value=createReceipt]").hide();
 }
 $("button[value=createReceipt]").hide();
+
+function toggleAll() {
+  $("tbody input:checkbox").each(function() {
+	  $(this).prop("checked", !$(this).prop("checked"));
+	  toggleCreateButton();
+  })	
+}
 </script>
 

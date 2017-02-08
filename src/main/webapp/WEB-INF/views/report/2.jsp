@@ -6,7 +6,7 @@
 <h1>${ title }별 납입 합계</h1>
 <hr />
 
-<form:form modelAttribute="param">
+<form:form modelAttribute="wrapper">
   <div class="pull-right mb4">
     <button type="submit" class="btn btn-primary" name="cmd" value="search">검색</button>
     <button type="button" class="btn btn-default" onclick="cancelSearch()">검색취소</button>    

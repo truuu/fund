@@ -19,7 +19,7 @@ public class LogController extends BaseController {
         @RequestParam(value="id", required=false) int[] id) {
         if ("delete".equals(cmd) && id != null) {
             for (int i : id) logMapper.delete(i);
-            return "redirect: list.do?" + pagination.getQueryString();
+            return "redirect:list.do?" + pagination.getQueryString();
         }
         pagination.setRecordCount(logMapper.selectCount(pagination));
         model.addAttribute("list", logMapper.selectPage(pagination));
@@ -35,7 +35,7 @@ public class LogController extends BaseController {
     @RequestMapping("/log/delete.do")
     public String delete(Model model, @RequestParam("id") int id, Pagination pagination) {
         logMapper.delete(id);
-        return "redirect: list.do?" + pagination.getQueryString();
+        return "redirect:list.do?" + pagination.getQueryString();
     }
 
 

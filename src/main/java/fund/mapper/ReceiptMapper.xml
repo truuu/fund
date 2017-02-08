@@ -4,25 +4,24 @@
 
 <mapper namespace="fund.mapper.ReceiptMapper">
 
-<select id="selectPage" resultType="fund.dto.Receipt">
+<select id="selectPage" resultType="hashmap">
 <![CDATA[
-DECLARE @srchType INT, @srchText NVARCHAR(50), @currentPage INT, @pageSize INT
-SET @srchType = #{srchType}
-SET @srchText = #{srchText}
-SET @pageSize = #{pageSize}
+DECLARE @nm NVARCHAR(50), @sd VARCHAR(50), @ed VARCHAR(50), @currentPage INT, @pageSize INT
+SET @nm = #{nm}
+SET @sd = #{sd}
+SET @ed = #{ed}
 SET @currentPage = #{currentPage}
+SET @pageSize = #{pageSize}
 
 SELECT *
 FROM ( 
-  SELECT r.id, r.[no], s.name, s.juminNo, s.mobilePhone, r.createDate,
-    ROW_NUMBER() OVER (ORDER BY r.id DESC) 행번호, SUM(p.amount) amount
+  SELECT r.*, s.name, s.sponsorNo, s.mobilePhone,
+    ROW_NUMBER() OVER (ORDER BY r.id DESC) 행번호, 
+    (SELECT SUM(p.amount) FROM payment p WHERE p.receiptId = r.id) amount
   FROM Receipt r 
     LEFT JOIN [Sponsor] s ON r.sponsorId = s.id
-    LEFT JOIN [Payment] p ON r.id=p.receiptId
-  WHERE
-    (@srchType = 0) OR
-    (@srchType = 1 AND CHARINDEX(@srchText, s.name) = 1)
-  GROUP BY r.id,r.[no],s.name,s.juminNo, s.mobilePhone, r.createDate
+  WHERE (@nm = '' OR @nm IS NULL OR CHARINDEX(@nm, s.name) = 1) 
+  AND (@sd = '' OR @sd IS NULL OR r.createDate BETWEEN @sd AND @ed)
 ) subquery
 WHERE 
   행번호 > (@currentPage - 1) * @pageSize AND
@@ -32,17 +31,16 @@ ORDER BY 행번호
 </select>
 
 <select id="selectCount" resultType="int">
-DECLARE @srchType INT, @srchText NVARCHAR(50)
-SET @srchType = 0
-SET @srchText = null
+DECLARE @nm NVARCHAR(50), @sd VARCHAR(50), @ed VARCHAR(50), @currentPage INT, @pageSize INT
+SET @nm = #{nm}
+SET @sd = #{sd}
+SET @ed = #{ed}
 
 SELECT COUNT(*)
 FROM [Receipt] r 
   LEFT JOIN Sponsor s ON r.sponsorId = s.id
-  LEFT JOIN Payment p ON r.id = p.receiptId
-WHERE
-  (@srchType = 0) OR
-  (@srchType = 1 AND CHARINDEX(@srchText, s.name) = 1 )
+WHERE (@nm = '' OR @nm IS NULL OR CHARINDEX(@nm, s.name) = 1) 
+AND (@sd = '' OR @sd IS NULL OR r.createDate BETWEEN @sd AND @ed)
 </select>
 
 <select id="generateReceiptNo" resultType="java.lang.String">

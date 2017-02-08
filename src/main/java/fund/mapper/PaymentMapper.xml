@@ -82,6 +82,13 @@ AND p.donationPurposeId IN (SELECT id FROM donationPurpose WHERE @corporateId = 
 ORDER BY p.paymentDate DESC
 </select> 
     
+<select id="selectByRctID" resultType="fund.dto.Payment">
+  SELECT * FROM payment WHERE receiptId = #{receiptId}
+</select>
+
+
+    
+    
 
 	
 	<select id="selectDistinctSponsorID" resultType="Integer">
@@ -100,12 +107,6 @@ ORDER BY p.paymentDate DESC
 					AND p.sponsorId IN ( SELECT id FROM [sponsor] WHERE name=#{srchText} )
 					AND p.donationPurposeId IN ( SELECT id FROM [donationPurpose] WHERE #{corporateId}=0 OR corporateId = #{corporateId} )
 	</select> 
-	
-	<select id="selectByRctID" resultType="fund.dto.Payment">
-		SELECT *
-		FROM [payment]
-		WHERE receiptID=#{rctId}
-	</select>
 	
 	<select id="selectPage" resultType="fund.dto.Payment">
 		<![CDATA[

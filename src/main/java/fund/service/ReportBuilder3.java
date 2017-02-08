@@ -40,7 +40,7 @@ public class ReportBuilder3 {
     String fileName="report";
     Map<String,Object> params;
 
-    public ReportBuilder3(String reportFileName, Collection<?> collection, String fileName, Map<String,Object> params,
+    public ReportBuilder3(String reportFileName, Collection<?> collection, String fileName, Map<String, Object> params,
             HttpServletRequest request, HttpServletResponse response) throws JRException, UnsupportedEncodingException {
         this.reportFileName = reportFileName;
         this.dataSource = new JRBeanCollectionDataSource(collection);

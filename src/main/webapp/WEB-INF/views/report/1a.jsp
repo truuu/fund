@@ -6,7 +6,7 @@
 <h1>납입 내역 조회</h1>
 <hr />
 
-<form:form modelAttribute="param">
+<form:form modelAttribute="wrapper">
 
   <div class="pull-right mb4">
     <button type="submit" class="btn btn-primary" name="cmd" value="search">검색</button>
