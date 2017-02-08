@@ -1,8 +1,7 @@
 package fund.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,21 +52,21 @@ public class ReceiptController extends BaseController {
     void modela(Model model, Pagination pagination) {
     }
 
-    @RequestMapping(value = "/receipt/list.do")
+    @RequestMapping("/receipt/list.do")
     public String list(Model model, Pagination pagination) throws Exception {
         pagination.setRecordCount(receiptMapper.selectCount(pagination));
         model.addAttribute("list", receiptMapper.selectPage(pagination));
         return "receipt/list";
     }
 
-    @RequestMapping(value = "/receipt/create1.do", method = RequestMethod.GET)
+    @RequestMapping(value="/receipt/create1.do", method=RequestMethod.GET)
     public String create1(Model model) throws Exception {
         model.addAttribute("wrapper", new Wrapper());
         model.addAttribute("corporates", corporateMapper.selectAll());
         return "receipt/create1";
     }
 
-    @RequestMapping(value = "/receipt/create1.do", method = RequestMethod.POST, params="cmd=search")
+    @RequestMapping(value="/receipt/create1.do", method=RequestMethod.POST, params="cmd=search")
     public String create1Search(Model model, Wrapper wrapper) throws Exception {
         wrapper.getMap().put("createDate", Util.toYMD());
         model.addAttribute("list", paymentMapper.selectForReceiptCreation1(wrapper.getMap()));
@@ -75,7 +74,7 @@ public class ReceiptController extends BaseController {
         return "receipt/create1";
     }
 
-    @RequestMapping(value = "/receipt/create1.do", method = RequestMethod.POST, params="cmd=createReceipt")
+    @RequestMapping(value="/receipt/create1.do", method=RequestMethod.POST, params="cmd=createReceipt")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String create1CreateReceipt(RedirectAttributes ra, @RequestParam("pid") int[] pid, Wrapper wrapper) throws Exception {
         String createDate = (String)wrapper.getMap().get("createDate");
@@ -101,16 +100,21 @@ public class ReceiptController extends BaseController {
     }
 
     @RequestMapping("/receipt/report.do")
-    public void report(Model model, @RequestParam("id") int id, HttpServletRequest req, HttpServletResponse res) throws Exception {
-        Receipt receipt = receiptMapper.selectById(id);
-        Sponsor sponsor = sponsorMapper.selectById(receipt.getSponsorId());
-        SponsorService.decryptJuminNo(sponsor);
-        TempNo tempNo = new TempNo();
-        tempNo.setId(receipt.getSponsorId());
-        tempNo.setNo(sponsor.getJuminNo());
-        tempNoMapper.tempInsert(tempNo);
-        String whereClause = "WHERE r.id=" + id;
-        ReportBuilder2 reportBuilder = new ReportBuilder2("donationReceipt", "Receipt.pdf", req, res);
+    public void list(@RequestParam("rid") int[] rid, HttpServletRequest req, HttpServletResponse res) throws Exception {
+        for (int i = 0; i < rid.length; ++i) {
+            Receipt receipt = receiptMapper.selectById(rid[i]);
+            Sponsor sponsor = sponsorMapper.selectById(receipt.getSponsorId());
+            SponsorService.decryptJuminNo(sponsor);
+            TempNo tempNo = new TempNo();
+            tempNo.setId(sponsor.getId());
+            tempNo.setNo(sponsor.getJuminNo());
+            tempNoMapper.insert(tempNo);
+        }
+        String s = Arrays.toString(rid);
+        s = s.substring(1, s.length()-1);
+        String whereClause = "WHERE r.id IN (" + s + ")";
+
+        ReportBuilder2 reportBuilder = new ReportBuilder2("donationReceipt", "donationReceipt.pdf", req, res);
         reportBuilder.setConnection(dataSource.getConnection());
         reportBuilder.setParameter("whereClause", whereClause);
         reportBuilder.addSubReport("paymentList.jasper");
@@ -126,13 +130,13 @@ public class ReceiptController extends BaseController {
         return "redirect:list.do?" + pagination.getQueryString();
     }
 
-    @RequestMapping(value = "/receipt/create2.do", method = RequestMethod.GET)
+    @RequestMapping(value="/receipt/create2.do", method=RequestMethod.GET)
     public String create2(Model model) throws Exception {
         model.addAttribute("wrapper", new Wrapper());
         return "receipt/create2";
     }
 
-    @RequestMapping(value = "/receipt/create2.do", method = RequestMethod.POST)
+    @RequestMapping(value="/receipt/create2.do", method=RequestMethod.POST)
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String create2CreateReceipt(RedirectAttributes ra, Wrapper wrapper) throws Exception {
         receiptService.createReceipt2(wrapper.getMap());
@@ -140,19 +144,30 @@ public class ReceiptController extends BaseController {
         return "redirect:list.do";
     }
 
+    @RequestMapping(value="/receipt/taxData.do", method=RequestMethod.GET)
+    public String taxData(Model model) {
+        model.addAttribute("wrapper", new Wrapper());
+        return "receipt/taxData";
+    }
+
+    @RequestMapping(value="/receipt/taxData.do", method=RequestMethod.POST)
+    public String taxData(Model model, Wrapper wrapper) {
+        return "receipt/taxData";
+    }
 
 
 
 
 
-    @RequestMapping(value = "/certificate/receiptList.do")
+
+    @RequestMapping(value="/certificate/receiptList.do")
     public String receiptManage(Model model, Pagination pagination) throws Exception {
         // pagination.setRecordCount(receiptMapper.selectCount(pagination));
         model.addAttribute("receiptList", receiptMapper.selectPage(pagination));
         return "certificate/receiptList";
     }
 
-    @RequestMapping(value = "/certificate/receiptList.do", method = RequestMethod.POST, params = "cmd=deleteRct")
+    @RequestMapping(value="/certificate/receiptList.do", method=RequestMethod.POST, params = "cmd=deleteRct")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String deleteReceipts(Model model, HttpServletRequest req, HttpServletResponse res) throws Exception {
         String[] id = req.getParameterValues("rid");
@@ -167,51 +182,15 @@ public class ReceiptController extends BaseController {
         return "redirect:/certificate/receiptList.do";
     }
 
-    @RequestMapping(value = "/certificate/receiptList.do", method = RequestMethod.POST, params = "cmd=rct")
-    public void receiptListReport(@RequestParam("rid") int[] rid, HttpServletRequest request,
-            HttpServletResponse response) throws JRException, IOException, SQLException {
-        tempNoMapper.deleteAll();
-        StringBuilder stringBuilder = new StringBuilder();
-        List<Receipt> list = new ArrayList<Receipt>();
-        for (int i = 0; i < rid.length; i++) {
-            list.add(receiptMapper.selectById(rid[i]));
-        }
-        if (list.size() > 0) { // 영수증목록이 1개 이상인 경우
-            stringBuilder.append("WHERE r.id IN ("); // payment
-            for (Receipt r : list) {
-                r.setPaymentList(paymentMapper.selectByReceiptId(r.getId()));
-                stringBuilder.append(r.getId()).append(',');
-            }
-            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-            stringBuilder.append(')');
-        }
-
-        List<Sponsor> sponsorList = sponsorMapper.selectByReceipt(stringBuilder.toString());
-        tempNoMapper.deleteAll();
-        TempNo tempNo = new TempNo();
-        for (Sponsor s : sponsorList) {
-            tempNo.setId(s.getId());
-            tempNo.setNo("01012345678");// 임시
-            tempNoMapper.tempInsert(tempNo);
-        }
-
-        ReportBuilder2 reportBuilder = new ReportBuilder2("donationReceipt", "donationReceipt.pdf", request, response);
-        reportBuilder.setConnection(dataSource.getConnection());
-        reportBuilder.setParameter("whereClause", stringBuilder.toString());
-        reportBuilder.addSubReport("paymentList.jasper");
-        reportBuilder.build("pdf");
-
-        tempNoMapper.deleteAll();
-    }
 
 
-    @RequestMapping(value = "/certificate/receiptByDur.do", method = RequestMethod.GET)
+    @RequestMapping(value="/certificate/receiptByDur.do", method=RequestMethod.GET)
     public String receiptByDuration(Model model) throws Exception {
         return "certificate/receiptByDur";
     }
 
     @SuppressWarnings("null")
-    @RequestMapping(value = "/certificate/receiptByDur.do", method = RequestMethod.POST)
+    @RequestMapping(value="/certificate/receiptByDur.do", method=RequestMethod.POST)
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String issueReceiptByDuration(Model model, HttpServletRequest req, HttpServletResponse res)
             throws Exception {
@@ -243,7 +222,7 @@ public class ReceiptController extends BaseController {
         return "redirect:/certificate/receiptList.do";
     }
 
-    @RequestMapping(value = "/certificate/receiptByName.do", method = RequestMethod.POST, params = "cmd=search")
+    @RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params = "cmd=search")
     public String paymentListForReceipt(Model model, Payment payment, Pagination pagination, HttpServletRequest req,
             HttpServletResponse res) throws Exception {
         // model.addAttribute("paymentList",paymentMapper.selectReceiptByName(pagination));
@@ -251,7 +230,7 @@ public class ReceiptController extends BaseController {
         return "certificate/receiptByName";
     }
 
-    @RequestMapping(value = "/certificate/receiptByName.do", method = RequestMethod.POST, params = "cmd=deleteRct")
+    @RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params = "cmd=deleteRct")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String deleteReceipt(Payment payment, Pagination pagination, Model model, HttpServletRequest req,
             HttpServletResponse res) throws Exception {
@@ -262,7 +241,7 @@ public class ReceiptController extends BaseController {
         return "redirect:/certificate/receiptByName.do?" + pagination.getQueryString();
     }
 
-    @RequestMapping(value = "/certificate/receiptByName.do", method = RequestMethod.POST, params = "cmd=issueRct")
+    @RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params = "cmd=issueRct")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String issueReceiptByName(Model model, Pagination pagination, @RequestParam("pid") int[] pID,
             HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -310,7 +289,7 @@ public class ReceiptController extends BaseController {
         return "certificate/taxData";
     }
 
-    @RequestMapping(value = "/certificate/taxData.do", method = RequestMethod.POST, params = "cmd=xlsx")
+    @RequestMapping(value="/certificate/taxData.do", method=RequestMethod.POST, params = "cmd=xlsx")
     public void taxDataReport(Pagination pagination, HttpServletRequest req, HttpServletResponse res)
             throws JRException, IOException {
         List<Payment> list = paymentMapper.selectTaxData(pagination);

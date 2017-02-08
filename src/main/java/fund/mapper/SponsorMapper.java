@@ -22,8 +22,10 @@ public interface SponsorMapper {
 
     List<Sponsor> selectForDM(Pagination pagination);
     int selectCountForDM(Pagination pagination);
+    List<Sponsor> selectByReceipt(@Param("whereClause") String whereClause);
 
-	List<Sponsor> selectByReceipt(@Param("whereClause") String whereClause);
+
+
 
 	int sponsorTypeCheck(String codeName);
 

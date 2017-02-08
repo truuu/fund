@@ -16,13 +16,14 @@ public class Payment {
     String paymentMethodName;
     String corporateName;
     int corporateId;
+    String sponsorNo;
+    String name;
+
 
     int count1; // 기부후원인 수 count
     int count2; // 기부목적 count
     int sum; // 총 기부금
     double percent; // 백분율
-    String sponsorNo;
-    String name; // 후원인 이름
     String sponsorType2; // 후원인구분2
     String church;
     String gubun; // 정기/비정기 구분

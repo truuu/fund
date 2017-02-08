@@ -3,7 +3,7 @@
 
 <mapper namespace="fund.mapper.TempNoMapper">
 
-<insert id="tempInsert">
+<insert id="insert">
 IF NOT EXISTS  (SELECT * FROM tempNo WHERE id = #{id}) 
   INSERT INTO tempNo VALUES(#{id}, #{no})
 </insert>

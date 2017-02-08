@@ -3,10 +3,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<script>
+function report() {
+  location.href = "report.do?" + $("form#receipts").serialize(); 
+}
+</script>
 <h1>영수증 목록</h1>
 <hr />
 
-<form:form modelAttribute="pagination" method="get">
+<form:form id="receipts" modelAttribute="pagination" method="get">
 
 <input type="hidden" name="pg" value="1" />
 
@@ -23,13 +28,13 @@
 </c:if>
 
 <div class="pull-right">
-  <button type="submit" class="btn btn-info" name="cmd" value="download">선택한 영수증 다운로드</button>
+  <button class="btn btn-info" type="button" onclick="report()">선택한 영수증 다운로드</button>
 </div>
 
 <table class="table table-bordered mt4">
   <thead>
     <tr>
-      <th><input type="checkbox" id="check_all"></th>
+      <th><input type="checkbox"></th>
       <th>영수증번호</th>
       <th>후원인 이름</th>
       <th>후원인번호</th>

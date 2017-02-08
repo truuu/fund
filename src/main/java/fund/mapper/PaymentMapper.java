@@ -24,6 +24,7 @@ public interface PaymentMapper {
     List<Payment> selectForReceiptCreation1(Map<String,Object> map);
     List<Payment> selectForReceiptCreation2(Map<String,Object> map);
     List<Payment> selectByReceiptId(int rid);
+    Map<String,Object> selectForTaxData(Map<String,Object> map);
 
 
 
