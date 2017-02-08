@@ -7,7 +7,7 @@
 <select id="selectPage" resultType="hashmap">
 <![CDATA[
 DECLARE @nm NVARCHAR(50), @sd VARCHAR(50), @ed VARCHAR(50), @currentPage INT, @pageSize INT
-SET @nm = #{nm}
+SET @nm = #{srchText}
 SET @sd = #{sd}
 SET @ed = #{ed}
 SET @currentPage = #{currentPage}
@@ -32,7 +32,7 @@ ORDER BY 행번호
 
 <select id="selectCount" resultType="int">
 DECLARE @nm NVARCHAR(50), @sd VARCHAR(50), @ed VARCHAR(50), @currentPage INT, @pageSize INT
-SET @nm = #{nm}
+SET @nm = #{srchText}
 SET @sd = #{sd}
 SET @ed = #{ed}
 
@@ -60,8 +60,6 @@ AND (@sd = '' OR @sd IS NULL OR r.createDate BETWEEN @sd AND @ed)
   VALUES( #{sponsorId},#{createDate},#{no})
 </insert>
     
-	
-  
 	<select id="selectRctID" resultType="int">
 		SELECT top 1 id
 		FROM [Receipt]

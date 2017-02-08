@@ -15,8 +15,7 @@ public class Payment {
     String organizationName;
     String paymentMethodName;
     String corporateName;
-
-    String corporateId;
+    int corporateId;
 
     int count1; // 기부후원인 수 count
     int count2; // 기부목적 count
@@ -145,11 +144,11 @@ public class Payment {
         this.corporateName = corporateName;
     }
 
-    public String getCorporateId() {
+    public int getCorporateId() {
         return corporateId;
     }
 
-    public void setCorporateId(String corporateId) {
+    public void setCorporateId(int corporateId) {
         this.corporateId = corporateId;
     }
 

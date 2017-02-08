@@ -21,7 +21,8 @@ public interface PaymentMapper {
     void delete(int id);
     void insert(Payment payment);
 
-    List<Payment> selectForReceiptCreation(Map<String,Object> map);
+    List<Payment> selectForReceiptCreation1(Map<String,Object> map);
+    List<Payment> selectForReceiptCreation2(Map<String,Object> map);
     List<Payment> selectByReceiptId(int rid);
 
 

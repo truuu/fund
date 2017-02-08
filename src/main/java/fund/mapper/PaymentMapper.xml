@@ -43,7 +43,6 @@
 </select>
 
 <update id="update">    
-  <![CDATA[
   UPDATE Payment
     SET 
       receiptId = #{receiptId},
@@ -54,7 +53,6 @@
       etc = #{etc}
   FROM Payment
   WHERE id = #{id}
-  ]]>
 </update>
 
 <delete id="delete">
@@ -66,7 +64,7 @@
   VALUES (#{sponsorId}, #{commitmentId}, #{amount}, #{paymentDate}, #{etc}, #{receiptId}, #{donationPurposeId}, #{paymentMethodId})
 </insert>
 
-<select id="selectForReceiptCreation" resultType="fund.dto.Payment">
+<select id="selectForReceiptCreation1" resultType="fund.dto.Payment">
 DECLARE @srchText NVARCHAR(50), @startDate DATE, @endDate DATE, @corporateId INT
 SET @srchText = #{srchText}
 SET @startDate = #{startDate}
@@ -80,8 +78,21 @@ WHERE p.paymentDate BETWEEN @startDate AND @endDate
 AND p.sponsorId IN (SELECT id FROM [sponsor] WHERE name = @srchText)
 AND p.donationPurposeId IN (SELECT id FROM donationPurpose WHERE @corporateId = 0 OR corporateId = @corporateId)
 ORDER BY p.paymentDate DESC
-</select> 
-    
+</select>
+
+<select id="selectForReceiptCreation2" resultType="fund.dto.Payment">
+DECLARE @startDate DATE, @endDate DATE
+SET @startDate = #{startDate}
+SET @endDate = #{endDate}
+
+SELECT p.*, d.corporateId
+FROM Payment p 
+  LEFT JOIN donationPurpose d ON d.id = p.donationPurposeId
+WHERE p.paymentDate BETWEEN @startDate AND @endDate
+AND p.receiptId IS NULL
+ORDER BY p.sponsorId, d.corporateId
+</select>    
+
 <select id="selectByReceiptId" resultType="fund.dto.Payment">
   SELECT * FROM payment WHERE receiptId = #{receiptId}
 </select>

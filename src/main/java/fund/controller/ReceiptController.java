@@ -23,9 +23,9 @@ import fund.dto.Receipt;
 import fund.dto.Sponsor;
 import fund.dto.TempNo;
 import fund.dto.pagination.Pagination;
-import fund.dto.pagination.PaginationReceipt;
 import fund.dto.param.Wrapper;
 import fund.mapper.CorporateMapper;
+import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.ReceiptMapper;
 import fund.mapper.SponsorMapper;
@@ -45,22 +45,23 @@ public class ReceiptController extends BaseController {
     @Autowired CorporateMapper corporateMapper;
     @Autowired SponsorMapper sponsorMapper;
     @Autowired TempNoMapper tempNoMapper;
+    @Autowired DonationPurposeMapper donationPurposeMapper;
     @Autowired SimpleDriverDataSource dataSource;
     @Autowired ReceiptService receiptService;
 
     @ModelAttribute
-    void modela(Model model, @ModelAttribute("pagination") PaginationReceipt pagination) {
+    void modela(Model model, Pagination pagination) {
     }
 
     @RequestMapping(value = "/receipt/list.do")
-    public String list(Model model, @ModelAttribute("pagination") PaginationReceipt pagination) throws Exception {
+    public String list(Model model, Pagination pagination) throws Exception {
         pagination.setRecordCount(receiptMapper.selectCount(pagination));
         model.addAttribute("list", receiptMapper.selectPage(pagination));
         return "receipt/list";
     }
 
     @RequestMapping(value = "/receipt/create1.do", method = RequestMethod.GET)
-    public String create1(RedirectAttributes ra, Model model) throws Exception {
+    public String create1(Model model) throws Exception {
         model.addAttribute("wrapper", new Wrapper());
         model.addAttribute("corporates", corporateMapper.selectAll());
         return "receipt/create1";
@@ -69,7 +70,7 @@ public class ReceiptController extends BaseController {
     @RequestMapping(value = "/receipt/create1.do", method = RequestMethod.POST, params="cmd=search")
     public String create1Search(Model model, Wrapper wrapper) throws Exception {
         wrapper.getMap().put("createDate", Util.toYMD());
-        model.addAttribute("list", paymentMapper.selectForReceiptCreation(wrapper.getMap()));
+        model.addAttribute("list", paymentMapper.selectForReceiptCreation1(wrapper.getMap()));
         model.addAttribute("corporates", corporateMapper.selectAll());
         return "receipt/create1";
     }
@@ -77,25 +78,29 @@ public class ReceiptController extends BaseController {
     @RequestMapping(value = "/receipt/create1.do", method = RequestMethod.POST, params="cmd=createReceipt")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String create1CreateReceipt(RedirectAttributes ra, @RequestParam("pid") int[] pid, Wrapper wrapper) throws Exception {
-        String createDate = wrapper.getMap().get("createDate").toString();
-        receiptService.createReceipt(createDate, pid);
-
+        String createDate = (String)wrapper.getMap().get("createDate");
+        receiptService.createReceipt1(createDate, pid);
         ra.addFlashAttribute("successMsg", "영수증이 생성되었습니다.");
         return "redirect:list.do";
     }
 
     @RequestMapping("/receipt/detail.do")
-    public String detail(Model model, @RequestParam("id") int id) {
+    public String detail(Model model, @RequestParam("id") int id) throws Exception {
         Receipt receipt = receiptMapper.selectById(id);
         List<Payment> list = paymentMapper.selectByReceiptId(id);
         Sponsor sponsor = sponsorMapper.selectById(receipt.getSponsorId());
+        SponsorService.decryptJuminNo(sponsor);
+        Corporate corporate = null;
+        if (list.size() > 0)
+            corporate = corporateMapper.selectById(donationPurposeMapper.selectById(list.get(0).getDonationPurposeId()).getCorporateId());
         model.addAttribute("receipt", receipt);
         model.addAttribute("list", list);
         model.addAttribute("sponsor", sponsor);
+        model.addAttribute("corporate", corporate);
         return "receipt/detail";
     }
 
-    @RequestMapping(value = "/receipt/report.do")
+    @RequestMapping("/receipt/report.do")
     public void report(Model model, @RequestParam("id") int id, HttpServletRequest req, HttpServletResponse res) throws Exception {
         Receipt receipt = receiptMapper.selectById(id);
         Sponsor sponsor = sponsorMapper.selectById(receipt.getSponsorId());
@@ -113,6 +118,27 @@ public class ReceiptController extends BaseController {
         tempNoMapper.deleteAll();
     }
 
+    @RequestMapping("/receipt/delete.do")
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public String delete(RedirectAttributes ra, @RequestParam("id") int id, Pagination pagination) {
+        receiptService.deleteReceipt(id);
+        ra.addFlashAttribute("successMsg", "영수증이 삭제되었습니다.");
+        return "redirect:list.do?" + pagination.getQueryString();
+    }
+
+    @RequestMapping(value = "/receipt/create2.do", method = RequestMethod.GET)
+    public String create2(Model model) throws Exception {
+        model.addAttribute("wrapper", new Wrapper());
+        return "receipt/create2";
+    }
+
+    @RequestMapping(value = "/receipt/create2.do", method = RequestMethod.POST)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public String create2CreateReceipt(RedirectAttributes ra, Wrapper wrapper) throws Exception {
+        receiptService.createReceipt2(wrapper.getMap());
+        ra.addFlashAttribute("successMsg", "영수증이 생성되었습니다.");
+        return "redirect:list.do";
+    }
 
 
 
@@ -240,7 +266,7 @@ public class ReceiptController extends BaseController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String issueReceiptByName(Model model, Pagination pagination, @RequestParam("pid") int[] pID,
             HttpServletRequest req, HttpServletResponse res) throws Exception {
-        String startdate = pagination.getStartDate();
+        String startdate = null; //pagination.getStartDate();
         String message = null; //receiptService.validateBeforeInsert(pID);
         model.addAttribute("corporates", corporateMapper.selectAll());
 

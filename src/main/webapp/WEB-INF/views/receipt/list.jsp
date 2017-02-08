@@ -11,14 +11,14 @@
 <input type="hidden" name="pg" value="1" />
 
 <span>후원인명:</span>
-<form:input path="nm" />
+<form:input path="st" />
 
 <span class="block ml20">발급기간:</span>
 <form:input path="sd" class="startDt" /> ~
 <form:input path="ed" class="endDt" />
 
 <button type="submit" class="btn btn-primary ml20">검색</button>
-<c:if test="${ not empty pagination.nm || not empty pagination.sd }">
+<c:if test="${ not empty pagination.st || not empty pagination.sd }">
   <a href="list.do" class="btn btn-default">취소</a>
 </c:if>
 
@@ -40,7 +40,7 @@
   </thead>
   <tbody>
     <c:forEach var="receipt" items="${ list }">
-      <tr data-url="detail.do?id=${receipt.id}">
+      <tr data-url="detail.do?id=${receipt.id}&${pagination.queryString}">
         <td><input type="checkbox" name="rid" value="${ receipt.id  }"></td>
         <td>${ receipt.no }</td>
         <td>${ receipt.name }</td>

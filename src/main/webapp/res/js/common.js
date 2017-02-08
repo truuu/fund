@@ -19,9 +19,13 @@ $(function() {
     
     $("[data-confirm-delete]").click(function() {
     	return confirm("삭제하시겠습니까?");
-    })
-    $("[data-stop-propagation]").click(function(e) {
-    	e.stopPropagation();
+    })    
+
+    function stop_propagation_handler(e) {
+      e.stopPropagation();
+    }
+    $("td input:checkbox").each(function(c) {
+    	$(this).parent().click(stop_propagation_handler);
     })
 });
 

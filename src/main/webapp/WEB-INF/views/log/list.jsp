@@ -49,7 +49,7 @@
     <tbody>
       <c:forEach var="p" items="${ list }">
         <tr data-url="detail.do?id=${p.id}&${pagination.queryString}">
-          <td data-stop-propagation><input type="checkbox" name="id" value="${ p.id }" /></td>
+          <td><input type="checkbox" name="id" value="${ p.id }" /></td>
           <td>${ p.currentUser }</td>
           <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${ p.writeTime }" /></td>
           <td>${ p.ip }</td>
