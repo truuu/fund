@@ -95,7 +95,8 @@
 
 <!-- CMS -->
 <select id="selectEB13Candidate" resultType="fund.dto.Commitment">
-  SELECT c.*, s.sponsorNo, s.name, s.juminNo, b.codeName bankName, b.etc1 bankCode
+  SELECT c.*, s.sponsorNo, s.name, b.codeName bankName, b.etc1 bankCode,
+    CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, #{key1}), juminNo_encrypted)) juminNo
   FROM commitment c
     JOIN sponsor s ON c.sponsorId = s.id
     JOIN [code] b ON c.bankId = b.id
@@ -106,7 +107,8 @@
 
 <select id="selectEB21Candidate" resultType="fund.dto.Commitment">        
   <![CDATA[
-  SELECT c.*, s.sponsorNo, s.name, s.juminNo, b.codeName bankName, b.etc1 bankCode
+  SELECT c.*, s.sponsorNo, s.name, b.codeName bankName, b.etc1 bankCode,
+    CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, #{key1}), juminNo_encrypted)) juminNo
   FROM commitment c
     JOIN sponsor s ON c.sponsorId = s.id
     JOIN [code] b ON c.bankId = b.id
@@ -123,8 +125,9 @@
 </select>
 
 <select id="selectCmsResult" resultType="fund.dto.Commitment">
-  SELECT c.*, s.sponsorNo, s.name, s.juminNo,
-      b.codeName bankName, b.etc1 bankCode, e.description eb13errorCodeMsg
+  SELECT c.*, s.sponsorNo, s.name,
+      b.codeName bankName, b.etc1 bankCode, e.description eb13errorCodeMsg,
+      CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, #{key1}), juminNo_encrypted)) juminNo
   FROM commitment c
     JOIN sponsor s ON c.sponsorId = s.id
     JOIN [code] b ON c.bankId = b.id

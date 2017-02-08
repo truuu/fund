@@ -9,23 +9,17 @@ import fund.dto.pagination.Pagination;
 
 public interface SponsorMapper {
 
-    Sponsor selectById(int id);
-    List<Sponsor> selectNotEncrypted();
+    Sponsor selectById(@Param("id") int id, @Param("key1") String key1);
     List<Sponsor> selectPage(Pagination pagination);
     int selectCount(Pagination pagination);
 
     void update(Sponsor sponsor);
-    void updateJuminNo(Sponsor sponsor);
     void delete(int id);
     void insert(Sponsor sponsor);
     String generateSponsorNo();
 
     List<Sponsor> selectForDM(Pagination pagination);
     int selectCountForDM(Pagination pagination);
-    List<Sponsor> selectByReceipt(@Param("whereClause") String whereClause);
-
-
-
 
 	int sponsorTypeCheck(String codeName);
 

@@ -30,7 +30,6 @@
       <th>주민번호</th>
       <th>EB13생성일</th>
       <th>상태</th>
-      <th class="w350">에러코드</th>
     </tr>
   </thead>
   <tbody>
@@ -43,8 +42,11 @@
         <td>${ c.juminNo }</td>
         <td><fmt:formatDate pattern="yyyy-MM-dd" value="${ c.eb13Date }" /></td>
         <td>${ c.eb13State }</td>
-        <td>${ c.eb13ErrorCodeMsg }</td>
       </tr>
+      <c:if test="${ c.eb13State == '에러' }">
+        <tr class="my-error"><td colspan="7">${ c.eb13ErrorCodeMsg }</td></tr>
+      </c:if>
+      
     </c:forEach>
   </tbody>
 </table>

@@ -1,6 +1,5 @@
 package fund.controller;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -20,21 +19,17 @@ import fund.dto.Corporate;
 import fund.dto.Payment;
 import fund.dto.Receipt;
 import fund.dto.Sponsor;
-import fund.dto.TempNo;
 import fund.dto.pagination.Pagination;
 import fund.dto.param.Wrapper;
 import fund.mapper.CorporateMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.ReceiptMapper;
-import fund.mapper.SponsorMapper;
-import fund.mapper.TempNoMapper;
 import fund.service.ReceiptService;
 import fund.service.ReportBuilder;
 import fund.service.ReportBuilder2;
 import fund.service.SponsorService;
 import fund.service.Util;
-import net.sf.jasperreports.engine.JRException;
 
 @Controller
 public class ReceiptController extends BaseController {
@@ -42,8 +37,8 @@ public class ReceiptController extends BaseController {
     @Autowired ReceiptMapper receiptMapper;
     @Autowired PaymentMapper paymentMapper;
     @Autowired CorporateMapper corporateMapper;
-    @Autowired SponsorMapper sponsorMapper;
-    @Autowired TempNoMapper tempNoMapper;
+    //@Autowired SponsorMapper sponsorMapper;
+    @Autowired SponsorService sponsorService;
     @Autowired DonationPurposeMapper donationPurposeMapper;
     @Autowired SimpleDriverDataSource dataSource;
     @Autowired ReceiptService receiptService;
@@ -87,8 +82,7 @@ public class ReceiptController extends BaseController {
     public String detail(Model model, @RequestParam("id") int id) throws Exception {
         Receipt receipt = receiptMapper.selectById(id);
         List<Payment> list = paymentMapper.selectByReceiptId(id);
-        Sponsor sponsor = sponsorMapper.selectById(receipt.getSponsorId());
-        SponsorService.decryptJuminNo(sponsor);
+        Sponsor sponsor = sponsorService.selectById(receipt.getSponsorId());
         Corporate corporate = null;
         if (list.size() > 0)
             corporate = corporateMapper.selectById(donationPurposeMapper.selectById(list.get(0).getDonationPurposeId()).getCorporateId());
@@ -101,15 +95,6 @@ public class ReceiptController extends BaseController {
 
     @RequestMapping("/receipt/report.do")
     public void list(@RequestParam("rid") int[] rid, HttpServletRequest req, HttpServletResponse res) throws Exception {
-        for (int i = 0; i < rid.length; ++i) {
-            Receipt receipt = receiptMapper.selectById(rid[i]);
-            Sponsor sponsor = sponsorMapper.selectById(receipt.getSponsorId());
-            SponsorService.decryptJuminNo(sponsor);
-            TempNo tempNo = new TempNo();
-            tempNo.setId(sponsor.getId());
-            tempNo.setNo(sponsor.getJuminNo());
-            tempNoMapper.insert(tempNo);
-        }
         String s = Arrays.toString(rid);
         s = s.substring(1, s.length()-1);
         String whereClause = "WHERE r.id IN (" + s + ")";
@@ -119,7 +104,6 @@ public class ReceiptController extends BaseController {
         reportBuilder.setParameter("whereClause", whereClause);
         reportBuilder.addSubReport("paymentList.jasper");
         reportBuilder.build("pdf");
-        tempNoMapper.deleteAll();
     }
 
     @RequestMapping("/receipt/delete.do")
@@ -147,14 +131,19 @@ public class ReceiptController extends BaseController {
     @RequestMapping(value="/receipt/taxData.do", method=RequestMethod.GET)
     public String taxData(Model model) {
         model.addAttribute("wrapper", new Wrapper());
+        model.addAttribute("corporates", corporateMapper.selectAll());
         return "receipt/taxData";
     }
 
     @RequestMapping(value="/receipt/taxData.do", method=RequestMethod.POST)
-    public String taxData(Model model, Wrapper wrapper) {
-        return "receipt/taxData";
+    public void taxData(Model model, Wrapper wrapper, HttpServletRequest req, HttpServletResponse res) throws Exception {
+        List<Payment> list = paymentMapper.selectForTaxData(wrapper.getMap());
+        for (Payment p : list) {
+            //SponsorService.
+        }
+        ReportBuilder reportBuilder = new ReportBuilder("taxData", list, "taxData.xlsx", req, res);
+        reportBuilder.build("xlsx");
     }
-
 
 
 
@@ -281,20 +270,5 @@ public class ReceiptController extends BaseController {
         return "redirect:/certificate/receiptList.do";
     }
 
-    @RequestMapping("/certificate/taxData.do")
-    public String taxData(Model model, Pagination pagination) throws Exception {
-        pagination.setRecordCount(paymentMapper.selectCount(pagination));
-        model.addAttribute("taxDataList", paymentMapper.selectPage(pagination));
-        model.addAttribute("corporates", corporateMapper.selectAll());
-        return "certificate/taxData";
-    }
-
-    @RequestMapping(value="/certificate/taxData.do", method=RequestMethod.POST, params = "cmd=xlsx")
-    public void taxDataReport(Pagination pagination, HttpServletRequest req, HttpServletResponse res)
-            throws JRException, IOException {
-        List<Payment> list = paymentMapper.selectTaxData(pagination);
-        ReportBuilder reportBuilder = new ReportBuilder("taxData", list, "taxData.xlsx", req, res);
-        reportBuilder.build("xlsx");
-    }
 
 }

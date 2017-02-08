@@ -34,17 +34,17 @@ public class Sponsor {
     String sponsorType1;
     String sponsorType2;
     String church;
+    String key1;
 
     public String getAddress() {
-        if (mailTo == 0) return homeRoadAddress + " " + homeDetailAddress;
+        if (mailTo == 0)
+            return homeRoadAddress + " " + homeDetailAddress;
         return officeRoadAddress + " " + officeDetailAddress;
     }
 
     public String getPostCode() {
         return (mailTo == 0) ? homePostCode : officePostCode;
     }
-
-
 
     // 기타
     int sponsorCount; // 후원인구분2별 출연내역 회원수
@@ -98,19 +98,19 @@ public class Sponsor {
         this.juminNo = juminNo;
     }
 
-    public int getsponsorType1Id() {
+    public int getSponsorType1Id() {
         return sponsorType1Id;
     }
 
-    public void setsponsorType1Id(int sponsorType1Id) {
+    public void setSponsorType1Id(int sponsorType1Id) {
         this.sponsorType1Id = sponsorType1Id;
     }
 
-    public int getsponsorType2Id() {
+    public int getSponsorType2Id() {
         return sponsorType2Id;
     }
 
-    public void setsponsorType2Id(int sponsorType2Id) {
+    public void setSponsorType2Id(int sponsorType2Id) {
         this.sponsorType2Id = sponsorType2Id;
     }
 
@@ -290,7 +290,6 @@ public class Sponsor {
         this.etc = etc;
     }
 
-
     public String getSponsorType1() {
         return sponsorType1;
     }
@@ -313,6 +312,14 @@ public class Sponsor {
 
     public void setChurch(String church) {
         this.church = church;
+    }
+
+    public String getKey1() {
+        return key1;
+    }
+
+    public void setKey1(String key1) {
+        this.key1 = key1;
     }
 
     public int getSponsorCount() {

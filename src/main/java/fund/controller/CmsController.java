@@ -34,9 +34,8 @@ import fund.mapper.EB21Mapper;
 import fund.mapper.PaymentMapper;
 import fund.service.C;
 import fund.service.C2;
-import fund.service.EncryptService;
+import fund.service.CmsService;
 import fund.service.ExcelService;
-import fund.service.SponsorService;
 
 @Controller
 public class CmsController extends BaseController {
@@ -46,6 +45,7 @@ public class CmsController extends BaseController {
     static final SimpleDateFormat format_MMdd = new SimpleDateFormat("MMdd");
 
     @Autowired CommitmentMapper commitmentMapper;
+    @Autowired CmsService cmsService;
     @Autowired CodeMapper codeMapper;
     @Autowired EB21Mapper eb21Mapper;
     @Autowired PaymentMapper paymentMapper;
@@ -53,8 +53,7 @@ public class CmsController extends BaseController {
     //// EB13
     @RequestMapping(value="/cms/eb13.do", method=RequestMethod.GET)
     public String eb13(Model model) throws Exception {
-        List<Commitment> list = commitmentMapper.selectEB13Candidate();
-        SponsorService.decriptJuminNo(list);
+        List<Commitment> list = cmsService.selectEB13Candidate();
         model.addAttribute("list", list);
         model.addAttribute("today", format_yyyyMMdd.format(new Date()));
         return "cms/eb13";
@@ -86,9 +85,8 @@ public class CmsController extends BaseController {
         writer.write(StringUtils.repeat(' ', 87));
 
         int count = 0;
-        List<Commitment> list = commitmentMapper.selectEB13Candidate();
+        List<Commitment> list = cmsService.selectEB13Candidate();
         for(Commitment c : list) {
-            c.setJuminNo(EncryptService.decAES(c.getJuminNo()));
             if (c.isValid() == false) continue;
 
             String juminNo = c.getJuminNo();
@@ -187,8 +185,7 @@ public class CmsController extends BaseController {
         map.put("startDt", format_yyyyMMdd.format(date1));
         map.put("endDt", format_yyyyMMdd.format(date2));
         map.put("state", "all");
-        List<Commitment> list = commitmentMapper.selectCmsResult(map);
-        SponsorService.decriptJuminNo(list);
+        List<Commitment> list = cmsService.selectCmsResult(map);
         model.addAttribute("wrapper", wrapper);
         model.addAttribute("list", list);
         return "cms/eb14result";
@@ -196,8 +193,7 @@ public class CmsController extends BaseController {
 
     @RequestMapping(value="/cms/eb14result.do", method=RequestMethod.POST)
     public String eb14Result(Model model, Wrapper wrapper) throws Exception {
-        List<Commitment> list = commitmentMapper.selectCmsResult(wrapper.getMap());
-        SponsorService.decriptJuminNo(list);
+        List<Commitment> list = cmsService.selectCmsResult(wrapper.getMap());
         model.addAttribute("wrapper", wrapper);
         model.addAttribute("list", list);
         return "cms/eb14result";
@@ -221,8 +217,7 @@ public class CmsController extends BaseController {
 
     @RequestMapping(value="/cms/eb21.do", method=RequestMethod.POST, params="cmd=search")
     public String eb21(Model model, Wrapper wrapper) throws Exception {
-        List<Commitment> list = commitmentMapper.selectEB21Candidate(wrapper.getMap());
-        SponsorService.decriptJuminNo(list);
+        List<Commitment> list = cmsService.selectEB21Candidate(wrapper.getMap());
         model.addAttribute("list", list);
         return "cms/eb21";
     }
@@ -231,8 +226,7 @@ public class CmsController extends BaseController {
     @RequestMapping(value="/cms/eb21.do", method=RequestMethod.POST, params="cmd=create")
     public void eb21Create(Wrapper wrapper, HttpServletResponse response) throws Exception {
         Map<String, Object> map = wrapper.getMap();
-        List<Commitment> list = commitmentMapper.selectEB21Candidate(map);
-        SponsorService.decriptJuminNo(list);
+        List<Commitment> list = cmsService.selectEB21Candidate(map);
 
         Date today = format_yyyyMMdd.parse((String)map.get("paymentDate"));
         String fileName = "EB21" + format_MMdd.format(today);
@@ -262,13 +256,9 @@ public class CmsController extends BaseController {
         EB21 eb21 = new EB21();
         eb21.setPaymentDate(format_yyyyMMdd.parse((String)map.get("paymentDate")));
         eb21.setState("신청");
-        List<Commitment> list = commitmentMapper.selectEB21Candidate(map);
+        List<Commitment> list = cmsService.selectEB21Candidate(map);
         for(Commitment c : list) {
-            c.setJuminNo(EncryptService.decAES(c.getJuminNo()));
             if (c.isValid() == false) continue;
-
-            String juminNo = c.getJuminNo();
-            if (juminNo.length() == 13) juminNo = juminNo.substring(0, 6);
 
             writer.write("R");
             writer.write(String.format("%08d ", count + 1));

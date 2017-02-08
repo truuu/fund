@@ -101,13 +101,6 @@ public class SponsorController extends BaseController {
         return "redirect:list.do";
     }
 
-    // 주민등록번호 암호화 되지 않은 후원인 암호화
-    @RequestMapping("/sponsor/encryptNo.do")
-    public String encryptNo(Model model) throws Exception {
-        model.addAttribute("list", sponsorService.encryptJuminNo());
-        return "sponsor/encryptNo";
-    }
-
     @RequestMapping("/sponsor/sendDM.do")
     public String sendDM(Model model, Pagination pagination) {
         if (StringUtils.isBlank(pagination.getStartDate()) == false) {
@@ -130,6 +123,9 @@ public class SponsorController extends BaseController {
         } else
             res.sendRedirect("sendDM.do");
     }
+
+
+
 
 
 

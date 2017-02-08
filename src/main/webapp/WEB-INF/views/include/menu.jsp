@@ -69,7 +69,7 @@
               <li><a href="/fund_sys/receipt/create1.do">영수증 개별생성</a></li>
               <li><a href="/fund_sys/receipt/create2.do">영수증 일괄생성</a></li>              
               <li class="divider"></li>
-              <li><a href="/fund_sys/certificate/taxData.do">국세청보고자료</a></li>
+              <li><a href="/fund_sys/receipt/taxData.do">국세청 보고자료</a></li>
               <li><a href="/fund_sys/certificate/printScholarship_list.do">장학증서 발급대장</a></li>
               <li><a href="/fund_sys/certificate/printDonation_list.do">기부증서 발급대장</a></li>
             </ul>
@@ -77,8 +77,10 @@
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">시스템관리<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="/fund_sys/user/list.do">사용자목록</a></li>
-              <li><a href="/fund_sys/sponsor/encryptNo.do">후원인 암호화</a></li>
               <li><a href="/fund_sys/log/list.do">로그 기록</a></li>
+              <li class="divider"></li>
+              <li><a href="/fund_sys/sponsor/encryptNo.do">후원인 암호화</a></li>
+              <li><a href="/fund_sys/sponsor/decryptNo.do">후원인 암호제거</a></li>              
             </ul>
           </li>
         </ul>

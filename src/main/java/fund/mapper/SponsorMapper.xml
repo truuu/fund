@@ -5,18 +5,11 @@
 
 <select id="selectById" resultType="fund.dto.Sponsor">
   SELECT *,
+    CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, #{key1}), juminNo_encrypted)) juminNo,
     (SELECT codeName FROM code c WHERE c.id = s.churchID ) church,
     (SELECT codeName FROM code t WHERE t.id = s.sponsorType1Id) sponsorType1
   FROM sponsor s
   WHERE id = #{id}
-</select>
-
-<select id="selectNotEncrypted" resultType="fund.dto.Sponsor">
- <![CDATA[
-  SELECT *
-  FROM sponsor
-  WHERE LEN(juminNo) < 20        
- ]]>
 </select>
 
 <select id="selectPage" resultType="fund.dto.Sponsor">
@@ -71,10 +64,12 @@
     
     
 <update id="update">
+  DECLARE @encrypted VARBINARY(1000)
+  SET @encrypted = ENCRYPTBYPASSPHRASE(CONVERT(VARCHAR, #{key1}), CONVERT(VARCHAR, REPLACE(#{juminNo}, '-', '')))
   UPDATE sponsor
   SET 
     name = #{name},
-    juminNo = REPLACE(#{juminNo}, '-', ''),
+    juminNo_encrypted = @encrypted,
     sponsorType1Id = #{sponsorType1Id},
     sponsorType2Id = #{sponsorType2Id},
     churchId = IIF(#{churchId} = 0, null, #{churchId}),
@@ -100,25 +95,21 @@
   WHERE id = #{id}
 </update>    
     
-<update id="updateJuminNo">
-  UPDATE sponsor
-  SET juminNo = #{juminNo}
-  WHERE id = #{id}
-</update>
-
 <delete id="delete">
   DELETE FROM sponsor WHERE id = #{id}
 </delete>
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-  INSERT sponsor(sponsorNo, name, juminNo, sponsorType1Id, sponsorType2Id, 
+  DECLARE @encrypted VARBINARY(1000)
+  SET @encrypted = ENCRYPTBYPASSPHRASE(CONVERT(VARCHAR, #{key1}), CONVERT(VARCHAR, REPLACE(#{juminNo}, '-', '')))
+  INSERT sponsor(sponsorNo, name, sponsorType1Id, sponsorType2Id, 
     churchId, signUpDate, mobilePhone, 
     recommender, recommenderRelation, mailReceiving, mailTo, homeRoadAddress, homeDetailAddress, homePostCode, homePhone, 
-    email, company, department, position, officePhone, officeRoadAddress, officeDetailAddress, officePostCode, etc)
+    email, company, department, position, officePhone, officeRoadAddress, officeDetailAddress, officePostCode, etc, juminNo)
   VALUES (#{sponsorNo}, #{name}, REPLACE(#{juminNo},'-',''), #{sponsorType1Id}, #{sponsorType2Id}, 
     IIF(#{churchId} = 0, null, #{churchId}), #{signUpDate}, #{mobilePhone}, 
     #{recommender}, #{recommenderRelation}, #{mailReceiving}, #{mailTo},  #{homeRoadAddress}, #{homeDetailAddress}, #{homePostCode}, #{homePhone},
-    #{email}, #{company}, #{department}, #{position}, #{officePhone}, #{officeRoadAddress}, #{officeDetailAddress}, #{officePostCode}, #{etc})
+    #{email}, #{company}, #{department}, #{position}, #{officePhone}, #{officeRoadAddress}, #{officeDetailAddress}, #{officePostCode}, #{etc}, @encrypted)
 </insert>
 
 <select id="generateSponsorNo" resultType="java.lang.String">
@@ -159,6 +150,10 @@
   WHERE s.id IN (SELECT sponsorId FROM payment p WHERE paymentDate BETWEEN #{startDate} AND #{endDate})
   AND s.mailReceiving = 1
 </select>    
+    
+
+    
+    
     
     
     

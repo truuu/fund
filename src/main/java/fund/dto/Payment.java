@@ -17,7 +17,10 @@ public class Payment {
     String corporateName;
     int corporateId;
     String sponsorNo;
-    String name;
+    String sponsorName;
+    String juminNo;
+
+
 
 
     int count1; // 기부후원인 수 count
@@ -29,14 +32,11 @@ public class Payment {
     String gubun; // 정기/비정기 구분
     int totalSum; // 납입 총계 후원인당 총액1
     int totalCount; // 납입 총계 후원인당 총납입수
-
-    String juminNo;
     String commitmentNo;
     String accountNo;
     String bankName;
     String accountHoler;
     int amountPerMonth;
-
     String receiptNo;// 영수증번호
     String accountHolder;// 예금주...
     String paymentDateString;
@@ -153,6 +153,30 @@ public class Payment {
         this.corporateId = corporateId;
     }
 
+    public String getSponsorNo() {
+        return sponsorNo;
+    }
+
+    public void setSponsorNo(String sponsorNo) {
+        this.sponsorNo = sponsorNo;
+    }
+
+    public String getSponsorName() {
+        return sponsorName;
+    }
+
+    public void setSponsorName(String sponsorName) {
+        this.sponsorName = sponsorName;
+    }
+
+    public String getJuminNo() {
+        return juminNo;
+    }
+
+    public void setJuminNo(String juminNo) {
+        this.juminNo = juminNo;
+    }
+
     public int getCount1() {
         return count1;
     }
@@ -183,22 +207,6 @@ public class Payment {
 
     public void setPercent(double percent) {
         this.percent = percent;
-    }
-
-    public String getSponsorNo() {
-        return sponsorNo;
-    }
-
-    public void setSponsorNo(String sponsorNo) {
-        this.sponsorNo = sponsorNo;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getSponsorType2() {
@@ -239,14 +247,6 @@ public class Payment {
 
     public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
-    }
-
-    public String getJuminNo() {
-        return juminNo;
-    }
-
-    public void setJuminNo(String juminNo) {
-        this.juminNo = juminNo;
     }
 
     public String getCommitmentNo() {

@@ -8,9 +8,9 @@ public class Receipt {
     String createDate;
     String no;
 
-    String name;
-    int amount;// 기부금 영수증당 합계금액
-    String juminNo;
+    String name;    // 기부금 영수증
+    int amount;     // 기부금 영수증
+    String juminNo; // 기부금 영수증
     String mobilePhone;
 
     String address;

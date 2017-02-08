@@ -13,28 +13,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import fund.dto.Commitment;
 import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
-import fund.mapper.CommitmentDetailMapper;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.DonationPurposeMapper;
-import fund.mapper.SponsorMapper;
 import fund.service.C;
 import fund.service.LogService;
+import fund.service.SponsorService;
 import fund.service.Util;
 
 @Controller
 public class CommitmentController extends BaseController {
 
     @Autowired CommitmentMapper commitmentMapper;
-    @Autowired CommitmentDetailMapper commitmentDetailMapper;
     @Autowired CodeMapper codeMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
-    @Autowired SponsorMapper sponsorMapper;
+    @Autowired SponsorService sponsorService;
     @Autowired LogService logService;
 
     @ModelAttribute
         void modelAttr1(@ModelAttribute("pagination") PaginationSponsor pagination,
-                        @RequestParam("sid") int sid, Model model) {
-        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
+                        @RequestParam("sid") int sid, Model model) throws Exception {
+        model.addAttribute("sponsor", sponsorService.selectById(sid));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
         model.addAttribute("banks", codeMapper.selectByCodeGroupId(C.코드그룹ID_은행));
@@ -77,7 +75,7 @@ public class CommitmentController extends BaseController {
 
     /* 약정 신규 화면 */
     @RequestMapping(value="/sponsor/commitmentNew.do", method=RequestMethod.GET)
-    public String commitmentNew(Model model, @RequestParam("sid") int sid) throws ParseException {
+    public String commitmentNew(Model model, @RequestParam("sid") int sid) throws Exception {
         Commitment commitment = new Commitment();
         commitment.setSponsorId(sid);
         commitment.setCommitmentNo(commitmentMapper.generateCommitmentNo(sid));
@@ -86,7 +84,7 @@ public class CommitmentController extends BaseController {
         commitment.setStartDate(today);
         commitment.setPaymentDay(20);
         model.addAttribute("commitment", commitment);
-        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
+        model.addAttribute("sponsor", sponsorService.selectById(sid));
         return "sponsor/commitmentNew";
     }
 

@@ -60,6 +60,10 @@ AND (@sd = '' OR @sd IS NULL OR r.createDate BETWEEN @sd AND @ed)
   VALUES( #{sponsorId},#{createDate},#{no})
 </insert>
     
+    
+    
+    
+    
 	<select id="selectRctID" resultType="int">
 		SELECT top 1 id
 		FROM [Receipt]

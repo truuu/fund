@@ -13,21 +13,21 @@ import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
-import fund.mapper.SponsorMapper;
 import fund.service.C;
+import fund.service.SponsorService;
 
 @Controller
 public class SponsorPaymentController extends BaseController {
 
     @Autowired CodeMapper codeMapper;
-    @Autowired SponsorMapper sponsorMapper;
+    @Autowired SponsorService sponsorService;
     @Autowired PaymentMapper paymentMapper;
     @Autowired CommitmentMapper commitmentMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
 
     @ModelAttribute
-    void modelAttr1(Model model, @RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination) {
-        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
+    void modelAttr1(Model model, @RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
+        model.addAttribute("sponsor", sponsorService.selectById(sid));
     }
 
     static final String[] orderBy = new String[] { "paymentDate DESC", "paymentDate", "ID DESC", "ID" };

@@ -20,11 +20,10 @@ public interface CommitmentMapper {
 	void updateEndDate(int id);
 
 	// CMS
-	List<Commitment> selectEB13Candidate();
-	List<Commitment> selectByEB13Date(Date date);
+    List<Commitment> selectByEB13Date(Date date);
+	List<Commitment> selectEB13Candidate(String key1);
+    List<Commitment> selectEB21Candidate(Map<String,Object> map);
 	List<Commitment> selectCmsResult(Map<String,Object> map);
 	void updateEB13(Commitment commitment);
-
-    List<Commitment> selectEB21Candidate(Map<String,Object> map);
 }
 
