@@ -82,7 +82,7 @@ AND p.donationPurposeId IN (SELECT id FROM donationPurpose WHERE @corporateId = 
 ORDER BY p.paymentDate DESC
 </select> 
     
-<select id="selectByRctID" resultType="fund.dto.Payment">
+<select id="selectByReceiptId" resultType="fund.dto.Payment">
   SELECT * FROM payment WHERE receiptId = #{receiptId}
 </select>
 

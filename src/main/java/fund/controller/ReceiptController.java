@@ -85,28 +85,31 @@ public class ReceiptController extends BaseController {
     }
 
     @RequestMapping("/receipt/detail.do")
-    public String detail() {
+    public String detail(Model model, @RequestParam("id") int id) {
+        Receipt receipt = receiptMapper.selectById(id);
+        List<Payment> list = paymentMapper.selectByReceiptId(id);
+        Sponsor sponsor = sponsorMapper.selectById(receipt.getSponsorId());
+        model.addAttribute("receipt", receipt);
+        model.addAttribute("list", list);
+        model.addAttribute("sponsor", sponsor);
         return "receipt/detail";
     }
 
     @RequestMapping(value = "/receipt/report.do")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void report(Model model, @RequestParam("id") int id, @RequestParam("type") String type,
-            HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public void report(Model model, @RequestParam("id") int id, HttpServletRequest req, HttpServletResponse res) throws Exception {
         Receipt receipt = receiptMapper.selectById(id);
         Sponsor sponsor = sponsorMapper.selectById(receipt.getSponsorId());
         SponsorService.decryptJuminNo(sponsor);
         TempNo tempNo = new TempNo();
         tempNo.setId(receipt.getSponsorId());
         tempNo.setNo(sponsor.getJuminNo());
-        tempNoMapper.deleteAll();
         tempNoMapper.tempInsert(tempNo);
         String whereClause = "WHERE r.id=" + id;
         ReportBuilder2 reportBuilder = new ReportBuilder2("donationReceipt", "Receipt.pdf", req, res);
         reportBuilder.setConnection(dataSource.getConnection());
         reportBuilder.setParameter("whereClause", whereClause);
         reportBuilder.addSubReport("paymentList.jasper");
-        reportBuilder.build(type); // pdf OR html
+        reportBuilder.build("pdf");
         tempNoMapper.deleteAll();
     }
 
