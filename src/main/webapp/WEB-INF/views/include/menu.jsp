@@ -70,8 +70,9 @@
               <li><a href="/fund_sys/receipt/create2.do">영수증 일괄생성</a></li>              
               <li class="divider"></li>
               <li><a href="/fund_sys/receipt/taxData.do">국세청 보고자료</a></li>
-              <li><a href="/fund_sys/certificate/printScholarship_list.do">장학증서 발급대장</a></li>
-              <li><a href="/fund_sys/certificate/printDonation_list.do">기부증서 발급대장</a></li>
+              <li class="divider"></li>
+              <li><a href="/fund_sys/certificate/0/list.do">장학증서</a></li>
+              <li><a href="/fund_sys/certificate/1/list.do">기부증서</a></li>
             </ul>
           </li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">시스템관리<span class="caret"></span></a>

@@ -25,10 +25,10 @@ import fund.mapper.CorporateMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.ReceiptMapper;
+import fund.mapper.SponsorMapper;
 import fund.service.ReceiptService;
 import fund.service.ReportBuilder;
 import fund.service.ReportBuilder2;
-import fund.service.SponsorService;
 import fund.service.Util;
 
 @Controller
@@ -37,8 +37,7 @@ public class ReceiptController extends BaseController {
     @Autowired ReceiptMapper receiptMapper;
     @Autowired PaymentMapper paymentMapper;
     @Autowired CorporateMapper corporateMapper;
-    //@Autowired SponsorMapper sponsorMapper;
-    @Autowired SponsorService sponsorService;
+    @Autowired SponsorMapper sponsorMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
     @Autowired SimpleDriverDataSource dataSource;
     @Autowired ReceiptService receiptService;
@@ -82,7 +81,7 @@ public class ReceiptController extends BaseController {
     public String detail(Model model, @RequestParam("id") int id) throws Exception {
         Receipt receipt = receiptMapper.selectById(id);
         List<Payment> list = paymentMapper.selectByReceiptId(id);
-        Sponsor sponsor = sponsorService.selectById(receipt.getSponsorId());
+        Sponsor sponsor = sponsorMapper.selectById(receipt.getSponsorId());
         Corporate corporate = null;
         if (list.size() > 0)
             corporate = corporateMapper.selectById(donationPurposeMapper.selectById(list.get(0).getDonationPurposeId()).getCorporateId());
@@ -140,131 +139,6 @@ public class ReceiptController extends BaseController {
         List<Payment> list = paymentMapper.selectForTaxData(wrapper.getMap());
         ReportBuilder reportBuilder = new ReportBuilder("taxData", list, "taxData.xlsx", req, res);
         reportBuilder.build("xlsx");
-    }
-
-
-
-
-
-    @RequestMapping(value="/certificate/receiptList.do")
-    public String receiptManage(Model model, Pagination pagination) throws Exception {
-        // pagination.setRecordCount(receiptMapper.selectCount(pagination));
-        model.addAttribute("receiptList", receiptMapper.selectPage(pagination));
-        return "certificate/receiptList";
-    }
-
-    @RequestMapping(value="/certificate/receiptList.do", method=RequestMethod.POST, params = "cmd=deleteRct")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public String deleteReceipts(Model model, HttpServletRequest req, HttpServletResponse res) throws Exception {
-        String[] id = req.getParameterValues("rid");
-
-        if (id != null) {
-            for (int i = 0; i < id.length; i++) {
-                int rctId = Integer.parseInt(id[i]);
-                paymentMapper.deleteReceiptByReceiptId(rctId);
-                receiptMapper.deleteById(rctId);
-            }
-        }
-        return "redirect:/certificate/receiptList.do";
-    }
-
-
-
-    @RequestMapping(value="/certificate/receiptByDur.do", method=RequestMethod.GET)
-    public String receiptByDuration(Model model) throws Exception {
-        return "certificate/receiptByDur";
-    }
-
-    @SuppressWarnings("null")
-    @RequestMapping(value="/certificate/receiptByDur.do", method=RequestMethod.POST)
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public String issueReceiptByDuration(Model model, HttpServletRequest req, HttpServletResponse res)
-            throws Exception {
-        String startdate = req.getParameter("startDate");
-        String enddate = req.getParameter("endDate");
-        String createdate = req.getParameter("createDate");
-        String[] getY = startdate.split("-");
-
-        List<Corporate> corporates = corporateMapper.selectAll();
-        for (Corporate corporate : corporates) {
-            List<Integer> sponsorId = paymentMapper.selectDistinctSponsorID(startdate, enddate, corporate.getId());
-            for (int i = 0; i < sponsorId.size(); i++) {
-                int rctNoInt;
-                if (receiptMapper.getLastNo(getY[0]) == null)
-                    rctNoInt = 0;
-                else {
-                    String[] rctNo = receiptMapper.getLastNo(getY[0]).split("-");
-                    rctNoInt = Integer.parseInt(rctNo[1]);
-                }
-                String newRctNo = getY[0] + "-" + String.format("%04d", rctNoInt + 1);
-                Receipt rct = new Receipt();
-                rct.setSponsorId(sponsorId.get(i));
-                rct.setCreateDate(createdate);
-                rct.setNo(newRctNo);
-                receiptMapper.insert(rct);
-                //paymentMapper.issueReceiptByDur(receiptMapper.getRid(), startdate, enddate, corporate.getId(), sponsorId.get(i));
-            }
-        }
-        return "redirect:/certificate/receiptList.do";
-    }
-
-    @RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params = "cmd=search")
-    public String paymentListForReceipt(Model model, Payment payment, Pagination pagination, HttpServletRequest req,
-            HttpServletResponse res) throws Exception {
-        // model.addAttribute("paymentList",paymentMapper.selectReceiptByName(pagination));
-        model.addAttribute("corporates", corporateMapper.selectAll());
-        return "certificate/receiptByName";
-    }
-
-    @RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params = "cmd=deleteRct")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public String deleteReceipt(Payment payment, Pagination pagination, Model model, HttpServletRequest req,
-            HttpServletResponse res) throws Exception {
-        int rctId = Integer.parseInt(req.getParameter("delid"));
-        paymentMapper.deleteReceiptByReceiptId(rctId);
-        receiptMapper.deleteById(rctId);
-        model.addAttribute("corporates", corporateMapper.selectAll());
-        return "redirect:/certificate/receiptByName.do?" + pagination.getQueryString();
-    }
-
-    @RequestMapping(value="/certificate/receiptByName.do", method=RequestMethod.POST, params = "cmd=issueRct")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public String issueReceiptByName(Model model, Pagination pagination, @RequestParam("pid") int[] pID,
-            HttpServletRequest req, HttpServletResponse res) throws Exception {
-        String startdate = null; //pagination.getStartDate();
-        String message = null; //receiptService.validateBeforeInsert(pID);
-        model.addAttribute("corporates", corporateMapper.selectAll());
-
-        if (message == null) {
-            // 영수증생성
-            String[] getY = startdate.split("-");
-            int rctNoInt;
-
-            if (receiptMapper.getLastNo(getY[0]) == null)
-                rctNoInt = 0;
-            else {
-                String[] rctNo = receiptMapper.getLastNo(getY[0]).split("-");
-                rctNoInt = Integer.parseInt(rctNo[1]);
-            }
-
-            String newRctNo = getY[0] + "-" + String.format("%04d", rctNoInt + 1);
-
-            Receipt rct = new Receipt();
-            rct.setSponsorId(paymentMapper.selectById(pID[0]).getSponsorId());
-            rct.setCreateDate(req.getParameter("createDate"));
-            rct.setNo(newRctNo);
-            receiptMapper.insert(rct);
-            int rctID = receiptMapper.selectRctID();
-            for (int i = 0; i < pID.length; i++) {
-                //paymentMapper.issueReceiptByName(rctID, pID[i]);
-            }
-
-        } else {
-            model.addAttribute("errorMsg", message);
-            return "redirect:/certificate/receiptByName.do?" + pagination.getQueryString();
-        }
-
-        return "redirect:/certificate/receiptList.do";
     }
 
 

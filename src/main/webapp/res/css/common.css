@@ -89,3 +89,4 @@ body label.clean { font-weight: normal; }
 body input.date { width: 100px; }
 body input.startDt { width: 100px; }
 body input.endDt   { width: 100px; }
+body input.money { text-align: right; }

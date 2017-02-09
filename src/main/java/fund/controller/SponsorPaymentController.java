@@ -13,21 +13,21 @@ import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
+import fund.mapper.SponsorMapper;
 import fund.service.C;
-import fund.service.SponsorService;
 
 @Controller
 public class SponsorPaymentController extends BaseController {
 
     @Autowired CodeMapper codeMapper;
-    @Autowired SponsorService sponsorService;
+    @Autowired SponsorMapper sponsorMapper;
     @Autowired PaymentMapper paymentMapper;
     @Autowired CommitmentMapper commitmentMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
 
     @ModelAttribute
     void modelAttr1(Model model, @RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
-        model.addAttribute("sponsor", sponsorService.selectById(sid));
+        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
     }
 
     static final String[] orderBy = new String[] { "paymentDate DESC", "paymentDate", "ID DESC", "ID" };
@@ -41,7 +41,7 @@ public class SponsorPaymentController extends BaseController {
 
     @RequestMapping(value="/sponsor/paymentList1ajax.do", method=RequestMethod.POST)
     public String paymentList1a(@RequestParam("commitmentId") int commitmentId, Model model) {
-        model.addAttribute("list", paymentMapper.selectPaymentList1a(commitmentId));
+        model.addAttribute("list", paymentMapper.selectPaymentList1(commitmentId));
         return "sponsor/paymentList1ajax/ajax";
     }
 

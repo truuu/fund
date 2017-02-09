@@ -15,9 +15,9 @@ import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.DonationPurposeMapper;
+import fund.mapper.SponsorMapper;
 import fund.service.C;
 import fund.service.LogService;
-import fund.service.SponsorService;
 import fund.service.Util;
 
 @Controller
@@ -26,13 +26,13 @@ public class CommitmentController extends BaseController {
     @Autowired CommitmentMapper commitmentMapper;
     @Autowired CodeMapper codeMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
-    @Autowired SponsorService sponsorService;
+    @Autowired SponsorMapper sponsorMapper;
     @Autowired LogService logService;
 
     @ModelAttribute
         void modelAttr1(@ModelAttribute("pagination") PaginationSponsor pagination,
                         @RequestParam("sid") int sid, Model model) throws Exception {
-        model.addAttribute("sponsor", sponsorService.selectById(sid));
+        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
         model.addAttribute("banks", codeMapper.selectByCodeGroupId(C.코드그룹ID_은행));
@@ -84,7 +84,7 @@ public class CommitmentController extends BaseController {
         commitment.setStartDate(today);
         commitment.setPaymentDay(20);
         model.addAttribute("commitment", commitment);
-        model.addAttribute("sponsor", sponsorService.selectById(sid));
+        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         return "sponsor/commitmentNew";
     }
 

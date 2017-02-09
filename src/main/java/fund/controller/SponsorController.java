@@ -24,13 +24,11 @@ import fund.mapper.SponsorMapper;
 import fund.service.C;
 import fund.service.FileExtFilter;
 import fund.service.ReportBuilder;
-import fund.service.SponsorService;
 import net.sf.jasperreports.engine.JRException;
 
 @Controller
 public class SponsorController extends BaseController {
 
-    @Autowired SponsorService sponsorService;
     @Autowired SponsorMapper sponsorMapper;
     @Autowired FileAttachmentMapper fileAttachmentMapper;
     @Autowired PaymentMapper paymentMapper;
@@ -41,7 +39,8 @@ public class SponsorController extends BaseController {
     // 후원인 목록
     @RequestMapping("/sponsor/list.do")
     public String list(Model model, @ModelAttribute("pagination") PaginationSponsor pagination) {
-        List<Sponsor> list = sponsorService.selectPage(pagination);
+        pagination.setRecordCount(sponsorMapper.selectCount(pagination));
+        List<Sponsor> list = sponsorMapper.selectPage(pagination);
         List<Code> sponsorType1Codes = codeMapper.selectByCodeGroupId(1);
         List<Code> sponsorType2Codes = codeMapper.selectByCodeGroupId(2);
         model.addAttribute("list", list);
@@ -53,7 +52,7 @@ public class SponsorController extends BaseController {
     // 후원인 수정
     @RequestMapping(value="/sponsor/sponsorEdit.do", method=RequestMethod.GET)
     public String sponsorEdit(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
-        model.addAttribute("sponsor", sponsorService.selectById(id));
+        model.addAttribute("sponsor", sponsorMapper.selectById(id));
         model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분1));
         model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분2));
         model.addAttribute("files", fileAttachmentMapper.selectBySponosrId(id));
@@ -64,7 +63,7 @@ public class SponsorController extends BaseController {
     // 후원인 저장
     @RequestMapping(value="/sponsor/sponsorEdit.do", method=RequestMethod.POST, params="cmd=save")
     public String sponsorEdit(Sponsor sponsor, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
-        sponsorService.update(sponsor);
+        sponsorMapper.update(sponsor);
         model.addAttribute("successMsg", "저장했습니다.");
         return sponsorEdit(sponsor.getId(), pagination, model);
     }
@@ -72,7 +71,7 @@ public class SponsorController extends BaseController {
     // 후원인 삭제
     @RequestMapping(value="/sponsor/sponsorEdit.do", method=RequestMethod.POST, params="cmd=delete")
     public String sponsorDelete(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
-        sponsorService.delete(id);
+        sponsorMapper.delete(id);
         return "redirect:list.do?" + pagination.getQueryString();
     }
 
@@ -92,7 +91,7 @@ public class SponsorController extends BaseController {
     @RequestMapping(value="/sponsor/sponsorNew.do", method=RequestMethod.POST, params="cmd=save")
     public String sponsorNew(Sponsor sponsor, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
         sponsor.setSponsorNo(sponsorMapper.generateSponsorNo());
-        sponsorService.insert(sponsor);
+        sponsorMapper.insert(sponsor);
         return "redirect:list.do";
     }
 
