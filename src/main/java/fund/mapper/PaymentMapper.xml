@@ -102,7 +102,8 @@ DECLARE @startDate DATE, @endDate DATE, @corporateId INT
 SET @startDate = #{startDate}
 SET @endDate = #{endDate}
 SET @corporateId = #{corporateId}
-SELECT p.*, s.sponsorNo, s.name sponsorName, s.juminNo
+SELECT p.*, s.sponsorNo, s.name sponsorName, 
+  CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted)) juminNo
 FROM payment p 
   LEFT JOIN sponsor s ON s.id = p.sponsorId
   LEFT JOIN donationPurpose d ON d.id = p.donationPurposeId

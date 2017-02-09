@@ -34,7 +34,6 @@ public class Sponsor {
     String sponsorType1;
     String sponsorType2;
     String church;
-    String key1;
 
     public String getAddress() {
         if (mailTo == 0)
@@ -312,14 +311,6 @@ public class Sponsor {
 
     public void setChurch(String church) {
         this.church = church;
-    }
-
-    public String getKey1() {
-        return key1;
-    }
-
-    public void setKey1(String key1) {
-        this.key1 = key1;
     }
 
     public int getSponsorCount() {

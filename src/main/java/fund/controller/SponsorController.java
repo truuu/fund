@@ -1,9 +1,6 @@
 package fund.controller;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.file.Paths;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,9 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import fund.dto.Code;
-import fund.dto.FileAttachment;
 import fund.dto.Sponsor;
 import fund.dto.pagination.Pagination;
 import fund.dto.pagination.PaginationSponsor;
@@ -122,127 +117,6 @@ public class SponsorController extends BaseController {
             reportBuilder.build("xlsx");
         } else
             res.sendRedirect("sendDM.do");
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // 파일업로드
-    @RequestMapping(value = "/sponsor/upload.do", method = RequestMethod.POST)
-    public String fileUpload(Model model, @RequestParam("sid") int sid,
-            @RequestParam("file") MultipartFile uploadedFile) throws IOException {
-        if (uploadedFile.getSize() > 0) {
-            FileAttachment file = new FileAttachment();
-            file.setSponsorId(sid); // 나중에 조인해서 변경해야함
-            file.setFileName(Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString());
-            file.setFilesize((int) uploadedFile.getSize());
-            file.setData(uploadedFile.getBytes());
-            fileAttachmentMapper.insert(file);
-        }
-        return "redirect:/sponsor/sponsorEdit.do?id=" + sid;
-    }
-
-    // 파일 다운로드
-    @RequestMapping("/sponsor/download.do")
-    public void download(@RequestParam("id") int id, HttpServletResponse response) throws IOException {
-        FileAttachment file = fileAttachmentMapper.selectById(id);
-        if (file == null)
-            return;
-        String fileName = URLEncoder.encode(file.getFileName(), "UTF-8");
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
-        try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
-            output.write(file.getData());
-        }
-    }
-
-    // 파일삭제
-    @RequestMapping(value = "sponsor/fileDelete.do", method = RequestMethod.GET)
-    public String fileDelete(@RequestParam("id") int id, @RequestParam("sid") int sid) throws IOException {
-        fileAttachmentMapper.deleteById(id);
-        return "redirect:/sponsor/sponsorEdit.do?id=" + sid;
-    }
-
-    // - 후원인구분2별 출연내역 -
-    @RequestMapping(value = "sponsor/cast.do", method = RequestMethod.GET)
-    public String cast(Model model) throws IOException {
-        int sum = 0;// 후원인구분2별 출연내역 금액
-        model.addAttribute("sum", sum);
-        return "sponsor/castHistory";
-    }
-
-    @RequestMapping(value = "sponsor/castList.do")
-    public String castList(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
-            Model model) throws IOException {
-        List<Sponsor> list = sponsorMapper.castBySponsorType2(startDate, endDate);
-
-        int sponsorCount = 0; // 후원인구분2별 출연내역 회원수
-        int castCount = 0; // 후원인구분2별 출연내역 출연수
-        int sum = 0;// 후원인구분2별 출연내역 금액
-
-        double result; // 반올림되지 않은 % information
-        double persent;// % information
-        double totalPercent = 0.0; // total % information
-
-        for (Sponsor i : list) {
-            sponsorCount = sponsorCount + i.getSponsorCount();
-            castCount = castCount + i.getCastCount();
-            sum = sum + i.getSum();
-        }
-        for (int i = 0; i < list.size(); i++) {
-            result = (double) list.get(i).getSum() / (double) sum * 100;
-            persent = Double.parseDouble(String.format("%.2f", result));
-            list.get(i).setPersent(persent);
-            totalPercent += result;
-
-        }
-        model.addAttribute("totalPercent", totalPercent);
-        model.addAttribute("sponsorCount", sponsorCount);
-        model.addAttribute("castCount", castCount);
-        model.addAttribute("sum", sum);
-        model.addAttribute("list", list);
-        model.addAttribute("startDate", startDate);
-        model.addAttribute("endDate", endDate);
-        return "sponsor/castHistory";
-    }
-
-    // 회원구분 별 보고서
-    @RequestMapping(value = "/sponsor/castList.do", params = "cmd=pdf")
-    public void sponsorTypeReport(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
-            Pagination pagination, HttpServletRequest req, HttpServletResponse res) throws JRException, IOException {
-        List<Sponsor> list = sponsorMapper.castBySponsorType2(startDate, endDate);
-        ReportBuilder reportBuilder = new ReportBuilder("chartBySponsorType", list, "chartBySponsorType.pdf", req, res);
-        reportBuilder.build("pdf");
-    }
-
-    // 회원구분 별 엑셀
-    @RequestMapping(value = "/sponsor/castList.do", params = "cmd=xlsx")
-    public void sponsorTypeXlsx(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
-            Pagination pagination, HttpServletRequest req, HttpServletResponse res) throws JRException, IOException {
-        List<Sponsor> list = sponsorMapper.castBySponsorType2(startDate, endDate);
-        ReportBuilder reportBuilder = new ReportBuilder("chartBySponsorType", list, "chartBySponsorType.xlsx", req,
-                res);
-        reportBuilder.build("xlsx");
-    }
-
-
-    // 후원인목록
-    @RequestMapping(value = "/sponsor/sponsor_m.do", params = "cmd=xlsx")
-    public void sponsorList(Pagination pagination, HttpServletRequest req, HttpServletResponse res)
-            throws JRException, IOException {
-        List<Sponsor> list = sponsorMapper.sponsorListExcel(pagination);
-        ReportBuilder reportBuilder = new ReportBuilder("sponsorList", list, "sponsorList.xlsx", req, res);
-        reportBuilder.build("xlsx");
     }
 
 }

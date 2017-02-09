@@ -2,7 +2,6 @@ package fund.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import fund.dto.Sponsor;
 import fund.dto.pagination.Pagination;
@@ -12,15 +11,12 @@ import fund.mapper.SponsorMapper;
 public class SponsorService {
 
     @Autowired SponsorMapper sponsorMapper;
-    @Autowired @Qualifier("key1") String key1;
 
     public Sponsor selectById(int id) throws Exception {
-        System.out.println(key1);
-        return sponsorMapper.selectById(id, key1);
+        return sponsorMapper.selectById(id);
     }
 
     public void update(Sponsor sponsor) throws Exception {
-        sponsor.setKey1(key1);
         sponsorMapper.update(sponsor);
     }
 
@@ -29,7 +25,6 @@ public class SponsorService {
     }
 
     public void insert(Sponsor sponsor) throws Exception {
-        sponsor.setKey1(key1);
         sponsorMapper.insert(sponsor);
     }
 

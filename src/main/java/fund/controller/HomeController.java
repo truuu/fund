@@ -5,12 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import fund.mapper.CodeMapper;
+import fund.mapper.SponsorMapper;
 
 @Controller
 public class HomeController extends BaseController {
 
-	@Autowired CodeMapper codeMapper;
+	@Autowired SponsorMapper sponsorMapper;
 
     @RequestMapping("/home/index.do")
     public String index(Model model) {
@@ -22,8 +22,9 @@ public class HomeController extends BaseController {
         return "home/login";
     }
 
-    @RequestMapping("test1.do")
+    @RequestMapping("/home/test1.do")
     public String test1(Model model) {
+        //model.addAttribute("key2", sponsorMapper.selectKey2());
         return "home/test1";
     }
 

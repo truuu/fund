@@ -138,9 +138,6 @@ public class ReceiptController extends BaseController {
     @RequestMapping(value="/receipt/taxData.do", method=RequestMethod.POST)
     public void taxData(Model model, Wrapper wrapper, HttpServletRequest req, HttpServletResponse res) throws Exception {
         List<Payment> list = paymentMapper.selectForTaxData(wrapper.getMap());
-        for (Payment p : list) {
-            //SponsorService.
-        }
         ReportBuilder reportBuilder = new ReportBuilder("taxData", list, "taxData.xlsx", req, res);
         reportBuilder.build("xlsx");
     }

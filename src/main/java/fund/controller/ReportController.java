@@ -74,7 +74,7 @@ public class ReportController extends BaseController {
     @RequestMapping(value="/report/1a", method=RequestMethod.POST, params="cmd=excel")
     public void report1(Model model, Wrapper mapParam, HttpServletRequest req, HttpServletResponse res) throws Exception {
         paymentReport(mapParam, req, res,"payment1_list","납입내역.xlsx",1);
-        }
+    }
 
     @RequestMapping(value="/report/1b", method=RequestMethod.POST, params="cmd=excel")
     public void report1bReport(Model model, Wrapper wrapper, HttpServletRequest req, HttpServletResponse res) throws Exception {
