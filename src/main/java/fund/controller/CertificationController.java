@@ -1,5 +1,9 @@
 package fund.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import fund.dto.Certificate;
 import fund.dto.pagination.Pagination;
 import fund.mapper.CertificateMapper;
+import fund.service.ReportBuilder;
 
 @Controller
 public class CertificationController extends BaseController {
@@ -57,4 +62,15 @@ public class CertificationController extends BaseController {
         return "redirect:detail.do?id=" + certificate.getId() + "&" + pagination.getQueryString();
     }
 
+    @RequestMapping("/certificate/{type}/report.do")
+    public void report(@PathVariable("type") int type, @RequestParam("id") int id,
+        HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Certificate certificate = certificateMapper.selectById(id);
+        certificate.setUserName("현재사용자"); // TODO: 현재 사용자
+        List<Certificate> list = new ArrayList<>();
+        list.add(certificate);
+        String name = (type == 0) ? "printScholarship" : "printDonation";
+        ReportBuilder reportBuilder = new ReportBuilder(name,list, name + ".pdf", request, response);
+        reportBuilder.build("pdf");
+    }
 }
