@@ -33,28 +33,27 @@ public class SponsorPaymentController extends BaseController {
     static final String[] orderBy = new String[] { "paymentDate DESC", "paymentDate", "ID DESC", "ID" };
 
     // 정기 납입
-    @RequestMapping("/sponsor/paymentList1.do")
-    public String paymentList1(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
+    @RequestMapping("/sponsor/payment/list1.do")
+    public String list1(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
         model.addAttribute("commitments", commitmentMapper.selectBySponsorId(sid));
         return "sponsor/paymentList1";
     }
 
-    @RequestMapping(value="/sponsor/paymentList1ajax.do", method=RequestMethod.POST)
-    public String paymentList1a(@RequestParam("commitmentId") int commitmentId, Model model) {
+    @RequestMapping(value="/sponsor/payment/list1ajax.do", method=RequestMethod.POST)
+    public String list1ajax(@RequestParam("commitmentId") int commitmentId, Model model) {
         model.addAttribute("list", paymentMapper.selectPaymentList1(commitmentId));
         return "sponsor/paymentList1ajax/ajax";
     }
 
     // 비정기 납입
-    @RequestMapping("/sponsor/paymentList2.do")
-    public String paymentList2(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
+    @RequestMapping("/sponsor/payment/list2.do")
+    public String list2(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
         model.addAttribute("list", paymentMapper.selectPaymentList2(sid));
         return "sponsor/paymentList2";
     }
 
-    // 비정기 납입 수정
-    @RequestMapping(value="/sponsor/paymentEdit2.do", method=RequestMethod.GET)
-    public String paymentEdit2(Model model, @RequestParam("id") int id) {
+    @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.GET)
+    public String edit2(Model model, @RequestParam("id") int id) {
         model.addAttribute("payment", paymentMapper.selectById(id));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_비정기납입방법));
@@ -67,32 +66,28 @@ public class SponsorPaymentController extends BaseController {
         return "redirect:paymentList2.do?" + qs;
     }
 
-    // 비정기 납입 저장
-    @RequestMapping(value="/sponsor/paymentEdit2.do", method=RequestMethod.POST, params="cmd=save")
-    public String paymentEdit2(Model model, @RequestParam("sid") int sid, Payment payment) throws Exception {
+    @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.POST, params="cmd=save")
+    public String edit2(Model model, @RequestParam("sid") int sid, Payment payment) throws Exception {
         paymentMapper.update(payment);
         return redirectToList(model, sid);
     }
 
-    // 비정기 납입 삭제
-    @RequestMapping(value="/sponsor/paymentEdit2.do", method=RequestMethod.POST, params="cmd=delete")
-    public String paymentEdit2(Model model, @RequestParam("sid") int sid, @RequestParam("id") int id) throws Exception {
+    @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.POST, params="cmd=delete")
+    public String edit2(Model model, @RequestParam("sid") int sid, @RequestParam("id") int id) throws Exception {
         paymentMapper.delete(id);
         return redirectToList(model, sid);
     }
 
-    // 비정기 납입 생성
-    @RequestMapping(value="/sponsor/paymentNew2.do", method=RequestMethod.GET)
-    public String paymentNew2(Model model) {
+    @RequestMapping(value="/sponsor/payment/create2.do", method=RequestMethod.GET)
+    public String create2(Model model) {
         model.addAttribute("payment", new Payment());
         model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_비정기납입방법));
         return "sponsor/paymentEdit2";
     }
 
-    // 비정기 납입 저장
-    @RequestMapping(value="/sponsor/paymentNew2.do", method=RequestMethod.POST)
-    public String paymentNew2(Model model, @RequestParam("sid") int sid, Payment payment) throws Exception {
+    @RequestMapping(value="/sponsor/payment/create2.do", method=RequestMethod.POST)
+    public String create2(Model model, @RequestParam("sid") int sid, Payment payment) throws Exception {
         payment.setSponsorId(sid);
         paymentMapper.insert(payment);
         return redirectToList(model, sid);

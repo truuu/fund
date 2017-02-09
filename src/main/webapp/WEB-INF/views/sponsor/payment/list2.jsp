@@ -5,13 +5,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="tab4" value="active" />
-<%@include file="_tab.jsp" %>
+<%@include file="../_tab.jsp" %>
 
 <c:set var="pg" value="${ pagination.queryString }" />
 <c:set var="sid" value="${ sponsor.id }" />
 
 <div class="pull-right mt4 mb4">
-  <a href="paymentNew2.do?sid=${sid}&${pg}" class="btn btn-primary">새로 등록</a>
+  <a href="create2.do?sid=${sid}&${pg}" class="btn btn-primary">새로 등록</a>
 </div>
 
 <c:set var="sum" value="${ 0 }" />
@@ -27,7 +27,7 @@
   </thead>
   <tbody>
     <c:forEach var="payment" items="${ list }">
-      <tr data-url="paymentEdit2.do?id=${payment.id}&sid=${sid}&${pg}">
+      <tr data-url="edit2.do?id=${payment.id}&sid=${sid}&${pg}">
         <td>${ payment.paymentMethodName }</td>
         <td class="right"><fmt:formatNumber value="${ payment.amount}" /></td>
         <td>${ payment.paymentDate}</td>

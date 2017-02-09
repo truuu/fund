@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <c:set var="tab4" value="active" />
-<%@include file="_tab.jsp" %>
+<%@include file="../_tab.jsp" %>
 
 <form:form method="post" modelAttribute="payment">
 
@@ -14,7 +14,7 @@
   <c:if test="${ payment.id > 0 }">
     <button type="submit" class="btn btn-danger" name="cmd" value="delete" data-confirm-delete>삭제</button>
   </c:if>    
-  <a href="paymentList2.do?sid=${ sponsor.id }&${ pagination.queryString }" class="btn btn-info">납입 목록</a>
+  <a href="list2.do?sid=${ sponsor.id }&${ pagination.queryString }" class="btn btn-info">납입 목록</a>
 </div>
 
 <table class="table table-bordered lbw150">
@@ -30,7 +30,7 @@
     <td class="lb">기부목적</td>
     <td>
         <c:set var="paramObj" value="${ payment }" />
-        <%@include file="_donationPurposeInput.jsp" %>
+        <%@include file="../_donationPurposeInput.jsp" %>
     </td>
   </tr>
   <tr>  
@@ -41,4 +41,4 @@
 
 </form:form>
 
-<%@include file="_donationPurposeDialog.jsp" %>
+<%@include file="../_donationPurposeDialog.jsp" %>

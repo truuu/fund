@@ -45,12 +45,6 @@ public class Sponsor {
         return (mailTo == 0) ? homePostCode : officePostCode;
     }
 
-    // 기타
-    int sponsorCount; // 후원인구분2별 출연내역 회원수
-    int castCount; // 후원인구분2별 출연내역 출연수
-    int sum; // 후원인구분2별 출연내역 금액
-    double persent; // 후원인별에 %값
-
     public Sponsor() { // junit 테스트를 위해 초기화
         this.juminNo = "";
         this.mobilePhone = "";
@@ -311,38 +305,6 @@ public class Sponsor {
 
     public void setChurch(String church) {
         this.church = church;
-    }
-
-    public int getSponsorCount() {
-        return sponsorCount;
-    }
-
-    public void setSponsorCount(int sponsorCount) {
-        this.sponsorCount = sponsorCount;
-    }
-
-    public int getCastCount() {
-        return castCount;
-    }
-
-    public void setCastCount(int castCount) {
-        this.castCount = castCount;
-    }
-
-    public int getSum() {
-        return sum;
-    }
-
-    public void setSum(int sum) {
-        this.sum = sum;
-    }
-
-    public double getPersent() {
-        return persent;
-    }
-
-    public void setPersent(double persent) {
-        this.persent = persent;
     }
 
 }

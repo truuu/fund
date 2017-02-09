@@ -4,13 +4,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <c:set var="tab2" value="active" /> 
-<%@include file="_tab.jsp" %>
+<%@include file="../_tab.jsp" %>
 
 <c:set var="pg" value="${ pagination.queryString }" />
 <c:set var="sid" value="${ sponsor.id }" />
 
 <div class="pull-right mt4 mb4">
-  <a href="commitmentNew.do?sid=${sid}&${pg}" class="btn btn-primary">약정 등록</a>
+  <a href="create.do?sid=${sid}&${pg}" class="btn btn-primary">약정 등록</a>
 </div>
 
 <table class="table table-bordered">
@@ -28,7 +28,7 @@
   </thead>
   <tbody>
     <c:forEach var="commitment" items="${ list }">
-      <tr data-url="commitmentEdit.do?id=${commitment.id}&sid=${sid}&${pg}">
+      <tr data-url="edit.do?id=${commitment.id}&sid=${sid}&${pg}">
         <td>${ commitment.commitmentNo }</td>
         <td>${ commitment.donationPurposeName }</td>
         <td>${ commitment.paymentMethodName }</td>

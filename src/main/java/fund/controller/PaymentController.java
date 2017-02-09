@@ -18,14 +18,14 @@ import fund.dto.param.Wrapper;
 import fund.mapper.CodeMapper;
 import fund.mapper.CorporateMapper;
 import fund.mapper.DonationPurposeMapper;
-import fund.mapper.ReportMapper;
+import fund.mapper.PaymentMapper;
 import fund.service.C;
 import fund.service.ReportBuilder3;
 
 @Controller
-public class ReportController extends BaseController {
+public class PaymentController extends BaseController {
 
-    @Autowired ReportMapper reportMapper;
+    @Autowired PaymentMapper paymentMapper;
     @Autowired CodeMapper codeMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
     @Autowired CorporateMapper corporateMapper;
@@ -48,18 +48,18 @@ public class ReportController extends BaseController {
         new OrderBy("금액", "ORDER BY amount DESC"),
     };
 
-    @RequestMapping(value="/report/1a", method=RequestMethod.GET)
+    @RequestMapping(value="/payment/srch1a", method=RequestMethod.GET)
     public String report1a(Model model) {
         addModel1(model);
         model.addAttribute("wrapper", new Wrapper());
-        return "report/1a";
+        return "payment/srch1a";
     }
 
-    @RequestMapping(value="/report/1a", method=RequestMethod.POST, params="cmd=search")
+    @RequestMapping(value="/payment/srch1a", method=RequestMethod.POST, params="cmd=search")
     public String report1a(Model model, Wrapper wrapper) {
         addModel1(model);
-        model.addAttribute("list", reportMapper.selectReport1a(wrapper.getMap()));
-        return "report/1a";
+        model.addAttribute("list", paymentMapper.selectReport1a(wrapper.getMap()));
+        return "payment/srch1a";
     }
 
     private void addModel1(Model model) {
@@ -71,12 +71,12 @@ public class ReportController extends BaseController {
         model.addAttribute("report1aOrderBy", report1aOrderBy);
     }
 
-    @RequestMapping(value="/report/1a", method=RequestMethod.POST, params="cmd=excel")
+    @RequestMapping(value="/payment/srch1a", method=RequestMethod.POST, params="cmd=excel")
     public void report1(Model model, Wrapper mapParam, HttpServletRequest req, HttpServletResponse res) throws Exception {
         paymentReport(mapParam, req, res,"payment1_list","납입내역.xlsx",1);
     }
 
-    @RequestMapping(value="/report/1b", method=RequestMethod.POST, params="cmd=excel")
+    @RequestMapping(value="/payment/srch1b", method=RequestMethod.POST, params="cmd=excel")
     public void report1bReport(Model model, Wrapper wrapper, HttpServletRequest req, HttpServletResponse res) throws Exception {
     	paymentReport(wrapper, req, res,"payment2_list","납입합계내역.xlsx",2);
     }
@@ -87,8 +87,8 @@ public class ReportController extends BaseController {
 		Map<String,Object> map = wrapper.getMap();
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 
-		if(option==1) list = reportMapper.selectReport1a(map);
-		else list = reportMapper.selectReport1b(map);
+		if(option==1) list = paymentMapper.selectReport1a(map);
+		else list = paymentMapper.selectReport1b(map);
 
         String id = (String)map.get("paymentMethodId");
         if (StringUtils.isBlank(id) == false) map.put("paymentMethodName", codeMapper.selectById(Integer.valueOf(id)).getCodeName());
@@ -109,24 +109,24 @@ public class ReportController extends BaseController {
 	}
 
 
-    @RequestMapping(value="/report/1b", method=RequestMethod.GET)
+    @RequestMapping(value="/payment/srch1b", method=RequestMethod.GET)
     public String report1b(Model model) {
         model.addAttribute("wrapper", new Wrapper());
         addModel1(model);
-        return "report/1b";
+        return "payment/srch1b";
     }
 
-    @RequestMapping(value="/report/1b", method=RequestMethod.POST, params="cmd=search")
+    @RequestMapping(value="/payment/srch1b", method=RequestMethod.POST, params="cmd=search")
     public String report1b(Model model, Wrapper wrapper) {
         addModel1(model);
-        model.addAttribute("list", reportMapper.selectReport1b(wrapper.getMap()));
-        return "report/1b";
+        model.addAttribute("list", paymentMapper.selectReport1b(wrapper.getMap()));
+        return "payment/srch1b";
     }
 
     static String[] report2Title = new String[] { "기부목적", "회원구분", "소속교회" };
 
     //// report2
-    @RequestMapping(value="/report/2/{i}", method=RequestMethod.GET)
+    @RequestMapping(value="/payment/srch2/{i}", method=RequestMethod.GET)
     public String report2a(Model model, @PathVariable("i") int i) {
         Wrapper wrapper = new Wrapper();
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -134,28 +134,28 @@ public class ReportController extends BaseController {
         wrapper.getMap().put("endDate", String.format("%d-12-31", year));
         model.addAttribute("wrapper", wrapper);
         model.addAttribute("title", report2Title[i]);
-        return "report/2";
+        return "payment/srch2";
     }
 
-    @RequestMapping(value="/report/2/{i}", method=RequestMethod.POST, params="cmd=search")
+    @RequestMapping(value="/payment/srch2/{i}", method=RequestMethod.POST, params="cmd=search")
     public String report2a(Model model, Wrapper wrapper, @PathVariable("i") int i) {
         switch (i) {
-        case 0: model.addAttribute("list", reportMapper.selectReport2a(wrapper.getMap())); break;
-        case 1: model.addAttribute("list", reportMapper.selectReport2b(wrapper.getMap())); break;
-        case 2: model.addAttribute("list", reportMapper.selectReport2c(wrapper.getMap())); break;
+        case 0: model.addAttribute("list", paymentMapper.selectReport2a(wrapper.getMap())); break;
+        case 1: model.addAttribute("list", paymentMapper.selectReport2b(wrapper.getMap())); break;
+        case 2: model.addAttribute("list", paymentMapper.selectReport2c(wrapper.getMap())); break;
         }
         model.addAttribute("title", report2Title[i]);
-        return "report/2";
+        return "payment/srch2";
     }
 
-    @RequestMapping(value="/report/2/{i}", method=RequestMethod.POST, params="cmd=excel")
+    @RequestMapping(value="/payment/srch2/{i}", method=RequestMethod.POST, params="cmd=excel")
     public void report2aReport(Model model, Wrapper wrapper, @PathVariable("i") int i, HttpServletRequest req, HttpServletResponse res)throws Exception {
         List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 
     	switch (i) {
-        case 0: list = reportMapper.selectReport2a(wrapper.getMap()); break;
-        case 1: list = reportMapper.selectReport2b(wrapper.getMap()); break;
-        case 2: list = reportMapper.selectReport2c(wrapper.getMap()); break;
+        case 0: list = paymentMapper.selectReport2a(wrapper.getMap()); break;
+        case 1: list = paymentMapper.selectReport2b(wrapper.getMap()); break;
+        case 2: list = paymentMapper.selectReport2c(wrapper.getMap()); break;
         }
 
         Map<String, Object> map = list.get(list.size()-1);

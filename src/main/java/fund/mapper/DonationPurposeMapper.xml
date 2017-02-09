@@ -4,33 +4,33 @@
 <mapper namespace="fund.mapper.DonationPurposeMapper">
 
 <select id="selectAll" resultType="fund.dto.DonationPurpose">
-    SELECT d.*, c1.codeName organizationName, c2.name corporateName
-    FROM DonationPurpose d 
-         left JOIN Code c1 ON d.organizationId = c1.id
-         left JOIN Corporate c2 ON d.corporateId = c2.id
-    ORDER BY c2.id, c1.id, d.id
+SELECT d.*, c1.codeName organizationName, c2.name corporateName
+FROM DonationPurpose d 
+  left JOIN Code c1 ON d.organizationId = c1.id
+  left JOIN Corporate c2 ON d.corporateId = c2.id
+ORDER BY c2.id, c1.id, d.id
 </select>
 
 <select id="selectById" resultType="fund.dto.DonationPurpose">
-	SELECT * FROM DonationPurpose WHERE id = #{id}
+SELECT * FROM DonationPurpose WHERE id = #{id}
 </select>
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-	INSERT DonationPurpose (corporateId, organizationId, name, gubun)
-	VALUES (#{corporateId}, #{organizationId}, #{name}, #{gubun})
+INSERT DonationPurpose (corporateId, organizationId, name, gubun)
+VALUES (#{corporateId}, #{organizationId}, #{name}, #{gubun})
 </insert>
 
 <update id="update">
-	UPDATE DonationPurpose
-	SET corporateId = #{corporateId}, 
-        organizationId = #{organizationId},
-	    name = #{name},
-	    gubun = #{gubun}
-	WHERE id = #{id}
+UPDATE DonationPurpose
+SET corporateId = #{corporateId}, 
+  organizationId = #{organizationId},
+	name = #{name},
+	gubun = #{gubun}
+WHERE id = #{id}
 </update>
 
 <delete id="delete">
-	DELETE FROM [DonationPurpose] WHERE id = #{id}
+DELETE FROM [DonationPurpose] WHERE id = #{id}
 </delete>
 
 </mapper>

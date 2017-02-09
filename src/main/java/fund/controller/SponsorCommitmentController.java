@@ -21,7 +21,7 @@ import fund.service.LogService;
 import fund.service.Util;
 
 @Controller
-public class CommitmentController extends BaseController {
+public class SponsorCommitmentController extends BaseController {
 
     @Autowired CommitmentMapper commitmentMapper;
     @Autowired CodeMapper codeMapper;
@@ -38,29 +38,27 @@ public class CommitmentController extends BaseController {
         model.addAttribute("banks", codeMapper.selectByCodeGroupId(C.코드그룹ID_은행));
     }
 
-    /* 약정 목록 화면 */
-    @RequestMapping(value = "/sponsor/commitmentList.do", method = RequestMethod.GET)
-    public String commitmentList(Model model, @RequestParam("sid") int sid) {
+    @RequestMapping(value = "/sponsor/commitment/list.do", method = RequestMethod.GET)
+    public String list(Model model, @RequestParam("sid") int sid) {
         model.addAttribute("list", commitmentMapper.selectBySponsorId(sid));
-        return "sponsor/commitmentList";
+        return "sponsor/commitment/list";
     }
 
     private String redirectToList(Model model, int sid) throws Exception {
         PaginationSponsor pagination = (PaginationSponsor)model.asMap().get("pagination");
         String qs = String.format("sid=%d&%s", sid, pagination.getQueryString());
-        return "redirect:commitmentList.do?" + qs;
+        return "redirect:list.do?" + qs;
     }
 
 
-    /* 약정 수정 화면 */
-    @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.GET)
-    public String commitmentEdit(Model model, @RequestParam("id") int id) throws ParseException {
+    @RequestMapping(value="/sponsor/commitment/edit.do", method=RequestMethod.GET)
+    public String edit(Model model, @RequestParam("id") int id) throws ParseException {
        model.addAttribute("commitment", commitmentMapper.selectById(id));
-       return "sponsor/commitmentEdit";
+       return "sponsor/commitment/edit";
     }
 
-    @RequestMapping(value="/sponsor/commitmentEdit.do", method=RequestMethod.POST)
-    public String commitmentSave(Model model, @RequestParam("sid") int sid, Commitment commitment, @RequestParam("cmd") String cmd) throws Exception {
+    @RequestMapping(value="/sponsor/commitment/edit.do", method=RequestMethod.POST)
+    public String edit(Model model, @RequestParam("sid") int sid, Commitment commitment, @RequestParam("cmd") String cmd) throws Exception {
         try {
             switch (cmd) {
             case "save":  commitmentMapper.update(commitment); break;
@@ -69,13 +67,12 @@ public class CommitmentController extends BaseController {
             }
             return redirectToList(model, sid);
         } catch (Exception e) {
-            return logService.logErrorAndReturn(model, e, "sponsor/commitmentEdit");
+            return logService.logErrorAndReturn(model, e, "sponsor/commitment/edit");
         }
     }
 
-    /* 약정 신규 화면 */
-    @RequestMapping(value="/sponsor/commitmentNew.do", method=RequestMethod.GET)
-    public String commitmentNew(Model model, @RequestParam("sid") int sid) throws Exception {
+    @RequestMapping(value="/sponsor/commitment/create.do", method=RequestMethod.GET)
+    public String create(Model model, @RequestParam("sid") int sid) throws Exception {
         Commitment commitment = new Commitment();
         commitment.setSponsorId(sid);
         commitment.setCommitmentNo(commitmentMapper.generateCommitmentNo(sid));
@@ -85,11 +82,11 @@ public class CommitmentController extends BaseController {
         commitment.setPaymentDay(20);
         model.addAttribute("commitment", commitment);
         model.addAttribute("sponsor", sponsorMapper.selectById(sid));
-        return "sponsor/commitmentNew";
+        return "sponsor/commitment/create";
     }
 
-    @RequestMapping(value="/sponsor/commitmentNew.do", method=RequestMethod.POST)
-    public String commitmentNewSave(Model model, @RequestParam("sid") int sid, Commitment commitment) throws Exception {
+    @RequestMapping(value="/sponsor/commitment/create.do", method=RequestMethod.POST)
+    public String create(Model model, @RequestParam("sid") int sid, Commitment commitment) throws Exception {
         try {
             commitment.setCommitmentNo(commitmentMapper.generateCommitmentNo(sid));
             commitment.setSponsorId(sid);
@@ -97,7 +94,7 @@ public class CommitmentController extends BaseController {
             commitmentMapper.insert(commitment);
             return redirectToList(model, sid);
         } catch (Exception e) {
-            return logService.logErrorAndReturn(model, e, "sponsor/commitmentNew");
+            return logService.logErrorAndReturn(model, e, "sponsor/commitment/create");
         }
     }
 

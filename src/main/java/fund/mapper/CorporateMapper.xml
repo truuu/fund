@@ -4,31 +4,31 @@
 <mapper namespace="fund.mapper.CorporateMapper">
 
 <select id="selectAll" resultType="fund.dto.Corporate">
-	SELECT * FROM Corporate
+SELECT * FROM Corporate
 </select>
 
 <select id="selectById" resultType="fund.dto.Corporate"> 
-	SELECT  * FROM  Corporate WHERE id = #{id}
+SELECT  * FROM  Corporate WHERE id = #{id}
 </select>
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-    INSERT Corporate (name, corporateNo, representative, roadAddress, detailAddress, postCode)
-    VALUES (#{name}, #{corporateNo}, #{representative}, #{roadAddress}, #{detailAddress}, #{postCode})
+INSERT Corporate (name, corporateNo, representative, roadAddress, detailAddress, postCode)
+VALUES (#{name}, #{corporateNo}, #{representative}, #{roadAddress}, #{detailAddress}, #{postCode})
 </insert>
 
 <update id="update">
-    UPDATE Corporate
-    SET name = #{name}, 
-        corporateNo = #{corporateNo}, 
-        representative = #{representative}, 
-        roadAddress = #{roadAddress},
-        detailAddress = #{detailAddress},
-        postcode = #{postCode}
-    WHERE ID = #{id}
+UPDATE Corporate
+SET name = #{name}, 
+  corporateNo = #{corporateNo}, 
+  representative = #{representative}, 
+  roadAddress = #{roadAddress},
+  detailAddress = #{detailAddress},
+  postcode = #{postCode}
+WHERE ID = #{id}
 </update>
 
 <delete id="delete">
-    DELETE FROM Corporate WHERE id = #{id}
+DELETE FROM Corporate WHERE id = #{id}
 </delete>
 	
 </mapper>

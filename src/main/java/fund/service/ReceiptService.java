@@ -44,7 +44,7 @@ public class ReceiptService {
 	        p.setReceiptId(null);
 	        paymentMapper.update(p);
 	    }
-	    receiptMapper.deleteById(id);
+	    receiptMapper.delete(id);
 	    return null;
 	}
 

@@ -5,12 +5,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="tab3" value="active" />
-<%@include file="_tab.jsp" %>
+<%@include file="../_tab.jsp" %>
 
 <script>
 function searchPayment() {
     var params = { sid:0, commitmentId: $("select[name=commitmentId]").val() };
-    $("#searchResult").load("paymentList1ajax.do", params);
+    $("#searchResult").load("list1ajax.do", params);
 }
 </script>
 

@@ -10,5 +10,4 @@ public interface LogMapper {
     int selectCount(Pagination pagination);
     void insert(Log log);
     void delete(int id);
-
 }

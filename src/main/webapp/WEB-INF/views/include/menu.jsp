@@ -36,7 +36,7 @@
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">후원인관리<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="/fund_sys/sponsor/list.do">후원인 목록</a></li>
-              <li><a href="/fund_sys/sponsor/sendDM.do">우편 발송</a></li>
+              <li><a href="/fund_sys/sponsor/dm.do">우편 발송</a></li>
             </ul>
           </li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">금융연동<span class="caret"></span></a>
@@ -57,10 +57,10 @@
             <ul class="dropdown-menu" role="menu">
               <li><a href="/fund_sys/report/1a.do">납입 내역 조회</a></li>
               <li class="divider"></li>
-              <li><a href="/fund_sys/report/1b.do">후원인별 납입 합계</a></li>
-              <li><a href="/fund_sys/report/2/0.do">기부목적별 납입 합계</a></li>
-              <li><a href="/fund_sys/report/2/1.do">회원구분별 납입 합계</a></li>
-              <li><a href="/fund_sys/report/2/2.do">소속교회별 납입 합계</a></li>
+              <li><a href="/fund_sys/report/srch1b.do">후원인별 납입 합계</a></li>
+              <li><a href="/fund_sys/report/srch2/0.do">기부목적별 납입 합계</a></li>
+              <li><a href="/fund_sys/report/srch2/1.do">회원구분별 납입 합계</a></li>
+              <li><a href="/fund_sys/report/srch2/2.do">소속교회별 납입 합계</a></li>
             </ul>
           </li>
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">영수증<span class="caret"></span></a>
@@ -79,9 +79,6 @@
             <ul class="dropdown-menu" role="menu">
               <li><a href="/fund_sys/user/list.do">사용자목록</a></li>
               <li><a href="/fund_sys/log/list.do">로그 기록</a></li>
-              <li class="divider"></li>
-              <li><a href="/fund_sys/sponsor/encryptNo.do">후원인 암호화</a></li>
-              <li><a href="/fund_sys/sponsor/decryptNo.do">후원인 암호제거</a></li>              
             </ul>
           </li>
         </ul>

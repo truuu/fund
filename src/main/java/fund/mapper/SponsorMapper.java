@@ -18,10 +18,5 @@ public interface SponsorMapper {
 
     List<Sponsor> selectForDM(Pagination pagination);
     int selectCountForDM(Pagination pagination);
-
-	int sponsorTypeCheck(String codeName);
-
-	int countForDM(Pagination pagination);
-
 }
 

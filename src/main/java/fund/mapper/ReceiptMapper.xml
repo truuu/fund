@@ -4,6 +4,10 @@
 
 <mapper namespace="fund.mapper.ReceiptMapper">
 
+<select id="selectById" resultType="fund.dto.Receipt">
+SELECT * FROM [Receipt] WHERE id= # {id}
+</select>
+
 <select id="selectPage" resultType="hashmap">
 <![CDATA[
 DECLARE @nm NVARCHAR(50), @sd VARCHAR(50), @ed VARCHAR(50), @currentPage INT, @pageSize INT
@@ -44,68 +48,24 @@ AND (@sd = '' OR @sd IS NULL OR r.createDate BETWEEN @sd AND @ed)
 </select>
 
 <select id="generateReceiptNo" resultType="java.lang.String">
-  DECLARE @n INT, @year CHAR(4)
-  SET @year = SUBSTRING(#{createDate}, 1, 4)
-  SET @n = (
-    SELECT MAX(CONVERT(INT, RIGHT([no],4)))
-    FROM receipt
-    WHERE CHARINDEX(@year, [no]) = 1 AND LEN([no]) = 9
-    AND ISNUMERIC(RIGHT([no], 4)) = 1)
-  SET @n = ISNULL(@n,0) + 1
-  SELECT @year + '-' + REPLACE(STR(@n, 4), ' ', '0')
+DECLARE @n INT, @year CHAR(4)
+SET @year = SUBSTRING(#{createDate}, 1, 4)
+SET @n = (
+  SELECT MAX(CONVERT(INT, RIGHT([no],4)))
+  FROM receipt
+  WHERE CHARINDEX(@year, [no]) = 1 AND LEN([no]) = 9
+  AND ISNUMERIC(RIGHT([no], 4)) = 1)
+SET @n = ISNULL(@n,0) + 1
+SELECT @year + '-' + REPLACE(STR(@n, 4), ' ', '0')
 </select>
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-  INSERT INTO Receipt (sponsorId, createDate, [no])
-  VALUES( #{sponsorId},#{createDate},#{no})
+INSERT INTO Receipt (sponsorId, createDate, [no])
+VALUES( #{sponsorId},#{createDate},#{no})
 </insert>
-    
-    
-    
-    
-    
-	<select id="selectRctID" resultType="int">
-		SELECT top 1 id
-		FROM [Receipt]
-		ORDER BY id DESC
-	</select>
 
-	<select id="selectById" resultType="fund.dto.Receipt">
-		SELECT *
-		FROM [Receipt]
-		WHERE id=#{id}
-	</select>
-	
-	<select id="selectByNo" resultType="fund.dto.Receipt">
-		SELECT * FROM [Receipt] WHERE [no]=#{no}
-	</select>
-	
-	<select id="selectReceiptList" resultType="fund.dto.Receipt">
-		SELECT receipt.no,sponsor.name,sponsor.juminNo,sponsor.mobilePhone
-		FROM [Receipt] JOIN [Sponsor] ON receipt.sponsorId=sponsor.id 
-					JOIN [Payment] ON receipt.id=payment.receiptId 
-	</select>
-	
-
-	
-	<select id="getRid" resultType="int">
-		SELECT max(id) FROM [Receipt]
-	</select>
-	
-	<select id="getLastNo" resultType="String">
-		SELECT top 1 [no]
-		FROM [Receipt]
-		WHERE [no] LIKE #{year}+'%'
-		ORDER BY id DESC
-	</select>
+<delete id="deleteById">
+DELETE FROM [Receipt] WHERE id = #{id}
+</delete>
     
-    
-    <delete id="deleteByNo">
-    	DELETE FROM [Receipt] WHERE [no]=#{no}
-    </delete>
-    
-    <delete id="deleteById">
-    	DELETE FROM [Receipt] WHERE id=#{id}
-    </delete>
-
 </mapper>

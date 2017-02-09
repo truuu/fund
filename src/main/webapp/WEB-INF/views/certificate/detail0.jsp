@@ -7,7 +7,7 @@
 <hr />
 
 <div class="pull-right mb4">
-  <a class="btn btn-primary" href="report.do?rid=${ certificate.id }">증서 다운로드</a>
+  <a class="btn btn-primary" href="report.do?id=${ certificate.id }">증서 다운로드</a>
   <a class="btn btn-info" href="list.do?${ pagination.queryString }">목록으로</a>
   <a class="btn btn-danger" href="delete.do?id=${ certificate.id }&${ pagination.queryString }" data-confirm-delete>증서 삭제</a>
 </div>
