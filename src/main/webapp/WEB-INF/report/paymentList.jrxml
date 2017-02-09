@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2017-02-09T15:43:16 -->
+<!-- 2017-02-09T17:13:05 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="paymentList" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="faf87966-e2e6-4e9e-8e2b-9e15ac700f27">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="patronageDataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -24,7 +24,7 @@ WHERE receiptID=$P{receiptID}]]>
 		<band height="15" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
-				<reportElement x="0" y="0" width="550" height="15" uuid="a12d4a1e-c954-4bd4-8c39-a9b561248cc3">
+				<reportElement x="0" y="0" width="578" height="15" uuid="a12d4a1e-c954-4bd4-8c39-a9b561248cc3">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box>
@@ -88,7 +88,7 @@ WHERE receiptID=$P{receiptID}]]>
 				<text><![CDATA[유형]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="480" y="0" width="70" height="30" uuid="1a66b292-ab42-4f30-872f-ee724c6800ca"/>
+				<reportElement x="480" y="0" width="98" height="30" uuid="1a66b292-ab42-4f30-872f-ee724c6800ca"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -207,7 +207,7 @@ WHERE receiptID=$P{receiptID}]]>
 				<textFieldExpression><![CDATA[$F{paymentDate}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.##;¤-#,##0.##">
-				<reportElement x="480" y="0" width="70" height="20" uuid="c45d96dc-110a-41e4-9c40-db78515cd82b">
+				<reportElement x="480" y="0" width="98" height="20" uuid="c45d96dc-110a-41e4-9c40-db78515cd82b">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box>
@@ -306,7 +306,7 @@ WHERE receiptID=$P{receiptID}]]>
 		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField pattern="#,##0.##;¤-#,##0.##">
-				<reportElement x="480" y="0" width="70" height="20" uuid="3bab7328-4ad7-49a2-b75b-4cc8efdd0653">
+				<reportElement x="480" y="0" width="98" height="20" uuid="3bab7328-4ad7-49a2-b75b-4cc8efdd0653">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box>
