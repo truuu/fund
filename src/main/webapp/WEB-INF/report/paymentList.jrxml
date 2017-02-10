@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2017-02-10T18:01:05 -->
+<!-- 2017-02-10T18:47:31 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="paymentList" pageWidth="550" pageHeight="842" columnWidth="550" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="faf87966-e2e6-4e9e-8e2b-9e15ac700f27">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="newPatronage.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
@@ -44,7 +44,7 @@ WHERE receiptId=$P{receiptId}]]>
 				<textElement>
 					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[④ 기부내용a]]></text>
+				<text><![CDATA[④ 기부내용]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -139,7 +139,7 @@ WHERE receiptId=$P{receiptId}]]>
 				<text><![CDATA[내용]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="280" y="15" width="70" height="15" uuid="ac85b2af-b3cb-4b8e-95ee-0d6304dcd8a3">
+				<reportElement x="280" y="15" width="71" height="15" uuid="ac85b2af-b3cb-4b8e-95ee-0d6304dcd8a3">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
