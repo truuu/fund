@@ -80,9 +80,11 @@ SET @endDate = #{endDate}
 
 SELECT p.*, d.corporateId
 FROM Payment p 
-  LEFT JOIN donationPurpose d ON d.id = p.donationPurposeId
+  JOIN donationPurpose d ON d.id = p.donationPurposeId
+  JOIN sponsor s ON s.id = p.sponsorId
 WHERE p.paymentDate BETWEEN @startDate AND @endDate
 AND p.receiptId IS NULL
+AND LEN(CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted))) IN (13, 10)
 ORDER BY p.sponsorId, d.corporateId
 </select>    
 
@@ -95,14 +97,19 @@ DECLARE @startDate DATE, @endDate DATE, @corporateId INT
 SET @startDate = #{startDate}
 SET @endDate = #{endDate}
 SET @corporateId = #{corporateId}
-SELECT p.*, s.sponsorNo, s.name sponsorName, 
-  CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted)) juminNo
-FROM payment p 
-  LEFT JOIN sponsor s ON s.id = p.sponsorId
-  LEFT JOIN donationPurpose d ON d.id = p.donationPurposeId
-WHERE paymentDate BETWEEN @startDate AND @endDate
-AND corporateId = @corporateId
-AND receiptId IS NOT NULL
+
+SELECT *
+FROM (
+  SELECT p.*, s.sponsorNo, s.name sponsorName, 
+    CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted)) juminNo
+  FROM payment p 
+    LEFT JOIN sponsor s ON s.id = p.sponsorId
+    LEFT JOIN donationPurpose d ON d.id = p.donationPurposeId
+  WHERE paymentDate BETWEEN @startDate AND @endDate
+  AND corporateId = @corporateId
+  AND receiptId IS NOT NULL
+) t
+WHERE LEN(juminNo) = 13
 </select>
 
 <select id="selectReport1a" resultType="hashmap">

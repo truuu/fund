@@ -64,7 +64,7 @@ INSERT INTO Receipt (sponsorId, createDate, [no])
 VALUES( #{sponsorId},#{createDate},#{no})
 </insert>
 
-<delete id="deleteById">
+<delete id="delete">
 DELETE FROM [Receipt] WHERE id = #{id}
 </delete>
     
