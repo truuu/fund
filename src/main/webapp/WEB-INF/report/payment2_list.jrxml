@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2017-02-03T15:53:14 -->
+<!-- 2017-02-10T16:16:09 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="payment2_list" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cf182684-75ae-4eb6-bcf3-b59943715d60">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="patronageDataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -39,6 +39,9 @@ group by s.sponsorNo, s.name, c1.codeName, c2.codeName]]>
 	</variable>
 	<variable name="sum_totalSum" class="java.lang.Integer" calculation="Sum">
 		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<variable name="recordCount" class="java.lang.String" calculation="Count">
+		<variableExpression><![CDATA[$F{count}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -250,7 +253,7 @@ group by s.sponsorNo, s.name, c1.codeName, c2.codeName]]>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[총 납입건수]]></text>
+				<text><![CDATA[납입액]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="300" y="0" width="150" height="20" uuid="746a4f02-76d7-47fc-9dd8-4778233e2321"/>
@@ -264,7 +267,7 @@ group by s.sponsorNo, s.name, c1.codeName, c2.codeName]]>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[총 납입액]]></text>
+				<text><![CDATA[납입건수]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -294,10 +297,10 @@ group by s.sponsorNo, s.name, c1.codeName, c2.codeName]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sponsorType2Name}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField pattern="#,##0.##;¤-#,##0.##" isBlankWhenNull="true">
 				<reportElement x="450" y="0" width="100" height="20" uuid="81649b1b-cd80-4fd7-8286-e6d64d7bf954"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="300" y="0" width="150" height="20" uuid="439036cf-3831-4d79-96fd-8c278eda541b"/>
@@ -309,7 +312,7 @@ group by s.sponsorNo, s.name, c1.codeName, c2.codeName]]>
 			<textField pattern="#,##0.##;¤-#,##0.##" isBlankWhenNull="true">
 				<reportElement x="550" y="0" width="100" height="20" uuid="b6323537-2ab0-4898-8124-422dc454a257"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -326,25 +329,13 @@ group by s.sponsorNo, s.name, c1.codeName, c2.codeName]]>
 	<summary>
 		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField isBlankWhenNull="true">
-				<reportElement x="300" y="0" width="150" height="20" uuid="93f70154-cea9-4a05-9bb1-0f501f16262a"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$V{sum_totalCount}]]></textFieldExpression>
-			</textField>
 			<textField pattern="#,##0.##;¤-#,##0.##" isBlankWhenNull="true">
-				<reportElement x="550" y="0" width="100" height="20" uuid="e8a1b50f-e920-4f89-b657-957d7a97ab49"/>
+				<reportElement x="450" y="0" width="100" height="20" uuid="e8a1b50f-e920-4f89-b657-957d7a97ab49"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$V{sum_totalSum}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="200" y="0" width="100" height="20" uuid="24ed7c93-2273-4374-83da-f1dd37147809"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[총 납입건수]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="450" y="0" width="100" height="20" uuid="522b65e5-60b9-4883-8871-4e60c28343b9"/>
+				<reportElement x="300" y="0" width="150" height="20" uuid="bbacef33-327d-4f80-b356-708586ab3cf1"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
