@@ -100,7 +100,7 @@ public class SponsorController extends BaseController {
             pagination.setRecordCount(count);
             pagination.setPageSize(count);
             List<Sponsor> list = sponsorMapper.selectForDM(pagination);
-            String fname = "sendDM_" + pagination.getStartDate() + "_" + pagination.getEndDate() + ".xlsx";
+            String fname = "우편발송_" + pagination.getStartDate() + "_" + pagination.getEndDate() + ".xlsx";
             ReportBuilder reportBuilder = new ReportBuilder("sendDM", fname, req, res);
             reportBuilder.setCollection(list);
             reportBuilder.build("xlsx");

@@ -98,7 +98,7 @@ public class ReceiptController extends BaseController {
         s = s.substring(1, s.length()-1);
         String whereClause = "WHERE r.id IN (" + s + ")";
 
-        ReportBuilder reportBuilder = new ReportBuilder("donationReceipt", "donationReceipt.pdf", req, res);
+        ReportBuilder reportBuilder = new ReportBuilder("donationReceipt", "기부금영수증.pdf", req, res);
         reportBuilder.setConnection(dataSource.getConnection());
         reportBuilder.setParameter("whereClause", whereClause);
         reportBuilder.addSubReport("paymentList.jasper");
@@ -137,7 +137,7 @@ public class ReceiptController extends BaseController {
     @RequestMapping(value="/receipt/taxData.do", method=RequestMethod.POST)
     public void taxData(Model model, Wrapper wrapper, HttpServletRequest req, HttpServletResponse res) throws Exception {
         List<Map<String, Object>> list = paymentMapper.selectForTaxData(wrapper.getMap());
-        ReportBuilder reportBuilder = new ReportBuilder("taxData", "taxData.xlsx", req, res);
+        ReportBuilder reportBuilder = new ReportBuilder("taxData", "국세청보고자료.xlsx", req, res);
         reportBuilder.setCollection(list);
         reportBuilder.build("xlsx");
     }

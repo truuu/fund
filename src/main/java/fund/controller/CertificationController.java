@@ -69,8 +69,17 @@ public class CertificationController extends BaseController {
         certificate.setUserName("현재사용자"); // TODO: 현재 사용자
         List<Certificate> list = new ArrayList<>();
         list.add(certificate);
-        String name = (type == 0) ? "printScholarship" : "printDonation";
-        ReportBuilder reportBuilder = new ReportBuilder(name, name + ".pdf", request, response);
+        String reportName;
+        String downloadName;
+        if(type==0){
+        	reportName="printScholarship";
+        	downloadName="장학증서";
+        }else{
+        	reportName="printDonation";
+        	downloadName="기부증서";
+
+        }
+        ReportBuilder reportBuilder = new ReportBuilder(reportName, downloadName + ".pdf", request, response);
         reportBuilder.setCollection(list);
         reportBuilder.build("pdf");
     }
