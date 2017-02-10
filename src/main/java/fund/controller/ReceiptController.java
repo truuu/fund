@@ -102,6 +102,7 @@ public class ReceiptController extends BaseController {
         reportBuilder.setConnection(dataSource.getConnection());
         reportBuilder.setParameter("whereClause", whereClause);
         reportBuilder.addSubReport("paymentList.jasper");
+        reportBuilder.setParameter("key1", sponsorMapper.selectKey1());
         reportBuilder.build("pdf");
     }
 

@@ -7,6 +7,7 @@ import fund.dto.pagination.Pagination;
 
 public interface SponsorMapper {
 
+    String selectKey1();
     Sponsor selectById(int id);
     List<Sponsor> selectPage(Pagination pagination);
     int selectCount(Pagination pagination);

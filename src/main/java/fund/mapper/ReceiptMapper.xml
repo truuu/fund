@@ -21,7 +21,7 @@ SELECT *
 FROM ( 
   SELECT r.*, s.name, s.sponsorNo, s.mobilePhone,
     ROW_NUMBER() OVER (ORDER BY r.id DESC) 행번호, 
-    (SELECT SUM(p.amount) FROM payment p WHERE p.receiptId = r.id) amount
+    (SELECT SUM(CAST(p.amount AS BIGINT)) FROM payment p WHERE p.receiptId = r.id) amount
   FROM Receipt r 
     LEFT JOIN [Sponsor] s ON r.sponsorId = s.id
   WHERE (@nm = '' OR @nm IS NULL OR CHARINDEX(@nm, s.name) = 1) 

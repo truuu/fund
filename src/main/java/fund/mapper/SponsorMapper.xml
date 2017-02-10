@@ -3,6 +3,10 @@
 
 <mapper namespace="fund.mapper.SponsorMapper">
 
+<select id="selectKey1" resultType="java.lang.String">
+SELECT ${key1}
+</select>
+
 <select id="selectById" resultType="fund.dto.Sponsor">
 SELECT *,
   CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted)) juminNo,

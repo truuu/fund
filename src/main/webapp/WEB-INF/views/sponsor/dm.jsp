@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <h1>우편 발송</h1>
 <hr />
 
@@ -9,8 +9,9 @@
   <input type="hidden" name="pg" value="1" />
 
   <div class="form-inline mb4">
-    <span>기간:</span> 
-    <form:input class="startDt w100" path="sd" /> ~ 
+    <span>기간:</span>
+    <form:input class="startDt w100" path="sd" />
+    ~
     <form:input class="endDt w100" path="ed" />
     <button type="submit" class="btn btn-primary">검색</button>
     <a href="dmx.do?${pagination.queryString}" class="btn btn-info">액셀 다운로드</a>
@@ -41,16 +42,17 @@
     </tbody>
   </table>
 
-  <ul class="pagination mt0">
-    <c:forEach var="page" items="${ pagination.pageList }">
-      <li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
-    </c:forEach>
-  </ul>
-
   <form:select path="sz" data-auto-submit="true">
     <form:option value="10" />
     <form:option value="15" />
     <form:option value="30" />
     <form:option value="100" />
   </form:select>
+
+  <ul class="pagination mt0">
+    <c:forEach var="page" items="${ pagination.pageList }">
+      <li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
+    </c:forEach>
+  </ul>
+
 </form:form>
