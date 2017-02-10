@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2017-02-10T14:50:19 -->
+<!-- 2017-02-10T18:26:31 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="donationReceipt" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" uuid="153773b0-5fdd-4db2-b581-52596adfaac5">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="newPatronage.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -117,7 +117,7 @@ $P!{whereClause}]]>
 				<reportElement x="1" y="290" width="573" height="85" uuid="07f5cd0e-e5ea-4012-994f-277d4e0ca7e4">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<subreportParameter name="receiptID">
+				<subreportParameter name="receiptId">
 					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
