@@ -11,6 +11,10 @@
   SELECT * FROM [User] WHERE id = #{id}       
 </select>       
 
+<select id="selectByLoginName" resultType="fund.dto.User">     
+  SELECT * FROM [User] WHERE  loginName = #{loginName}        
+</select>       
+
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
   INSERT [user] (loginName, [password], [name], [email], userType)
   VALUES (#{loginName}, #{password}, #{name}, #{email}, #{userType})

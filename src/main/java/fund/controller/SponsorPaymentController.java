@@ -36,20 +36,20 @@ public class SponsorPaymentController extends BaseController {
     @RequestMapping("/sponsor/payment/list1.do")
     public String list1(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
         model.addAttribute("commitments", commitmentMapper.selectBySponsorId(sid));
-        return "sponsor/paymentList1";
+        return "sponsor/payment/list1";
     }
 
     @RequestMapping(value="/sponsor/payment/list1ajax.do", method=RequestMethod.POST)
     public String list1ajax(@RequestParam("commitmentId") int commitmentId, Model model) {
         model.addAttribute("list", paymentMapper.selectPaymentList1(commitmentId));
-        return "sponsor/paymentList1ajax/ajax";
+        return "sponsor/payment/list1ajax/ajax";
     }
 
     // 비정기 납입
     @RequestMapping("/sponsor/payment/list2.do")
     public String list2(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
         model.addAttribute("list", paymentMapper.selectPaymentList2(sid));
-        return "sponsor/paymentList2";
+        return "sponsor/payment/list2";
     }
 
     @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.GET)
@@ -57,13 +57,13 @@ public class SponsorPaymentController extends BaseController {
         model.addAttribute("payment", paymentMapper.selectById(id));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_비정기납입방법));
-        return "sponsor/paymentEdit2";
+        return "sponsor/payment/edit2";
     }
 
     private String redirectToList(Model model, int sid) {
         PaginationSponsor pagination = (PaginationSponsor)model.asMap().get("pagination");
         String qs = String.format("sid=%d&%s", sid, pagination.getQueryString());
-        return "redirect:paymentList2.do?" + qs;
+        return "redirect:list2.do?" + qs;
     }
 
     @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.POST, params="cmd=save")
@@ -83,7 +83,7 @@ public class SponsorPaymentController extends BaseController {
         model.addAttribute("payment", new Payment());
         model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_비정기납입방법));
-        return "sponsor/paymentEdit2";
+        return "sponsor/payment/edit2";
     }
 
     @RequestMapping(value="/sponsor/payment/create2.do", method=RequestMethod.POST)

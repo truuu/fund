@@ -13,7 +13,7 @@
     <form:input class="startDt w100" path="sd" /> ~ 
     <form:input class="endDt w100" path="ed" />
     <button type="submit" class="btn btn-primary">검색</button>
-    <a href="sendDMxlsx.do?${pagination.queryString}" class="btn btn-info">액셀 다운로드</a>
+    <a href="dmx.do?${pagination.queryString}" class="btn btn-info">액셀 다운로드</a>
   </div>
 
   <table class="table table-bordered" id="table_s">

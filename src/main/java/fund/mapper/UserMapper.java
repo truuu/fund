@@ -6,7 +6,7 @@ import fund.dto.User;
 
  public interface UserMapper {
      User selectById(int id);
-     User selectByLoginId(String loginName);
+     User selectByLoginName(String loginName);
      List<User> selectAll();
      void insert(User user);
      void update(User user);

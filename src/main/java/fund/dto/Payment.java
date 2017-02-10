@@ -11,14 +11,8 @@ public class Payment {
     int donationPurposeId;
     int paymentMethodId;
 
-    String donationPurposeName;
-    String organizationName;
-    String paymentMethodName;
-    String corporateName;
     int corporateId;
-    String sponsorNo;
-    String sponsorName;
-    String juminNo;
+    String donationPurposeName;
 
     public int getId() {
         return id;
@@ -92,38 +86,6 @@ public class Payment {
         this.paymentMethodId = paymentMethodId;
     }
 
-    public String getDonationPurposeName() {
-        return donationPurposeName;
-    }
-
-    public void setDonationPurposeName(String donationPurposeName) {
-        this.donationPurposeName = donationPurposeName;
-    }
-
-    public String getOrganizationName() {
-        return organizationName;
-    }
-
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
-    }
-
-    public String getPaymentMethodName() {
-        return paymentMethodName;
-    }
-
-    public void setPaymentMethodName(String paymentMethodName) {
-        this.paymentMethodName = paymentMethodName;
-    }
-
-    public String getCorporateName() {
-        return corporateName;
-    }
-
-    public void setCorporateName(String corporateName) {
-        this.corporateName = corporateName;
-    }
-
     public int getCorporateId() {
         return corporateId;
     }
@@ -132,28 +94,13 @@ public class Payment {
         this.corporateId = corporateId;
     }
 
-    public String getSponsorNo() {
-        return sponsorNo;
+    public String getDonationPurposeName() {
+        return donationPurposeName;
     }
 
-    public void setSponsorNo(String sponsorNo) {
-        this.sponsorNo = sponsorNo;
+    public void setDonationPurposeName(String donationPurposeName) {
+        this.donationPurposeName = donationPurposeName;
     }
 
-    public String getSponsorName() {
-        return sponsorName;
-    }
-
-    public void setSponsorName(String sponsorName) {
-        this.sponsorName = sponsorName;
-    }
-
-    public String getJuminNo() {
-        return juminNo;
-    }
-
-    public void setJuminNo(String juminNo) {
-        this.juminNo = juminNo;
-    }
 
 }

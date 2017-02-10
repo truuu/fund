@@ -29,9 +29,8 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         return authenticate(loginName, password);
     }
 
-
     public Authentication authenticate(String loginName, String password) throws AuthenticationException {
-       User user = userMapper.selectByLoginId(loginName);
+       User user = userMapper.selectByLoginName(loginName);
         if (user == null) return null;
         if (user.getPassword().equals(encryptPasswd(password)) == false) return null;
 
@@ -61,8 +60,6 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
             return passwd;
         }
     }
-
-
 
     public class MyAuthenticaion extends UsernamePasswordAuthenticationToken {
         private static final long serialVersionUID = 1L;

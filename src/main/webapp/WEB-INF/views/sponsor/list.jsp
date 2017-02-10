@@ -9,7 +9,7 @@
   <input type="hidden" name="pg" value="1" />
 
   <div class="pull-right mb4">
-    <a href="sponsorNew.do?${pagination.queryString}" class="btn btn-primary">후원인 등록</a>
+    <a href="create.do?${pagination.queryString}" class="btn btn-primary">후원인 등록</a>
   </div>
 
   <div class="form-inline">
@@ -57,7 +57,7 @@
     </thead>
     <tbody>
       <c:forEach var="sponsor" items="${list}">
-        <tr data-url="sponsorEdit.do?id=${sponsor.id}&${pagination.queryString}">
+        <tr data-url="edit.do?id=${sponsor.id}&${pagination.queryString}">
           <td>${sponsor.sponsorNo}</td>
           <td>${sponsor.name}</td>
           <td>${sponsor.sponsorType1}</td>

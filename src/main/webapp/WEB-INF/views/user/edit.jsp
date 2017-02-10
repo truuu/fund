@@ -3,7 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+    
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/fund_sys/res/js/daum_postcode.js"></script>
 
@@ -12,8 +13,10 @@
 <h2>사용자 정보</h2>
 <div class="pull-right mt4 mb4">
   <button class="btn btn-primary" type="submit" name="cmd" value="saveInfo">사용자정보 저장</button>
-  <a class="btn btn-gray" href="list.do">목록으로</a>
-  <button class="btn btn-danger" type="submit" name="cmd" value="delete" data-confirm-delete>삭제</button>
+  <sec:authorize access="hasRole('ROLE_시스템관리자')">
+    <a class="btn btn-gray" href="list.do">목록으로</a>
+    <button class="btn btn-danger" type="submit" name="cmd" value="delete" data-confirm-delete>삭제</button>
+  </sec:authorize>
 </div>
 
 <table class="table table-bordered lbw150">
@@ -27,12 +30,18 @@
     <td class="lb">이메일</td>
     <td><form:input path="email" />
     <td class="lb">사용자유형</td>
-    <td><form:select path="userType">
+    <td>
+      <sec:authorize access="hasRole('ROLE_시스템관리자')">
+        <form:select path="userType">
         <form:option value="직원" />
         <form:option value="관리자" />
         <form:option value="시스템관리자" />
         </form:select>
-    </td>        
+      </sec:authorize>        
+      <sec:authorize access="!hasRole('ROLE_시스템관리자')">
+        ${ user.userType }
+      </sec:authorize>        
+    </td>
   </tr>
 </table>
 <hr />

@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="pull-right">
-  <a href="list.do?${ pagination.queryString }" class="btn btn-info">후원인 목록</a>
+  <a href="/fund_sys/sponsor/list.do?${ pagination.queryString }" class="btn btn-info">후원인 목록</a>
 </div>
 
 <c:set var="pg" value="${pagination.queryString}" />
@@ -18,7 +18,7 @@
 <br />
 
 <ul class="nav nav-tabs">
-  <li class="${ tab1 }"><a href="/fund_sys/sponsor/sponsorEdit.do?id=${sid}&${pg}">후원인정보</a></li>
+  <li class="${ tab1 }"><a href="/fund_sys/sponsor/edit.do?id=${sid}&${pg}">후원인정보</a></li>
   <c:if test="${ sid != 0 }">
     <li class="${ tab2 }"><a href="/fund_sys/sponsor/commitment/list.do?sid=${sid}&${pg}">약정관리</a></li>
     <li class="${ tab3 }"><a href="/fund_sys/sponsor/payment/list1.do?sid=${sid}&${pg}">정기납입관리</a></li>

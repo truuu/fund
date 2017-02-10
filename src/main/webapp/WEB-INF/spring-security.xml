@@ -1,32 +1,34 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-    xmlns:beans="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+  xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
     http://www.springframework.org/schema/security
     http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-    <http auto-config="true">
-      
-        <form-login
-            login-page="/home/index.do"
-            login-processing-url="/home/login_processing.do"
-            authentication-failure-url="/user/loginfail.do"
-            default-target-url="/sponsor/sponsor_m.do" 
-            username-parameter="loginName"
-            password-parameter="password" />
-        <logout
-            logout-url="/home/logout.do"
-            logout-success-url="/"
-            invalidate-session="true" />
-    </http>
+  <http pattern="/**/*.js" security="none" />
+  <http pattern="/**/*.css" security="none" />
+  <http pattern="/**/*.jpg" security="none" />
+  <http pattern="/**/*.png" security="none" />
 
-    <authentication-manager>
-        <authentication-provider ref="myAuthenticationProvider"/>
-    </authentication-manager>
+  <http auto-config="true">
+    <intercept-url pattern="/home/**" access="ROLE_ANONYMOUS,ROLE_전체" />
+    <intercept-url pattern="/**" access="ROLE_전체" />    
 
-    <beans:bean id="webexpressionHandler"
-      class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+    <form-login login-page="/home/login.do"
+      login-processing-url="/home/login_processing.do"
+      authentication-failure-url="/home/login.do?error"
+      default-target-url="/" 
+      username-parameter="loginName"
+      password-parameter="password" />
+    <logout logout-url="/home/logout.do" logout-success-url="/home/login.do"
+      invalidate-session="true" />
+  </http>
+
+  <authentication-manager>
+    <authentication-provider ref="myAuthenticationProvider" />
+  </authentication-manager>
+
+  <beans:bean id="webexpressionHandler"
+    class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
 
 </beans:beans>
-

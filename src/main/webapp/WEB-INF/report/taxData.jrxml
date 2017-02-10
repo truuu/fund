@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2017-02-09T16:25:04 -->
+<!-- 2017-02-09T18:26:40 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="taxData" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="f80cd194-f8fe-4fbc-b372-e2c103bc3028">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="newPatronage.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -11,7 +11,7 @@ WHERE
    		 LEN(s.juminNo)=13 AND
    		 p.receiptID IS NOT NULL]]>
 	</queryString>
-	<field name="paymentDate" class="java.lang.String"/>
+	<field name="paymentDate" class="java.sql.Date"/>
 	<field name="amount" class="java.lang.Integer"/>
 	<field name="juminNo" class="java.lang.String"/>
 	<field name="sponsorName" class="java.lang.String"/>
@@ -68,7 +68,7 @@ WHERE
 	<detail>
 		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField pattern="yyyy/MM/dd" isBlankWhenNull="true">
+			<textField pattern="yyyy-MM-dd" isBlankWhenNull="true">
 				<reportElement x="380" y="0" width="90" height="20" uuid="e7c519a5-36e1-4b81-b2ec-252f7e72309e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{paymentDate}]]></textFieldExpression>

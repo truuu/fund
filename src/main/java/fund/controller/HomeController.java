@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import fund.mapper.SponsorMapper;
+import fund.service.UserService;
 
 @Controller
 public class HomeController extends BaseController {
@@ -14,6 +15,8 @@ public class HomeController extends BaseController {
 
     @RequestMapping("/home/index.do")
     public String index(Model model) {
+        if (UserService.getCurrentUser() == null)
+            return "redirect:/home/login.do";
         return "home/index";
     }
 
@@ -24,7 +27,6 @@ public class HomeController extends BaseController {
 
     @RequestMapping("/home/test1.do")
     public String test1(Model model) {
-        //model.addAttribute("key2", sponsorMapper.selectKey2());
         return "home/test1";
     }
 

@@ -22,13 +22,13 @@
   WHERE p.id = #{id}
 </select>
 
-<select id="selectPaymentList1" resultType="fund.dto.Payment">
+<select id="selectPaymentList1" resultType="hashmap">
   <include refid="select1"></include>
   WHERE p.commitmentId = #{commitmentId}
   ORDER BY p.paymentDate
 </select>
 
-<select id="selectPaymentList2" resultType="fund.dto.Payment">
+<select id="selectPaymentList2" resultType="hashmap">
   <include refid="select1"></include>
   WHERE p.sponsorId = #{sponsorId}
   AND me.codeGroupId = 4
@@ -90,7 +90,7 @@ ORDER BY p.sponsorId, d.corporateId
   SELECT * FROM payment WHERE receiptId = #{receiptId}
 </select>
 
-<select id="selectForTaxData" resultType="fund.dto.Payment">
+<select id="selectForTaxData" resultType="hashmap">
 DECLARE @startDate DATE, @endDate DATE, @corporateId INT
 SET @startDate = #{startDate}
 SET @endDate = #{endDate}

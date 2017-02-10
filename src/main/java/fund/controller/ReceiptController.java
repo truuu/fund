@@ -2,6 +2,7 @@ package fund.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,7 +137,7 @@ public class ReceiptController extends BaseController {
 
     @RequestMapping(value="/receipt/taxData.do", method=RequestMethod.POST)
     public void taxData(Model model, Wrapper wrapper, HttpServletRequest req, HttpServletResponse res) throws Exception {
-        List<Payment> list = paymentMapper.selectForTaxData(wrapper.getMap());
+        List<Map<String, Object>> list = paymentMapper.selectForTaxData(wrapper.getMap());
         ReportBuilder reportBuilder = new ReportBuilder("taxData", list, "taxData.xlsx", req, res);
         reportBuilder.build("xlsx");
     }
