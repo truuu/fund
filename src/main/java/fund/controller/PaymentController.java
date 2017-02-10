@@ -20,7 +20,7 @@ import fund.mapper.CorporateMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
 import fund.service.C;
-import fund.service.ReportBuilder3;
+import fund.service.ReportBuilder;
 
 @Controller
 public class PaymentController extends BaseController {
@@ -104,7 +104,9 @@ public class PaymentController extends BaseController {
         default : map.put("regularString", ""); break;
         }
 
-        ReportBuilder3 reportBuilder = new ReportBuilder3(reportFileName, list, fileName, map, req, res);
+        ReportBuilder reportBuilder = new ReportBuilder(reportFileName, fileName, req, res);
+        reportBuilder.setCollection(list);
+        reportBuilder.setParameter(map);
         reportBuilder.build(fileName.substring(fileName.length()-4,fileName.length()));
 	}
 
@@ -149,7 +151,7 @@ public class PaymentController extends BaseController {
     }
 
     @RequestMapping(value="/payment/srch2/{i}", method=RequestMethod.POST, params="cmd=excel")
-    public void report2aReport(Model model, Wrapper wrapper, @PathVariable("i") int i, HttpServletRequest req, HttpServletResponse res)throws Exception {
+    public void report2aReport(Model model, Wrapper wrapper, @PathVariable("i") int i, HttpServletRequest req, HttpServletResponse res) throws Exception {
         List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 
     	switch (i) {
@@ -162,7 +164,9 @@ public class PaymentController extends BaseController {
         map.put("title", report2Title[i]);
         list.remove(list.size()-1);
 
-        ReportBuilder3 reportBuilder = new ReportBuilder3("paymentByType", list, report2Title[i]+"별납입내역.xlsx",map, req, res);
+        ReportBuilder reportBuilder = new ReportBuilder("paymentByType", report2Title[i]+"별납입내역.xlsx", req, res);
+        reportBuilder.setCollection(list);
+        reportBuilder.setParameter(map);
         reportBuilder.build("xlsx");
     }
 

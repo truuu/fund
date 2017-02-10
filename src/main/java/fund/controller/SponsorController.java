@@ -1,6 +1,5 @@
 package fund.controller;
 
-import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +18,7 @@ import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
 import fund.mapper.SponsorMapper;
 import fund.service.C;
-import fund.service.ReportBuilder4;
-import net.sf.jasperreports.engine.JRException;
+import fund.service.ReportBuilder;
 
 @Controller
 public class SponsorController extends BaseController {
@@ -96,14 +94,14 @@ public class SponsorController extends BaseController {
     }
 
     @RequestMapping("/sponsor/dmx.do")
-    public void sendDMxlsx(Pagination pagination, HttpServletRequest req, HttpServletResponse res) throws JRException, IOException {
+    public void sendDMxlsx(Pagination pagination, HttpServletRequest req, HttpServletResponse res) throws Exception {
         if (StringUtils.isBlank(pagination.getStartDate()) == false) {
             int count = sponsorMapper.selectCountForDM(pagination);
             pagination.setRecordCount(count);
             pagination.setPageSize(count);
             List<Sponsor> list = sponsorMapper.selectForDM(pagination);
             String fname = "sendDM_" + pagination.getStartDate() + "_" + pagination.getEndDate() + ".xlsx";
-            ReportBuilder4 reportBuilder = new ReportBuilder4("sendDM", fname, req, res);
+            ReportBuilder reportBuilder = new ReportBuilder("sendDM", fname, req, res);
             reportBuilder.setCollection(list);
             reportBuilder.build("xlsx");
         } else
