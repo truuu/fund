@@ -15,25 +15,25 @@
 
 <table class="table table-bordered lbw150">  
   <tr>
-    <td class="lb">증서번호:</td>
+    <td class="lb">증서번호</td>
     <td>${ certificate.certificateNo }</td>
-    <td class="lb">발급일:</td>
+    <td class="lb">발급일</td>
     <td><form:input path="createDate" class="date" /></td>
   </tr>
   <tr>
-    <td class="lb">후원인번호:</td>
+    <td class="lb">후원인번호</td>
     <td><form:input path="personNo" /></td>
-    <td class="lb">후원인:</td>
+    <td class="lb">후원인</td>
     <td><form:input path="personName" /></td>
   </tr>
   <tr>
-    <td class="lb">금액:</td>
+    <td class="lb">금액</td>
     <td><form:input path="amount" class="money w100" /></td>
-    <td class="lb">발급인:</td>
+    <td class="lb">발급인</td>
     <td>${ certificate.userName }</td>
   </tr>
   <tr>
-    <td class="lb">내용:</td>
+    <td class="lb">내용</td>
     <td colspan="3"><form:input path="body" class="w600" /></td>
   </tr>
 </table>

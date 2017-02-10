@@ -15,29 +15,29 @@
 
 <table class="table table-bordered lbw150">  
   <tr>
-    <td class="lb">영수증 번호:</td>
+    <td class="lb">영수증 번호</td>
     <td>${ receipt.no }</td>
-    <td class="lb">발급일:</td>
+    <td class="lb">발급일</td>
     <td>${ receipt.createDate }</td>
   </tr>
   <tr>
-    <td class="lb">후원인명:</td>
+    <td class="lb">후원인명</td>
     <td>${ sponsor.name }</td>
-    <td class="lb">주민번호:</td>
+    <td class="lb">주민번호</td>
     <td>${ sponsor.juminNo }</td>
   </tr>
   <tr>
-    <td class="lb">후원인 주소:</td>
+    <td class="lb">후원인 주소</td>
     <td colspan="3">${ sponsor.homePostCode } ${ sponsor.homeRoadAddress } ${ sponsor.homeDetailAddress }</td>
   </tr>
   <tr>
-    <td class="lb">기관:</td>
+    <td class="lb">기관</td>
     <td>${ corporate.name } ${ corporate.corporateNo }</td>
-    <td class="lb">대표:</td>
+    <td class="lb">대표</td>
     <td>${ corporate.representative }</td>
   </tr>  
   <tr>
-    <td class="lb">기관 주소:</td>
+    <td class="lb">기관 주소</td>
     <td colspan="3">${ corporate.postCode } ${ corporate.roadAddress } ${ corporate.detailAddress }</td>
   </tr>
 </table>
@@ -59,7 +59,7 @@
       <c:set var="sum" value="${ sum + p.amount }" />
     </c:forEach>
     <tr>
-      <td>합계:</td>
+      <td>합계</td>
       <td class="right"><fmt:formatNumber value="${ sum }" /></td>
     </tr>
   </tbody>

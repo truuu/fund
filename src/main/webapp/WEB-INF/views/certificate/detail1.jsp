@@ -14,25 +14,25 @@
 
 <table class="table table-bordered lbw150">  
   <tr>
-    <td class="lb">증서번호:</td>
+    <td class="lb">증서번호</td>
     <td>${ certificate.certificateNo }</td>
-    <td class="lb">발급일:</td>
+    <td class="lb">발급일</td>
     <td>${ certificate.createDate }</td>
   </tr>
   <tr>
-    <td class="lb">후원인번호:</td>
+    <td class="lb">후원인번호</td>
     <td>${ certificate.personNo }</td>
-    <td class="lb">후원인:</td>
+    <td class="lb">후원인</td>
     <td>${ certificate.personName }</td>
   </tr>
   <tr>
-    <td class="lb">금액:</td>
+    <td class="lb">금액</td>
     <td>${ certificate.personName }</td>
-    <td class="lb">발급인:</td>
+    <td class="lb">발급인</td>
     <td>${ certificate.userName }</td>
   </tr>
   <tr>
-    <td class="lb">내용:</td>
+    <td class="lb">내용</td>
     <td colspan="3">${ certificate.body }</td>
   </tr>
 </table>
