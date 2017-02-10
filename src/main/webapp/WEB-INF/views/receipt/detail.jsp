@@ -27,17 +27,17 @@
     <td>${ sponsor.juminNo }</td>
   </tr>
   <tr>
-    <td class="lb">후원인 주소</td>
+    <td class="lb">후원인 주소:</td>
     <td colspan="3">${ sponsor.homePostCode } ${ sponsor.homeRoadAddress } ${ sponsor.homeDetailAddress }</td>
   </tr>
   <tr>
-    <td class="lb">기관</td>
+    <td class="lb">기관:</td>
     <td>${ corporate.name } ${ corporate.corporateNo }</td>
-    <td class="lb">대표</td>
+    <td class="lb">대표:</td>
     <td>${ corporate.representative }</td>
   </tr>  
   <tr>
-    <td class="lb">기관 주소</td>
+    <td class="lb">기관 주소:</td>
     <td colspan="3">${ corporate.postCode } ${ corporate.roadAddress } ${ corporate.detailAddress }</td>
   </tr>
 </table>

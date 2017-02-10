@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import fund.dto.Certificate;
 import fund.dto.pagination.Pagination;
 import fund.mapper.CertificateMapper;
-import fund.service.ReportBuilder;
+import fund.service.ReportBuilder4;
 
 @Controller
 public class CertificationController extends BaseController {
@@ -70,7 +70,8 @@ public class CertificationController extends BaseController {
         List<Certificate> list = new ArrayList<>();
         list.add(certificate);
         String name = (type == 0) ? "printScholarship" : "printDonation";
-        ReportBuilder reportBuilder = new ReportBuilder(name,list, name + ".pdf", request, response);
+        ReportBuilder4 reportBuilder = new ReportBuilder4(name, name + ".pdf", request, response);
+        reportBuilder.setCollection(list);
         reportBuilder.build("pdf");
     }
 }

@@ -19,7 +19,7 @@ import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
 import fund.mapper.SponsorMapper;
 import fund.service.C;
-import fund.service.ReportBuilder;
+import fund.service.ReportBuilder4;
 import net.sf.jasperreports.engine.JRException;
 
 @Controller
@@ -103,7 +103,8 @@ public class SponsorController extends BaseController {
             pagination.setPageSize(count);
             List<Sponsor> list = sponsorMapper.selectForDM(pagination);
             String fname = "sendDM_" + pagination.getStartDate() + "_" + pagination.getEndDate() + ".xlsx";
-            ReportBuilder reportBuilder = new ReportBuilder("sendDM", list, fname, req, res);
+            ReportBuilder4 reportBuilder = new ReportBuilder4("sendDM", fname, req, res);
+            reportBuilder.setCollection(list);
             reportBuilder.build("xlsx");
         } else
             res.sendRedirect("dm.do");

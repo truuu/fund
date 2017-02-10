@@ -28,8 +28,7 @@ import fund.mapper.PaymentMapper;
 import fund.mapper.ReceiptMapper;
 import fund.mapper.SponsorMapper;
 import fund.service.ReceiptService;
-import fund.service.ReportBuilder;
-import fund.service.ReportBuilder2;
+import fund.service.ReportBuilder4;
 import fund.service.Util;
 
 @Controller
@@ -99,7 +98,7 @@ public class ReceiptController extends BaseController {
         s = s.substring(1, s.length()-1);
         String whereClause = "WHERE r.id IN (" + s + ")";
 
-        ReportBuilder2 reportBuilder = new ReportBuilder2("donationReceipt", "donationReceipt.pdf", req, res);
+        ReportBuilder4 reportBuilder = new ReportBuilder4("donationReceipt", "donationReceipt.pdf", req, res);
         reportBuilder.setConnection(dataSource.getConnection());
         reportBuilder.setParameter("whereClause", whereClause);
         reportBuilder.addSubReport("paymentList.jasper");
@@ -138,7 +137,8 @@ public class ReceiptController extends BaseController {
     @RequestMapping(value="/receipt/taxData.do", method=RequestMethod.POST)
     public void taxData(Model model, Wrapper wrapper, HttpServletRequest req, HttpServletResponse res) throws Exception {
         List<Map<String, Object>> list = paymentMapper.selectForTaxData(wrapper.getMap());
-        ReportBuilder reportBuilder = new ReportBuilder("taxData", list, "taxData.xlsx", req, res);
+        ReportBuilder4 reportBuilder = new ReportBuilder4("taxData", "taxData.xlsx", req, res);
+        reportBuilder.setCollection(list);
         reportBuilder.build("xlsx");
     }
 

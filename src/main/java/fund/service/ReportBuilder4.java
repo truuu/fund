@@ -1,16 +1,15 @@
 package fund.service;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -29,70 +28,77 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
 
-public class ReportBuilder {
+public class ReportBuilder4 {
     static String reportFolderPath;
-    String reportFileName;
-    JRDataSource dataSource;
     HttpServletRequest request;
     HttpServletResponse response;
     JasperReport report;
-    
     String fileName="report";
-    
-    public ReportBuilder(String reportFileName, Collection<?> collection, String name, 
-            HttpServletRequest request, HttpServletResponse response) throws JRException {
-        this.reportFileName = reportFileName;
-        this.dataSource = new JRBeanCollectionDataSource(collection);
+    Map<String,Object> params;
+    List<String> subReports;
+
+    JRDataSource dataSource;
+    Connection connection;
+
+    public ReportBuilder4(String reportFileName, String name, HttpServletRequest request, HttpServletResponse response) throws JRException {
         this.request = request;
         this.response = response;
-        this.fileName=name;
+        this.fileName = name;
         if (reportFolderPath == null)
             reportFolderPath = request.getSession().getServletContext().getRealPath("/WEB-INF/report");
         String reportFilePath = reportFolderPath + "/" + reportFileName + ".jasper";
         this.report = (JasperReport)JRLoader.loadObjectFromFile(reportFilePath);
+        params = new HashMap<String,Object>();
     }
-    
+
+    public void setCollection(Collection<?> collection) {
+        this.dataSource = new JRBeanCollectionDataSource(collection);
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public void addSubReport(String fileName) {
+        if (subReports == null) subReports = new ArrayList<String>();
+        subReports.add(fileName);
+    }
+
+    public void setParameter(String name, String value) {
+        params.put(name, value);
+    }
+
+    private void addSubReportToParams(Map<String,Object> params) {
+        if (subReports != null && subReports.size() > 0)
+            for (String s : subReports) {
+                String path = reportFolderPath + "/" + s;
+                params.put(s, path);
+            }
+    }
+
     public void build(String type) throws JRException, IOException {
         switch (type) {
         case "pdf": buildPDFReport(); break;
         case "xlsx": buildXlsxReport(); break;
         default: buildHtmlReport(); break;
-        }        
+        }
     }
-    
-    public void monthlyStatBuild(String condition)throws JRException, IOException {
-    	response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
-        Map<String,Object> params = new HashMap<String,Object>();
-        params.put(JRParameter.IS_IGNORE_PAGINATION, true);
-        params.put("condition", condition);
-        
-        JasperPrint jasperPrint = JasperFillManager.fillReport(report, params, dataSource);
+
+    private List<JasperPrint> getJasperPrintList() throws JRException {
+        JasperPrint jasperPrint = null;
+        if (dataSource != null) jasperPrint = JasperFillManager.fillReport(report, params, dataSource);
+        if (connection != null) jasperPrint = JasperFillManager.fillReport(report, params, connection);
         List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
         jasperPrintList.add(jasperPrint);
-        JRXlsxExporter  exporter = new JRXlsxExporter (); 
-        exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
-        SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();        
-        configuration.setOnePagePerSheet(false);
-        configuration.setIgnorePageMargins(true);
-        configuration.setIgnoreTextFormatting(true);
-        configuration.setRemoveEmptySpaceBetweenColumns(true);
-        configuration.setRemoveEmptySpaceBetweenRows(true);
-        configuration.setWhitePageBackground(false);
-        configuration.setCollapseRowSpan(false);
-        exporter.setConfiguration(configuration);
-        exporter.exportReport();
+        return jasperPrintList;
     }
-    
+
     public void buildHtmlReport() throws JRException, IOException {
         response.setCharacterEncoding("UTF-8");
-        Map<String,Object> params = new HashMap<String,Object>();
         params.put(JRParameter.IS_IGNORE_PAGINATION, true);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(report, params, dataSource);
-        List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-        jasperPrintList.add(jasperPrint);
+        if (subReports != null) addSubReportToParams(params);
         HtmlExporter exporter = new HtmlExporter();
+        List<JasperPrint> jasperPrintList = getJasperPrintList();
         exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
         exporter.setExporterOutput(new SimpleHtmlExporterOutput(response.getWriter()));
         SimpleHtmlReportConfiguration configuration = new SimpleHtmlReportConfiguration();
@@ -102,19 +108,16 @@ public class ReportBuilder {
         exporter.setConfiguration(configuration);
         exporter.exportReport();
     }
-    
+
     public void buildXlsxReport() throws IOException, JRException {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
-        Map<String,Object> params = new HashMap<String,Object>();
-        params.put(JRParameter.IS_IGNORE_PAGINATION, true);        
-        JasperPrint jasperPrint = JasperFillManager.fillReport(report, params, dataSource);
-        List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-        jasperPrintList.add(jasperPrint);
-        JRXlsxExporter  exporter = new JRXlsxExporter (); 
+        params.put(JRParameter.IS_IGNORE_PAGINATION, true);
+        List<JasperPrint> jasperPrintList = getJasperPrintList();
+        JRXlsxExporter  exporter = new JRXlsxExporter ();
         exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
         exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
-        SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();        
+        SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
         configuration.setOnePagePerSheet(false);
         configuration.setIgnorePageMargins(true);
         configuration.setIgnoreTextFormatting(true);
@@ -125,16 +128,22 @@ public class ReportBuilder {
         exporter.setConfiguration(configuration);
         exporter.exportReport();
     }
-    
+
+    private byte[] getPdfBytes() throws JRException {
+        if (connection != null) return JasperRunManager.runReportToPdf(report, params, connection);
+        if (dataSource != null) return JasperRunManager.runReportToPdf(report, null, dataSource);
+        return null;
+    }
+
     public void buildPDFReport() throws JRException, IOException {
         byte[] bytes = null;
-        bytes = JasperRunManager.runReportToPdf(report, null, dataSource);
-        response.setContentType("application/pdf");        
+        bytes = getPdfBytes();
+        response.setContentType("application/pdf");
         response.setContentLength(bytes.length);
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
         ServletOutputStream ouputStream = response.getOutputStream();
         ouputStream.write(bytes, 0, bytes.length);
         ouputStream.flush();
         ouputStream.close();
-    }      
+    }
 }

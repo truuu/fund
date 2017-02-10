@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2017-02-09T16:57:53 -->
+<!-- 2017-02-10T12:10:41 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="printDonation" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0da3f88f-aa06-483f-8e6b-303e518ed23f">
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
 	<field name="certificateNo" class="java.lang.String"/>
 	<field name="personName" class="java.lang.String"/>
-	<field name="amount" class="java.lang.String"/>
+	<field name="amount" class="java.lang.Integer"/>
 	<field name="body" class="java.lang.String"/>
 	<field name="createDate" class="java.lang.String"/>
 	<background>

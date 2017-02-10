@@ -5,7 +5,7 @@
 <mapper namespace="fund.mapper.ReceiptMapper">
 
 <select id="selectById" resultType="fund.dto.Receipt">
-SELECT * FROM [Receipt] WHERE id= # {id}
+SELECT * FROM [Receipt] WHERE id = #{id}
 </select>
 
 <select id="selectPage" resultType="hashmap">
