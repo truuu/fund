@@ -26,7 +26,14 @@ $(function() {
     }
     $("td input:checkbox").each(function(c) {
     	$(this).parent().click(stop_propagation_handler);
+    })    
+
+    $("thead input:checkbox").click(function() {
+    	$("tbody input:checkbox").each(function() {
+    		$(this).prop("checked", !$(this).prop("checked"));
+    	});
     })
+    	   
 });
 
 $(function() {                          
@@ -78,10 +85,7 @@ $(function() {
         showMonthAfterYear: true ,
         changeYear: true,
         onClose: function( selectedDate ) {
-            if ($( "#endDt" ).val() < selectedDate)
-            {
-                $( "#endDt" ).val(selectedDate);
-            }
+            if ($( "#endDt" ).val() < selectedDate) $( "#endDt" ).val(selectedDate);
         }
     }); 
     // end Date 설정시 end Date 가 start Date 보다 작을 경우 start Date를  end Date와 같게 설정
@@ -94,13 +98,9 @@ $(function() {
         changeYear: true,
         onClose: function( selectedDate ) {
             if ($("#startDt" ).val() > selectedDate)
-            {
                 $("#startDt" ).val(selectedDate);
-            }
         }
     });
-
-
     //날짜
     $( ".date" ).datepicker({
         changeMonth: true ,

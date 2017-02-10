@@ -58,6 +58,13 @@ function report() {
   </tbody>
 </table>
 
+<form:select path="sz" data-auto-submit="true">
+  <form:option value="10" />
+  <form:option value="15" />
+  <form:option value="30" />
+  <form:option value="100" />
+</form:select>
+
 <ul class="pagination">
   <c:forEach var="page" items="${pagination.pageList }">
     <li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>

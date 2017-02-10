@@ -20,7 +20,7 @@
 <table class="table table-bordered mt4">
   <thead>
     <tr>
-      <th><input type="checkbox" onclick="toggleAll()" /></th>
+      <th><input type="checkbox" onclick="setTimeout(toggleCreateButton, 100)" /></th>
       <th>영수증번호</th>
       <th>후원인번호</th>
       <th>후원인명</th>
@@ -73,12 +73,5 @@ function toggleCreateButton() {
   else $("button[value=createReceipt]").hide();
 }
 $("button[value=createReceipt]").hide();
-
-function toggleAll() {
-  $("tbody input:checkbox").each(function() {
-	  $(this).prop("checked", !$(this).prop("checked"));
-	  toggleCreateButton();
-  })	
-}
 </script>
 

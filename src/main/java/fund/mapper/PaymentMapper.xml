@@ -57,7 +57,7 @@
   VALUES (#{sponsorId}, #{commitmentId}, #{amount}, #{paymentDate}, #{etc}, #{receiptId}, #{donationPurposeId}, #{paymentMethodId})
 </insert>
 
-<select id="selectForReceiptCreation1" resultType="fund.dto.Payment">
+<select id="selectForReceiptCreation1" resultType="hashmap">
 DECLARE @srchText NVARCHAR(50), @startDate DATE, @endDate DATE, @corporateId INT
 SET @srchText = #{srchText}
 SET @startDate = #{startDate}

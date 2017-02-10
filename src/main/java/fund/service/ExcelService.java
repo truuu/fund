@@ -30,7 +30,7 @@ public class ExcelService {
                     String etc2 = row.getCell(17).getStringCellValue();
                     result.add(new Xfer(accountNo, date, amount, etc1, etc2));
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    System.out.println(e.getMessage()); // TODO: 에러처리
                 }
             }
         }
@@ -54,7 +54,7 @@ public class ExcelService {
                     String etc = row.getCell(10).getStringCellValue();
                     result.add(new Sal(commitmentNo, name, amount, date, etc));
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    System.out.println(e.getMessage()); // TODO: 에러처리
                 }
             }
         }

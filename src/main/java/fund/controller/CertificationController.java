@@ -16,6 +16,7 @@ import fund.dto.Certificate;
 import fund.dto.pagination.Pagination;
 import fund.mapper.CertificateMapper;
 import fund.service.ReportBuilder;
+import fund.service.UserService;
 
 @Controller
 public class CertificationController extends BaseController {
@@ -48,7 +49,7 @@ public class CertificationController extends BaseController {
     public String insert(Model model, @PathVariable("type") int type, Pagination pagination) {
         Certificate certificate = new Certificate();
         certificate.setCertificateNo(certificateMapper.generateCertificateNo());
-        certificate.setUserName("현재사용자"); // TODO: 현재 사용자
+        certificate.setUserName(UserService.getCurrentUser().getName());
         model.addAttribute("certificate", certificate);
         return "certificate/edit" + type;
     }
@@ -57,7 +58,7 @@ public class CertificationController extends BaseController {
     public String insert(@PathVariable("type") int type, Certificate certificate, Pagination pagination) {
         certificate.setType(type);
         certificate.setCertificateNo(certificateMapper.generateCertificateNo());
-        certificate.setUserId(1); // TODO: 현재 사용자
+        certificate.setUserId(UserService.getCurrentUser().getId());
         certificateMapper.insert(certificate);
         return "redirect:detail.do?id=" + certificate.getId() + "&" + pagination.getQueryString();
     }
@@ -66,18 +67,17 @@ public class CertificationController extends BaseController {
     public void report(@PathVariable("type") int type, @RequestParam("id") int id,
         HttpServletRequest request, HttpServletResponse response) throws Exception {
         Certificate certificate = certificateMapper.selectById(id);
-        certificate.setUserName("현재사용자"); // TODO: 현재 사용자
+        certificate.setUserName(UserService.getCurrentUser().getName());
         List<Certificate> list = new ArrayList<>();
         list.add(certificate);
         String reportName;
         String downloadName;
-        if(type==0){
+        if (type == 0){
         	reportName="printScholarship";
         	downloadName="장학증서";
-        }else{
+        } else {
         	reportName="printDonation";
         	downloadName="기부증서";
-
         }
         ReportBuilder reportBuilder = new ReportBuilder(reportName, downloadName + ".pdf", request, response);
         reportBuilder.setCollection(list);
