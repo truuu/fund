@@ -99,12 +99,12 @@ WHERE id = #{id}
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
 DECLARE @encrypted VARBINARY(1000)
-SET @encrypted = ENCRYPTBYPASSPHRASE(CONVERT(VARCHAR, #{key1}), CONVERT(VARCHAR, REPLACE(#{juminNo}, '-', '')))
+SET @encrypted = ENCRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), CONVERT(VARCHAR, REPLACE(#{juminNo}, '-', '')))
 INSERT sponsor(sponsorNo, name, sponsorType1Id, sponsorType2Id, 
   churchId, signUpDate, mobilePhone, 
   recommender, recommenderRelation, mailReceiving, mailTo, homeRoadAddress, homeDetailAddress, homePostCode, homePhone, 
-  email, company, department, position, officePhone, officeRoadAddress, officeDetailAddress, officePostCode, etc, juminNo)
-VALUES (#{sponsorNo}, #{name}, REPLACE(#{juminNo},'-',''), #{sponsorType1Id}, #{sponsorType2Id}, 
+  email, company, department, position, officePhone, officeRoadAddress, officeDetailAddress, officePostCode, etc, juminNo_encrypted)
+VALUES (#{sponsorNo}, #{name}, #{sponsorType1Id}, #{sponsorType2Id}, 
   IIF(#{churchId} = 0, null, #{churchId}), #{signUpDate}, #{mobilePhone}, 
   #{recommender}, #{recommenderRelation}, #{mailReceiving}, #{mailTo},  #{homeRoadAddress}, #{homeDetailAddress}, #{homePostCode}, #{homePhone},
   #{email}, #{company}, #{department}, #{position}, #{officePhone}, #{officeRoadAddress}, #{officeDetailAddress}, #{officePostCode}, #{etc}, @encrypted)

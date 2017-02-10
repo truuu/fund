@@ -73,7 +73,7 @@ public class SponsorController extends BaseController {
         model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분1));
         model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분2));
         model.addAttribute("churchList", codeMapper.selectByCodeGroupId(C.코드그룹ID_소속교회));
-        return "sponsor/create";
+        return "sponsor/edit";
     }
 
     // 후원인 저장
