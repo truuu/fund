@@ -17,9 +17,9 @@
 <h1>로그인</h1>
 
 <div class="login">
-  <form method="POST" action="/fund_sys/home/login_processing.do">
+  <form method="POST" action="/funds/home/login_processing.do">
     <div>
-        <img src="/fund_sys/res/images/skhu_logo.png" style="width: 200px;" />
+        <img src="/funds/res/images/skhu_logo.png" style="width: 200px;" />
     </div>
 
     <div class="controls">

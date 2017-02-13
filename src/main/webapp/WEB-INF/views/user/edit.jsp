@@ -6,7 +6,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
     
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="/fund_sys/res/js/daum_postcode.js"></script>
+<script src="/funds/res/js/daum_postcode.js"></script>
 
 <form:form method="post" modelAttribute="user">
 

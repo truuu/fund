@@ -5,7 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="/fund_sys/res/js/daum_postcode.js"></script>
+<script src="/funds/res/js/daum_postcode.js"></script>
 
 <style>
   input.address { min-width: 300px; margin-bottom: 2px; }

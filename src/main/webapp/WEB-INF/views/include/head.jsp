@@ -6,11 +6,11 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-<script src="/fund_sys/res/js/jquery.mask.min.js"></script> 
-<script src="/fund_sys/res/js/common.js"></script>
+<script src="/funds/res/js/jquery.mask.min.js"></script> 
+<script src="/funds/res/js/common.js"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet"  href="/fund_sys/res/css/common.css" />
+<link rel="stylesheet"  href="/funds/res/css/common.css" />
 
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>

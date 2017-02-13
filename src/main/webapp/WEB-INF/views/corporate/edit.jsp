@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="/fund_sys/res/js/daum_postcode.js"></script>
+<script src="/funds/res/js/daum_postcode.js"></script>
 
 <h1>기관 ${ corporate.id > 0 ? "수정" : "등록" }</h1>
 <hr />
