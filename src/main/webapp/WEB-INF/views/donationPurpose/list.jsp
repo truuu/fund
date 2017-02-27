@@ -13,6 +13,7 @@
           <th>기관종류</th>
           <th>기부목적</th>
           <th>구분</th>
+          <th>사용안함</th>
       </tr>
   </thead>
    <tbody>
@@ -22,6 +23,7 @@
               <td>${ donationPurpose.organizationName }</td>
               <td>${ donationPurpose.name }</td>
               <td>${ donationPurpose.gubun }</td>
+              <td>${ donationPurpose.closed }</td>
           </tr>
       </c:forEach>
   </tbody>

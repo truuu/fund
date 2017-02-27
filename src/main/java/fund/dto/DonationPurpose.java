@@ -6,6 +6,7 @@ public class DonationPurpose {
     int organizationId;
     String name;
     String gubun;
+    boolean closed;
 
     String organizationName;
     String corporateName;
@@ -48,6 +49,14 @@ public class DonationPurpose {
 
     public void setGubun(String gubun) {
         this.gubun = gubun;
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 
     public String getOrganizationName() {

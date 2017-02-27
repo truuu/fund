@@ -33,7 +33,7 @@ public class SponsorCommitmentController extends BaseController {
         void modelAttr1(@ModelAttribute("pagination") PaginationSponsor pagination,
                         @RequestParam("sid") int sid, Model model) throws Exception {
         model.addAttribute("sponsor", sponsorMapper.selectById(sid));
-        model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
+        model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
         model.addAttribute("banks", codeMapper.selectByCodeGroupId(C.코드그룹ID_은행));
     }

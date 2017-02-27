@@ -55,7 +55,7 @@ public class SponsorPaymentController extends BaseController {
     @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.GET)
     public String edit2(Model model, @RequestParam("id") int id) {
         model.addAttribute("payment", paymentMapper.selectById(id));
-        model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
+        model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_비정기납입방법));
         return "sponsor/payment/edit2";
     }
@@ -81,7 +81,7 @@ public class SponsorPaymentController extends BaseController {
     @RequestMapping(value="/sponsor/payment/create2.do", method=RequestMethod.GET)
     public String create2(Model model) {
         model.addAttribute("payment", new Payment());
-        model.addAttribute("donationPurposes", donationPurposeMapper.selectAll());
+        model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_비정기납입방법));
         return "sponsor/payment/edit2";
     }

@@ -28,6 +28,12 @@
     <td class="lb">구분</td>
     <td><form:input path="gubun" /></td>
   </tr>
+  <tr>
+    <td class="lb">사용안함</td>
+    <td><form:checkbox path="closed"/></td>
+    <td></td>
+    <td></td>
+  </tr>
 </table>  
 
 </form:form>
