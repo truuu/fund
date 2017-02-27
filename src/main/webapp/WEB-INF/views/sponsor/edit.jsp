@@ -9,7 +9,7 @@
 
 <style>
   input.address { min-width: 300px; margin-bottom: 2px; }
-  textarea { width: 400px; height: 100px; }
+  textarea { width: 100%; height: 100px; }
 </style>
 
 <c:set var="tab1" value="active" /> 
@@ -27,80 +27,79 @@
 <table class="table table-bordered lbw150">
   <tr>
     <td class="lb">후원인번호</td>
-    <td><input  type="text" name="sponsorNo" readonly value="${ sponsor.sponsorNo }" /></td>
+    <td><input  type="text" name="sponsorNo" readonly value="${ sponsor.sponsorNo }" tabindex="1" /></td>
     <td class="lb">우편물 발송여부</td>
-    <td><label class="clean"><input type="radio" value="true" name="mailReceiving" ${ sponsor.mailReceiving ? "checked" :"" } />발송동의</label> 
-        <label class="clean"><input type="radio" value="false" name="mailReceiving" ${ !sponsor.mailReceiving ? "checked" :"" } />발송미동의</label> </td>
+    <td><label class="clean"><input type="radio" value="true" name="mailReceiving" ${ sponsor.mailReceiving ? "checked" :"" } tabindex="2" />발송동의</label> 
+        <label class="clean"><input type="radio" value="false" name="mailReceiving" ${ !sponsor.mailReceiving ? "checked" :"" } tabindex="2" />발송미동의</label> </td>
   </tr>
   <tr>
     <td class="lb">이름</td>
-    <td><form:input  path="name" placeholder="이름을 입력해주세요" />
-      <span class="sponsorError"><form:errors path="name" /></span></td>
+    <td><form:input  path="name" placeholder="이름을 입력해주세요" tabindex="1" /></td>
     <td class="lb">우편물 발송지</td>
-    <td><label class="clean"><input type="radio" value="0" name="mailTo" ${ sponsor.mailTo==0 ? "checked" :"" } />자택</label> 
-        <label class="clean"><input type="radio" value="1" name="mailTo" ${ sponsor.mailTo==1 ? "checked" :"" } />직장</label></td>
+    <td><label class="clean"><input type="radio" value="0" name="mailTo" ${ sponsor.mailTo==0 ? "checked" :"" } tabindex="2" />자택</label> 
+        <label class="clean"><input type="radio" value="1" name="mailTo" ${ sponsor.mailTo==1 ? "checked" :"" } tabindex="2" />직장</label></td>
   </tr>
   <tr>
     <td class="lb">주민번호</td>
-    <td><input  type="text" name="juminNo" placeholder="-를 제외하고 입력해주세요." value="${ sponsor.juminNo }" /> 
-      <span class="sponsorError"><form:errors path="juminNo" /></span></td>
+    <td><input  type="text" name="juminNo" placeholder="-를 제외하고 입력해주세요." value="${ sponsor.juminNo }" tabindex="1" /></td>
     <td class="lb" rowspan="2">자택주소</td>
     <td rowspan="2">
-      <input class="address" type="text" name="homePostCode" id="homePostCode" placeholder="우편번호" value="${ sponsor.homePostCode }" /> 
-      <input type="button" onclick="postCodeSearch('homePostCode', 'homeRoadAddress')" value="우편번호 찾기" class="btn btn-sm" />
-      <div>
-        <input class=" address" type="text" name="homeRoadAddress" id="homeRoadAddress" placeholder="도로명주소" value="${sponsor.homeRoadAddress }" />
-      </div>
-      <div>
-        <input class=" address" type="text" name="homeDetailAddress" id="homeDetailAddress" placeholder="상세주소" value="${ sponsor.homeDetailAddress }" /> 
-        <span class="sponsorError"><form:errors path="homeDetailAddress" /></span>
-      </div></td>
+      <input class="address" type="text" name="homePostCode" id="homePostCode" placeholder="우편번호" value="${ sponsor.homePostCode }" tabindex="2" /> 
+      <input type="button" onclick="postCodeSearch('homePostCode', 'homeRoadAddress')" value="우편번호 찾기" class="btn btn-sm" tabindex="2" /><br/>
+      <input class=" address" type="text" name="homeRoadAddress" id="homeRoadAddress" placeholder="도로명주소" value="${sponsor.homeRoadAddress }" tabindex="2" /><br/>
+      <input class=" address" type="text" name="homeDetailAddress" id="homeDetailAddress" placeholder="상세주소" value="${ sponsor.homeDetailAddress }" tabindex="2" />        
+      </td>
   </tr>
   <tr>
     <td class="lb">후원인구분1</td>
-    <td><form:select path="sponsorType1Id">
+    <td><form:select path="sponsorType1Id" tabindex="1" >
         <form:options itemValue="id" itemLabel="codeName" items="${ sponsorType1List }" />
       </form:select></td>
   </tr>
   <tr>
     <td class="lb">후원인구분2</td>
-    <td><form:select path="sponsorType2Id">
+    <td><form:select path="sponsorType2Id" tabindex="1" >
         <form:options itemValue="id" itemLabel="codeName" items="${ sponsorType2List }" />
       </form:select></td>
-    <td class="lb">자택 전화번호</td>
-    <td><input  type="text" name="homePhone" placeholder="02-0000-0000" value="${ sponsor.homePhone}" /></td>
+    <td class="lb">후원인구분상세</td>
+    <td><form:input  path="sponsorTypeDetail" tabindex="2"  class="w300" /></td>
   </tr>
   <tr>
     <td class="lb">가입일</td>
-    <td><input class=" date" type="text" name="signUpDate" value="${ sponsor.signUpDate }" /></td>
-    <td class="lb">핸드폰 번호</td>
-    <td><input  type="text" name="mobilePhone" placeholder="010-0000-0000" value="${ sponsor.mobilePhone }" /></td>
+    <td><input class=" date" type="text" name="signUpDate" value="${ sponsor.signUpDate }" tabindex="1" /></td>
+    <td class="lb">자택 전화번호</td>
+    <td><input  type="text" name="homePhone" placeholder="02-0000-0000" value="${ sponsor.homePhone}" tabindex="2" /></td>
   </tr>
   <tr>
     <td class="lb">추천인</td>
-    <td><input  type="text" name="recommender" placeholder="추천인 이름을 적어주세요." value="${ sponsor.recommender }" /> 
+    <td><input  type="text" name="recommender" placeholder="추천인 이름을 적어주세요." value="${ sponsor.recommender }" tabindex="1" /> 
       <span class="sponsorError"><form:errors path="recommender" /></span></td>
-    <td class="lb">이메일</td>
-    <td><input  type="email" name="email" placeholder="abcd@skhu.kr" value="${ sponsor.email}" /> 
-      <span class="sponsorError"><form:errors path="email" /></span></td>
+    <td class="lb">핸드폰 번호</td>
+    <td><input  type="text" name="mobilePhone" placeholder="010-0000-0000" value="${ sponsor.mobilePhone }" tabindex="2" /></td>
   </tr>
   <tr>
     <td class="lb">추천인관계</td>
-    <td><form:select path="recommenderRelation">
+    <td><form:select path="recommenderRelation" tabindex="1">
         <form:option value="없음" />
         <form:option value="가족" />
         <form:option value="지인" />
       </form:select></td>
-    <td rowspan="2"class="lb">비고</td>
-    <td rowspan="2"><textarea  name="etc">${ sponsor.etc}</textarea></td>
+    <td class="lb">이메일</td>
+    <td><input  type="email" name="email" placeholder="abcd@skhu.kr" value="${ sponsor.email}" tabindex="2" /> </td>
   </tr>
   <tr>
     <td class="lb">소속교회</td>
     <td>
         <span id="churchName">${ sponsor.church }</span> 
         <form:hidden path="churchId" value="${ sponsor.churchId } " />
-        <a href="#churchDialog" class="btn btn-sm btn-gray" data-toggle="modal">검색</a>
+        <a href="#churchDialog" class="btn btn-sm btn-gray" data-toggle="modal" tabindex="1">검색</a>
     </td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="lb">비고</td>
+    <td colspan="3"><textarea  name="etc" tabindex="2">${ sponsor.etc}</textarea></td>
   </tr>
 </table>
 
@@ -110,36 +109,27 @@
     <table class="table table-bordered lbw150">
       <tr>
         <td class="lb">직장</td>
-        <td><input type="text" name="company" value="${ sponsor.company}" class="w300" />
-          <span class="sponsorError"><form:errors path="company" /></span></td>
+        <td><input type="text" name="company" value="${ sponsor.company}" class="w300" tabindex="3" /></td>
       </tr>
       <tr>
         <td class="lb">부서</td>
-        <td><input  type="text" name="department" value="${ sponsor.department}" />
-          <span class="sponsorError"><form:errors path="department" /></span></td>
+        <td><input  type="text" name="department" value="${ sponsor.department}" tabindex="3" /></td>
       </tr>
       <tr>
         <td class="lb">직위</td>
-        <td><input  type="text" name="position" value="${ sponsor.position}" />
-          <span class="sponsorError"><form:errors path="position" /></span></td>
+        <td><input  type="text" name="position" value="${ sponsor.position}" tabindex="3" /></td>
       </tr>
       <tr>
         <td class="lb">직장전화번호</td>
-        <td><input  type="text" name="officePhone" value="${ sponsor.officePhone}" />
-          <span class="sponsorError"><form:errors path="officePhone" /></span></td>
+        <td><input  type="text" name="officePhone" value="${ sponsor.officePhone}" tabindex="3" /></td>
       </tr>
       <tr>
         <td class="lb">직장주소</td>
         <td>
-          <input class=" address" type="text" name="officePostCode" id="officePostCode" placeholder="우편번호" value="${ sponsor.officePostCode}" /> 
-          <input type="button" onclick="postCodeSearch('officePostCode', 'officeRoadAddress')" value="우편번호 찾기" class="btn btn-sm"/>
-          <div>
-            <input class=" address" type="text" name="officeRoadAddress" id="officeRoadAddress" placeholder="도로명주소" value="${ sponsor.officeRoadAddress}" />
-          </div>
-          <div>
-            <input class=" address" type="text" name="officeDetailAddress" id="officeDetailAddress" placeholder="상세주소" value="${ sponsor.officeDetailAddress}" />
-            <span class="sponsorError"><form:errors path="officeDetailAddress" /></span>
-          </div></td>
+          <input class=" address" type="text" name="officePostCode" id="officePostCode" placeholder="우편번호" value="${ sponsor.officePostCode}"  tabindex="3" /> 
+          <input type="button" onclick="postCodeSearch('officePostCode', 'officeRoadAddress')" value="우편번호 찾기" class="btn btn-sm"  tabindex="3" /> <br/>
+          <input class=" address" type="text" name="officeRoadAddress" id="officeRoadAddress" placeholder="도로명주소" value="${ sponsor.officeRoadAddress}"  tabindex="3" /> <br/>
+          <input class=" address" type="text" name="officeDetailAddress" id="officeDetailAddress" placeholder="상세주소" value="${ sponsor.officeDetailAddress}"  tabindex="3" /></td>
       </tr>
     </table>
   </div>

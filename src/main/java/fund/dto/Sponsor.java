@@ -8,6 +8,7 @@ public class Sponsor {
     String juminNo;
     int sponsorType1Id;
     int sponsorType2Id;
+    String sponsorTypeDetail;
     int churchId;
     String signUpDate;
     String mobilePhone;
@@ -105,6 +106,14 @@ public class Sponsor {
 
     public void setSponsorType2Id(int sponsorType2Id) {
         this.sponsorType2Id = sponsorType2Id;
+    }
+
+    public String getSponsorTypeDetail() {
+        return sponsorTypeDetail;
+    }
+
+    public void setSponsorTypeDetail(String sponsorTypeDetail) {
+        this.sponsorTypeDetail = sponsorTypeDetail;
     }
 
     public int getChurchId() {
