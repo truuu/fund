@@ -262,7 +262,7 @@ public class CmsController extends BaseController {
             writer.write(String.format("%08d ", count + 1));
             writer.write(orgCode);
             writer.write(c.getBankCode());
-            writer.write(String.format("%-16s", c.getAccountNo()));
+            writer.write(String.format("%-16s", c.getAccountNo().replaceAll("-", "")));
             writer.write(String.format("%-13s", c.getAmountPerMonth()));
             total += c.getAmountPerMonth();
 
