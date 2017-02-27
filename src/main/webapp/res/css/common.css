@@ -52,6 +52,8 @@ body .h150 { height: 150px; }
 body .h200 { height: 200px; }
 body .h600 { height: 600px; }
 
+body .display-none { display: none; }
+
 
 .right { text-align: right; }
 

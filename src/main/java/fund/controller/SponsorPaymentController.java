@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import fund.dto.Commitment;
 import fund.dto.Payment;
 import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
@@ -26,8 +27,7 @@ public class SponsorPaymentController extends BaseController {
     @Autowired DonationPurposeMapper donationPurposeMapper;
 
     @ModelAttribute
-    void modelAttr1(Model model, @RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
-        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
+    void modelAttr1(Model model, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
     }
 
     static final String[] orderBy = new String[] { "paymentDate DESC", "paymentDate", "ID DESC", "ID" };
@@ -35,7 +35,9 @@ public class SponsorPaymentController extends BaseController {
     // 정기 납입
     @RequestMapping("/sponsor/payment/list1.do")
     public String list1(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
+        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("commitments", commitmentMapper.selectBySponsorId(sid));
+        model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
         return "sponsor/payment/list1";
     }
 
@@ -45,15 +47,23 @@ public class SponsorPaymentController extends BaseController {
         return "sponsor/payment/list1ajax/ajax";
     }
 
+    @RequestMapping(value="/sponsor/payment/list1updateajax.do", method=RequestMethod.POST)
+    public String list1updateajax(Commitment commitment, Model model) {
+        paymentMapper.updateDonationPurposeId(commitment);
+        return list1ajax(commitment.getId(), model);
+    }
+
     // 비정기 납입
     @RequestMapping("/sponsor/payment/list2.do")
     public String list2(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
+        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("list", paymentMapper.selectPaymentList2(sid));
         return "sponsor/payment/list2";
     }
 
     @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.GET)
-    public String edit2(Model model, @RequestParam("id") int id) {
+    public String edit2(Model model, @RequestParam("sid") int sid, @RequestParam("id") int id) {
+        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("payment", paymentMapper.selectById(id));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_비정기납입방법));
@@ -67,19 +77,20 @@ public class SponsorPaymentController extends BaseController {
     }
 
     @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.POST, params="cmd=save")
-    public String edit2(Model model, @RequestParam("sid") int sid, Payment payment) throws Exception {
+    public String edit2save(Model model, @RequestParam("sid") int sid, Payment payment) throws Exception {
         paymentMapper.update(payment);
         return redirectToList(model, sid);
     }
 
     @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.POST, params="cmd=delete")
-    public String edit2(Model model, @RequestParam("sid") int sid, @RequestParam("id") int id) throws Exception {
+    public String edit2delete(Model model, @RequestParam("sid") int sid, @RequestParam("id") int id) throws Exception {
         paymentMapper.delete(id);
         return redirectToList(model, sid);
     }
 
     @RequestMapping(value="/sponsor/payment/create2.do", method=RequestMethod.GET)
-    public String create2(Model model) {
+    public String create2(Model model, @RequestParam("sid") int sid) {
+        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("payment", new Payment());
         model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_비정기납입방법));

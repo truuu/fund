@@ -2,6 +2,7 @@ package fund.mapper;
 
 import java.util.List;
 import java.util.Map;
+import fund.dto.Commitment;
 import fund.dto.Payment;
 
 
@@ -12,6 +13,7 @@ public interface PaymentMapper {
     List<Map<String,Object>> selectPaymentList2(int sponsorId);
 
     void update(Payment payment);
+    void updateDonationPurposeId(Commitment commitment);
     void delete(int id);
     void insert(Payment payment);
 

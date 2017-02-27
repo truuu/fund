@@ -25,14 +25,14 @@
 <select id="selectPaymentList1" resultType="hashmap">
   <include refid="select1"></include>
   WHERE p.commitmentId = #{commitmentId}
-  ORDER BY p.paymentDate
+  ORDER BY p.paymentDate DESC
 </select>
 
 <select id="selectPaymentList2" resultType="hashmap">
   <include refid="select1"></include>
   WHERE p.sponsorId = #{sponsorId}
   AND me.codeGroupId = 4
-  ORDER BY p.paymentDate
+  ORDER BY p.paymentDate DESC
 </select>
 
 <update id="update">    
@@ -46,6 +46,14 @@
       etc = #{etc}
   FROM Payment
   WHERE id = #{id}
+</update>
+
+<update id="updateDonationPurposeId">
+  UPDATE Payment
+    SET donationPurposeId = #{donationPurposeId} 
+  FROM Payment
+  WHERE commitmentID = #{id}
+  AND paymentDate BETWEEN #{startDate} AND #{endDate} 
 </update>
 
 <delete id="delete">
@@ -266,4 +274,5 @@ AND s.churchId IS NOT NULL
 
 ORDER BY churchId
 </select>
+
 </mapper>
