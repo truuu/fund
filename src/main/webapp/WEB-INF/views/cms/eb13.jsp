@@ -31,5 +31,8 @@
         <td>${ c.juminNo }</td>
       </tr>
     </c:forEach>
+    <c:if test="${ list.size() <= 0 }">
+      <tr><td colspan="6">대상자 없음</td></tr>      
+    </c:if>
   </tbody>
 </table>
