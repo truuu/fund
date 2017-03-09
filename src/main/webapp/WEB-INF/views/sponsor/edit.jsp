@@ -141,7 +141,7 @@
 </form:form>
      
 <c:if test="${ sponsor.id > 0 }">  
-  <form method="post" action="fileUp.do" enctype="multipart/form-data">
+  <form method="post" action="fileUp.do?${pagination.queryString}" enctype="multipart/form-data">
     <input type="hidden" name="id" value="${ sponsor.id }" />
     <span>파일:</span> <input type="file" name="file" /> <br />
     <button type="submit" class="btn btn-info"><i class="icon-ok icon-white"></i> 첨부파일 업로드</button>
