@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import fund.dto.Certificate;
+import fund.dto.User;
 import fund.dto.pagination.Pagination;
 import fund.mapper.CertificateMapper;
 import fund.service.ReportBuilder;
@@ -39,9 +40,13 @@ public class CertificationController extends BaseController {
 
     @RequestMapping("/certificate/{type}/delete.do")
     public String delete(RedirectAttributes ra, @PathVariable("type") int type, @RequestParam("id") int id, Pagination pagination) {
-        // TODO: 현재 사용자 확인
-        certificateMapper.delete(id);
-        ra.addFlashAttribute("successMsg", "삭제했습니다.");
+        User user = UserService.getCurrentUser();
+        Certificate cert = certificateMapper.selectById(id);
+        if (user.getUserType().contains("관리자") ||
+            cert.getUserId() == UserService.getCurrentUser().getId()) {
+            certificateMapper.delete(id);
+            ra.addFlashAttribute("successMsg", "삭제했습니다.");
+        }
         return "redirect:list.do?" + pagination.getQueryString();
     }
 
