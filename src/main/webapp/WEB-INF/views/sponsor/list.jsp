@@ -9,6 +9,7 @@
   <input type="hidden" name="pg" value="1" />
 
   <div class="pull-right mb4">
+    <a href="excel.do" class="btn btn-success">액셀</a>
     <a href="create.do?${pagination.queryString}" class="btn btn-primary">후원인 등록</a>
   </div>
 

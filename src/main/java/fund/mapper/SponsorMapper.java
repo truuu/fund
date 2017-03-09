@@ -10,6 +10,7 @@ public interface SponsorMapper {
     String selectKey1();
     Sponsor selectById(int id);
     List<Sponsor> selectPage(Pagination pagination);
+    List<Sponsor> selectAll();
     int selectCount(Pagination pagination);
 
     void update(Sponsor sponsor);

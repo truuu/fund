@@ -26,7 +26,6 @@ public class SponsorController extends BaseController {
     @Autowired SponsorMapper sponsorMapper;
     @Autowired CodeMapper codeMapper;
 
-    // 후원인 목록
     @RequestMapping("/sponsor/list.do")
     public String list(Model model, @ModelAttribute("pagination") PaginationSponsor pagination) {
         pagination.setRecordCount(sponsorMapper.selectCount(pagination));
@@ -39,7 +38,6 @@ public class SponsorController extends BaseController {
         return "sponsor/list";
     }
 
-    // 후원인 수정
     @RequestMapping(value="/sponsor/edit.do", method=RequestMethod.GET)
     public String edit(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
         model.addAttribute("sponsor", sponsorMapper.selectById(id));
@@ -49,7 +47,6 @@ public class SponsorController extends BaseController {
         return "sponsor/edit";
     }
 
-    // 후원인 저장
     @RequestMapping(value="/sponsor/edit.do", method=RequestMethod.POST, params="cmd=save")
     public String edit(Sponsor sponsor, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
         sponsorMapper.update(sponsor);
@@ -57,14 +54,12 @@ public class SponsorController extends BaseController {
         return edit(sponsor.getId(), pagination, model);
     }
 
-    // 후원인 삭제
     @RequestMapping(value="/sponsor/edit.do", method=RequestMethod.POST, params="cmd=delete")
     public String delete(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
         sponsorMapper.delete(id);
         return "redirect:list.do?" + pagination.getQueryString();
     }
 
-    // 후원인 생성
     @RequestMapping(value="/sponsor/create.do", method=RequestMethod.GET)
     public String create(@ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
         Sponsor sponsor = new Sponsor();
@@ -76,12 +71,20 @@ public class SponsorController extends BaseController {
         return "sponsor/edit";
     }
 
-    // 후원인 저장
     @RequestMapping(value="/sponsor/create.do", method=RequestMethod.POST, params="cmd=save")
     public String create(Sponsor sponsor, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
         sponsor.setSponsorNo(sponsorMapper.generateSponsorNo());
         sponsorMapper.insert(sponsor);
         return "redirect:list.do";
+    }
+
+    @RequestMapping("/sponsor/excel.do")
+    public void excel(HttpServletRequest req, HttpServletResponse res) throws Exception {
+        List<Sponsor> list = sponsorMapper.selectAll();
+        String fname = "후원인목록.xlsx";
+        ReportBuilder reportBuilder = new ReportBuilder("sponsorList", fname, req, res);
+        reportBuilder.setCollection(list);
+        reportBuilder.build("xlsx");
     }
 
     @RequestMapping("/sponsor/dm.do")
