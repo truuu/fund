@@ -1,21 +1,30 @@
 package fund.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.file.Paths;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import fund.dto.Code;
+import fund.dto.FileAttach;
 import fund.dto.Sponsor;
 import fund.dto.pagination.Pagination;
 import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
+import fund.mapper.FileAttachMapper;
 import fund.mapper.SponsorMapper;
 import fund.service.C;
 import fund.service.ReportBuilder;
@@ -25,6 +34,7 @@ public class SponsorController extends BaseController {
 
     @Autowired SponsorMapper sponsorMapper;
     @Autowired CodeMapper codeMapper;
+    @Autowired FileAttachMapper fileAttachMapper;
 
     @RequestMapping("/sponsor/list.do")
     public String list(Model model, @ModelAttribute("pagination") PaginationSponsor pagination) {
@@ -44,6 +54,7 @@ public class SponsorController extends BaseController {
         model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분1));
         model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분2));
         model.addAttribute("churchList", codeMapper.selectByCodeGroupId(C.코드그룹ID_소속교회));
+        model.addAttribute("files", fileAttachMapper.selectBySponsorId(id));
         return "sponsor/edit";
     }
 
@@ -55,7 +66,9 @@ public class SponsorController extends BaseController {
     }
 
     @RequestMapping(value="/sponsor/edit.do", method=RequestMethod.POST, params="cmd=delete")
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String delete(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
+        fileAttachMapper.deleteBySponsorId(id);
         sponsorMapper.delete(id);
         return "redirect:list.do?" + pagination.getQueryString();
     }
@@ -87,6 +100,38 @@ public class SponsorController extends BaseController {
         reportBuilder.build("xlsx");
     }
 
+    @RequestMapping(value="/sponsor/fileUp.do", method=RequestMethod.POST)
+    public String fileUp(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination,
+            @RequestParam("file") MultipartFile uploadedFile) throws IOException {
+        if (uploadedFile.getSize() > 0 ) {
+            FileAttach fileAttach = new FileAttach();
+            fileAttach.setSponsorId(id);
+            fileAttach.setFileName(Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString());
+            fileAttach.setFileSize((int)uploadedFile.getSize());
+            fileAttach.setData(uploadedFile.getBytes());
+            fileAttachMapper.insert(fileAttach);
+        }
+        return "redirect:edit.do?id=" + id + "&" + pagination.getQueryString();
+    }
+
+    @RequestMapping("/sponsor/fileDown.do")
+    public void fileDown(@RequestParam("id") int id, HttpServletResponse response) throws IOException {
+        FileAttach file = fileAttachMapper.selectById(id);
+       if (file == null) return;
+        String fileName = URLEncoder.encode(file.getFileName(),"UTF-8");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
+        try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+            output.write(file.getData());
+        }
+    }
+
+    @RequestMapping("/sponsor/fileDel.do")
+    public String fileDel(Model model, @RequestParam("id") int id, @RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination) {
+        fileAttachMapper.delete(id);
+        return "redirect:edit.do?id=" + sid + "&" + pagination.getQueryString();
+    }
+
     @RequestMapping("/sponsor/dm.do")
     public String sendDM(Model model, Pagination pagination) {
         if (StringUtils.isBlank(pagination.getStartDate()) == false) {
@@ -110,5 +155,7 @@ public class SponsorController extends BaseController {
         } else
             res.sendRedirect("dm.do");
     }
+
+
 
 }
