@@ -14,6 +14,10 @@
         <h3>기부목적 검색</h3>
       </div>
       <div class="modal-body">
+        <div> 
+          <input type="text" id="srchText" onkeydown="if (event.keyCode == 13) filterPurpose()" />
+          <button type="button" class="btn btn-default btn-sm" onclick="filterPurpose()">검색</button>
+        </div>
         <div id="scroll">
           <table class="table table-bordered" style="width: 100%;">
             <thead>
@@ -44,7 +48,7 @@
 
 <script>
     $(document).ready(function() {
-        $("#donationPurposeDialog #scroll tr").click(function() {
+        $("#donationPurposeDialog #scroll tbody tr").click(function() {
             var tr = $(this);
             var donationPurposeId = tr.attr("data-id");
             var corporateName = tr.find("td:nth-child(1)").text();
@@ -57,4 +61,15 @@
             $("#donationPurposeDialog").modal('toggle');
         })
     });
+    function filterPurpose() {
+    	var s = $("#donationPurposeDialog #srchText").val().trim();
+    	var list = $("#donationPurposeDialog #scroll tbody tr");
+    	list.show();
+    	if (s.length > 0) {
+    	    list.each(function() {
+    	  	   var text = $(this).find("td:nth-child(3)").text();
+    	  	   if (text.indexOf(s) < 0) $(this).hide();
+    	    });
+    	}
+    }
 </script>
