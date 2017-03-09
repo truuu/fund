@@ -1,5 +1,6 @@
 package fund.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,6 +14,10 @@ public class Util {
 
     public static String toYMD(Date date) {
         return formatYMD.format(date);
+    }
+
+    public static Date parseYMD(String s) throws ParseException {
+        return formatYMD.parse(s);
     }
 
 }

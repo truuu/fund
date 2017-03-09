@@ -1,9 +1,12 @@
 package fund.service;
 
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -23,9 +26,10 @@ public class ExcelService {
                 Row row = sheet.getRow(r);
                 try {
                     String accountNo = row.getCell(5).getStringCellValue();
+                    if (StringUtils.isBlank(accountNo)) continue;
                     if ("159-22-01424-5(240-890012-16304)".equals(accountNo)) continue;
-                    Date date = row.getCell(9).getDateCellValue();
-                    int amount = (int)row.getCell(12).getNumericCellValue();
+                    Date date = getDateValue(row.getCell(9));
+                    int amount = getIntValue(row.getCell(12));
                     String etc1 = row.getCell(16).getStringCellValue();
                     String etc2 = row.getCell(17).getStringCellValue();
                     result.add(new Xfer(accountNo, date, amount, etc1, etc2));
@@ -49,8 +53,8 @@ public class ExcelService {
                     String commitmentNo = null;
                     try { commitmentNo = row.getCell(0).getStringCellValue(); } catch (Exception e) {}
                     String name = row.getCell(2).getStringCellValue();
-                    int amount = (int)row.getCell(6).getNumericCellValue();
-                    Date date = row.getCell(8).getDateCellValue();
+                    int amount = getIntValue(row.getCell(6));
+                    Date date = getDateValue(row.getCell(8));
                     String etc = row.getCell(10).getStringCellValue();
                     result.add(new Sal(commitmentNo, name, amount, date, etc));
                 } catch (Exception e) {
@@ -59,5 +63,19 @@ public class ExcelService {
             }
         }
         return result;
+    }
+
+    static int getIntValue(Cell cell) {
+        if (cell.getCellType() == Cell.CELL_TYPE_STRING)
+            return (int)(double)Double.valueOf(cell.getStringCellValue().replaceAll(",", ""));
+        return (int)cell.getNumericCellValue();
+    }
+
+    static Date getDateValue(Cell cell) throws ParseException {
+        if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+            String s = cell.getStringCellValue().replaceAll("/", "-");
+            return Util.parseYMD(s);
+        }
+        return cell.getDateCellValue();
     }
 }
