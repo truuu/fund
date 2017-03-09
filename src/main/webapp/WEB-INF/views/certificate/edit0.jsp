@@ -10,7 +10,7 @@
 
 <div class="pull-right mb4">
   <button class="btn btn-primary" type="submit">저장</button>
-  <a class="btn btn-info" href="detail.do?id=${certificate.id}${pagination.queryString}">취소</a>
+  <a class="btn btn-info" href="list.do?${pagination.queryString}">취소</a>
 </div>
 
 <table class="table table-bordered lbw150">  
