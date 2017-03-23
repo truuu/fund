@@ -25,7 +25,7 @@
     </thead>
     <tbody>
       <c:forEach var="r" items="${ xfer_notSaved }">
-        <tr>
+        <tr class="${ c.valid ? '' : 'my-error' }">
           <td></td>
           <td><input type="text" name="commitmentNo"/></td>
           <td>${ r.accountNo }</td>

@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -16,6 +17,8 @@ import fund.dto.Xfer;
 
 public class ExcelService {
 
+    static Date d1900_01_01 = new GregorianCalendar(1900, 0, 1).getTime();
+
     public static List<Xfer> get자동이체Result(InputStream input) throws Exception {
         List<Xfer> result = new ArrayList<>();
         Workbook workbook = WorkbookFactory.create(input);
@@ -24,18 +27,24 @@ public class ExcelService {
             Sheet sheet = workbook.getSheetAt(i);
             for (int r = 1; r < sheet.getPhysicalNumberOfRows() ; ++r) {
                 Row row = sheet.getRow(r);
+                String accountNo = "에러";
+                Date date = d1900_01_01;
+                int amount = -9;
+                String etc1 = "에러";
+                String etc2 = "에러";
+                boolean valid = false;
                 try {
-                    String accountNo = row.getCell(5).getStringCellValue();
+                    accountNo = row.getCell(5).getStringCellValue();
                     if (StringUtils.isBlank(accountNo)) continue;
                     if ("159-22-01424-5(240-890012-16304)".equals(accountNo)) continue;
-                    Date date = getDateValue(row.getCell(9));
-                    int amount = getIntValue(row.getCell(12));
-                    String etc1 = row.getCell(16).getStringCellValue();
-                    String etc2 = row.getCell(17).getStringCellValue();
-                    result.add(new Xfer(accountNo, date, amount, etc1, etc2));
+                    date = getDateValue(row.getCell(9));
+                    amount = getIntValue(row.getCell(12));
+                    etc1 = row.getCell(16).getStringCellValue();
+                    etc2 = row.getCell(17).getStringCellValue();
+                    valid = true;
                 } catch (Exception e) {
-                    System.out.println(e.getMessage()); // TODO: 에러처리
                 }
+                result.add(new Xfer(accountNo, date, amount, etc1, etc2, valid));
             }
         }
         return result;
@@ -49,17 +58,22 @@ public class ExcelService {
             Sheet sheet = workbook.getSheetAt(i);
             for (int r = 1; r < sheet.getPhysicalNumberOfRows() ; ++r) {
                 Row row = sheet.getRow(r);
+                String commitmentNo = "에러";
+                String name = "에러";
+                int amount = -9;
+                Date date = d1900_01_01;
+                String etc = "에러";
+                boolean valid = false;
                 try {
-                    String commitmentNo = null;
-                    try { commitmentNo = row.getCell(0).getStringCellValue(); } catch (Exception e) {}
-                    String name = row.getCell(2).getStringCellValue();
-                    int amount = getIntValue(row.getCell(6));
-                    Date date = getDateValue(row.getCell(8));
-                    String etc = row.getCell(10).getStringCellValue();
-                    result.add(new Sal(commitmentNo, name, amount, date, etc));
+                    commitmentNo = row.getCell(0).getStringCellValue();
+                    name = row.getCell(2).getStringCellValue();
+                    amount = getIntValue(row.getCell(6));
+                    date = getDateValue(row.getCell(8));
+                    etc = row.getCell(10).getStringCellValue();
+                    valid = true;
                 } catch (Exception e) {
-                    System.out.println(e.getMessage()); // TODO: 에러처리
                 }
+                result.add(new Sal(commitmentNo, name, amount, date, etc, valid));
             }
         }
         return result;

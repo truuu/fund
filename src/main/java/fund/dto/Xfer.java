@@ -10,13 +10,15 @@ public class Xfer {
     String etc1;
     String etc2;
     String commitmentNo;
+    boolean valid;
 
-    public Xfer(String accountNo, Date date, int amount, String etc1, String etc2) {
+    public Xfer(String accountNo, Date date, int amount, String etc1, String etc2, boolean valid) {
         this.accountNo = accountNo;
         this.date = date;
         this.amount = amount;
         this.etc1 = etc1;
         this.etc2 = etc2;
+        this.valid = valid;
     }
 
     public String getAccountNo() {
@@ -65,6 +67,14 @@ public class Xfer {
 
     public void setCommitmentNo(String commitmentNo) {
         this.commitmentNo = commitmentNo;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 
     @Override

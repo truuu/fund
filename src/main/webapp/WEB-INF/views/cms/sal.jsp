@@ -24,7 +24,7 @@
     </thead>
     <tbody>
       <c:forEach var="r" items="${ sal_notSaved }">
-        <tr>
+        <tr class="${ c.valid ? '' : 'my-error' }">
           <td></td>
           <td><input type="text" name="commitmentNo" value="${ r.commitmentNo }" /></td>
           <td>${ r.name }</td>

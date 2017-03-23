@@ -8,13 +8,15 @@ public class Sal {
     int amount;
     Date date;
     String etc;
+    boolean valid;
 
-    public Sal(String commitmentNo, String name, int amount, Date date, String etc) {
+    public Sal(String commitmentNo, String name, int amount, Date date, String etc, boolean valid) {
         this.commitmentNo = commitmentNo;
         this.name = name;
         this.amount = amount;
         this.date = date;
         this.etc = etc;
+        this.valid = valid;
     }
 
     public String getCommitmentNo() {
@@ -55,6 +57,14 @@ public class Sal {
 
     public void setEtc(String etc) {
         this.etc = etc;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 
 }
