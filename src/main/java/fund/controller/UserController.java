@@ -14,6 +14,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import fund.dto.User;
 import fund.dto.pagination.Pagination;
 import fund.mapper.UserMapper;
+import fund.service.LogService;
 import fund.service.UserService;
 
 
@@ -23,6 +24,7 @@ public class UserController extends BaseController{
 
 	@Autowired UserMapper userMapper;
 	@Autowired UserService userService;
+    @Autowired LogService logService;
 
     @RequestMapping("/user/list.do")
     public String list(Model model) {
@@ -52,25 +54,33 @@ public class UserController extends BaseController{
     @Secured("ROLE_전체")
     @RequestMapping(value="/user/edit.do", method=RequestMethod.POST, params="cmd=saveInfo")
     public String saveInfo(Model model, User user) {
-        if (사용자정보를수정할권한이있는가(user.getId()) == false) return "redirect:/home/logout.do";
-        if (user.getUserType() == null) user.setUserType(UserService.getCurrentUser().getUserType());
-        userMapper.update(user);
-        model.addAttribute("successMsg", "저장되었습니다.");
-        UserService.setCurrentUser(user);
-        return "user/edit";
+        try {
+            if (사용자정보를수정할권한이있는가(user.getId()) == false) return "redirect:/home/logout.do";
+            if (user.getUserType() == null) user.setUserType(UserService.getCurrentUser().getUserType());
+            userMapper.update(user);
+            model.addAttribute("successMsg", "저장되었습니다.");
+            UserService.setCurrentUser(user);
+            return "user/edit";
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "user/edit");
+        }
     }
 
     @Secured("ROLE_전체")
     @RequestMapping(value="/user/edit.do", method=RequestMethod.POST, params="cmd=savePassword")
     public String savePassword(Model model, User user) {
-        if (사용자정보를수정할권한이있는가(user.getId()) == false) return "redirect:/home/logout.do";
-        if (comparePassword(user)) {
-            user.setPassword(UserService.encryptPasswd(user.getPassword1()));
-            userMapper.updatePassword(user);
-            model.addAttribute("successMsg", "저장되었습니다.");
-        } else
-            model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
-        return "user/edit";
+        try {
+            if (사용자정보를수정할권한이있는가(user.getId()) == false) return "redirect:/home/logout.do";
+            if (comparePassword(user)) {
+                user.setPassword(UserService.encryptPasswd(user.getPassword1()));
+                userMapper.updatePassword(user);
+                model.addAttribute("successMsg", "저장되었습니다.");
+            } else
+                model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+            return "user/edit";
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "user/edit");
+        }
     }
 
     private boolean comparePassword(User user) {
@@ -91,13 +101,17 @@ public class UserController extends BaseController{
 
     @RequestMapping(value="/user/create.do", method=RequestMethod.POST)
     public String create(Model model, User user) {
-        if (comparePassword(user)) {
-            user.setPassword(UserService.encryptPasswd(user.getPassword1()));
-            userMapper.insert(user);
-            return "redirect:list.do";
-        } else
-            model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
-        return "user/create";
+        try {
+            if (comparePassword(user)) {
+                user.setPassword(UserService.encryptPasswd(user.getPassword1()));
+                userMapper.insert(user);
+                return "redirect:list.do";
+            } else
+                model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+            return "user/create";
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "user/create");
+        }
     }
 
 }

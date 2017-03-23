@@ -27,6 +27,7 @@ import fund.mapper.CodeMapper;
 import fund.mapper.FileAttachMapper;
 import fund.mapper.SponsorMapper;
 import fund.service.C;
+import fund.service.LogService;
 import fund.service.ReportBuilder;
 
 @Controller
@@ -35,6 +36,7 @@ public class SponsorController extends BaseController {
     @Autowired SponsorMapper sponsorMapper;
     @Autowired CodeMapper codeMapper;
     @Autowired FileAttachMapper fileAttachMapper;
+    @Autowired LogService logService;
 
     @RequestMapping("/sponsor/list.do")
     public String list(Model model, @ModelAttribute("pagination") PaginationSponsor pagination) {
@@ -60,9 +62,13 @@ public class SponsorController extends BaseController {
 
     @RequestMapping(value="/sponsor/edit.do", method=RequestMethod.POST, params="cmd=save")
     public String edit(Sponsor sponsor, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
-        sponsorMapper.update(sponsor);
-        model.addAttribute("successMsg", "저장했습니다.");
-        return edit(sponsor.getId(), pagination, model);
+        try {
+            sponsorMapper.update(sponsor);
+            model.addAttribute("successMsg", "저장했습니다.");
+            return edit(sponsor.getId(), pagination, model);
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "sponsor/edit");
+        }
     }
 
     @RequestMapping(value="/sponsor/edit.do", method=RequestMethod.POST, params="cmd=delete")
@@ -86,9 +92,13 @@ public class SponsorController extends BaseController {
 
     @RequestMapping(value="/sponsor/create.do", method=RequestMethod.POST, params="cmd=save")
     public String create(Sponsor sponsor, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
-        sponsor.setSponsorNo(sponsorMapper.generateSponsorNo());
-        sponsorMapper.insert(sponsor);
-        return "redirect:list.do";
+        try {
+            sponsor.setSponsorNo(sponsorMapper.generateSponsorNo());
+            sponsorMapper.insert(sponsor);
+            return "redirect:list.do";
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "sponsor/edit");
+        }
     }
 
     @RequestMapping("/sponsor/excel.do")

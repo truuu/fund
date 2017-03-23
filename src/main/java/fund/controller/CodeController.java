@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import fund.dto.Code;
 import fund.mapper.CodeMapper;
+import fund.service.LogService;
 
 @Controller
 public class CodeController extends BaseController{
 
     @Autowired CodeMapper codeMapper;
+    @Autowired LogService logService;
 
     @RequestMapping("/code/list.do")
     public String list(Model model, @RequestParam("gid") int codeGroupId) {
@@ -31,9 +33,13 @@ public class CodeController extends BaseController{
     }
 
     @RequestMapping(value="/code/create.do", method=RequestMethod.POST)
-    public String create(Code code, @RequestParam("gid") int codeGroupId) {
-        codeMapper.insert(code);
-        return "redirect:list.do?gid=" + codeGroupId;
+    public String create(Model model, Code code, @RequestParam("gid") int codeGroupId) {
+        try {
+            codeMapper.insert(code);
+            return "redirect:list.do?gid=" + codeGroupId;
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "code/edit");
+        }
     }
 
     @RequestMapping(value="/code/edit.do", method=RequestMethod.GET)
@@ -45,15 +51,23 @@ public class CodeController extends BaseController{
 
     @RequestMapping(value="/code/edit.do", method=RequestMethod.POST, params="cmd=save")
     public String edit(Model model, Code code, @RequestParam("gid") int codeGroupId) {
-        codeMapper.update(code);
-        model.addAttribute("codeGroup", codeMapper.selectCodeGroupById(codeGroupId));
-        return "redirect:list.do?gid=" + codeGroupId;
+        try {
+            codeMapper.update(code);
+            model.addAttribute("codeGroup", codeMapper.selectCodeGroupById(codeGroupId));
+            return "redirect:list.do?gid=" + codeGroupId;
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "code/edit");
+        }
     }
 
     @RequestMapping(value="/code/edit.do", method=RequestMethod.POST, params="cmd=delete")
     public String delete(Model model, @RequestParam("id") int id, @RequestParam("gid") int codeGroupId) {
-        codeMapper.delete(id);
-        return "redirect:list.do?gid=" + codeGroupId;
+        try {
+            codeMapper.delete(id);
+            return "redirect:list.do?gid=" + codeGroupId;
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "code/edit");
+        }
     }
 
 }

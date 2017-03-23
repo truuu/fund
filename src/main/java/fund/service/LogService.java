@@ -19,6 +19,11 @@ public class LogService {
     static Pattern errorMsgParrern = Pattern.compile("@&([^&]+)&@");
     @Autowired LogMapper logMapper;
 
+    public String logError(Exception e) {
+        String errorMsg = this.insert(e);
+        return errorMsg;
+    }
+
     public String logErrorAndReturn(Model model, Exception e, String returnStr) {
         String errorMsg = this.insert(e);
         model.addAttribute("errorMsg", errorMsg);

@@ -16,6 +16,7 @@ import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.SponsorMapper;
 import fund.service.C;
+import fund.service.LogService;
 
 @Controller
 public class SponsorPaymentController extends BaseController {
@@ -25,6 +26,7 @@ public class SponsorPaymentController extends BaseController {
     @Autowired PaymentMapper paymentMapper;
     @Autowired CommitmentMapper commitmentMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
+    @Autowired LogService logService;
 
     @ModelAttribute
     void modelAttr1(Model model, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
@@ -78,8 +80,12 @@ public class SponsorPaymentController extends BaseController {
 
     @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.POST, params="cmd=save")
     public String edit2save(Model model, @RequestParam("sid") int sid, Payment payment) throws Exception {
-        paymentMapper.update(payment);
-        return redirectToList(model, sid);
+        try {
+            paymentMapper.update(payment);
+            return redirectToList(model, sid);
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "sponsor/payment/edit2");
+        }
     }
 
     @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.POST, params="cmd=delete")
@@ -99,8 +105,12 @@ public class SponsorPaymentController extends BaseController {
 
     @RequestMapping(value="/sponsor/payment/create2.do", method=RequestMethod.POST)
     public String create2(Model model, @RequestParam("sid") int sid, Payment payment) throws Exception {
-        payment.setSponsorId(sid);
-        paymentMapper.insert(payment);
-        return redirectToList(model, sid);
+        try {
+            payment.setSponsorId(sid);
+            paymentMapper.insert(payment);
+            return redirectToList(model, sid);
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "sponsor/payment/edit2");
+        }
     }
 }

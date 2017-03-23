@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import fund.dto.Corporate;
 import fund.mapper.CorporateMapper;
+import fund.service.LogService;
 
 @Controller
 public class CorporateController extends BaseController{
 
 	@Autowired CorporateMapper corporateMapper;
+    @Autowired LogService logService;
 
 	@RequestMapping("/corporate/list.do")
 	public String list(Model model) {
@@ -27,9 +29,13 @@ public class CorporateController extends BaseController{
 	}
 
 	@RequestMapping(value="/corporate/create.do", method=RequestMethod.POST)
-	public String create(Corporate corporate) {
-	    corporateMapper.insert(corporate);
-		return "redirect:/corporate/list.do";
+	public String create(Model model, Corporate corporate) {
+	    try {
+	        corporateMapper.insert(corporate);
+	        return "redirect:/corporate/list.do";
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "corporate/edit");
+        }
 	}
 
 	@RequestMapping(value="/corporate/edit.do", method=RequestMethod.GET)
@@ -40,9 +46,13 @@ public class CorporateController extends BaseController{
 
 	@RequestMapping(value="/corporate/edit.do", method=RequestMethod.POST, params="cmd=save")
     public String edit(Model model, Corporate corporate) {
-		corporateMapper.update(corporate);
-        return "redirect:/corporate/list.do";
-    }
+	    try {
+    		corporateMapper.update(corporate);
+            return "redirect:/corporate/list.do";
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "corporate/edit");
+        }
+	}
 
     @RequestMapping(value="/corporate/edit.do", method=RequestMethod.POST, params="cmd=delete")
     public String delete(Model model, @RequestParam("id") int id) {

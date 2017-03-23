@@ -16,6 +16,7 @@ import fund.dto.Certificate;
 import fund.dto.User;
 import fund.dto.pagination.Pagination;
 import fund.mapper.CertificateMapper;
+import fund.service.LogService;
 import fund.service.ReportBuilder;
 import fund.service.UserService;
 
@@ -23,6 +24,7 @@ import fund.service.UserService;
 public class CertificationController extends BaseController {
 
     @Autowired CertificateMapper certificateMapper;
+    @Autowired LogService logService;
 
     @RequestMapping("/certificate/{type}/list.do")
     public String list(Model model, @PathVariable("type") int type, Pagination pagination) {
@@ -60,12 +62,16 @@ public class CertificationController extends BaseController {
     }
 
     @RequestMapping(value = "/certificate/{type}/create.do", method = RequestMethod.POST)
-    public String insert(@PathVariable("type") int type, Certificate certificate, Pagination pagination) {
-        certificate.setType(type);
-        certificate.setCertificateNo(certificateMapper.generateCertificateNo());
-        certificate.setUserId(UserService.getCurrentUser().getId());
-        certificateMapper.insert(certificate);
-        return "redirect:detail.do?id=" + certificate.getId() + "&" + pagination.getQueryString();
+    public String insert(Model model, @PathVariable("type") int type, Certificate certificate, Pagination pagination) {
+        try {
+            certificate.setType(type);
+            certificate.setCertificateNo(certificateMapper.generateCertificateNo());
+            certificate.setUserId(UserService.getCurrentUser().getId());
+            certificateMapper.insert(certificate);
+            return "redirect:detail.do?id=" + certificate.getId() + "&" + pagination.getQueryString();
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "certificate/edit" + type);
+        }
     }
 
     @RequestMapping("/certificate/{type}/report.do")

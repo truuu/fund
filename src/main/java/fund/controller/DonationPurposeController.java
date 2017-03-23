@@ -11,6 +11,7 @@ import fund.mapper.CodeMapper;
 import fund.mapper.CorporateMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.service.C;
+import fund.service.LogService;
 
 @Controller
 public class DonationPurposeController extends BaseController{
@@ -18,6 +19,7 @@ public class DonationPurposeController extends BaseController{
 	@Autowired DonationPurposeMapper donationPurposeMapper;
 	@Autowired CorporateMapper corporateMapper;
 	@Autowired CodeMapper codeMapper;
+    @Autowired LogService logService;
 
 	@RequestMapping("/donationPurpose/list.do")
 	public String list(Model model) {
@@ -35,8 +37,12 @@ public class DonationPurposeController extends BaseController{
 
 	@RequestMapping(value="/donationPurpose/create.do", method=RequestMethod.POST)
 	public String create(DonationPurpose donationPurpose, Model model) {
-	    donationPurposeMapper.insert(donationPurpose);
-		return "redirect:/donationPurpose/list.do";
+	    try {
+    	    donationPurposeMapper.insert(donationPurpose);
+    		return "redirect:/donationPurpose/list.do";
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "donationPurpose/edit");
+        }
 	}
 
 	@RequestMapping(value="/donationPurpose/edit.do", method=RequestMethod.GET)
@@ -49,8 +55,12 @@ public class DonationPurposeController extends BaseController{
 
 	@RequestMapping(value="/donationPurpose/edit.do", method=RequestMethod.POST, params="cmd=save")
 	public String edit(DonationPurpose donationPurpose, Model model) {
-	    donationPurposeMapper.update(donationPurpose);
-		return "redirect:/donationPurpose/list.do";
+	    try {
+    	    donationPurposeMapper.update(donationPurpose);
+    		return "redirect:/donationPurpose/list.do";
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "donationPurpose/edit");
+        }
 	}
 
     @RequestMapping(value="/donationPurpose/edit.do", method=RequestMethod.POST, params="cmd=delete")

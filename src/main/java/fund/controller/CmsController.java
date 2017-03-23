@@ -217,11 +217,11 @@ public class CmsController extends BaseController {
         return "cms/eb21";
     }
 
-    // TODO: 에러 발생시 EB21 파일 사용 불가 메시지.
+    // TODO: 에러 발생 가능한 부분을 조사해서, 최대한 에러가 발생하지 않게 수정하자.
+    // 에러가 발생할 상황을 isValid 메소드에서 걸러내자.
     @RequestMapping(value="/cms/eb21.do", method=RequestMethod.POST, params="cmd=create")
     public void eb21Create(Wrapper wrapper, HttpServletResponse response) throws Exception {
         Map<String, Object> map = wrapper.getMap();
-        List<Commitment> list = commitmentMapper.selectEB21Candidate(map);
 
         Date today = format_yyyyMMdd.parse((String)map.get("paymentDate"));
         String fileName = "EB21" + format_MMdd.format(today);
@@ -298,6 +298,7 @@ public class CmsController extends BaseController {
     }
 
     // TODO: 에러 발생시 EB22 재등록 메시지.
+    // 에러가 발생할 상황을 최대한 줄이자.
     @RequestMapping(value="/cms/eb22.do", method=RequestMethod.POST)
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String eb22(Model model, @RequestParam("file") MultipartFile file) throws Exception {

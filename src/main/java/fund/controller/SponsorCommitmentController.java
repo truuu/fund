@@ -39,7 +39,7 @@ public class SponsorCommitmentController extends BaseController {
     }
 
     @RequestMapping(value = "/sponsor/commitment/list.do", method = RequestMethod.GET)
-    public String list(Model model, @RequestParam("sid") int sid) {
+    public String list(Model model, @RequestParam("sid") int sid) throws Exception {
         model.addAttribute("list", commitmentMapper.selectBySponsorId(sid));
         return "sponsor/commitment/list";
     }
