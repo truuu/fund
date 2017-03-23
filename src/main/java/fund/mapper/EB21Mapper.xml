@@ -9,7 +9,7 @@
 
 <select id="selectByCommitmentNo" resultType="fund.dto.EB21">
   SELECT * FROM eb21 e JOIN commitment c ON e.commitmentId = c.id
-  WHERE REPLACE(c.commitmentNo, '-', '') = #{commitmentNo} 
+  WHERE REPLACE(c.commitmentNo, '-', '') = REPLACE(#{commitmentNo}, '-', '') 
 </select>
 
 <select id="selectCmsResult" resultType="fund.dto.EB21">

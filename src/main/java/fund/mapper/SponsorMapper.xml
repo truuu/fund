@@ -81,7 +81,7 @@ AND (#{st2} = 0 OR #{st2} = sponsorType2Id)
     
 <update id="update">
 DECLARE @encrypted VARBINARY(1000)
-SET @encrypted = ENCRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), CONVERT(VARCHAR, REPLACE(#{juminNo}, '-', '')))
+SET @encrypted = ENCRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), CONVERT(VARCHAR, #{juminNo}))
 UPDATE sponsor
 SET 
   name = #{name},
@@ -118,7 +118,7 @@ WHERE id = #{id}
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
 DECLARE @encrypted VARBINARY(1000)
-SET @encrypted = ENCRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), CONVERT(VARCHAR, REPLACE(#{juminNo}, '-', '')))
+SET @encrypted = ENCRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), CONVERT(VARCHAR, #{juminNo}))
 INSERT sponsor(sponsorNo, name, sponsorType1Id, sponsorType2Id, sponsorTypeDetail, 
   churchId, signUpDate, mobilePhone, 
   recommender, recommenderRelation, mailReceiving, mailTo, homeRoadAddress, homeDetailAddress, homePostCode, homePhone, 
