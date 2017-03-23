@@ -2,7 +2,6 @@ package fund.controller;
 
 import java.text.ParseException;
 import java.util.Date;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import fund.dto.Commitment;
+import fund.dto.Sponsor;
 import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentMapper;
@@ -71,10 +71,22 @@ public class SponsorCommitmentController extends BaseController {
         }
     }
 
+    String getEB13BirthDate(String juminNo) {
+        if (juminNo == null) return "";
+        juminNo = juminNo.replaceAll("-", "");
+        int length = juminNo.length();
+        if (length < 6) return "";
+        if (length == 10) return juminNo;
+        return juminNo.substring(0, 6);
+    }
+
     @RequestMapping(value="/sponsor/commitment/create.do", method=RequestMethod.GET)
     public String create(Model model, @RequestParam("sid") int sid) throws Exception {
+        Sponsor sponsor = sponsorMapper.selectById(sid);
         Commitment commitment = new Commitment();
         commitment.setSponsorId(sid);
+        commitment.setBirthDate(getEB13BirthDate(sponsor.getJuminNo()));
+        commitment.setAccountHolder(sponsor.getName());
         commitment.setCommitmentNo(commitmentMapper.generateCommitmentNo(sid));
         String today = Util.toYMD(new Date());
         commitment.setCommitmentDate(today);
@@ -90,7 +102,6 @@ public class SponsorCommitmentController extends BaseController {
         try {
             commitment.setCommitmentNo(commitmentMapper.generateCommitmentNo(sid));
             commitment.setSponsorId(sid);
-            if (StringUtils.isBlank(commitment.getEndDate())) commitment.setEndDate(null);
             commitmentMapper.insert(commitment);
             return redirectToList(model, sid);
         } catch (Exception e) {

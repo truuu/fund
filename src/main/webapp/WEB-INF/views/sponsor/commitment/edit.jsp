@@ -11,6 +11,9 @@
 
 <div class="pull-right mt4 mb4">
   <button type="submit" class="btn btn-primary" name="cmd" value="save">저장</button>
+  <c:if test="${ commitment.eb13State eq null || commitment.eb13State eq '에러' }">
+    <button type="submit" class="btn btn-danger" name="cmd" value="delete" data-confirm-delete>삭제</button>
+  </c:if>
   <a href="list.do?sid=${ sponsor.id }&${ pagination.queryString }" class="btn btn-info">약정 목록</a>
 </div>
 
@@ -44,8 +47,14 @@
   <tr>
     <td class="lb">월납입일</td>
     <td><form:input path="paymentDay" /></td>
-    <td class="lb">예금주</td>
-    <td>${ commitment.accountHolder }</td>
+    <td class="lb">예금주 / 생년월일</td>
+    <td>${ commitment.accountHolder } / ${ commitment.birthDate }</td>
+  </tr>
+  <tr>
+    <td class="lb">약정상태</td>
+    <td>${ commitment.state }</td>
+    <td class="lb">EB13상태</td>
+    <td>${ commitment.eb13State }</td>
   </tr>
   <tr>
     <td class="lb">기부목적</td>

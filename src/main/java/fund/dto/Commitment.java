@@ -17,6 +17,7 @@ public class Commitment {
     int bankId;
     String accountNo;
     String accountHolder;
+    String birthDate;
     String etc;
     String eb13State;
     Date eb13Date;
@@ -39,10 +40,8 @@ public class Commitment {
 
     //
     public boolean isValid() {
-        int length = (juminNo + "").length();
-        return StringUtils.isNotBlank(bankName) && StringUtils.isNotBlank(juminNo) && StringUtils.isNotBlank(accountNo)
-                && (length == 13 || length == 10 || length == 6);
-
+        int length = (birthDate + "").length();
+        return StringUtils.isNotBlank(bankName) && StringUtils.isNotBlank(birthDate) && StringUtils.isNotBlank(accountNo) && (length == 6 || length == 10);
     }
     //
 
@@ -148,6 +147,14 @@ public class Commitment {
 
     public void setAccountHolder(String accountHolder) {
         this.accountHolder = accountHolder;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getEtc() {

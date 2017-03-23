@@ -42,8 +42,9 @@
   <tr>
     <td class="lb">월납입일</td>
     <td><form:input path="paymentDay" /></td>
-    <td class="lb">예금주</td>
-    <td><form:input path="accountHolder" /></td>
+    <td class="lb">예금주 / 생년월일</td>
+    <td><form:input path="accountHolder" /> 
+        <form:input path="birthDate" placeholder="YYMMDD 6자리입력" /></td>
   </tr>
   <tr>
     <td class="lb">기부목적</td>

@@ -16,7 +16,7 @@ import fund.mapper.LogMapper;
 @Service
 public class LogService {
 
-    static Pattern errorMsgParrern = Pattern.compile("@&([^)]+)&@");
+    static Pattern errorMsgParrern = Pattern.compile("@&([^&]+)&@");
     @Autowired LogMapper logMapper;
 
     public String logErrorAndReturn(Model model, Exception e, String returnStr) {

@@ -87,9 +87,6 @@ public class CmsController extends BaseController {
         for(Commitment c : list) {
             if (c.isValid() == false) continue;
 
-            String juminNo = c.getJuminNo();
-            if (juminNo.length() == 13) juminNo = juminNo.substring(0, 6);
-
             writer.write("R");
             writer.write(String.format("%08d ", count + 1));
             writer.write(orgCode);
@@ -98,7 +95,7 @@ public class CmsController extends BaseController {
             writer.write(String.format("%-20s", c.getCommitmentNo().replaceAll("-", "")));
             writer.write(c.getBankCode());
             writer.write(String.format("%-16s", c.getAccountNo().replaceAll("-", "")));
-            writer.write(String.format("%-16s", juminNo));
+            writer.write(String.format("%-16s", c.getBirthDate()));
             writer.write(StringUtils.repeat(' ', 4));
             writer.write(StringUtils.repeat(' ', 2));
             writer.write(StringUtils.repeat(' ', 1));
@@ -266,9 +263,7 @@ public class CmsController extends BaseController {
             writer.write(String.format("%-13s", c.getAmountPerMonth()));
             total += c.getAmountPerMonth();
 
-            String s = c.getJuminNo();
-            if (s.length() == 13) s = s.substring(0, 6);
-            writer.write(String.format("%-13s", s));
+            writer.write(String.format("%-13s", c.getBirthDate()));
             writer.write(StringUtils.repeat(' ', 5));
             writer.write(C2.EB21Message);
             writer.write("  ");

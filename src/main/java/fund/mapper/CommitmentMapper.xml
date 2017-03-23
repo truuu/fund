@@ -60,28 +60,30 @@ WHERE id = #{sponsorId}
 <![CDATA[
 INSERT Commitment (sponsorId, commitmentNo, donationPurposeId, paymentMethodId, 
   commitmentDate, startDate, endDate, 
-  amountPerMonth, paymentDay, bankId, accountNo, accountHolder, etc)
+  amountPerMonth, paymentDay, bankId, accountNo, accountHolder, birthDate, etc)
 VALUES 
   (#{sponsorId}, #{commitmentNo}, #{donationPurposeId}, #{paymentMethodId}, 
    CONVERT(DATE, IIF(LEN(RTRIM(#{commitmentDate})) < 10, null, #{commitmentDate})),
    CONVERT(DATE, IIF(LEN(RTRIM(#{startDate})) < 10, null, #{startDate})),
    CONVERT(DATE, IIF(LEN(RTRIM(#{endDate})) < 10, null, #{endDate})),
-   #{amountPerMonth}, #{paymentDay}, #{bankId}, #{accountNo}, #{accountHolder}, #{etc})
+   #{amountPerMonth}, #{paymentDay}, #{bankId}, #{accountNo}, #{accountHolder}, #{birthDate}, #{etc})
 ]]>
 </insert>
 
 <update id="update">
+<![CDATA[
 UPDATE Commitment
 SET
   donationPurposeId = #{donationPurposeId},
   paymentMethodId = #{paymentMethodId},
-  commitmentDate = #{commitmentDate},
-  startDate = #{startDate},
-  endDate = #{endDate},
+  commitmentDate = CONVERT(DATE, IIF(LEN(RTRIM(#{commitmentDate})) < 10, null, #{commitmentDate})),
+  startDate = CONVERT(DATE, IIF(LEN(RTRIM(#{startDate})) < 10, null, #{startDate})),
+  endDate = CONVERT(DATE, IIF(LEN(RTRIM(#{endDate})) < 10, null, #{endDate})),
   amountPerMonth = #{amountPerMonth},
   paymentDay = #{paymentDay},
   etc = #{etc}
 WHERE id = #{id}
+]]>
 </update>
     
 <update id="updateEndDate">
@@ -96,20 +98,18 @@ DELETE FROM Commitment WHERE id = #{id}
 
 <!-- CMS -->
 <select id="selectEB13Candidate" resultType="fund.dto.Commitment">
-SELECT c.*, s.sponsorNo, s.name, b.codeName bankName, b.etc1 bankCode,
-  CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted)) juminNo
+SELECT c.*, s.sponsorNo, s.name, b.codeName bankName, b.etc1 bankCode
 FROM commitment c
   JOIN sponsor s ON c.sponsorId = s.id
   JOIN [code] b ON c.bankId = b.id
 WHERE c.paymentMethodId = 10
-AND (eb13State IS NULL OR eb13State = '에러')
+-- AND (eb13State IS NULL OR eb13State = '에러')
 ORDER BY c.commitmentDate DESC
 </select>
 
 <select id="selectEB21Candidate" resultType="fund.dto.Commitment">        
 <![CDATA[
-SELECT c.*, s.sponsorNo, s.name, b.codeName bankName, b.etc1 bankCode,
-  CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted)) juminNo
+SELECT c.*, s.sponsorNo, s.name, b.codeName bankName, b.etc1 bankCode
 FROM commitment c
   JOIN sponsor s ON c.sponsorId = s.id
   JOIN [code] b ON c.bankId = b.id
