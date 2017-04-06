@@ -23,7 +23,7 @@
         DELETE FROM fileAttachment WHERE id = #{id}
     </delete>
 
-    <delete id="deleteBysponsorId">
+    <delete id="deleteBySponsorId">
         DELETE FROM fileAttachment WHERE sponsorId = #{sponsorId}
     </delete>
 
