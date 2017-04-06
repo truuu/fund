@@ -65,11 +65,15 @@ public class SponsorPaymentController extends BaseController {
 
     @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.GET)
     public String edit2(Model model, @RequestParam("sid") int sid, @RequestParam("id") int id) {
-        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("payment", paymentMapper.selectById(id));
+        addCodesToModel(model, sid);
+        return "sponsor/payment/edit2";
+    }
+
+    private void addCodesToModel(Model model, int sponsorId) {
+        model.addAttribute("sponsor", sponsorMapper.selectById(sponsorId));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_비정기납입방법));
-        return "sponsor/payment/edit2";
     }
 
     private String redirectToList(Model model, int sid) {
@@ -84,6 +88,7 @@ public class SponsorPaymentController extends BaseController {
             paymentMapper.update(payment);
             return redirectToList(model, sid);
         } catch (Exception e) {
+            addCodesToModel(model, sid);
             return logService.logErrorAndReturn(model, e, "sponsor/payment/edit2");
         }
     }
@@ -96,10 +101,8 @@ public class SponsorPaymentController extends BaseController {
 
     @RequestMapping(value="/sponsor/payment/create2.do", method=RequestMethod.GET)
     public String create2(Model model, @RequestParam("sid") int sid) {
-        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("payment", new Payment());
-        model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
-        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_비정기납입방법));
+        addCodesToModel(model, sid);
         return "sponsor/payment/edit2";
     }
 
@@ -110,6 +113,7 @@ public class SponsorPaymentController extends BaseController {
             paymentMapper.insert(payment);
             return redirectToList(model, sid);
         } catch (Exception e) {
+            addCodesToModel(model, sid);
             return logService.logErrorAndReturn(model, e, "sponsor/payment/edit2");
         }
     }

@@ -19,7 +19,7 @@ public class CodeController extends BaseController{
     @RequestMapping("/code/list.do")
     public String list(Model model, @RequestParam("gid") int codeGroupId) {
         model.addAttribute("list", codeMapper.selectByCodeGroupId(codeGroupId));
-        model.addAttribute("codeGroup", codeMapper.selectCodeGroupById(codeGroupId));
+        addCodesToModel(model, codeGroupId);
         return "code/list";
     }
 
@@ -28,8 +28,12 @@ public class CodeController extends BaseController{
         Code code = new Code();
         code.setCodeGroupId(codeGroupId);
         model.addAttribute("code", code);
-        model.addAttribute("codeGroup", codeMapper.selectCodeGroupById(codeGroupId));
+        addCodesToModel(model, codeGroupId);
         return "code/edit";
+    }
+
+    private void addCodesToModel(Model model, int codeGroupId) {
+        model.addAttribute("codeGroup", codeMapper.selectCodeGroupById(codeGroupId));
     }
 
     @RequestMapping(value="/code/create.do", method=RequestMethod.POST)
@@ -38,6 +42,7 @@ public class CodeController extends BaseController{
             codeMapper.insert(code);
             return "redirect:list.do?gid=" + codeGroupId;
         } catch (Exception e) {
+            addCodesToModel(model, codeGroupId);
             return logService.logErrorAndReturn(model, e, "code/edit");
         }
     }
@@ -45,7 +50,7 @@ public class CodeController extends BaseController{
     @RequestMapping(value="/code/edit.do", method=RequestMethod.GET)
     public String edit(Model model, @RequestParam("id") int id, @RequestParam("gid") int codeGroupId) {
         model.addAttribute("code", codeMapper.selectById(id));
-        model.addAttribute("codeGroup", codeMapper.selectCodeGroupById(codeGroupId));
+        addCodesToModel(model, codeGroupId);
         return "code/edit";
     }
 
@@ -53,9 +58,9 @@ public class CodeController extends BaseController{
     public String edit(Model model, Code code, @RequestParam("gid") int codeGroupId) {
         try {
             codeMapper.update(code);
-            model.addAttribute("codeGroup", codeMapper.selectCodeGroupById(codeGroupId));
             return "redirect:list.do?gid=" + codeGroupId;
         } catch (Exception e) {
+            addCodesToModel(model, codeGroupId);
             return logService.logErrorAndReturn(model, e, "code/edit");
         }
     }
@@ -66,6 +71,7 @@ public class CodeController extends BaseController{
             codeMapper.delete(id);
             return "redirect:list.do?gid=" + codeGroupId;
         } catch (Exception e) {
+            addCodesToModel(model, codeGroupId);
             return logService.logErrorAndReturn(model, e, "code/edit");
         }
     }

@@ -30,10 +30,14 @@ public class DonationPurposeController extends BaseController{
 	@RequestMapping(value="/donationPurpose/create.do", method=RequestMethod.GET)
 	public String create(Model model) {
 	    model.addAttribute("donationPurpose", new DonationPurpose());
-		model.addAttribute("corporateList", corporateMapper.selectAll());
-		model.addAttribute("organizationList",codeMapper.selectByCodeGroupId(C.코드그룹ID_기관종류));
+		addCodesToModel(model);
 		return "donationPurpose/edit";
 	}
+
+    private void addCodesToModel(Model model) {
+        model.addAttribute("corporateList", corporateMapper.selectAll());
+		model.addAttribute("organizationList",codeMapper.selectByCodeGroupId(C.코드그룹ID_기관종류));
+    }
 
 	@RequestMapping(value="/donationPurpose/create.do", method=RequestMethod.POST)
 	public String create(DonationPurpose donationPurpose, Model model) {
@@ -41,15 +45,15 @@ public class DonationPurposeController extends BaseController{
     	    donationPurposeMapper.insert(donationPurpose);
     		return "redirect:/donationPurpose/list.do";
         } catch (Exception e) {
+            addCodesToModel(model);
             return logService.logErrorAndReturn(model, e, "donationPurpose/edit");
         }
 	}
 
 	@RequestMapping(value="/donationPurpose/edit.do", method=RequestMethod.GET)
 	public String edit(Model model,@RequestParam("id") int id) {
-		model.addAttribute("corporateList", corporateMapper.selectAll());
-		model.addAttribute("organizationList", codeMapper.selectByCodeGroupId(C.코드그룹ID_기관종류));
-		model.addAttribute("donationPurpose", donationPurposeMapper.selectById(id));
+        model.addAttribute("donationPurpose", donationPurposeMapper.selectById(id));
+		addCodesToModel(model);
 		return "donationPurpose/edit";
 	}
 
@@ -59,6 +63,7 @@ public class DonationPurposeController extends BaseController{
     	    donationPurposeMapper.update(donationPurpose);
     		return "redirect:/donationPurpose/list.do";
         } catch (Exception e) {
+            addCodesToModel(model);
             return logService.logErrorAndReturn(model, e, "donationPurpose/edit");
         }
 	}

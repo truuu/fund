@@ -56,8 +56,11 @@ public class CorporateController extends BaseController{
 
     @RequestMapping(value="/corporate/edit.do", method=RequestMethod.POST, params="cmd=delete")
     public String delete(Model model, @RequestParam("id") int id) {
-        corporateMapper.delete(id);
-        return "redirect:/corporate/list.do";
+        try {
+            corporateMapper.delete(id);
+            return "redirect:/corporate/list.do";
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "corporate/edit");
+        }
     }
-
 }

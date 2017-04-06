@@ -53,11 +53,15 @@ public class SponsorController extends BaseController {
     @RequestMapping(value="/sponsor/edit.do", method=RequestMethod.GET)
     public String edit(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
         model.addAttribute("sponsor", sponsorMapper.selectById(id));
+        addCodesToModel(id, model);
+        return "sponsor/edit";
+    }
+
+    private void addCodesToModel(int sponsorId, Model model) {
         model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분1));
         model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분2));
         model.addAttribute("churchList", codeMapper.selectByCodeGroupId(C.코드그룹ID_소속교회));
-        model.addAttribute("files", fileAttachMapper.selectBySponsorId(id));
-        return "sponsor/edit";
+        model.addAttribute("files", fileAttachMapper.selectBySponsorId(sponsorId));
     }
 
     @RequestMapping(value="/sponsor/edit.do", method=RequestMethod.POST, params="cmd=save")
@@ -67,6 +71,7 @@ public class SponsorController extends BaseController {
             model.addAttribute("successMsg", "저장했습니다.");
             return edit(sponsor.getId(), pagination, model);
         } catch (Exception e) {
+            addCodesToModel(sponsor.getId(), model);
             return logService.logErrorAndReturn(model, e, "sponsor/edit");
         }
     }
@@ -84,9 +89,7 @@ public class SponsorController extends BaseController {
         Sponsor sponsor = new Sponsor();
         sponsor.setSponsorNo(sponsorMapper.generateSponsorNo());
         model.addAttribute("sponsor", sponsor);
-        model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분1));
-        model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분2));
-        model.addAttribute("churchList", codeMapper.selectByCodeGroupId(C.코드그룹ID_소속교회));
+        addCodesToModel(0, model);
         return "sponsor/edit";
     }
 
@@ -97,6 +100,7 @@ public class SponsorController extends BaseController {
             sponsorMapper.insert(sponsor);
             return "redirect:list.do";
         } catch (Exception e) {
+            addCodesToModel(0, model);
             return logService.logErrorAndReturn(model, e, "sponsor/edit");
         }
     }
