@@ -66,7 +66,7 @@ VALUES
    CONVERT(DATE, IIF(LEN(RTRIM(#{commitmentDate})) < 10, null, #{commitmentDate})),
    CONVERT(DATE, IIF(LEN(RTRIM(#{startDate})) < 10, null, #{startDate})),
    CONVERT(DATE, IIF(LEN(RTRIM(#{endDate})) < 10, null, #{endDate})),
-   #{amountPerMonth}, #{paymentDay}, #{bankId}, #{accountNo}, #{accountHolder}, #{birthDate}, #{etc})
+   #{amountPerMonth}, #{paymentDay}, #{bankId}, #{accountNo}, #{accountHolder}, RTRIM(#{birthDate}), #{etc})
 ]]>
 </insert>
 
@@ -103,7 +103,7 @@ FROM commitment c
   JOIN sponsor s ON c.sponsorId = s.id
   JOIN [code] b ON c.bankId = b.id
 WHERE c.paymentMethodId = 10
--- AND (eb13State IS NULL OR eb13State = '에러')
+AND (eb13State IS NULL OR eb13State = '에러')
 ORDER BY c.commitmentDate DESC
 </select>
 

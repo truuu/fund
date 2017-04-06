@@ -22,7 +22,7 @@
       <th>약정번호</th>
       <th>약정일</th>
       <th>계좌</th>
-      <th>주민등록번호</th>
+      <th>생년월일</th>
     </tr>
   </thead>
   <tbody>
@@ -33,7 +33,7 @@
         <td>${ c.commitmentNo }</td>
         <td>${ c.commitmentDate }</td>
         <td>${ c.bankName } ${ c.accountNo } ${ c.accountHolder }</td>
-        <td>${ c.juminNo }</td>
+        <td>${ c.birthDate }</td>
       </tr>
     </c:forEach>
   </tbody>

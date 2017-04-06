@@ -11,7 +11,7 @@
     </select>
 
     <select id="selectById" resultType="fund.dto.FileAttach">
-        SELECT * FROM   fileAttachment WHERE  id = #{id}
+        SELECT * FROM fileAttachment WHERE  id = #{id}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
@@ -20,11 +20,11 @@
     </insert>
 
     <delete id="delete">
-        DELETE fileAttachment WHERE id = #{id}
+        DELETE FROM fileAttachment WHERE id = #{id}
     </delete>
 
     <delete id="deleteBysponsorId">
-        DELETE fileAttachment WHERE sponsorId = #{sponsorId}
+        DELETE FROM fileAttachment WHERE sponsorId = #{sponsorId}
     </delete>
 
 </mapper>
