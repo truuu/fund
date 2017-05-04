@@ -42,6 +42,13 @@ public class UserService {
                 SecurityContextHolder.getContext().getAuthentication()).setUser(user);
     }
 
-
+    public static boolean isUserInRole(String... role) {
+        User user = getCurrentUser();
+        if (user == null) return false;
+        for (String s : role)
+            if (user.getUserType().equals(s))
+                return true;
+        return false;
+    }
 }
 
