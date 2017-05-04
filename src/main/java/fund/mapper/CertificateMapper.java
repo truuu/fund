@@ -11,5 +11,5 @@ public interface CertificateMapper {
   int selectCount(Pagination pagination);
   void insert(Certificate certificate);
   void delete(int id);
-  String generateCertificateNo();
+  String generateCertificateNo(int type);
 }

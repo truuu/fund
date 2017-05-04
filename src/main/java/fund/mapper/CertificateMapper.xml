@@ -51,7 +51,8 @@ SET @n = (
   SELECT MAX(CONVERT(INT, RIGHT(certificateNo,4)))
   FROM [Certificate]
   WHERE CHARINDEX(@year, certificateNo) = 1 AND LEN(certificateNo) = 9
-  AND ISNUMERIC(RIGHT(certificateNo,4)) = 1)
+  AND ISNUMERIC(RIGHT(certificateNo,4)) = 1
+  AND [type] = #{type})
 SET @n = ISNULL(@n,0) + 1
 SELECT @year + '-' + REPLACE(STR(@n,4), ' ', '0')
 </select>

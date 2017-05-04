@@ -55,7 +55,7 @@ public class CertificationController extends BaseController {
     @RequestMapping(value = "/certificate/{type}/create.do", method = RequestMethod.GET)
     public String insert(Model model, @PathVariable("type") int type, Pagination pagination) {
         Certificate certificate = new Certificate();
-        certificate.setCertificateNo(certificateMapper.generateCertificateNo());
+        certificate.setCertificateNo(certificateMapper.generateCertificateNo(type));
         certificate.setUserName(UserService.getCurrentUser().getName());
         model.addAttribute("certificate", certificate);
         return "certificate/edit" + type;
@@ -65,7 +65,7 @@ public class CertificationController extends BaseController {
     public String insert(Model model, @PathVariable("type") int type, Certificate certificate, Pagination pagination) {
         try {
             certificate.setType(type);
-            certificate.setCertificateNo(certificateMapper.generateCertificateNo());
+            certificate.setCertificateNo(certificateMapper.generateCertificateNo(type));
             certificate.setUserId(UserService.getCurrentUser().getId());
             certificateMapper.insert(certificate);
             return "redirect:detail.do?id=" + certificate.getId() + "&" + pagination.getQueryString();
