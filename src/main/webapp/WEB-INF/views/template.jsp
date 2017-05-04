@@ -60,12 +60,30 @@
   <script>$("#successModal").modal("show");</script>
 </c:if>
 
+<div class="modal fade" id="waitingModal" role="dialog" tabindex='-1'>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">작업중</h4>
+      </div>
+      <div class="modal-body" style="text-align: center">
+        <p>작업중입니다. 잠시 기다려 주세요.</p>
+        <img src="/funds/res/images/wait.gif" />
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   function closeMsgModal() {
   	$("div.modal.myMsg").modal("hide");
   	$(document).off("keydown", closeMsgModal);
   }
   $(document).keydown(closeMsgModal);
+  function showWaitMsg() {
+	  $("#waitingModal").modal("show");
+  }
 </script>    
 </body>
 </html>

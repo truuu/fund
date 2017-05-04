@@ -14,6 +14,6 @@
 <span>발급일:</span>
 <form:input path="map[createDate]" class="date" placeholder="필수" />
 
-<button type="submit" class="btn btn-primary">영수증 일괄 발급</button>
+<button type="submit" class="btn btn-primary" onclick="showWaitMsg()">영수증 일괄 발급</button>
 
 </form:form>
