@@ -78,7 +78,7 @@ FROM Payment p
 WHERE p.paymentDate BETWEEN @startDate AND @endDate
 AND p.sponsorId IN (SELECT id FROM [sponsor] WHERE name = @srchText)
 AND p.donationPurposeId IN (SELECT id FROM donationPurpose WHERE @corporateId = 0 OR corporateId = @corporateId)
-AND LEN(REPLACE(CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted))), '-', '') IN (13, 10)
+AND LEN(REPLACE(CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted)), '-', '')) IN (13, 10)
 ORDER BY p.paymentDate DESC
 </select>
 
@@ -93,7 +93,7 @@ FROM Payment p
   JOIN sponsor s ON s.id = p.sponsorId
 WHERE p.paymentDate BETWEEN @startDate AND @endDate
 AND p.receiptId IS NULL
-AND LEN(REPLACE(CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted))), '-', '') IN (13, 10)
+AND LEN(REPLACE(CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted)), '-', '')) IN (13, 10)
 ORDER BY p.sponsorId, d.corporateId
 </select>    
 
