@@ -34,6 +34,10 @@
     <td></td>
     <td></td>
   </tr>
+  <tr>
+    <td class="lb">비고</td>
+    <td colspan="3"><form:textarea path="etc" style="width:100%; height: 600px" /></td>
+  </tr>
 </table>  
 
 </form:form>

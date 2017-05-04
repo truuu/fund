@@ -7,6 +7,7 @@ public class DonationPurpose {
     String name;
     String gubun;
     boolean closed;
+    String etc;
 
     String organizationName;
     String corporateName;
@@ -57,6 +58,14 @@ public class DonationPurpose {
 
     public void setClosed(boolean closed) {
         this.closed = closed;
+    }
+
+    public String getEtc() {
+        return etc;
+    }
+
+    public void setEtc(String etc) {
+        this.etc = etc;
     }
 
     public String getOrganizationName() {
