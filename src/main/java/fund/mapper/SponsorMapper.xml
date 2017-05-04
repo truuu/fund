@@ -21,7 +21,7 @@ WHERE id = #{id}
 DECLARE @order INT, @srchType INT, @srchText NVARCHAR(50), @currentPage INT, @pageSize INT
 SET @order = #{order}
 SET @srchType = #{srchType}
-SET @srchText = #{srchText}
+SET @srchText = RTRIM(#{srchText})
 SET @currentPage = #{currentPage}
 SET @pageSize = #{pageSize}
 SELECT *
@@ -36,9 +36,9 @@ FROM(
     END 행번호
     FROM [sponsor] s
     WHERE
-      ((@srchType = 0) OR
-       (@srchType = 1 AND CHARINDEX(@srchText, name) = 1) OR
-       (@srchType = 2 AND CHARINDEX(@srchText, sponsorNo) = 1)) 
+       ((LEN(@srchText) = 0) OR
+        (CHARINDEX(@srchText, name) > 0) OR
+        (CHARINDEX(@srchText, sponsorNo) > 0)) 
     AND (#{st1} = 0 OR #{st1} = sponsorType1Id)
     AND (#{st2} = 0 OR #{st2} = sponsorType2Id)
   ) subquery
@@ -66,14 +66,14 @@ ORDER BY sponsorNo DESC
 <![CDATA[
 DECLARE @srchType INT, @srchText NVARCHAR(50)
 SET @srchType = #{srchType}
-SET @srchText = #{srchText}
+SET @srchText = RTRIM(#{srchText})
 
 SELECT COUNT(*) 
 FROM [sponsor] s
 WHERE
-    ((@srchType = 0) OR
-     (@srchType = 1 AND CHARINDEX(@srchText, name) = 1) OR
-     (@srchType = 2 AND CHARINDEX(@srchText, sponsorNo) = 1)) 
+   ((LEN(@srchText) = 0) OR
+    (CHARINDEX(@srchText, name) > 0) OR
+    (CHARINDEX(@srchText, sponsorNo) > 0)) 
 AND (#{st1} = 0 OR #{st1} = sponsorType1Id)
 AND (#{st2} = 0 OR #{st2} = sponsorType2Id)
 ]]>

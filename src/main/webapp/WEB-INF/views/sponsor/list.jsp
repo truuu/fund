@@ -19,11 +19,6 @@
       <form:option value="0" label="등록순서" />
       <form:option value="1" label="후원인번호 순서" />
     </form:select>
-    <form:select path="ss">
-      <form:option value="0" label="검색조건" />
-      <form:option value="1" label="이름" />
-      <form:option value="2" label="후원인번호" />
-    </form:select>
     <form:input path="st" />
 
     <form:select path="st1" class="ml10">
