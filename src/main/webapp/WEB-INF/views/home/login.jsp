@@ -14,7 +14,7 @@
 .login img { margin: 40px; }
 </style>
 
-<h1>로그인</h1>
+<h1>로그인 ${ test }</h1>
 
 <div class="login">
   <form method="POST" action="/funds/home/login_processing.do">
@@ -34,6 +34,4 @@
   </form>
 </div>
 
-
 </sec:authorize>
-

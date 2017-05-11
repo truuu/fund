@@ -1,8 +1,11 @@
 package fund.service;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 
 public class Util {
 
@@ -20,4 +23,19 @@ public class Util {
         return formatYMD.parse(s);
     }
 
+    public static boolean hasIP(String ip) {
+        try {
+            Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
+            while(e.hasMoreElements()) {
+                NetworkInterface n = e.nextElement();
+                Enumeration<InetAddress> ee = n.getInetAddresses();
+                while (ee.hasMoreElements()) {
+                    InetAddress i = ee.nextElement();
+                    if (i.getHostAddress().equals(ip)) return true;
+                }
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
 }

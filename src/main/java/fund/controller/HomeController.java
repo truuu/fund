@@ -10,6 +10,7 @@ import fund.dto.Todo;
 import fund.mapper.SponsorMapper;
 import fund.mapper.TodoMapper;
 import fund.service.UserService;
+import fund.service.Util;
 
 @Controller
 public class HomeController extends BaseController {
@@ -47,6 +48,7 @@ public class HomeController extends BaseController {
 
     @RequestMapping(value="/home/login.do", method=RequestMethod.GET)
     public String login(Model model) {
+        model.addAttribute("test", Util.hasIP("192.168.61.10") ? "(테스트 서버)" : "");
         return "home/login";
     }
 
