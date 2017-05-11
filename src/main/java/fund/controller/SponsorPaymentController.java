@@ -44,7 +44,7 @@ public class SponsorPaymentController extends BaseController {
     }
 
     @RequestMapping(value="/sponsor/payment/list1ajax.do", method=RequestMethod.POST)
-    public String list1ajax(@RequestParam("commitmentId") int commitmentId, Model model) {
+    public String list1ajax(@RequestParam(value="commitmentId", required=false, defaultValue="0") int commitmentId, Model model) {
         model.addAttribute("list", paymentMapper.selectPaymentList1(commitmentId));
         return "sponsor/payment/list1ajax/ajax";
     }
