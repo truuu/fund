@@ -98,7 +98,7 @@ ORDER BY p.sponsorId, d.corporateId
 </select>    
 
 <select id="selectByReceiptId" resultType="fund.dto.Payment">
-  SELECT * FROM payment WHERE receiptId = #{receiptId}
+  SELECT * FROM payment WHERE receiptId = #{receiptId} ORDER BY paymentDate
 </select>
 
 <select id="selectForTaxData" resultType="hashmap">
