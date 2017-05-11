@@ -9,8 +9,10 @@
   <http pattern="/**/*.css" security="none" />
   <http pattern="/**/*.jpg" security="none" />
   <http pattern="/**/*.png" security="none" />
+  <http pattern="/**/*.gif" security="none" />
 
   <http auto-config="true">
+    <intercept-url pattern="/res/**" access="ROLE_ANONYMOUS,ROLE_전체" />
     <intercept-url pattern="/home/**" access="ROLE_ANONYMOUS,ROLE_전체" />
     <intercept-url pattern="/**" access="ROLE_전체" />    
 
