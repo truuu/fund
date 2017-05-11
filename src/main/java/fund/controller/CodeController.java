@@ -71,6 +71,7 @@ public class CodeController extends BaseController{
             codeMapper.delete(id);
             return "redirect:list.do?gid=" + codeGroupId;
         } catch (Exception e) {
+            //model.addAttribute("code", codeMapper.selectById(id));
             addCodesToModel(model, codeGroupId);
             return logService.logErrorAndReturn(model, e, "code/edit");
         }
