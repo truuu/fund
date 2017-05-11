@@ -12,7 +12,7 @@ SELECT c.*, me.codeName paymentMethodName, b.codeName bankName,
   do.name donationPurposeName, 
   co.name corporateName, org.codeName organizationName,
   CASE WHEN @today < startDate THEN '시작전' 
-       WHEN @today > endDate THEN '종료'
+       WHEN @today >= endDate THEN '종료'
        ELSE '진행' END [state],
   datediff(MM, startDate, ISNULL(endDate, GETDATE())) months                 
 FROM Commitment c 

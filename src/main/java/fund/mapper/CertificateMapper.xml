@@ -15,8 +15,8 @@ FROM
     FROM [Certificate] s
     WHERE [type] = #{order} AND
       ((#{srchType} = 0) OR
-       (#{srchType} = 1 AND CHARINDEX(#{srchText,jdbcType=NVARCHAR}, personName) = 1) OR
-       (#{srchType} = 2 AND CHARINDEX(#{srchText,jdbcType=NVARCHAR}, personNo) = 1)) 
+       (#{srchType} = 1 AND CHARINDEX(#{srchText,jdbcType=NVARCHAR}, personName) > 0) OR
+       (#{srchType} = 2 AND CHARINDEX(#{srchText,jdbcType=NVARCHAR}, personNo) > 0)) 
   ) subquery
 WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
       행번호 <= #{currentPage} * #{pageSize}

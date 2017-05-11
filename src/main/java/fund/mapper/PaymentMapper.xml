@@ -118,7 +118,7 @@ FROM (
   AND corporateId = @corporateId
   AND receiptId IS NOT NULL
 ) t
-WHERE LEN(juminNo) = 13
+WHERE LEN(REPLACE(juminNo, '-', '') = 13
 </select>
 
 <select id="selectReport1a" resultType="hashmap">
