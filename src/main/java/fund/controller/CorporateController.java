@@ -60,6 +60,7 @@ public class CorporateController extends BaseController{
             corporateMapper.delete(id);
             return "redirect:/corporate/list.do";
         } catch (Exception e) {
+            model.addAttribute("corporate",corporateMapper.selectById(id));
             return logService.logErrorAndReturn(model, e, "corporate/edit");
         }
     }
