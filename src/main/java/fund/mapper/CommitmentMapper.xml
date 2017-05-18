@@ -63,9 +63,9 @@ INSERT Commitment (sponsorId, commitmentNo, donationPurposeId, paymentMethodId,
   amountPerMonth, paymentDay, bankId, accountNo, accountHolder, birthDate, etc)
 VALUES 
   (#{sponsorId}, #{commitmentNo}, #{donationPurposeId}, #{paymentMethodId}, 
-   CONVERT(DATE, IIF(LEN(RTRIM(#{commitmentDate})) < 10, null, #{commitmentDate})),
-   CONVERT(DATE, IIF(LEN(RTRIM(#{startDate})) < 10, null, #{startDate})),
-   CONVERT(DATE, IIF(LEN(RTRIM(#{endDate})) < 10, null, #{endDate})),
+   CONVERT(DATE, CASE WHEN LEN(RTRIM(#{commitmentDate})) < 10 THEN null ELSE #{commitmentDate} END),
+   CONVERT(DATE, CASE WHEN LEN(RTRIM(#{startDate})) < 10 THEN null ELSE #{startDate} END),
+   CONVERT(DATE, CASE WHEN LEN(RTRIM(#{endDate})) < 10 THEN null ELSE #{endDate} END),
    #{amountPerMonth}, #{paymentDay}, #{bankId}, #{accountNo}, #{accountHolder}, RTRIM(#{birthDate}), #{etc})
 ]]>
 </insert>
@@ -76,9 +76,9 @@ UPDATE Commitment
 SET
   donationPurposeId = #{donationPurposeId},
   paymentMethodId = #{paymentMethodId},
-  commitmentDate = CONVERT(DATE, IIF(LEN(RTRIM(#{commitmentDate})) < 10, null, #{commitmentDate})),
-  startDate = CONVERT(DATE, IIF(LEN(RTRIM(#{startDate})) < 10, null, #{startDate})),
-  endDate = CONVERT(DATE, IIF(LEN(RTRIM(#{endDate})) < 10, null, #{endDate})),
+  commitmentDate = CONVERT(DATE, CASE WHEN LEN(RTRIM(#{commitmentDate})) < 10 THEN null ELSE #{commitmentDate} END),
+  startDate = CONVERT(DATE, CASE WHEN LEN(RTRIM(#{startDate})) < 10 THEN null ELSE #{startDate} END),
+  endDate = CONVERT(DATE, CASE WHEN LEN(RTRIM(#{endDate})) < 10 THEN null ELSE #{endDate} END),
   amountPerMonth = #{amountPerMonth},
   paymentDay = #{paymentDay},
   etc = #{etc}

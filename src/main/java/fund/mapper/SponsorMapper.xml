@@ -89,7 +89,7 @@ SET
   sponsorType1Id = #{sponsorType1Id},
   sponsorType2Id = #{sponsorType2Id},
   sponsorTypeDetail = #{sponsorTypeDetail},
-  churchId = IIF(#{churchId} = 0, null, #{churchId}),
+  churchId = CASE WHEN #{churchId} = 0 THEN null ELSE #{churchId} END,
   signUpDate = #{signUpDate},
   mobilePhone = #{mobilePhone},
   recommender = #{recommender},
