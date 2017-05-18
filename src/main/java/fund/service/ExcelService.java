@@ -12,15 +12,18 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import fund.dto.Sal;
 import fund.dto.Xfer;
 
+@Service
 public class ExcelService {
 
     static Date d1900_01_01 = new GregorianCalendar(1900, 0, 1).getTime();
-    static LogService logService = new LogService();
+    @Autowired LogService logService;
 
-    public static List<Xfer> get자동이체Result(InputStream input) throws Exception {
+    public List<Xfer> get자동이체Result(InputStream input) throws Exception {
         List<Xfer> result = new ArrayList<>();
         Workbook workbook = WorkbookFactory.create(input);
         int numberOfSheets = workbook.getNumberOfSheets();
@@ -52,7 +55,7 @@ public class ExcelService {
         return result;
     }
 
-    public static List<Sal> get급여공제Result(InputStream input) throws Exception {
+    public List<Sal> get급여공제Result(InputStream input) throws Exception {
         List<Sal> result = new ArrayList<>();
         Workbook workbook = WorkbookFactory.create(input);
         int numberOfSheets = workbook.getNumberOfSheets();

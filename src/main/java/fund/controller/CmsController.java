@@ -49,6 +49,7 @@ public class CmsController extends BaseController {
     @Autowired EB21Mapper eb21Mapper;
     @Autowired PaymentMapper paymentMapper;
     @Autowired LogService logService;
+    @Autowired ExcelService excelService;
 
     //// EB13
     @RequestMapping(value="/cms/eb13.do", method=RequestMethod.GET)
@@ -365,7 +366,7 @@ public class CmsController extends BaseController {
     public String xfer(Model model, @RequestParam("file") MultipartFile file, HttpSession session) throws Exception {
         String redirect1 = "redirect:xfer.do";
         if (file.getSize() <= 0) return redirect1;
-        List<Xfer> list = ExcelService.get자동이체Result(file.getInputStream());
+        List<Xfer> list = excelService.get자동이체Result(file.getInputStream());
         if (list.size() <= 0) return redirect1;
         session.setAttribute("xfer_notSaved", list);
         session.setAttribute("xfer_saved", null);
@@ -423,7 +424,7 @@ public class CmsController extends BaseController {
     public String sal(@RequestParam("file") MultipartFile file, HttpSession session) throws Exception {
         String redirect1 = "redirect:sal.do";
         if (file.getSize() <= 0) return redirect1;
-        List<Sal> list = ExcelService.get급여공제Result(file.getInputStream());
+        List<Sal> list = excelService.get급여공제Result(file.getInputStream());
         if (list.size() <= 0) return redirect1;
         session.setAttribute("sal_notSaved", list);
         session.setAttribute("sal_saved", null);
