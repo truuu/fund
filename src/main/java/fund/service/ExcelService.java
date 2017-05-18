@@ -38,13 +38,13 @@ public class ExcelService {
                 String etc2 = "에러";
                 boolean valid = false;
                 try {
-                    accountNo = row.getCell(5).getStringCellValue();
+                    if (row.getCell(5) != null) accountNo = row.getCell(5).getStringCellValue();
                     if (StringUtils.isBlank(accountNo)) continue;
                     if ("159-22-01424-5(240-890012-16304)".equals(accountNo)) continue;
-                    date = getDateValue(row.getCell(9));
-                    amount = getIntValue(row.getCell(12));
-                    etc1 = row.getCell(16).getStringCellValue();
-                    etc2 = row.getCell(17).getStringCellValue();
+                    if (row.getCell(9) != null) date = getDateValue(row.getCell(9));
+                    if (row.getCell(12) != null) amount = getIntValue(row.getCell(12));
+                    if (row.getCell(16) != null) etc1 = row.getCell(16).getStringCellValue();
+                    if (row.getCell(17) != null) etc2 = row.getCell(17).getStringCellValue();
                     valid = true;
                 } catch (Exception e) {
                     logService.insert(e);
@@ -70,11 +70,11 @@ public class ExcelService {
                 String etc = "에러";
                 boolean valid = false;
                 try {
-                    commitmentNo = row.getCell(0).getStringCellValue();
-                    name = row.getCell(2).getStringCellValue();
-                    amount = getIntValue(row.getCell(6));
-                    date = getDateValue(row.getCell(8));
-                    etc = row.getCell(10).getStringCellValue();
+                    if (row.getCell(0) != null) commitmentNo = row.getCell(0).getStringCellValue();
+                    if (row.getCell(2) != null) name = row.getCell(2).getStringCellValue();
+                    if (row.getCell(6) != null) amount = getIntValue(row.getCell(6));
+                    if (row.getCell(8) != null) date = getDateValue(row.getCell(8));
+                    if (row.getCell(10) != null) etc = row.getCell(10).getStringCellValue();
                     valid = true;
                 } catch (Exception e) {
                     logService.insert(e);
