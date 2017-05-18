@@ -18,6 +18,7 @@ import fund.dto.Xfer;
 public class ExcelService {
 
     static Date d1900_01_01 = new GregorianCalendar(1900, 0, 1).getTime();
+    static LogService logService = new LogService();
 
     public static List<Xfer> get자동이체Result(InputStream input) throws Exception {
         List<Xfer> result = new ArrayList<>();
@@ -43,6 +44,7 @@ public class ExcelService {
                     etc2 = row.getCell(17).getStringCellValue();
                     valid = true;
                 } catch (Exception e) {
+                    logService.insert(e);
                 }
                 result.add(new Xfer(accountNo, date, amount, etc1, etc2, valid));
             }
@@ -72,6 +74,7 @@ public class ExcelService {
                     etc = row.getCell(10).getStringCellValue();
                     valid = true;
                 } catch (Exception e) {
+                    logService.insert(e);
                 }
                 result.add(new Sal(commitmentNo, name, amount, date, etc, valid));
             }

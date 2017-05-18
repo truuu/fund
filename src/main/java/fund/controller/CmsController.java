@@ -35,6 +35,7 @@ import fund.mapper.PaymentMapper;
 import fund.service.C;
 import fund.service.C2;
 import fund.service.ExcelService;
+import fund.service.LogService;
 
 @Controller
 public class CmsController extends BaseController {
@@ -47,6 +48,7 @@ public class CmsController extends BaseController {
     @Autowired CodeMapper codeMapper;
     @Autowired EB21Mapper eb21Mapper;
     @Autowired PaymentMapper paymentMapper;
+    @Autowired LogService logService;
 
     //// EB13
     @RequestMapping(value="/cms/eb13.do", method=RequestMethod.GET)
@@ -404,6 +406,7 @@ public class CmsController extends BaseController {
             paymentMapper.insert(payment);
             return true;
         } catch (Exception e) {
+            logService.insert(e);
             return false;
         }
     }
@@ -461,6 +464,7 @@ public class CmsController extends BaseController {
             paymentMapper.insert(payment);
             return true;
         } catch (Exception e) {
+            logService.insert(e);
             return false;
         }
     }
