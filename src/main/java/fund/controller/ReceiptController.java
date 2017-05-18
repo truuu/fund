@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.stereotype.Controller;
@@ -122,7 +123,14 @@ public class ReceiptController extends BaseController {
 
     @RequestMapping(value="/receipt/create2.do", method=RequestMethod.POST)
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public String create2CreateReceipt(RedirectAttributes ra, Wrapper wrapper) throws Exception {
+    public String create2CreateReceipt(RedirectAttributes ra, Model model, Wrapper wrapper) throws Exception {
+        Map<String,Object> map = wrapper.getMap();
+        if (StringUtils.isBlank((String)map.get("startDate")) ||
+            StringUtils.isBlank((String)map.get("endDate")) ||
+            StringUtils.isBlank((String)map.get("createDate"))) {
+            model.addAttribute("errorMsg", "날짜를 입력하세요.");
+            return "receipt/create2";
+        }
         receiptService.createReceipt2(wrapper.getMap());
         ra.addFlashAttribute("successMsg", "영수증이 생성되었습니다.");
         return "redirect:list.do";
