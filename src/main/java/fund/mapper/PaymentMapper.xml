@@ -282,4 +282,33 @@ AND s.churchId IS NOT NULL
 ORDER BY churchId
 </select>
 
+<select id="selectReport2d" resultType="hashmap">
+DECLARE @startDate DATE, @endDate DATE, @sum BIGINT
+SET @startDate = #{startDate}
+SET @endDate = #{endDate}
+SET @sum = (SELECT SUM(CONVERT(BIGINT,amount)) FROM payment WHERE paymentDate BETWEEN @startDate AND @endDate)
+
+SELECT c.name name, 
+  amount, sponsorCount, paymentCount, (amount * 100.0 / @sum) ratio, 
+  corporateId, 0, '' dname
+FROM (
+  SELECT d.corporateId, SUM(CONVERT(BIGINT,amount)) amount, COUNT(DISTINCT sponsorId) sponsorCount, COUNT(DISTINCT p.id) paymentCount
+  FROM payment p
+    LEFT JOIN donationPurpose d ON p.donationPurposeId = d.id 
+  WHERE paymentDate BETWEEN @startDate AND @endDate
+  GROUP BY d.corporateId
+) t
+  LEFT JOIN corporate c ON c.id = corporateId
+
+UNION ALL
+
+SELECT '합계' name, 
+  SUM(CONVERT(BIGINT,amount)) amount, COUNT(DISTINCT sponsorId) sponsorCount, COUNT(*) paymentCount, 100.0 ratio,
+  999999999 corporateId, 0 organizationId, '' dname
+FROM payment 
+WHERE paymentDate BETWEEN @startDate AND @endDate
+
+ORDER BY corporateId
+</select>
+
 </mapper>

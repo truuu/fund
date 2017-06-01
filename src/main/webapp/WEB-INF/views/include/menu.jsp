@@ -54,6 +54,7 @@
                 <li><a href="/funds/payment/srch2/0.do">기부목적별 납입 합계</a></li>
                 <li><a href="/funds/payment/srch2/1.do">회원구분별 납입 합계</a></li>
                 <li><a href="/funds/payment/srch2/2.do">소속교회별 납입 합계</a></li>
+                <li><a href="/funds/payment/srch2/3.do">기관별 납입 합계</a></li>
               </ul>
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">영수증<span class="caret"></span></a>
