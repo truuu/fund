@@ -44,15 +44,15 @@ public class SponsorPaymentController extends BaseController {
     }
 
     @RequestMapping(value="/sponsor/payment/list1ajax.do", method=RequestMethod.POST)
-    public String list1ajax(@RequestParam(value="commitmentId", required=false, defaultValue="0") int commitmentId, Model model) {
-        model.addAttribute("list", paymentMapper.selectPaymentList1(commitmentId));
+    public String list1ajax(@RequestParam("sid") int sid, @RequestParam(value="commitmentId", required=false, defaultValue="0") int commitmentId, Model model) {
+        model.addAttribute("list", paymentMapper.selectPaymentList1(sid, commitmentId));
         return "sponsor/payment/list1ajax/ajax";
     }
 
     @RequestMapping(value="/sponsor/payment/list1updateajax.do", method=RequestMethod.POST)
     public String list1updateajax(Commitment commitment, Model model) {
         paymentMapper.updateDonationPurposeId(commitment);
-        return list1ajax(commitment.getId(), model);
+        return list1ajax(0, commitment.getId(), model);
     }
 
     // 비정기 납입

@@ -22,10 +22,13 @@
   WHERE p.id = #{id}
 </select>
 
-<select id="selectPaymentList1" resultType="hashmap">
+<select id="selectPaymentList1" resultType="hashmap">  
   <include refid="select1"></include>
-  WHERE p.commitmentId = #{commitmentId}
+  <![CDATA[
+  WHERE (p.commitmentId = #{commitmentId}) OR
+        (#{commitmentId} = 0 AND p.sponsorId = #{sponsorId} AND p.commitmentId <> 0)         
   ORDER BY p.paymentDate DESC
+  ]]>
 </select>
 
 <select id="selectPaymentList2" resultType="hashmap">

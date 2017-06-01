@@ -9,14 +9,16 @@
 
 <script>
 function searchPayment() {
-    var params = { commitmentId: $("select[name=commitmentId]").val() };
+    var params = { commitmentId: $("select[name=commitmentId]").val(),
+    		       sid: ${ sponsor.id } };
     $("#searchResult").load("list1ajax.do", params);
 }
 function updatePayment() {
     var params = { id: $("select[name=commitmentId]").val(),
     	           startDate: $("input[name=startDate]").val(),
     	           endDate: $("input[name=endDate]").val(),
-    	           donationPurposeId: $("input[name=donationPurposeId]").val() };
+    	           donationPurposeId: $("input[name=donationPurposeId]").val(), 
+    	           sid: ${ sponsor.id } };
     $("#searchResult").load("list1updateajax.do", params);
 }
 </script>
@@ -24,6 +26,7 @@ function updatePayment() {
 <div class="mt4">
   <span>약정번호:</span>
   <select name="commitmentId">
+    <option value="0">전체</option>
     <c:forEach var="c" items="${ commitments }">
       <option value="${c.id}">${ c.commitmentNo }</option>
     </c:forEach>

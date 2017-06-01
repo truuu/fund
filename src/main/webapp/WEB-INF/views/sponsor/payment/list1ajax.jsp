@@ -10,6 +10,7 @@
     <table class="table table-bordered mt20" style="width:auto;">
       <thead>
         <tr>
+          <th style="width:130px">약정번호</th>
           <th style="width:80px">납입방법</th>
           <th style="width:100px"class="right">납입금액</th>
           <th style="width:100px">납입일</th>
@@ -23,6 +24,7 @@
         <tbody>
         <c:forEach var="p" items="${ list }">
           <tr>
+            <td>${ p.commitmentNo }</td>
             <td>${ p.paymentMethodName }</td>
             <td class="right"><fmt:formatNumber value="${ p.amount}" /></td>
             <td>${ p.paymentDate}</td>
