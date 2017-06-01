@@ -103,9 +103,9 @@ public class ReceiptController extends BaseController {
     public void report(@RequestParam("rid") int[] rid, HttpServletRequest req, HttpServletResponse res) throws Exception {
         String s = Arrays.toString(rid);
         s = s.substring(1, s.length()-1);
-        String whereClause = "WHERE r.id IN (" + s + ")";
+        String whereClause = "WHERE t.id IN (" + s + ")";
 
-        ReportBuilder reportBuilder = new ReportBuilder("donationReceipt", "기부금영수증.pdf", req, res);
+        ReportBuilder reportBuilder = new ReportBuilder("donationReceipt_II", "기부금영수증.pdf", req, res);
         reportBuilder.setConnection(dataSource.getConnection());
         reportBuilder.setParameter("whereClause", whereClause);
         // reportBuilder.addSubReport("paymentList.jasper");
