@@ -18,6 +18,7 @@ public interface CommitmentMapper {
 	void update(Commitment commitment);
 	void delete(int id);
 	void updateEndDate(int id);
+	void open(int id);
 
 	// CMS
     List<Commitment> selectByEB13Date(Date date);

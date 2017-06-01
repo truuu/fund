@@ -64,6 +64,7 @@ public class SponsorCommitmentController extends BaseController {
             case "save":  commitmentMapper.update(commitment); break;
             case "close":  commitmentMapper.updateEndDate(commitment.getId()); break;
             case "delete": commitmentMapper.delete(commitment.getId()); break;
+            case "open": commitmentMapper.open(commitment.getId()); break;
             }
             return redirectToList(model, sid);
         } catch (Exception e) {

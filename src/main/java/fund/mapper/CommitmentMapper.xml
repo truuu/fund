@@ -91,6 +91,12 @@ UPDATE Commitment
 SET endDate = getDate()
 WHERE id = #{id}
 </update>
+
+<update id="open">
+UPDATE Commitment
+SET endDate = null, EB13State = '성공'
+WHERE id = #{id}
+</update>
     
 <delete id="delete">
 DELETE FROM Commitment WHERE id = #{id}

@@ -39,7 +39,9 @@
   <tr>
     <td class="lb">종료일</td>
     <td><form:input path="endDate" class="endDt" />
-        <button type="submit" class="btn btn-sm btn-gray" name="cmd" value="close" data-confirm="종료하시겠습니까?">종료하기</button>
+        <c:if test="${ empty commitment.endDate }">
+            <button type="submit" class="btn btn-sm btn-gray" name="cmd" value="close" data-confirm="종료하시겠습니까?">종료하기</button>
+        </c:if>
     </td>
     <td class="lb">계좌번호</td>
     <td>${ commitment.accountNo }</td>
@@ -54,7 +56,11 @@
     <td class="lb">약정상태</td>
     <td>${ commitment.state }</td>
     <td class="lb">EB13상태</td>
-    <td>${ commitment.eb13State }</td>
+    <td>${ commitment.eb13State }
+        <c:if test="${ commitment.eb13State == '종료' }">
+            <button type="submit" class="btn btn-sm btn-gray" name="cmd" value="open" data-confirm="종료 취소하시겠습니까?">종료 취소하기</button>
+        </c:if>
+    </td>
   </tr>
   <tr>
     <td class="lb">기부목적</td>
