@@ -19,16 +19,16 @@
   <button type="submit" class="btn btn-primary">조회</button>
 </form:form>
 
-<table class="table table-bordered">
+<table class="table table-bordered" style="font-size: 9pt;">
   <thead>
     <tr>
-      <th>후원인번호</th>
-      <th>후원인</th>
-      <th>약정번호</th>
+      <th style="width: 100px;">후원인번호</th>
+      <th style="width: 120px;">후원인</th>
+      <th style="width: 130px;">약정번호</th>
       <th>기부목적</th>
-      <th>EB21생성일</th>
-      <th>상태</th>
-      <th class="w350">에러코드</th>
+      <th style="width: 100px;">EB21생성일</th>
+      <th style="width: 50px;">상태</th>
+      <th >에러코드</th>
     </tr>
   </thead>
   <tbody>
@@ -37,10 +37,10 @@
         <td>${ e.sponsorNo }</td>
         <td>${ e.sponsorName }</td>
         <td>${ e.commitmentNo }</td>
-        <td>${ e.corporateName } ${ e.organizationName } ${ e.donationPurposeName }</td>
+        <td>${ e.corporateName } ${ e.organizationName } ${ e.donationPurposeName }</td>        
         <td><fmt:formatDate pattern="yyyy-MM-dd" value="${ e.paymentDate }" /></td>
         <td>${ e.state }</td>
-        <td>${ e.errorCodeMsg }</td>
+        <td>${ e.errorCodeMsg } </td>
       </tr>
     </c:forEach>
   </tbody>

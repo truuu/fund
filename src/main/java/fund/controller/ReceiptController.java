@@ -85,12 +85,14 @@ public class ReceiptController extends BaseController {
     @RequestMapping("/receipt/detail.do")
     public String detail(Model model, @RequestParam("id") int id) throws Exception {
         Receipt receipt = receiptMapper.selectById(id);
-        List<Payment> list = paymentMapper.selectByReceiptId(id);
+        Map<String,Object> paymentSum = paymentMapper.getSumByReceiptId(id);
         Sponsor sponsor = sponsorMapper.selectById(receipt.getSponsorId());
         Corporate corporate = null;
+        List<Payment> list = paymentMapper.selectByReceiptId(id);
         if (list.size() > 0)
             corporate = corporateMapper.selectById(donationPurposeMapper.selectById(list.get(0).getDonationPurposeId()).getCorporateId());
         model.addAttribute("receipt", receipt);
+        model.addAttribute("paymentSum", paymentSum);
         model.addAttribute("list", list);
         model.addAttribute("sponsor", sponsor);
         model.addAttribute("corporate", corporate);
@@ -98,7 +100,7 @@ public class ReceiptController extends BaseController {
     }
 
     @RequestMapping("/receipt/report.do")
-    public void list(@RequestParam("rid") int[] rid, HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public void report(@RequestParam("rid") int[] rid, HttpServletRequest req, HttpServletResponse res) throws Exception {
         String s = Arrays.toString(rid);
         s = s.substring(1, s.length()-1);
         String whereClause = "WHERE r.id IN (" + s + ")";
@@ -106,7 +108,7 @@ public class ReceiptController extends BaseController {
         ReportBuilder reportBuilder = new ReportBuilder("donationReceipt", "기부금영수증.pdf", req, res);
         reportBuilder.setConnection(dataSource.getConnection());
         reportBuilder.setParameter("whereClause", whereClause);
-        reportBuilder.addSubReport("paymentList.jasper");
+        // reportBuilder.addSubReport("paymentList.jasper");
         reportBuilder.setParameter("key1", sponsorMapper.selectKey1());
         reportBuilder.build("pdf");
     }

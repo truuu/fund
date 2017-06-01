@@ -18,9 +18,10 @@ public interface PaymentMapper {
     void delete(int id);
     void insert(Payment payment);
 
+    List<Payment> selectByReceiptId(int rid);
     List<Map<String,Object>> selectForReceiptCreation1(Map<String,Object> map);
     List<Payment> selectForReceiptCreation2(Map<String,Object> map);
-    List<Payment> selectByReceiptId(int rid);
+    Map<String,Object> getSumByReceiptId(int rid);
     List<Map<String,Object>> selectForTaxData(Map<String,Object> map);
 
     List<Map<String,Object>> selectReport1a(Map<String,Object> param);

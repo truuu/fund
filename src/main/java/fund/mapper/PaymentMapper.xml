@@ -101,7 +101,13 @@ ORDER BY p.sponsorId, d.corporateId
 </select>    
 
 <select id="selectByReceiptId" resultType="fund.dto.Payment">
-  SELECT * FROM payment WHERE receiptId = #{receiptId} ORDER BY paymentDate
+SELECT * FROM payment WHERE receiptId = #{receiptId}
+</select>
+
+<select id="getSumByReceiptId" resultType="hashmap">
+SELECT SUM(amount) amount, MIN(paymentDate) startDate, MAX(paymentDate) endDate
+FROM payment 
+WHERE receiptId = #{receiptId}
 </select>
 
 <select id="selectForTaxData" resultType="hashmap">
@@ -121,7 +127,7 @@ FROM (
   AND corporateId = @corporateId
   AND receiptId IS NOT NULL
 ) t
-WHERE LEN(REPLACE(juminNo, '-', '') = 13
+WHERE LEN(REPLACE(juminNo, '-', '')) = 13
 </select>
 
 <select id="selectReport1a" resultType="hashmap">

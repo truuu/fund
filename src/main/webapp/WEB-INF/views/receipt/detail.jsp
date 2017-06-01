@@ -40,9 +40,14 @@
     <td class="lb">기관 주소</td>
     <td colspan="3">${ corporate.postCode } ${ corporate.roadAddress } ${ corporate.detailAddress }</td>
   </tr>
+  <tr>
+    <td class="lb">기부기간</td>
+    <td>${ paymentSum.startDate } ~ ${ paymentSum.endDate }</td>
+    <td class="lb">기부금액</td>
+    <td class="right"><fmt:formatNumber value="${ paymentSum.amount }" /></td>
+  </tr>  
 </table>
 
-<c:set var="sum" value="0" />
 <table class="table table-bordered mt10 w300">
   <thead>
     <tr>
@@ -56,11 +61,6 @@
         <td>${ p.paymentDate }</td>
         <td class="right"><fmt:formatNumber value="${ p.amount }" /></td>
       </tr>
-      <c:set var="sum" value="${ sum + p.amount }" />
     </c:forEach>
-    <tr>
-      <td>합계</td>
-      <td class="right"><fmt:formatNumber value="${ sum }" /></td>
-    </tr>
   </tbody>
 </table>
