@@ -29,6 +29,7 @@ function report() {
 
 <div class="pull-right">
   <button class="btn btn-info" type="button" onclick="report()">선택한 영수증 다운로드</button>
+  <button class="btn btn-danger" type="submit" name="cmd" value="delete" data-confirm-delete >선택한 영수증 삭제</button>
 </div>
 
 <table class="table table-bordered mt4">

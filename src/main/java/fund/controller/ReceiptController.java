@@ -48,7 +48,11 @@ public class ReceiptController extends BaseController {
     }
 
     @RequestMapping("/receipt/list.do")
-    public String list(Model model, Pagination pagination) throws Exception {
+    public String list(Model model, Pagination pagination,
+            @RequestParam(value="cmd", required=false) String cmd, @RequestParam(value="rid", required=false) int[] rid) throws Exception {
+        if (rid != null && "delete".equals(cmd))
+            for (int id : rid)
+                receiptService.deleteReceipt(id);
         pagination.setRecordCount(receiptMapper.selectCount(pagination));
         model.addAttribute("list", receiptMapper.selectPage(pagination));
         return "receipt/list";
