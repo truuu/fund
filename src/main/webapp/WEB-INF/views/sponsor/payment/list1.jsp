@@ -32,7 +32,7 @@ function updatePayment() {
     </c:forEach>
   </select> 
   <button type="button" class="btn btn-primary" onclick="searchPayment()">조회</button>
-  <a href="#updateDialog" class="btn btn-info" data-toggle="modal">기부목적 일괄변경</a>
+  <a id="btnChange" href="#updateDialog" class="btn btn-info" data-toggle="modal">기부목적 일괄변경</a>
 </div>  
 
 <div id="searchResult">
@@ -68,3 +68,12 @@ function updatePayment() {
 </div>
 
 <%@include file="../_donationPurposeDialog.jsp" %>
+
+<script>
+$("select[name=commitmentId]").change(function() {
+    if ($(this).val() == 0) $('#btnChange').hide(); 
+    else $('#btnChange').show();
+});
+
+$('#btnChange').hide();
+</script>

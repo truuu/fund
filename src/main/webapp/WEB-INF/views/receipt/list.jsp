@@ -4,8 +4,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <script>
-function report() {
-  location.href = "report.do?" + $("form#receipts").serialize(); 
+function report1() {
+  location.href = "report1.do?" + $("form#receipts").serialize(); 
+}
+function report2() {
+  location.href = "report2.do?" + $("form#receipts").serialize(); 
 }
 </script>
 <h1>영수증 목록</h1>
@@ -28,7 +31,8 @@ function report() {
 </c:if>
 
 <div class="pull-right">
-  <button class="btn btn-info" type="button" onclick="report()">선택한 영수증 다운로드</button>
+  <button class="btn btn-info" type="button" onclick="report1()">선택한 영수증 다운로드1</button>
+  <button class="btn btn-info" type="button" onclick="report2()">다운로드2</button>
   <button class="btn btn-danger" type="submit" name="cmd" value="delete" data-confirm-delete >선택한 영수증 삭제</button>
 </div>
 

@@ -99,16 +99,29 @@ public class ReceiptController extends BaseController {
         return "receipt/detail";
     }
 
-    @RequestMapping("/receipt/report.do")
-    public void report(@RequestParam("rid") int[] rid, HttpServletRequest req, HttpServletResponse res) throws Exception {
+    @RequestMapping("/receipt/report1.do")
+    public void report1(@RequestParam("rid") int[] rid, HttpServletRequest req, HttpServletResponse res) throws Exception {
+        String s = Arrays.toString(rid);
+        s = s.substring(1, s.length()-1);
+        String whereClause = "WHERE r.id IN (" + s + ")";
+
+        ReportBuilder reportBuilder = new ReportBuilder("donationReceipt1", "기부금영수증.pdf", req, res);
+        reportBuilder.setConnection(dataSource.getConnection());
+        reportBuilder.setParameter("whereClause", whereClause);
+        reportBuilder.addSubReport("paymentList.jasper");
+        reportBuilder.setParameter("key1", sponsorMapper.selectKey1());
+        reportBuilder.build("pdf");
+    }
+
+    @RequestMapping("/receipt/report2.do")
+    public void report2(@RequestParam("rid") int[] rid, HttpServletRequest req, HttpServletResponse res) throws Exception {
         String s = Arrays.toString(rid);
         s = s.substring(1, s.length()-1);
         String whereClause = "WHERE t.id IN (" + s + ")";
 
-        ReportBuilder reportBuilder = new ReportBuilder("donationReceipt_II", "기부금영수증.pdf", req, res);
+        ReportBuilder reportBuilder = new ReportBuilder("donationReceipt2", "기부금영수증.pdf", req, res);
         reportBuilder.setConnection(dataSource.getConnection());
         reportBuilder.setParameter("whereClause", whereClause);
-        // reportBuilder.addSubReport("paymentList.jasper");
         reportBuilder.setParameter("key1", sponsorMapper.selectKey1());
         reportBuilder.build("pdf");
     }

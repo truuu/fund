@@ -125,7 +125,7 @@ public class PaymentController extends BaseController {
         return "payment/srch1b";
     }
 
-    static String[] report2Title = new String[] { "기부목적", "회원구분", "소속교회", "기관" };
+    static String[] report2Title = new String[] { "기부목적", "회원구분", "소속교회" };
 
     //// report2
     @RequestMapping(value="/payment/srch2/{i}", method=RequestMethod.GET)
@@ -136,6 +136,7 @@ public class PaymentController extends BaseController {
         wrapper.getMap().put("endDate", String.format("%d-12-31", year));
         model.addAttribute("wrapper", wrapper);
         model.addAttribute("title", report2Title[i]);
+        model.addAttribute("corporates", corporateMapper.selectAll());
         return "payment/srch2";
     }
 
@@ -145,9 +146,9 @@ public class PaymentController extends BaseController {
         case 0: model.addAttribute("list", paymentMapper.selectReport2a(wrapper.getMap())); break;
         case 1: model.addAttribute("list", paymentMapper.selectReport2b(wrapper.getMap())); break;
         case 2: model.addAttribute("list", paymentMapper.selectReport2c(wrapper.getMap())); break;
-        case 3: model.addAttribute("list", paymentMapper.selectReport2d(wrapper.getMap())); break;
         }
         model.addAttribute("title", report2Title[i]);
+        model.addAttribute("corporates", corporateMapper.selectAll());
         return "payment/srch2";
     }
 
@@ -159,7 +160,6 @@ public class PaymentController extends BaseController {
         case 0: list = paymentMapper.selectReport2a(wrapper.getMap()); break;
         case 1: list = paymentMapper.selectReport2b(wrapper.getMap()); break;
         case 2: list = paymentMapper.selectReport2c(wrapper.getMap()); break;
-        case 3: list = paymentMapper.selectReport2d(wrapper.getMap()); break;
         }
 
         Map<String, Object> map = list.get(list.size()-1);

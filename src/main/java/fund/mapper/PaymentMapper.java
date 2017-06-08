@@ -29,5 +29,4 @@ public interface PaymentMapper {
     List<Map<String,Object>> selectReport2a(Map<String,Object> param);
     List<Map<String,Object>> selectReport2b(Map<String,Object> param);
     List<Map<String,Object>> selectReport2c(Map<String,Object> param);
-    List<Map<String,Object>> selectReport2d(Map<String,Object> param);
 }

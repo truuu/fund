@@ -8,7 +8,8 @@
 <hr />
 
 <div class="pull-right mb4">
-  <a class="btn btn-primary" href="report.do?rid=${ receipt.id }">영수증 다운로드</a>
+  <a class="btn btn-primary" href="report1.do?rid=${ receipt.id }">영수증 다운로드1</a>
+  <a class="btn btn-primary" href="report2.do?rid=${ receipt.id }">다운로드2</a>
   <a class="btn btn-info" href="list.do?${ pagination.queryString }">목록으로</a>
   <a class="btn btn-danger" href="delete.do?id=${ receipt.id }&${ pagination.queryString }" data-confirm-delete>영수증 삭제</a>
 </div>
