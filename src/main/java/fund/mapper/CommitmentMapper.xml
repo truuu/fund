@@ -31,18 +31,19 @@ WHERE c.id = #{id}
 
 <select id="selectByCommitmentNo" resultType="fund.dto.Commitment">
 <include refid="select1"></include>
-WHERE c.commitmentNo = #{commitmentNo}
+WHERE REPLACE(c.commitmentNo, '-', '') = REPLACE(#{commitmentNo}, '-', '')
 </select>
 
-<select id="selectBySponsorAndPaymentMethod" resultType="fund.dto.Commitment">
-<include refid="select1"></include>
-WHERE c.paymentMethodId = #{paymentMethodId}
-AND c.id IN (SELECT id FROM commitment WHERE sponsorId = #{sponsorNo})
+<select id="selectForEB14B" resultType="fund.dto.Commitment">
+SELECT TOP 1 *
+FROM commitment c JOIN sponsor s ON c.sponsorId = s.id
+WHERE s.sponsorNo = #{commitmentNo12}
+AND eb13Date = #{eb13Date}
 </select>
 
 <select id="selectBySponsorId" resultType="fund.dto.Commitment">
 <include refid="select1"></include>
-WHERE c.id IN (SELECT id FROM commitment WHERE sponsorId = #{sponsorNo})        
+WHERE c.id IN (SELECT id FROM commitment WHERE sponsorId = #{sponsorId})        
 </select>
 
 <select id="generateCommitmentNo" resultType="java.lang.String">

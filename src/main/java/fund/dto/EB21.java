@@ -6,6 +6,7 @@ public class EB21 {
 
     int id;
     int commitmentId;
+    String commitmentNo12;
     Date paymentDate;
     String state;
     String errorCode;
@@ -33,6 +34,14 @@ public class EB21 {
 
     public void setCommitmentId(int commitmentId) {
         this.commitmentId = commitmentId;
+    }
+
+    public String getCommitmentNo12() {
+        return commitmentNo12;
+    }
+
+    public void setCommitmentNo12(String commitmentNo12) {
+        this.commitmentNo12 = commitmentNo12;
     }
 
     public Date getPaymentDate() {

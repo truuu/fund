@@ -16,6 +16,12 @@ FROM sponsor s
 WHERE id = #{id}
 </select>
 
+<select id="selectBySponsorNo" resultType="fund.dto.Sponsor">
+SELECT *,
+FROM sponsor s
+WHERE sponsorNo = #{sponsorNo}
+</select>
+
 <select id="selectPage" resultType="fund.dto.Sponsor">
 <![CDATA[
 DECLARE @order INT, @srchType INT, @srchText NVARCHAR(50), @currentPage INT, @pageSize INT

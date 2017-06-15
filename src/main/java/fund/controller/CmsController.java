@@ -34,6 +34,7 @@ import fund.mapper.EB21Mapper;
 import fund.mapper.PaymentMapper;
 import fund.service.C;
 import fund.service.C2;
+import fund.service.CMSService;
 import fund.service.ExcelService;
 import fund.service.LogService;
 
@@ -50,6 +51,7 @@ public class CmsController extends BaseController {
     @Autowired PaymentMapper paymentMapper;
     @Autowired LogService logService;
     @Autowired ExcelService excelService;
+    @Autowired CMSService cmsService;
 
     //// EB13
     @RequestMapping(value="/cms/eb13.do", method=RequestMethod.GET)
@@ -95,7 +97,10 @@ public class CmsController extends BaseController {
             writer.write(orgCode);
             writer.write(yyMMdd);
             writer.write("1");
-            writer.write(String.format("%-20s", c.getCommitmentNo().replaceAll("-", "")));
+
+            String cno = cmsService.getCommitmentNo12(c.getCommitmentNo());
+
+            writer.write(String.format("%-20s", cno));
             writer.write(c.getBankCode());
             writer.write(String.format("%-16s", c.getAccountNo().replaceAll("-", "")));
             writer.write(String.format("%-16s", c.getBirthDate()));
@@ -149,10 +154,13 @@ public class CmsController extends BaseController {
         for (String r : list) {
             String commitmentNo = r.substring(26, 26 + 20).trim();
             String errorCode = r.substring(92, 92 + 4);
-            Commitment c = commitmentMapper.selectByCommitmentNo(commitmentNo);
-            c.setEb13ErrorCode(errorCode);
-            c.setEb13State("에러");
-            commitmentMapper.updateEB13(c);
+
+            Commitment c = cmsService.selectCommitmentByCommitmentNo12(commitmentNo, today);
+            if (c != null) {
+                c.setEb13ErrorCode(errorCode);
+                c.setEb13State("에러");
+                commitmentMapper.updateEB13(c);
+            }
         }
         for (Commitment c : commitmentMapper.selectByEB13Date(today))
             if ("신청".equals(c.getEb13State())) {
@@ -270,13 +278,17 @@ public class CmsController extends BaseController {
             writer.write(StringUtils.repeat(' ', 5));
             writer.write(C2.EB21Message);
             writer.write("  ");
-            writer.write(String.format("%-20s", c.getCommitmentNo().replaceAll("-", "")));
+
+            String cno12 = cmsService.getCommitmentNo12(c.getCommitmentNo());
+
+            writer.write(String.format("%-20s", cno12));
             writer.write(StringUtils.repeat(' ', 5));
             writer.write("1");
             writer.write(StringUtils.repeat(' ', 12));
             writer.write(StringUtils.repeat(' ', 21));
             count++;
 
+            eb21.setCommitmentNo12(cno12);
             eb21.setCommitmentId(c.getId());
             eb21Mapper.insert(eb21);
         }
@@ -308,21 +320,23 @@ public class CmsController extends BaseController {
         ByteArrayInputStream stream = new ByteArrayInputStream(file.getBytes());
         String s = IOUtils.toString(stream, "ASCII");
 
-        Date today = format_yyMMdd.parse(s.substring(27,27+6));
+        Date paymentDate = format_yyMMdd.parse(s.substring(27,27+6));
         int headerLength = 150, trailerLength = 150, recordLength = 150;
         s = s.substring(headerLength);
         s = s.substring(0, s.length() - trailerLength);
         List<String> list = split(s, recordLength);
         for (String r : list) {
-            String commitmentNo = r.substring(91, 91 + 20).trim();
+            String commitmentNo12 = r.substring(91, 91 + 20).trim();
             String errorCode = r.substring(69, 69 + 4);
 
-            EB21 e = eb21Mapper.selectByCommitmentNo(commitmentNo);
-            e.setState("에러");
-            e.setErrorCode(errorCode);
-            eb21Mapper.update(e);
+            EB21 e = eb21Mapper.selectByCommitmentNo12(commitmentNo12, paymentDate);
+            if (e != null) {
+                e.setState("에러");
+                e.setErrorCode(errorCode);
+                eb21Mapper.update(e);
+            }
         }
-        for (EB21 e : eb21Mapper.selectByPaymentDate(today))
+        for (EB21 e : eb21Mapper.selectByPaymentDate(paymentDate))
             if ("신청".equals(e.getState())) {
                 e.setState("성공");
                 eb21Mapper.update(e);

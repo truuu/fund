@@ -9,6 +9,7 @@ public interface SponsorMapper {
 
     String selectKey1();
     Sponsor selectById(int id);
+    Sponsor selectBySponsorNo(String sponsorNo);
     List<Sponsor> selectPage(Pagination pagination);
     List<Sponsor> selectAll();
     int selectCount(Pagination pagination);
@@ -21,4 +22,3 @@ public interface SponsorMapper {
     List<Sponsor> selectForDM(Pagination pagination);
     int selectCountForDM(Pagination pagination);
 }
-

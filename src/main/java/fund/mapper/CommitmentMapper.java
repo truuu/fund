@@ -3,14 +3,15 @@ package fund.mapper;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.apache.ibatis.annotations.Param;
 import fund.dto.Commitment;
 
 public interface CommitmentMapper {
 
     Commitment selectById(int id);
 	Commitment selectByCommitmentNo(String commitmentNo);
+	Commitment selectForEB14(@Param("commitmentNo12") String commitmentNo12, @Param("eb13Date") Date eb13Date);
 
-	Commitment selectBySponsorAndPaymentMethod(String sponsorNo, int paymentMethodid);
 	List<Commitment> selectBySponsorId(int id);
 	String generateCommitmentNo(int sponsorId);
 

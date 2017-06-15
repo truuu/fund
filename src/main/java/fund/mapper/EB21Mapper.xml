@@ -7,9 +7,10 @@
   SELECT * FROM eb21 WHERE paymentDate = #{paymentDate}
 </select>
 
-<select id="selectByCommitmentNo" resultType="fund.dto.EB21">
-  SELECT * FROM eb21 e JOIN commitment c ON e.commitmentId = c.id
-  WHERE REPLACE(c.commitmentNo, '-', '') = REPLACE(#{commitmentNo}, '-', '') 
+<select id="selectByCommitmentNo12" resultType="fund.dto.EB21">
+  SELECT * FROM eb21 
+  WHERE REPLACE(commitmentNo12, '-', '') = REPLACE(#{commitmentNo12}, '-', '') 
+  AND paymentDate = #{paymentDate}
 </select>
 
 <select id="selectCmsResult" resultType="fund.dto.EB21">
@@ -28,8 +29,8 @@
 </select>
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-  INSERT eb21(commitmentId, paymentDate, state, errorCode)
-  VALUES (#{commitmentId}, #{paymentDate}, #{state}, #{errorCode})
+  INSERT eb21(commitmentId, commitmentNo21, paymentDate, state, errorCode)
+  VALUES (#{commitmentId}, #{commitmentNo21}, #{paymentDate}, #{state}, #{errorCode})
 </insert>
 
 <update id="update">
