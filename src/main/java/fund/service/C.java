@@ -9,6 +9,7 @@ public class C {
     public static final int 코드그룹ID_은행 = 6;
     public static final int 코드그룹ID_기관종류 = 7;
 
+    public static final int 코드ID_CMS = 10;
     public static final int 코드ID_자동이체 = 11;
     public static final int 코드ID_급여공제 = 12;
 }

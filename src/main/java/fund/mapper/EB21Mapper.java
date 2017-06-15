@@ -12,4 +12,5 @@ public interface EB21Mapper {
     List<EB21> selectCmsResult(Map<String,Object> map);
 	void insert(EB21 eb21);
     void update(EB21 eb21);
+    void deleteByPaymentDate(Date paymentDate);
 }

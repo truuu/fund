@@ -247,6 +247,8 @@ public class CmsController extends BaseController {
     private void downloadEB21File(BufferedWriter writer, String fileName, Map<String,Object> map) throws Exception {
         String orgCode = "9983010152";
         String yyMMdd = ((String)map.get("paymentDate")).replaceAll("-", "").substring(2);
+        Date paymentDate = format_yyMMdd.parse(yyMMdd);
+        eb21Mapper.deleteByPaymentDate(paymentDate);
 
         writer.write("H");
         writer.write(StringUtils.repeat('0', 8));
@@ -254,7 +256,7 @@ public class CmsController extends BaseController {
         writer.write(fileName);
         writer.write(yyMMdd);
         writer.write("0054593");
-        writer.write("15922014245");
+        writer.write("15922014245     ");
         writer.write(StringUtils.repeat(' ', 94));
 
         int count = 0;
@@ -267,11 +269,11 @@ public class CmsController extends BaseController {
             if (c.isValid() == false) continue;
 
             writer.write("R");
-            writer.write(String.format("%08d ", count + 1));
+            writer.write(String.format("%08d", count + 1));
             writer.write(orgCode);
             writer.write(c.getBankCode());
             writer.write(String.format("%-16s", c.getAccountNo().replaceAll("-", "")));
-            writer.write(String.format("%-13s", c.getAmountPerMonth()));
+            writer.write(String.format("%013d", c.getAmountPerMonth()));
             total += c.getAmountPerMonth();
 
             writer.write(String.format("%-13s", c.getBirthDate()));
@@ -340,6 +342,16 @@ public class CmsController extends BaseController {
             if ("신청".equals(e.getState())) {
                 e.setState("성공");
                 eb21Mapper.update(e);
+
+                Commitment c = commitmentMapper.selectById(e.getCommitmentId());
+                Payment payment = new Payment();
+                payment.setSponsorId(c.getSponsorId());
+                payment.setCommitmentId(c.getId());
+                payment.setAmount(c.getAmountPerMonth());
+                payment.setPaymentDate(format_yyyyMMdd.format(paymentDate));
+                payment.setDonationPurposeId(c.getDonationPurposeId());
+                payment.setPaymentMethodId(C.코드ID_CMS);
+                paymentMapper.insert(payment);
             }
         return "redirect:eb22result.do";
     }

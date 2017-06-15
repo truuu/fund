@@ -29,8 +29,8 @@
 </select>
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-  INSERT eb21(commitmentId, commitmentNo21, paymentDate, state, errorCode)
-  VALUES (#{commitmentId}, #{commitmentNo21}, #{paymentDate}, #{state}, #{errorCode})
+  INSERT eb21(commitmentId, commitmentNo12, paymentDate, state, errorCode)
+  VALUES (#{commitmentId}, #{commitmentNo12}, #{paymentDate}, #{state}, #{errorCode})
 </insert>
 
 <update id="update">
@@ -38,5 +38,9 @@
     SET state = #{state}, errorCode = #{errorCode}
   WHERE id = #{id}
 </update>
+
+<delete id="deleteByPaymentDate">
+  DELETE FROM EB21 WHERE paymentDate = #{paymentDate}
+</delete>
 
 </mapper>
