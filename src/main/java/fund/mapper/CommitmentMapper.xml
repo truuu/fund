@@ -123,6 +123,7 @@ FROM commitment c
 WHERE c.paymentMethodId = 10
 AND eb13State = '성공'
 AND (endDate IS NULL OR #{paymentDate} <= endDate)
+AND startDate <= #{paymentDate}
 AND paymentDay = #{paymentDay}
 ORDER BY c.commitmentDate DESC
 ]]>
