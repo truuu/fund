@@ -130,7 +130,7 @@ INSERT sponsor(sponsorNo, name, sponsorType1Id, sponsorType2Id, sponsorTypeDetai
   recommender, recommenderRelation, mailReceiving, mailTo, homeRoadAddress, homeDetailAddress, homePostCode, homePhone, 
   email, company, department, position, officePhone, officeRoadAddress, officeDetailAddress, officePostCode, etc, juminNo_encrypted)
 VALUES (#{sponsorNo}, #{name}, #{sponsorType1Id}, #{sponsorType2Id}, #{sponsorTypeDetail},
-  IIF(#{churchId} = 0, null, #{churchId}), #{signUpDate}, #{mobilePhone}, 
+  CASE WHEN #{churchId} = 0 THEN null ELSE #{churchId} END, null, #{churchId}), #{signUpDate}, #{mobilePhone}, 
   #{recommender}, #{recommenderRelation}, #{mailReceiving}, #{mailTo},  #{homeRoadAddress}, #{homeDetailAddress}, #{homePostCode}, #{homePhone},
   #{email}, #{company}, #{department}, #{position}, #{officePhone}, #{officeRoadAddress}, #{officeDetailAddress}, #{officePostCode}, #{etc}, @encrypted)
 </insert>
