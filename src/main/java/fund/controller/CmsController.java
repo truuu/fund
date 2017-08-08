@@ -9,8 +9,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import fund.dto.Commitment;
 import fund.dto.EB21;
 import fund.dto.Payment;
@@ -93,7 +96,7 @@ public class CmsController extends BaseController {
             if (c.isValid() == false) continue;
 
             writer.write("R");
-            writer.write(String.format("%08d ", count + 1));
+            writer.write(String.format("%08d", count + 1));
             writer.write(orgCode);
             writer.write(yyMMdd);
             writer.write("1");
