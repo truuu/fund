@@ -3,7 +3,6 @@ package fund.controller;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,7 +36,6 @@ import fund.mapper.CommitmentMapper;
 import fund.mapper.EB21Mapper;
 import fund.mapper.PaymentMapper;
 import fund.service.C;
-import fund.service.C2;
 import fund.service.CMSService;
 import fund.service.ExcelService;
 import fund.service.LogService;
@@ -48,6 +46,7 @@ public class CmsController extends BaseController {
     static final SimpleDateFormat format_yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
     static final SimpleDateFormat format_yyMMdd = new SimpleDateFormat("yyMMdd");
     static final SimpleDateFormat format_MMdd = new SimpleDateFormat("MMdd");
+    static final String EB21_Message = "성공회대발전기금";
 
     @Autowired CommitmentMapper commitmentMapper;
     @Autowired CodeMapper codeMapper;
@@ -75,7 +74,7 @@ public class CmsController extends BaseController {
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
 
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8))) {
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "MS949"))) {
             downloadEB13File(writer, fileName, today);
         }
     }
@@ -243,7 +242,7 @@ public class CmsController extends BaseController {
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
 
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8))) {
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "MS949"))) {
             downloadEB21File(writer, fileName, map);
         }
     }
@@ -282,7 +281,8 @@ public class CmsController extends BaseController {
 
             writer.write(String.format("%-13s", c.getBirthDate()));
             writer.write(StringUtils.repeat(' ', 5));
-            writer.write(C2.EB21Message);
+
+            writer.write(EB21_Message);
             writer.write("  ");
 
             String cno12 = cmsService.getCommitmentNo12(c.getCommitmentNo());
