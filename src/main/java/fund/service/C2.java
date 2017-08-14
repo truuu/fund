@@ -2,5 +2,5 @@ package fund.service;
 
 public class C2 {
 
-    public static String EB21Message = "¼º°øÈ¸´ëÇĞ±³±â±İ";
+    public static String EB21Message = "ì„±ê³µíšŒëŒ€ë°œì „ê¸°ê¸ˆ";
 }
