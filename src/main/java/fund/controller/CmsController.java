@@ -74,7 +74,7 @@ public class CmsController extends BaseController {
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
 
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "MS949"))) {
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-8"))) {
             downloadEB13File(writer, fileName, today);
         }
     }
@@ -242,7 +242,7 @@ public class CmsController extends BaseController {
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
 
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "MS949"))) {
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-8"))) {
             downloadEB21File(writer, fileName, map);
         }
     }
