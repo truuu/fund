@@ -34,7 +34,7 @@ WHERE c.id = #{id}
 WHERE REPLACE(c.commitmentNo, '-', '') = REPLACE(#{commitmentNo}, '-', '')
 </select>
 
-<select id="selectForEB14B" resultType="fund.dto.Commitment">
+<select id="selectForEB14" resultType="fund.dto.Commitment">
 SELECT TOP 1 *
 FROM commitment c JOIN sponsor s ON c.sponsorId = s.id
 WHERE s.sponsorNo = #{commitmentNo12}
