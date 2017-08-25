@@ -37,8 +37,9 @@ FROM(
     (SELECT codeName FROM code WHERE code.id=s.sponsorType2Id )AS sponsorType2,
     (SELECT codeName FROM code WHERE code.id=s.churchID ) AS church,
     CASE @order
-      WHEN 0 THEN ROW_NUMBER() OVER (ORDER BY s.id DESC)
-      WHEN 1 THEN ROW_NUMBER() OVER (ORDER BY s.sponsorNo DESC)
+      WHEN 0 THEN ROW_NUMBER() OVER (ORDER BY REPLACE(s.sponsorNo,'-', '9') DESC)
+      WHEN 1 THEN ROW_NUMBER() OVER (ORDER BY name)
+      WHEN 2 THEN ROW_NUMBER() OVER (ORDER BY s.id DESC)
     END 행번호
     FROM [sponsor] s
     WHERE

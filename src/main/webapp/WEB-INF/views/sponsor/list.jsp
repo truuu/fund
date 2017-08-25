@@ -16,8 +16,9 @@
   <div class="form-inline">
     <span>정렬:</span>
     <form:select path="od" data-auto-submit="true">
-      <form:option value="0" label="등록순서" />
-      <form:option value="1" label="후원인번호 순서" />
+      <form:option value="0" label="후원인번호 순서" />
+      <form:option value="1" label="이름 순서" />
+      <form:option value="2" label="등록순서" />
     </form:select>
     <form:input path="st" />
 

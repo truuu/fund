@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.file.Paths;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import fund.dto.Code;
 import fund.dto.FileAttach;
 import fund.dto.Sponsor;
@@ -169,7 +172,5 @@ public class SponsorController extends BaseController {
         } else
             res.sendRedirect("dm.do");
     }
-
-
 
 }
