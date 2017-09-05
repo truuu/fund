@@ -2,22 +2,27 @@ package fund.service;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
 import fund.dto.Log;
 import fund.dto.User;
 import fund.mapper.LogMapper;
+import fund.mapper.UserMapper;
 
 @Service
 public class LogService {
 
     static Pattern errorMsgParrern = Pattern.compile("@&([^&]+)&@");
     @Autowired LogMapper logMapper;
+    @Autowired UserMapper userMapper;
 
     public String logError(Exception e) {
         String errorMsg = this.insert(e);
@@ -39,20 +44,10 @@ public class LogService {
 
     public String insert(Exception e) {
         try {
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-
             Log log = new Log();
             log.setBody(ExceptionUtils.getStackTrace(e));
-            log.setUrl(getFullURL(request));
             log.setCategory(e.getClass().getName());
-
-            String ip = request.getHeader("X-FORWARDED-FOR");
-            if (ip == null)
-                ip = request.getRemoteAddr();
-            log.setIp(ip);
-
-            User user = UserService.getCurrentUser();
-            log.setCurrentUser(user == null ? null : user.getLoginName());
+            setEtc(log);
             logMapper.insert(log);
 
             String message = e.getMessage();
@@ -65,4 +60,96 @@ public class LogService {
         return "작업 실패";
     }
 
+    private void setEtc(Log log) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        log.setUrl(getFullURL(request));
+        String ip = request.getHeader("X-FORWARDED-FOR");
+        if (ip == null)
+            ip = request.getRemoteAddr();
+        log.setIp(ip);
+
+        User user = UserService.getCurrentUser();
+        log.setCurrentUser(user == null ? null : user.getLoginName());
+    }
+
+    public void userDelete(int id) {
+        if (UserService.isCurrentUserAdmin() == false) return;
+
+        User user = userMapper.selectById(id);
+        String category = "사용자 계정 삭제";
+        StringBuilder builder = new StringBuilder();
+        사용자정보요약(builder, user);
+        현재사용자정보(builder);
+        String body = builder.toString();
+        Log log = new Log();
+        log.setCategory(category);
+        log.setBody(body);
+        setEtc(log);
+        logMapper.insert(log);
+    }
+
+    public void userCreate(User user) {
+        if (UserService.isCurrentUserAdmin() == false) return;
+
+        String category = "사용자 계정 생성";
+        StringBuilder builder = new StringBuilder();
+        사용자정보요약(builder, user);
+        현재사용자정보(builder);
+        String body = builder.toString();
+        Log log = new Log();
+        log.setCategory(category);
+        log.setBody(body);
+        setEtc(log);
+        logMapper.insert(log);
+    }
+
+    public void userInfoChange(User user) {
+        if (UserService.isCurrentUserAdmin() == false) return;
+
+        User user0 = null;
+        String category = null;
+        user0 = userMapper.selectById(user.getId());
+        if (user0 == null)
+            category = "사용자 계정 생성";
+        else {
+            if (user0.getUserType().equals(user.getUserType()) == false)
+                category = "사용자 계정 권한 변경";
+        }
+        if (category == null) {
+            if (user0.isEnabled() != user.isEnabled())
+                category = "사용자 계정 상태 변경";
+        }
+        if (category != null) {
+            StringBuilder builder = new StringBuilder();
+            if (category.contains("변경")) {
+                builder.append("---- 변경 전 ---\n");
+                사용자정보요약(builder, user0);
+                builder.append("\n\n")
+                       .append("---- 변경 후 ---\n");
+            }
+            사용자정보요약(builder, user);
+            현재사용자정보(builder);
+            String body = builder.toString();
+            Log log = new Log();
+            log.setCategory(category);
+            log.setBody(body);
+            setEtc(log);
+            logMapper.insert(log);
+        }
+    }
+
+    private void 사용자정보요약(StringBuilder builder, User user) {
+        builder.append("사용자 계정: ").append(user.getLoginName()).append("\n")
+               .append("사용자 이름: ").append(user.getName()).append("\n")
+               .append("사용자 유형: ").append(user.getUserType()).append("\n")
+               .append("계정 활성화: ").append(user.isEnabled()).append("\n");
+    }
+
+    private void 현재사용자정보(StringBuilder builder) {
+        User user = UserService.getCurrentUser();
+        builder.append("\n\n\n--- 작업자 ---\n")
+               .append("사용자 계정: ").append(user.getLoginName()).append("\n")
+               .append("사용자 이름: ").append(user.getName()).append("\n")
+               .append("사용자 유형: ").append(user.getUserType()).append("\n");
+    }
 }

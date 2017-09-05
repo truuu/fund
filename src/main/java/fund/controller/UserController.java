@@ -1,6 +1,7 @@
 package fund.controller;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
 import fund.dto.User;
 import fund.dto.pagination.Pagination;
 import fund.mapper.UserMapper;
@@ -57,9 +59,11 @@ public class UserController extends BaseController{
         try {
             if (사용자정보를수정할권한이있는가(user.getId()) == false) return "redirect:/home/logout.do";
             if (user.getUserType() == null) user.setUserType(UserService.getCurrentUser().getUserType());
+            logService.userInfoChange(user);
             userMapper.update(user);
             model.addAttribute("successMsg", "저장되었습니다.");
-            UserService.setCurrentUser(user);
+            if (UserService.getCurrentUser().getId() == user.getId())
+                UserService.setCurrentUser(user);
             return "user/edit";
         } catch (Exception e) {
             return logService.logErrorAndReturn(model, e, "user/edit");
@@ -71,12 +75,15 @@ public class UserController extends BaseController{
     public String savePassword(Model model, User user) {
         try {
             if (사용자정보를수정할권한이있는가(user.getId()) == false) return "redirect:/home/logout.do";
-            if (comparePassword(user)) {
-                user.setPassword(UserService.encryptPasswd(user.getPassword1()));
-                userMapper.updatePassword(user);
-                model.addAttribute("successMsg", "저장되었습니다.");
+            if (userService.checkPassword(user.getPassword1())) {
+                if (comparePassword(user)) {
+                    user.setPassword(UserService.encryptPasswd(user.getPassword1()));
+                    userMapper.updatePassword(user);
+                    model.addAttribute("successMsg", "저장되었습니다.");
+                } else
+                    model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
             } else
-                model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+                model.addAttribute("errorMsg", "비밀번호 작성 규칙에 어긋납니다.");
             return "user/edit";
         } catch (Exception e) {
             return logService.logErrorAndReturn(model, e, "user/edit");
@@ -89,6 +96,7 @@ public class UserController extends BaseController{
 
     @RequestMapping(value="/user/edit.do", method=RequestMethod.POST, params="cmd=delete")
     public String delete(Model model, @RequestParam("id") int id, Pagination pagination) {
+        logService.userDelete(id);
         userMapper.delete(id);
         return "redirect:list.do";
     }
@@ -102,16 +110,19 @@ public class UserController extends BaseController{
     @RequestMapping(value="/user/create.do", method=RequestMethod.POST)
     public String create(Model model, User user) {
         try {
-            if (comparePassword(user)) {
-                user.setPassword(UserService.encryptPasswd(user.getPassword1()));
-                userMapper.insert(user);
-                return "redirect:list.do";
+            if (userService.checkPassword(user.getPassword1())) {
+                if (comparePassword(user)) {
+                    user.setPassword(UserService.encryptPasswd(user.getPassword1()));
+                    logService.userCreate(user);
+                    userMapper.insert(user);
+                    return "redirect:list.do";
+                } else
+                    model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
             } else
-                model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+                model.addAttribute("errorMsg", "비밀번호 작성 규칙에 어긋납니다.");
             return "user/create";
         } catch (Exception e) {
             return logService.logErrorAndReturn(model, e, "user/create");
         }
     }
-
 }

@@ -27,8 +27,14 @@
       <input type="password" name="password" placeholder="비밀번호" />
       <button type="submit" class="btn btn-primary">로그인</button>
       
+      <c:if test="${ param.locked != null }">
+         <div class="mt20">비밀번호 5 회 오류로 계정이 30분동안 잠겼습니다.</div>
+      </c:if>
+      <c:if test="${ param.count != null }">
+         <div class="mt20">비밀번호 ${ param.count } 회 오류.</div>
+      </c:if>
       <c:if test="${ param.error != null }">
-        <div class="mt20">로그인 실패</div>
+        <div class="mt20">로그인 실패.</div>
       </c:if>      
     </div>
   </form>

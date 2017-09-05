@@ -3,15 +3,20 @@ package fund.service;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+
 import fund.dto.User;
+import fund.mapper.LoginErrorMapper;
 import fund.mapper.SponsorMapper;
 import fund.mapper.UserMapper;
 
@@ -20,6 +25,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired SponsorMapper sponsorMapper;
     @Autowired UserMapper userMapper;
+    @Autowired LoginErrorMapper loginErrorMapper;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -31,7 +37,18 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(String loginName, String password) throws AuthenticationException {
        User user = userMapper.selectByLoginName(loginName);
         if (user == null) return null;
-        if (user.getPassword().equals(encryptPasswd(password)) == false) return null;
+
+        loginErrorMapper.deleteOld();
+        int count = loginErrorMapper.selectCount(loginName);
+        if (count >= 5)
+            throw new LockedException("");
+
+        if (user.getPassword().equals(encryptPasswd(password)) == false) {
+            loginErrorMapper.insert(loginName);
+            ++count;
+            throw new BadCredentialsException(String.valueOf(count));
+        } else
+            loginErrorMapper.deleteAll(loginName);
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_전체"));

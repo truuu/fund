@@ -1,10 +1,12 @@
 package fund.service;
 
 import java.security.MessageDigest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
 import fund.dto.User;
 import fund.mapper.UserMapper;
 
@@ -12,6 +14,8 @@ import fund.mapper.UserMapper;
 public class UserService {
 
 	@Autowired UserMapper userMapper;
+
+	static final String 시스템관리자 = "시스템관리자";
 
 	public static String encryptPasswd(String passwd) { // 단방향암호화
         try {
@@ -50,5 +54,19 @@ public class UserService {
                 return true;
         return false;
     }
-}
 
+    public static boolean isCurrentUserAdmin() {
+        return getCurrentUser() != null &&
+                getCurrentUser().getUserType().equals(시스템관리자);
+    }
+
+    public boolean checkPassword(String s) {
+        if (s.length() < 7) return false;
+        int count = 0;
+        if (s.matches(".*[^0-9a-zA-Z].*")) ++count;
+        if (s.matches(".*[0-9].*")) ++count;
+        if (s.matches(".*[a-z].*")) ++count;
+        if (s.matches(".*[A-Z].*")) ++count;
+        return count >= 3;
+    }
+}

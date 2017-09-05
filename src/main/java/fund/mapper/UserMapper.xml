@@ -16,19 +16,25 @@
 </select>       
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-  INSERT [user] (loginName, [password], [name], [email], userType)
-  VALUES (#{loginName}, #{password}, #{name}, #{email}, #{userType})
+  INSERT [user] (loginName, [password], [name], [email], userType, [enabled])
+  VALUES (#{loginName}, #{password}, #{name}, #{email}, #{userType}, #{enabled})
 </insert>
 
 <update id="update">
   UPDATE [user] 
-  SET [loginName] = #{loginName}, [name] = #{name}, userType = #{userType}, email = #{email}
+  SET [loginName] = #{loginName}, [name] = #{name}, userType = #{userType}, email = #{email}, enabled = #{enabled}
   WHERE id = #{id}
 </update>
 
 <update id="updatePassword">
   UPDATE [user] 
   SET [password] = #{password}
+  WHERE id = #{id}
+</update>
+
+<update id="updateErrorCount">
+  UPDATE [user]
+  SET errorCount = #{errorCount}
   WHERE id = #{id}
 </update>
 

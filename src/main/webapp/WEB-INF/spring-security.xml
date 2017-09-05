@@ -18,10 +18,12 @@
 
     <form-login login-page="/home/login.do"
       login-processing-url="/home/login_processing.do"
-      authentication-failure-url="/home/login.do?error"
       default-target-url="/" 
       username-parameter="loginName"
-      password-parameter="password" />
+      password-parameter="password" 
+      authentication-failure-handler-ref="myAuthenticationResultHandler"
+      authentication-success-handler-ref="myAuthenticationResultHandler"
+      />
     <logout logout-url="/home/logout.do" logout-success-url="/home/login.do"
       invalidate-session="true" />
   </http>
@@ -32,5 +34,5 @@
 
   <beans:bean id="webexpressionHandler"
     class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
-
+    
 </beans:beans>

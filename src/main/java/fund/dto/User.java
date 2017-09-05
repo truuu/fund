@@ -10,6 +10,7 @@ public class User {
 
     String password1;
     String password2;
+    boolean enabled;
 
     public int getId() {
         return id;
@@ -75,4 +76,11 @@ public class User {
         this.password2 = password2;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean ednabled) {
+        this.enabled = ednabled;
+    }
 }

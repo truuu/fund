@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,14 +77,35 @@
 </div>
 
 <script>
-  function closeMsgModal() {
-  	$("div.modal.myMsg").modal("hide");
-  	$(document).off("keydown", closeMsgModal);
-  }
-  $(document).keydown(closeMsgModal);
-  function showWaitMsg() {
-	  $("#waitingModal").modal("show");
-  }
-</script>    
+function closeMsgModal() {
+  $("div.modal.myMsg").modal("hide");
+  $(document).off("keydown", closeMsgModal);
+}
+$(document).keydown(closeMsgModal);
+function showWaitMsg() {
+ $("#waitingModal").modal("show");
+}
+</script>
+    
+<sec:authorize access="authenticated">
+ <script>
+ function resetTimeout() { 
+     startTime = new Date(); 
+   }
+   function checkTimeout() { 
+         var span = (new Date() - startTime) / 1000;
+         if (span > 30 * 60) {
+           location.href = '/funds/home/logout.do';
+           alert('30분 동안 작업이 없어서 자동 로그아웃되었습니다.');
+         }
+       }
+   
+   $("body").click(resetTimeout);
+   $("body").keydown(resetTimeout);
+   resetTimeout();     
+   setInterval(checkTimeout, 5000);          
+ </script>
+</sec:authorize>
+    
 </body>
 </html>

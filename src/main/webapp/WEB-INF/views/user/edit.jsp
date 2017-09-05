@@ -43,6 +43,12 @@
       </sec:authorize>        
     </td>
   </tr>
+  <tr>
+    <td class="lb">활성화</td>
+    <td><form:checkbox path="enabled" /></td>
+    <td></td>
+    <td></td>    
+  </tr>
 </table>
 <hr />
 
@@ -57,6 +63,9 @@
     <td><form:password path="password1" />
     <td class="lb">비밀번호확인</td>
     <td><form:password path="password2" />
+  </tr>
+  <tr>
+    <td colspan=4">비밀번호는 7자 이상이어야 하고, 숫자, 영어소문자, 영어대문자 중 3가지 이상을 조합해야 합니다.</td>
   </tr>
 </table>
 

@@ -85,6 +85,23 @@
             <li><a href="/funds/home/logout.do">로그아웃</a></li>
           </ul>
         </div>
+        <script>
+        function resetTimeout() { 
+            startTime = new Date(); 
+          }
+          function checkTimeout() { 
+                var span = (new Date() - startTime) / 1000;
+                if (span > 10) { //30 * 60) {
+                  location.href = '/funds/home/logout.do';
+                  alert('일정 시간동안 작업이 없어서 자동 로그아웃되었습니다.');
+                }
+              }
+          
+          $("body").click(resetTimeout);
+          $("body").keydown(resetTimeout);
+          resetTimeout();     
+          setInterval(checkTimeout, 5000);          
+        </script>
       </sec:authorize>
 
       <sec:authorize access="not authenticated">

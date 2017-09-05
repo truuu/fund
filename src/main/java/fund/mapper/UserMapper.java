@@ -2,6 +2,7 @@ package fund.mapper;
 
 
 import java.util.List;
+
 import fund.dto.User;
 
  public interface UserMapper {
@@ -11,6 +12,7 @@ import fund.dto.User;
      void insert(User user);
      void update(User user);
      void updatePassword(User user);
+     void updateErrorCount(User user);
      void delete(int id);
  }
 
