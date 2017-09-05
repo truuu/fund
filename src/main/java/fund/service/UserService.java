@@ -17,9 +17,9 @@ public class UserService {
 
 	static final String 시스템관리자 = "시스템관리자";
 
-	public static String encryptPasswd(String passwd) { // 단방향암호화
+    public static String encryptPasswd(String passwd) {
         try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] passBytes = passwd.getBytes();
             md.reset();
             byte[] digested = md.digest(passBytes);
@@ -32,7 +32,6 @@ public class UserService {
             return passwd;
         }
     }
-
 
     public static User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

