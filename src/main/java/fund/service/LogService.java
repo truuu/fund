@@ -76,13 +76,12 @@ public class LogService {
         if (UserService.isCurrentUserAdmin() == false) return;
 
         User user = userMapper.selectById(id);
-        String category = "사용자 계정 삭제";
         StringBuilder builder = new StringBuilder();
         사용자정보요약(builder, user);
         현재사용자정보(builder);
         String body = builder.toString();
         Log log = new Log();
-        log.setCategory(category);
+        log.setCategory("사용자 계정 삭제");
         log.setBody(body);
         setEtc(log);
         logMapper.insert(log);
@@ -91,13 +90,12 @@ public class LogService {
     public void userCreate(User user) {
         if (UserService.isCurrentUserAdmin() == false) return;
 
-        String category = "사용자 계정 생성";
         StringBuilder builder = new StringBuilder();
         사용자정보요약(builder, user);
         현재사용자정보(builder);
         String body = builder.toString();
         Log log = new Log();
-        log.setCategory(category);
+        log.setCategory("사용자 계정 생성");
         log.setBody(body);
         setEtc(log);
         logMapper.insert(log);
@@ -151,5 +149,17 @@ public class LogService {
                .append("사용자 계정: ").append(user.getLoginName()).append("\n")
                .append("사용자 이름: ").append(user.getName()).append("\n")
                .append("사용자 유형: ").append(user.getUserType()).append("\n");
+    }
+
+    public void actionLog(String category, String action, int id, String no) {
+        Log log = new Log();
+        log.setCategory(category);
+        StringBuilder builder = new StringBuilder();
+        builder.append("action: ").append(action).append("\n")
+               .append("    ID: ").append(id).append("\n")
+               .append("    no: ").append(no).append("\n");
+        log.setBody(builder.toString());
+        setEtc(log);
+        logMapper.insert(log);
     }
 }

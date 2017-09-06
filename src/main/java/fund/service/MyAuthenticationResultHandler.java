@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
@@ -15,12 +14,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import fund.mapper.LoginErrorMapper;
-
 @Component
 public class MyAuthenticationResultHandler implements AuthenticationFailureHandler, AuthenticationSuccessHandler {
-
-    @Autowired LoginErrorMapper loginErrorMapper;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex)
@@ -35,8 +30,6 @@ public class MyAuthenticationResultHandler implements AuthenticationFailureHandl
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication arg2)
             throws IOException, ServletException {
-        String loginName = request.getParameter("loginName");
-        int count = loginErrorMapper.selectCount(loginName);
         response.sendRedirect(request.getContextPath());
     }
 }

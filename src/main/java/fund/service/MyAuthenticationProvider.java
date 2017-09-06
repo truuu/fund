@@ -25,6 +25,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     @Autowired SponsorMapper sponsorMapper;
     @Autowired UserMapper userMapper;
     @Autowired LoginErrorMapper loginErrorMapper;
+    @Autowired LogService logService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -51,6 +52,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
                 loginErrorMapper.deleteAll(loginName);
         }
 
+        logService.actionLog("로그인", "login", user.getId(), user.getLoginName() + " " + user.getName());
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_전체"));
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserType()));

@@ -74,12 +74,14 @@ public class CmsController extends BaseController {
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
 
+        int count = 0;
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "MS949"))) {
-            downloadEB13File(writer, fileName, today);
+            count = downloadEB13File(writer, fileName, today);
         }
+        logService.actionLog("EB13 생성", "cms eb13", 0, count + " 건");
     }
 
-    private void downloadEB13File(BufferedWriter writer, String fileName, Date today) throws Exception {
+    private int downloadEB13File(BufferedWriter writer, String fileName, Date today) throws Exception {
         String orgCode = "9983010152";
         String yyMMdd = format_yyMMdd.format(today);
 
@@ -133,6 +135,7 @@ public class CmsController extends BaseController {
         writer.write(StringUtils.repeat('0', 8));
         writer.write(StringUtils.repeat(' ', 43));
         writer.write(StringUtils.repeat(' ', 10));
+        return count;
     }
 
     //// EB14
@@ -165,11 +168,15 @@ public class CmsController extends BaseController {
                 commitmentMapper.updateEB13(c);
             }
         }
+        int count1 = list.size();
+        int count2 = 0;
         for (Commitment c : commitmentMapper.selectByEB13Date(today))
             if ("신청".equals(c.getEb13State())) {
                 c.setEb13State("성공");
                 commitmentMapper.updateEB13(c);
+                ++count2;
             }
+        logService.actionLog("EB14 등록", "cms eb14", 0, "성공:" + count1 + " 건.  에러:" + count2 + " 건.");
         return "redirect:eb14result.do";
     }
 
@@ -242,12 +249,14 @@ public class CmsController extends BaseController {
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
 
+        int count = 0;
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "MS949"))) {
-            downloadEB21File(writer, fileName, map);
+            count = downloadEB21File(writer, fileName, map);
         }
+        logService.actionLog("EB21 생성", "cms eb21", 0, count + " 건");
     }
 
-    private void downloadEB21File(BufferedWriter writer, String fileName, Map<String,Object> map) throws Exception {
+    private int downloadEB21File(BufferedWriter writer, String fileName, Map<String,Object> map) throws Exception {
         String orgCode = "9983010152";
         String yyMMdd = ((String)map.get("paymentDate")).replaceAll("-", "").substring(2);
         Date paymentDate = format_yyMMdd.parse(yyMMdd);
@@ -309,6 +318,7 @@ public class CmsController extends BaseController {
         writer.write(StringUtils.repeat('0', 13));
         writer.write(StringUtils.repeat(' ', 63));
         writer.write(StringUtils.repeat(' ', 10));
+        return count;
     }
 
     //// EB22
@@ -342,6 +352,8 @@ public class CmsController extends BaseController {
                 eb21Mapper.update(e);
             }
         }
+        int count1 = list.size();
+        int count2 = 0;
         for (EB21 e : eb21Mapper.selectByPaymentDate(paymentDate))
             if ("신청".equals(e.getState())) {
                 e.setState("성공");
@@ -356,7 +368,9 @@ public class CmsController extends BaseController {
                 payment.setDonationPurposeId(c.getDonationPurposeId());
                 payment.setPaymentMethodId(C.코드ID_CMS);
                 paymentMapper.insert(payment);
+                ++count2;
             }
+        logService.actionLog("EB22 등록", "cms eb22", 0,  "성공:" + count1 + " 건.  에러:" + count2 + " 건.");
         return "redirect:eb22result.do";
     }
 
@@ -412,14 +426,16 @@ public class CmsController extends BaseController {
         if (list_saved == null) list_saved = new ArrayList<Xfer>();
         List<Xfer> list_notSaved = new ArrayList<Xfer>();
 
+        int count = 0;
         for (int i = 0; i < list.size(); ++i) {
             Xfer x = list.get(i);
             x.setCommitmentNo(commitmentNo[i]);
-            if (insertPayment(x)) list_saved.add(x);
+            if (insertPayment(x)) { list_saved.add(x); ++count; }
             else list_notSaved.add(x);
         }
         session.setAttribute("xfer_notSaved", list_notSaved);
         session.setAttribute("xfer_saved", list_saved);
+        logService.actionLog("자동이체 생성", "cms xfer", 0, count + " 건");
         return "cms/xfer";
     }
 
@@ -470,14 +486,16 @@ public class CmsController extends BaseController {
         if (list_saved == null) list_saved = new ArrayList<Sal>();
         List<Sal> list_notSaved = new ArrayList<Sal>();
 
+        int count = 0;
         for (int i = 0; i < list.size(); ++i) {
             Sal s = list.get(i);
             s.setCommitmentNo(commitmentNo[i]);
-            if (insertPayment(s)) list_saved.add(s);
+            if (insertPayment(s)) { list_saved.add(s); ++count; }
             else list_notSaved.add(s);
         }
         session.setAttribute("sal_notSaved", list_notSaved);
         session.setAttribute("sal_saved", list_saved);
+        logService.actionLog("급여공제 생성", "cms sal", 0, count + " 건");
         return "cms/sal";
     }
 
@@ -500,31 +518,3 @@ public class CmsController extends BaseController {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

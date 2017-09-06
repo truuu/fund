@@ -25,8 +25,9 @@
 <select id="selectPaymentList1" resultType="hashmap">  
   <include refid="select1"></include>
   <![CDATA[
-  WHERE (p.commitmentId = #{commitmentId}) OR
-        (#{commitmentId} = 0 AND p.sponsorId = #{sponsorId} AND p.commitmentId <> 0)         
+  WHERE ((p.commitmentId = #{commitmentId}) OR
+         (#{commitmentId} = 0 AND p.sponsorId = #{sponsorId} AND p.commitmentId <> 0))
+  AND me.codeGroupId = 3         
   ORDER BY p.paymentDate DESC
   ]]>
 </select>

@@ -2,6 +2,7 @@ package fund.controller;
 
 import java.text.ParseException;
 import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import fund.dto.Commitment;
 import fund.dto.Sponsor;
 import fund.dto.pagination.PaginationSponsor;
@@ -61,10 +63,10 @@ public class SponsorCommitmentController extends BaseController {
     public String edit(Model model, @RequestParam("sid") int sid, Commitment commitment, @RequestParam("cmd") String cmd) throws Exception {
         try {
             switch (cmd) {
-            case "save":  commitmentMapper.update(commitment); break;
-            case "close":  commitmentMapper.updateEndDate(commitment.getId()); break;
+            case "save":  commitmentMapper.update(commitment); logService.actionLog("약정 수정", "commitment edit save",commitment.getId(), commitment.getSponsorNo()); break;
+            case "close":  commitmentMapper.updateEndDate(commitment.getId()); logService.actionLog("약정 종료", "commitment edit close",commitment.getId(), commitment.getSponsorNo()); break;
             case "delete": commitmentMapper.delete(commitment.getId()); break;
-            case "open": commitmentMapper.open(commitment.getId()); break;
+            case "open": commitmentMapper.open(commitment.getId()); logService.actionLog("약정 종료 취소", "commitment edit open",commitment.getId(), commitment.getSponsorNo()); break;
             }
             return redirectToList(model, sid);
         } catch (Exception e) {
@@ -104,11 +106,10 @@ public class SponsorCommitmentController extends BaseController {
             commitment.setCommitmentNo(commitmentMapper.generateCommitmentNo(sid));
             commitment.setSponsorId(sid);
             commitmentMapper.insert(commitment);
+            logService.actionLog("약정 등록", "commitment create",commitment.getId(), commitment.getSponsorNo());
             return redirectToList(model, sid);
         } catch (Exception e) {
             return logService.logErrorAndReturn(model, e, "sponsor/commitment/create");
         }
     }
-
-
 }

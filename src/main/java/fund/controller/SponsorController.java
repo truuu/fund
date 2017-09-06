@@ -72,6 +72,7 @@ public class SponsorController extends BaseController {
         try {
             sponsorMapper.update(sponsor);
             model.addAttribute("successMsg", "저장했습니다.");
+            logService.actionLog("후원인 수정", "sponsor edit", sponsor.getId(), sponsor.getSponsorNo());
             return edit(sponsor.getId(), pagination, model);
         } catch (Exception e) {
             addCodesToModel(sponsor.getId(), model);
@@ -101,6 +102,7 @@ public class SponsorController extends BaseController {
         try {
             sponsor.setSponsorNo(sponsorMapper.generateSponsorNo());
             sponsorMapper.insert(sponsor);
+            logService.actionLog("후원인 등록", "sponsor create", sponsor.getId(), sponsor.getSponsorNo());
             return "redirect:list.do";
         } catch (Exception e) {
             addCodesToModel(0, model);
