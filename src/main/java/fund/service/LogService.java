@@ -61,6 +61,10 @@ public class LogService {
     }
 
     private void setEtc(Log log) {
+        setEtc(log, null);
+    }
+
+    private void setEtc(Log log, User user) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         log.setUrl(getFullURL(request));
         String ip = request.getHeader("X-FORWARDED-FOR");
@@ -68,7 +72,8 @@ public class LogService {
             ip = request.getRemoteAddr();
         log.setIp(ip);
 
-        User user = UserService.getCurrentUser();
+        if (user == null)
+            user = UserService.getCurrentUser();
         log.setCurrentUser(user == null ? null : user.getLoginName());
     }
 
@@ -152,6 +157,10 @@ public class LogService {
     }
 
     public void actionLog(String category, String action, int id, String no) {
+        actionLog(category, action, id, no, null);
+    }
+
+    public void actionLog(String category, String action, int id, String no, User user) {
         Log log = new Log();
         log.setCategory(category);
         StringBuilder builder = new StringBuilder();
@@ -159,7 +168,7 @@ public class LogService {
                .append("    ID: ").append(id).append("\n")
                .append("    no: ").append(no).append("\n");
         log.setBody(builder.toString());
-        setEtc(log);
+        setEtc(log, user);
         logMapper.insert(log);
     }
 }

@@ -36,6 +36,9 @@
       <c:if test="${ param.error != null }">
         <div class="mt20">로그인 실패.</div>
       </c:if>      
+      <c:if test="${ param.out != null }">
+        <div class="mt20">로그아웃 되었습니다.</div>
+      </c:if>      
     </div>
   </form>
 </div>

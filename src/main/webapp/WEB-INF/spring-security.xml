@@ -24,7 +24,8 @@
       authentication-failure-handler-ref="myAuthenticationResultHandler"
       authentication-success-handler-ref="myAuthenticationResultHandler"
       />
-    <logout logout-url="/home/logout.do" logout-success-url="/home/login.do"
+    <logout logout-url="/home/logout.do" 
+      success-handler-ref="myLogoutResultHandler"
       invalidate-session="true" />
   </http>
 
