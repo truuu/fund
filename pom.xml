@@ -8,6 +8,15 @@
 	<name>funds Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
+
+        <!-- olap4j가 jasper report가 의존하는데, 0.9** 버전 다운로드 실패 에러 발생.
+             그래서 강제로 이 dependency를 넣어줌 -->	
+        <dependency>
+            <groupId>org.olap4j</groupId>
+            <artifactId>olap4j</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+ 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -64,11 +73,13 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 			<version>6.1.0</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-core</artifactId>
