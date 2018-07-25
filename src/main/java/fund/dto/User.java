@@ -1,5 +1,7 @@
 package fund.dto;
 
+import java.util.List;
+
 public class User {
     int id;
     String loginName;
@@ -11,6 +13,8 @@ public class User {
     String password1;
     String password2;
     boolean enabled;
+
+    List<Integer> menuIds;
 
     public int getId() {
         return id;
@@ -82,5 +86,13 @@ public class User {
 
     public void setEnabled(boolean ednabled) {
         this.enabled = ednabled;
+    }
+
+    public List<Integer> getMenuIds() {
+        return menuIds;
+    }
+
+    public void setMenuIds(List<Integer> menuIds) {
+        this.menuIds = menuIds;
     }
 }

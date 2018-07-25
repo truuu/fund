@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import fund.dto.User;
 import fund.mapper.LoginErrorMapper;
+import fund.mapper.MenuUserMapper;
 import fund.mapper.SponsorMapper;
 import fund.mapper.UserMapper;
 
@@ -25,6 +26,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     @Autowired SponsorMapper sponsorMapper;
     @Autowired UserMapper userMapper;
     @Autowired LoginErrorMapper loginErrorMapper;
+    @Autowired MenuUserMapper menuUserMapper;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -51,6 +53,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
                 loginErrorMapper.deleteAll(loginName);
         }
 
+        user.setMenuIds( menuUserMapper.selectMenuIdByUserId(user.getId()) );
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_전체"));
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserType()));

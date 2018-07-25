@@ -68,4 +68,10 @@ public class UserService {
         if (s.matches(".*[A-Z].*")) ++count;
         return count >= 3;
     }
+
+    public static boolean canAccess(int menuId) {
+        User user = getCurrentUser();
+        if (user == null) return false;
+        return user.getMenuIds().contains(menuId);
+    }
 }
