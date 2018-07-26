@@ -72,6 +72,7 @@ public class UserService {
     public static boolean canAccess(int menuId) {
         User user = getCurrentUser();
         if (user == null) return false;
+        if (isCurrentUserAdmin()) return true;
         return user.getMenuIds().contains(menuId);
     }
 }

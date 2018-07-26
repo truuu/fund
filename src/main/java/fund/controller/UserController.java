@@ -1,27 +1,21 @@
 package fund.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
 import fund.dto.User;
 import fund.dto.pagination.Pagination;
 import fund.mapper.UserMapper;
+import fund.service.C;
 import fund.service.LogService;
 import fund.service.UserService;
 
 
 @Controller
-@Secured("ROLE_시스템관리자")
 public class UserController extends BaseController{
 
 	@Autowired UserMapper userMapper;
@@ -30,22 +24,21 @@ public class UserController extends BaseController{
 
     @RequestMapping("/user/list.do")
     public String list(Model model) {
+        if (!UserService.canAccess(C.메뉴_시스템관리_사용자목록)) return "redirect:/home/logout.do";
         model.addAttribute("list", userMapper.selectAll());
         return "user/list";
     }
 
+    // 파라미터 userId는 수정하는 사용자가 아니고, 수정되는 사용자 정보
     boolean 사용자정보를수정할권한이있는가(int userId) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        return request.isUserInRole("ROLE_시스템관리자")  || UserService.getCurrentUser().getId() == userId;
+        return UserService.canAccess(C.메뉴_시스템관리_사용자목록) || UserService.getCurrentUser().getId() == userId;
     }
 
-    @Secured("ROLE_전체")
     @RequestMapping(value="/user/myinfo.do", method=RequestMethod.GET)
     public String myinfo() {
         return "redirect:edit.do?id=" + UserService.getCurrentUser().getId();
     }
 
-    @Secured("ROLE_전체")
     @RequestMapping(value="/user/edit.do", method=RequestMethod.GET)
     public String edit(Model model, @RequestParam("id") int id) {
         if (사용자정보를수정할권한이있는가(id) == false) return "redirect:/home/logout.do";
@@ -53,7 +46,6 @@ public class UserController extends BaseController{
         return "user/edit";
     }
 
-    @Secured("ROLE_전체")
     @RequestMapping(value="/user/edit.do", method=RequestMethod.POST, params="cmd=saveInfo")
     public String saveInfo(Model model, User user) {
         try {
@@ -70,7 +62,6 @@ public class UserController extends BaseController{
         }
     }
 
-    @Secured("ROLE_전체")
     @RequestMapping(value="/user/edit.do", method=RequestMethod.POST, params="cmd=savePassword")
     public String savePassword(Model model, User user) {
         try {
@@ -96,6 +87,7 @@ public class UserController extends BaseController{
 
     @RequestMapping(value="/user/edit.do", method=RequestMethod.POST, params="cmd=delete")
     public String delete(Model model, @RequestParam("id") int id, Pagination pagination) {
+        if (사용자정보를수정할권한이있는가(id) == false) return "redirect:/home/logout.do";
         logService.userDelete(id);
         userMapper.delete(id);
         return "redirect:list.do";
@@ -103,6 +95,7 @@ public class UserController extends BaseController{
 
     @RequestMapping(value="/user/create.do", method=RequestMethod.GET)
     public String create(Model model) {
+        if (사용자정보를수정할권한이있는가(0) == false) return "redirect:/home/logout.do";
         model.addAttribute("user", new User());
         return "user/create";
     }
@@ -110,6 +103,7 @@ public class UserController extends BaseController{
     @RequestMapping(value="/user/create.do", method=RequestMethod.POST)
     public String create(Model model, User user) {
         try {
+            if (사용자정보를수정할권한이있는가(0) == false) return "redirect:/home/logout.do";
             if (userService.checkPassword(user.getPassword1())) {
                 if (comparePassword(user)) {
                     user.setPassword(UserService.encryptPasswd(user.getPassword1()));

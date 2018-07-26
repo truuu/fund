@@ -40,15 +40,15 @@
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">후원인관리<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <%= menu("후원인 목록", "/funds/sponsor/list.do", C.메뉴_후원인관리_후원인_목록)%>
-                <%= menu("우편 발송", "/funds/sponsor/dm.do", C.메뉴_후원인관리_우편_발송)%>
+                <%=menu("후원인 목록", "/funds/sponsor/list.do", C.메뉴_후원인관리_후원인목록)%>
+                <%=menu("우편 발송", "/funds/sponsor/dm.do", C.메뉴_후원인관리_우편발송)%>
               </ul>
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">금융연동<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <%=menu("EB13 생성", "/funds/cms/eb13.do", C.메뉴_금융연동_EB13생성 )%>
-                <%=menu("EB14 등록", "/funds/cms/eb13.do", C.메뉴_금융연동_EB14등록 )%>
-                <%=menu("EB13/14 결과조회", "/funds/cms/eb14.do", C.메뉴_금융연동_EB1314결과조회 )%>
+                <%=menu("EB14 등록", "/funds/cms/eb14.do", C.메뉴_금융연동_EB14등록 )%>
+                <%=menu("EB13/14 결과조회", "/funds/cms/eb14result.do", C.메뉴_금융연동_EB1314결과조회 )%>
                 <li class="divider"></li>
                 <%=menu("EB21 생성", "/funds/cms/eb21.do", C.메뉴_금융연동_EB21생성 )%>
                 <%=menu("EB22 등록", "/funds/cms/eb22.do", C.메뉴_금융연동_EB22등록 )%>
@@ -79,16 +79,14 @@
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">증서<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <%= menu("장학증서", "/funds/corporate/list.do", C.메뉴_증서_장학증서)%>
-                <%= menu("기부증서", "/funds/corporate/list.do", C.메뉴_증서_기부증서)%>
+                <%= menu("장학증서", "/funds/certificate/0/list.do", C.메뉴_증서_장학증서)%>
+                <%= menu("기부증서", "/funds/certificate/1/list.do", C.메뉴_증서_기부증서)%>
               </ul>
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">시스템관리<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <sec:authorize access="hasRole('ROLE_시스템관리자')">              
-                  <li><a href="/funds/user/list.do">사용자목록</a></li>
-                </sec:authorize>
-                <li><a href="/funds/log/list.do">로그 기록</a></li>
+                <%= menu("사용자 목록", "/funds/user/list.do", C.메뉴_시스템관리_사용자목록)%>
+                <%= menu("로그 기록", "/funds/log/list.do", C.메뉴_시스템관리_로그기록)%>
               </ul>
             </li>
           </ul>

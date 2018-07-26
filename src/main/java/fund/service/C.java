@@ -14,8 +14,8 @@ public class C {
     public static final int 코드ID_급여공제 = 12;
 
     public static final int 메뉴_기초정보관리 = 1;
-    public static final int 메뉴_후원인관리_후원인_목록 = 10;
-    public static final int 메뉴_후원인관리_우편_발송 = 11;
+    public static final int 메뉴_후원인관리_후원인목록 = 10;
+    public static final int 메뉴_후원인관리_우편발송 = 11;
     public static final int 메뉴_금융연동_EB13생성 = 12;
     public static final int 메뉴_금융연동_EB14등록 = 13;
     public static final int 메뉴_금융연동_EB1314결과조회 = 14;
@@ -35,4 +35,6 @@ public class C {
     public static final int 메뉴_영수증_국세청보고자료 = 28;
     public static final int 메뉴_증서_장학증서 = 29;
     public static final int 메뉴_증서_기부증서 = 30;
+    public static final int 메뉴_시스템관리_사용자목록 = 31;
+    public static final int 메뉴_시스템관리_로그기록 = 32;
 }

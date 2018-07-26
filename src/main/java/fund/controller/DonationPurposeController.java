@@ -12,6 +12,7 @@ import fund.mapper.CorporateMapper;
 import fund.mapper.DonationPurposeMapper;
 import fund.service.C;
 import fund.service.LogService;
+import fund.service.UserService;
 
 @Controller
 public class DonationPurposeController extends BaseController{
@@ -23,12 +24,14 @@ public class DonationPurposeController extends BaseController{
 
 	@RequestMapping("/donationPurpose/list.do")
 	public String list(Model model) {
+	    if (!UserService.canAccess(C.메뉴_기초정보관리)) return "redirect:/home/logout.do";
 		model.addAttribute("list", donationPurposeMapper.selectAll());
 		return "donationPurpose/list";
 	}
 
 	@RequestMapping(value="/donationPurpose/create.do", method=RequestMethod.GET)
 	public String create(Model model) {
+        if (!UserService.canAccess(C.메뉴_기초정보관리)) return "redirect:/home/logout.do";
 	    model.addAttribute("donationPurpose", new DonationPurpose());
 		addCodesToModel(model);
 		return "donationPurpose/edit";
@@ -42,6 +45,7 @@ public class DonationPurposeController extends BaseController{
 	@RequestMapping(value="/donationPurpose/create.do", method=RequestMethod.POST)
 	public String create(DonationPurpose donationPurpose, Model model) {
 	    try {
+	        if (!UserService.canAccess(C.메뉴_기초정보관리)) return "redirect:/home/logout.do";
     	    donationPurposeMapper.insert(donationPurpose);
     		return "redirect:/donationPurpose/list.do";
         } catch (Exception e) {
@@ -52,6 +56,7 @@ public class DonationPurposeController extends BaseController{
 
 	@RequestMapping(value="/donationPurpose/edit.do", method=RequestMethod.GET)
 	public String edit(Model model,@RequestParam("id") int id) {
+        if (!UserService.canAccess(C.메뉴_기초정보관리)) return "redirect:/home/logout.do";
         model.addAttribute("donationPurpose", donationPurposeMapper.selectById(id));
 		addCodesToModel(model);
 		return "donationPurpose/edit";
@@ -60,6 +65,7 @@ public class DonationPurposeController extends BaseController{
 	@RequestMapping(value="/donationPurpose/edit.do", method=RequestMethod.POST, params="cmd=save")
 	public String edit(DonationPurpose donationPurpose, Model model) {
 	    try {
+	        if (!UserService.canAccess(C.메뉴_기초정보관리)) return "redirect:/home/logout.do";
     	    donationPurposeMapper.update(donationPurpose);
     		return "redirect:/donationPurpose/list.do";
         } catch (Exception e) {
@@ -70,6 +76,7 @@ public class DonationPurposeController extends BaseController{
 
     @RequestMapping(value="/donationPurpose/edit.do", method=RequestMethod.POST, params="cmd=delete")
 	public String delete(Model model, @RequestParam("id") int id) {
+        if (!UserService.canAccess(C.메뉴_기초정보관리)) return "redirect:/home/logout.do";
 		donationPurposeMapper.delete(id);
 		return "redirect:/donationPurpose/list.do";
 	}

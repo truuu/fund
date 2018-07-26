@@ -21,6 +21,7 @@ import fund.mapper.DonationPurposeMapper;
 import fund.mapper.PaymentMapper;
 import fund.service.C;
 import fund.service.ReportBuilder;
+import fund.service.UserService;
 
 @Controller
 public class PaymentController extends BaseController {
@@ -50,6 +51,7 @@ public class PaymentController extends BaseController {
 
     @RequestMapping(value="/payment/srch1a", method=RequestMethod.GET)
     public String report1a(Model model) {
+        if (!UserService.canAccess(C.메뉴_납입조회_납입내역조회)) return "redirect:/home/logout.do";
         addModel1(model);
         model.addAttribute("wrapper", new Wrapper());
         return "payment/srch1a";
@@ -57,6 +59,7 @@ public class PaymentController extends BaseController {
 
     @RequestMapping(value="/payment/srch1a", method=RequestMethod.POST, params="cmd=search")
     public String report1a(Model model, Wrapper wrapper) {
+        if (!UserService.canAccess(C.메뉴_납입조회_납입내역조회)) return "redirect:/home/logout.do";
         addModel1(model);
         model.addAttribute("list", paymentMapper.selectReport1a(wrapper.getMap()));
         return "payment/srch1a";
@@ -73,11 +76,13 @@ public class PaymentController extends BaseController {
 
     @RequestMapping(value="/payment/srch1a", method=RequestMethod.POST, params="cmd=excel")
     public void report1(Model model, Wrapper mapParam, HttpServletRequest req, HttpServletResponse res) throws Exception {
+        if (!UserService.canAccess(C.메뉴_납입조회_납입내역조회)) return;
         paymentReport(mapParam, req, res,"payment1_list","납입내역.xlsx",1);
     }
 
     @RequestMapping(value="/payment/srch1b", method=RequestMethod.POST, params="cmd=excel")
     public void report1bReport(Model model, Wrapper wrapper, HttpServletRequest req, HttpServletResponse res) throws Exception {
+        if (!UserService.canAccess(C.메뉴_납입조회_후원인별납입합계)) return;
     	paymentReport(wrapper, req, res,"payment2_list","납입합계내역.xlsx",2);
     }
 
@@ -113,6 +118,7 @@ public class PaymentController extends BaseController {
 
     @RequestMapping(value="/payment/srch1b", method=RequestMethod.GET)
     public String report1b(Model model) {
+        if (!UserService.canAccess(C.메뉴_납입조회_후원인별납입합계)) return "redirect:/home/logout.do";
         model.addAttribute("wrapper", new Wrapper());
         addModel1(model);
         return "payment/srch1b";
@@ -120,6 +126,7 @@ public class PaymentController extends BaseController {
 
     @RequestMapping(value="/payment/srch1b", method=RequestMethod.POST, params="cmd=search")
     public String report1b(Model model, Wrapper wrapper) {
+        if (!UserService.canAccess(C.메뉴_납입조회_후원인별납입합계)) return "redirect:/home/logout.do";
         addModel1(model);
         model.addAttribute("list", paymentMapper.selectReport1b(wrapper.getMap()));
         return "payment/srch1b";
@@ -130,6 +137,10 @@ public class PaymentController extends BaseController {
     //// report2
     @RequestMapping(value="/payment/srch2/{i}", method=RequestMethod.GET)
     public String report2a(Model model, @PathVariable("i") int i) {
+        if (i == 0 && !UserService.canAccess(C.메뉴_납입조회_기부목적별납입합계)) return "redirect:/home/logout.do";
+        if (i == 1 && !UserService.canAccess(C.메뉴_납입조회_회원구분별납입합계)) return "redirect:/home/logout.do";
+        if (i == 2 && !UserService.canAccess(C.메뉴_납입조회_소속교회별납입합계)) return "redirect:/home/logout.do";
+
         Wrapper wrapper = new Wrapper();
         int year = Calendar.getInstance().get(Calendar.YEAR);
         wrapper.getMap().put("startDate", String.format("%d-01-01", year));
@@ -142,6 +153,10 @@ public class PaymentController extends BaseController {
 
     @RequestMapping(value="/payment/srch2/{i}", method=RequestMethod.POST, params="cmd=search")
     public String report2a(Model model, Wrapper wrapper, @PathVariable("i") int i) {
+        if (i == 0 && !UserService.canAccess(C.메뉴_납입조회_기부목적별납입합계)) return "redirect:/home/logout.do";
+        if (i == 1 && !UserService.canAccess(C.메뉴_납입조회_회원구분별납입합계)) return "redirect:/home/logout.do";
+        if (i == 2 && !UserService.canAccess(C.메뉴_납입조회_소속교회별납입합계)) return "redirect:/home/logout.do";
+
         switch (i) {
         case 0: model.addAttribute("list", paymentMapper.selectReport2a(wrapper.getMap())); break;
         case 1: model.addAttribute("list", paymentMapper.selectReport2b(wrapper.getMap())); break;
@@ -154,6 +169,10 @@ public class PaymentController extends BaseController {
 
     @RequestMapping(value="/payment/srch2/{i}", method=RequestMethod.POST, params="cmd=excel")
     public void report2aReport(Model model, Wrapper wrapper, @PathVariable("i") int i, HttpServletRequest req, HttpServletResponse res) throws Exception {
+        if (i == 0 && !UserService.canAccess(C.메뉴_납입조회_기부목적별납입합계)) return;
+        if (i == 1 && !UserService.canAccess(C.메뉴_납입조회_회원구분별납입합계)) return;
+        if (i == 2 && !UserService.canAccess(C.메뉴_납입조회_소속교회별납입합계)) return;
+
         List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 
     	switch (i) {
@@ -171,6 +190,5 @@ public class PaymentController extends BaseController {
         reportBuilder.setParameter(map);
         reportBuilder.build("xlsx");
     }
-
 
 }
