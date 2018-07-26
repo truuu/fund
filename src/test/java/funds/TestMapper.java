@@ -18,11 +18,15 @@ public class TestMapper {
     @Autowired MenuUserMapper menuUserMapper;
 
     @Test
-    public void test1() {
+    public void testMenuUserMapper() {
         assertNotNull(menuUserMapper);
 
         assertNotNull(menuUserMapper.selectMenuIdByUserId(6));
         assert(menuUserMapper.selectMenuIdByUserId(6).size() > 10);
+
+        assert(menuUserMapper.selectMenuUserByUserId(6).size() > 10);
+        menuUserMapper.delete(1, 6);
+        menuUserMapper.insert(1, 6);
     }
 
 }

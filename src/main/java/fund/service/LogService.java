@@ -78,8 +78,6 @@ public class LogService {
     }
 
     public void userDelete(int id) {
-        if (UserService.isCurrentUserAdmin() == false) return;
-
         User user = userMapper.selectById(id);
         StringBuilder builder = new StringBuilder();
         사용자정보요약(builder, user);
@@ -93,8 +91,6 @@ public class LogService {
     }
 
     public void userCreate(User user) {
-        if (UserService.isCurrentUserAdmin() == false) return;
-
         StringBuilder builder = new StringBuilder();
         사용자정보요약(builder, user);
         현재사용자정보(builder);
@@ -107,8 +103,6 @@ public class LogService {
     }
 
     public void userInfoChange(User user) {
-        if (UserService.isCurrentUserAdmin() == false) return;
-
         User user0 = null;
         String category = null;
         user0 = userMapper.selectById(user.getId());
@@ -154,6 +148,45 @@ public class LogService {
                .append("사용자 계정: ").append(user.getLoginName()).append("\n")
                .append("사용자 이름: ").append(user.getName()).append("\n")
                .append("사용자 유형: ").append(user.getUserType()).append("\n");
+    }
+
+    public void userPasswordChange(User user) {
+        String category = "비밀번호 변경";
+        StringBuilder builder = new StringBuilder();
+        사용자정보요약(builder, user);
+        현재사용자정보(builder);
+        String body = builder.toString();
+        Log log = new Log();
+        log.setCategory(category);
+        log.setBody(body);
+        setEtc(log);
+        logMapper.insert(log);
+    }
+
+    public void userMenuAccessRightAdd(User user, String menuTitle) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(menuTitle).append("\n\n");
+        사용자정보요약(builder, user);
+        현재사용자정보(builder);
+        String body = builder.toString();
+        Log log = new Log();
+        log.setCategory("메뉴 권한 추가");
+        log.setBody(body);
+        setEtc(log);
+        logMapper.insert(log);
+    }
+
+    public void userMenuAccessRightRemove(User user, String menuTitle) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(menuTitle).append("\n\n");
+        사용자정보요약(builder, user);
+        현재사용자정보(builder);
+        String body = builder.toString();
+        Log log = new Log();
+        log.setCategory("메뉴 권한 제거");
+        log.setBody(body);
+        setEtc(log);
+        logMapper.insert(log);
     }
 
     public void actionLog(String category, String action, int id, String no) {

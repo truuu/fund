@@ -14,8 +14,8 @@
 
 <tiles:insertAttribute name="menu" />
 
-<div class="container">
-	<div style="min-height: 700px">
+<div class="container" style="background-color: white; min-height: 1500px;">
+	<div style="min-height: 700px; margin-top: 20px;">
 		<tiles:insertAttribute name="content" />
 	</div>
 	<tiles:insertAttribute name="footer" />

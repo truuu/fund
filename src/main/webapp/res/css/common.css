@@ -1,3 +1,6 @@
+body { background-image: url("/funds/res/images/background_01.png"); }
+div#body { background-color: white; }
+
 body .mt0 { margin-top: 0px; }
 body .mt4 { margin-top: 4px; }
 body .mt6 { margin-top: 6px; }
@@ -29,7 +32,7 @@ body tbody tr[data-url]:hover { background-color: #ffa; cursor: pointer; }
 body table tr.my-error { background-color: #fee; } 
 body table tr.my-success { background-color: #efe; }
 body table tr.disable { background-color: #eee; color: #888; }
-body td.lb { background: #eee; text-align: right; width: }
+body td.lb { background: #eee; text-align: center;  }
 body table.lbw150 td.lb { width: 150px; }
 body table.lbw100 td.lb { width: 100px; }
 
@@ -47,10 +50,12 @@ body .w350 { width: 350px; }
 body .w400 { width: 400px; }
 body .w500 { width: 500px; }
 body .w600 { width: 600px; }
+body .w700 { width: 700px; }
 body .h100 { height: 100px; }
 body .h150 { height: 150px; }
 body .h200 { height: 200px; }
 body .h600 { height: 600px; }
+body .h700 { height: 700px; }
 
 body .display-none { display: none; }
 

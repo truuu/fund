@@ -20,25 +20,10 @@
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-    <mvc:annotation-driven />
     <context:component-scan base-package="fund" />
-    <sec:global-method-security secured-annotations="enabled" />
+    <mvc:annotation-driven />
+      <sec:global-method-security secured-annotations="enabled" />
     <tx:annotation-driven transaction-manager="transactionManager"/>
-
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="100000000" />
-		<property name="maxInMemorySize" value="100000000" />
-	</bean>
-
-    <bean id="sqlSessionFactory1" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="myDataSource1" />
-    </bean>
-        
-    <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="fund.mapper" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory1"/>
-    </bean>  
 
     <bean id="viewResolver"
         class="org.springframework.web.servlet.view.UrlBasedViewResolver">
@@ -55,5 +40,10 @@
         </property>
     </bean>
 
-
+    <bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="100000000" />
+        <property name="maxInMemorySize" value="100000000" />
+    </bean>
+    
 </beans>
