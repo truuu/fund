@@ -3,23 +3,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-
-<style>
-  .panel h3 { margin-top: 10px; margin-bottom: 5px; }
-</style>
-    
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="/funds/res/js/daum_postcode.js"></script>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <div class="navigation-info">
-  &gt; 시스템 관리 &gt; <a href="list.do">사용자 목록</a> &gt; 사용자 정보
+  &gt; 내정보 수정
 </div>
- 
+
 <form:form method="post" modelAttribute="user">
 
 <div class="panel panel-default shadow w900">
   <div class="panel-heading">
-    <h3>사용자 정보</h3>
+    <h3>내 정보</h3>
   </div>
   <div class="panel-body">    
     <table class="table table-bordered table-condensed lbw150">
@@ -33,25 +27,18 @@
         <td class="lb">이메일</td>
         <td><form:input path="email" />
         <td class="lb">사용자유형</td>
-        <td>
-            <form:select path="userType">
-              <form:option value="직원" />
-              <form:option value="관리자" />
-            </form:select>
-        </td>
+        <td>${ user.userType }</td>
       </tr>
       <tr>
         <td class="lb">활성화</td>
-        <td><form:checkbox path="enabled" /></td>
+        <td>${ user.enabled }</td>
         <td  class="lb"></td>
         <td></td>    
       </tr>
     </table>
 
     <div>
-      <button class="btn btn-primary" type="submit" name="cmd" value="saveInfo">사용자 정보 저장</button>
-      <button class="btn btn-danger" type="submit" name="cmd" value="delete" data-confirm-delete>사용자 삭제</button>
-      <a class="btn btn-gray" href="list.do">목록으로 나가기</a>
+      <button class="btn btn-primary" type="submit" name="cmd" value="saveInfo">내 정보 저장</button>
     </div>    
   </div>
 </div>  
@@ -80,31 +67,5 @@
     </div>
   </div>
 </div>  
-
-<hr />
-
-<div class="panel panel-default shadow w500">
-  <div class="panel-heading">
-    <h3>메뉴 권한</h3>
-  </div>
-  <div class="panel-body">    
-    <table class="table table-bordered table-condensed">
-      <thead>
-        <tr><th>메뉴</th><th>권한</th></tr>
-      </thead>
-      <tbody>
-        <c:forEach var="item" items="${ menu }" >
-          <tr>
-            <td>${ item.title }</td>
-            <td><input type="checkbox" name="menuId" ${ item.enabled ? "checked" : "" } value="${ item.menuId }" /></td>
-          </tr>
-        </c:forEach>
-      </tbody>
-    </table> 
-    <div class="">
-      <button class="btn btn-primary" type="submit" name="cmd" value="saveMenu">권한 저장</button>
-    </div>
-  </div>
-</div>
 
 </form:form>

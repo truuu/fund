@@ -15,7 +15,7 @@ public class UserService {
 
 	@Autowired UserMapper userMapper;
 
-	static final String 시스템관리자 = "시스템관리자";
+	static final String 관리자 = "관리자";
 
     public static String encryptPasswd(String passwd) {
         try {
@@ -56,7 +56,7 @@ public class UserService {
 
     public static boolean isCurrentUserAdmin() {
         return getCurrentUser() != null &&
-                getCurrentUser().getUserType().equals(시스템관리자);
+                getCurrentUser().getUserType().equals(관리자);
     }
 
     public boolean checkPassword(String s) {
@@ -67,6 +67,11 @@ public class UserService {
         if (s.matches(".*[a-z].*")) ++count;
         if (s.matches(".*[A-Z].*")) ++count;
         return count >= 3;
+    }
+
+    public boolean checkLoginId(User user) {
+        User user1 = userMapper.selectByLoginName(user.getLoginName());
+        return user1 == null || user1.getId() == user.getId();
     }
 
     public static boolean canAccess(int menuId) {
