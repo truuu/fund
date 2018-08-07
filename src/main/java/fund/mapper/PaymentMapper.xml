@@ -5,7 +5,7 @@
 
 <sql id="select1">
   SELECT p.*,
-    co.name corporateName, og.codeName organizationName, dp.name donationPurposeName, me.codeName paymentMethodName,
+    co.shortName corporateName, og.codeName organizationName, dp.name donationPurposeName, me.codeName paymentMethodName,
     c.commitmentNo, c.accountNo, c.accountHolder,
     bk.codeName bankName
   FROM payment p

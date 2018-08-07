@@ -43,7 +43,8 @@ FROM(
     END 행번호
     FROM [sponsor] s
     WHERE
-       ((LEN(@srchText) = 0) OR
+       (@srchText IS NULL OR
+        (LEN(@srchText) = 0) OR
         (CHARINDEX(@srchText, name) > 0) OR
         (CHARINDEX(@srchText, sponsorNo) > 0)) 
     AND (#{st1} = 0 OR #{st1} = sponsorType1Id)
@@ -78,7 +79,8 @@ SET @srchText = RTRIM(#{srchText})
 SELECT COUNT(*) 
 FROM [sponsor] s
 WHERE
-   ((LEN(@srchText) = 0) OR
+   (@srchText IS NULL OR
+    (LEN(@srchText) = 0) OR
     (CHARINDEX(@srchText, name) > 0) OR
     (CHARINDEX(@srchText, sponsorNo) > 0)) 
 AND (#{st1} = 0 OR #{st1} = sponsorType1Id)

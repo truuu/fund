@@ -5,12 +5,14 @@ body .mt0 { margin-top: 0px; }
 body .mt4 { margin-top: 4px; }
 body .mt6 { margin-top: 6px; }
 body .mt8 { margin-top: 8px; }
+body .mt10 { margin-top: 10px; }
 body .mt20 { margin-top: 20px; }
 body .mt100 { margin-top: 100px; }
 body .mb0 { margin-bottom: 0px; }
 body .mb4 { margin-bottom: 4px; }
 body .mb6 { margin-bottom: 6px; }
 body .mb8 { margin-bottom: 8px; }
+body .mb10 { margin-bottom: 10px; }
 body .mb20 { margin-bottom: 20px; }
 body .mb100 { margin-bottom: 100px; }
 body .ml5 { margin-left: 5px; }
@@ -32,6 +34,8 @@ body .btn-danger { background: linear-gradient(#fbb, #a00); border: none; color:
 body .btn-default { background: linear-gradient(#eee, #666); border: none; color: white; }
 body .btn-gray { background: linear-gradient(#ddd, #666); border: none; color: white; }
 body .btn-info { background: linear-gradient(#8ef, #078); border: none; color: white;  }
+body .btn-success { background: linear-gradient(#8f8, #060); border: none; color: white;  }
+body .btn-flat { background-color: #ddd; color: black; }
 body .btn:hover { color: black; }
 
 body thead tr { background-color: #eee; }
@@ -44,7 +48,7 @@ body table.lbw150 td.lb { width: 150px; }
 body table.lbw120 td.lb { width: 120px; }
 body table.lbw100 td.lb { width: 100px; }
 
-body select { border: 1px solid #aaa; padding: 2px; height: 26px; }
+body select { border: 1px solid #aaa; padding: 4px; height: 26px; }
 body input[type=text] { border: 1px solid #aaa; padding: 6px; height: 26px; }
 body input[type=password] { border: 1px solid #aaa; padding: 6px; height: 26px; }
 body textarea { border: 1px solid #aaa; padding: 6px; }
@@ -102,7 +106,7 @@ select[name=od] { width: 150px; margin-right: 100px; }
 input:-ms-input-placeholder { color: #aaa; }
 
 /** bootstrap override **/
-body .panel h3 { margin-top: 5px; margin-bottom: 0px; font-size: 18px; font-weight: bold; }
+body h3 { margin-top: 5px; margin-bottom: 0px; font-size: 18px; font-weight: bold; }
 body .panel .panel-heading { background-color: #efe; }
 body table th { font-weight: normal; }
 body table.table thead tr th { padding: 8px; vertical-align: middle; }
@@ -111,7 +115,7 @@ body table.pd4 thead tr th { padding: 4px; }
 body table.pd4 tr td { padding: 4px; }
 body ul.pagination { margin: 0px; }
 
-body { font-size: 12px; font-family: 굴림체; }
+body { font-size: 9pt; font-family: 굴림체; }
 body .dropdown-menu { font-size: 12px; font-family: 굴림체; }
 body input { line-height: 1em; }
 body select { line-height: 1em; }
@@ -120,4 +124,4 @@ body label.clean { font-weight: normal; }
 body input.date { width: 100px; }
 body input.startDt { width: 100px; }
 body input.endDt   { width: 100px; }
-body input.money { text-align: right; }
+body input.money { text-align: right; width: 100px; }

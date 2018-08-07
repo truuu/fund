@@ -25,7 +25,7 @@
         <td class="lb">우편번호</td>
         <td >
             <form:input path="postCode" tabindex="2" />
-            <button type="button" class="btn btn-xs" onclick="postCodeSearch('postCode', 'roadAddress')">우편번호 찾기</button>
+            <button type="button" class="btn btn-flat btn-xs" onclick="postCodeSearch('postCode', 'roadAddress')">우편번호 찾기</button>
         </td>
       </tr>
       <tr>

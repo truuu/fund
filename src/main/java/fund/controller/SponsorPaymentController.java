@@ -13,6 +13,7 @@ import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.DonationPurposeMapper;
+import fund.mapper.FileAttachMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.SponsorMapper;
 import fund.service.C;
@@ -27,10 +28,12 @@ public class SponsorPaymentController extends BaseController {
     @Autowired PaymentMapper paymentMapper;
     @Autowired CommitmentMapper commitmentMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
+    @Autowired FileAttachMapper fileAttachMapper;
     @Autowired LogService logService;
 
     @ModelAttribute
-    void modelAttr1(Model model, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
+    void modelAttr1(Model model, @RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
+        model.addAttribute("fileCount", fileAttachMapper.selectCountBySponsorId(sid));
     }
 
     static final String[] orderBy = new String[] { "paymentDate DESC", "paymentDate", "ID DESC", "ID" };
@@ -38,7 +41,7 @@ public class SponsorPaymentController extends BaseController {
     // 정기 납입
     @RequestMapping("/sponsor/payment/list1.do")
     public String list1(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
-        if (!UserService.canAccess(C.메뉴_후원인관리_후원인관리)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
         model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("commitments", commitmentMapper.selectBySponsorId(sid));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
@@ -60,7 +63,7 @@ public class SponsorPaymentController extends BaseController {
     // 비정기 납입
     @RequestMapping("/sponsor/payment/list2.do")
     public String list2(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
-        if (!UserService.canAccess(C.메뉴_후원인관리_후원인관리)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
         model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("list", paymentMapper.selectPaymentList2(sid));
         return "sponsor/payment/list2";
@@ -68,7 +71,7 @@ public class SponsorPaymentController extends BaseController {
 
     @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.GET)
     public String edit2(Model model, @RequestParam("sid") int sid, @RequestParam("id") int id) {
-        if (!UserService.canAccess(C.메뉴_후원인관리_후원인관리)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
         model.addAttribute("payment", paymentMapper.selectById(id));
         addCodesToModel(model, sid);
         return "sponsor/payment/edit2";
@@ -89,7 +92,7 @@ public class SponsorPaymentController extends BaseController {
     @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.POST, params="cmd=save")
     public String edit2save(Model model, @RequestParam("sid") int sid, Payment payment) throws Exception {
         try {
-            if (!UserService.canAccess(C.메뉴_후원인관리_후원인관리)) return "redirect:/home/logout.do";
+            if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
             paymentMapper.update(payment);
             return redirectToList(model, sid);
         } catch (Exception e) {
@@ -100,14 +103,14 @@ public class SponsorPaymentController extends BaseController {
 
     @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.POST, params="cmd=delete")
     public String edit2delete(Model model, @RequestParam("sid") int sid, @RequestParam("id") int id) throws Exception {
-        if (!UserService.canAccess(C.메뉴_후원인관리_후원인관리)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
         paymentMapper.delete(id);
         return redirectToList(model, sid);
     }
 
     @RequestMapping(value="/sponsor/payment/create2.do", method=RequestMethod.GET)
     public String create2(Model model, @RequestParam("sid") int sid) {
-        if (!UserService.canAccess(C.메뉴_후원인관리_후원인관리)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
         model.addAttribute("payment", new Payment());
         addCodesToModel(model, sid);
         return "sponsor/payment/edit2";
@@ -116,7 +119,7 @@ public class SponsorPaymentController extends BaseController {
     @RequestMapping(value="/sponsor/payment/create2.do", method=RequestMethod.POST)
     public String create2(Model model, @RequestParam("sid") int sid, Payment payment) throws Exception {
         try {
-            if (!UserService.canAccess(C.메뉴_후원인관리_후원인관리)) return "redirect:/home/logout.do";
+            if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
             payment.setSponsorId(sid);
             paymentMapper.insert(payment);
             return redirectToList(model, sid);

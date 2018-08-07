@@ -123,3 +123,53 @@ function cancelSearch() { // 납입 내역 조회 화면에서...
   url = url.replace(/\?.+$/, '');
   location.href = url;
 }
+
+function tableScroll() {
+    var thead = $("table#body thead tr");
+    if (thead.length > 0) {
+      $("table#head").width( $("table#body").width() );
+      $("table#body th, table#body tr:nth-child(1) td").each( function() {
+          $(this).width($(this).width());
+      });
+      thead.appendTo( $("table#head thead") );
+    }
+}
+
+var tableHVScroll2_unique_id = 0;
+
+function tableHVScroll2(table) {    
+  if (table.hasClass("tableHVScroll2")) return;
+  table.addClass("tableHVScroll2");
+  
+  id = "tableHVScroll2" + ++tableHVScroll2_unique_id;
+  var template =
+      "<div id='" + id + "'>" +
+        "<div id='scroll1' style='margin-top: 10px;  overflow: hidden !important;'>" +
+          "<table id='head' class='table table-bordered' style='white-space: nowrap; margin-bottom:0px;'>" +
+            "<thead style='white-space: nowrap;'>" +
+            "</thead>" +
+          "</table>" +
+        "</div>" +
+        "<div id='scroll2'  style='overflow: scroll; height: 600px;'>" +
+        "</div>" +
+      "</div>";
+      
+    $(template).insertAfter(table);
+    var root = $("#" + id);
+    table.appendTo( root.find("#scroll2") );
+
+    var thead = root.find(".scrollBody thead tr");
+    if (thead.length > 0) {
+      root.find("#scroll1").width( root.find("#scroll2").prop("clientWidth") );
+      root.find("table#head").width( root.find("#scroll2 table").width() );
+      root.find("table#head").css({ "min-width": root.find("#scroll2 table").width() });
+      root.find("#scroll2 table th, #scroll2 table tr:nth-child(1) td").each( function() {
+          $(this).width($(this).width());
+      });
+      thead.appendTo( root.find("table#head thead") );
+    }
+
+    root.find("#scroll2").on('scroll', function () {
+        root.find("#scroll1").scrollLeft($(this).scrollLeft());
+    });
+}

@@ -38,9 +38,9 @@
                 <% } %>
               </ul>
             </li>
-            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">후원인관리<span class="caret"></span></a>
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">회원관리<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <%=menu("후원인 관리", "/funds/sponsor/list.do", C.메뉴_후원인관리_후원인관리)%>
+                <%=menu("회원 관리", "/funds/sponsor/list.do", C.메뉴_회원관리_회원관리)%>
                 <%=menu("우편 발송", "/funds/sponsor/dm.do", C.메뉴_후원인관리_우편발송)%>
               </ul>
             </li>

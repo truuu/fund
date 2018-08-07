@@ -17,6 +17,7 @@ import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.DonationPurposeMapper;
+import fund.mapper.FileAttachMapper;
 import fund.mapper.SponsorMapper;
 import fund.service.C;
 import fund.service.LogService;
@@ -31,6 +32,8 @@ public class SponsorCommitmentController extends BaseController {
     @Autowired DonationPurposeMapper donationPurposeMapper;
     @Autowired SponsorMapper sponsorMapper;
     @Autowired LogService logService;
+    @Autowired FileAttachMapper fileAttachMapper;
+
 
     @ModelAttribute
         void modelAttr1(@ModelAttribute("pagination") PaginationSponsor pagination,
@@ -39,11 +42,12 @@ public class SponsorCommitmentController extends BaseController {
         model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
         model.addAttribute("banks", codeMapper.selectByCodeGroupId(C.코드그룹ID_은행));
+        model.addAttribute("fileCount", fileAttachMapper.selectCountBySponsorId(sid));
     }
 
     @RequestMapping(value = "/sponsor/commitment/list.do", method = RequestMethod.GET)
     public String list(Model model, @RequestParam("sid") int sid) throws Exception {
-        if (!UserService.canAccess(C.메뉴_후원인관리_후원인관리)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
         model.addAttribute("list", commitmentMapper.selectBySponsorId(sid));
         return "sponsor/commitment/list";
     }
@@ -57,7 +61,7 @@ public class SponsorCommitmentController extends BaseController {
 
     @RequestMapping(value="/sponsor/commitment/edit.do", method=RequestMethod.GET)
     public String edit(Model model, @RequestParam("id") int id) throws ParseException {
-        if (!UserService.canAccess(C.메뉴_후원인관리_후원인관리)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
        model.addAttribute("commitment", commitmentMapper.selectById(id));
        return "sponsor/commitment/edit";
     }
@@ -65,7 +69,7 @@ public class SponsorCommitmentController extends BaseController {
     @RequestMapping(value="/sponsor/commitment/edit.do", method=RequestMethod.POST)
     public String edit(Model model, @RequestParam("sid") int sid, Commitment commitment, @RequestParam("cmd") String cmd) throws Exception {
         try {
-            if (!UserService.canAccess(C.메뉴_후원인관리_후원인관리)) return "redirect:/home/logout.do";
+            if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
             switch (cmd) {
             case "save":  commitmentMapper.update(commitment); logService.actionLog("약정 수정", "commitment edit save",commitment.getId(), commitment.getSponsorNo()); break;
             case "close":  commitmentMapper.updateEndDate(commitment.getId()); logService.actionLog("약정 종료", "commitment edit close",commitment.getId(), commitment.getSponsorNo()); break;
@@ -89,7 +93,7 @@ public class SponsorCommitmentController extends BaseController {
 
     @RequestMapping(value="/sponsor/commitment/create.do", method=RequestMethod.GET)
     public String create(Model model, @RequestParam("sid") int sid) throws Exception {
-        if (!UserService.canAccess(C.메뉴_후원인관리_후원인관리)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
         Sponsor sponsor = sponsorMapper.selectById(sid);
         Commitment commitment = new Commitment();
         commitment.setSponsorId(sid);
@@ -108,7 +112,7 @@ public class SponsorCommitmentController extends BaseController {
     @RequestMapping(value="/sponsor/commitment/create.do", method=RequestMethod.POST)
     public String create(Model model, @RequestParam("sid") int sid, Commitment commitment) throws Exception {
         try {
-            if (!UserService.canAccess(C.메뉴_후원인관리_후원인관리)) return "redirect:/home/logout.do";
+            if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
             commitment.setCommitmentNo(commitmentMapper.generateCommitmentNo(sid));
             commitment.setSponsorId(sid);
             commitmentMapper.insert(commitment);

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <style>
     div.modal-dialog { width: 400px; }
@@ -28,8 +28,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button onclick="cancelChurch()" class="btn btn-gray" data-dismiss="modal">소속교회 없음</button>
-        <button class="btn btn-default" data-dismiss="modal">취소</button>
+        <button onclick="cancelChurch()" class="btn btn-danger btn-sm" data-dismiss="modal">소속교회 없음</button>
+        <button class="btn btn-default btn-sm" data-dismiss="modal">취소</button>
       </div>
     </div>
   </div>
