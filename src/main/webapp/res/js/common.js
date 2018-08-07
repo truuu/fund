@@ -158,7 +158,7 @@ function tableHVScroll2(table) {
     var root = $("#" + id);
     table.appendTo( root.find("#scroll2") );
 
-    var thead = root.find(".scrollBody thead tr");
+    var thead = table.find("thead tr");
     if (thead.length > 0) {
       root.find("#scroll1").width( root.find("#scroll2").prop("clientWidth") );
       root.find("table#head").width( root.find("#scroll2 table").width() );
