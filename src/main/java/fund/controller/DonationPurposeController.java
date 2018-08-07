@@ -6,7 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.google.common.base.Strings;
+
 import fund.dto.DonationPurpose;
+import fund.dto.pagination.Pagination;
 import fund.mapper.CodeMapper;
 import fund.mapper.CorporateMapper;
 import fund.mapper.DonationPurposeMapper;
@@ -23,9 +27,11 @@ public class DonationPurposeController extends BaseController{
     @Autowired LogService logService;
 
 	@RequestMapping("/donationPurpose/list.do")
-	public String list(Model model) {
+	public String list(Model model, Pagination pagination) {
 	    if (!UserService.canAccess(C.메뉴_기초정보관리)) return "redirect:/home/logout.do";
-		model.addAttribute("list", donationPurposeMapper.selectAll());
+	    if (Strings.isNullOrEmpty(pagination.getSrchText())) pagination.setSrchType(0);
+        pagination.setRecordCount(donationPurposeMapper.selectCount(pagination));
+        model.addAttribute("list", donationPurposeMapper.selectPage(pagination));
 		return "donationPurpose/list";
 	}
 

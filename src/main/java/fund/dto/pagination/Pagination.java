@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Pagination {
     int currentPage = 1;
-    int pageSize = 10;
+    int pageSize = 15;
     int order;
     int srchType;
     String srchText;

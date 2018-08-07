@@ -19,7 +19,7 @@ public class LogController extends BaseController {
     public String list(Model model, Pagination pagination,
         @RequestParam(value="cmd", required=false) String cmd,
         @RequestParam(value="id", required=false) int[] id) {
-        if (!UserService.canAccess(C.메뉴_시스템관리_로그기록)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_시스템관리)) return "redirect:/home/logout.do";
         if ("delete".equals(cmd) && id != null) {
             for (int i : id) logMapper.delete(i);
             return "redirect:list.do?" + pagination.getQueryString();
@@ -31,14 +31,14 @@ public class LogController extends BaseController {
 
     @RequestMapping("/log/detail.do")
     public String detail(Model model, @RequestParam("id") int id, Pagination pagination) {
-        if (!UserService.canAccess(C.메뉴_시스템관리_로그기록)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_시스템관리)) return "redirect:/home/logout.do";
         model.addAttribute("log", logMapper.selectById(id));
         return "log/detail";
     }
 
     @RequestMapping("/log/delete.do")
     public String delete(Model model, @RequestParam("id") int id, Pagination pagination) {
-        if (!UserService.canAccess(C.메뉴_시스템관리_로그기록)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_시스템관리)) return "redirect:/home/logout.do";
         logMapper.delete(id);
         return "redirect:list.do?" + pagination.getQueryString();
     }

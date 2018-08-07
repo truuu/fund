@@ -7,7 +7,7 @@
 <form:form method="post" modelAttribute="user">
 
 <div class="navigation-info">
-  &gt; 시스템 관리 &gt; <a href="list.do">사용자 목록</a> &gt; 사용자 등록
+  &gt; 시스템 관리 &gt; 사용자 관리 &gt; <a href="list.do">사용자 목록</a> &gt; 사용자 등록
 </div>
 
 <div class="panel panel-default shadow w900">

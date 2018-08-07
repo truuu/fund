@@ -28,19 +28,19 @@
           <ul class="nav navbar-nav">
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">기초정보관리<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <%= menu("기관", "/funds/corporate/list.do", C.메뉴_기초정보관리)%>
-                <%= menu("기부목적", "/funds/donationPurpose/list.do", C.메뉴_기초정보관리)%>
+                <%= menu("기관 관리", "/funds/corporate/list.do", C.메뉴_기초정보관리)%>
+                <%= menu("기부목적 관리", "/funds/donationPurpose/list.do", C.메뉴_기초정보관리)%>
                 <li class="divider"></li>
                 <% if (UserService.canAccess(C.메뉴_기초정보관리)) { %>                
                   <c:forEach var="codeGroup" items="${ codeGroupList }">
-                      <li><a href="/funds/code/list.do?gid=${codeGroup.id}">${codeGroup.name}</a></li>
+                      <li><a href="/funds/code/list.do?gid=${codeGroup.id}">${codeGroup.name} 관리</a></li>
                   </c:forEach>
                 <% } %>
               </ul>
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">후원인관리<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <%=menu("후원인 목록", "/funds/sponsor/list.do", C.메뉴_후원인관리_후원인목록)%>
+                <%=menu("후원인 관리", "/funds/sponsor/list.do", C.메뉴_후원인관리_후원인관리)%>
                 <%=menu("우편 발송", "/funds/sponsor/dm.do", C.메뉴_후원인관리_우편발송)%>
               </ul>
             </li>
@@ -83,10 +83,15 @@
                 <%= menu("기부증서", "/funds/certificate/1/list.do", C.메뉴_증서_기부증서)%>
               </ul>
             </li>
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">기타<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <%= menu("일정관리", "/funds/schedule/list.do", C.메뉴_기타_일정관리)%>
+              </ul>
+            </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">시스템관리<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <%= menu("사용자 목록", "/funds/user/list.do", C.메뉴_시스템관리_사용자목록)%>
-                <%= menu("로그 기록", "/funds/log/list.do", C.메뉴_시스템관리_로그기록)%>
+                <%= menu("사용자 관리", "/funds/user/list.do", C.메뉴_시스템관리)%>
+                <%= menu("로그기록 관리", "/funds/log/list.do", C.메뉴_시스템관리)%>
               </ul>
             </li>
           </ul>

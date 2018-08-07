@@ -1,19 +1,25 @@
 package fund.service;
 
 import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import fund.dto.MenuUser;
 import fund.dto.User;
+import fund.mapper.MenuUserMapper;
 import fund.mapper.UserMapper;
 
 @Service
 public class UserService {
 
 	@Autowired UserMapper userMapper;
+    @Autowired MenuUserMapper menuUserMapper;
+    @Autowired LogService logService;
 
 	static final String 관리자 = "관리자";
 
@@ -59,6 +65,10 @@ public class UserService {
                 getCurrentUser().getUserType().equals(관리자);
     }
 
+    public static boolean isAdmin(User user) {
+        return user != null && user.getUserType().equals(관리자);
+    }
+
     public boolean checkPassword(String s) {
         if (s.length() < 7) return false;
         int count = 0;
@@ -79,5 +89,31 @@ public class UserService {
         if (user == null) return false;
         if (isCurrentUserAdmin()) return true;
         return user.getMenuIds().contains(menuId);
+    }
+
+    public List<MenuUser> selectMenuUserByUserId(int userId) {
+        List<MenuUser> list = menuUserMapper.selectMenuUserByUserId(userId);
+        User user = userMapper.selectById(userId);
+        if (isAdmin(user)) {
+            for (MenuUser menu : list)
+                menu.setEnabled(true);
+        }
+        return list;
+    }
+
+    public void saveMenuUser(User user, Integer[] menuId) {
+        if (isAdmin(user)) return;
+        List<MenuUser> list0 = menuUserMapper.selectMenuUserByUserId(user.getId());
+        List<Integer> list1 = Arrays.asList(menuId);
+        for (MenuUser m : list0) {
+            if (m.isEnabled() && list1.contains(m.getMenuId()) == false) {
+                logService.userMenuAccessRightRemove(user, m.getTitle());
+                menuUserMapper.delete(m.getMenuId(), user.getId());
+            }
+            if (m.isEnabled() == false && list1.contains(m.getMenuId())) {
+                logService.userMenuAccessRightAdd(user, m.getTitle());
+                menuUserMapper.insert(m.getMenuId(), user.getId());
+            }
+        }
     }
 }

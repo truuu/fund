@@ -14,7 +14,7 @@ public class C {
     public static final int 코드ID_급여공제 = 12;
 
     public static final int 메뉴_기초정보관리 = 1;
-    public static final int 메뉴_후원인관리_후원인목록 = 10;
+    public static final int 메뉴_후원인관리_후원인관리 = 10;
     public static final int 메뉴_후원인관리_우편발송 = 11;
     public static final int 메뉴_금융연동_EB13생성 = 12;
     public static final int 메뉴_금융연동_EB14등록 = 13;
@@ -35,6 +35,11 @@ public class C {
     public static final int 메뉴_영수증_국세청보고자료 = 28;
     public static final int 메뉴_증서_장학증서 = 29;
     public static final int 메뉴_증서_기부증서 = 30;
-    public static final int 메뉴_시스템관리_사용자목록 = 31;
-    public static final int 메뉴_시스템관리_로그기록 = 32;
+    public static final int 메뉴_기타_일정관리 = 31;
+
+    /* 시스템 관리 메뉴는 "관리자"에게만 허용됨.
+     * 그래서 DB에 등록할 필요 없고, 등록하면 메뉴 권한 설정에도 나타나기 때문에 안 됨.
+     * 그런데 소스코드 메뉴 권한 검사 부분에는 구현되어 있기 때문에, 아래의 상수는 필요함.
+     */
+    public static final int 메뉴_시스템관리= 900;
 }

@@ -12,13 +12,14 @@ SELECT  * FROM  Corporate WHERE id = #{id}
 </select>
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-INSERT Corporate (name, corporateNo, representative, roadAddress, detailAddress, postCode)
-VALUES (#{name}, #{corporateNo}, #{representative}, #{roadAddress}, #{detailAddress}, #{postCode})
+INSERT Corporate (name, shortName, corporateNo, representative, roadAddress, detailAddress, postCode)
+VALUES (#{name}, #{shortName}, #{corporateNo}, #{representative}, #{roadAddress}, #{detailAddress}, #{postCode})
 </insert>
 
 <update id="update">
 UPDATE Corporate
 SET name = #{name}, 
+  shortName = #{shortName},
   corporateNo = #{corporateNo}, 
   representative = #{representative}, 
   roadAddress = #{roadAddress},

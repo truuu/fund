@@ -5,7 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
 <div class="navigation-info">
-  &gt; 시스템 관리 &gt; 사용자 목록
+  &gt; 시스템 관리 &gt; 사용자 관리 &gt; 사용자 목록
 </div>
 
 <div class="panel panel-default shadow w900">
@@ -34,7 +34,7 @@
       </tbody>
     </table>
     <div class="">
-      <a class="btn btn-primary" href="create.do">사용자 등록</a>
+      <a class="btn btn-primary btn-sm" href="create.do">사용자 등록</a>
     </div>
   </div>
 </div>  

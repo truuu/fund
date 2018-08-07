@@ -1,9 +1,12 @@
 package fund.dto;
 
+import java.util.Objects;
+
 public class Code {
     int id;
     int codeGroupId;
     String codeName;
+    boolean state;
     String etc1;
     String etc2;
     String etc3;
@@ -32,6 +35,14 @@ public class Code {
         this.codeName = codeName;
     }
 
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
+    }
+
     public String getEtc1() {
         return etc1;
     }
@@ -54,6 +65,19 @@ public class Code {
 
     public void setEtc3(String etc3) {
         this.etc3 = etc3;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Code == false) return false;
+        Code c = (Code)o;
+        return id == c.id &&
+               codeGroupId == c.codeGroupId &&
+               Objects.equals(codeName, c.codeName) &&
+               state == c.state &&
+               Objects.equals(etc1, c.etc1) &&
+               Objects.equals(etc2, c.etc2) &&
+               Objects.equals(etc3, c.etc3);
     }
 
 }

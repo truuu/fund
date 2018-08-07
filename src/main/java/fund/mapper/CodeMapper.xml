@@ -20,17 +20,18 @@
     SELECT *
     FROM [Code] 
     WHERE codeGroupId = #{codeGroupId}            
-    ORDER BY codeName
+    ORDER BY state DESC, codeName
 </select>
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-    INSERT [Code] (codeGroupId, codeName, etc1, etc2, etc3)
-    VALUES (#{codeGroupId}, #{codeName}, #{etc1}, #{etc2}, #{etc3})
+    INSERT [Code] (codeGroupId, codeName, state, etc1, etc2, etc3)
+    VALUES (#{codeGroupId}, #{codeName}, #{state}, #{etc1}, #{etc2}, #{etc3})
 </insert>
 
 <update id="update">
     UPDATE [Code]
     SET codeName = #{codeName}, 
+    state = #{state},
     etc1 = #{etc1},
     etc2 = #{etc2},
     etc3 = #{etc3}
@@ -42,20 +43,19 @@
 </delete>
 
 
-	<select id="selectAllPaymentMethod" resultType="fund.dto.Code">
-		select c2.*
-		from
-		CodeGroup c1 left join Code c2 on c1.id = c2.codeGroupId
-		where
-		c1.name=#{name1} or c1.name=#{name2}
-	</select>
+<select id="selectAllPaymentMethod" resultType="fund.dto.Code">
+	select c2.*
+	from
+	CodeGroup c1 left join Code c2 on c1.id = c2.codeGroupId
+	where
+	c1.name=#{name1} or c1.name=#{name2}
+</select>
 
 
-	<select id="selectCodeGroup" resultType="fund.dto.CodeGroup">
-		SELECT *
-		FROM [CodeGroup]
-	</select>
-
+<select id="selectCodeGroup" resultType="fund.dto.CodeGroup">
+	SELECT *
+	FROM [CodeGroup]
+</select>
    
 
 </mapper>
