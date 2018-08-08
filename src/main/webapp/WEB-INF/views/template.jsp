@@ -27,7 +27,7 @@
       <div class="modal-content"  style="background-color: #fff0f0">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">작업실패</h4>
+          <h3 class="modal-title">작업실패</h3>
         </div>
         <div class="modal-body">
           <p>${ errorMsg }</p>
@@ -47,7 +47,7 @@
       <div class="modal-content"  style="background-color: #f0fff0">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">작업성공</h4>
+          <h3 class="modal-title">작업성공</h3>
         </div>
         <div class="modal-body">
           <p>${ successMsg }</p>
@@ -66,7 +66,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">작업중</h4>
+        <h3 class="modal-title">작업중</h3>
       </div>
       <div class="modal-body" style="text-align: center">
         <p>작업중입니다. 잠시 기다려 주세요.</p>

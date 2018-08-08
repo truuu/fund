@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="funds" version="3.1">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="funds" version="3.1">
   <display-name>funds</display-name>
   <servlet>
     <servlet-name>dispatcher</servlet-name>
@@ -31,7 +30,10 @@
   </listener>
   <listener>
     <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-  </listener>  
+  </listener>
+  <listener>
+    <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+  </listener>
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
@@ -42,9 +44,7 @@
   </context-param>
   <filter>
     <filter-name>springSecurityFilterChain</filter-name>
-    <filter-class>
-            org.springframework.web.filter.DelegatingFilterProxy
-    </filter-class>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>springSecurityFilterChain</filter-name>
@@ -55,5 +55,5 @@
   </welcome-file-list>
   <session-config>
     <session-timeout>30</session-timeout>
-</session-config>
+  </session-config>
 </web-app>

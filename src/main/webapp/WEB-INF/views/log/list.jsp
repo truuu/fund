@@ -36,7 +36,7 @@
           <form:option value="4" label="내용" />
         </form:select>
         <form:input path="st" />
-        <button type="submit" class="btn btn-sm btn-gray">조회</button>
+        <button type="submit" class="btn btn-sm btn-info">조회</button>
         <c:if test="${ pagination.ss != 0 }">
           <a href="list.do" class="btn btn-small btn-default">조회조건 취소</a>
         </c:if>

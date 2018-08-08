@@ -26,7 +26,7 @@
           <form:option value="에러" label="에러" />
           <form:option value="성공" label="정상" />
         </form:select>
-        <button type="submit" class="btn btn-primary btn-sm">조회</button>
+        <button type="submit" class="btn btn-info btn-sm">조회</button>
       </form:form>
           
       <table id="eb14result" class="table table-bordered">

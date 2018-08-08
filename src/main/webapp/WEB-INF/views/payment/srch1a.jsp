@@ -16,7 +16,7 @@
     <form:form modelAttribute="wrapper">
     
       <div class="pull-right mb4">
-        <button type="submit" class="btn btn-primary btn-sm" name="cmd" value="search">납입 내역 조회</button>
+        <button type="submit" class="btn btn-primary btn-sm" name="cmd" value="search" onclick="showWaitMsg()">납입 내역 조회</button>
         <button type="button" class="btn btn-default btn-sm" onclick="cancelSearch()">조회조건 취소</button>    
         <button type="submit" class="btn btn-info btn-sm" name="cmd" value="excel">엑셀 다운로드</button>
       </div>
