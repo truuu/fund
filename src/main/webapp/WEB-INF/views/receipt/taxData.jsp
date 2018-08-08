@@ -12,7 +12,7 @@
   <div class="panel-heading">
     <h3>국세청 보고자료</h3> 
   </div>
-  <div class="panel-body">
+  <div class="panel-body" style="height: 200px;">
 
     <form:form method="post" modelAttribute="wrapper">
     

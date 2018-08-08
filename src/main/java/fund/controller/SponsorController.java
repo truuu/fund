@@ -97,8 +97,16 @@ public class SponsorController extends BaseController {
         return "sponsor/edit";
     }
 
+    @RequestMapping(value="/sponsor/create.do", method=RequestMethod.POST, params="cmd=check")
+    public String createCheck(Sponsor sponsor, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
+        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
+        List<Sponsor> list = sponsorMapper.selectDuplicate(sponsor);
+        model.addAttribute("list", list);
+        return "sponsor/edit";
+    }
+
     @RequestMapping(value="/sponsor/create.do", method=RequestMethod.POST, params="cmd=save")
-    public String create(Sponsor sponsor, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
+    public String createSave(Sponsor sponsor, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
         try {
             if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
             sponsor.setSponsorNo(sponsorMapper.generateSponsorNo());

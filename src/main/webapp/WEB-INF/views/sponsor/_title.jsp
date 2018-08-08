@@ -2,7 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:if test="${ sponsor.id > 0 }">
-  <h3>${sponsor.name} <small>${sponsor.sponsorNo}</small></h3>
+  <h3>${sponsor.name} 
+    <spsn style="font-weight:normal; font-size:10pt;">${sponsor.sponsorNo}</spsn>
+  </h3>
 </c:if>
 <c:if test="${ sponsor.id == 0 }">
   <h3>회원 신규 등록</h3>

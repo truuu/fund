@@ -159,15 +159,13 @@ function tableHVScroll2(table) {
     table.appendTo( root.find("#scroll2") );
 
     var thead = table.find("thead tr");
-    if (thead.length > 0) {
-      root.find("#scroll1").width( root.find("#scroll2").prop("clientWidth") );
-      root.find("table#head").width( root.find("#scroll2 table").width() );
-      root.find("table#head").css({ "min-width": root.find("#scroll2 table").width() });
-      root.find("#scroll2 table th, #scroll2 table tr:nth-child(1) td").each( function() {
-          $(this).width($(this).width());
-      });
-      thead.appendTo( root.find("table#head thead") );
-    }
+    root.find("#scroll1").width( root.find("#scroll2").prop("clientWidth") );
+    root.find("table#head").width( root.find("#scroll2 table").width() );
+    root.find("table#head").css({ "min-width": root.find("#scroll2 table").width() });
+    root.find("#scroll2 table th, #scroll2 table tr td").each( function() {
+        $(this).width($(this).width());
+    });
+    thead.appendTo( root.find("table#head thead") );
 
     root.find("#scroll2").on('scroll', function () {
         root.find("#scroll1").scrollLeft($(this).scrollLeft());

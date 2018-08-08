@@ -52,11 +52,23 @@
 
     <div class="">
       <a href="create2.do?sid=${sid}&${pg}" class="btn btn-primary btn-sm">비정기납입 등록</a>
+      <a id="btnChange" href="#donationPurposeUpdateDialog" class="btn btn-info btn-sm" data-toggle="modal">기부목적 일괄변경</a>
     </div>
     
   </div>
 </div>    
 
+<form id="updateDonationPurpose" method="post">
+  <input type="hidden" name="sponsorId" value="${ sponsor.id }" />
+  <%@include file="_donationPurposeUpdateDialog.jsp" %>
+</form>
+
+<%@include file="../_donationPurposeDialog.jsp" %>
+
 <script>
+function updateDonationPurpose() {
+    $("form#updateDonationPurpose").submit();
+}
+
 tableHVScroll2( $("#list2ScrollTable") );
 </script>

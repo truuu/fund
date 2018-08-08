@@ -23,6 +23,7 @@
       <thead>
         <tr>
           <th>약정번호</th>
+          <th>기부처</th>
           <th>기부목적</th>
           <th>납입방법</th>
           <th>약정일</th>
@@ -36,6 +37,7 @@
         <c:forEach var="commitment" items="${ list }">
           <tr data-url="edit.do?id=${commitment.id}&sid=${sid}&${pg}">
             <td>${ commitment.commitmentNo }</td>
+            <td>${ commitment.corporateName }</td>
             <td>${ commitment.donationPurposeName }</td>
             <td>${ commitment.paymentMethodName }</td>
             <td>${ commitment.commitmentDate }</td>

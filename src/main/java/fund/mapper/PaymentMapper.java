@@ -14,7 +14,8 @@ public interface PaymentMapper {
     List<Map<String,Object>> selectPaymentList2(int sponsorId);
 
     void update(Payment payment);
-    void updateDonationPurposeId(Commitment commitment);
+    void updateDonationPurposeId(Commitment commitment);  // 정기 납입 변경
+    void updateDonationPurposeId2(Commitment commitment); // 비정기 납입 변경
     void delete(int id);
     void insert(Payment payment);
 

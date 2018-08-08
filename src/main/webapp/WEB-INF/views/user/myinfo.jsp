@@ -16,7 +16,7 @@
     <h3>내 정보</h3>
   </div>
   <div class="panel-body">    
-    <table class="table table-bordered table-condensed lbw150">
+    <table class="table table-bordered table-condensed lbw120 pd4">
       <tr>
         <td class="lb">로그인</td>
         <td><form:input path="loginName" />
@@ -38,7 +38,7 @@
     </table>
 
     <div>
-      <button class="btn btn-primary" type="submit" name="cmd" value="saveInfo">내 정보 저장</button>
+      <button class="btn btn-primary btn-sm" type="submit" name="cmd" value="saveInfo">내 정보 저장</button>
     </div>    
   </div>
 </div>  
@@ -50,7 +50,7 @@
     <h3>비밀번호 변경</h3>
   </div>
   <div class="panel-body">    
-    <table class="table table-bordered lbw150">
+    <table class="table table-bordered lbw120 pd4">
       <tr>
         <td class="lb">비밀번호</td>
         <td><form:password path="password1" />
@@ -58,12 +58,12 @@
         <td><form:password path="password2" />
       </tr>
       <tr>
-        <td colspan=4" style="background-color: #eee;">
+        <td colspan=4" style="background-color: #eee; padding: 10px;">
           비밀번호는 7자 이상이어야 하고, 숫자, 영어소문자, 영어대문자 중 3가지 이상을 조합해야 합니다.</td>
       </tr>
     </table>
     <div class="">
-      <button class="btn btn-primary" type="submit" name="cmd" value="savePassword">비밀번호 저장</button>
+      <button class="btn btn-primary btn-sm" type="submit" name="cmd" value="savePassword">비밀번호 저장</button>
     </div>
   </div>
 </div>  

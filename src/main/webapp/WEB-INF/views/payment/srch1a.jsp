@@ -18,7 +18,7 @@
       <div class="pull-right mb4">
         <button type="submit" class="btn btn-primary btn-sm" name="cmd" value="search" onclick="showWaitMsg()">납입 내역 조회</button>
         <button type="button" class="btn btn-default btn-sm" onclick="cancelSearch()">조회조건 취소</button>    
-        <button type="submit" class="btn btn-info btn-sm" name="cmd" value="excel">엑셀 다운로드</button>
+        <button type="submit" class="btn btn-success btn-sm" name="cmd" value="excel">엑셀 다운로드</button>
       </div>
     
       <div>
@@ -78,11 +78,13 @@
         </tr>      
         <tr>      
           <td class="lb">기부목적</td>
-          <td colspan="3">
-            <form:input path="map[donationPurposeName]" readonly="true" class="w600" />
+          <td>
+            <form:input path="map[donationPurposeName]" readonly="true" class="w400" />
             <form:hidden path="map[donationPurposeId]" />
             <a href="#donationPurposeDialog" class="btn btn-xs btn-flat" data-toggle="modal">기부목적 조회</a>
           </td>
+          <td class="lb">납입액</td>
+          <td><form:input path="map[amount]" />    
         </tr>
       </table>
     </form:form>
@@ -111,7 +113,7 @@
             <td>${p.sponsorType2Name}</td>
             <td>${p.churchName}</td>
             <td>${p.regular}</td>
-            <td>${p.donationPurposeName}</td>
+            <td>${ p.corporateName } / ${ p.organizationName } / ${ p.donationPurposeName }</td>
             <td><fmt:formatDate value="${p.paymentDate}" pattern="yyyy-MM-dd" /></td>
             <td class="right"><fmt:formatNumber value="${p.amount}" /></td>
             <td>${p.paymentMethodName}</td>

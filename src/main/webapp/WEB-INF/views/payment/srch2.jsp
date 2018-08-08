@@ -17,7 +17,7 @@
         <div class="pull-right mb4">
           <button type="submit" class="btn btn-primary btn-sm" name="cmd" value="search">납입 합계 조회</button>
           <button type="button" class="btn btn-default btn-sm" onclick="cancelSearch()">조회조건 취소</button>    
-          <button type="submit" class="btn btn-info btn-sm" name="cmd" value="excel">액셀 다운로드</button>
+          <button type="submit" class="btn btn-success btn-sm" name="cmd" value="excel">엑셀 다운로드</button>
         </div>
       
         <div>

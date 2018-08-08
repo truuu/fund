@@ -61,11 +61,22 @@ public class SponsorPaymentController extends BaseController {
     }
 
     // 비정기 납입
-    @RequestMapping("/sponsor/payment/list2.do")
+    @RequestMapping(value="/sponsor/payment/list2.do", method=RequestMethod.GET)
     public String list2(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
         if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
         model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("list", paymentMapper.selectPaymentList2(sid));
+        model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
+        return "sponsor/payment/list2";
+    }
+
+    @RequestMapping(value="/sponsor/payment/list2.do", method=RequestMethod.POST)
+    public String list2(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Commitment commitment, Model model) {
+        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
+        paymentMapper.updateDonationPurposeId2(commitment);
+        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
+        model.addAttribute("list", paymentMapper.selectPaymentList2(sid));
+        model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
         return "sponsor/payment/list2";
     }
 

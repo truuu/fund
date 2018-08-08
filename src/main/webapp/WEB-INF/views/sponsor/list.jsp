@@ -13,7 +13,7 @@
   </div>
   <div class="panel-body">
     <div class="pull-right">
-      <a href="excel.do" class="btn btn-success btn-sm">액셀</a>
+      <a href="excel.do" class="btn btn-success btn-sm">엑셀 다운로드</a>
       <a href="create.do?${pagination.queryString}" class="btn btn-primary btn-sm">회원 등록</a>
     </div>
     

@@ -47,7 +47,7 @@
               <td>${ e.sponsorNo }</td>
               <td>${ e.sponsorName }</td>
               <td>${ e.commitmentNo }</td>
-              <td>${ e.corporateName } ${ e.organizationName } ${ e.donationPurposeName }</td>        
+              <td>${ e.corporateName } / ${ e.organizationName } / ${ e.donationPurposeName }</td>        
               <td><fmt:formatDate pattern="yyyy-MM-dd" value="${ e.paymentDate }" /></td>
               <td>${ e.state }</td>
               <td>${ e.errorCodeMsg } </td>

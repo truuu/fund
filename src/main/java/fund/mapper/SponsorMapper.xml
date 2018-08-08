@@ -70,6 +70,26 @@ ORDER BY sponsorNo DESC
 ]]>
 </select>
 
+<select id="selectDuplicate" resultType="fund.dto.Sponsor">
+  DECLARE @encrypted VARBINARY(1000), @homePhone VARCHAR(20), @officePhone VARCHAR(20), @mobilePhone VARCHAR(20), @juminNo VARCHAR(20)
+  SET @encrypted = ENCRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), CONVERT(VARCHAR, #{juminNo}))
+  SET @homePhone = REPLACE(#{homePhone},'-','')
+  SET @officePhone = REPLACE(#{officePhone},'-','')
+  SET @mobilePhone = REPLACE(#{mobilePhone},'-','')
+  SET @juminNo = REPLACE(#{juminNo},'-','')
+  
+  SELECT *, CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted)) juminNo
+  FROM sponsor
+  WHERE 
+  juminNo_encrypted = @encrypted
+  OR (@juminNo IS NOT NULL AND LEN(@juminNo) > 5 AND REPLACE(CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted)),'-','') = @juminNo) 
+  OR name = #{name}
+  OR (email IS NOT NULL AND LEN(email) > 8 AND email = #{email})
+  OR (mobilePhone IS NOT NULL AND LEN(mobilePhone) > 8 AND REPLACE(mobilePhone,'-','') = @mobilePhone)
+  OR (homePhone IS NOT NULL AND LEN(homePhone) > 8 AND (REPLACE(homePhone,'-','') = @homePhone OR REPLACE(homePhone,'-','') = @officePhone))
+  OR (officePhone IS NOT NULL AND LEN(officePhone) > 8 AND (REPLACE(officePhone,'-','') = @officePhone OR REPLACE(officePhone,'-','') = @homePhone))
+</select>
+
 <select id="selectCount" resultType="int">
 <![CDATA[
 DECLARE @srchType INT, @srchText NVARCHAR(50)

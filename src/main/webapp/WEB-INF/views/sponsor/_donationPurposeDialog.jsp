@@ -19,13 +19,6 @@
         </div>
         
         <table id="donationPurposeScrollTable" class="table table-bordered pd5">
-          <thead>
-            <tr>
-              <th>기관</th>
-              <th>기관종류</th>
-              <th>기부목적</th>
-            </tr>
-          </thead>
           <tbody>
           <c:forEach var="donationPurpose" items="${ donationPurposes }">
             <tr data-id="${ donationPurpose.id }" class="hover">
@@ -53,7 +46,7 @@
             var corporateName = tr.find("td:nth-child(1)").text();
             var organizationName = tr.find("td:nth-child(2)").text();
             var donationPurposeName = tr.find("td:nth-child(3)").text();
-            var s = corporateName + '/' + organizationName + '/' + donationPurposeName;
+            var s = corporateName + ' / ' + organizationName + ' / ' + donationPurposeName;
             $("span#donationPurposeName").text(s);
             $("input[name*=donationPurposeName]").val(s);
             $("input[name*=donationPurposeId]").val(donationPurposeId);

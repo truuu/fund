@@ -113,11 +113,11 @@
       </tr>
       <tr>
         <td class="lb">직장전화번호</td>
-        <td><input  type="text" name="officePhone" value="${ sponsor.officePhone}" tabindex="1" /></td>
+        <td><input  type="text" name="officePhone" value="${ sponsor.officePhone}" tabindex="1" placeholder="02-0000-0000" /></td>
       </tr>
       <tr>
         <td class="lb">이메일</td>
-        <td><input  type="text" name="email" placeholder="abcd@skhu.kr" value="${ sponsor.email}" tabindex="1" class="w200" /> </td>
+        <td><input  type="text" name="email" placeholder="abc@skhu.ac.kr" value="${ sponsor.email}" tabindex="1" class="w200" /> </td>
         <td></td>
         <td></td>
       </tr>
@@ -140,8 +140,33 @@
         </tr>
       </c:if>    
     </table>
+    
+    <c:if test="${ list.size() > 0 }">
+      <span style="font-weight: bold;">회원정보 중복</span>
+      <table class="table table-bordered mt4">
+        <thead>
+          <tr><th>회원번호</th><th>이름</th><th>주민번호</th><th>핸드폰</th><th>집전화</th><th>직장전화</th><th>이메일</th>        
+        </thead>
+        <tbody>
+          <c:forEach var="sponsor" items="${ list }">
+            <tr>
+              <td>${ sponsor.sponsorNo }</td>
+              <td>${ sponsor.name }</td>
+              <td>${ sponsor.juminNo }</td>
+              <td>${ sponsor.mobilePhone }</td>
+              <td>${ sponsor.homePhone }</td>
+              <td>${ sponsor.officePhone }</td>
+              <td>${ sponsor.email }</td>
+            </tr>
+          </c:forEach>
+        </tbody>
+      </table>
+    </c:if>    
 
     <div class="">
+      <c:if test="${ sponsor.id == 0 }">
+        <button class="btn btn-info btn-sm" type="submit" name="cmd" value="check">회원정보 중복 확인</button>
+      </c:if>
       <button class="btn btn-primary btn-sm" type="submit" name="cmd" value="save">회원정보 저장</button>
       <c:if test="${ sponsor.id > 0 }">
         <button class="btn btn-danger btn-sm" type="submit" name="cmd" value="delete" data-confirm-delete>회원 삭제</button>

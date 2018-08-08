@@ -12,6 +12,7 @@ public interface SponsorMapper {
     Sponsor selectBySponsorNo(String sponsorNo);
     List<Sponsor> selectPage(Pagination pagination);
     List<Sponsor> selectAll();
+    List<Sponsor> selectDuplicate(Sponsor sponsor);
     int selectCount(Pagination pagination);
 
     void update(Sponsor sponsor);

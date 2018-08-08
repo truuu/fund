@@ -23,7 +23,7 @@
         ~
         <form:input type="text" class="endDt w100" path="ed" />
         <button type="submit" class="btn btn-primary btn-sm">조회</button>
-        <a href="dmx.do?${pagination.queryString}" class="btn btn-info btn-sm">액셀 다운로드</a>
+        <a href="dmx.do?${pagination.queryString}" class="btn btn-success btn-sm">엑셀 다운로드</a>
       </div>
     
       <table class="table table-bordered" id="table_s">

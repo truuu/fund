@@ -60,6 +60,15 @@
   AND paymentDate BETWEEN #{startDate} AND #{endDate} 
 </update>
 
+<update id="updateDonationPurposeId2">
+  UPDATE Payment
+    SET donationPurposeId = #{donationPurposeId} 
+  FROM Payment
+  WHERE sponsorId = #{sponsorId}
+  AND paymentDate BETWEEN #{startDate} AND #{endDate}
+  AND (select top 1 codeGroupId FROM code c WHERE c.id = paymentMethodId) = 4  
+</update>
+
 <delete id="delete">
   DELETE FROM Payment WHERE id = #{id}
 </delete>
@@ -133,7 +142,7 @@ WHERE LEN(REPLACE(juminNo, '-', '')) = 13
 
 <select id="selectReport1a" resultType="hashmap">
 DECLARE @regular INT, @churchId INT, @startDate DATE, @endDate DATE, @paymentMethodId INT, @donationPurposeId INT, 
-  @sponsorType2Id INT, @sponsorName NVARCHAR(50), @sponsorNo VARCHAR(50), @corporateId INT
+  @sponsorType2Id INT, @sponsorName NVARCHAR(50), @sponsorNo VARCHAR(50), @corporateId INT, @amount INT
 SET @regular = #{regular}
 SET @churchId = #{churchId}
 SET @startDate = #{startDate}
@@ -144,17 +153,21 @@ SET @sponsorType2Id = #{sponsorType2Id}
 SET @sponsorName = #{sponsorName}
 SET @sponsorNo = #{sponsorNo}
 SET @corporateId = #{corporateId}
+SET @amount = #{amount}
 
 SELECT s.sponsorNo, s.name, 
   (SELECT codeName FROM code c WHERE c.id = s.sponsorType2Id) sponsorType2Name,
   (SELECT codeName FROM code c WHERE c.id = s.churchId) churchName,
   (CASE WHEN p.commitmentId IS NULL THEN '비정기' ELSE '정기' END) regular,
   (SELECT codeName FROM code c WHERE c.id = p.paymentMethodId) paymentMethodName,
-  p.paymentDate, p.amount, c.id commitmentId, d.name donationPurposeName
+  p.paymentDate, p.amount, c.id commitmentId, d.name donationPurposeName, 
+  co.shortName corporateName, og.codeName organizationName  
 FROM payment p 
   LEFT JOIN commitment c ON c.id = p.commitmentId
   LEFT JOIN sponsor s ON s.id = p.sponsorId
   LEFT JOIN donationPurpose d ON d.id = p.donationPurposeId
+  LEFT JOIN corporate co ON d.corporateId = co.id
+  LEFT JOIN code og ON og.id = d.organizationId   
 WHERE 
   (@regular IS NULL OR @regular = -1 OR (@regular = 1 AND p.commitmentId IS NOT NULL) OR (@regular = 0 AND p.commitmentId IS NULL))
 AND (@churchId IS NULL OR @churchId = '' OR @churchId = s.churchId)
@@ -165,6 +178,7 @@ AND (@sponsorType2Id IS NULL OR @sponsorType2Id = '' OR @sponsorType2Id = s.spon
 AND (@sponsorName IS NULL OR @sponsorName = '' OR @sponsorName = s.name)
 AND (@sponsorNo IS NULL OR @sponsorNo = '' OR @sponsorNo = s.sponsorNo)
 AND (@corporateId IS NULL OR @corporateId = '' OR @corporateId = d.corporateId)
+AND (@amount > 0 AND @amount = p.amount)
 ${ orderBy }
 </select>
 
