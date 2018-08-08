@@ -17,8 +17,8 @@ import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.DonationPurposeMapper;
-import fund.mapper.FileAttachMapper;
 import fund.mapper.SponsorMapper;
+import fund.mapper2.DataFileMapper;
 import fund.service.C;
 import fund.service.LogService;
 import fund.service.UserService;
@@ -32,7 +32,7 @@ public class SponsorCommitmentController extends BaseController {
     @Autowired DonationPurposeMapper donationPurposeMapper;
     @Autowired SponsorMapper sponsorMapper;
     @Autowired LogService logService;
-    @Autowired FileAttachMapper fileAttachMapper;
+    @Autowired DataFileMapper dataFileMapper;
 
 
     @ModelAttribute
@@ -42,7 +42,7 @@ public class SponsorCommitmentController extends BaseController {
         model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
         model.addAttribute("banks", codeMapper.selectByCodeGroupId(C.코드그룹ID_은행));
-        model.addAttribute("fileCount", fileAttachMapper.selectCountBySponsorId(sid));
+        model.addAttribute("fileCount", dataFileMapper.selectCountByForeignId("sponsor", sid));
     }
 
     @RequestMapping(value = "/sponsor/commitment/list.do", method = RequestMethod.GET)

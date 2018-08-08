@@ -42,7 +42,7 @@
         </c:if>
       </div>
     
-      <table class="table table-bordered mt4">
+      <table class="table table-bordered mt4 pd4">
         <thead>
           <tr>
             <th><input type="checkbox" /></th>

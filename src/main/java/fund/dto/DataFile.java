@@ -1,10 +1,12 @@
 package fund.dto;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class FileAttach {
+public class DataFile implements Serializable {
     int id;
-    int sponsorId;
+    String foreignType;
+    int foreignId;
     String fileName;
     int fileSize;
     Timestamp createDate;
@@ -18,12 +20,20 @@ public class FileAttach {
         this.id = id;
     }
 
-    public int getSponsorId() {
-        return sponsorId;
+    public String getForeignType() {
+        return foreignType;
     }
 
-    public void setSponsorId(int sponsorId) {
-        this.sponsorId = sponsorId;
+    public void setForeignType(String foreignType) {
+        this.foreignType = foreignType;
+    }
+
+    public int getForeignId() {
+        return foreignId;
+    }
+
+    public void setForeignId(int foreignId) {
+        this.foreignId = foreignId;
     }
 
     public String getFileName() {

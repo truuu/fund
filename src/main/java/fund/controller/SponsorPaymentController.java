@@ -13,9 +13,9 @@ import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
 import fund.mapper.CommitmentMapper;
 import fund.mapper.DonationPurposeMapper;
-import fund.mapper.FileAttachMapper;
 import fund.mapper.PaymentMapper;
 import fund.mapper.SponsorMapper;
+import fund.mapper2.DataFileMapper;
 import fund.service.C;
 import fund.service.LogService;
 import fund.service.UserService;
@@ -28,12 +28,12 @@ public class SponsorPaymentController extends BaseController {
     @Autowired PaymentMapper paymentMapper;
     @Autowired CommitmentMapper commitmentMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
-    @Autowired FileAttachMapper fileAttachMapper;
+    @Autowired DataFileMapper dataFileMapper;
     @Autowired LogService logService;
 
     @ModelAttribute
     void modelAttr1(Model model, @RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
-        model.addAttribute("fileCount", fileAttachMapper.selectCountBySponsorId(sid));
+        model.addAttribute("fileCount", dataFileMapper.selectCountByForeignId("sponsor", sid));
     }
 
     static final String[] orderBy = new String[] { "paymentDate DESC", "paymentDate", "ID DESC", "ID" };

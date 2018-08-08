@@ -140,17 +140,16 @@ var tableHVScroll2_unique_id = 0;
 function tableHVScroll2(table) {    
   if (table.hasClass("tableHVScroll2")) return;
   table.addClass("tableHVScroll2");
-  
   id = "tableHVScroll2" + ++tableHVScroll2_unique_id;
   var template =
       "<div id='" + id + "'>" +
-        "<div id='scroll1' style='margin-top: 10px;  overflow: hidden !important;'>" +
+        "<div id='scroll1' style='margin-top: 10px;  overflow: hidden !important; border: 1px solid #eee;'>" +
           "<table id='head' class='table table-bordered' style='white-space: nowrap; margin-bottom:0px;'>" +
             "<thead style='white-space: nowrap;'>" +
             "</thead>" +
           "</table>" +
         "</div>" +
-        "<div id='scroll2'  style='overflow: scroll; height: 600px;'>" +
+        "<div id='scroll2'  style='overflow: auto; max-height: 600px; border: 1px solid #eee; margin-bottom: 10px;'>" +
         "</div>" +
       "</div>";
       

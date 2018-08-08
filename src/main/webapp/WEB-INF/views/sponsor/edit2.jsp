@@ -30,7 +30,7 @@
     <table class="table table-bordered lbw120 pd4 mt10">
       <tr>
         <td class="lb">후원인번호</td>
-        <td><input  type="text" name="sponsorNo" readonly value="${ sponsor.sponsorNo }" tabindex="1" /></td>
+        <td> ${ sponsor.sponsorNo }</td>
         <td class="lb">소속교회</td>
         <td>
             <span id="churchName">${ sponsor.church }</span> 

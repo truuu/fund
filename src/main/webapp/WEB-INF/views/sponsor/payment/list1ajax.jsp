@@ -30,7 +30,7 @@
         <td>${ p.accountNo }</td>
         <td>${ p.bankName }</td>
         <td>${ p.accountHolder }</td>
-        <td>${ p.corporateName }/${ p.organizationName }/${ p.donationPurposeName }   ${ p.corporateName }/${ p.organizationName }/${ p.donationPurposeName }</td>
+        <td>${ p.corporateName }/${ p.organizationName }/${ p.donationPurposeName }</td>
         <td>${ fn:substring(p.etc, 0, 80) }</td>
         <c:set var="sum" value="${ sum + p.amount }" />
       </tr>

@@ -3,6 +3,8 @@ package fund.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -42,7 +44,7 @@ public class ReceiptController extends BaseController {
     @Autowired CorporateMapper corporateMapper;
     @Autowired SponsorMapper sponsorMapper;
     @Autowired DonationPurposeMapper donationPurposeMapper;
-    @Autowired SimpleDriverDataSource dataSource;
+    @Autowired @Resource(name="myDataSource1") SimpleDriverDataSource dataSource;
     @Autowired ReceiptService receiptService;
 
     @ModelAttribute

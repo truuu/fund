@@ -1,9 +1,6 @@
 package fund.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
 import java.net.URLEncoder;
-import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,15 +16,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
 import fund.dto.Code;
-import fund.dto.FileAttach;
 import fund.dto.Sponsor;
 import fund.dto.pagination.Pagination;
 import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
-import fund.mapper.FileAttachMapper;
+import fund.mapper2.DataFileMapper;
 import fund.mapper.SponsorMapper;
 import fund.service.C;
 import fund.service.LogService;
@@ -39,7 +33,7 @@ public class SponsorController extends BaseController {
 
     @Autowired SponsorMapper sponsorMapper;
     @Autowired CodeMapper codeMapper;
-    @Autowired FileAttachMapper fileAttachMapper;
+    @Autowired DataFileMapper dataFileMapper;
     @Autowired LogService logService;
 
     @RequestMapping("/sponsor/list.do")
@@ -67,7 +61,7 @@ public class SponsorController extends BaseController {
         model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분1));
         model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분2));
         model.addAttribute("churchList", codeMapper.selectByCodeGroupId(C.코드그룹ID_소속교회));
-        model.addAttribute("fileCount", fileAttachMapper.selectCountBySponsorId(sponsorId));
+        model.addAttribute("fileCount", dataFileMapper.selectCountByForeignId("sponsor", sponsorId));
     }
 
     @RequestMapping(value="/sponsor/edit.do", method=RequestMethod.POST, params="cmd=save")
@@ -88,7 +82,7 @@ public class SponsorController extends BaseController {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String delete(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
         if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
-        fileAttachMapper.deleteBySponsorId(id);
+        dataFileMapper.deleteByForeignId("sponsor", id);
         sponsorMapper.delete(id);
         return "redirect:list.do?" + pagination.getQueryString();
     }
@@ -117,6 +111,17 @@ public class SponsorController extends BaseController {
         }
     }
 
+    @RequestMapping(value="/sponsor/files.do", method=RequestMethod.GET)
+    public String files(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
+        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
+        model.addAttribute("sponsor", sponsorMapper.selectById(id));
+        model.addAttribute("list", dataFileMapper.selectByForeignId("sponsor", id));
+        String url = "/sponsor/files.do?id=" + id + "&" + pagination.getQueryString();
+        model.addAttribute("url", URLEncoder.encode(url, "UTF-8"));
+        addCodesToModel(id, model);
+        return "sponsor/files";
+    }
+
     @RequestMapping("/sponsor/excel.do")
     public void excel(HttpServletRequest req, HttpServletResponse res) throws Exception {
         if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return;
@@ -125,41 +130,6 @@ public class SponsorController extends BaseController {
         ReportBuilder reportBuilder = new ReportBuilder("sponsorList", fname, req, res);
         reportBuilder.setCollection(list);
         reportBuilder.build("xlsx");
-    }
-
-    @RequestMapping(value="/sponsor/fileUp.do", method=RequestMethod.POST)
-    public String fileUp(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination,
-            @RequestParam("file") MultipartFile uploadedFile) throws IOException {
-        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
-        if (uploadedFile.getSize() > 0 ) {
-            FileAttach fileAttach = new FileAttach();
-            fileAttach.setSponsorId(id);
-            fileAttach.setFileName(Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString());
-            fileAttach.setFileSize((int)uploadedFile.getSize());
-            fileAttach.setData(uploadedFile.getBytes());
-            fileAttachMapper.insert(fileAttach);
-        }
-        return "redirect:edit.do?id=" + id + "&" + pagination.getQueryString();
-    }
-
-    @RequestMapping("/sponsor/fileDown.do")
-    public void fileDown(@RequestParam("id") int id, HttpServletResponse response) throws IOException {
-        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return;
-        FileAttach file = fileAttachMapper.selectById(id);
-       if (file == null) return;
-        String fileName = URLEncoder.encode(file.getFileName(),"UTF-8");
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
-        try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
-            output.write(file.getData());
-        }
-    }
-
-    @RequestMapping("/sponsor/fileDel.do")
-    public String fileDel(Model model, @RequestParam("id") int id, @RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination) {
-        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
-        fileAttachMapper.delete(id);
-        return "redirect:edit.do?id=" + sid + "&" + pagination.getQueryString();
     }
 
     @RequestMapping("/sponsor/dm.do")

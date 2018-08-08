@@ -7,6 +7,6 @@
     <li class="${ tab2 }"><a href="/funds/sponsor/commitment/list.do?sid=${sponsor.id}&${pagination.queryString}">약정관리</a></li>
     <li class="${ tab3 }"><a href="/funds/sponsor/payment/list1.do?sid=${sponsor.id}&${pagination.queryString}">정기납입관리</a></li>
     <li class="${ tab4 }"><a href="/funds/sponsor/payment/list2.do?sid=${sponsor.id}&${pagination.queryString}">비정기납입관리</a></li>
-    <li class="${ tab5 }"><a href="/funds/file/list.do?type=sponsor&fid=${sponsor.id}&${pagination.queryString}">첨부파일(${fileCount})</a></li>
+    <li class="${ tab5 }"><a href="/funds/sponsor/files.do?id=${sponsor.id}&${pagination.queryString}">첨부파일(${fileCount})</a></li>
   </c:if>
 </ul>
