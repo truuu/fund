@@ -29,7 +29,7 @@
       <div class="controls">
         <input type="text" name="loginName" placeholder="아이디" /> 
         <input type="password" name="password" placeholder="비밀번호" />
-        <button type="submit" class="btn btn-primary"> 로그인 </button>
+        <button type="submit" class="btn btn-primary btn-sm"> 로그인 </button>
         
         <c:if test="${ param.locked != null }">
            <div class="mt20">비밀번호 5 회 오류로 계정이 30분동안 잠겼습니다.</div>

@@ -15,10 +15,10 @@
       <div class="modal-body">
         <div> 
           <input type="text" id="srchText" onkeydown="if (event.keyCode == 13) filterPurpose()" />
-          <button type="button" class="btn btn-primary btn-sm" onclick="filterPurpose()">검색</button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="filterPurpose()">조회</button>
         </div>
         
-        <table id="donationPurposeScrollTable" class="table table-bordered" style="width: 100%;">
+        <table id="donationPurposeScrollTable" class="table table-bordered pd5">
           <thead>
             <tr>
               <th>기관</th>
@@ -28,7 +28,7 @@
           </thead>
           <tbody>
           <c:forEach var="donationPurpose" items="${ donationPurposes }">
-            <tr data-id="${ donationPurpose.id }">
+            <tr data-id="${ donationPurpose.id }" class="hover">
               <td>${ donationPurpose.corporateName }</td>
               <td>${ donationPurpose.organizationName }</td>
               <td>${ donationPurpose.name }</td>
@@ -71,8 +71,8 @@
     	    });
     	}
     }
-    //$( "#donationPurposeDialog" ).on('shown.bs.modal', function(){
-        //tableHVScroll2( $("#donationPurposeScrollTable") );
-    //});    
-    tableHVScroll2( $("#donationPurposeScrollTable") );
+    $( "#donationPurposeDialog" ).on('shown.bs.modal', function(){
+        tableHVScroll2( $("#donationPurposeScrollTable") );
+    });    
+    
 </script>

@@ -40,6 +40,7 @@ body .btn:hover { color: black; }
 
 body thead tr { background-color: #eee; }
 body tbody tr[data-url]:hover { background-color: #ffa; cursor: pointer; }
+body tbody tr.hover:hover { background-color: #ffa; cursor: pointer; }
 body table tr.my-error { background-color: #fee; } 
 body table tr.my-success { background-color: #efe; }
 body table tr.disable { background-color: #eee; color: #888; }
@@ -106,13 +107,24 @@ select[name=od] { width: 150px; margin-right: 100px; }
 input:-ms-input-placeholder { color: #aaa; }
 
 /** bootstrap override **/
-body h3 { margin-top: 5px; margin-bottom: 0px; font-size: 18px; font-weight: bold; }
-body .panel .panel-heading { background-color: #efe; }
+body .modal-dialog .modal-header { 
+  background: linear-gradient(90deg, #def, #bcd); 
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+body h3 { margin: 0px; font-size: 16px; font-weight: bold; }
+body .panel .panel-heading { background:linear-gradient(90deg, #def, #bcd); padding: 10px 15px 7px 15px; }
 body table th { font-weight: normal; }
 body table.table thead tr th { padding: 8px; vertical-align: middle; }
 body table.table tr td { padding: 8px; vertical-align: middle; }
 body table.pd4 thead tr th { padding: 4px; }
 body table.pd4 tr td { padding: 4px; }
+body table.pd5 thead tr th { padding: 5px; }
+body table.pd5 tr td { padding: 5px; }
 body ul.pagination { margin: 0px; }
 
 body { font-size: 9pt; font-family: 굴림체; }

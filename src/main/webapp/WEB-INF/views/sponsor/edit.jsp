@@ -33,7 +33,7 @@
         <td> ${ sponsor.sponsorNo }</td>
         <td class="lb">소속교회</td>
         <td>
-            <span id="churchName">${ sponsor.church }</span> 
+            <span id="churchName" style="display:inline-block; min-width: 100px;">${ sponsor.church }</span> 
             <form:hidden path="churchId" value="${ sponsor.churchId } " />
             <a href="#churchDialog" class="btn btn-flat btn-xs" data-toggle="modal" tabindex="2">교회 찾기</a>
         </td>

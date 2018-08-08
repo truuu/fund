@@ -54,7 +54,7 @@ public class SponsorController extends BaseController {
         if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
         model.addAttribute("sponsor", sponsorMapper.selectById(id));
         addCodesToModel(id, model);
-        return "sponsor/edit2";
+        return "sponsor/edit";
     }
 
     private void addCodesToModel(int sponsorId, Model model) {

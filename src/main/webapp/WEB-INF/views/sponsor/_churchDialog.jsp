@@ -14,18 +14,22 @@
         <h3>교회 검색</h3>
       </div>
       <div class="modal-body">
-        <div id="scroll">
-          <table class="table table-bordered" style="width: 100%;">
-            <tbody>
-              <c:forEach var="church" items="${ churchList }">
-                <tr>
-                    <td>${ church.id }</td>
-                    <td>${ church.codeName }</td>
-                </tr>
-              </c:forEach>
-            </tbody>
-          </table>
+        <div> 
+          <input type="text" id="srchText" onkeydown="if (event.keyCode == 13) filterChurch()" />
+          <button type="button" class="btn btn-primary btn-sm" onclick="filterChurch()">조회</button>
         </div>
+              
+        <table id="churchScrollTable" class="table table-bordered pd5">
+          <tbody>
+            <c:forEach var="church" items="${ churchList }">
+              <tr class="hover">
+                  <td>${ church.id }</td>
+                  <td>${ church.codeName }</td>
+              </tr>
+            </c:forEach>
+          </tbody>
+        </table>
+
       </div>
       <div class="modal-footer">
         <button onclick="cancelChurch()" class="btn btn-danger btn-sm" data-dismiss="modal">소속교회 없음</button>
@@ -37,7 +41,7 @@
 
 <script>
     $(document).ready(function() {
-        $("#churchDialog #scroll tr").click(function() {
+        $("#churchDialog tbody tr").click(function() {
             var tr = $(this);
             var churchId = tr.find("td:nth-child(1)").text();
             console.log(churchId);
@@ -53,4 +57,18 @@
         $("input[name*=churchName]").val('');
         $("input[name=churchId]").val(0);
     }
+    function filterChurch() {
+        var s = $("#churchDialog #srchText").val().trim();
+        var list = $("#churchDialog tbody tr");
+        list.show();
+        if (s.length > 0) {
+            list.each(function() {
+               var text = $(this).find("td:nth-child(2)").text();
+               if (text.indexOf(s) < 0) $(this).hide();
+            });
+        }
+    }
+    $( "#churchDialog" ).on('shown.bs.modal', function(){
+        tableHVScroll2( $("#churchScrollTable") );
+    });      
 </script>
