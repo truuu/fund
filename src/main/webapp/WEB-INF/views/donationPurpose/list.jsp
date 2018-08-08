@@ -31,9 +31,9 @@
           <form:option value="2" label="기부금단체코드" />
         </form:select>
         <form:input path="st" />
-        <button type="submit" class="btn btn-sm btn-info btn-sm">검색</button>
+        <button type="submit" class="btn btn-sm btn-info btn-sm">조회</button>
         <c:if test="${ pagination.ss != 0 }">
-          <a href="list.do" class="btn btn-small btn-gray btn-sm">취소</a>
+          <a href="list.do" class="btn btn-small btn-gray btn-sm">조회조건 취소</a>
         </c:if>
       </div>
   

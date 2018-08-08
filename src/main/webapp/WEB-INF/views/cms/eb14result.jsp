@@ -32,8 +32,8 @@
       <table id="eb14result" class="table table-bordered">
         <thead>
           <tr>
-            <th>후원인번호</th>
-            <th>후원인</th>
+            <th>회원번호</th>
+            <th>회원</th>
             <th>약정번호</th>
             <th>계좌</th>
             <th>주민번호</th>

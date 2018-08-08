@@ -20,9 +20,9 @@
     </form:select>
     <form:input path="st" />
 
-    <button type="submit" class="btn btn-info">검색</button>
+    <button type="submit" class="btn btn-info">조회</button>
     <c:if test="${ pagination.ss != 0 }">
-      <a href="list.do" class="btn btn-default">취소</a>
+      <a href="list.do" class="btn btn-default">조회조건 취소</a>
     </c:if>
   </div>
 

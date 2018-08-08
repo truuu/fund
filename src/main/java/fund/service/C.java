@@ -1,8 +1,8 @@
 package fund.service;
 
 public class C {
-    public static final int 코드그룹ID_후원인구분1 = 1;
-    public static final int 코드그룹ID_후원인구분2 = 2;
+    public static final int 코드그룹ID_가입구분 = 1;
+    public static final int 코드그룹ID_회원구분 = 2;
     public static final int 코드그룹ID_정기납입방법 = 3;
     public static final int 코드그룹ID_비정기납입방법 = 4;
     public static final int 코드그룹ID_소속교회 = 5;
@@ -15,7 +15,7 @@ public class C {
 
     public static final int 메뉴_기초정보관리 = 1;
     public static final int 메뉴_회원관리_회원관리 = 10;
-    public static final int 메뉴_후원인관리_우편발송 = 11;
+    public static final int 메뉴_회원관리_우편발송 = 11;
     public static final int 메뉴_금융연동_EB13생성 = 12;
     public static final int 메뉴_금융연동_EB14등록 = 13;
     public static final int 메뉴_금융연동_EB1314결과조회 = 14;
@@ -25,7 +25,7 @@ public class C {
     public static final int 메뉴_금융연동_자동이체결과등록 = 18;
     public static final int 메뉴_금융연동_급여공제결과등록 = 19;
     public static final int 메뉴_납입조회_납입내역조회 = 20;
-    public static final int 메뉴_납입조회_후원인별납입합계 = 21;
+    public static final int 메뉴_납입조회_회원별납입합계 = 21;
     public static final int 메뉴_납입조회_기부목적별납입합계 = 22;
     public static final int 메뉴_납입조회_회원구분별납입합계 = 23;
     public static final int 메뉴_납입조회_소속교회별납입합계 = 24;

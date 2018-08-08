@@ -21,9 +21,9 @@
     <td><form:input path="createDate" class="date" /></td>
   </tr>
   <tr>
-    <td class="lb">후원인번호</td>
+    <td class="lb">회원번호</td>
     <td><form:input path="personNo" /></td>
-    <td class="lb">후원인</td>
+    <td class="lb">회원</td>
     <td><form:input path="personName" /></td>
   </tr>
   <tr>

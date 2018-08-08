@@ -58,8 +58,8 @@ public class SponsorController extends BaseController {
     }
 
     private void addCodesToModel(int sponsorId, Model model) {
-        model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분1));
-        model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분2));
+        model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupId(C.코드그룹ID_가입구분));
+        model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_회원구분));
         model.addAttribute("churchList", codeMapper.selectByCodeGroupId(C.코드그룹ID_소속교회));
         model.addAttribute("fileCount", dataFileMapper.selectCountByForeignId("sponsor", sponsorId));
     }
@@ -70,7 +70,7 @@ public class SponsorController extends BaseController {
             if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
             sponsorMapper.update(sponsor);
             model.addAttribute("successMsg", "저장했습니다.");
-            logService.actionLog("후원인 수정", "sponsor edit", sponsor.getId(), sponsor.getSponsorNo());
+            logService.actionLog("회원 수정", "sponsor edit", sponsor.getId(), sponsor.getSponsorNo());
             return edit(sponsor.getId(), pagination, model);
         } catch (Exception e) {
             addCodesToModel(sponsor.getId(), model);
@@ -103,7 +103,7 @@ public class SponsorController extends BaseController {
             if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
             sponsor.setSponsorNo(sponsorMapper.generateSponsorNo());
             sponsorMapper.insert(sponsor);
-            logService.actionLog("후원인 등록", "sponsor create", sponsor.getId(), sponsor.getSponsorNo());
+            logService.actionLog("회원 등록", "sponsor create", sponsor.getId(), sponsor.getSponsorNo());
             return "redirect:list.do";
         } catch (Exception e) {
             addCodesToModel(0, model);
@@ -126,7 +126,7 @@ public class SponsorController extends BaseController {
     public void excel(HttpServletRequest req, HttpServletResponse res) throws Exception {
         if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return;
         List<Sponsor> list = sponsorMapper.selectAll();
-        String fname = "후원인목록.xlsx";
+        String fname = "회원목록.xlsx";
         ReportBuilder reportBuilder = new ReportBuilder("sponsorList", fname, req, res);
         reportBuilder.setCollection(list);
         reportBuilder.build("xlsx");
@@ -134,7 +134,7 @@ public class SponsorController extends BaseController {
 
     @RequestMapping("/sponsor/dm.do")
     public String sendDM(Model model, Pagination pagination) {
-        if (!UserService.canAccess(C.메뉴_후원인관리_우편발송)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_회원관리_우편발송)) return "redirect:/home/logout.do";
         if (StringUtils.isBlank(pagination.getStartDate()) == false) {
             pagination.setRecordCount(sponsorMapper.selectCountForDM(pagination));
             model.addAttribute("list", sponsorMapper.selectForDM(pagination));
@@ -144,7 +144,7 @@ public class SponsorController extends BaseController {
 
     @RequestMapping("/sponsor/dmx.do")
     public void sendDMxlsx(Pagination pagination, HttpServletRequest req, HttpServletResponse res) throws Exception {
-        if (!UserService.canAccess(C.메뉴_후원인관리_우편발송)) return;
+        if (!UserService.canAccess(C.메뉴_회원관리_우편발송)) return;
         if (StringUtils.isBlank(pagination.getStartDate()) == false) {
             int count = sponsorMapper.selectCountForDM(pagination);
             pagination.setRecordCount(count);

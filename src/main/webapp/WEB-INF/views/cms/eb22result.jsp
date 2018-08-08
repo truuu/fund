@@ -32,8 +32,8 @@
       <table id="eb22result" class="table table-bordered" style="font-size: 9pt;">
         <thead>
           <tr>
-            <th style="width: 100px;">후원인번호</th>
-            <th style="width: 120px;">후원인</th>
+            <th style="width: 100px;">회원번호</th>
+            <th style="width: 120px;">회원</th>
             <th style="width: 130px;">약정번호</th>
             <th>기부목적</th>
             <th style="width: 100px;">EB21생성일</th>

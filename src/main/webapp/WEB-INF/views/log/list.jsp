@@ -29,16 +29,16 @@
         </form:select>
     
         <form:select path="ss" class="ml50">
-          <form:option value="0" label="검색조건" />
+          <form:option value="0" label="조회조건" />
           <form:option value="1" label="IP" />
           <form:option value="2" label="URL" />
           <form:option value="3" label="카테고리" />
           <form:option value="4" label="내용" />
         </form:select>
         <form:input path="st" />
-        <button type="submit" class="btn btn-sm btn-gray">검색</button>
+        <button type="submit" class="btn btn-sm btn-gray">조회</button>
         <c:if test="${ pagination.ss != 0 }">
-          <a href="list.do" class="btn btn-small btn-default">취소</a>
+          <a href="list.do" class="btn btn-small btn-default">조회조건 취소</a>
         </c:if>
       </div>
     

@@ -11,7 +11,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3>교회 검색</h3>
+        <h3>교회 조회</h3>
       </div>
       <div class="modal-body">
         <div> 

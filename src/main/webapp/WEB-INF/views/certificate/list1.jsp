@@ -14,15 +14,15 @@
 
   <div class="form-inline">    
     <form:select path="ss">
-      <form:option value="0" label="검색조건" />
+      <form:option value="0" label="조회조건" />
       <form:option value="1" label="이름" />
-      <form:option value="2" label="후원인번호" />
+      <form:option value="2" label="회원번호" />
     </form:select>
     <form:input path="st" />
 
-    <button type="submit" class="btn btn-info">검색</button>
+    <button type="submit" class="btn btn-info">조회</button>
     <c:if test="${ pagination.ss != 0 }">
-      <a href="list.do" class="btn btn-default">취소</a>
+      <a href="list.do" class="btn btn-default">조회조건 취소</a>
     </c:if>
   </div>
 
@@ -31,7 +31,7 @@
       <tr>
         <th>번호</th>
         <th>날짜</th>
-        <th>후원인번호</th>
+        <th>회원번호</th>
         <th>이름</th>
         <th>금액</th>
         <th>발행인</th>

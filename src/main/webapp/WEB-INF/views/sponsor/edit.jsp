@@ -29,7 +29,7 @@
       
     <table class="table table-bordered lbw120 pd4 mt10">
       <tr>
-        <td class="lb">후원인번호</td>
+        <td class="lb">회원번호</td>
         <td> ${ sponsor.sponsorNo }</td>
         <td class="lb">소속교회</td>
         <td>
@@ -41,7 +41,7 @@
       <tr>
         <td class="lb">이름</td>
         <td><form:input  path="name" placeholder="이름을 입력해주세요" tabindex="1" class="w200" /></td>
-        <td class="lb">후원인구분상세</td>
+        <td class="lb">회원구분상세</td>
         <td><form:input  path="sponsorTypeDetail" tabindex="2"  class="w300" /></td>
       </tr>
       <tr>

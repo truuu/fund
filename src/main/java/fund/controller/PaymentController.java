@@ -36,7 +36,7 @@ public class PaymentController extends BaseController {
         new OrderBy("납입일", "ORDER BY paymentDate"),
         new OrderBy("회원번호", "ORDER BY sponsorNo, paymentDate"),
         new OrderBy("이름", "ORDER BY name, sponsorNo, paymentDate"),
-        new OrderBy("회원구분2", "ORDER BY sponsorType2Name, sponsorNo, paymentDate"),
+        new OrderBy("회원구분", "ORDER BY sponsorType2Name, sponsorNo, paymentDate"),
         new OrderBy("교회", "ORDER BY churchName, sponsorNo, PaymentDate"),
         new OrderBy("금액", "ORDER BY amount DESC")
     };
@@ -44,7 +44,7 @@ public class PaymentController extends BaseController {
     final static OrderBy[] report1bOrderBy = new OrderBy[] {
         new OrderBy("회원번호", "ORDER BY sponsorNo"),
         new OrderBy("이름", "ORDER BY name"),
-        new OrderBy("회원구분2", "ORDER BY sponsorType2Name"),
+        new OrderBy("회원구분", "ORDER BY sponsorType2Name"),
         new OrderBy("교회", "ORDER BY churchName"),
         new OrderBy("금액", "ORDER BY amount DESC"),
     };
@@ -66,7 +66,7 @@ public class PaymentController extends BaseController {
     }
 
     private void addModel1(Model model) {
-        model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_후원인구분2));
+        model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_회원구분));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
         model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
         model.addAttribute("churchList", codeMapper.selectByCodeGroupId(C.코드그룹ID_소속교회));
@@ -82,7 +82,7 @@ public class PaymentController extends BaseController {
 
     @RequestMapping(value="/payment/srch1b", method=RequestMethod.POST, params="cmd=excel")
     public void report1bReport(Model model, Wrapper wrapper, HttpServletRequest req, HttpServletResponse res) throws Exception {
-        if (!UserService.canAccess(C.메뉴_납입조회_후원인별납입합계)) return;
+        if (!UserService.canAccess(C.메뉴_납입조회_회원별납입합계)) return;
     	paymentReport(wrapper, req, res,"payment2_list","납입합계내역.xlsx",2);
     }
 
@@ -118,7 +118,7 @@ public class PaymentController extends BaseController {
 
     @RequestMapping(value="/payment/srch1b", method=RequestMethod.GET)
     public String report1b(Model model) {
-        if (!UserService.canAccess(C.메뉴_납입조회_후원인별납입합계)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_납입조회_회원별납입합계)) return "redirect:/home/logout.do";
         model.addAttribute("wrapper", new Wrapper());
         addModel1(model);
         return "payment/srch1b";
@@ -126,7 +126,7 @@ public class PaymentController extends BaseController {
 
     @RequestMapping(value="/payment/srch1b", method=RequestMethod.POST, params="cmd=search")
     public String report1b(Model model, Wrapper wrapper) {
-        if (!UserService.canAccess(C.메뉴_납입조회_후원인별납입합계)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_납입조회_회원별납입합계)) return "redirect:/home/logout.do";
         addModel1(model);
         model.addAttribute("list", paymentMapper.selectReport1b(wrapper.getMap()));
         return "payment/srch1b";

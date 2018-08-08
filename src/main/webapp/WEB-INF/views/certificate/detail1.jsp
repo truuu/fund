@@ -20,9 +20,9 @@
     <td>${ certificate.createDate }</td>
   </tr>
   <tr>
-    <td class="lb">후원인번호</td>
+    <td class="lb">회원번호</td>
     <td>${ certificate.personNo }</td>
-    <td class="lb">후원인</td>
+    <td class="lb">회원</td>
     <td>${ certificate.personName }</td>
   </tr>
   <tr>

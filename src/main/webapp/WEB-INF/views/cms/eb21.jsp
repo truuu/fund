@@ -27,8 +27,8 @@
       <table id="eb21" class="table table-bordered">
         <thead>
           <tr>
-            <th>후원인번호</th>
-            <th>후원인</th>
+            <th>회원번호</th>
+            <th>회원</th>
             <th>약정번호</th>
             <th>약정일</th>
             <th>금액</th>

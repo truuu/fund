@@ -22,7 +22,7 @@
         <form:input tyle="text" class="startDt w100" path="sd" />
         ~
         <form:input type="text" class="endDt w100" path="ed" />
-        <button type="submit" class="btn btn-primary btn-sm">검색</button>
+        <button type="submit" class="btn btn-primary btn-sm">조회</button>
         <a href="dmx.do?${pagination.queryString}" class="btn btn-info btn-sm">액셀 다운로드</a>
       </div>
     
@@ -31,7 +31,7 @@
           <tr>
             <th>회원번호</th>
             <th>이름</th>
-            <th>후원인구분2</th>
+            <th>회원구분</th>
             <th>소속교회</th>
             <th>우편번호</th>
             <th>주소</th>

@@ -11,19 +11,19 @@
 <span>납입기간:</span>
 <form:input path="map[startDate]" class="startDt" placeholder="필수" /> ~ 
 <form:input path="map[endDate]" class="endDt" placeholder="필수" />
-<span>후원인명:</span>
+<span>회원명:</span>
 <form:input path="map[srchText]" placeholder="필수" />
 <span>기부기관:</span>
 <form:select path="map[corporateId]" itemValue="id" itemLabel="name" items="${ corporates }" />
-<button type="submit" class="btn btn-primary" name="cmd" value="search">납입내역 검색</button>
+<button type="submit" class="btn btn-primary" name="cmd" value="search">납입내역 조회</button>
 
 <table class="table table-bordered mt4">
   <thead>
     <tr>
       <th><input type="checkbox" onclick="setTimeout(toggleCreateButton, 100)" /></th>
       <th>영수증번호</th>
-      <th>후원인번호</th>
-      <th>후원인명</th>
+      <th>회원번호</th>
+      <th>회원명</th>
       <th>정기/비정기</th>
       <th>납입일</th>
       <th class="right">금액</th>

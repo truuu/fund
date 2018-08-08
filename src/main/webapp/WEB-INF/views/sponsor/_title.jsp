@@ -5,5 +5,5 @@
   <h3>${sponsor.name} <small>${sponsor.sponsorNo}</small></h3>
 </c:if>
 <c:if test="${ sponsor.id == 0 }">
-  <h3>후원인 신규 등록</h3>
+  <h3>회원 신규 등록</h3>
 </c:if>    

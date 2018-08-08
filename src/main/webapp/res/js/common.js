@@ -140,6 +140,7 @@ var tableHVScroll2_unique_id = 0;
 function tableHVScroll2(table) {    
   if (table.hasClass("tableHVScroll2")) return;
   table.addClass("tableHVScroll2");
+  table.css("white-space", "nowrap");
   id = "tableHVScroll2" + ++tableHVScroll2_unique_id;
   var template =
       "<div id='" + id + "'>" +

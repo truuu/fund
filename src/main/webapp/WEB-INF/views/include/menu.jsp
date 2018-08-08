@@ -41,7 +41,7 @@
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">회원관리<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <%=menu("회원 관리", "/funds/sponsor/list.do", C.메뉴_회원관리_회원관리)%>
-                <%=menu("우편 발송", "/funds/sponsor/dm.do", C.메뉴_후원인관리_우편발송)%>
+                <%=menu("우편 발송", "/funds/sponsor/dm.do", C.메뉴_회원관리_우편발송)%>
               </ul>
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">금융연동<span class="caret"></span></a>
@@ -62,7 +62,7 @@
               <ul class="dropdown-menu" role="menu">
                 <%= menu("납입 내역 조회", "/funds/payment/srch1a.do", C.메뉴_납입조회_납입내역조회) %>
                 <li class="divider"></li>
-                <%=menu("후원인별 납입 합계", "/funds/payment/srch1b.do", C.메뉴_납입조회_후원인별납입합계)%>
+                <%=menu("회원별 납입 합계", "/funds/payment/srch1b.do", C.메뉴_납입조회_회원별납입합계)%>
                 <%=menu("기부목적별 납입 합계", "/funds/payment/srch2/0.do", C.메뉴_납입조회_기부목적별납입합계)%>
                 <%=menu("회원구분별 납입 합계", "/funds/payment/srch2/1.do", C.메뉴_납입조회_회원구분별납입합계)%>
                 <%=menu("소속교회별 납입 합계", "/funds/payment/srch2/2.do", C.메뉴_납입조회_소속교회별납입합계)%>

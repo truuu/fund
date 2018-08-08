@@ -23,7 +23,7 @@ public class ReceiptService {
         for (int i = 0; i < pid.length; ++i) {
             payments.add(paymentMapper.selectById(pid[i]));
             if (payments.get(0).getSponsorId() != payments.get(i).getSponsorId())
-                return "하나의 후원인만 선택해주세요.";
+                return "하나의 회원만 선택해주세요.";
         }
         String receiptNo = receiptMapper.generateReceiptNo(createDate);
         Receipt receipt = new Receipt();

@@ -41,7 +41,7 @@
     
         <button type="submit" class="btn btn-info btn-sm">조회</button>
         <c:if test="${ pagination.ss != 0 }">
-          <a href="list.do" class="btn btn-gray btn-sm">취소</a>
+          <a href="list.do" class="btn btn-gray btn-sm">조회조건 취소</a>
         </c:if>
       </div>
       
