@@ -21,7 +21,7 @@ public class CodeController extends BaseController{
     @RequestMapping("/code/list.do")
     public String list(Model model, @RequestParam("gid") int codeGroupId) {
         if (!UserService.canAccess(C.메뉴_기초정보관리)) return "redirect:/home/logout.do";
-        model.addAttribute("list", codeMapper.selectByCodeGroupId(codeGroupId));
+        model.addAttribute("list", codeMapper.selectAllByCodeGroupId(codeGroupId));
         addCodesToModel(model, codeGroupId);
         return "code/list";
     }

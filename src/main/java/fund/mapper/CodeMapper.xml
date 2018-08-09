@@ -16,7 +16,15 @@
     SELECT * FROM [CodeGroup] WHERE id = #{id}
 </select>
 
-<select id="selectByCodeGroupId"  resultType="fund.dto.Code"> 
+<select id="selectEnabledByCodeGroupId"  resultType="fund.dto.Code"> 
+    SELECT *
+    FROM [Code] 
+    WHERE codeGroupId = #{codeGroupId}
+    AND state = 1            
+    ORDER BY state DESC, codeName
+</select>
+
+<select id="selectAllByCodeGroupId"  resultType="fund.dto.Code"> 
     SELECT *
     FROM [Code] 
     WHERE codeGroupId = #{codeGroupId}            

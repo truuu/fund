@@ -66,10 +66,10 @@ public class PaymentController extends BaseController {
     }
 
     private void addModel1(Model model) {
-        model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_회원구분));
+        model.addAttribute("sponsorType2List", codeMapper.selectEnabledByCodeGroupId(C.코드그룹ID_회원구분));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
-        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
-        model.addAttribute("churchList", codeMapper.selectByCodeGroupId(C.코드그룹ID_소속교회));
+        model.addAttribute("paymentMethods", codeMapper.selectEnabledByCodeGroupId(C.코드그룹ID_정기납입방법));
+        model.addAttribute("churchList", codeMapper.selectEnabledByCodeGroupId(C.코드그룹ID_소속교회));
         model.addAttribute("corporates", corporateMapper.selectAll());
         model.addAttribute("report1aOrderBy", report1aOrderBy);
     }

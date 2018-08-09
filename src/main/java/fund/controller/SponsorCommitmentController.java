@@ -40,8 +40,8 @@ public class SponsorCommitmentController extends BaseController {
                         @RequestParam("sid") int sid, Model model) throws Exception {
         model.addAttribute("sponsor", sponsorMapper.selectById(sid));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
-        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_정기납입방법));
-        model.addAttribute("banks", codeMapper.selectByCodeGroupId(C.코드그룹ID_은행));
+        model.addAttribute("paymentMethods", codeMapper.selectEnabledByCodeGroupId(C.코드그룹ID_정기납입방법));
+        model.addAttribute("banks", codeMapper.selectEnabledByCodeGroupId(C.코드그룹ID_은행));
         model.addAttribute("fileCount", dataFileMapper.selectCountByForeignId("sponsor", sid));
     }
 

@@ -140,7 +140,7 @@ public class TestMapper {
     public void testCodeMapper() {
         assertNotNull(codeMapper);
 
-        List<Code> list0 = codeMapper.selectByCodeGroupId(5);
+        List<Code> list0 = codeMapper.selectEnabledByCodeGroupId(5);
         assert(list0.size() >= 3);
 
         Code o0 = new Code();
@@ -152,7 +152,7 @@ public class TestMapper {
         o0.setEtc3("라마");
         codeMapper.insert(o0);
 
-        List<Code> list1 = codeMapper.selectByCodeGroupId(5);
+        List<Code> list1 = codeMapper.selectEnabledByCodeGroupId(5);
         assert(list0.size() + 1 == list1.size());
 
         Code o2 = codeMapper.selectById(o0.getId());
@@ -172,7 +172,7 @@ public class TestMapper {
         assertEquals(o1, o2);
 
         codeMapper.delete(o0.getId());
-        list1 = codeMapper.selectByCodeGroupId(5);
+        list1 = codeMapper.selectEnabledByCodeGroupId(5);
         assert(list0.size() == list1.size());
     }
 }

@@ -41,8 +41,8 @@ public class SponsorController extends BaseController {
         if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
         pagination.setRecordCount(sponsorMapper.selectCount(pagination));
         List<Sponsor> list = sponsorMapper.selectPage(pagination);
-        List<Code> sponsorType1Codes = codeMapper.selectByCodeGroupId(1);
-        List<Code> sponsorType2Codes = codeMapper.selectByCodeGroupId(2);
+        List<Code> sponsorType1Codes = codeMapper.selectEnabledByCodeGroupId(1);
+        List<Code> sponsorType2Codes = codeMapper.selectEnabledByCodeGroupId(2);
         model.addAttribute("list", list);
         model.addAttribute("sponsorType1Codes", sponsorType1Codes);
         model.addAttribute("sponsorType2Codes", sponsorType2Codes);
@@ -58,9 +58,9 @@ public class SponsorController extends BaseController {
     }
 
     private void addCodesToModel(int sponsorId, Model model) {
-        model.addAttribute("sponsorType1List", codeMapper.selectByCodeGroupId(C.코드그룹ID_가입구분));
-        model.addAttribute("sponsorType2List", codeMapper.selectByCodeGroupId(C.코드그룹ID_회원구분));
-        model.addAttribute("churchList", codeMapper.selectByCodeGroupId(C.코드그룹ID_소속교회));
+        model.addAttribute("sponsorType1List", codeMapper.selectEnabledByCodeGroupId(C.코드그룹ID_가입구분));
+        model.addAttribute("sponsorType2List", codeMapper.selectEnabledByCodeGroupId(C.코드그룹ID_회원구분));
+        model.addAttribute("churchList", codeMapper.selectEnabledByCodeGroupId(C.코드그룹ID_소속교회));
         model.addAttribute("fileCount", dataFileMapper.selectCountByForeignId("sponsor", sponsorId));
     }
 
@@ -147,6 +147,7 @@ public class SponsorController extends BaseController {
             pagination.setRecordCount(sponsorMapper.selectCountForDM(pagination));
             model.addAttribute("list", sponsorMapper.selectForDM(pagination));
         }
+        model.addAttribute("sponsorType2List", codeMapper.selectEnabledByCodeGroupId(C.코드그룹ID_회원구분));
         return "sponsor/dm";
     }
 

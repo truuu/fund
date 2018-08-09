@@ -9,7 +9,8 @@ public interface CodeMapper {
     Code selectById(int id);
 	Code selectByCodeName(String codeName);
 	CodeGroup selectCodeGroupById(int id);
-    List<Code> selectByCodeGroupId(int codeGroupID);
+    List<Code> selectEnabledByCodeGroupId(int codeGroupID);
+    List<Code> selectAllByCodeGroupId(int codeGroupID);
 
     void insert(Code code);
     void update(Code code);

@@ -10,12 +10,13 @@ SELECT * FROM [Receipt] WHERE id = #{id}
 
 <select id="selectPage" resultType="hashmap">
 <![CDATA[
-DECLARE @nm NVARCHAR(50), @sd VARCHAR(50), @ed VARCHAR(50), @currentPage INT, @pageSize INT
+DECLARE @nm NVARCHAR(50), @sd VARCHAR(50), @ed VARCHAR(50), @currentPage INT, @pageSize INT, @corporateId INT
 SET @nm = #{srchText}
 SET @sd = #{sd}
 SET @ed = #{ed}
 SET @currentPage = #{currentPage}
 SET @pageSize = #{pageSize}
+SET @corporateId = #{corporateId}
 
 SELECT *
 FROM ( 
@@ -26,6 +27,9 @@ FROM (
     LEFT JOIN [Sponsor] s ON r.sponsorId = s.id
   WHERE (@nm = '' OR @nm IS NULL OR CHARINDEX(@nm, s.name) = 1) 
   AND (@sd = '' OR @sd IS NULL OR r.createDate BETWEEN @sd AND @ed)
+  AND (@corporateId = 0 OR
+        (@corporateId = (SELECT corporateId FROM donationPurpose dp WHERE dp.id = 
+                          (SELECT TOP 1 donationPurposeId FROM Payment p WHERE p.receiptId = r.id))))
 ) subquery
 WHERE 
   행번호 > (@currentPage - 1) * @pageSize AND
@@ -35,16 +39,20 @@ ORDER BY 행번호
 </select>
 
 <select id="selectCount" resultType="int">
-DECLARE @nm NVARCHAR(50), @sd VARCHAR(50), @ed VARCHAR(50), @currentPage INT, @pageSize INT
+DECLARE @nm NVARCHAR(50), @sd VARCHAR(50), @ed VARCHAR(50), @currentPage INT, @pageSize INT, @corporateId INT
 SET @nm = #{srchText}
 SET @sd = #{sd}
 SET @ed = #{ed}
+SET @corporateId = #{corporateId}
 
 SELECT COUNT(*)
 FROM [Receipt] r 
   LEFT JOIN Sponsor s ON r.sponsorId = s.id
 WHERE (@nm = '' OR @nm IS NULL OR CHARINDEX(@nm, s.name) = 1) 
 AND (@sd = '' OR @sd IS NULL OR r.createDate BETWEEN @sd AND @ed)
+AND (@corporateId = 0 OR
+      (@corporateId = (SELECT corporateId FROM donationPurpose dp WHERE dp.id = 
+                        (SELECT TOP 1 donationPurposeId FROM Payment p WHERE p.receiptId = r.id))))
 </select>
 
 <select id="generateReceiptNo" resultType="java.lang.String">

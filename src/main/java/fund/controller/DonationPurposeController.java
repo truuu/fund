@@ -45,7 +45,7 @@ public class DonationPurposeController extends BaseController{
 
     private void addCodesToModel(Model model) {
         model.addAttribute("corporateList", corporateMapper.selectAll());
-		model.addAttribute("organizationList",codeMapper.selectByCodeGroupId(C.코드그룹ID_기관종류));
+		model.addAttribute("organizationList",codeMapper.selectEnabledByCodeGroupId(C.코드그룹ID_기관종류));
     }
 
 	@RequestMapping(value="/donationPurpose/create.do", method=RequestMethod.POST)

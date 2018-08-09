@@ -13,12 +13,12 @@ function report2() {
 </script>
 
 <div class="navigation-info">
-  &gt; 영수증 &gt; 영수증 목록
+  &gt; 영수증 &gt; 기부금 영수증 발급대장
 </div>
 
 <div class="panel panel-default shadow">
   <div class="panel-heading">
-    <h3>영수증 목록</h3> 
+    <h3>기부금 영수증 발급 대장</h3> 
   </div>
   <div class="panel-body">
 
@@ -29,20 +29,20 @@ function report2() {
       <span>회원명:</span>
       <form:input path="st" />
       
-      <span class="block ml20">발급기간:</span>
+      <span class="block ml10">발급기간:</span>
       <form:input path="sd" class="startDt" /> ~
       <form:input path="ed" class="endDt" />
       
-      <button type="submit" class="btn btn-primary ml20 btn-sm">조회</button>
+      <span class="block ml10">기부처:</span>
+      <form:select path="corporateId">
+        <form:option value="0" label="전체" />
+        <form:options itemValue="id" itemLabel="name" items="${ corporates }" />
+      </form:select>      
+      
+      <button type="submit" class="btn btn-primary ml10 btn-sm">조회</button>
       <c:if test="${ not empty pagination.st || not empty pagination.sd }">
         <a href="list.do" class="btn btn-default btn-sm">조회조건 취소</a>
       </c:if>
-      
-      <div class="pull-right">
-        <button class="btn btn-info btn-sm" type="button" onclick="report1()">선택한 영수증 다운로드1</button>
-        <button class="btn btn-info btn-sm" type="button" onclick="report2()">다운로드2</button>
-        <button class="btn btn-danger btn-sm" type="submit" name="cmd" value="delete" data-confirm-delete >선택한 영수증 삭제</button>
-      </div>
       
       <table class="table table-bordered mt4 pd6">
         <thead>
@@ -86,5 +86,20 @@ function report2() {
       
       </form:form>
 
+      <div id="buttons" class="mt4">
+        <button class="btn btn-info btn-sm" type="button" onclick="report1()">선택한 영수증(건별) 다운로드</button>
+        <button class="btn btn-info btn-sm" type="button" onclick="report2()">선택한 영수증(합산) 다운로드</button>
+        <button class="btn btn-danger btn-sm" type="submit" name="cmd" value="delete" data-confirm-delete >선택한 영수증 삭제</button>
+      </div>
+
   </div>
-</div>        
+</div>
+
+<script>
+  $("#buttons button").prop("disabled", true);
+  
+  $("input[type=checkbox]").change(function() {
+      var count = $("tbody input[type=checkbox]:checked").length;
+      $("#buttons button").prop("disabled", count == 0);
+  });
+</script>        

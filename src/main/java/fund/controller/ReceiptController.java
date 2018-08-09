@@ -23,7 +23,7 @@ import fund.dto.Corporate;
 import fund.dto.Payment;
 import fund.dto.Receipt;
 import fund.dto.Sponsor;
-import fund.dto.pagination.Pagination;
+import fund.dto.pagination.PaginationReceipt;
 import fund.dto.param.Wrapper;
 import fund.mapper.CorporateMapper;
 import fund.mapper.DonationPurposeMapper;
@@ -48,18 +48,19 @@ public class ReceiptController extends BaseController {
     @Autowired ReceiptService receiptService;
 
     @ModelAttribute
-    void modela(Model model, Pagination pagination) {
+    void modela(Model model, @ModelAttribute("pagination") PaginationReceipt pagination) {
     }
 
     @RequestMapping("/receipt/list.do")
-    public String list(Model model, Pagination pagination,
+    public String list(Model model, @ModelAttribute("pagination") PaginationReceipt pagination,
             @RequestParam(value="cmd", required=false) String cmd, @RequestParam(value="rid", required=false) int[] rid) throws Exception {
-        if (!UserService.canAccess(C.메뉴_영수증_영수증목록)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_영수증_기부금영수증발급대장)) return "redirect:/home/logout.do";
         if (rid != null && "delete".equals(cmd))
             for (int id : rid)
                 receiptService.deleteReceipt(id);
         pagination.setRecordCount(receiptMapper.selectCount(pagination));
         model.addAttribute("list", receiptMapper.selectPage(pagination));
+        model.addAttribute("corporates", corporateMapper.selectAll());
         return "receipt/list";
     }
 
@@ -92,7 +93,7 @@ public class ReceiptController extends BaseController {
 
     @RequestMapping("/receipt/detail.do")
     public String detail(Model model, @RequestParam("id") int id) throws Exception {
-        if (!UserService.canAccess(C.메뉴_영수증_영수증목록)) return "redirect:/home/logout.do";
+        if (!UserService.canAccess(C.메뉴_영수증_기부금영수증발급대장)) return "redirect:/home/logout.do";
         Receipt receipt = receiptMapper.selectById(id);
         Map<String,Object> paymentSum = paymentMapper.getSumByReceiptId(id);
         Sponsor sponsor = sponsorMapper.selectById(receipt.getSponsorId());
@@ -110,7 +111,7 @@ public class ReceiptController extends BaseController {
 
     @RequestMapping("/receipt/report1.do")
     public void report1(@RequestParam("rid") int[] rid, HttpServletRequest req, HttpServletResponse res) throws Exception {
-        if (!UserService.canAccess(C.메뉴_영수증_영수증목록)) return;
+        if (!UserService.canAccess(C.메뉴_영수증_기부금영수증발급대장)) return;
         String s = Arrays.toString(rid);
         s = s.substring(1, s.length()-1);
         String whereClause = "WHERE r.id IN (" + s + ")";
@@ -125,7 +126,7 @@ public class ReceiptController extends BaseController {
 
     @RequestMapping("/receipt/report2.do")
     public void report2(@RequestParam("rid") int[] rid, HttpServletRequest req, HttpServletResponse res) throws Exception {
-        if (!UserService.canAccess(C.메뉴_영수증_영수증목록)) return;
+        if (!UserService.canAccess(C.메뉴_영수증_기부금영수증발급대장)) return;
         String s = Arrays.toString(rid);
         s = s.substring(1, s.length()-1);
         String whereClause = "WHERE t.id IN (" + s + ")";
@@ -139,8 +140,8 @@ public class ReceiptController extends BaseController {
 
     @RequestMapping("/receipt/delete.do")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public String delete(RedirectAttributes ra, @RequestParam("id") int id, Pagination pagination) {
-        if (!UserService.canAccess(C.메뉴_영수증_영수증목록)) return "redirect:/home/logout.do";
+    public String delete(RedirectAttributes ra, @RequestParam("id") int id, @ModelAttribute("pagination") PaginationReceipt pagination) {
+        if (!UserService.canAccess(C.메뉴_영수증_기부금영수증발급대장)) return "redirect:/home/logout.do";
         receiptService.deleteReceipt(id);
         ra.addFlashAttribute("successMsg", "영수증이 삭제되었습니다.");
         return "redirect:list.do?" + pagination.getQueryString();

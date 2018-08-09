@@ -70,7 +70,7 @@
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">영수증<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <%= menu("영수증 목록", "/funds/receipt/list.do", C.메뉴_영수증_영수증목록) %>
+                <%=menu("기부금 영수증 발급대장", "/funds/receipt/list.do", C.메뉴_영수증_기부금영수증발급대장)%>
                 <%= menu("영수증 개별생성", "/funds/receipt/create1.do", C.메뉴_영수증_영수증개별생성) %>
                 <%= menu("영수증 일괄생성", "/funds/receipt/create2.do", C.메뉴_영수증_영수증일괄생성) %>
                 <li class="divider"></li>

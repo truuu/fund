@@ -18,10 +18,19 @@
       <input type="hidden" name="pg" value="1" />
     
       <div class="form-inline mb4">
-        <span>기간:</span>
-        <form:input tyle="text" class="startDt w100" path="sd" />
+        <form:input tyle="text" class="startDt w100" path="sd" placeholder="시작일" />
         ~
-        <form:input type="text" class="endDt w100" path="ed" />
+        <form:input type="text" class="endDt w100" path="ed" placeholder="종료일" />
+        <form:select path="od" style="margin-left: 20px; margin-right: 20px;">
+          <form:option value="0" label="회원구분" />
+          <form:options itemValue="id" itemLabel="codeName" items="${ sponsorType2List }" /> 
+        </form:select>
+        <form:select path="ss">
+          <form:option value="0" label="회원/비회원" />
+          <form:option value="1" label="회원" />
+          <form:option value="2" label="비회원" />
+        </form:select>
+        <form:input type="text" class="w100" path="st" placeholder="이름" style="margin-left: 20px; margin-right: 20px;" />
         <button type="submit" class="btn btn-primary btn-sm">조회</button>
         <a href="dmx.do?${pagination.queryString}" class="btn btn-success btn-sm">엑셀 다운로드</a>
       </div>

@@ -172,29 +172,70 @@ SELECT @year + '-' + REPLACE(STR(@n,4), ' ', '0')
 
 <select id="selectForDM" resultType="fund.dto.Sponsor">
 <![CDATA[
+DECLARE @currentPage INT, @pageSize INT, @startDate DATE, @endDate DATE, @sponsorType2 INT, @hoewonYn INT, @name NVARCHAR(50)
+SET @currentPage = #{currentPage}
+SET @pageSize = #{pageSize}
+SET @startDate = #{startDate}
+SET @endDate = #{endDate}
+SET @sponsorType2 = #{od} -- 회원구분
+SET @name = #{st}
+SET @hoewonYn = #{ss} -- 회원비회원, 0전체 1회원 2비회원
+
 SELECT *
 FROM (
   SELECT *, ROW_NUMBER() OVER (ORDER BY sponsorNo DESC) 행번호
   FROM (
     SELECT s.*,
       (SELECT codeName FROM code c WHERE c.id = s.sponsorType2Id) AS sponsorType2,
-      (SELECT codeName FROM code c WHERE c.id = s.churchId) AS church
+      (SELECT codeName FROM code c WHERE c.id = s.churchId) AS church,
+      (CASE WHEN EXISTS(SELECT id FROM commitment WHERE sponsorId = s.id)
+              OR EXISTS(SELECT id FROM payment WHERE sponsorId = s.id)
+            THEN 1 ELSE 2 END) hoewonYn
     FROM sponsor s 
-    WHERE s.id IN (SELECT sponsorId FROM payment p WHERE paymentDate BETWEEN #{startDate} AND #{endDate})
-    AND s.mailReceiving = 1
+    WHERE 1=1
+    AND s.mailReceiving = 1 AND dmError = 0
+    AND (@sponsorType2 = 0 OR @sponsorType2 = s.sponsorType2Id)
+    AND (@name IS NULL OR @name = '' OR s.name = @name)
   ) subquery1
+  WHERE 1= 1
+  AND (@hoewonYn = 0 OR @hoewonYn = hoewonYn)
+  AND ((hoewonYn = 1 AND id IN (SELECT sponsorId FROM payment p WHERE paymentDate BETWEEN @startDate AND @endDate)) OR
+       (hoewonYn = 2 AND signUpDate BETWEEN @startDate AND @endDate))
 ) subquery2
-WHERE 행번호 > (#{currentPage} - 1) * #{pageSize} AND
-      행번호 <= #{currentPage} * #{pageSize}
+WHERE 행번호 > (@currentPage - 1) * @pageSize 
+AND   행번호 <= @currentPage * @pageSize
 ORDER BY 행번호
 ]]>
 </select>
     
 <select id="selectCountForDM" resultType="int">
-  SELECT COUNT(*)
-  FROM sponsor s 
-  WHERE s.id IN (SELECT sponsorId FROM payment p WHERE paymentDate BETWEEN #{startDate} AND #{endDate})
-  AND s.mailReceiving = 1
+<![CDATA[
+DECLARE @startDate DATE, @endDate DATE, @sponsorType2 INT, @hoewonYn INT, @name NVARCHAR(50)
+SET @startDate = #{startDate}
+SET @endDate = #{endDate}
+SET @sponsorType2 = #{od} -- 회원구분
+SET @name = #{st}
+SET @hoewonYn = #{ss} -- 회원비회원, 0전체 1회원 2비회원
+
+SELECT COUNT(*)
+FROM (
+SELECT s.*,
+    (SELECT codeName FROM code c WHERE c.id = s.sponsorType2Id) AS sponsorType2,
+    (SELECT codeName FROM code c WHERE c.id = s.churchId) AS church,
+    (CASE WHEN EXISTS(SELECT id FROM commitment WHERE sponsorId = s.id)
+            OR EXISTS(SELECT id FROM payment WHERE sponsorId = s.id)
+        THEN 1 ELSE 2 END) hoewonYn
+FROM sponsor s 
+WHERE 1=1
+AND s.mailReceiving = 1 AND dmError = 0
+AND (@sponsorType2 = 0 OR @sponsorType2 = s.sponsorType2Id)
+AND (@name IS NULL OR @name = '' OR s.name = @name)
+) subquery1
+WHERE 1= 1
+AND (@hoewonYn = 0 OR @hoewonYn = hoewonYn)
+AND ((hoewonYn = 1 AND id IN (SELECT sponsorId FROM payment p WHERE paymentDate BETWEEN @startDate AND @endDate)) OR
+    (hoewonYn = 2 AND signUpDate BETWEEN @startDate AND @endDate))
+]]>
 </select>    
    
 </mapper>

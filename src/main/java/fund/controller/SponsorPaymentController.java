@@ -91,7 +91,7 @@ public class SponsorPaymentController extends BaseController {
     private void addCodesToModel(Model model, int sponsorId) {
         model.addAttribute("sponsor", sponsorMapper.selectById(sponsorId));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
-        model.addAttribute("paymentMethods", codeMapper.selectByCodeGroupId(C.코드그룹ID_비정기납입방법));
+        model.addAttribute("paymentMethods", codeMapper.selectEnabledByCodeGroupId(C.코드그룹ID_비정기납입방법));
     }
 
     private String redirectToList(Model model, int sid) {
