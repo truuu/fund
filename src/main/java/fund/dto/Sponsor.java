@@ -14,7 +14,6 @@ public class Sponsor {
     String mobilePhone;
     String recommender;
     String recommenderRelation;
-    boolean mailReceiving;
     int mailTo;
     String homeAddress;
     String homeRoadAddress;
@@ -31,6 +30,12 @@ public class Sponsor {
     String officeDetailAddress;
     String officePostCode;
     String etc;
+    int mailReceiving;
+    int emailReceiving;
+    int smsReceiving;
+    int piuaRequiredItem;
+    int piuaOptionalItem;
+    int piuaIdentification;
 
     String sponsorType1;
     String sponsorType2;
@@ -154,14 +159,6 @@ public class Sponsor {
 
     public void setRecommenderRelation(String recommenderRelation) {
         this.recommenderRelation = recommenderRelation;
-    }
-
-    public boolean isMailReceiving() {
-        return mailReceiving;
-    }
-
-    public void setMailReceiving(boolean mailReceiving) {
-        this.mailReceiving = mailReceiving;
     }
 
     public int getMailTo() {
@@ -290,6 +287,54 @@ public class Sponsor {
 
     public void setEtc(String etc) {
         this.etc = etc;
+    }
+
+    public int getMailReceiving() {
+        return mailReceiving;
+    }
+
+    public void setMailReceiving(int mailReceiving) {
+        this.mailReceiving = mailReceiving;
+    }
+
+    public int getEmailReceiving() {
+        return emailReceiving;
+    }
+
+    public void setEmailReceiving(int emailReceiving) {
+        this.emailReceiving = emailReceiving;
+    }
+
+    public int getSmsReceiving() {
+        return smsReceiving;
+    }
+
+    public void setSmsReceiving(int smsReceiving) {
+        this.smsReceiving = smsReceiving;
+    }
+
+    public int getPiuaRequiredItem() {
+        return piuaRequiredItem;
+    }
+
+    public void setPiuaRequiredItem(int piuaRequiredItem) {
+        this.piuaRequiredItem = piuaRequiredItem;
+    }
+
+    public int getPiuaOptionalItem() {
+        return piuaOptionalItem;
+    }
+
+    public void setPiuaOptionalItem(int piuaOptionalItem) {
+        this.piuaOptionalItem = piuaOptionalItem;
+    }
+
+    public int getPiuaIdentification() {
+        return piuaIdentification;
+    }
+
+    public void setPiuaIdentification(int piuaIdentification) {
+        this.piuaIdentification = piuaIdentification;
     }
 
     public String getSponsorType1() {

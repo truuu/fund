@@ -123,7 +123,6 @@ SET
   mobilePhone = #{mobilePhone},
   recommender = #{recommender},
   recommenderRelation = #{recommenderRelation},
-  mailReceiving = #{mailReceiving},
   mailTo = #{mailTo},
   homeRoadAddress = #{homeRoadAddress},
   homeDetailAddress = #{homeDetailAddress},
@@ -137,7 +136,13 @@ SET
   officeRoadAddress = #{officeRoadAddress},
   officeDetailAddress = #{officeDetailAddress},
   officePostCode = #{officePostCode},
-  etc = #{etc}
+  etc = #{etc},
+  mailReceiving = #{mailReceiving},
+  emailReceiving = #{emailReceiving},
+  smsReceiving = #{smsReceiving},
+  piuaRequiredItem = #{piuaRequiredItem},
+  piuaOptionalItem = #{piuaOptionalItem},
+  piuaIdentification = #{piuaIdentification}
 WHERE id = #{id}
 </update>    
     
@@ -150,12 +155,14 @@ DECLARE @encrypted VARBINARY(1000)
 SET @encrypted = ENCRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), CONVERT(VARCHAR, #{juminNo}))
 INSERT sponsor(sponsorNo, name, sponsorType1Id, sponsorType2Id, sponsorTypeDetail, 
   churchId, signUpDate, mobilePhone, 
-  recommender, recommenderRelation, mailReceiving, mailTo, homeRoadAddress, homeDetailAddress, homePostCode, homePhone, 
-  email, company, department, position, officePhone, officeRoadAddress, officeDetailAddress, officePostCode, etc, juminNo_encrypted)
+  recommender, recommenderRelation, mailTo, homeRoadAddress, homeDetailAddress, homePostCode, homePhone, 
+  email, company, department, position, officePhone, officeRoadAddress, officeDetailAddress, officePostCode, etc, juminNo_encrypted,
+  mailReceiving, emailReceiving, smsReceiving, piuaRequiredItem, piuaOptionalItem, piuaIdentification)
 VALUES (#{sponsorNo}, #{name}, #{sponsorType1Id}, #{sponsorType2Id}, #{sponsorTypeDetail},
   CASE WHEN #{churchId} = 0 THEN null ELSE #{churchId} END, #{signUpDate}, #{mobilePhone}, 
-  #{recommender}, #{recommenderRelation}, #{mailReceiving}, #{mailTo},  #{homeRoadAddress}, #{homeDetailAddress}, #{homePostCode}, #{homePhone},
-  #{email}, #{company}, #{department}, #{position}, #{officePhone}, #{officeRoadAddress}, #{officeDetailAddress}, #{officePostCode}, #{etc}, @encrypted)
+  #{recommender}, #{recommenderRelation}, #{mailTo},  #{homeRoadAddress}, #{homeDetailAddress}, #{homePostCode}, #{homePhone},
+  #{email}, #{company}, #{department}, #{position}, #{officePhone}, #{officeRoadAddress}, #{officeDetailAddress}, #{officePostCode}, #{etc}, @encrypted
+  #{mailReceiving}, #{emailReceiving}, #{smsReceiving}, #{piuaRequiredItem}, #{piuaOtionalItem}, #{piuaIdentification})
 </insert>
 
 <select id="generateSponsorNo" resultType="java.lang.String">
