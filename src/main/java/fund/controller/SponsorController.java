@@ -16,16 +16,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import fund.dto.Code;
 import fund.dto.Sponsor;
 import fund.dto.pagination.Pagination;
 import fund.dto.pagination.PaginationSponsor;
 import fund.mapper.CodeMapper;
-import fund.mapper2.DataFileMapper;
+import fund.mapper.SponsorLogMapper;
 import fund.mapper.SponsorMapper;
+import fund.mapper2.DataFileMapper;
 import fund.service.C;
 import fund.service.LogService;
 import fund.service.ReportBuilder;
+import fund.service.SponsorService;
 import fund.service.UserService;
 
 @Controller
@@ -35,6 +38,8 @@ public class SponsorController extends BaseController {
     @Autowired CodeMapper codeMapper;
     @Autowired DataFileMapper dataFileMapper;
     @Autowired LogService logService;
+    @Autowired SponsorService sponsorService;
+    @Autowired SponsorLogMapper sponsorLogMapper;
 
     @RequestMapping("/sponsor/list.do")
     public String list(Model model, @ModelAttribute("pagination") PaginationSponsor pagination) {
@@ -68,7 +73,9 @@ public class SponsorController extends BaseController {
     public String edit(Sponsor sponsor, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
         try {
             if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
+            Sponsor s1 = sponsorMapper.selectById(sponsor.getId());
             sponsorMapper.update(sponsor);
+            sponsorService.changeLog(s1, sponsor);
             model.addAttribute("successMsg", "저장했습니다.");
             logService.actionLog("회원 수정", "sponsor edit", sponsor.getId(), sponsor.getSponsorNo());
             return edit(sponsor.getId(), pagination, model);
@@ -112,6 +119,7 @@ public class SponsorController extends BaseController {
             sponsor.setSponsorNo(sponsorMapper.generateSponsorNo());
             sponsorMapper.insert(sponsor);
             logService.actionLog("회원 등록", "sponsor create", sponsor.getId(), sponsor.getSponsorNo());
+            sponsorService.changeLog(new Sponsor(), sponsor);
             return "redirect:list.do";
         } catch (Exception e) {
             addCodesToModel(0, model);
@@ -129,6 +137,18 @@ public class SponsorController extends BaseController {
         addCodesToModel(id, model);
         return "sponsor/files";
     }
+
+    @RequestMapping(value="/sponsor/log.do", method=RequestMethod.GET)
+    public String log(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
+        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
+        model.addAttribute("sponsor", sponsorMapper.selectById(id));
+        model.addAttribute("list", sponsorLogMapper.selectBySponsorId(id));
+        String url = "/sponsor/files.do?id=" + id + "&" + pagination.getQueryString();
+        model.addAttribute("url", URLEncoder.encode(url, "UTF-8"));
+        addCodesToModel(id, model);
+        return "sponsor/log";
+    }
+
 
     @RequestMapping("/sponsor/excel.do")
     public void excel(HttpServletRequest req, HttpServletResponse res) throws Exception {

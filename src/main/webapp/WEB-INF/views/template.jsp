@@ -22,7 +22,7 @@
 </div>
 
 <c:if test="${ not empty errorMsg }">
-  <div class="modal fade myMsg" id="errorModal" role="dialog" tabindex='-1'>
+  <div class="modal myMsg" id="errorModal" role="dialog" tabindex='-1'>
     <div class="modal-dialog modal-sm">
       <div class="modal-content"  style="background-color: #fff0f0">
         <div class="modal-header">
@@ -33,7 +33,7 @@
           <p>${ errorMsg }</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">닫기</button>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
 </c:if>
 
 <c:if test="${ not empty successMsg }">
-  <div class="modal fade" id="successModal" role="dialog" tabindex='-1'>
+  <div class="modal" id="successModal" role="dialog" tabindex='-1'>
     <div class="modal-dialog modal-sm">
       <div class="modal-content"  style="background-color: #f0fff0">
         <div class="modal-header">
@@ -53,7 +53,7 @@
           <p>${ successMsg }</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">닫기</button>
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@
   <script>$("#successModal").modal("show");</script>
 </c:if>
 
-<div class="modal fade" id="waitingModal" role="dialog" tabindex='-1'>
+<div class="modal" id="waitingModal" role="dialog" tabindex='-1'>
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">

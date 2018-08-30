@@ -2,6 +2,7 @@ package fund.dto;
 
 public class Sponsor {
 
+    // member 변수가 추가되면 SponsorService 수정해야 함.
     int id;
     String sponsorNo;
     String name;

@@ -11,7 +11,8 @@ SELECT ${key1}
 SELECT *,
   CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, ${key1}), juminNo_encrypted)) juminNo,
   (SELECT codeName FROM code c WHERE c.id = s.churchID ) church,
-  (SELECT codeName FROM code t WHERE t.id = s.sponsorType1Id) sponsorType1
+  (SELECT codeName FROM code t WHERE t.id = s.sponsorType1Id) sponsorType1,
+  (SELECT codeName FROM code t WHERE t.id = s.sponsorType2Id) sponsorType2
 FROM sponsor s
 WHERE id = #{id}
 </select>
