@@ -33,7 +33,13 @@ public class PaginationSponsor extends Pagination {
     @Override
     public String getQueryString() {
         String s = super.getQueryString();
-        return String.format("%s&st1=%d&st2=%d", s, st1, st2);
+        return String.format("%s&st1=%d&st2=%d&st3=%d", s, st1, st2, st3);
     }
+
+    @Override
+    public boolean notEmpty() {
+        return super.notEmpty() || st1 > 0 || st2 > 0 || st3 > 0;
+    }
+
 
 }

@@ -12,38 +12,60 @@
     <h3>회원 목록</h3>
   </div>
   <div class="panel-body">
-    <div class="pull-right">
-      <a href="excel.do" class="btn btn-success btn-sm">엑셀 다운로드</a>
-      <a href="create.do?${pagination.queryString}" class="btn btn-primary btn-sm">회원 등록</a>
-    </div>
     
     <form:form method="get" modelAttribute="pagination" class="mt4">
       <input type="hidden" name="pg" value="1" />
       
-      <div class="form-inline">
-        <span>정렬:</span>
+      <div class="pull-right mb4">
+        <button type="submit" class="btn btn-info btn-sm">회원 조회</button>
+        <c:if test="${ pagination.notEmpty() }">
+          <a href="list.do" class="btn btn-gray btn-sm">조회조건 취소</a>
+        </c:if>
+        <a href="excel.do" class="btn btn-success btn-sm">엑셀 다운로드</a>
+        <a href="create.do?${pagination.queryString}" class="btn btn-primary btn-sm">회원 등록</a>
+      </div>      
+
+      <div>
+        <span>정렬순서:</span>
         <form:select path="od" data-auto-submit="true">
           <form:option value="0" label="회원번호 순서" />
           <form:option value="1" label="이름 순서" />
           <form:option value="2" label="등록 순서" />
         </form:select>
-        <form:input path="st" placeholder="회원번호나 회원명" />
-    
-        <form:select path="st1" class="ml5">
-          <form:option value="0" label="가입구분 " />
-          <form:options itemValue="id" itemLabel="codeName" items="${ sponsorType1Codes }" />
-        </form:select>
-    
-        <form:select path="st2" class="ml5 mr5">
-          <form:option value="0" label="회원구분 " />
-          <form:options itemValue="id" itemLabel="codeName" items="${ sponsorType2Codes }" />
-        </form:select>
-    
-        <button type="submit" class="btn btn-info btn-sm">조회</button>
-        <c:if test="${ pagination.ss != 0 }">
-          <a href="list.do" class="btn btn-gray btn-sm">조회조건 취소</a>
-        </c:if>
       </div>
+      
+      <table class="table table-bordered lbw120 pd4">
+        <tr>
+          <td class="lb">회원번호/회원명</td>
+          <td><form:input path="st" placeholder="회원번호나 회원명" /></td>    
+          <td class="lb">가입구분</td>
+          <td>
+            <form:select path="st1" class="ml5">
+              <form:option value="0" label="가입구분 " />
+              <form:options itemValue="id" itemLabel="codeName" items="${ sponsorType1Codes }" />
+            </form:select>
+          </td>    
+          <td class="lb">회원구분</td>
+          <td>
+	        <form:select path="st2" class="ml5 mr5">
+	          <form:option value="0" label="회원구분 " />
+	          <form:options itemValue="id" itemLabel="codeName" items="${ sponsorType2Codes }" />
+	        </form:select>
+          </td>    
+        </tr>
+        <tr>
+          <td class="lb">가입일</td>
+          <td colspan="3"><form:input path="startDate" class="startDt" /> ~ <form:input path="endDate" class="endDt" /></td>        
+          <td class="lb">회원/비회원</td>
+          <td>
+            <form:select path="st3" class="ml5 mr5">
+              <form:option value="0" label="회원/비회원 " />
+              <form:option value="1" label="회원 " />
+              <form:option value="2" label="비회원 " />
+            </form:select>
+          </td>    
+        </tr>
+      </table>      
       
       <table class="table table-bordered mt4">
         <thead>

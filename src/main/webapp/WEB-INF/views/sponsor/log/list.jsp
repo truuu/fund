@@ -3,12 +3,15 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<c:set var="pg" value="${ pagination.queryString }" />
-<c:set var="sid" value="${ sponsor.id }" />
+<style>
+table#sponsorLog td:nth-child(1) { white-space: nowrap; }
+table#sponsorLog td:nth-child(2) { white-space: nowrap; }
+table#sponsorLog td:nth-child(3) { white-space: nowrap; }
+</style>
 
 <div class="navigation-info">
   &gt; 회원 관리 &gt; <a href="/funds/sponsor/list.do?${ pagination.queryString }">회원 목록</a>  
-  &gt; 약정 관리 &gt; 약정 목록
+  &gt; 변경 이력
 </div>
 
 <div class="panel panel-default shadow">
@@ -16,47 +19,45 @@
     <%@include file="../_title.jsp" %> 
   </div>
   <div class="panel-body">  
-    <c:set var="tab2" value="active" />
+    <c:set var="tab6" value="active" />
     <%@include file="../_tab2.jsp" %> 
      
-    <table class="table table-bordered mt10">
+    <table id="sponsorLog" class="table table-bordered table-condensed">
       <thead>
         <tr>
-          <th>약정번호</th>
-          <th>기부처</th>
-          <th>기부목적</th>
-          <th>납입방법</th>
-          <th>약정일</th>
-          <th>기간</th>
-          <th>약정상태</th>
-          <th class="right">월납입액</th>
-          <th class="right">납입일</th>
+          <th>변경일</th>
+          <th>실행인</th>
+          <th>항목</th>
+          <th>변경전</th>
+          <th>변경후</th>
         </tr>
       </thead>
       <tbody>
-        <c:forEach var="commitment" items="${ list }">
-          <tr data-url="edit.do?id=${commitment.id}&sid=${sid}&${pg}">
-            <td>${ commitment.commitmentNo }</td>
-            <td>${ commitment.corporateName }</td>
-            <td>${ commitment.donationPurposeName }</td>
-            <td>${ commitment.paymentMethodName }</td>
-            <td>${ commitment.commitmentDate }</td>
-            <td>${ commitment.startDate } ~ ${ commitment.endDate } (${ commitment.months } 개월)
-            </td>
-            <td>${ commitment.state }</td>
-            <td class="right"><fmt:formatNumber value="${ commitment.amountPerMonth }" type="number" /></td>
-            <td class="right">${ commitment.paymentDay }</td>
+        <c:set var="prev" value="x" />
+        <c:forEach var="log" items="${ list }">
+          <tr>
+            <c:if test="${ prev eq log.writeTime }">
+              <td style="border-top: none;"></td><td style="border-top: none;"></td>
+            </c:if>
+            <c:if test="${ prev ne log.writeTime }">
+              <td><fmt:formatDate value="${ log.writeTime }" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
+              <td>${ log.userName }</td>
+            </c:if>
+            <td>${ log.field }</td>
+            <td>${ log.value1 }</td>
+            <td>${ log.value2 }</td>
           </tr>
+          <c:set var="prev" value="${ log.writeTime }" />
         </c:forEach>
         <c:if test="${ list.size() == 0 }">
-            <tr><td colspan="8">약정이 없습니다.</td></tr>
+            <tr><td colspan="5">변경 이력이 없습니다.</td></tr>
         </c:if>        
       </tbody>
     </table>
 
-    <div class="">
-      <a href="create.do?sid=${sid}&${pg}" class="btn btn-primary btn-sm">약정 등록</a>
-    </div>
-
   </div>
-</div>
+</div>    
+
+<script>
+tableHVScroll2( $("#sponsorLog") );
+</script>

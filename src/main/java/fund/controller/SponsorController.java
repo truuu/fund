@@ -138,7 +138,7 @@ public class SponsorController extends BaseController {
         return "sponsor/files";
     }
 
-    @RequestMapping(value="/sponsor/log.do", method=RequestMethod.GET)
+    @RequestMapping(value="/sponsor/log/list.do", method=RequestMethod.GET)
     public String log(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
         if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
         model.addAttribute("sponsor", sponsorMapper.selectById(id));
@@ -146,7 +146,7 @@ public class SponsorController extends BaseController {
         String url = "/sponsor/files.do?id=" + id + "&" + pagination.getQueryString();
         model.addAttribute("url", URLEncoder.encode(url, "UTF-8"));
         addCodesToModel(id, model);
-        return "sponsor/log";
+        return "sponsor/log/list";
     }
 
 

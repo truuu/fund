@@ -5,6 +5,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class Pagination {
     int currentPage = 1;
     int pageSize = 15;
@@ -71,6 +73,10 @@ public class Pagination {
         if (basePage + 11 <= pageCount)
             list.add(new Page("Next", basePage + 11));
         return list;
+    }
+
+    public boolean notEmpty() {
+        return srchType > 0 || StringUtils.isBlank(startDate) == false;
     }
 
     public class Page {

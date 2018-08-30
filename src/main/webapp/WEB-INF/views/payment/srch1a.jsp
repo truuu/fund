@@ -32,9 +32,9 @@
       <table class="table table-bordered lbw120 pd4">
         <tr>
           <td class="lb">이름</td>
-          <td><form:input path="map[sponsorName]" />    
+          <td><form:input path="map[sponsorName]" /></td>    
           <td class="lb">회원번호</td>
-          <td><form:input path="map[sponsorNo]" />    
+          <td><form:input path="map[sponsorNo]" /></td>    
         </tr>
         <tr>
           <td class="lb">회원구분</td>

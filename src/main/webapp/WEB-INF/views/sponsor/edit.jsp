@@ -13,7 +13,13 @@
 </style>
 
 <div class="navigation-info">
-  &gt; 회원 관리 &gt; <a href="/funds/sponsor/list.do?${ pagination.queryString }">회원 목록</a> &gt; 회원정보 수정
+  &gt; 회원 관리 &gt; <a href="/funds/sponsor/list.do?${ pagination.queryString }">회원 목록</a>
+  <c:if test="${ sponsor.id == 0 }">
+    &gt;  회원 신규등록
+  </c:if>
+  <c:if test="${ sponsor.id != 0 }">
+    &gt; 회원정보 수정      
+  </c:if>  
 </div>
 
 <form:form method="post" modelAttribute="sponsor">

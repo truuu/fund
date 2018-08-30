@@ -8,6 +8,7 @@
     <li class="${ tab3 }"><a href="/funds/sponsor/payment/list1.do?sid=${sponsor.id}&${pagination.queryString}">정기납입관리</a></li>
     <li class="${ tab4 }"><a href="/funds/sponsor/payment/list2.do?sid=${sponsor.id}&${pagination.queryString}">비정기납입관리</a></li>
     <li class="${ tab5 }"><a href="/funds/sponsor/files.do?id=${sponsor.id}&${pagination.queryString}">첨부파일(${fileCount})</a></li>
-    <li class="${ tab6 }"><a href="/funds/sponsor/log.do?id=${sponsor.id}&${pagination.queryString}">변경이력</a></li>
+    <li class="${ tab6 }"><a href="/funds/sponsor/log/list.do?id=${sponsor.id}&${pagination.queryString}">변경이력</a></li>
+    <li class="${ tab7 }"><a href="/funds/sponsor/event/list.do?sid=${sponsor.id}&${pagination.queryString}">예우관리</a></li>
   </c:if>
 </ul>
