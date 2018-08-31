@@ -15,7 +15,7 @@
 
 <select id="selectCmsResult" resultType="fund.dto.EB21">
   SELECT e.*, c.commitmentNo, s.sponsorNo, s.name sponsorName, 
-    d.name donationPurposeName, cp.name corporateName, og.codeName organizationName,
+    d.name donationPurposeName, cp.shortName corporateName, og.codeName organizationName,
     ec.[description]
   FROM EB21 e
     JOIN commitment c ON c.id = e.commitmentId

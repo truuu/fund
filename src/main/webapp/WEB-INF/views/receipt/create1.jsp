@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
 <style>
 body table#receiptCreaet1 tbody tr td { height: 1.7em; line-height: 1.7em; vertical-align: middle; padding: 4px; }
@@ -30,9 +31,9 @@ body table#receiptCreaet1 td:nth-child(1) { text-align: center; }
     <form:select path="map[corporateId]" itemValue="id" itemLabel="name" items="${ corporates }" />
     <button type="submit" class="btn btn-primary btn-sm" name="cmd" value="search">납입내역 조회</button>
     
-    <table id="receiptCreaet1" class="table table-bordered mt4">
-      <thead>
-        <tr>
+    <my:scrollableTable tagId="receiptCreaet1">
+      <jsp:attribute name="header">
+         <tr>
           <th style="text-align:center;"><input type="checkbox" onclick="setTimeout(toggleCreateButton, 100)" /></th>
           <th>영수증번호</th>
           <th>회원번호</th>
@@ -40,9 +41,9 @@ body table#receiptCreaet1 td:nth-child(1) { text-align: center; }
           <th>정기/비정기</th>
           <th>납입일</th>
           <th class="right">금액</th>
-        </tr>
-      </thead>
-      <tbody>
+         </tr>        
+      </jsp:attribute>
+      <jsp:attribute name="body">
         <c:forEach var="p" items="${ list }">
           <tr>
             <td><c:if test="${ p.receiptId == null }">
@@ -57,12 +58,12 @@ body table#receiptCreaet1 td:nth-child(1) { text-align: center; }
             <td class="right"><fmt:formatNumber value="${ p.amount }" /></td>
           </tr>
         </c:forEach>
-      </tbody>
-      <c:if test="${ list.size() <= 0 }">
-        <tr><td colspan="8">조회 결과가 없습니다.</td></tr>
-      </c:if>
-    </table>
-    
+      </jsp:attribute>
+    </my:scrollableTable>
+        
+     <c:if test="${ list.size() <= 0 }">
+       <div>조회 결과가 없습니다.</div>
+     </c:if>    
     
     <c:if test="${ list.size() > 0 }">
       <div class="createReceipt">
@@ -88,6 +89,4 @@ function toggleCreateButton() {
   else $("button[value=createReceipt]").hide();
 }
 $("button[value=createReceipt]").hide();
-
-tableHVScroll2($("table#receiptCreaet1"));
 </script>

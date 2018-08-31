@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
+
 <style>
     div.modal-dialog { width: 400px; }
     div#scroll { height: 500px; width: 100%; overflow-y: scroll; }
@@ -18,18 +20,22 @@
           <input type="text" id="srchText" onkeydown="if (event.keyCode == 13) filterChurch()" />
           <button type="button" class="btn btn-primary btn-sm" onclick="filterChurch()">조회</button>
         </div>
+        
+	    <my:scrollableTable tagId="churchScrollTable">
+	        <jsp:attribute name="header">
+	           <tr>
+	           </tr>        
+	        </jsp:attribute>
+	        <jsp:attribute name="body">
+	            <c:forEach var="church" items="${ churchList }">
+	              <tr class="hover">
+	                  <td>${ church.id }</td>
+	                  <td>${ church.codeName }</td>
+	              </tr>
+	            </c:forEach>
+	        </jsp:attribute>
+	    </my:scrollableTable>        
               
-        <table id="churchScrollTable" class="table table-bordered pd5">
-          <tbody>
-            <c:forEach var="church" items="${ churchList }">
-              <tr class="hover">
-                  <td>${ church.id }</td>
-                  <td>${ church.codeName }</td>
-              </tr>
-            </c:forEach>
-          </tbody>
-        </table>
-
       </div>
       <div class="modal-footer">
         <button onclick="cancelChurch()" class="btn btn-danger btn-sm" data-dismiss="modal">소속교회 없음</button>
@@ -68,7 +74,4 @@
             });
         }
     }
-    $( "#churchDialog" ).on('shown.bs.modal', function(){
-        tableHVScroll2( $("#churchScrollTable") );
-    });      
 </script>

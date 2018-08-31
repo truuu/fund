@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
 <div class="navigation-info">
   &gt; 금융연동 &gt; 급여공제 결과 데이터
@@ -15,18 +16,19 @@
   <div class="panel-body">
   
     <form method="post">
-      <table id="sal" class="table table-bordered">
-        <thead>
-          <tr>
+    
+      <my:scrollableTable tagId="sal">
+        <jsp:attribute name="header">
+           <tr>
             <th></th>
             <th>약정번호</th>
             <th>이름</th>
             <th>납입일</th>
             <th class="right">납입금액</th>
             <th>적요</th>
-          </tr>
-        </thead>
-        <tbody>
+           </tr>        
+        </jsp:attribute>
+        <jsp:attribute name="body">
           <c:forEach var="r" items="${ sal_notSaved }">
             <tr class="${ c.valid ? '' : 'my-error' }">
               <td></td>
@@ -47,9 +49,9 @@
               <td>${r.etc }</td>
             </tr>
           </c:forEach>    
-        </tbody>
-      </table>
-      
+        </jsp:attribute>
+      </my:scrollableTable>
+        
       <div class="mt4">
         <button type="submit" class="btn btn-primary btn-sm" name="cmd" value="save">저장</button>
       </div>      
@@ -57,7 +59,4 @@
 
     </div>
 </div>
-    
-<script>
-tableHVScroll2($("table#sal"));
-</script>
+

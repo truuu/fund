@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
 <div class="navigation-info">
   &gt; 금융연동 &gt; EB21 생성
@@ -24,9 +25,10 @@
       </form:form>
           
       <c:set var="sum" value="${ 0 }" />
-      <table id="eb21" class="table table-bordered">
-        <thead>
-          <tr>
+      
+      <my:scrollableTable tagId="eb21">
+        <jsp:attribute name="header">
+           <tr>
             <th>회원번호</th>
             <th>회원</th>
             <th>약정번호</th>
@@ -34,9 +36,9 @@
             <th>금액</th>
             <th>계좌</th>
             <th>생년월일</th>
-          </tr>
-        </thead>
-        <tbody>
+           </tr>        
+        </jsp:attribute>
+        <jsp:attribute name="body">
           <c:forEach var="c" items="${ list }">
             <tr class="${ c.valid ? '' : 'my-error' }">
               <td>${ c.sponsorNo }</td>
@@ -49,23 +51,13 @@
             </tr>
             <c:set var="sum" value="${ sum + c.amountPerMonth }" />
           </c:forEach>
-          <tr>
-              <td colspan="3"></td>
-              <td>합계</td>
-              <td class="right"><fmt:formatNumber value="${ sum }" /></td>
-              <td colspan="2">${ list.size() } 건</td>
-          </tr>
-        </tbody>
-      </table>
-      
+        </jsp:attribute>
+    </my:scrollableTable>
+    
+    <div class="sum">
+      합계: <fmt:formatNumber value="${ sum }" /> 원 / ${ list.size() } 건
+    </div>
+
     </div>
 </div>          
    
-
-<script>
-tableHVScroll2($("table#eb21"));
-</script>
-
-
-
-

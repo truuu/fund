@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 <style>
   #donationPurposeDialog div.modal-dialog { width: 700px; }
   #donationPurposeDialog #scroll tbody tr:hover { background-color: #ffe; cursor: pointer; }
@@ -18,18 +19,22 @@
           <button type="button" class="btn btn-primary btn-sm" onclick="filterPurpose()">조회</button>
         </div>
         
-        <table id="donationPurposeScrollTable" class="table table-bordered pd5">
-          <tbody>
-          <c:forEach var="donationPurpose" items="${ donationPurposes }">
-            <tr data-id="${ donationPurpose.id }" class="hover">
-              <td>${ donationPurpose.corporateName }</td>
-              <td>${ donationPurpose.organizationName }</td>
-              <td>${ donationPurpose.name }</td>
-            </tr>
-          </c:forEach>
-          </tbody>
-        </table>
-        
+	    <my:scrollableTable tagId="donationPurposeScrollTable">
+	        <jsp:attribute name="header">
+	           <tr>
+	           </tr>        
+	        </jsp:attribute>
+	        <jsp:attribute name="body">
+	          <c:forEach var="donationPurpose" items="${ donationPurposes }">
+	            <tr data-id="${ donationPurpose.id }" class="hover">
+	              <td>${ donationPurpose.corporateName }</td>
+	              <td>${ donationPurpose.organizationName }</td>
+	              <td>${ donationPurpose.name }</td>
+	            </tr>
+	          </c:forEach>
+	        </jsp:attribute>
+	    </my:scrollableTable>
+            
       </div>
       <div class="modal-footer">
         <button class="btn btn-default btn-sm" data-dismiss="modal">취소</button>
@@ -64,8 +69,5 @@
     	    });
     	}
     }
-    $( "#donationPurposeDialog" ).on('shown.bs.modal', function(){
-        tableHVScroll2( $("#donationPurposeScrollTable") );
-    });    
     
 </script>
