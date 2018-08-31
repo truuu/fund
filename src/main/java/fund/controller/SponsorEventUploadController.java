@@ -42,13 +42,7 @@ public class SponsorEventUploadController extends BaseController {
 
         String redirect1 = "redirect:upload.do";
         if (file.getSize() <= 0) return redirect1;
-
-        System.out.println(file.getSize());
-
         List<SponsorEvent> list = excelService.get예우업로드Result(file.getInputStream());
-
-        System.out.println(list.size());
-
         for (SponsorEvent e : list) {
             Sponsor sponsor = sponsorMapper.selectBySponsorNo(e.getSponsorNo());
             if (sponsor != null) {

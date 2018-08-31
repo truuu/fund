@@ -49,6 +49,10 @@
         </tr>    
       </tbody>
     </table>
+    
+    <div id="sum" class="mb10">
+      합계: <fmt:formatNumber value="${ sum }" />
+    </div>
 
     <div class="">
       <a href="create2.do?sid=${sid}&${pg}" class="btn btn-primary btn-sm">비정기납입 등록</a>

@@ -32,6 +32,8 @@
     <div id="searchResult">
     </div>
     
+    <div id="sum"></div>
+    
   </div>
 </div>  
 
@@ -47,7 +49,10 @@ $("select[name=commitmentId]").change(function() {
 function searchPayment() {
     var params = { commitmentId: $("select[name=commitmentId]").val(),
                    sid: ${ sponsor.id } };
-    $("#searchResult").load("list1ajax.do", params);
+    $("#searchResult").load("list1ajax.do", params, function() {
+        var tr = $("#searchResult table tbody tr:last-child").clone();
+        $("div#sum").html(tr);
+    });
 }
 
 function updateDonationPurpose() {

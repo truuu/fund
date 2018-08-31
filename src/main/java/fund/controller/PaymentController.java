@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import fund.dto.param.OrderBy;
 import fund.dto.param.Wrapper;
 import fund.mapper.CodeMapper;
@@ -53,7 +56,11 @@ public class PaymentController extends BaseController {
     public String report1a(Model model) {
         if (!UserService.canAccess(C.메뉴_납입조회_납입내역조회)) return "redirect:/home/logout.do";
         addModel1(model);
-        model.addAttribute("wrapper", new Wrapper());
+        Wrapper wrapper = new Wrapper();
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        wrapper.getMap().put("startDate", String.format("%d-01-01", year));
+        wrapper.getMap().put("endDate", String.format("%d-12-31", year));
+        model.addAttribute("wrapper", wrapper);
         return "payment/srch1a";
     }
 
@@ -119,7 +126,11 @@ public class PaymentController extends BaseController {
     @RequestMapping(value="/payment/srch1b", method=RequestMethod.GET)
     public String report1b(Model model) {
         if (!UserService.canAccess(C.메뉴_납입조회_회원별납입합계)) return "redirect:/home/logout.do";
-        model.addAttribute("wrapper", new Wrapper());
+        Wrapper wrapper = new Wrapper();
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        wrapper.getMap().put("startDate", String.format("%d-01-01", year));
+        wrapper.getMap().put("endDate", String.format("%d-12-31", year));
+        model.addAttribute("wrapper", wrapper);
         addModel1(model);
         return "payment/srch1b";
     }

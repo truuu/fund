@@ -145,7 +145,7 @@ function tableHVScroll2(table) {
   var template =
       "<div id='" + id + "'>" +
         "<div id='scroll1' style='margin-top: 10px;  overflow: hidden !important; border: 1px solid #eee;'>" +
-          "<table id='head' class='table table-bordered' style='white-space: nowrap; margin-bottom:0px;'>" +
+          "<table id='head' class='table table-bordered' style='white-space: nowrap; margin-bottom:0px; table-layout: fixed;'>" +
             "<thead style='white-space: nowrap;'>" +
             "</thead>" +
           "</table>" +
@@ -162,7 +162,7 @@ function tableHVScroll2(table) {
     root.find("#scroll1").width( root.find("#scroll2").prop("clientWidth") );
     root.find("table#head").width( root.find("#scroll2 table").width() );
     root.find("table#head").css({ "min-width": root.find("#scroll2 table").width() });
-    root.find("#scroll2 table th, #scroll2 table tr td").each( function() {
+    root.find("#scroll2 table th, #scroll2 table tr:nth-child(1) td").each( function() {
         $(this).width($(this).width());
     });
     thead.appendTo( root.find("table#head thead") );

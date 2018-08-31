@@ -92,14 +92,8 @@ public class ExcelService {
         List<SponsorEvent> result = new ArrayList<>();
         Workbook workbook = WorkbookFactory.create(input);
         int numberOfSheets = workbook.getNumberOfSheets();
-
-        System.out.println(numberOfSheets);
-
         for (int i = 0; i < numberOfSheets; ++i) {
             Sheet sheet = workbook.getSheetAt(i);
-
-            System.out.println(sheet.getPhysicalNumberOfRows());
-
             for (int r = 1; r < sheet.getPhysicalNumberOfRows() ; ++r) {
                 Row row = sheet.getRow(r);
                 String sponsorNo = null;

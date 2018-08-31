@@ -4,19 +4,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <div class="navigation-info">
-  &gt; 납입조회 &gt; 납입 합계 조회
+  &gt; 납입조회 &gt; 회원별 납입 합계 조회
 </div>
 
 <div class="panel panel-default shadow">
   <div class="panel-heading">
-    <h3>납입 합계 조회</h3> 
+    <h3>회원별 납입 합계 조회</h3> 
   </div>
   <div class="panel-body">
 
       <form:form modelAttribute="wrapper">
       
         <div class="pull-right mb4">
-          <button type="submit" class="btn btn-primary btn-sm" name="cmd" value="search">납입 합계 조회</button>
+          <button type="submit" class="btn btn-primary btn-sm" name="cmd" value="search" onclick="showWaitMsg()">납입 합계 조회</button>
           <button type="button" class="btn btn-default btn-sm" onclick="cancelSearch()">조회조건 취소</button>    
           <button type="submit" class="btn btn-success btn-sm" name="cmd" value="excel">엑셀 다운로드</button>
         </div>
@@ -89,44 +89,73 @@
       
       <c:set var="sum" value="${ 0 }" />
       <c:set var="count" value="${ 0 }" />
-      <table id="srch1b" class="table table-bordered mt4">
-        <thead>
-          <tr>
+
+    <div id="srch1a">
+      <div id='scroll1' style='margin-top: 10px;  overflow: hidden !important; border: 1px solid #eee;'>
+        <table id='head' class='table table-bordered' style='white-space: nowrap; margin-bottom:0px; table-layout: fixed;'>
+          <thead style='white-space: nowrap;'>
+            <tr>
             <th>회원번호</th>
             <th>이름</th>
             <th>회원구분</th>
             <th>소속교회</th>
             <th class="right">납입액</th>
             <th class="right">납입건수</th>
-          </tr>
-        </thead>
-        <tbody>
-          <c:forEach var="p" items="${list}">
-            <tr>
-              <td>${p.sponsorNo}</td>
-              <td>${p.name}</td>
-              <td>${p.sponsorType2Name}</td>
-              <td>${p.churchName}</td>
-              <td class="right"><fmt:formatNumber value="${p.amount}" /></td>
-              <td class="right"><fmt:formatNumber value="${p.count}" /></td>
             </tr>
-            <c:set var="sum" value="${ sum + p.amount }" />
-            <c:set var="count" value="${ count + 1 }" />
-          </c:forEach>
-          <tr>
-            <td colspan="4" class="right">합계</td>
-            <td class="right"><fmt:formatNumber value="${ sum }" /></td>
-            <td class="right"><fmt:formatNumber value="${ count }" /> 건</td>
-          </tr>    
-        </tbody>
-      </table>
-
+          </thead>
+        </table>
+      </div>
+      <div id='scroll2'  style='overflow: auto; max-height: 600px; border: 1px solid #eee; margin-bottom: 10px;'>    
+	      <table id="srch1b" class="table table-bordered mt4">
+	        <thead>
+	          <tr>
+	          </tr>
+	        </thead>
+	        <tbody>
+	          <c:forEach var="p" items="${list}">
+	            <tr>
+	              <td>${p.sponsorNo}</td>
+	              <td>${p.name}</td>
+	              <td>${p.sponsorType2Name}</td>
+	              <td>${p.churchName}</td>
+	              <td class="right"><fmt:formatNumber value="${p.amount}" /></td>
+	              <td class="right"><fmt:formatNumber value="${p.count}" /></td>
+	            </tr>
+	            <c:set var="sum" value="${ sum + p.amount }" />
+	            <c:set var="count" value="${ count + 1 }" />
+	          </c:forEach>
+	          <tr>
+	            <td colspan="4" class="right">합계</td>
+	            <td class="right"><fmt:formatNumber value="${ sum }" /></td>
+	            <td class="right"><fmt:formatNumber value="${ count }" /> 건</td>
+	          </tr>    
+	        </tbody>
+	      </table>
+      </div>
+    </div>
+    <div>
+      합계: <fmt:formatNumber value="${ sum }" /> 원 / <fmt:formatNumber value="${ count }" /> 건
+    </div>    
+    
   </div>
-</div>         
+</div>    
 
 <%@include file="../sponsor/_churchDialog.jsp"%>
 <%@include file="../sponsor/_donationPurposeDialog.jsp"%>
-
 <script>
-tableHVScroll2($("table#srch1b"));
+$("#srch1a #scroll1").width( $("#srch1a #scroll2").width() - 18 );
+$("#srch1a #scroll1 table").width( $("#srch1a #scroll2 table").width() );
+$("#srch1a #scroll1 table th:nth-child(1)").width( $("#srch1a #scroll2 table tr:nth-child(1) td:nth-child(1)").width() );
+$("#srch1a #scroll1 table th:nth-child(2)").width( $("#srch1a #scroll2 table tr:nth-child(1) td:nth-child(2)").width() );
+$("#srch1a #scroll1 table th:nth-child(3)").width( $("#srch1a #scroll2 table tr:nth-child(1) td:nth-child(3)").width() );
+$("#srch1a #scroll1 table th:nth-child(4)").width( $("#srch1a #scroll2 table tr:nth-child(1) td:nth-child(4)").width() );
+$("#srch1a #scroll1 table th:nth-child(5)").width( $("#srch1a #scroll2 table tr:nth-child(1) td:nth-child(5)").width() );
+$("#srch1a #scroll1 table th:nth-child(6)").width( $("#srch1a #scroll2 table tr:nth-child(1) td:nth-child(6)").width() );
+$("#srch1a #scroll1 table th:nth-child(7)").width( $("#srch1a #scroll2 table tr:nth-child(1) td:nth-child(7)").width() );
+$("#srch1a #scroll1 table th:nth-child(8)").width( $("#srch1a #scroll2 table tr:nth-child(1) td:nth-child(8)").width() );
+$("#srch1a #scroll1 table th:nth-child(9)").width( $("#srch1a #scroll2 table tr:nth-child(1) td:nth-child(9)").width() );
+
+$("#srch1a #scroll2").on('scroll', function () {
+    $("#srch1a #scroll1").scrollLeft($(this).scrollLeft());
+});
 </script>

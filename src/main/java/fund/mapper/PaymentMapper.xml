@@ -178,7 +178,7 @@ AND (@sponsorType2Id IS NULL OR @sponsorType2Id = '' OR @sponsorType2Id = s.spon
 AND (@sponsorName IS NULL OR @sponsorName = '' OR @sponsorName = s.name)
 AND (@sponsorNo IS NULL OR @sponsorNo = '' OR @sponsorNo = s.sponsorNo)
 AND (@corporateId IS NULL OR @corporateId = '' OR @corporateId = d.corporateId)
-AND (@amount > 0 AND @amount = p.amount)
+AND (@amount = 0 OR @amount = p.amount)
 ${ orderBy }
 </select>
 
