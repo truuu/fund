@@ -1,21 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
 <h1>후원관리시스템</h1>
 <hr />
 
 <h3>일정 관리</h3>
-
-<my:test2>
-  <jsp:attribute name="param1">
-    <h1>hello</h1>
-  </jsp:attribute>
-  <jsp:attribute name="param2">
-    <h1>world</h1>
-  </jsp:attribute>
-</my:test2>
 
 <div class="pull-right mb4">
   <button class="btn btn-primary" onclick="showTodoModal()">일정 등록</button>

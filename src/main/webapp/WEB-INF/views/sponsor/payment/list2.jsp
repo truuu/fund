@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
 <c:set var="pg" value="${ pagination.queryString }" />
 <c:set var="sid" value="${ sponsor.id }" />
@@ -21,35 +22,31 @@
     <%@include file="../_tab2.jsp" %> 
 
     <c:set var="sum" value="${ 0 }" />
-    <table id="list2ScrollTable" class="table table-bordered">
-      <thead>
-        <tr>
-          <th>납입방법</th>
-          <th class="right">납입금액</th>
-          <th>납입일</th>
-          <th>기부목적</th>
-          <th>비고</th>
-        </tr>
-      </thead>
-      <tbody>
-        <c:forEach var="payment" items="${ list }">
-          <tr data-url="edit2.do?id=${payment.id}&sid=${sid}&${pg}">
-            <td>${ payment.paymentMethodName }</td>
-            <td class="right"><fmt:formatNumber value="${ payment.amount}" /></td>
-            <td>${ payment.paymentDate}</td>
-            <td>${ payment.corporateName } / ${ payment.organizationName } / ${ payment.donationPurposeName }</td>
-            <td>${ payment.etc }</td>
-          </tr>
-          <c:set var="sum" value="${ sum + payment.amount }" />
-        </c:forEach>
-        <tr>
-          <td>합계</td>
-          <td class="right"><fmt:formatNumber value="${ sum }" /></td>
-          <td colspan="3"></td>
-        </tr>    
-      </tbody>
-    </table>
-    
+
+    <my:scrollableTable tagId="srch1a">
+        <jsp:attribute name="header">
+           <tr>
+	          <th>납입방법</th>
+	          <th class="right">납입금액</th>
+	          <th>납입일</th>
+	          <th>기부목적</th>
+	          <th>비고</th>
+           </tr>        
+        </jsp:attribute>
+        <jsp:attribute name="body">
+            <c:forEach var="payment" items="${list}">
+	          <tr data-url="edit2.do?id=${payment.id}&sid=${sid}&${pg}">
+	            <td>${ payment.paymentMethodName }</td>
+	            <td class="right"><fmt:formatNumber value="${ payment.amount}" /></td>
+	            <td>${ payment.paymentDate}</td>
+	            <td>${ payment.corporateName } / ${ payment.organizationName } / ${ payment.donationPurposeName }</td>
+	            <td>${ payment.etc }</td>
+	          </tr>
+	          <c:set var="sum" value="${ sum + payment.amount }" />
+            </c:forEach>
+        </jsp:attribute>
+    </my:scrollableTable>
+
     <div id="sum" class="mb10">
       합계: <fmt:formatNumber value="${ sum }" />
     </div>
@@ -73,6 +70,4 @@
 function updateDonationPurpose() {
     $("form#updateDonationPurpose").submit();
 }
-
-tableHVScroll2( $("#list2ScrollTable") );
 </script>

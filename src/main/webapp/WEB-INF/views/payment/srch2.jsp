@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
 <div class="navigation-info">
   &gt; 납입조회 &gt; ${ title }별 납입 합계
@@ -33,18 +34,17 @@
         </div>  
       </form:form>
       
-      <table id="srch2" class="table table-bordered mt4">
-        <thead>
+    <my:scrollableTable tagId="srch2">
+        <jsp:attribute name="header">
           <tr>
             <th>${ title }</th>
             <th class="right">회원수</th>
             <th class="right">납입수</th>
             <th class="right">금액</th>
-            <th class="right">비율</th>
-            
+            <th class="right">비율</th>            
           </tr>
-        </thead>
-        <tbody>
+        </jsp:attribute>
+        <jsp:attribute name="body">
           <c:forEach var="p" items="${list}">
             <tr>
               <td>${p.name} </td>
@@ -54,12 +54,8 @@
               <td class="right"><fmt:formatNumber value="${p.ratio }" pattern="##0.00"/></td>
             </tr>
           </c:forEach>
-        </tbody>
-      </table>
+        </jsp:attribute>
+    </my:scrollableTable>
 
     </div>
 </div>  
-
-<script>
-tableHVScroll2($("table#srch2"));
-</script>
