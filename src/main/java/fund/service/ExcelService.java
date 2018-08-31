@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -14,7 +15,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import fund.dto.Sal;
+import fund.dto.SponsorEvent;
 import fund.dto.Xfer;
 
 @Service
@@ -84,6 +87,40 @@ public class ExcelService {
         }
         return result;
     }
+
+    public List<SponsorEvent> get예우업로드Result(InputStream input) throws Exception {
+        List<SponsorEvent> result = new ArrayList<>();
+        Workbook workbook = WorkbookFactory.create(input);
+        int numberOfSheets = workbook.getNumberOfSheets();
+
+        System.out.println(numberOfSheets);
+
+        for (int i = 0; i < numberOfSheets; ++i) {
+            Sheet sheet = workbook.getSheetAt(i);
+
+            System.out.println(sheet.getPhysicalNumberOfRows());
+
+            for (int r = 1; r < sheet.getPhysicalNumberOfRows() ; ++r) {
+                Row row = sheet.getRow(r);
+                String sponsorNo = null;
+                Date date = null;
+                String description = null;
+                String etc = null;
+                try {
+                    if (row.getCell(0) != null) sponsorNo = row.getCell(0).getStringCellValue();
+                    if (StringUtils.isBlank(sponsorNo)) continue;
+                    if (row.getCell(1) != null) description = row.getCell(1).getStringCellValue();
+                    if (row.getCell(2) != null) date = getDateValue(row.getCell(2));
+                    if (row.getCell(3) != null) etc = row.getCell(3).getStringCellValue();
+                    result.add(new SponsorEvent(sponsorNo, description, new java.sql.Date(date.getTime()), etc));
+                } catch (Exception e) {
+                    logService.insert(e);
+                }
+            }
+        }
+        return result;
+    }
+
 
     static int getIntValue(Cell cell) {
         if (cell.getCellType() == Cell.CELL_TYPE_STRING)

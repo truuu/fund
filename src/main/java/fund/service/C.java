@@ -16,6 +16,7 @@ public class C {
     public static final int 메뉴_기초정보관리 = 1;
     public static final int 메뉴_회원관리_회원관리 = 10;
     public static final int 메뉴_회원관리_우편발송 = 11;
+    public static final int 메뉴_회원관리_예우업로드 = 32;
     public static final int 메뉴_금융연동_EB13생성 = 12;
     public static final int 메뉴_금융연동_EB14등록 = 13;
     public static final int 메뉴_금융연동_EB1314결과조회 = 14;

@@ -19,7 +19,7 @@ WHERE s.id = #{id}
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
 INSERT SponsorEvent (sponsorId, userId, eventDate, description, etc)
-VALUES (#{sponsorId}, #{userId}, GETDATE(), #{description}, #{etc})
+VALUES (#{sponsorId}, #{userId}, #{eventDate}, #{description}, #{etc})
 </insert>
 
 <update id="update">

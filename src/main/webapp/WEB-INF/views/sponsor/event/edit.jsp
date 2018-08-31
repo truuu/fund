@@ -27,6 +27,10 @@
           <td><form:input path="description" class="w600" /></td>
         </tr>
         <tr>
+          <td class="lb">날짜</td>
+          <td><form:input path="eventDate" class="date" /></td>
+        </tr>
+        <tr>
           <td class="lb">비고</td>
           <td><form:textarea path="etc" class="w600 h100" /></td>
         </tr>

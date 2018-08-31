@@ -42,6 +42,7 @@
               <ul class="dropdown-menu" role="menu">
                 <%=menu("회원 관리", "/funds/sponsor/list.do", C.메뉴_회원관리_회원관리)%>
                 <%=menu("우편 발송", "/funds/sponsor/dm.do", C.메뉴_회원관리_우편발송)%>
+                <%=menu("예우 업로드", "/funds/sponsor/event/upload.do", C.메뉴_회원관리_예우업로드)%>
               </ul>
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">금융연동<span class="caret"></span></a>

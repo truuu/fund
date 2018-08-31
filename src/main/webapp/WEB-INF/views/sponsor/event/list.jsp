@@ -31,7 +31,7 @@
       <tbody>
         <c:forEach var="event" items="${ list }">
           <tr data-url="edit.do?id=${event.id}&sid=${sid}&${pg}">
-            <td><fmt:formatDate value="${ event.eventDate }" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
+            <td><fmt:formatDate value="${ event.eventDate }" type="date" pattern="yyyy-MM-dd"/></td>
             <td>${ event.userName }</td>
             <td>${ event.description }</td>
             <td>${ event.etc }</td>

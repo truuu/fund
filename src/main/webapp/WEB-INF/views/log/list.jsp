@@ -8,6 +8,9 @@
   &gt; 시스템 관리 &gt; 로그기록 관리 &gt; 로그기록 목록
 </div>
 
+<form:form method="get" modelAttribute="pagination" class="mt4">
+  <input type="hidden" name="pg" value="1" />
+
 <div class="panel panel-default shadow w1000">
   <div class="panel-heading">
     <h3>로그기록 목록</h3>
@@ -17,8 +20,6 @@
       <button type="submit" class="btn btn-danger btn-sm" name="cmd" value="delete" data-confirm-delete>선택항목 삭제</button>
     </div>    
  
-    <form:form method="get" modelAttribute="pagination" class="mt4">
-      <input type="hidden" name="pg" value="1" />
     
       <div class="form-inline">
         <form:select path="od"  data-auto-submit="true">
@@ -78,8 +79,9 @@
         </c:forEach>
       </ul>
       
-    </form:form>
   </div>
 </div>
       
+ </form:form>
+ 
  

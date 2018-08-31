@@ -86,4 +86,5 @@ public class SponsorEventController extends BaseController {
             return logService.logErrorAndReturn(model, e, "sponsor/event/edit");
         }
     }
+
 }

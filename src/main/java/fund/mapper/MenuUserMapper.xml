@@ -11,6 +11,7 @@
   SELECT m.id menuId, #{userId} userId, m.title1 + ' - ' + m.title2 title, 
         CASE WHEN userId IS NOT NULL THEN 1 ELSE 0 END enabled
   FROM menu m LEFT JOIN menuUser u ON m.id = u.menuId AND userId = #{userId}
+  ORDER BY m.no
 </select>
  
 <delete id="delete">

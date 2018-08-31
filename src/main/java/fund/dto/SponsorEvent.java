@@ -1,6 +1,6 @@
 package fund.dto;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 public class SponsorEvent {
 
@@ -8,9 +8,22 @@ public class SponsorEvent {
     int sponsorId;
     int userId;
     String userName;
-    Timestamp eventDate;
+    Date eventDate;
     String description;
     String etc;
+
+    String sponsorNo;
+    String sponsorName;
+
+    public SponsorEvent() {
+    }
+
+    public SponsorEvent(String sponsorNo, String description, Date eventDate, String etc) {
+        this.sponsorNo = sponsorNo;
+        this.description = description;
+        this.eventDate = eventDate;
+        this.etc = etc;
+    }
 
     public int getId() {
         return id;
@@ -44,11 +57,11 @@ public class SponsorEvent {
         this.userName = userName;
     }
 
-    public Timestamp getEventDate() {
+    public Date getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(Timestamp eventDate) {
+    public void setEventDate(Date eventDate) {
         this.eventDate = eventDate;
     }
 
@@ -66,6 +79,22 @@ public class SponsorEvent {
 
     public void setEtc(String etc) {
         this.etc = etc;
+    }
+
+    public String getSponsorNo() {
+        return sponsorNo;
+    }
+
+    public void setSponsorNo(String sponsorNo) {
+        this.sponsorNo = sponsorNo;
+    }
+
+    public String getSponsorName() {
+        return sponsorName;
+    }
+
+    public void setSponsorName(String sponsorName) {
+        this.sponsorName = sponsorName;
     }
 
 }
