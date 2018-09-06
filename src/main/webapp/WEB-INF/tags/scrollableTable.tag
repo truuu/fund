@@ -9,7 +9,7 @@
 </style>
 
 <div id="${ tagId }">
-	<div id='scroll1' style='overflow: hidden !important; border: 1px solid #eee; width:100%;'>
+	<div id='scroll1' style='overflow: hidden; border: 1px solid #eee; width:100%;'>
 	  <table id='head' class='table table-bordered' style='white-space: nowrap; margin-bottom:0px; table-layout: fixed;'>
 	    <thead style='white-space: nowrap;'>
 	      <jsp:invoke fragment="header" />
@@ -26,25 +26,29 @@
 </div>
 
 <script>
-var root = $("div#" + "${ tagId }");
-var scroll1 = root.find("#scroll1");
-var scroll2 = root.find("#scroll2");
-var table1 = scroll1.find("table");
-var table2 = scroll2.find("table");
-
-var th = table1.find("th");
-var td = table2.find("tr:nth-child(1) td");
-
-if (td.length > 0) {
-    scroll1.width( scroll2.width() - 18 );
-    table1.width( table2.width() );
-
-	for (var i = 0; i < th.length; ++i) {
-	    $(th.get(i)).width( $(td.get(i)).width() );
-	}
-	
-	scroll2.on('scroll', function () {
-	    scroll1.scrollLeft($(this).scrollLeft());
-	});
+function initScrollableTable(tagId) {
+  var root = $("div#" + tagId);
+  var scroll1 = root.find("#scroll1");
+  var scroll2 = root.find("#scroll2");
+  var table1 = scroll1.find("table");
+  var table2 = scroll2.find("table");
+  
+  var th = table1.find("th");
+  var td = table2.find("tr:nth-child(1) td");
+  
+  if (td.length > 0) {
+      scroll1.width( scroll2.width() - 18 );
+      table1.width( table2.width() );
+  
+  	for (var i = 0; i < th.length; ++i) {
+  	    $(th.get(i)).width( $(td.get(i)).width() );
+  	}
+  	
+  	scroll2.on('scroll', function () {
+  	    scroll1.scrollLeft(scroll2.scrollLeft());
+          console.log(scroll2.scrollLeft() + " " + scroll1.scrollLeft());
+  	});
+  }
 }
+initScrollableTable("${ tagId }")
 </script>

@@ -52,7 +52,7 @@
             </td>
           </tr>
           <tr>      
-            <td class="lb">기관</td>
+            <td class="lb">기부처</td>
             <td>
                 <form:select path="map[corporateId]">
                 <form:option value="" labe="" />
@@ -113,7 +113,7 @@
                <td class="right" style="width: 70px;"><fmt:formatNumber value="${p.count}" /></td>
              </tr>
              <c:set var="sum" value="${ sum + p.amount }" />
-             <c:set var="count" value="${ count + 1 }" />
+             <c:set var="count" value="${ count + p.count }" />
            </c:forEach>
         </jsp:attribute>
     </my:scrollableTable>
