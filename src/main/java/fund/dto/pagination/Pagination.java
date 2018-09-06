@@ -76,7 +76,7 @@ public class Pagination {
     }
 
     public boolean notEmpty() {
-        return srchType > 0 || StringUtils.isBlank(startDate) == false;
+        return srchType > 0 || StringUtils.isBlank(startDate) == false || StringUtils.isBlank(srchText);
     }
 
     public class Page {
