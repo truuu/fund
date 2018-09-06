@@ -42,6 +42,9 @@ public class Sponsor {
     String sponsorType2;
     String church;
 
+    boolean dmError;
+    String dmErrorEtc;
+
     public String getAddress() {
         if (mailTo == 0)
             return homeRoadAddress + " " + homeDetailAddress;
@@ -360,6 +363,22 @@ public class Sponsor {
 
     public void setChurch(String church) {
         this.church = church;
+    }
+
+    public boolean isDmError() {
+        return dmError;
+    }
+
+    public void setDmError(boolean dmError) {
+        this.dmError = dmError;
+    }
+
+    public String getDmErrorEtc() {
+        return dmErrorEtc;
+    }
+
+    public void setDmErrorEtc(String dmErrorEtc) {
+        this.dmErrorEtc = dmErrorEtc;
     }
 
 }
