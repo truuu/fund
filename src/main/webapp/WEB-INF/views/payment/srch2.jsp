@@ -26,7 +26,7 @@
           <form:input path="map[startDate]" class="startDt" /> ~ 
           <form:input path="map[endDate]" class="endDt" />
           &nbsp;
-          <span>기관:</span>
+          <span>기부처:</span>
           <form:select path="map[corporateId]">
               <form:option value="0" label="전체" />
               <form:options itemLabel="name" itemValue="id" items="${ corporates }" />

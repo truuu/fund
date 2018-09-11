@@ -37,12 +37,13 @@ public class Sponsor {
     int piuaRequiredItem;
     int piuaOptionalItem;
     int piuaIdentification;
-    boolean dmError;
-    String dmErrorEtc;
 
     String sponsorType1;
     String sponsorType2;
     String church;
+
+    boolean dmError;
+    String dmErrorEtc;
 
     public String getAddress() {
         if (mailTo == 0)

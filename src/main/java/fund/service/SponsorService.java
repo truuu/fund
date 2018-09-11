@@ -83,6 +83,9 @@ public class SponsorService {
         if (s1.getPiuaOptionalItem() != s2.getPiuaOptionalItem()) list.add(createLog("개인정보 선택항목", 동의[s1.getPiuaOptionalItem()], 동의[s2.getPiuaOptionalItem()]));
         if (s1.getPiuaIdentification() != s2.getPiuaIdentification()) list.add(createLog("개인정보 고유식별정보", 동의[s1.getPiuaIdentification()], 동의[s2.getPiuaIdentification()]));
 
+        if (s1.isDmError() != s2.isDmError()) list.add(createLog("우편물 반송", s1.isDmError() ? "반송" : "정상", s2.isDmError() ? "반송" : "정상"));
+        if (Objects.equals(s1.getDmErrorEtc(), s2.getDmErrorEtc()) == false) list.add(createLog("우편물 반송사유", s1.getDmErrorEtc(), s2.getDmErrorEtc()));
+
         if (Objects.equals(s1.getEtc(), s2.getEtc()) == false) list.add(createLog("비고", s1.getEtc(), s2.getEtc()));
 
         if (s1.isDmError() != s2.isDmError()) list.add(createLog("우편물 반송여부", s1.isDmError() ? "반송" : "", s2.isDmError() ? "반송" : ""));

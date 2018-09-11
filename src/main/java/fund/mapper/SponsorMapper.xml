@@ -153,7 +153,9 @@ SET
   smsReceiving = #{smsReceiving},
   piuaRequiredItem = #{piuaRequiredItem},
   piuaOptionalItem = #{piuaOptionalItem},
-  piuaIdentification = #{piuaIdentification}
+  piuaIdentification = #{piuaIdentification},
+  dmError = #{dmError},
+  dmErrorEtc = #{dmErrorEtc}
 WHERE id = #{id}
 </update>    
     
@@ -168,12 +170,12 @@ INSERT sponsor(sponsorNo, name, sponsorType1Id, sponsorType2Id, sponsorTypeDetai
   churchId, signUpDate, mobilePhone, 
   recommender, recommenderRelation, mailTo, homeRoadAddress, homeDetailAddress, homePostCode, homePhone, 
   email, company, department, position, officePhone, officeRoadAddress, officeDetailAddress, officePostCode, etc, juminNo_encrypted,
-  mailReceiving, emailReceiving, smsReceiving, piuaRequiredItem, piuaOptionalItem, piuaIdentification)
+  mailReceiving, emailReceiving, smsReceiving, piuaRequiredItem, piuaOptionalItem, piuaIdentification, dmError, dmErrorEtc)
 VALUES (#{sponsorNo}, #{name}, #{sponsorType1Id}, #{sponsorType2Id}, #{sponsorTypeDetail},
   CASE WHEN #{churchId} = 0 THEN null ELSE #{churchId} END, #{signUpDate}, #{mobilePhone}, 
   #{recommender}, #{recommenderRelation}, #{mailTo},  #{homeRoadAddress}, #{homeDetailAddress}, #{homePostCode}, #{homePhone},
   #{email}, #{company}, #{department}, #{position}, #{officePhone}, #{officeRoadAddress}, #{officeDetailAddress}, #{officePostCode}, #{etc}, @encrypted
-  #{mailReceiving}, #{emailReceiving}, #{smsReceiving}, #{piuaRequiredItem}, #{piuaOtionalItem}, #{piuaIdentification})
+  #{mailReceiving}, #{emailReceiving}, #{smsReceiving}, #{piuaRequiredItem}, #{piuaOtionalItem}, #{piuaIdentification}, #{dmError}, #{dmErrorEtc})
 </insert>
 
 <select id="generateSponsorNo" resultType="java.lang.String">
