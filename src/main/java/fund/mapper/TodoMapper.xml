@@ -35,7 +35,7 @@ FROM (
   SELECT *,
       CASE @order
         WHEN 0 THEN ROW_NUMBER() OVER (ORDER BY dueDate2)
-        WHEN 1 THEN ROW_NUMBER() OVER (ORDER BY createDate)
+        WHEN 1 THEN ROW_NUMBER() OVER (ORDER BY createDate DESC)
       END 행번호
   FROM (
     SELECT t.*, u.name userName,

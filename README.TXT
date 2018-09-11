@@ -1,3 +1,0 @@
-dmError
-SponsorMapper.xml 에 넣은 코드 때문에 에러.
-수정된 SponsorMapper.xml 파일은 project 폴더에...
