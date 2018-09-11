@@ -3,19 +3,111 @@
 		
 <mapper namespace="fund.mapper.TodoMapper">
 
-<select id="selectList" resultType="fund.dto.Todo">        
-  SELECT *, u.name userName 
-  FROM [Todo] t LEFT JOIN [User] u ON t.userId = u.id
-  ORDER BY dueDate      
+<select id="selectPage" resultType="fund.dto.Todo">
+<![CDATA[
+DECLARE @order INT, @currentPage INT, @pageSize INT, @startDate DATE, @endDate DATE, @year INT, @month INT
+SET @order = #{order}
+SET @currentPage = #{currentPage}
+SET @pageSize = #{pageSize}
+SET @startDate = CONVERT(DATE, #{startDate})
+SET @endDate = CONVERT(DATE, #{endDate})
+
+SET @year = YEAR(GETDATE())
+SET @month = MONTH(GETDATE())
+
+SELECT * 
+FROM (
+  SELECT *,
+      CASE @order
+        WHEN 0 THEN ROW_NUMBER() OVER (ORDER BY dueDate2)
+        WHEN 1 THEN ROW_NUMBER() OVER (ORDER BY createDate)
+      END 행번호
+  FROM (
+    SELECT t.*, u.name userName,
+      CASE [repeat] 
+        WHEN 0 THEN dueDate 
+        WHEN 1 THEN DATEADD(year, @year-1900, DATEADD(month, @month-1, DAY(dueDate)-1))
+        WHEN 2 THEN DATEADD(year, @year-1900, DATEADD(month, MONTH(dueDate)-1, DAY(dueDate)-1))
+      END dueDate2
+    FROM Todo t
+      LEFT JOIN [User] u 
+        ON t.userId = u.id
+  ) t0
+  WHERE @startDate IS NULL 
+     OR @startDate < '1990-01-01'
+     OR dueDate2 BETWEEN @startDate AND @endDate
+) t1
+WHERE 행번호 > (@currentPage - 1) * @pageSize AND
+      행번호 <= @currentPage * @pageSize
+ORDER BY 행번호
+]]>
+</select>
+
+<select id="selectCount" resultType="int">
+<![CDATA[
+DECLARE @startDate DATE, @endDate DATE, @year INT, @month INT
+SET @startDate = CONVERT(DATE, #{startDate})
+SET @endDate = CONVERT(DATE, #{endDate})
+
+SET @year = YEAR(GETDATE())
+SET @month = MONTH(GETDATE())
+
+SELECT COUNT(*)
+FROM (
+  SELECT t.*, u.name userName,
+    CASE [repeat] 
+      WHEN 0 THEN dueDate 
+      WHEN 1 THEN DATEADD(year, @year-1900, DATEADD(month, @month-1, DAY(dueDate)-1))
+      WHEN 2 THEN DATEADD(year, @year-1900, DATEADD(month, MONTH(dueDate)-1, DAY(dueDate)-1))
+    END dueDate2
+  FROM Todo t
+    LEFT JOIN [User] u 
+      ON t.userId = u.id
+) t0
+WHERE @startDate IS NULL 
+   OR @startDate < '1990-01-01'
+   OR dueDate2 BETWEEN @startDate AND @endDate
+]]>
+</select>
+<select id="selectAlert" resultType="fund.dto.Todo">
+<![CDATA[
+DECLARE @year INT, @month INT
+SET @year = YEAR(GETDATE())
+SET @month = MONTH(GETDATE())
+
+SELECT *
+FROM (
+  SELECT t.*, u.name userName,
+    CASE [repeat] 
+    WHEN 0 THEN dueDate 
+    WHEN 1 THEN DATEADD(year, @year-1900, DATEADD(month, @month-1, DAY(dueDate)-1))
+    WHEN 2 THEN DATEADD(year, @year-1900, DATEADD(month, MONTH(dueDate)-1, DAY(dueDate)-1))
+    END dueDate2
+  FROM Todo t
+    LEFT JOIN [User] u 
+    ON t.userId = u.id
+) t0
+WHERE dueDate2 - alertBefore <= GETDATE()
+AND (confirmDate IS NULL OR dueDate2 - alertBefore > confirmDate)
+ORDER BY dueDate2
+]]>
 </select>
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-  INSERT [Todo] (userId, createDate, dueDate, message)
-  VALUES (#{userId}, GETDATE(), #{dueDate}, #{message})  
+INSERT [Todo] (userId, createDate, dueDate, message)
+VALUES (#{userId}, GETDATE(), #{dueDate}, #{message})  
 </insert>
 
+<update id="update">
+UPDATE [Todo]
+SET message = #{message},
+    dueDate = #{dueDate2},
+    repeat = #{repeat}
+WHERE id = #{id}
+</update>
+
 <delete id="delete">
-  DELETE FROM [Todo] WHERE id = #{id}
+DELETE FROM [Todo] WHERE id = #{id}
 </delete>
 		
 </mapper>		

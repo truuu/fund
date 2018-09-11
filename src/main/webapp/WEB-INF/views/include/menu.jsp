@@ -86,7 +86,7 @@
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">기타<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <%= menu("일정관리", "/funds/schedule/list.do", C.메뉴_기타_일정관리)%>
+                <%= menu("일정관리", "/funds/todo/list.do", C.메뉴_기타_일정관리)%>
               </ul>
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">시스템관리<span class="caret"></span></a>
