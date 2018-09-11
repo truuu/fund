@@ -76,7 +76,7 @@
       </tr>
       <tr>
         <td class="lb">가입일</td>
-        <td><input class=" date" type="text" name="signUpDate" value="${ sponsor.signUpDate }" tabindex="1" placeholder="0000-00-00" /></td>
+        <td><input class="date" type="text" name="signUpDate" value="${ sponsor.signUpDate }" tabindex="1" placeholder="0000-00-00" /></td>
         <td class="lb">직장</td>
         <td><input type="text" name="company" value="${ sponsor.company}" class="w300" tabindex="2" placeholder="직장" /></td>
       </tr>

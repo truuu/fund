@@ -3,6 +3,21 @@
 		
 <mapper namespace="fund.mapper.TodoMapper">
 
+<select id="selectById" resultType="fund.dto.Todo">
+DECLARE @year INT, @month INT
+SET @year = YEAR(GETDATE())
+SET @month = MONTH(GETDATE())
+
+SELECT *,
+  CASE [repeat] 
+    WHEN 0 THEN dueDate 
+    WHEN 1 THEN DATEADD(year, @year-1900, CONVERT(date, DATEADD(month, @month-1, DAY(dueDate)-1)))
+    WHEN 2 THEN DATEADD(year, @year-1900, CONVERT(date, DATEADD(month, MONTH(dueDate)-1, DAY(dueDate)-1)))
+  END dueDate2
+FROM [Todo]
+WHERE id = #{id}
+</select>
+
 <select id="selectPage" resultType="fund.dto.Todo">
 <![CDATA[
 DECLARE @order INT, @currentPage INT, @pageSize INT, @startDate DATE, @endDate DATE, @year INT, @month INT
@@ -26,8 +41,8 @@ FROM (
     SELECT t.*, u.name userName,
       CASE [repeat] 
         WHEN 0 THEN dueDate 
-        WHEN 1 THEN DATEADD(year, @year-1900, DATEADD(month, @month-1, DAY(dueDate)-1))
-        WHEN 2 THEN DATEADD(year, @year-1900, DATEADD(month, MONTH(dueDate)-1, DAY(dueDate)-1))
+        WHEN 1 THEN DATEADD(year, @year-1900, CONVERT(date, DATEADD(month, @month-1, DAY(dueDate)-1)))
+        WHEN 2 THEN DATEADD(year, @year-1900, CONVERT(date, DATEADD(month, MONTH(dueDate)-1, DAY(dueDate)-1)))
       END dueDate2
     FROM Todo t
       LEFT JOIN [User] u 
@@ -57,8 +72,8 @@ FROM (
   SELECT t.*, u.name userName,
     CASE [repeat] 
       WHEN 0 THEN dueDate 
-      WHEN 1 THEN DATEADD(year, @year-1900, DATEADD(month, @month-1, DAY(dueDate)-1))
-      WHEN 2 THEN DATEADD(year, @year-1900, DATEADD(month, MONTH(dueDate)-1, DAY(dueDate)-1))
+      WHEN 1 THEN DATEADD(year, @year-1900, CONVERT(date, DATEADD(month, @month-1, DAY(dueDate)-1)))
+      WHEN 2 THEN DATEADD(year, @year-1900, CONVERT(date, DATEADD(month, MONTH(dueDate)-1, DAY(dueDate)-1)))
     END dueDate2
   FROM Todo t
     LEFT JOIN [User] u 
@@ -80,8 +95,8 @@ FROM (
   SELECT t.*, u.name userName,
     CASE [repeat] 
     WHEN 0 THEN dueDate 
-    WHEN 1 THEN DATEADD(year, @year-1900, DATEADD(month, @month-1, DAY(dueDate)-1))
-    WHEN 2 THEN DATEADD(year, @year-1900, DATEADD(month, MONTH(dueDate)-1, DAY(dueDate)-1))
+    WHEN 1 THEN DATEADD(year, @year-1900, CONVERT(date, DATEADD(month, @month-1, DAY(dueDate)-1)))
+    WHEN 2 THEN DATEADD(year, @year-1900, CONVERT(date, DATEADD(month, MONTH(dueDate)-1, DAY(dueDate)-1)))
     END dueDate2
   FROM Todo t
     LEFT JOIN [User] u 

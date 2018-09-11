@@ -1,19 +1,17 @@
 package fund.dto;
 
-import java.util.Date;
-
 public class Todo {
 
     int id;
     int userId;
     String userName;
-    Date createDate;
-    Date dueDate;
-    Date dueDate2;
+    String createDate;
+    String dueDate;
+    String dueDate2;
     String message;
     int repeat;
     int alertBefore;
-    Date conformDate;
+    String confirmDate;
 
     public int getId() {
         return id;
@@ -39,20 +37,28 @@ public class Todo {
         this.userName = userName;
     }
 
-    public Date getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
-    public Date getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public String getDueDate2() {
+        return dueDate2;
+    }
+
+    public void setDueDate2(String dueDate2) {
+        this.dueDate2 = dueDate2;
     }
 
     public String getMessage() {
@@ -79,20 +85,12 @@ public class Todo {
         this.alertBefore = alertBefore;
     }
 
-    public Date getConformDate() {
-        return conformDate;
+    public String getConfirmDate() {
+        return confirmDate;
     }
 
-    public void setConformDate(Date conformDate) {
-        this.conformDate = conformDate;
-    }
-
-    public Date getDueDate2() {
-        return dueDate2;
-    }
-
-    public void setDueDate2(Date dueDate2) {
-        this.dueDate2 = dueDate2;
+    public void setConfirmDate(String confirmDate) {
+        this.confirmDate = confirmDate;
     }
 
 }

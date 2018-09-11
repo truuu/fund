@@ -87,10 +87,14 @@ public class SponsorController extends BaseController {
 
     @RequestMapping(value="/sponsor/edit.do", method=RequestMethod.POST, params="cmd=delete")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public String delete(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
-        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
-        dataFileMapper.deleteByForeignId("sponsor", id);
-        sponsorMapper.delete(id);
+    public String delete(Model model, @RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
+        try {
+            if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
+            dataFileMapper.deleteByForeignId("sponsor", id);
+            sponsorMapper.delete(id);
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "sponsor/edit");
+        }
         return "redirect:list.do?" + pagination.getQueryString();
     }
 

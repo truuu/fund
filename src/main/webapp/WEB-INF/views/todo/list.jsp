@@ -4,17 +4,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<style>
-table#todo 
-</style>
-
 <div class="navigation-info">
-  &gt; 기타 &gt; 일정관리
+  &gt; 기타 &gt; 일정관리 &gt; 일정목록 
 </div>
 
 <div class="panel panel-default shadow">
   <div class="panel-heading">
-    <h3>일정관리</h3> 
+    <h3>일정목록</h3> 
   </div>
   <div class="panel-body">
 
@@ -46,8 +42,8 @@ table#todo
           <c:forEach var="todo" items="${ list }">
             <tr data-url="edit.do?id=${todo.id}&${pagination.queryString}">
               <td class="nowrap">${ todo.userName }</td>
-              <td class="nowrap"><fmt:formatDate pattern="yyyy-MM-dd" value="${ todo.createDate }" /></td>
-              <td class="nowrap"><fmt:formatDate pattern="yyyy-MM-dd" value="${ todo.dueDate2 }" /></td>
+              <td class="nowrap">${ todo.createDate }</td>
+              <td class="nowrap">${ todo.dueDate2 }</td>
               <td class="nowrap right">${ todo.alertBefore }일전</td>
               <td class="nowrap">${ todo.repeat == 2 ? "매년" : todo.repeat == 1 ? "매월" : "" }</td>
               <td>${ todo.message }</td>
