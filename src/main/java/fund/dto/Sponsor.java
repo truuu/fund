@@ -37,6 +37,8 @@ public class Sponsor {
     int piuaRequiredItem;
     int piuaOptionalItem;
     int piuaIdentification;
+    boolean dmError;
+    String dmErrorEtc;
 
     String sponsorType1;
     String sponsorType2;
@@ -360,6 +362,22 @@ public class Sponsor {
 
     public void setChurch(String church) {
         this.church = church;
+    }
+
+    public boolean isDmError() {
+        return dmError;
+    }
+
+    public void setDmError(boolean dmError) {
+        this.dmError = dmError;
+    }
+
+    public String getDmErrorEtc() {
+        return dmErrorEtc;
+    }
+
+    public void setDmErrorEtc(String dmErrorEtc) {
+        this.dmErrorEtc = dmErrorEtc;
     }
 
 }
