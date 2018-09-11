@@ -110,7 +110,7 @@ ORDER BY dueDate2
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
 INSERT [Todo] (userId, createDate, dueDate, message)
-VALUES (#{userId}, GETDATE(), #{dueDate}, #{message})  
+VALUES (#{userId}, GETDATE(), #{dueDate2}, #{message})  
 </insert>
 
 <update id="update">

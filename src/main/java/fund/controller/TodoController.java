@@ -37,11 +37,12 @@ public class TodoController extends BaseController {
         return "todo/edit";
     }
 
-    @RequestMapping(value="/todo/edit.do", method=RequestMethod.POST)
-    public String edit(Model model, Pagination pagination, Todo todo) {
+    @RequestMapping(value="/todo/edit.do", method=RequestMethod.POST, params="cmd=save")
+    public String save(Model model, Pagination pagination, Todo todo) {
         try {
             if (!UserService.canAccess(C.메뉴_기타_일정관리)) return "redirect:/home/logout.do";
             todoMapper.update(todo);
+            model.addAttribute("successMsg", "저장했습니다.");
         } catch (Exception e) {
             return logService.logErrorAndReturn(model, e, "todo/edit");
         }
@@ -49,7 +50,7 @@ public class TodoController extends BaseController {
         return "todo/edit";
     }
 
-    @RequestMapping(value="/todo/delete.do", method=RequestMethod.POST)
+    @RequestMapping(value="/todo/edit.do", method=RequestMethod.POST, params="cmd=delete")
     public String delete(Model model, Pagination pagination, @RequestParam("id") int id) {
         try {
             if (!UserService.canAccess(C.메뉴_기타_일정관리)) return "redirect:/home/logout.do";
@@ -58,6 +59,26 @@ public class TodoController extends BaseController {
             return logService.logErrorAndReturn(model, e, "todo/edit");
         }
         return "redirect:list.do?" + pagination.getQueryString();
+    }
+
+    @RequestMapping(value="/todo/create.do", method=RequestMethod.GET)
+    public String create(Model model, Pagination pagination) {
+        if (!UserService.canAccess(C.메뉴_기타_일정관리)) return "redirect:/home/logout.do";
+        model.addAttribute("todo", new Todo());
+        return "todo/edit";
+    }
+
+    @RequestMapping(value="/todo/create.do", method=RequestMethod.POST)
+    public String create(Model model, Pagination pagination, Todo todo) {
+        try {
+            if (!UserService.canAccess(C.메뉴_기타_일정관리)) return "redirect:/home/logout.do";
+            todo.setUserId(UserService.getCurrentUser().getId());
+            todoMapper.insert(todo);
+            model.addAttribute("successMsg", "저장했습니다.");
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "todo/edit");
+        }
+        return "redirect:list.do";
     }
 
 }

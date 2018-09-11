@@ -17,14 +17,24 @@
       <form:form id="todo" modelAttribute="pagination" method="get">
       
       <input type="hidden" name="pg" value="1" />
+            
+      <div class="pull-right mb4">
+        <a href="create.do?${pagination.queryString}" class="btn btn-primary btn-sm">일정 등록</a>
+      </div>      
+      
+      <span>정렬순서:</span>
+      <form:select path="od" data-auto-submit="true">
+        <form:option value="0" label="일정 순서" />
+        <form:option value="1" label="등록 순서" />
+      </form:select>
       
       <span class="block ml10">기간:</span>
       <form:input path="sd" class="startDt" /> ~
       <form:input path="ed" class="endDt" />
           
-      <button type="submit" class="btn btn-primary ml10 btn-sm">조회</button>
+      <button type="submit" class="btn btn-default ml10 btn-sm">조회</button>
       <c:if test="${ not empty pagination.st || not empty pagination.sd }">
-        <a href="list.do" class="btn btn-default btn-sm">조회조건 취소</a>
+         <a href="list.do" class="btn btn-default btn-sm">조회조건 취소</a>
       </c:if>
       
       <table id="todo" class="table table-bordered mt4 pd6">
