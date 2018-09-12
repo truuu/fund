@@ -122,7 +122,6 @@
       <tr>
         <td class="lb">이메일</td>
         <td><input  type="text" name="email" placeholder="abc@skhu.ac.kr" value="${ sponsor.email}" tabindex="1" class="w200" /></td>
-        <td class="lb" rowspan="3">개인정보 수집 및 이용</td>
         <td class="lb">이메일 수신여부</td>
         <td><label class="clean"><input type="radio" value="1" name="emailReceiving" ${ sponsor.emailReceiving == 1 ? "checked" :"" } tabindex="2" /> 동의</label>
             <label class="clean"><input type="radio" value="2" name="emailReceiving" ${ sponsor.emailReceiving == 2 ? "checked" :"" } tabindex="2" /> 미동의</label></td>        
@@ -134,6 +133,7 @@
             <form:hidden path="churchId" value="${ sponsor.churchId } " />
             <a href="#churchDialog" class="btn btn-flat btn-xs" data-toggle="modal" tabindex="1">교회 찾기</a>
         </td>
+        <td class="lb" rowspan="3">개인정보 수집 및 이용</td>
         <td>
             <span style="display:inline-block; margin-right: 34px;">필수항목:</span>
             <label class="clean"><input type="radio" value="1" name="piuaRequiredItem" ${ sponsor.piuaRequiredItem == 1 ? "checked" :"" } tabindex="2" /> 동의</label>
