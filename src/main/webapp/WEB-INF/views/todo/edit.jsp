@@ -28,8 +28,14 @@
         <td><form:input path="alertBefore" class="w50" /> 일전</td>
       </tr>
       <tr>
+        <td class="lb">확인</td>
+        <td>${ todo.confirmDate }
+          <c:if test="${ todo.confirmDate ne null }">          
+             <button type="submit" class="btn btn-info btn-sm" name="cmd" value="cancelConfirm" >취소</button>
+          </c:if>
+        </td>
         <td class="lb">반복</td>
-        <td colspan="3">
+        <td>
           <form:radiobutton path = "repeat" value = "0" label = "없음" />
           <form:radiobutton path = "repeat" value = "1" label = "매월" />
           <form:radiobutton path = "repeat" value = "2" label = "매년" />

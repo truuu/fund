@@ -40,12 +40,13 @@
       <table id="todo" class="table table-bordered mt4 pd6">
         <thead>
           <tr>
-            <th>작성자</th>
-            <th>등록일</th>
-            <th>일정</th>
-            <th class="right">알림</th>
-            <th>반복</th>
-            <th>내용</th>
+            <th class="nowrap">작성자</th>
+            <th class="nowrap">등록일</th>
+            <th class="nowrap">일정</th>
+            <th class="nowrap">확인</th>
+            <th class="right nowrap">알림</th>
+            <th class="nowrap">반복</th>
+            <th class="nowrap">내용</th>
           </tr>
         </thead>
         <tbody>
@@ -54,6 +55,7 @@
               <td class="nowrap">${ todo.userName }</td>
               <td class="nowrap">${ todo.createDate }</td>
               <td class="nowrap">${ todo.dueDate2 }</td>
+              <td class="nowrap">${ todo.confirmDate }</td>
               <td class="nowrap right">${ todo.alertBefore }일전</td>
               <td class="nowrap">${ todo.repeat == 2 ? "매년" : todo.repeat == 1 ? "매월" : "" }</td>
               <td>${ todo.message }</td>

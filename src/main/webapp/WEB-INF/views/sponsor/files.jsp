@@ -2,9 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<c:url var="R" value="/" />
 
 <div class="navigation-info">
-  &gt; 회원 관리 &gt; <a href="/funds/sponsor/list.do?${ pagination.queryString }">회원 목록</a>  
+  &gt; 회원 관리 &gt; <a href="${R}sponsor/list.do?${ pagination.queryString }">회원 목록</a>  
   &gt; 첨부파일
 </div>
 
@@ -32,8 +33,8 @@
             <td class="right"><fmt:formatNumber value="${ file.fileSize }" groupingUsed="true"/></td>
             <td><fmt:formatDate value="${ file.createDate }" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
             <td>
-                <a class="btn btn-success btn-xs" href="/funds/dataFile/download.do?id=${file.id}"> 다운로드</a> 
-                <a class="btn btn-danger btn-xs" href="/funds/dataFile/delete.do?id=${file.id}&returnUrl=${url}" data-confirm-delete> 삭제</a>            
+                <a class="btn btn-success btn-xs" href="${R}dataFile/download.do?id=${file.id}"> 다운로드</a> 
+                <a class="btn btn-danger btn-xs" href="${R}dataFile/delete.do?id=${file.id}&returnUrl=${url}" data-confirm-delete> 삭제</a>            
             </td>
           </tr>
         </c:forEach>
@@ -43,7 +44,7 @@
       </tbody>
     </table>
     
-    <form method="post" action="/funds/dataFile/upload.do" enctype="multipart/form-data">
+    <form method="post" action="${R}dataFile/upload.do" enctype="multipart/form-data">
       <input type="hidden" name="foreignType" value="sponsor" />
       <input type="hidden" name="foreignId" value="${ sponsor.id }" />
       <input type="hidden" name="returnUrl" value="${ url }" />

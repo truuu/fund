@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <%!
     static String menu(String title, String url, int menuId) {
         if (UserService.canAccess(menuId))
@@ -106,7 +105,7 @@
       <sec:authorize access="not authenticated">
         <div class="navbar-collapse collapse" id="navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/funds/home/login.do">로그인</a></li>
+            <li><a href="/funds/guest/login.do">로그인</a></li>
           </ul>
         </div>
       </sec:authorize>

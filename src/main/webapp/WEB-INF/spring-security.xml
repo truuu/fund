@@ -13,11 +13,11 @@
 
   <http auto-config="true">
     <intercept-url pattern="/res/**" access="ROLE_ANONYMOUS,ROLE_전체" />
-    <intercept-url pattern="/home/**" access="ROLE_ANONYMOUS,ROLE_전체" />
+    <intercept-url pattern="/guest/**" access="ROLE_ANONYMOUS,ROLE_전체" />
     <intercept-url pattern="/**" access="ROLE_전체" />    
 
-    <form-login login-page="/home/login.do"
-      login-processing-url="/home/login_processing.do"
+    <form-login login-page="/guest/login.do"
+      login-processing-url="/guest/login_processing.do"
       default-target-url="/" 
       username-parameter="loginName"
       password-parameter="password" 

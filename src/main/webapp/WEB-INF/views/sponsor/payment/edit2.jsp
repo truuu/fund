@@ -3,9 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<c:url var="R" value="/" />
 
 <div class="navigation-info">
-  &gt; 회원 관리 &gt; <a href="/funds/sponsor/list.do?${ pagination.queryString }">회원 목록</a>  
+  &gt; 회원 관리 &gt; <a href="${R}sponsor/list.do?${ pagination.queryString }">회원 목록</a>  
   &gt; 비정기납입 관리 &gt; <a href="list2.do?sid=${ sponsor.id }&${ pagination.queryString }">비정기납입 목록</a>
   &gt; 비정기납입 등록 
 </div>

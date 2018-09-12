@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:url var="R" value="/" />
 
 <sec:authorize access="not authenticated">
 
@@ -15,16 +16,15 @@
 #login input { padding: 9px; }
 </style>
 
-
 <div id="login" class="panel panel-default shadow">
   <div class="panel-heading">
     <h3>성공회대학교 후원관리시스템 로그인 ${ test }</h3>
   </div>
   <div class="panel-body">      
    
-    <form method="POST" action="/funds/home/login_processing.do">
+    <form method="POST" action="${R}guest/login_processing.do">
       <div>
-          <img src="/funds/res/images/skhu_logo.png" style="width: 200px;" />
+          <img src="${R}res/images/skhu_logo.png" style="width: 200px;" />
       </div>
       <div class="controls">
         <input type="text" name="loginName" placeholder="아이디" /> 
@@ -48,6 +48,5 @@
 
   </div>
 </div>
- 
 
 </sec:authorize>

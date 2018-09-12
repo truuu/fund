@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
+<c:url var="R" value="/" />
 
 <style>
 table#sponsorLog td:nth-child(1) { white-space: nowrap; }
@@ -11,7 +12,7 @@ table#sponsorLog td:nth-child(3) { white-space: nowrap; }
 </style>
 
 <div class="navigation-info">
-  &gt; 회원 관리 &gt; <a href="/funds/sponsor/list.do?${ pagination.queryString }">회원 목록</a>  
+  &gt; 회원 관리 &gt; <a href="${R}sponsor/list.do?${ pagination.queryString }">회원 목록</a>  
   &gt; 변경 이력
 </div>
 

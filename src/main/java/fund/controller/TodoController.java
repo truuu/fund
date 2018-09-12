@@ -25,6 +25,8 @@ public class TodoController extends BaseController {
     @RequestMapping(value="/todo/list.do", method=RequestMethod.GET)
     public String index(Model model, Pagination pagination) {
         if (!UserService.canAccess(C.메뉴_기타_일정관리)) return "redirect:/home/logout.do";
+        int userId = UserService.getCurrentUser().getId();
+        pagination.setSs(userId);
         pagination.setRecordCount(todoMapper.selectCount(pagination));
         model.addAttribute("list", todoMapper.selectPage(pagination));
         return "todo/list";
@@ -61,6 +63,18 @@ public class TodoController extends BaseController {
         return "redirect:list.do?" + pagination.getQueryString();
     }
 
+    @RequestMapping(value="/todo/edit.do", method=RequestMethod.POST, params="cmd=cancelConfirm")
+    public String cancelConfirm(Model model, Pagination pagination, Todo todo) {
+        try {
+            if (!UserService.canAccess(C.메뉴_기타_일정관리)) return "redirect:/home/logout.do";
+            todoMapper.cancelConfirm(todo.getId());
+        } catch (Exception e) {
+            return logService.logErrorAndReturn(model, e, "todo/edit");
+        }
+        model.addAttribute("todo", todoMapper.selectById(todo.getId()));
+        return "todo/edit";
+    }
+
     @RequestMapping(value="/todo/create.do", method=RequestMethod.GET)
     public String create(Model model, Pagination pagination) {
         if (!UserService.canAccess(C.메뉴_기타_일정관리)) return "redirect:/home/logout.do";
@@ -80,6 +94,5 @@ public class TodoController extends BaseController {
         }
         return "redirect:list.do";
     }
-    /* 수정 */
 
 }

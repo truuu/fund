@@ -2,6 +2,8 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<c:url var="R" value="/" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,7 +72,7 @@
       </div>
       <div class="modal-body" style="text-align: center">
         <p>작업중입니다. 잠시 기다려 주세요.</p>
-        <img src="/funds/res/images/wait.gif" />
+        <img src="${R}res/images/wait.gif" />
       </div>
     </div>
   </div>
@@ -95,7 +97,7 @@ function showWaitMsg() {
    function checkTimeout() { 
          var span = (new Date() - startTime) / 1000;
          if (span > 30 * 60) {
-           location.href = '/funds/home/logout.do';
+           location.href = '${R}home/logout.do';
            alert('30분 동안 작업이 없어서 자동 로그아웃되었습니다.');
          }
        }

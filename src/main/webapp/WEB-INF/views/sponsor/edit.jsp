@@ -3,9 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<c:url var="R" value="/" />
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="/funds/res/js/daum_postcode.js"></script>
+<script src="${R}res/js/daum_postcode.js"></script>
 
 <style>
   input.address { margin-bottom: 2px; }
@@ -13,7 +14,7 @@
 </style>
 
 <div class="navigation-info">
-  &gt; 회원 관리 &gt; <a href="/funds/sponsor/list.do?${ pagination.queryString }">회원 목록</a>
+  &gt; 회원 관리 &gt; <a href="${R}sponsor/list.do?${ pagination.queryString }">회원 목록</a>
   <c:if test="${ sponsor.id == 0 }">
     &gt;  회원 신규등록
   </c:if>
@@ -207,7 +208,7 @@
       <c:if test="${ sponsor.id > 0 }">
         <button class="btn btn-danger btn-sm" type="submit" name="cmd" value="delete" data-confirm-delete>회원 삭제</button>
       </c:if>
-      <a href="/funds/sponsor/list.do?${ pagination.queryString }" class="btn btn-gray btn-sm">회원 목록으로</a>
+      <a href="${R}sponsor/list.do?${ pagination.queryString }" class="btn btn-gray btn-sm">회원 목록으로</a>
     </div>
   </div>
 </div>      
