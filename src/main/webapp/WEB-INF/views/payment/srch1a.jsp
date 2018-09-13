@@ -4,6 +4,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
+<style>
+#srch1a table td { min-width: 40px; }
+</style>
+
 <div class="navigation-info">
   &gt; 납입조회 &gt; 납입 내역 조회
 </div>
@@ -44,15 +48,11 @@
               <form:options itemValue="id" itemLabel="codeName" items="${ sponsorType2List }" />
               </form:select>
           </td>            
-          <td class="lb">소속교회</td>
-          <td>
-            <form:input path="map[churchName]" readonly="true" /> 
-            <form:hidden path="map[churchId]" /> 
-            <a href="#churchDialog" class="btn btn-xs btn-flat" data-toggle="modal">소속교회 조회</a>
-          </td>
+          <td class="lb">약정번호</td>
+          <td><form:input path="map[commitmentNo]" /></td>    
         </tr>
         <tr>      
-          <td class="lb">기관</td>
+          <td class="lb">기부처</td>
           <td>
               <form:select path="map[corporateId]">
               <form:option value="" labe="" />
@@ -87,6 +87,14 @@
           <td class="lb">납입액</td>
           <td><form:input path="map[amount]" />    
         </tr>
+        <tr>
+          <td class="lb">소속교회</td>
+          <td>
+            <form:input path="map[churchName]" readonly="true" /> 
+            <form:hidden path="map[churchId]" /> 
+            <a href="#churchDialog" class="btn btn-xs btn-flat" data-toggle="modal">소속교회 조회</a>
+          </td>
+        </tr>
       </table>
     </form:form>
 
@@ -105,6 +113,11 @@
              <th>납입일</th>
              <th class="right">납입액</th>
              <th>납입방법</th>
+             <th>약정번호</th>
+             <th>약정<br/>상태</th>
+             <th>시작일</th>
+             <th>종료일</th>
+             <th>월납입액</th>
            </tr>        
         </jsp:attribute>
         <jsp:attribute name="body">
@@ -119,6 +132,11 @@
                 <td><fmt:formatDate value="${p.paymentDate}" pattern="yyyy-MM-dd" /></td>
                 <td class="right"><fmt:formatNumber value="${p.amount}" /></td>
                 <td>${p.paymentMethodName}</td>
+                <td>${p.commitmentNo}</td>
+                <td>${p.state}</td>
+                <td><fmt:formatDate value="${p.startDate}" pattern="yyyy-MM-dd" /></td>
+                <td><fmt:formatDate value="${p.endDate}" pattern="yyyy-MM-dd" /></td>
+                <td class="right"><fmt:formatNumber value="${p.amountPerMonth}" /></td>
               </tr>
               <c:set var="sum" value="${ sum + p.amount }" />
               <c:set var="count" value="${ count + 1 }" />
@@ -135,3 +153,4 @@
 
 <%@include file="../sponsor/_churchDialog.jsp"%>
 <%@include file="../sponsor/_donationPurposeDialog.jsp"%>
+

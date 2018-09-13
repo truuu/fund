@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
@@ -19,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import fund.dto.Corporate;
 import fund.dto.Payment;
 import fund.dto.Receipt;
 import fund.dto.Sponsor;
+import fund.dto.pagination.Pagination;
 import fund.dto.pagination.PaginationReceipt;
 import fund.dto.param.Wrapper;
 import fund.mapper.CorporateMapper;
@@ -187,5 +190,18 @@ public class ReceiptController extends BaseController {
         reportBuilder.build("xlsx");
     }
 
+
+    @RequestMapping(value="/receipt/sum.do", method=RequestMethod.GET)
+    public String sum(Model model) throws Exception {
+        if (!UserService.canAccess(C.메뉴_영수증_기부금영수증발급합계)) return "redirect:/home/logout.do";
+        return "receipt/sum";
+    }
+
+    @RequestMapping(value="/receipt/sum.do", method=RequestMethod.POST)
+    public String sum(Model model, Pagination pagination) throws Exception {
+        if (!UserService.canAccess(C.메뉴_영수증_기부금영수증발급합계)) return "redirect:/home/logout.do";
+        model.addAttribute("list", receiptMapper.selectSum(pagination));
+        return "receipt/sum";
+    }
 
 }

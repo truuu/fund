@@ -67,6 +67,40 @@ SET @n = ISNULL(@n,0) + 1
 SELECT @year + '-' + REPLACE(STR(@n, 4), ' ', '0')
 </select>
 
+<select id="selectSum" resultType="hashmap">
+<![CDATA[
+DECLARE @startDate DATE, @endDate DATE, @key1 VARCHAR(50)
+SET @startDate = CONVERT(DATE, #{startDate})
+SET @endDAte = CONVERT(DATE, #{endDate})
+SET @key1 = ${key1};
+
+WITH sponsorDecrypted AS (
+    SELECT *,
+      CASE WHEN LEN(juminNo) BETWEEN 10 AND 12 THEN '법인'
+      ELSE '개인' END gubun
+    FROM (
+      SELECT *, CONVERT(VARCHAR, DECRYPTBYPASSPHRASE(CONVERT(VARCHAR, @key1), juminNo_encrypted)) juminNo 
+      FROM sponsor
+    ) s
+)
+SELECT d.corporateId,
+  (SELECT name FROM corporate t WHERE t.id = d.corporateId) name,
+  s.gubun, COUNT(p.id) count, SUM(p.amount) amount
+FROM receipt r
+  JOIN payment p 
+    ON p.receiptId = r.id
+  JOIN donationPurpose d
+    ON p.donationPurposeId = d.id
+  JOIN sponsorDecrypted s
+    ON s.id = p.sponsorId
+WHERE 
+   @startDate IS NULL
+OR @startDate < '2000-01-01'
+OR createDate BETWEEN @startDate AND @endDate
+GROUP BY d.corporateId, s.gubun
+]]>
+</select>
+
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
 INSERT INTO Receipt (sponsorId, createDate, [no])
 VALUES( #{sponsorId},#{createDate},#{no})

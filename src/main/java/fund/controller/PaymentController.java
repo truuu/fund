@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import fund.dto.param.OrderBy;
 import fund.dto.param.Wrapper;
@@ -41,7 +42,8 @@ public class PaymentController extends BaseController {
         new OrderBy("이름", "ORDER BY name, sponsorNo, paymentDate"),
         new OrderBy("회원구분", "ORDER BY sponsorType2Name, sponsorNo, paymentDate"),
         new OrderBy("교회", "ORDER BY churchName, sponsorNo, PaymentDate"),
-        new OrderBy("금액", "ORDER BY amount DESC")
+        new OrderBy("금액", "ORDER BY amount DESC, paymentDate"),
+        new OrderBy("약정번호", "ORDER BY commitmentNo, paymentDate")
     };
 
     final static OrderBy[] report1bOrderBy = new OrderBy[] {
@@ -53,19 +55,27 @@ public class PaymentController extends BaseController {
     };
 
     @RequestMapping(value="/payment/srch1a", method=RequestMethod.GET)
-    public String report1a(Model model) {
+    public String report1aGET(Model model,
+            @RequestParam(value="commitmentNo", required=false) String commitmentNo,
+            @RequestParam(value="sponsorNo", required=false) String sponsorNo,
+            @RequestParam(value="regular", required=false) String regular) {
         if (!UserService.canAccess(C.메뉴_납입조회_납입내역조회)) return "redirect:/home/logout.do";
         addModel1(model);
         Wrapper wrapper = new Wrapper();
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        wrapper.getMap().put("startDate", String.format("%d-01-01", year));
-        wrapper.getMap().put("endDate", String.format("%d-12-31", year));
+        if (commitmentNo != null) wrapper.getMap().put("commitmentNo", commitmentNo);
+        if (sponsorNo != null) wrapper.getMap().put("sponsorNo", sponsorNo);
+        if (regular != null) wrapper.getMap().put("regular", regular);
+        if (commitmentNo == null && sponsorNo == null && regular == null) {
+            int year = Calendar.getInstance().get(Calendar.YEAR);
+            wrapper.getMap().put("startDate", String.format("%d-01-01", year));
+            wrapper.getMap().put("endDate", String.format("%d-12-31", year));
+        }
         model.addAttribute("wrapper", wrapper);
         return "payment/srch1a";
     }
 
     @RequestMapping(value="/payment/srch1a", method=RequestMethod.POST, params="cmd=search")
-    public String report1a(Model model, Wrapper wrapper) {
+    public String report1aPOST(Model model, Wrapper wrapper) {
         if (!UserService.canAccess(C.메뉴_납입조회_납입내역조회)) return "redirect:/home/logout.do";
         addModel1(model);
         model.addAttribute("list", paymentMapper.selectReport1a(wrapper.getMap()));

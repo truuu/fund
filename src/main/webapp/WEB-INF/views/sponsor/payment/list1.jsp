@@ -28,6 +28,7 @@
       </select> 
       <button type="button" class="btn btn-primary btn-sm" onclick="searchPayment()">조회</button>
       <a id="btnChange" href="#donationPurposeUpdateDialog" class="btn btn-info btn-sm" data-toggle="modal">기부목적 일괄변경</a>
+      <a id="btnSearch" href="#" class="btn btn-info btn-sm">납입내역 상세 조회</a>
     </div>  
 
     <div id="searchResult">
@@ -43,8 +44,16 @@
 
 <script>
 $("select[name=commitmentId]").change(function() {
-    if ($(this).val() == 0) $('#btnChange').hide(); 
-    else $('#btnChange').show();
+    if ($(this).val() == 0) {
+        $('#btnChange').hide();
+        $('#btnSearch').hide();
+    }
+    else {
+        $('#btnChange').show();
+        var commitmentNo = $("select[name=commitmentId] option:selected").text();
+        $('#btnSearch').attr("href", "${R}payment/srch1a.do?commitmentNo=" + commitmentNo);        
+        $('#btnSearch').show();        
+    }
 });
 
 function searchPayment() {
@@ -63,4 +72,5 @@ function updateDonationPurpose() {
 }
 
 $('#btnChange').hide();
+$('#btnSearch').hide();
 </script>

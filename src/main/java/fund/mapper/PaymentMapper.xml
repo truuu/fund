@@ -141,8 +141,10 @@ WHERE LEN(REPLACE(juminNo, '-', '')) = 13
 </select>
 
 <select id="selectReport1a" resultType="hashmap">
+<![CDATA[
 DECLARE @regular INT, @churchId INT, @startDate DATE, @endDate DATE, @paymentMethodId INT, @donationPurposeId INT, 
-  @sponsorType2Id INT, @sponsorName NVARCHAR(50), @sponsorNo VARCHAR(50), @corporateId INT, @amount INT
+  @sponsorType2Id INT, @sponsorName NVARCHAR(50), @sponsorNo VARCHAR(50), @corporateId INT, @amount INT,
+  @commitmentNo VARCHAR(50), @today DATE
 SET @regular = #{regular}
 SET @churchId = #{churchId}
 SET @startDate = #{startDate}
@@ -154,6 +156,8 @@ SET @sponsorName = #{sponsorName}
 SET @sponsorNo = #{sponsorNo}
 SET @corporateId = #{corporateId}
 SET @amount = #{amount}
+SET @commitmentNo = #{commitmentNo}
+SET @today = GETDATE()
 
 SELECT s.sponsorNo, s.name, 
   (SELECT codeName FROM code c WHERE c.id = s.sponsorType2Id) sponsorType2Name,
@@ -161,7 +165,12 @@ SELECT s.sponsorNo, s.name,
   (CASE WHEN p.commitmentId IS NULL THEN '비정기' ELSE '정기' END) regular,
   (SELECT codeName FROM code c WHERE c.id = p.paymentMethodId) paymentMethodName,
   p.paymentDate, p.amount, c.id commitmentId, d.name donationPurposeName, 
-  co.shortName corporateName, og.codeName organizationName  
+  co.shortName corporateName, og.codeName organizationName,
+  c.commitmentNo, c.startDate, c.endDate, c.amountPerMonth, 
+  CASE WHEN c.id IS NULL THEN ''
+       WHEN @today < startDate THEN '시작전' 
+       WHEN @today >= endDate THEN '종료'
+       ELSE '진행' END [state]  
 FROM payment p 
   LEFT JOIN commitment c ON c.id = p.commitmentId
   LEFT JOIN sponsor s ON s.id = p.sponsorId
@@ -169,7 +178,7 @@ FROM payment p
   LEFT JOIN corporate co ON d.corporateId = co.id
   LEFT JOIN code og ON og.id = d.organizationId   
 WHERE 
-  (@regular IS NULL OR @regular = -1 OR (@regular = 1 AND p.commitmentId IS NOT NULL) OR (@regular = 0 AND p.commitmentId IS NULL))
+    (@regular IS NULL OR @regular = -1 OR (@regular = 1 AND p.commitmentId IS NOT NULL) OR (@regular = 0 AND p.commitmentId IS NULL))
 AND (@churchId IS NULL OR @churchId = '' OR @churchId = s.churchId)
 AND (@startDate IS NULL OR @startDate = '' OR p.paymentDate BETWEEN @startDate AND @endDate)
 AND (@paymentMethodId IS NULL OR @paymentMethodId = '' OR @paymentMethodId = p.paymentMethodId)
@@ -179,7 +188,9 @@ AND (@sponsorName IS NULL OR @sponsorName = '' OR @sponsorName = s.name)
 AND (@sponsorNo IS NULL OR @sponsorNo = '' OR @sponsorNo = s.sponsorNo)
 AND (@corporateId IS NULL OR @corporateId = '' OR @corporateId = d.corporateId)
 AND (@amount = 0 OR @amount = p.amount)
+AND (@commitmentNo IS NULL OR @commitmentNo = '' OR @commitmentNo = c.commitmentNo)
 ${ orderBy }
+]]>
 </select>
 
 <select id="selectReport1b" resultType="hashmap">

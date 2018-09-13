@@ -33,6 +33,7 @@ public class C {
     public static final int 메뉴_영수증_기부금영수증발급대장 = 25;
     public static final int 메뉴_영수증_영수증개별생성 = 26;
     public static final int 메뉴_영수증_영수증일괄생성 = 27;
+    public static final int 메뉴_영수증_기부금영수증발급합계 = 33;
     public static final int 메뉴_영수증_국세청보고자료 = 28;
     public static final int 메뉴_증서_장학증서 = 29;
     public static final int 메뉴_증서_기부증서 = 30;

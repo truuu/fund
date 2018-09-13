@@ -39,40 +39,41 @@
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">회원관리<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <%=menu("회원 관리", "/funds2/sponsor/list.do", C.메뉴_회원관리_회원관리)%>
-                <%=menu("우편 발송", "/funds2/sponsor/dm.do", C.메뉴_회원관리_우편발송)%>
-                <%=menu("예우 업로드", "/funds2/sponsor/event/upload.do", C.메뉴_회원관리_예우업로드)%>
+                <%= menu("회원 관리", "/funds2/sponsor/list.do", C.메뉴_회원관리_회원관리)%>
+                <%= menu("우편 발송", "/funds2/sponsor/dm.do", C.메뉴_회원관리_우편발송)%>
+                <%= menu("예우 업로드", "/funds2/sponsor/event/upload.do", C.메뉴_회원관리_예우업로드)%>
               </ul>
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">금융연동<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <%=menu("EB13 생성", "/funds2/cms/eb13.do", C.메뉴_금융연동_EB13생성 )%>
-                <%=menu("EB14 등록", "/funds2/cms/eb14.do", C.메뉴_금융연동_EB14등록 )%>
-                <%=menu("EB13/14 결과조회", "/funds2/cms/eb14result.do", C.메뉴_금융연동_EB1314결과조회 )%>
+                <%= menu("EB13 생성", "/funds2/cms/eb13.do", C.메뉴_금융연동_EB13생성 )%>
+                <%= menu("EB14 등록", "/funds2/cms/eb14.do", C.메뉴_금융연동_EB14등록 )%>
+                <%= menu("EB13/14 결과조회", "/funds2/cms/eb14result.do", C.메뉴_금융연동_EB1314결과조회 )%>
                 <li class="divider"></li>
-                <%=menu("EB21 생성", "/funds2/cms/eb21.do", C.메뉴_금융연동_EB21생성 )%>
-                <%=menu("EB22 등록", "/funds2/cms/eb22.do", C.메뉴_금융연동_EB22등록 )%>
-                <%=menu("EB21/22 결과조회", "/funds2/cms/eb22result.do", C.메뉴_금융연동_EB2122결과조회 )%>
+                <%= menu("EB21 생성", "/funds2/cms/eb21.do", C.메뉴_금융연동_EB21생성 )%>
+                <%= menu("EB22 등록", "/funds2/cms/eb22.do", C.메뉴_금융연동_EB22등록 )%>
+                <%= menu("EB21/22 결과조회", "/funds2/cms/eb22result.do", C.메뉴_금융연동_EB2122결과조회 )%>
                 <li class="divider"></li>
-                <%=menu("자동이체 결과등록", "/funds2/cms/xfer.do", C.메뉴_금융연동_자동이체결과등록 )%>
-                <%=menu("급여공제 결과등록", "/funds2/cms/sal.do", C.메뉴_금융연동_급여공제결과등록 )%>
+                <%= menu("자동이체 결과등록", "/funds2/cms/xfer.do", C.메뉴_금융연동_자동이체결과등록 )%>
+                <%= menu("급여공제 결과등록", "/funds2/cms/sal.do", C.메뉴_금융연동_급여공제결과등록 )%>
               </ul>
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">납입조회<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <%= menu("납입 내역 조회", "/funds2/payment/srch1a.do", C.메뉴_납입조회_납입내역조회) %>
                 <li class="divider"></li>
-                <%=menu("회원별 납입 합계", "/funds2/payment/srch1b.do", C.메뉴_납입조회_회원별납입합계)%>
-                <%=menu("기부목적별 납입 합계", "/funds2/payment/srch2/0.do", C.메뉴_납입조회_기부목적별납입합계)%>
-                <%=menu("회원구분별 납입 합계", "/funds2/payment/srch2/1.do", C.메뉴_납입조회_회원구분별납입합계)%>
-                <%=menu("소속교회별 납입 합계", "/funds2/payment/srch2/2.do", C.메뉴_납입조회_소속교회별납입합계)%>
+                <%= menu("회원별 납입 합계", "/funds2/payment/srch1b.do", C.메뉴_납입조회_회원별납입합계)%>
+                <%= menu("기부목적별 납입 합계", "/funds2/payment/srch2/0.do", C.메뉴_납입조회_기부목적별납입합계)%>
+                <%= menu("회원구분별 납입 합계", "/funds2/payment/srch2/1.do", C.메뉴_납입조회_회원구분별납입합계)%>
+                <%= menu("소속교회별 납입 합계", "/funds2/payment/srch2/2.do", C.메뉴_납입조회_소속교회별납입합계)%>
               </ul>
             </li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">기부금영수증<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <%=menu("기부금 영수증 발급대장", "/funds2/receipt/list.do", C.메뉴_영수증_기부금영수증발급대장)%>
+                <%= menu("기부금 영수증 발급대장", "/funds2/receipt/list.do", C.메뉴_영수증_기부금영수증발급대장)%>
                 <%= menu("기부금 영수증 개별생성", "/funds2/receipt/create1.do", C.메뉴_영수증_영수증개별생성) %>
                 <%= menu("기부금 영수증 일괄생성", "/funds2/receipt/create2.do", C.메뉴_영수증_영수증일괄생성) %>
+                <%= menu("기부금 영수증 발급합계", "/funds2/receipt/sum.do", C.메뉴_영수증_기부금영수증발급합계) %>
                 <li class="divider"></li>
                 <%= menu("국세청 보고자료", "/funds2/receipt/taxData.do", C.메뉴_영수증_국세청보고자료) %>
               </ul>

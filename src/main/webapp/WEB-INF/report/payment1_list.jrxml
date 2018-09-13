@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2017-03-09T15:01:50 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="payment1_list" pageWidth="1500" pageHeight="595" orientation="Landscape" columnWidth="1460" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f487e332-cf8f-476d-ad2a-042902a5e4e0">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="patronageDataAdapter.xml"/>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="payment1_list" pageWidth="1900" pageHeight="595" orientation="Landscape" columnWidth="1860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f487e332-cf8f-476d-ad2a-042902a5e4e0">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sponsorDataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
@@ -24,28 +23,74 @@
 	<parameter name="sponsorName" class="java.lang.String"/>
 	<parameter name="sponsorNo" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select p.paymentDate,p.amount, s.name, s.sponsorNo, d.name
-		"donationPurpose",
-		c1.codeName "sponsorType2",c2.codeName "church",
-		(case when p.commitmentID is not NULL then '정기' else '비정기' end) "gubun",
-		c3.codeName "paymentMethod",p.etc
-
-		from Payment p join Sponsor s on
-		p.sponsorID=s.ID join Code c1 on
-		s.sponsorType2ID=c1.ID join
-		DonationPurpose d on d.ID=p.donationPurposeID join Code c2 on
-		s.churchID=c2.ID
-		join Code c3 on p.paymentMethodID=c3.ID]]>
+		<![CDATA[SELECT TOP 10 s.sponsorNo, s.name, 
+  (SELECT codeName FROM code c WHERE c.id = s.sponsorType2Id) sponsorType2Name,
+  (SELECT codeName FROM code c WHERE c.id = s.churchId) churchName,
+  (CASE WHEN p.commitmentId IS NULL THEN '비정기' ELSE '정기' END) regular,
+  (SELECT codeName FROM code c WHERE c.id = p.paymentMethodId) paymentMethodName,
+  p.paymentDate, p.amount, c.id commitmentId, d.name donationPurposeName, 
+  co.shortName corporateName, og.codeName organizationName,
+  c.commitmentNo, c.startDate, c.endDate, c.amountPerMonth, 
+  '진행' [state]
+FROM payment p 
+  LEFT JOIN commitment c ON c.id = p.commitmentId
+  LEFT JOIN sponsor s ON s.id = p.sponsorId
+  LEFT JOIN donationPurpose d ON d.id = p.donationPurposeId
+  LEFT JOIN corporate co ON d.corporateId = co.id
+  LEFT JOIN code og ON og.id = d.organizationId
+WHERE commitmentNo = '200008230013-01'  ]]>
 	</queryString>
-	<field name="paymentDate" class="java.util.Date"/>
-	<field name="amount" class="java.lang.Integer"/>
-	<field name="name" class="java.lang.String"/>
-	<field name="sponsorNo" class="java.lang.String"/>
-	<field name="donationPurposeName" class="java.lang.String"/>
-	<field name="sponsorType2Name" class="java.lang.String"/>
-	<field name="churchName" class="java.lang.String"/>
-	<field name="regular" class="java.lang.String"/>
-	<field name="paymentMethodName" class="java.lang.String"/>
+	<field name="sponsorNo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="sponsorNo"/>
+	</field>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+	</field>
+	<field name="sponsorType2Name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="sponsorType2Name"/>
+	</field>
+	<field name="churchName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="churchName"/>
+	</field>
+	<field name="regular" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="regular"/>
+	</field>
+	<field name="paymentMethodName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="paymentMethodName"/>
+	</field>
+	<field name="paymentDate" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="paymentDate"/>
+	</field>
+	<field name="amount" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="amount"/>
+	</field>
+	<field name="commitmentId" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="commitmentId"/>
+	</field>
+	<field name="donationPurposeName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="donationPurposeName"/>
+	</field>
+	<field name="corporateName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="corporateName"/>
+	</field>
+	<field name="organizationName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="organizationName"/>
+	</field>
+	<field name="commitmentNo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="commitmentNo"/>
+	</field>
+	<field name="startDate" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="startDate"/>
+	</field>
+	<field name="endDate" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="endDate"/>
+	</field>
+	<field name="amountPerMonth" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="amountPerMonth"/>
+	</field>
+	<field name="state" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="state"/>
+	</field>
 	<variable name="sum_amount" class="java.lang.Integer" calculation="Sum">
 		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
 	</variable>
@@ -218,21 +263,21 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[후원인번호]]></text>
+				<text><![CDATA[회원번호]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="120" y="0" width="260" height="20" uuid="fcd8d866-ddf1-425e-af14-0901a3c02b81"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[후원인명]]></text>
+				<text><![CDATA[회원명]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="380" y="0" width="140" height="20" uuid="625ec16a-de6d-4390-a0ee-68a82b216a71"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[후원인구분]]></text>
+				<text><![CDATA[회원구분]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="520" y="0" width="150" height="20" uuid="5c9b1621-01de-4b64-a428-293c317392fc"/>
@@ -267,7 +312,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font pdfFontName="fonts/NanumGothic.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[기부방법]]></text>
+				<text><![CDATA[납입방법]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1170" y="0" width="110" height="20" uuid="0e0dedbb-1b89-4203-a69f-683e94fa954c"/>
@@ -276,10 +321,40 @@
 				</textElement>
 				<text><![CDATA[납입액]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="1360" y="0" width="100" height="20" uuid="a0d1ed78-5196-4a10-a99b-6495ea84cc8a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="74644ffe-e66b-496b-9561-33de2f2b52a3"/>
+				</reportElement>
+				<text><![CDATA[약정번호]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1460" y="0" width="100" height="20" uuid="e50f8273-5b3a-41bc-9ab1-d6737d0d0bf7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a42bbfdb-7713-4e75-84dc-e1a023a7ff17"/>
+				</reportElement>
+				<text><![CDATA[상태]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1560" y="0" width="100" height="20" uuid="0d68acb6-cda2-4ba3-be28-47c75bc3eef2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="093c7432-910f-43dd-8579-940d4039bc4a"/>
+				</reportElement>
+				<text><![CDATA[시작일]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1660" y="0" width="100" height="20" uuid="ef20193f-8926-4589-8f08-5a696cd69d36">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0c5f4cbd-d514-4633-8bb9-f786952209cd"/>
+				</reportElement>
+				<text><![CDATA[종료일]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1760" y="0" width="100" height="20" uuid="ce3c0e3f-2782-45bf-ac9f-81bd982ffeed">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bebf2570-9742-4ba4-9ae8-8b7556e03b37"/>
+				</reportElement>
+				<text><![CDATA[월납입액]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="48" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="120" height="20" uuid="3fbec594-bc65-4b9b-baca-66f06e5b6db7"/>
@@ -337,6 +412,36 @@
 				<reportElement x="1170" y="0" width="110" height="20" uuid="18d5a6f6-a71f-4433-938a-a55ad9e6ad00"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1360" y="0" width="100" height="20" uuid="9a19b7b7-79a1-4f03-b181-9a299f4ba89f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="74644ffe-e66b-496b-9561-33de2f2b52a3"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{commitmentNo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1460" y="0" width="100" height="20" uuid="081a6d74-0862-4f99-8cb6-1aada05cbbd7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a42bbfdb-7713-4e75-84dc-e1a023a7ff17"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{state}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy/MM/dd" isBlankWhenNull="true">
+				<reportElement x="1560" y="0" width="100" height="20" uuid="764f8334-6d2a-4511-a379-9c33983598e8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="093c7432-910f-43dd-8579-940d4039bc4a"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{startDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy/MM/dd" isBlankWhenNull="true">
+				<reportElement x="1660" y="0" width="100" height="20" uuid="9c6749ed-cecd-4386-b1e3-db26e5b128ba">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0c5f4cbd-d514-4633-8bb9-f786952209cd"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{endDate}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1760" y="0" width="100" height="20" uuid="36d370db-3b6c-4efc-befa-c15333e0ad61">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bebf2570-9742-4ba4-9ae8-8b7556e03b37"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{amountPerMonth}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
