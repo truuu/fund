@@ -14,6 +14,7 @@ import fund.dto.pagination.Pagination;
 import fund.mapper.CodeMapper;
 import fund.mapper.CorporateMapper;
 import fund.mapper.DonationPurposeMapper;
+import fund.mapper2.DataFileMapper;
 import fund.service.C;
 import fund.service.LogService;
 import fund.service.UserService;
@@ -25,6 +26,7 @@ public class DonationPurposeController extends BaseController{
 	@Autowired CorporateMapper corporateMapper;
 	@Autowired CodeMapper codeMapper;
     @Autowired LogService logService;
+    @Autowired DataFileMapper dataFileMapper;
 
 	@RequestMapping("/donationPurpose/list.do")
 	public String list(Model model, Pagination pagination) {
@@ -64,6 +66,7 @@ public class DonationPurposeController extends BaseController{
 	public String edit(Model model,@RequestParam("id") int id) {
         if (!UserService.canAccess(C.메뉴_기초정보관리)) return "redirect:/home/logout.do";
         model.addAttribute("donationPurpose", donationPurposeMapper.selectById(id));
+        model.addAttribute("files", dataFileMapper.selectByForeignId("donationPurpose", id));
 		addCodesToModel(model);
 		return "donationPurpose/edit";
 	}

@@ -135,7 +135,7 @@ public class SponsorController extends BaseController {
     public String files(@RequestParam("id") int id, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) throws Exception {
         if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
         model.addAttribute("sponsor", sponsorMapper.selectById(id));
-        model.addAttribute("list", dataFileMapper.selectByForeignId("sponsor", id));
+        model.addAttribute("files", dataFileMapper.selectByForeignId("sponsor", id));
         String url = "/sponsor/files.do?id=" + id + "&" + pagination.getQueryString();
         model.addAttribute("url", URLEncoder.encode(url, "UTF-8"));
         addCodesToModel(id, model);

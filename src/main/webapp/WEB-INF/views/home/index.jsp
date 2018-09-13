@@ -30,9 +30,14 @@
 	          <td><a href="${R}home/confirm.do?id=${todo.id}" class="btn btn-default btn-sm">확인</a>
 	        </tr>
 	      </c:forEach>
+	      <c:if test="${ todos.size() <= 1 }">
+	        <tr>
+	          <td colspan="4">일정이 없습니다</td>
+	        </tr>
+	      </c:if>
 	    </tbody>
 	  </table>
-
+	  <a class="btn btn-primary" href="${R}todo/list.do">일정관리</a>
   </div>
 </div>
 
