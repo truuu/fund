@@ -34,9 +34,22 @@
 
 <select id="selectPaymentList2" resultType="hashmap">
   <include refid="select1"></include>
+  <![CDATA[
   WHERE p.sponsorId = #{sponsorId}
   AND me.codeGroupId = 4
+  AND p.paymentMethodId <> 14 /*현물제외*/
   ORDER BY p.paymentDate DESC
+  ]]>
+</select>
+
+<select id="selectPaymentList3" resultType="hashmap">
+  <include refid="select1"></include>
+  <![CDATA[
+  WHERE p.sponsorId = #{sponsorId}
+  AND me.codeGroupId = 4
+  AND p.paymentMethodId = 14 /*현물만*/
+  ORDER BY p.paymentDate DESC
+  ]]>
 </select>
 
 <update id="update">    
@@ -121,6 +134,7 @@ WHERE receiptId = #{receiptId}
 </select>
 
 <select id="selectForTaxData" resultType="hashmap">
+<![CDATA[
 DECLARE @startDate DATE, @endDate DATE, @corporateId INT
 SET @startDate = #{startDate}
 SET @endDate = #{endDate}
@@ -136,8 +150,10 @@ FROM (
   WHERE paymentDate BETWEEN @startDate AND @endDate
   AND corporateId = @corporateId
   AND receiptId IS NOT NULL
+  AND p.paymentMethodId <> 14 /*현물제외*/
 ) t
 WHERE LEN(REPLACE(juminNo, '-', '')) = 13
+]]>
 </select>
 
 <select id="selectReport1a" resultType="hashmap">

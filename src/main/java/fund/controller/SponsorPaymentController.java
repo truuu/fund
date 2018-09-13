@@ -1,5 +1,7 @@
 package fund.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import fund.dto.Code;
 import fund.dto.Commitment;
 import fund.dto.Payment;
 import fund.dto.pagination.PaginationSponsor;
@@ -30,6 +34,8 @@ public class SponsorPaymentController extends BaseController {
     @Autowired DonationPurposeMapper donationPurposeMapper;
     @Autowired DataFileMapper dataFileMapper;
     @Autowired LogService logService;
+
+    List<Code> 비정기납입방법;
 
     @ModelAttribute
     void modelAttr1(Model model, @RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination) throws Exception {
@@ -80,6 +86,16 @@ public class SponsorPaymentController extends BaseController {
         return "sponsor/payment/list2";
     }
 
+    // 현물 납입
+    @RequestMapping(value="/sponsor/payment/list3.do", method=RequestMethod.GET)
+    public String list3(@RequestParam("sid") int sid, @ModelAttribute("pagination") PaginationSponsor pagination, Model model) {
+        if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
+        model.addAttribute("sponsor", sponsorMapper.selectById(sid));
+        model.addAttribute("list", paymentMapper.selectPaymentList3(sid));
+        model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
+        return "sponsor/payment/list3";
+    }
+
     @RequestMapping(value="/sponsor/payment/edit2.do", method=RequestMethod.GET)
     public String edit2(Model model, @RequestParam("sid") int sid, @RequestParam("id") int id) {
         if (!UserService.canAccess(C.메뉴_회원관리_회원관리)) return "redirect:/home/logout.do";
@@ -88,10 +104,20 @@ public class SponsorPaymentController extends BaseController {
         return "sponsor/payment/edit2";
     }
 
+    public List<Code> get비정기납입방법() {
+        List<Code> list = codeMapper.selectEnabledByCodeGroupId(C.코드그룹ID_비정기납입방법);
+        for (int i = 0; i < list.size(); ++i) {
+            Code code = list.get(i);
+            if (code.getCodeName().equals("현물")) { list.remove(i); break; }
+        }
+        return list;
+    }
+
     private void addCodesToModel(Model model, int sponsorId) {
         model.addAttribute("sponsor", sponsorMapper.selectById(sponsorId));
         model.addAttribute("donationPurposes", donationPurposeMapper.selectNotClosed());
-        model.addAttribute("paymentMethods", codeMapper.selectEnabledByCodeGroupId(C.코드그룹ID_비정기납입방법));
+        if (비정기납입방법 == null) 비정기납입방법 = get비정기납입방법();
+        model.addAttribute("paymentMethods", 비정기납입방법);
     }
 
     private String redirectToList(Model model, int sid) {

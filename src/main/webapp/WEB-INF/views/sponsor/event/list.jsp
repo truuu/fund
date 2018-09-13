@@ -17,7 +17,7 @@
     <%@include file="../_title.jsp" %> 
   </div>
   <div class="panel-body">  
-    <c:set var="tab7" value="active" />
+    <c:set var="tab8" value="active" />
     <%@include file="../_tab2.jsp" %> 
      
     <table class="table table-bordered mt10">

@@ -2,7 +2,9 @@ package fund.mapper;
 
 import java.util.List;
 import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
+
 import fund.dto.Commitment;
 import fund.dto.Payment;
 
@@ -12,6 +14,7 @@ public interface PaymentMapper {
     Payment selectById(int id);
     List<Map<String,Object>> selectPaymentList1(@Param("sponsorId") int sponsorId, @Param("commitmentId") int commitmentId);
     List<Map<String,Object>> selectPaymentList2(int sponsorId);
+    List<Map<String,Object>> selectPaymentList3(int sponsorId);
 
     void update(Payment payment);
     void updateDonationPurposeId(Commitment commitment);  // 정기 납입 변경

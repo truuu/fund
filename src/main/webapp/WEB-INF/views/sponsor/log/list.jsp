@@ -21,7 +21,7 @@ table#sponsorLog td:nth-child(3) { white-space: nowrap; }
     <%@include file="../_title.jsp" %> 
   </div>
   <div class="panel-body">  
-    <c:set var="tab6" value="active" />
+    <c:set var="tab7" value="active" />
     <%@include file="../_tab2.jsp" %> 
      
     <my:scrollableTable tagId="sponsorLog">

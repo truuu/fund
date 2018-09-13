@@ -15,7 +15,7 @@
     <%@include file="_title.jsp" %> 
   </div>
   <div class="panel-body">  
-    <c:set var="tab5" value="active" />
+    <c:set var="tab6" value="active" />
     <%@include file="_tab2.jsp" %>
     
     <my:fileUpload foreignType="sponsor" foreignId="${ sponsor.id }" returnUrl="${ url }" />    
