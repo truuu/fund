@@ -5,7 +5,8 @@
 <%@ attribute name="body" required="true" fragment="true" %>
 
 <style>
-  #scroll1 th, #scroll2 td { white-space: nowrap; }
+  #scroll1 th { white-space: normal; }
+  #scroll2 td { white-space: nowrap; }
 </style>
 
 <div id="${ tagId }">

@@ -65,11 +65,6 @@ public class PaymentController extends BaseController {
         if (commitmentNo != null) wrapper.getMap().put("commitmentNo", commitmentNo);
         if (sponsorNo != null) wrapper.getMap().put("sponsorNo", sponsorNo);
         if (regular != null) wrapper.getMap().put("regular", regular);
-        if (commitmentNo == null && sponsorNo == null && regular == null) {
-            int year = Calendar.getInstance().get(Calendar.YEAR);
-            wrapper.getMap().put("startDate", String.format("%d-01-01", year));
-            wrapper.getMap().put("endDate", String.format("%d-12-31", year));
-        }
         model.addAttribute("wrapper", wrapper);
         return "payment/srch1a";
     }
